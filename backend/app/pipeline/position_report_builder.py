@@ -1,3 +1,7 @@
+import re
+from datetime import datetime
+from typing import Any
+
 from ..services.minimax import chatcompletion_text
 from .analysis_utils import (
     extract_json_list,
@@ -6,39 +10,499 @@ from .analysis_utils import (
 )
 
 
-SYSTEM_PROMPT = """You are an equity risk analyst writing a research note for a self-directed investor. Your job is to synthesize what the evidence means, not catalog what articles exist.
+SYSTEM_PROMPT = """You are a downside risk rater writing a concise rating for a self-directed investor. Your job is to synthesize what the evidence means, not catalog what articles exist.
 
 Return strict JSON with this shape:
 {{
-  "summary": "2-3 sentence thesis-first summary: state the dominant risk force, acknowledge counter-evidence briefly, and identify what would change the thesis",
-  "long_report": "4-8 sentence detailed report that develops the thesis with specific evidence, resolves contradictions rather than listing them, and closes with what could materially shift the read",
+  "summary": "1-2 sentence summary: state the dominant risk force, acknowledge counter-evidence briefly, and identify what would change the rating",
+  "long_report": "3-6 sentence detailed report that develops the rating with specific evidence, resolves contradictions rather than listing them, and closes with what could materially shift the rating",
   "methodology": "brief explanation of the evidence used",
   "top_risks": ["risk 1", "risk 2", "risk 3"],
-  "watch_items": ["watch item 1", "watch item 2"],
-  "thesis_verifier": [
+  "watch_items": ["risk driver 1", "risk driver 2"],
+  "risk_context": [
     {{
       "macro_event": "description of macro development",
-      "thesis_impact": "confirms|challenges|neutral",
+      "rating_impact": "supports|contradicts|neutral",
       "reasoning": "one sentence explaining why"
     }}
   ]
 }}
 
 Writing rules:
-1. Lead with the dominant narrative — what is the most important force acting on this position? Do not start by describing what articles exist or what the coverage says.
+1. Lead with the dominant narrative — what is the most important force acting on this position? Do not start by describing what articles exist or what the data says.
 2. If positive and negative evidence compete, resolve the tension: explain which force matters more and why. Do not just list both sides and leave it to the reader.
-3. If strong headlines coexist with structural risk (e.g., earnings beat but valuation is stretched, revenue growth but macro headwinds), explain why the structural factor can outweigh the headline.
-4. Close with what would change the thesis — a specific catalyst, resolution, or development, not a generic "watch for developments."
-5. Write like concise equity research — direct, specific, grounded. Not a news summary, not a process description.
+3. If strong headlines coexist with structural risk (e.g., earnings beat but valuation is stretched, revenue growth but macro pressure), explain why the structural factor can outweigh the headline.
+4. Close with what would change the rating — a specific catalyst, resolution, or development, not a generic "watch for developments."
+5. Write concise risk assessment language — direct, specific, grounded. Not a news summary, not a process description.
 
-Forbidden: internal evidence labels (full_body, title_only, headline_summary), scoring methodology references, "the model", "recent event flow is [stance]", "N relevant items in this cycle", implementation jargon.
+Forbidden: internal evidence labels (full_body, title_only, headline_summary), scoring methodology references, "the model", "recent event flow is [stance]", "N relevant items in this cycle", implementation jargon, "thesis", "positive momentum", "macro headwinds", "provisional", "current read", "sentiment", "confirms", "coverage", "monitor/recheck", "research", "analyst", "confidence" (as model uncertainty), "watch" (use "risk driver" instead).
 
 CRITICAL - Macro as Risk Context:
-- For thesis_verifier, assess whether any macro context confirms, challenges, or is neutral to this position's risk profile
-- If the position has no clear setup, use "neutral" for thesis_impact
-- Only include thesis_verifier entries for macro events that actually relate to this position's sector/theme
-- If no relevant macro context exists, omit thesis_verifier array entirely (do not include empty array)
+- For risk_context, assess whether any macro context supports, contradicts, or is neutral to this position's risk profile
+- If the position has no clear setup, use "neutral" for rating_impact
+- Only include risk_context entries for macro events that actually relate to this position's sector/theme
+- If no relevant macro context exists, omit risk_context array entirely (do not include empty array)
 """
+
+
+_DRIVER_THEME_RULES: list[tuple[str, tuple[str, ...]]] = [
+    ("regulatory_risk", ("sec", "ftc", "doj", "antitrust", "lawsuit", "litigation", "subpoena", "probe", "regulation", "regulatory", "fine", "settlement", "patent")),
+    ("earnings_risk", ("earnings", "eps", "quarter", "q1", "q2", "q3", "q4", "results", "beat", "miss", "guidance", "outlook")),
+    ("guidance_risk", ("guide", "guidance", "outlook", "forecast", "cut guidance", "raise guidance")),
+    ("margin_risk", ("margin", "gross margin", "operating margin", "pricing pressure", "pricing power", "compression")),
+    ("competition_risk", ("competition", "competitor", "market share", "share loss", "rivalry", "undercut", "pricing war")),
+    ("demand_risk", ("demand", "slowdown", "orders", "backlog", "bookings", "inventory", "channel checks", "weak demand")),
+    ("macro_risk", ("rates", "inflation", "fed", "treasury", "yields", "recession", "dollar", "tariffs", "china", "geopolitic", "credit", "macro")),
+    ("leverage_risk", ("debt", "leverage", "refinancing", "covenant", "liquidity", "cash burn", "maturity", "distress", "bankruptcy")),
+    ("liquidity_risk", ("liquidity", "cash", "funding", "runway", "dilution", "financing")),
+    ("volatility_risk", ("volatility", "gap", "breakout", "breakdown", "momentum")),
+    ("technical_risk", ("resistance", "support", "chart", "technical", "overbought", "oversold")),
+    ("execution_risk", ("execution", "delay", "ramp", "rollout", "integration", "production", "supply chain")),
+    ("concentration_risk", ("concentration", "single customer", "customer concentration", "dependency")),
+    ("product_risk", ("launch", "defect", "recall", "quality", "bug", "adoption", "security issue")),
+    ("valuation_risk", ("valuation", "multiple", "stretched", "expensive", "rerate", "overvalued", "premium")),
+]
+
+_DRIVER_THEME_PRIORITY = {theme: idx for idx, (theme, _keywords) in enumerate(_DRIVER_THEME_RULES)}
+
+_NEGATIVE_DIRECTION_MARKERS = (
+    "downgrade",
+    "miss",
+    "cut",
+    "pressure",
+    "probe",
+    "lawsuit",
+    "delay",
+    "slowdown",
+    "resistance",
+    "risk",
+    "weak",
+    "compression",
+    "competition",
+    "worsen",
+    "decline",
+)
+
+_POSITIVE_DIRECTION_MARKERS = (
+    "upgrade",
+    "beat",
+    "raise",
+    "resolved",
+    "approved",
+    "launch",
+    "expansion",
+    "improve",
+    "strength",
+    "support",
+    "tailwind",
+)
+
+_GENERIC_DRIVER_MARKERS = (
+    "balanced",
+    "mixed",
+    "watch",
+    "monitor",
+    "research",
+    "analyst",
+    "coverage",
+    "current read",
+    "thesis",
+    "model",
+    "fallback",
+    "limited data",
+    "no single force",
+    "nothing urgent",
+)
+
+
+def _clean_text(value: Any) -> str:
+    if value is None:
+        return ""
+    text = str(value).strip()
+    text = re.sub(r"\s+", " ", text)
+    return text
+
+
+def _truncate(text: str, limit: int) -> str:
+    text = _clean_text(text)
+    if len(text) <= limit:
+        return text
+    return text[: max(limit - 1, 0)].rstrip() + "…"
+
+
+def _first_non_empty(*values: Any) -> str:
+    for value in values:
+        text = _clean_text(value)
+        if text:
+            return text
+    return ""
+
+
+def _parse_datetime(value: Any) -> datetime | None:
+    if not value:
+        return None
+    if isinstance(value, datetime):
+        return value
+    raw = str(value)
+    for candidate in (
+        raw,
+        raw.replace("Z", "+00:00"),
+    ):
+        try:
+            return datetime.fromisoformat(candidate)
+        except ValueError:
+            continue
+    return None
+
+
+def _theme_for_text(text: str) -> str | None:
+    lowered = _clean_text(text).lower()
+    for theme, keywords in _DRIVER_THEME_RULES:
+        if any(keyword in lowered for keyword in keywords):
+            return theme
+    return None
+
+
+def _direction_for_text(text: str, risk_direction: str | None = None) -> str:
+    if risk_direction:
+        normalized = _clean_text(risk_direction).lower()
+        if normalized in {"worsening", "negative", "down"}:
+            return "negative"
+        if normalized in {"improving", "positive", "up"}:
+            return "positive"
+        if normalized in {"neutral", "flat", "stable"}:
+            return "neutral"
+
+    lowered = _clean_text(text).lower()
+    if any(marker in lowered for marker in _NEGATIVE_DIRECTION_MARKERS):
+        return "negative"
+    if any(marker in lowered for marker in _POSITIVE_DIRECTION_MARKERS):
+        return "positive"
+    return "neutral"
+
+
+def _is_generic_driver_text(text: str) -> bool:
+    lowered = _clean_text(text).lower()
+    return any(marker in lowered for marker in _GENERIC_DRIVER_MARKERS)
+
+
+def _normalize_source(source: Any) -> str:
+    return _clean_text(source)
+
+
+def _candidate_identity(candidate: dict[str, Any]) -> tuple[str, ...]:
+    keys: list[str] = []
+    event_hash = _clean_text(candidate.get("event_hash"))
+    url = _clean_text(candidate.get("url"))
+    title = _clean_text(candidate.get("title")).lower()
+    source = _clean_text(candidate.get("source")).lower()
+    published_at = _clean_text(candidate.get("published_at"))
+    if event_hash:
+        keys.append(f"hash:{event_hash}")
+    if url:
+        keys.append(f"url:{url.lower()}")
+    if title or source or published_at:
+        keys.append(f"title:{title}|source:{source}|published:{published_at}")
+    return tuple(keys)
+
+
+def _candidate_sort_key(candidate: dict[str, Any]) -> tuple:
+    priority = int(candidate.get("priority") or 0)
+    confidence = float(candidate.get("confidence") or 0)
+    published_at = _parse_datetime(candidate.get("published_at")) or _parse_datetime(candidate.get("created_at"))
+    return (
+        priority,
+        confidence,
+        published_at.timestamp() if published_at else float("-inf"),
+        _clean_text(candidate.get("id")),
+    )
+
+
+def _select_summary_text(candidate: dict[str, Any]) -> str:
+    return _first_non_empty(
+        candidate.get("scenario_summary"),
+        candidate.get("summary"),
+        (candidate.get("key_implications") or [None])[0] if isinstance(candidate.get("key_implications"), list) and candidate.get("key_implications") else None,
+        candidate.get("long_analysis"),
+        candidate.get("title"),
+    )
+
+
+def _candidate_from_event(event: dict[str, Any]) -> dict[str, Any] | None:
+    text = " ".join(
+        part
+        for part in [
+            _clean_text(event.get("title")),
+            _clean_text(event.get("summary")),
+            _clean_text(event.get("scenario_summary")),
+            " ".join(_clean_text(item) for item in (event.get("key_implications") or []) if _clean_text(item)),
+            _clean_text(event.get("long_analysis")),
+        ]
+        if part
+    )
+    theme = _theme_for_text(text)
+    if not theme:
+        return None
+    title = _clean_text(event.get("title"))
+    summary = _select_summary_text(event)
+    if not title or not summary or _is_generic_driver_text(title) or _is_generic_driver_text(summary):
+        return None
+    return {
+        "id": _clean_text(event.get("id")),
+        "kind": "event_analysis",
+        "title": title,
+        "summary": summary,
+        "source": _normalize_source(event.get("source")),
+        "url": _clean_text(event.get("source_url")) or None,
+        "published_at": _clean_text(event.get("published_at")) or None,
+        "confidence": float(event.get("confidence") or 0),
+        "event_id": _clean_text(event.get("id")) or None,
+        "news_id": None,
+        "alert_id": None,
+        "event_hash": _clean_text(event.get("event_hash")) or None,
+        "theme": theme,
+        "direction": _direction_for_text(text, event.get("risk_direction")),
+        "priority": 0 if _clean_text(event.get("significance")) == "major" else 1,
+        "is_major": _clean_text(event.get("significance")) == "major",
+        "created_at": _clean_text(event.get("created_at")) or None,
+    }
+
+
+def _candidate_from_news(article: dict[str, Any]) -> dict[str, Any] | None:
+    title = _first_non_empty(article.get("headline"), article.get("title"))
+    summary = _first_non_empty(article.get("summary"), title)
+    text = f"{title} {summary}"
+    theme = _theme_for_text(text)
+    if not theme:
+        return None
+    if not title or not summary or _is_generic_driver_text(title) or _is_generic_driver_text(summary):
+        return None
+    sentiment = _clean_text(article.get("sentiment")).lower()
+    direction = _direction_for_text(text)
+    if sentiment in {"positive", "bullish"}:
+        direction = "positive"
+    elif sentiment in {"negative", "bearish"}:
+        direction = "negative"
+    return {
+        "id": _clean_text(article.get("id")),
+        "kind": "news_item",
+        "title": title,
+        "summary": summary,
+        "source": _normalize_source(article.get("source")),
+        "url": _clean_text(article.get("url")) or None,
+        "published_at": _clean_text(article.get("published_at")) or None,
+        "confidence": float(article.get("relevance_score") or 0.5),
+        "event_id": None,
+        "news_id": _clean_text(article.get("id")) or None,
+        "alert_id": None,
+        "event_hash": _clean_text(article.get("event_hash")) or None,
+        "theme": theme,
+        "direction": direction,
+        "priority": 2,
+        "is_major": False,
+        "created_at": _clean_text(article.get("created_at")) or None,
+    }
+
+
+def _candidate_from_alert(alert: dict[str, Any]) -> dict[str, Any] | None:
+    title = _first_non_empty(alert.get("message"), alert.get("change_reason"))
+    summary = _first_non_empty(alert.get("change_reason"), alert.get("message"))
+    text = f"{title} {summary}"
+    theme = _theme_for_text(text)
+    if not theme:
+        return None
+    if not title or not summary or _is_generic_driver_text(title) or _is_generic_driver_text(summary):
+        return None
+    return {
+        "id": _clean_text(alert.get("id")),
+        "kind": "alert",
+        "title": title,
+        "summary": summary,
+        "source": "Clavix Alert",
+        "url": None,
+        "published_at": _clean_text(alert.get("created_at")) or None,
+        "confidence": 0.6,
+        "event_id": None,
+        "news_id": None,
+        "alert_id": _clean_text(alert.get("id")) or None,
+        "event_hash": _clean_text(alert.get("event_hash")) or None,
+        "theme": theme,
+        "direction": _direction_for_text(text),
+        "priority": 3,
+        "is_major": _clean_text(alert.get("type")) in {"major_event", "grade_change"},
+        "created_at": _clean_text(alert.get("created_at")) or None,
+    }
+
+
+def _evidence_item_from_candidate(candidate: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "id": candidate["id"],
+        "kind": candidate["kind"],
+        "title": _truncate(candidate["title"], 140),
+        "summary": _truncate(candidate["summary"], 220),
+        "source": _truncate(candidate["source"], 80),
+        "url": candidate.get("url"),
+        "published_at": candidate.get("published_at"),
+        "confidence": candidate.get("confidence"),
+        "event_id": candidate.get("event_id"),
+        "news_id": candidate.get("news_id"),
+        "alert_id": candidate.get("alert_id"),
+    }
+
+
+def _strength_for_group(group: list[dict[str, Any]]) -> str:
+    evidence_count = len(group)
+    unique_sources = len({ _normalize_source(item.get("source")) for item in group if _normalize_source(item.get("source")) })
+    max_confidence = max((float(item.get("confidence") or 0) for item in group), default=0)
+    has_major_event = any(item.get("is_major") for item in group if item.get("kind") == "event_analysis")
+    if evidence_count >= 2 and unique_sources >= 2 and (max_confidence >= 0.75 or has_major_event):
+        return "strong"
+    if evidence_count >= 2 and unique_sources == 1:
+        return "moderate"
+    if evidence_count == 1 and max_confidence >= 0.55:
+        return "moderate"
+    return "limited"
+
+
+def _source_chips_for_group(group: list[dict[str, Any]]) -> list[str]:
+    sources: list[str] = []
+    for item in group:
+        source = _normalize_source(item.get("source"))
+        if source and source not in sources:
+            sources.append(source)
+    if not sources:
+        return []
+    if len(sources) == 1:
+        return [sources[0]]
+    if len(sources) == 2:
+        return sources[:2]
+    return [sources[0], sources[1], f"{len(group)} sources"]
+
+
+def _build_driver_cards(
+    position: dict[str, Any],
+    event_analyses: list[dict[str, Any]] | None = None,
+    news_items: list[dict[str, Any]] | None = None,
+    alerts: list[dict[str, Any]] | None = None,
+) -> tuple[list[dict[str, Any]], str, str | None]:
+    event_analyses = event_analyses or []
+    news_items = news_items or []
+    alerts = alerts or []
+
+    candidates: list[dict[str, Any]] = []
+    for event in event_analyses:
+        candidate = _candidate_from_event(event)
+        if candidate:
+            candidates.append(candidate)
+    for article in news_items:
+        candidate = _candidate_from_news(article)
+        if candidate:
+            candidates.append(candidate)
+    for alert in alerts:
+        candidate = _candidate_from_alert(alert)
+        if candidate:
+            candidates.append(candidate)
+
+    candidates.sort(key=_candidate_sort_key, reverse=True)
+
+    deduped: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for candidate in candidates:
+        keys = _candidate_identity(candidate)
+        if keys and any(key in seen for key in keys):
+            continue
+        deduped.append(candidate)
+        seen.update(keys)
+
+    groups: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for candidate in deduped:
+        theme = candidate.get("theme")
+        direction = candidate.get("direction")
+        if not theme:
+            continue
+        key = (theme, direction or "neutral")
+        groups.setdefault(key, []).append(candidate)
+
+    cards_with_meta: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    for (theme, direction), group in groups.items():
+        group.sort(key=_candidate_sort_key, reverse=True)
+        title = _truncate(group[0]["title"], 80)
+        summary = _truncate(_first_non_empty(*(item["summary"] for item in group)), 180)
+        if not title or not summary:
+            continue
+        if _is_generic_driver_text(title) or _is_generic_driver_text(summary):
+            continue
+        strength = _strength_for_group(group)
+        evidence_items = [_evidence_item_from_candidate(item) for item in group[:3]]
+        card = {
+            "id": str(group[0]["id"] or group[0].get("event_hash") or f"driver-{len(cards_with_meta)+1}"),
+            "rank": 0,
+            "title": title,
+            "summary": summary,
+            "strength": strength,
+            "direction": direction,
+            "theme": theme,
+            "source_chips": _source_chips_for_group(group),
+            "supporting_event_ids": [item["event_id"] for item in group if item.get("event_id")][:3],
+            "supporting_news_ids": [item["news_id"] for item in group if item.get("news_id")][:3],
+            "supporting_evidence": evidence_items,
+        }
+        meta = {
+            "has_major_event": any(item.get("is_major") for item in group if item.get("kind") == "event_analysis"),
+            "evidence_count": len(group),
+            "unique_sources": len({_normalize_source(item.get("source")) for item in group if _normalize_source(item.get("source"))}),
+            "max_confidence": max((float(item.get("confidence") or 0) for item in group), default=0),
+            "latest_timestamp": max(
+                (
+                    _parse_datetime(item.get("published_at")) or _parse_datetime(item.get("created_at"))
+                )
+                for item in group
+            ) if group else None,
+            "theme_priority": _DRIVER_THEME_PRIORITY.get(theme, 999),
+        }
+        cards_with_meta.append((card, meta))
+
+    cards_with_meta.sort(
+        key=lambda pair: (
+            -int(bool(pair[1]["has_major_event"])),
+            -pair[1]["evidence_count"],
+            -pair[1]["unique_sources"],
+            -pair[1]["max_confidence"],
+            -(pair[1]["latest_timestamp"].timestamp() if pair[1]["latest_timestamp"] else float("-inf")),
+            pair[1]["theme_priority"],
+            pair[0]["title"].lower(),
+        )
+    )
+
+    cards: list[dict[str, Any]] = []
+    for index, (card, _meta) in enumerate(cards_with_meta[:3], start=1):
+        card["rank"] = index
+        cards.append(card)
+
+    raw_evidence_count = len(deduped)
+    status = _clean_text(position.get("analysis_state") or position.get("status")).lower()
+    coverage_state = _clean_text(position.get("coverage_state")).lower()
+    if status and status != "ready":
+        driver_cards_state = "pending"
+    elif cards:
+        driver_cards_state = "ready"
+    elif raw_evidence_count <= 2 or coverage_state in {"provisional", "thin"}:
+        driver_cards_state = "limited"
+    else:
+        driver_cards_state = "empty"
+
+    return sanitize_public_analysis_text(cards), driver_cards_state, "generated"
+
+
+def _empty_driver_cards_state(position: dict[str, Any]) -> str:
+    status = _clean_text(position.get("analysis_state") or position.get("status")).lower()
+    coverage_state = _clean_text(position.get("coverage_state")).lower()
+    source_count = int(position.get("source_count") or 0)
+    if status and status != "ready":
+        return "pending"
+    if coverage_state in {"provisional", "thin"} or source_count <= 2:
+        return "limited"
+    return "empty"
 
 
 def _fallback_position_report(
@@ -66,7 +530,7 @@ def _fallback_position_report(
     )
     labels_text = ", ".join(inferred_labels[:3]) if inferred_labels else "core"
     event_titles = [
-        event.get("title", "recent coverage") for event in event_analyses[:3]
+        event.get("title", "recent data") for event in event_analyses[:3]
     ]
 
     stance = "mixed — no single force clearly dominates"
@@ -83,7 +547,7 @@ def _fallback_position_report(
         f"{ticker} is classified as {labels_text}. "
         f"The most relevant developments were {', '.join(event_titles)}. "
         f"{worsening_count} item(s) flagged downside pressure and {improving_count} pointed to improvement. "
-        f"This assessment is provisional — a single new filing, earnings surprise, or regulatory update could shift the read materially."
+        f"This rating is limited-data — a single new filing, earnings surprise, or regulatory update could shift the rating materially."
     )
     top_risks = [
         event.get("scenario_summary") or event.get("title", "Recent catalyst risk")
@@ -100,10 +564,10 @@ def _fallback_position_report(
         "long_report": long_report,
         "methodology": "Summary assembled from event-level analysis. LLM synthesis was unavailable for this position.",
         "top_risks": top_risks
-        or ["A single new article or filing could materially change the risk read."],
+        or ["A single new article or filing could materially change the risk rating."],
         "watch_items": watch_items
         or [
-            "Watch for new company-specific news, guidance, or filings that change the setup."
+            "Check for new company-specific news, guidance, or filings that change the setup."
         ],
     }
 
@@ -113,20 +577,34 @@ async def build_position_report(
     inferred_labels: list[str],
     event_analyses: list[dict],
     macro_context: dict | None = None,
+    related_articles: list[dict] | None = None,
+    alerts: list[dict] | None = None,
 ) -> dict:
-    if not event_analyses:
+    related_articles = related_articles or []
+    alerts = alerts or []
+    driver_cards, driver_cards_state, driver_cards_source = _build_driver_cards(
+        position,
+        event_analyses=event_analyses,
+        news_items=related_articles,
+        alerts=alerts,
+    )
+
+    if not event_analyses and not related_articles and not alerts:
         ticker = position.get("ticker", "This holding")
         return sanitize_public_analysis_text(
             {
-                "summary": f"There is not enough recent news to form a confident risk thesis for {ticker}. The current read relies on existing position context and structural factors.",
-                "long_report": f"Event coverage for {ticker} is thin in this cycle, so the dominant risk thesis defaults to structural and macro factors rather than company-specific catalysts. This is a low-confidence read — any new company-specific development (earnings, guidance, regulatory action) could shift the picture meaningfully. Treat this as provisional until fuller coverage arrives.",
-                "methodology": "Low-confidence assessment based on position metadata and structural context. No usable event coverage for this cycle.",
+                "summary": f"There is not enough recent news to form a confident risk rating for {ticker}. The current rating relies on existing position context and structural factors.",
+                "long_report": f"Data for {ticker} is thin in this cycle, so the dominant risk rating defaults to structural and sector factors rather than company-specific catalysts. This is a limited-data rating — any new company-specific development (earnings, guidance, regulatory action) could shift the picture meaningfully. Treat this as limited-data until fuller data arrives.",
+                "methodology": "Limited-data rating based on position metadata and structural context. No usable event data for this cycle.",
                 "top_risks": [
                     "No confirmed company-specific catalyst in this cycle."
                 ],
                 "watch_items": [
-                    "Recheck for resolved company or sector coverage before treating the current read as settled."
+                    "Recheck for resolved company or sector data before treating the current rating as settled."
                 ],
+                "driver_cards": driver_cards,
+                "driver_cards_state": driver_cards_state,
+                "driver_cards_source": driver_cards_source,
             }
         )
 
@@ -199,7 +677,10 @@ Event analyses:
                 "methodology": fallback["methodology"],
                 "top_risks": fallback["top_risks"],
                 "watch_items": fallback["watch_items"],
-                "thesis_verifier": [],
+                "risk_context": [],
+                "driver_cards": driver_cards,
+                "driver_cards_state": driver_cards_state,
+                "driver_cards_source": driver_cards_source,
             }
         )
 
@@ -214,36 +695,39 @@ Event analyses:
             "methodology": parsed.get("methodology") or fallback["methodology"],
             "top_risks": parsed.get("top_risks") or fallback["top_risks"],
             "watch_items": parsed.get("watch_items") or fallback["watch_items"],
-            "thesis_verifier": parsed.get("thesis_verifier") or [],
+            "risk_context": parsed.get("risk_context") or parsed.get("rating_verifier") or [],
+            "driver_cards": driver_cards,
+            "driver_cards_state": driver_cards_state,
+            "driver_cards_source": driver_cards_source,
         }
     )
 
 
-BATCH_REPORT_PROMPT = """You write concise equity risk research notes for multiple stock positions.
+BATCH_REPORT_PROMPT = """You write concise downside risk ratings for multiple stock positions.
 
-Write like an analyst briefing a portfolio manager — direct, specific, thesis-driven. Do not catalog articles; synthesize what they mean.
+Write like a risk rater briefing a portfolio manager — direct, specific, rating-driven. Do not catalog articles; synthesize what they mean.
 
 Return a JSON array with one object per position in order.
 Each object has:
-- "summary": "2-3 sentence thesis-first summary: dominant risk force, counter-evidence acknowledged, what changes the thesis"
-- "long_report": "4-8 sentence detailed report that develops the thesis, resolves contradictions with evidence, and closes with what could shift the read"
+- "summary": "1-2 sentence summary: dominant risk force, counter-evidence acknowledged, what changes the rating"
+- "long_report": "3-6 sentence detailed report that develops the rating, resolves contradictions with evidence, and closes with what could shift the rating"
 - "methodology": "brief explanation of the evidence used"
 - "top_risks": ["risk 1", "risk 2", "risk 3"]
-- "watch_items": ["watch item 1", "watch item 2"]
-- "thesis_verifier": [{{"macro_event": "...", "thesis_impact": "confirms|challenges|neutral", "reasoning": "..."}}]
+- "watch_items": ["risk driver 1", "risk driver 2"]
+- "risk_context": [{{"macro_event": "...", "rating_impact": "supports|contradicts|neutral", "reasoning": "..."}}]
 
 Writing rules:
-1. Lead with the dominant narrative, not with what coverage exists.
+1. Lead with the dominant narrative, not with what data exists.
 2. If positive and negative evidence compete, resolve which matters more and why. Do not list both sides.
-3. Close with what would change the thesis — specific, not generic.
+3. Close with what would change the rating — specific, not generic.
 
-Forbidden: internal evidence labels (full_body, title_only, headline_summary), scoring methodology references, "recent event flow is [stance]", "N relevant items", implementation jargon.
+Forbidden: internal evidence labels (full_body, title_only, headline_summary), scoring methodology references, "recent event flow is [stance]", "N relevant items", implementation jargon, "thesis", "positive momentum", "macro headwinds", "provisional", "current read", "sentiment", "confirms", "coverage", "monitor/recheck", "research", "analyst", "confidence" (as model uncertainty), "watch" (use "risk driver" instead).
 
 CRITICAL - Macro as Risk Context:
-- For thesis_verifier, assess whether any macro context confirms, challenges, or is neutral to each position's risk profile
-- If a position has no clear setup, use "neutral" for thesis_impact
-- Only include thesis_verifier entries for macro events that actually relate to each position's sector/theme
-- If no relevant macro context exists for a position, omit thesis_verifier array for that position
+- For risk_context, assess whether any macro context supports, contradicts, or is neutral to each position's risk profile
+- If a position has no clear setup, use "neutral" for rating_impact
+- Only include risk_context entries for macro events that actually relate to each position's sector/theme
+- If no relevant macro context exists for a position, omit risk_context array for that position
 
 Positions:
 {positions}
@@ -345,7 +829,7 @@ async def build_position_reports_batch(
                         "methodology": p.get("methodology") or fallback["methodology"],
                         "top_risks": p.get("top_risks") or fallback["top_risks"],
                         "watch_items": p.get("watch_items") or fallback["watch_items"],
-                        "thesis_verifier": p.get("thesis_verifier") or [],
+                        "risk_context": p.get("risk_context") or p.get("rating_verifier") or [],
                     }
                 )
             )

@@ -2,6 +2,7 @@ import asyncio
 import time
 import logging
 import httpx
+import os
 from collections import Counter
 from itertools import zip_longest
 from datetime import datetime, timedelta, timezone
@@ -12,10 +13,11 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.date import DateTrigger
 
-from .analysis_utils import utcnow_iso, clamp_score
+from .analysis_utils import utcnow_iso, clamp_score, score_to_grade
 from .news_normalizer import normalize_news_batch, _evidence_quality
 from ..services.backfill_artifacts import record_stage, get_run_artifact_dir, begin_artifact_session, write_named_json, end_artifact_session, record_position_artifact
 from ..services.ticker_cache_service import ensure_sp500_universe_seeded, list_active_sp500_tickers
+from ..services.ticker_metadata import upsert_ticker_metadata
 
 ET = ZoneInfo("America/New_York")
 
@@ -67,14 +69,44 @@ def _is_junk_article(article: dict) -> tuple[bool, str]:
         "stock underperforms",
         "underperforms friday when compared to competitors",
     )
+
     for marker in low_value_markers:
         if marker in text:
             return True, f"low_value_marker: {marker}"
+
     relevance = article.get("relevance") or {}
     event_type = str(relevance.get("event_type") or "").lower()
     if event_type in ("noise", "spam", "ad"):
         return True, f"irrelevant_event_type: {event_type}"
+
     return False, ""
+
+
+def _system_scheduler_paused() -> bool:
+    return str(os.getenv("PAUSE_SYSTEM_SCHEDULER") or "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+        "on",
+    }
+
+
+def _next_et_time(
+    hour: int,
+    minute: int,
+    *,
+    reference: datetime | None = None,
+) -> datetime:
+    current_time = reference or datetime.now(ET)
+    run_time = current_time.replace(
+        hour=hour,
+        minute=minute,
+        second=0,
+        microsecond=0,
+    )
+    if run_time <= current_time:
+        run_time += timedelta(days=1)
+    return run_time
 
 
 def _dedupe_articles(articles: list[dict]) -> list[dict]:
@@ -935,6 +967,9 @@ def _upsert_position_analysis(
     status: str | None = None,
     progress_message: str | None = None,
     source_count: int | None = None,
+    driver_cards: list[dict] | None = None,
+    driver_cards_state: str | None = None,
+    driver_cards_source: str | None = None,
 ):
     payload = {
         "analysis_run_id": analysis_run_id,
@@ -955,6 +990,9 @@ def _upsert_position_analysis(
         "status": status,
         "progress_message": progress_message,
         "source_count": source_count,
+        "driver_cards": driver_cards,
+        "driver_cards_state": driver_cards_state,
+        "driver_cards_source": driver_cards_source,
     }
     payload.update(
         {key: value for key, value in optional_fields.items() if value is not None}
@@ -1241,28 +1279,11 @@ def _upsert_draft_position_snapshot(
         position=position,
         ticker=ticker,
         inferred_labels=inferred_labels or [position.get("archetype", "watchlist")],
-        summary=(
-            f"Quick brief ready for {ticker}. Found {source_count} relevant headlines and started the deeper analysis."
-            if source_count > 0
-            else f"No strong news signal surfaced for {ticker} yet."
-        ),
-        long_report=(
-            "Clavynx already found the initial signal for this holding and is still generating the in-depth report. "
-            "You can review the first matched headlines now and come back shortly for the final scoring."
-            if source_count > 0
-            else "Clavynx is still scanning for stronger holding-specific signal. Price data is available while the deeper run continues."
-        ),
-        methodology=(
-            "Initial draft based on the earliest matched headlines while the deeper event analysis is still running."
-            if source_count > 0
-            else "Initial placeholder generated before a strong set of matched headlines was available."
-        ),
-        top_risks=[] if source_count > 0 else ["No strong article matches yet."],
-        watch_items=(
-            ["Deep analysis is still running on the current news set."]
-            if source_count > 0
-            else ["Watch for new company-specific headlines."]
-        ),
+        summary=None,
+        long_report=None,
+        methodology=None,
+        top_risks=[],
+        watch_items=[],
         top_news=top_headlines,
         major_event_count=0,
         minor_event_count=0,
@@ -2637,9 +2658,9 @@ async def execute_analysis_run(
                 position=position,
                 ticker=ticker,
                 inferred_labels=inferred_labels,
-                summary=f"Quick brief ready for {ticker}. Processed {len(event_analyses)} events.",
-                long_report="Event analysis complete. Generating position report.",
-                methodology="Batch event analysis with significance classification.",
+                summary=None,
+                long_report=None,
+                methodology=None,
                 top_news=top_headlines,
                 major_event_count=len(
                     [e for e in event_analyses if e.get("significance") == "major"]
@@ -2678,6 +2699,7 @@ async def execute_analysis_run(
                 inferred_labels,
                 event_analyses,
                 macro_context=macro_context,
+                related_articles=related_articles,
             )
 
             macro_impact = next(
@@ -2705,6 +2727,9 @@ async def execute_analysis_run(
                 "top_risks": position_report["top_risks"],
                 "watch_items": position_report["watch_items"],
                 "top_news": top_headlines,
+                "driver_cards": position_report.get("driver_cards") or [],
+                "driver_cards_state": position_report.get("driver_cards_state") or "pending",
+                "driver_cards_source": position_report.get("driver_cards_source") or "generated",
                 "inferred_labels": inferred_labels,
                 "methodology": position_report["methodology"],
                 "mirofish_used": mirofish_used,
@@ -2924,6 +2949,9 @@ async def execute_analysis_run(
                             "position_sizing": ai_scores.get("position_sizing"),
                             "volatility_trend": ai_scores.get("volatility_trend"),
                         },
+                        # Preserve whether the final score came from the LLM path so
+                        # ticker snapshot sync can label methodology correctly later.
+                        "llm_scoring_used": bool(ai_scores.get("llm_scoring_used")),
                     },
                     "grade": grade,
                     "reasoning": ai_scores.get("reasoning"),
@@ -2981,6 +3009,19 @@ async def execute_analysis_run(
                     status="ready",
                     progress_message="Full position analysis is ready.",
                     source_count=len(related_articles),
+                    driver_cards=position_payloads[i].get("driver_cards", [])
+                    if i < len(position_payloads)
+                    else [],
+                    driver_cards_state=position_payloads[i].get(
+                        "driver_cards_state", "pending"
+                    )
+                    if i < len(position_payloads)
+                    else "pending",
+                    driver_cards_source=position_payloads[i].get(
+                        "driver_cards_source", "generated"
+                    )
+                    if i < len(position_payloads)
+                    else "generated",
                 )
 
                 previous_grade = (
@@ -3319,7 +3360,7 @@ async def execute_analysis_run(
                 {
                     "user_id": user_id,
                     "type": "digest_ready",
-                    "message": "Your latest Clavynx digest is ready.",
+                    "message": "Your latest Morning Rating is ready.",
                     "analysis_run_id": analysis_run_id,
                 },
                 dedupe_hours=4,
@@ -3425,6 +3466,21 @@ async def enqueue_analysis_run(
     shared_news_payload: dict | None = None,
 ) -> dict:
     from ..services.supabase import get_supabase
+
+    if (
+        _system_scheduler_paused()
+        and user_id == SYSTEM_SP500_USER_ID
+        and triggered_by == "scheduled"
+        and target_tickers
+    ):
+        return {
+            "status": "paused",
+            "user_id": user_id,
+            "analysis_run_id": None,
+            "positions_processed": 0,
+            "events_processed": 0,
+            "overall_grade": None,
+        }
 
     supabase = get_supabase()
     _fail_stale_runs(supabase)
@@ -3706,6 +3762,16 @@ async def enqueue_sp500_backfill_run(
 ) -> dict:
     from ..services.supabase import get_supabase
 
+    if _system_scheduler_paused():
+        return {
+            "status": "paused",
+            "analysis_run_id": None,
+            "user_id": SYSTEM_SP500_USER_ID,
+            "positions_processed": 0,
+            "events_processed": 0,
+            "overall_grade": None,
+        }
+
     supabase = get_supabase()
     existing = (
         supabase.table("analysis_runs")
@@ -3848,7 +3914,7 @@ async def trigger_structural_refresh(user_id: str):
             delta = safety_score - previous_safety
             if abs(delta) > cap:
                 safety_score = previous_safety + (cap if delta > 0 else -cap)
-            safety_score = clamp_score(safety_score, 50)
+            safety_score = clamp_score(safety_score, 0)
 
         factor_breakdown = structural_result.get("factor_breakdown", {})
 
@@ -4110,17 +4176,24 @@ async def _ensure_sp500_system_positions(supabase, tickers: list[str]) -> None:
 
 
 async def _sync_ai_scores_to_ticker_snapshots(
-    supabase, ticker: str, job_type: str
+    supabase, ticker: str, job_type: str, analysis_run_id: str | None = None
 ) -> None:
     await asyncio.to_thread(
-        _sync_ai_scores_to_ticker_snapshots_sync, supabase, ticker, job_type
+        _sync_ai_scores_to_ticker_snapshots_sync,
+        supabase,
+        ticker,
+        job_type,
+        analysis_run_id,
     )
 
 
 def _sync_ai_scores_to_ticker_snapshots_sync(
-    supabase, ticker: str, job_type: str
+    supabase,
+    ticker: str,
+    job_type: str,
+    analysis_run_id: str | None = None,
 ) -> None:
-    from .risk_scorer import score_to_grade
+    from .analysis_utils import format_rationale, grade_direction, score_to_grade
     from ..services.ticker_cache_service import _upsert_ticker_snapshot
 
     user_id = SYSTEM_SP500_USER_ID
@@ -4136,31 +4209,25 @@ def _sync_ai_scores_to_ticker_snapshots_sync(
     if not position_rows:
         return
     position_id = position_rows[0]["id"]
-    latest_score_rows = (
-        supabase.table("risk_scores")
-        .select("*")
-        .eq("position_id", position_id)
-        .order("calculated_at", desc=True)
-        .limit(1)
-        .execute()
-        .data
-    )
+    score_query = supabase.table("risk_scores").select("*").eq("position_id", position_id)
+    if analysis_run_id:
+        score_query = score_query.eq("analysis_run_id", analysis_run_id)
+    latest_score_rows = score_query.order("calculated_at", desc=True).limit(1).execute().data
     if not latest_score_rows:
         return
     ai_score = latest_score_rows[0]
+    analysis_query = (
+        supabase.table("position_analyses").select("*").eq("position_id", position_id)
+    )
+    if analysis_run_id:
+        analysis_query = analysis_query.eq("analysis_run_id", analysis_run_id)
     latest_analysis_rows = (
-        supabase.table("position_analyses")
-        .select("*")
-        .eq("position_id", position_id)
-        .order("updated_at", desc=True)
-        .limit(1)
-        .execute()
-        .data
+        analysis_query.order("updated_at", desc=True).limit(1).execute().data
     )
     analysis = latest_analysis_rows[0] if latest_analysis_rows else {}
     now_iso = utcnow_iso()
-    safety_score = ai_score.get("safety_score") or ai_score.get("total_score") or 50
-    grade = ai_score.get("grade") or score_to_grade(safety_score)
+    public_score = ai_score.get("total_score") or ai_score.get("safety_score") or 50
+    grade = score_to_grade(public_score)
     factor_breakdown = ai_score.get("factor_breakdown") or {}
     if isinstance(factor_breakdown, str):
         import json
@@ -4183,28 +4250,73 @@ def _sync_ai_scores_to_ticker_snapshots_sync(
             or ai_score.get("volatility_trend"),
         },
     }
+    llm_scoring_used = ai_score.get("llm_scoring_used")
+    if llm_scoring_used is None:
+        llm_scoring_used = factor_breakdown.get("llm_scoring_used")
+    if llm_scoring_used is None and analysis_run_id:
+        run_rows = (
+            supabase.table("analysis_runs")
+            .select("user_id, triggered_by, target_tickers")
+            .eq("id", analysis_run_id)
+            .limit(1)
+            .execute()
+            .data
+        )
+        if run_rows:
+            run = run_rows[0]
+            llm_scoring_used = bool(
+                run.get("user_id") == SYSTEM_SP500_USER_ID
+                and run.get("triggered_by") == "scheduled"
+                and run.get("target_tickers")
+            )
+    previous_snapshot_rows = (
+        supabase.table("ticker_risk_snapshots")
+        .select("safety_score")
+        .eq("ticker", ticker.upper())
+        .eq("snapshot_type", job_type)
+        .order("analysis_as_of", desc=True)
+        .order("updated_at", desc=True)
+        .order("created_at", desc=True)
+        .limit(5)
+        .execute()
+        .data
+    )
+    previous_score = None
+    for row in previous_snapshot_rows or []:
+        row_score = row.get("safety_score")
+        if row_score is not None and float(row_score) != float(public_score):
+            previous_score = row_score
+            break
+    source_count = int(ai_score.get("source_count") or analysis.get("source_count") or 0)
+    reasoning = format_rationale(
+        grade=grade,
+        direction=grade_direction(public_score, previous_score),
+        raw_text=ai_score.get("reasoning") or analysis.get("summary") or "",
+        scores=ai_score,
+        source_count=source_count,
+    )
     payload = {
         "ticker": ticker.upper(),
         "snapshot_date": datetime.utcnow().date().isoformat(),
         "snapshot_type": job_type,
         "grade": grade,
-        "safety_score": round(float(safety_score), 1),
+        "safety_score": round(float(public_score), 1),
         "structural_base_score": ai_score.get("structural_base_score"),
         "macro_adjustment": ai_score.get("macro_adjustment") or 0.0,
         "event_adjustment": ai_score.get("event_adjustment") or 0.0,
         "confidence": ai_score.get("confidence"),
         "factor_breakdown": factor_breakdown,
         "dimension_rationale": ai_score.get("dimension_rationale") or {},
-        "reasoning": ai_score.get("reasoning") or analysis.get("summary") or "",
+        "reasoning": reasoning,
         "news_summary": analysis.get("summary") or "",
-        "source_count": ai_score.get("source_count", 0),
+        "source_count": source_count,
         "methodology_version": (
             (
                 "sp500-ai-backfill-v2"
                 if job_type == "backfill"
                 else "sp500-ai-analysis-v2"
             )
-            if ai_score.get("llm_scoring_used")
+            if llm_scoring_used
             else (
                 "sp500-backfill-deterministic-fallback-v1"
                 if job_type == "backfill"
@@ -4784,7 +4896,12 @@ async def run_sp500_full_ai_analysis_fast(
 
         async def _sync_one_ticker(ticker: str):
             async with sync_semaphore:
-                await _sync_ai_scores_to_ticker_snapshots(supabase, ticker, job_type)
+                await _sync_ai_scores_to_ticker_snapshots(
+                    supabase,
+                    ticker,
+                    job_type,
+                    analysis_run_id=run_id,
+                )
                 return ticker
 
         sync_results = await asyncio.gather(
@@ -4961,15 +5078,12 @@ def _schedule_holdings_daily_ai_refresh() -> None:
         id=HOLDINGS_DAILY_AI_JOB_ID,
         replace_existing=True,
         misfire_grace_time=3600,
+        next_run_time=_next_et_time(7, 0),
     )
 
 
 def _next_et_backfill_time(reference: datetime | None = None) -> datetime:
-    current_time = reference or datetime.now(ET)
-    run_time = current_time.replace(hour=7, minute=30, second=0, microsecond=0)
-    if run_time <= current_time:
-        run_time += timedelta(days=1)
-    return run_time
+    return _next_et_time(7, 30, reference=reference)
 
 
 async def _run_scheduled_sp500_backfill() -> None:
@@ -4996,6 +5110,7 @@ def _schedule_sp500_backfill() -> None:
         id=SP500_BACKFILL_JOB_ID,
         replace_existing=True,
         misfire_grace_time=6 * 3600,
+        next_run_time=_next_et_backfill_time(),
     )
 
 
@@ -5008,6 +5123,7 @@ def _schedule_sp500_daily_refresh() -> None:
         id=SP500_DAILY_JOB_ID,
         replace_existing=True,
         kwargs={"job_type": "daily"},
+        next_run_time=_next_et_time(8, 0),
     )
 
 
@@ -5041,9 +5157,21 @@ def start_scheduler():
     if not scheduler.running:
         scheduler.start()
 
-    _schedule_sp500_backfill()
-    _schedule_sp500_daily_refresh()
-    _schedule_holdings_daily_ai_refresh()
+    if _system_scheduler_paused():
+        logger.warning(
+            "System scheduler pause enabled; skipping system S&P and holdings analysis jobs."
+        )
+        for job_id in (
+            SP500_BACKFILL_JOB_ID,
+            SP500_DAILY_JOB_ID,
+            HOLDINGS_DAILY_AI_JOB_ID,
+        ):
+            if scheduler.get_job(job_id):
+                scheduler.remove_job(job_id)
+    else:
+        _schedule_sp500_backfill()
+        _schedule_sp500_daily_refresh()
+        _schedule_holdings_daily_ai_refresh()
     _schedule_news_cleanup()
 
     current_jobs = [
@@ -5062,6 +5190,19 @@ def start_scheduler():
 
     for user in users:
         seen_user_ids.add(user["user_id"])
+        if (
+            _system_scheduler_paused()
+            and user["user_id"] == SYSTEM_SP500_USER_ID
+        ):
+            _mark_scheduler_inactive(
+                supabase,
+                user["user_id"],
+                digest_time=user.get("digest_time", DEFAULT_DIGEST_TIME),
+                notifications_enabled=False,
+                last_run_status="paused",
+                last_error=None,
+            )
+            continue
         _sync_user_job(
             supabase,
             user["user_id"],

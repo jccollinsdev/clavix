@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from ..pipeline.analysis_utils import sanitize_public_analysis_text
+
 
 def _stringify_details(details: object) -> dict[str, str]:
     if not isinstance(details, dict):
@@ -47,7 +49,7 @@ def enrich_alert_row(alert: dict | None) -> dict:
             change_reason = "Multiple holdings now share the same risk cluster."
         elif alert_type == "digest_ready":
             change_reason = (
-                "The latest digest was compiled from the most recent analysis run."
+                "The latest Morning Rating was compiled from the most recent analysis run."
             )
         else:
             change_reason = (
@@ -64,9 +66,15 @@ def enrich_alert_row(alert: dict | None) -> dict:
             "analysis_run_id": str(row.get("analysis_run_id") or "").strip(),
         }
         details = {key: value for key, value in fallback_details.items() if value}
+    if alert_type == "digest_ready":
+        details["message"] = "Your latest Morning Rating is ready."
 
-    row["change_reason"] = change_reason
-    row["change_details"] = details
+    message = str(row.get("message") or "").strip()
+    if alert_type == "digest_ready":
+        message = "Your latest Morning Rating is ready."
+    row["message"] = sanitize_public_analysis_text(message)
+    row["change_reason"] = sanitize_public_analysis_text(change_reason)
+    row["change_details"] = sanitize_public_analysis_text(details)
     return row
 
 

@@ -21,7 +21,7 @@ class AlertsViewModel: ObservableObject {
         } catch is CancellationError {
             errorMessage = nil
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = ClavisCopy.Errors.alertsLoad(error)
         }
 
         isLoading = false

@@ -15,8 +15,21 @@ client = openai.OpenAI(
 )
 
 
+class MiniMaxAuthError(RuntimeError):
+    pass
+
+
 def chatcompletion(messages: list, model: str = "MiniMax-M2.7", **kwargs):
     return client.chat.completions.create(model=model, messages=messages, **kwargs)
+
+
+def _is_minimax_auth_failure(exc: Exception) -> bool:
+    error_text = str(exc).lower()
+    return (
+        "invalid api key" in error_text
+        or "authorized_error" in error_text
+        or "authenticationerror" in exc.__class__.__name__.lower()
+    )
 
 
 def _wait_for_minimax_slot() -> None:
@@ -71,6 +84,9 @@ def chatcompletion_text(messages: list, model: str = "MiniMax-M2.7", **kwargs) -
                 return cleaned
             except Exception as exc:
                 error = str(exc)
+                if _is_minimax_auth_failure(exc):
+                    error = f"MiniMax auth failure: {error}"
+                    raise MiniMaxAuthError(error) from exc
                 if attempt < 2 and any(
                     marker in error.lower() for marker in retryable_markers
                 ):

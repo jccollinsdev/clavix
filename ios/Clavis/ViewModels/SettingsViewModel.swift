@@ -119,7 +119,7 @@ class SettingsViewModel: ObservableObject {
             }
             accountMessage = "Account export ready (\(topLevelCount) top-level items)."
         } catch {
-            accountMessage = error.localizedDescription
+            accountMessage = ClavisCopy.Errors.accountExport(error)
         }
 
         isExportingAccount = false
@@ -143,10 +143,10 @@ class SettingsViewModel: ObservableObject {
             case .networkError:
                 accountMessage = "No connection. Please check your internet and try again."
             default:
-                accountMessage = error.localizedDescription
+                accountMessage = ClavisCopy.Errors.accountDelete(error)
             }
         } catch {
-            accountMessage = error.localizedDescription
+            accountMessage = ClavisCopy.Errors.accountDelete(error)
         }
 
         isDeletingAccount = false

@@ -191,7 +191,7 @@ def calculate_structural_base_score(
         + base_from_leverage
         + base_from_profitability
     )
-    structural_base = clamp_score(structural_base, 50)
+    structural_base = clamp_score(structural_base, 0)
 
     confidence_delta = (
         liquidity_conf
@@ -339,7 +339,7 @@ def calculate_final_safety_score(
     event_adjustment: float = 0.0,
 ) -> float:
     raw_score = structural_base_score + macro_adjustment + event_adjustment
-    final = clamp_score(raw_score, 50)
+    final = clamp_score(raw_score, 0)
     return round(final, 1)
 
 

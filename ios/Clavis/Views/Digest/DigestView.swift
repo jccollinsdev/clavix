@@ -51,12 +51,11 @@ struct DigestView: View {
                             isLoading: viewModel.isLoading,
                             onRunDigest: { Task { await viewModel.triggerAnalysis() } }
                         )
-                        DigestMacroSectionView(digest: digest)
-                        DigestSectorOverviewSection(digest: digest)
-                        DigestPrototypePositionImpactsSection(digest: digest, holdings: viewModel.holdings)
                         DigestWhatMattersSection(digest: digest)
+                        DigestSectorOverviewSection(digest: digest)
+                        DigestMacroSectionView(digest: digest)
+                        DigestPrototypePositionImpactsSection(digest: digest, holdings: viewModel.holdings)
                         DigestWatchlistAlertsSection(digest: digest)
-                        DigestWhatToWatchSection(digest: digest)
                     } else if shouldShowIdleState {
                         DigestEmptyStateCard {
                             Task { await viewModel.triggerAnalysis() }
@@ -64,7 +63,7 @@ struct DigestView: View {
                     }
 
                     if viewModel.isLoading && viewModel.todayDigest == nil && activeRunningRun == nil && viewModel.errorMessage == nil {
-                        ClavisLoadingCard(title: "Loading digest", subtitle: "Fetching the latest morning summary.")
+                        ClavisLoadingCard(title: "Loading Morning Rating", subtitle: "Fetching the latest portfolio summary.")
                     }
                 }
                 .padding(.horizontal, ClavisTheme.screenPadding)
@@ -100,7 +99,7 @@ private struct DigestTopHeader: View {
 
     var body: some View {
         ClavixPageHeader(
-            title: "Digest",
+            title: "Morning Rating",
             subtitle: Date().formatted(.dateTime.weekday(.abbreviated).month(.abbreviated).day())
         ) {
             Button(action: onOpenHoldings) {
@@ -133,7 +132,7 @@ private struct DigestPrototypePositionImpactsSection: View {
                     ForEach(impacts) { impact in
                         VStack(alignment: .leading, spacing: 10) {
                             HStack(alignment: .top, spacing: 12) {
-                                GradeTag(grade: grade(for: impact.ticker), compact: true)
+                                GradeBadge(grade: grade(for: impact.ticker), size: .compact)
 
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(impact.ticker)
@@ -160,7 +159,7 @@ private struct DigestPrototypePositionImpactsSection: View {
                             .buttonStyle(.plain)
 
                             if !impact.watchItems.isEmpty {
-                                Text("Watch: \(impact.watchItems.prefix(2).joined(separator: " • "))")
+                                Text(impact.watchItems.prefix(2).joined(separator: " • "))
                                     .font(ClavisTypography.footnote)
                                     .foregroundColor(.textTertiary)
                                     .fixedSize(horizontal: false, vertical: true)
@@ -206,22 +205,19 @@ private struct DigestPrototypeListCard<Content: View>: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
+        ClavisFlushListCard(fill: .surface, padding: 14) {
             content
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 2)
-        .clavisCardStyle(fill: .surface)
     }
 }
 
-private struct DigestWhatToWatchSection: View {
+private struct DigestWhatToTrackSection: View {
     let digest: Digest
 
     private var items: [String] {
-        let watch = digest.structuredSections?.watchList ?? []
-        if !watch.isEmpty {
-            return Array(watch.prefix(3))
+        let trackItems = digest.structuredSections?.watchList ?? []
+        if !trackItems.isEmpty {
+            return Array(trackItems.prefix(3))
         }
         return Array((digest.structuredSections?.portfolioImpact ?? []).prefix(3))
     }
@@ -229,20 +225,20 @@ private struct DigestWhatToWatchSection: View {
     var body: some View {
         if !items.isEmpty {
             VStack(alignment: .leading, spacing: 8) {
-                Text("What to watch")
+                Text("What to track")
                     .font(ClavisTypography.label)
                     .foregroundColor(.textSecondary)
 
-                VStack(alignment: .leading, spacing: 8) {
-                    ForEach(items, id: \.self) { item in
-                        Text(item.sanitizedDisplayText)
-                            .font(ClavisTypography.body)
-                            .foregroundColor(.textSecondary)
-                            .fixedSize(horizontal: false, vertical: true)
+                ClavisStandardCard(fill: .surface) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(items, id: \.self) { item in
+                            Text(item.sanitizedDisplayText)
+                                .font(ClavisTypography.body)
+                                .foregroundColor(.textSecondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
                     }
                 }
-                .padding(ClavisTheme.cardPadding)
-                .clavisCardStyle(fill: .surface)
             }
         }
     }
@@ -256,33 +252,90 @@ struct DigestHeroCard: View {
     let isLoading: Bool
     let onRunDigest: () -> Void
 
+    private var portfolioGrade: String {
+        digest?.overallGrade ?? "—"
+    }
+
+    private var portfolioScore: Int? {
+        guard let score = digest?.overallScore else { return nil }
+        return Int(score.rounded())
+    }
+
     private var summaryText: String {
         if let summary = digest?.summary?.sanitizedDisplayText, !summary.isEmpty {
             return summary
         }
-        return "Latest morning summary for your portfolio."
+        return "Your Morning Rating is ready below with the latest portfolio risks and changes."
+    }
+
+    private var ratingLabel: String {
+        if let generatedAt = digest?.generatedAt {
+            return "Rating · \(generatedAt.formatted(date: .omitted, time: .shortened))"
+        }
+        return "Rating"
+    }
+
+    private var riskDriverEntries: [String] {
+        var drivers: [String] = []
+        if let impacts = digest?.structuredSections?.positionImpacts {
+            for impact in impacts.prefix(2) {
+                let ticker = impact.ticker
+                let summary = impact.impactSummary.sanitizedDisplayText
+                if !summary.isEmpty {
+                    let short = summary.split(separator: ".").first.map(String.init) ?? summary
+                    drivers.append("\(ticker): \(short)")
+                }
+            }
+        }
+        if let warnings = digest?.structuredSections?.watchlistAlerts, !warnings.isEmpty {
+            drivers.append(warnings.first!.sanitizedDisplayText)
+        }
+        return Array(drivers.prefix(2))
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
-            VStack(alignment: .leading, spacing: 10) {
-                CX2SectionLabel(text: "Thesis · \(digest?.generatedAt.formatted(date: .omitted, time: .shortened) ?? "Pending")")
+            CX2SectionLabel(text: ratingLabel)
 
-                Text(summaryText)
-                    .font(.system(size: 22, weight: .semibold))
-                    .foregroundColor(.textPrimary)
-                    .lineSpacing(4)
+            GradeDisplay(
+                grade: portfolioGrade,
+                score: portfolioScore,
+                trend: portfolioTrend,
+                evidence: nil,
+                style: .hero
+            )
+
+            HStack(spacing: 6) {
+                ScoreSourceChip(source: digest?.scoreSource)
+                FreshnessChip(date: digest?.scoreAsOf ?? digest?.generatedAt)
             }
+
+            if !riskDriverEntries.isEmpty {
+                VStack(alignment: .leading, spacing: 4) {
+                    ForEach(riskDriverEntries, id: \.self) { driver in
+                        Text("• \(driver)")
+                            .font(ClavisTypography.footnote)
+                            .foregroundColor(.textSecondary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+            }
+
+            Text(summaryText)
+                .font(.system(size: 15, weight: .regular))
+                .foregroundColor(.textSecondary)
+                .lineSpacing(3)
+                .fixedSize(horizontal: false, vertical: true)
 
             HStack(spacing: 10) {
                 Text("\(holdings.count) holding\(holdings.count == 1 ? "" : "s")")
                 Text("·")
-                Text(activeRun == nil ? "Stable" : (activeRun?.status.capitalized ?? "Running"))
+                Text(activeRun == nil ? "Stable" : ClavisCopy.Status.label(for: activeRun?.status ?? "running"))
 
                 Spacer()
 
                 ClavisSmallButton(
-                    title: isLoading ? "Running" : "Run",
+                    title: isLoading ? "Updating" : "Refresh",
                     systemImage: "arrow.clockwise",
                     kind: .neutral,
                     isEnabled: !(isLoading || activeRun?.status == "running")
@@ -293,6 +346,15 @@ struct DigestHeroCard: View {
             .font(.system(size: 12, weight: .regular))
             .foregroundColor(.textSecondary)
         }
+    }
+
+    private var portfolioTrend: RiskTrend? {
+        guard digest?.structuredSections?.overnightMacro != nil else { return nil }
+        let worsening = holdings.filter { $0.riskTrend == .worsening }.count
+        let improving = holdings.filter { $0.riskTrend == .improving }.count
+        if worsening > improving { return .worsening }
+        if improving > worsening { return .improving }
+        return .stable
     }
 }
 
@@ -435,7 +497,7 @@ struct DigestWhatMattersSection: View {
                         Text("No immediate portfolio-level risk driver found today.")
                             .font(ClavisTypography.bodyEmphasis)
                             .foregroundColor(.textPrimary)
-                        Text("Monitor the listed holdings for ticker-specific news, earnings, filings, or macro shocks.")
+                        Text("Check the listed holdings for ticker-specific news, earnings, filings, or macro shocks.")
                             .font(ClavisTypography.footnote)
                             .foregroundColor(.textSecondary)
                     }
@@ -552,16 +614,16 @@ struct AnalysisRunStatusCard: View {
     }
 
     private var statusMessage: String {
-        if run.status == "failed" { return run.displayErrorMessage }
+        if run.status == "failed" { return ClavisCopy.Errors.analysisRefreshFailed }
         if let currentStageMessage = run.currentStageMessage, !currentStageMessage.isEmpty {
             return currentStageMessage
         }
-        return "\(run.positionsProcessed ?? 0) positions processed, \(run.eventsProcessed ?? 0) events analyzed."
+        return "\(run.positionsProcessed ?? 0) holdings processed, \(run.eventsProcessed ?? 0) events analyzed."
     }
 
     private var statusTitle: String {
-        if run.status == "failed" { return "Analysis interrupted" }
-        if run.lifecycleStatus == "completed" { return "Digest ready" }
+        if run.status == "failed" { return "Refresh interrupted" }
+        if run.lifecycleStatus == "completed" { return "Rating ready" }
 
         switch run.currentStage {
         case "starting": return "Starting analysis"
@@ -569,14 +631,14 @@ struct AnalysisRunStatusCard: View {
         case "fetching_news": return "Fetching market news"
         case "classifying_relevance": return "Filtering relevant stories"
         case "classifying_macro": return "Reading market backdrop"
-        case "classifying_positions": return "Grouping position themes"
+        case "classifying_positions": return "Grouping holding themes"
         case "classifying_significance": return "Checking event importance"
-        case "analyzing_events": return "Analyzing position impact"
-        case "building_position_reports": return "Building position reports"
-        case "scoring_position": return "Scoring positions"
+        case "analyzing_events": return "Analyzing holding impact"
+        case "building_position_reports": return "Building holding summaries"
+        case "scoring_position": return "Scoring holdings"
         case "refreshing_prices": return "Refreshing prices"
         case "computing_portfolio_risk": return "Computing portfolio risk"
-        case "building_digest": return "Building your digest"
+        case "building_digest": return "Building your rating"
         default:
             return run.status == "queued" ? "Queued for analysis" : "Analysis in progress"
         }
@@ -586,7 +648,7 @@ struct AnalysisRunStatusCard: View {
         switch run.lifecycleStatus {
         case "completed": return "Done"
         case "failed": return "Failed"
-        default: return run.status.capitalized
+        default: return ClavisCopy.Status.label(for: run.status)
         }
     }
 }
@@ -628,16 +690,15 @@ struct DigestEmptyStateCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
-            Text("No Digest Yet")
+            Text("No Morning Rating Yet")
                 .font(ClavisTypography.cardTitle)
                 .foregroundColor(.textPrimary)
 
-            Text("Run a fresh review to generate the first digest.")
+            Text("Generate your first Morning Digest to review the latest portfolio risk changes.")
                 .font(ClavisTypography.body)
                 .foregroundColor(.textSecondary)
 
-            Button("Run Fresh Review", action: onRunFreshReview)
-                .buttonStyle(.borderedProminent)
+            ClavisPrimaryButton(title: "Generate Morning Rating", action: onRunFreshReview)
         }
         .padding(ClavisTheme.cardPadding)
         .clavisCardStyle(fill: .surfacePrimary)

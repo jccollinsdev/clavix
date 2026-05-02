@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import date, datetime, timedelta, timezone
 from functools import lru_cache
 import logging
@@ -10,13 +10,16 @@ from uuid import uuid4
 
 from fastapi import HTTPException
 
-from ..pipeline.risk_scorer import score_position_structural, score_to_grade
-from ..pipeline.analysis_utils import sanitize_public_analysis_text
+from ..pipeline.risk_scorer import score_position_structural
+from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength
+from ..pipeline.position_report_builder import _build_driver_cards
 from .alert_payloads import enrich_alert_rows
 from .ticker_metadata import upsert_ticker_metadata
 
 
 logger = logging.getLogger(__name__)
+_RATIONALE_BLOCK_COUNTS: Counter[str] = Counter()
+_RATIONALE_SOURCE_COUNTS: Counter[str] = Counter()
 
 
 SYSTEM_SP500_USER_ID = "00000000-0000-0000-0000-000000000001"
@@ -52,6 +55,20 @@ def _utcnow_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def _log_rationale_metric(kind: str, key: str, *, ticker: str | None = None) -> None:
+    counts = _RATIONALE_BLOCK_COUNTS if kind == "block" else _RATIONALE_SOURCE_COUNTS
+    counts[key] += 1
+    count = counts[key]
+    if count <= 5 or count % 25 == 0:
+        logger.info(
+            "[RATIONALE_%s] key=%s ticker=%s count=%s",
+            kind.upper(),
+            key,
+            ticker or "-",
+            count,
+        )
+
+
 def _parse_iso_datetime(value: Any) -> datetime | None:
     if not value:
         return None
@@ -61,6 +78,37 @@ def _parse_iso_datetime(value: Any) -> datetime | None:
         return datetime.fromisoformat(str(value).replace("Z", "+00:00"))
     except Exception:
         return None
+
+
+def _snapshot_methodology_priority(methodology_version: Any) -> int:
+    method = str(methodology_version or "").lower()
+    if method == "sp500-ai-backfill-v2":
+        return 3
+    if "ai" in method:
+        return 2
+    if "deterministic" in method:
+        return 0
+    return 1
+
+
+def _snapshot_sort_key(row: dict[str, Any]) -> tuple:
+    analysis_as_of = _parse_iso_datetime(row.get("analysis_as_of"))
+    updated_at = _parse_iso_datetime(row.get("updated_at"))
+    created_at = _parse_iso_datetime(row.get("created_at"))
+    return (
+        analysis_as_of.timestamp() if analysis_as_of else float("-inf"),
+        updated_at.timestamp() if updated_at else float("-inf"),
+        created_at.timestamp() if created_at else float("-inf"),
+        _snapshot_methodology_priority(row.get("methodology_version")),
+        str(row.get("id") or ""),
+    )
+
+
+def _canonical_snapshot_sort_key(row: dict[str, Any]) -> tuple:
+    analysis_as_of, updated_at, created_at, method_priority, row_id = _snapshot_sort_key(
+        row
+    )
+    return (method_priority, analysis_as_of, updated_at, created_at, row_id)
 
 
 def _chunked(values: list[dict[str, Any]], size: int) -> list[list[dict[str, Any]]]:
@@ -236,10 +284,13 @@ def get_latest_risk_snapshot_history_map(
         .select("*")
         .in_("ticker", [ticker.upper() for ticker in tickers])
         .order("analysis_as_of", desc=True)
+        .order("updated_at", desc=True)
+        .order("created_at", desc=True)
         .execute()
     )
     grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for row in result.data or []:
+    rows = sorted(result.data or [], key=_snapshot_sort_key, reverse=True)
+    for row in rows:
         ticker = row["ticker"]
         if len(grouped[ticker]) < per_ticker:
             grouped[ticker].append(row)
@@ -315,6 +366,10 @@ def enrich_positions_with_ticker_cache(
             "analysis_as_of"
         )
         position["previous_grade"] = previous.get("grade")
+        position["grade_direction"] = score.get("grade_direction") or grade_direction(
+            score.get("total_score"), previous.get("safety_score") or previous.get("total_score")
+        )
+        position["score_delta"] = score.get("score_delta")
         position["inferred_labels"] = None
         position["summary"] = (
             score.get("reasoning")
@@ -413,16 +468,11 @@ def sync_ticker_news_cache(
         _news_row_to_cache_payload(row, normalized_ticker) for row in deduped_rows[:10]
     ]
 
-    delete_query = (
-        supabase.table("ticker_news_cache").delete().eq("ticker", normalized_ticker)
-    )
     if cache_rows:
-        latest_processed_at = max(row.get("processed_at") or "" for row in cache_rows)
-        if latest_processed_at:
-            delete_query = delete_query.lt("processed_at", latest_processed_at)
-    delete_query.execute()
-    if cache_rows:
-        supabase.table("ticker_news_cache").insert(cache_rows).execute()
+        supabase.table("ticker_news_cache").upsert(
+            cache_rows,
+            on_conflict="ticker,url",
+        ).execute()
 
     last_news_refresh_at = None
     if cache_rows:
@@ -464,7 +514,7 @@ def build_position_analysis_from_snapshot(
     watch_items = []
     if snapshot.get("event_adjustment") not in (None, 0, 0.0):
         watch_items.append(
-            "Recent events are contributing to the shared ticker risk read."
+            "Recent events are contributing to the shared ticker risk rating."
         )
     if snapshot.get("macro_adjustment") not in (None, 0, 0.0):
         watch_items.append(
@@ -481,6 +531,9 @@ def build_position_analysis_from_snapshot(
             "top_risks": [],
             "watch_items": watch_items,
             "top_news": [],
+            "driver_cards_state": "pending",
+            "driver_cards": [],
+            "driver_cards_source": None,
             "major_event_count": 0,
             "minor_event_count": 0,
             "status": "ready",
@@ -489,6 +542,63 @@ def build_position_analysis_from_snapshot(
             "updated_at": snapshot.get("analysis_as_of"),
         }
     )
+
+
+def _normalize_driver_cards_payload(
+    analysis: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    if not analysis:
+        return None
+    sanitized = {**analysis}
+    raw_cards = sanitized.get("driver_cards")
+    cards = raw_cards if isinstance(raw_cards, list) else []
+    sanitized["driver_cards"] = cards
+    state = sanitized.get("driver_cards_state")
+    if not state:
+        state = "ready" if cards else "pending"
+    sanitized["driver_cards_state"] = state
+    if sanitized.get("driver_cards_source") not in {"generated", "legacy_fallback"}:
+        sanitized["driver_cards_source"] = None
+    return sanitized
+
+
+def _backfill_legacy_driver_cards(
+    analysis: dict[str, Any] | None,
+    position: dict[str, Any],
+    latest_event_analyses: list[dict[str, Any]],
+    news_rows: list[dict[str, Any]],
+    alerts_rows: list[dict[str, Any]],
+    *,
+    coverage_state: str | None,
+) -> dict[str, Any] | None:
+    sanitized = _normalize_driver_cards_payload(analysis)
+    if not sanitized or sanitized.get("status") != "ready":
+        return sanitized
+
+    if sanitized.get("driver_cards"):
+        if sanitized.get("driver_cards_state") in {None, "pending"}:
+            sanitized["driver_cards_state"] = "ready"
+        if sanitized.get("driver_cards_source") not in {"generated", "legacy_fallback"}:
+            sanitized["driver_cards_source"] = "generated"
+        return sanitized
+
+    if not latest_event_analyses and not alerts_rows:
+        return sanitized
+
+    cards, state, _source = _build_driver_cards(
+        {
+            **position,
+            "analysis_state": sanitized.get("status"),
+            "coverage_state": coverage_state,
+        },
+        latest_event_analyses,
+        news_rows,
+        alerts_rows,
+    )
+    sanitized["driver_cards"] = cards
+    sanitized["driver_cards_state"] = state
+    sanitized["driver_cards_source"] = "legacy_fallback"
+    return sanitized
 
 
 _LEGACY_DIMENSION_MATH_MARKERS = (
@@ -501,7 +611,7 @@ _LEGACY_DIMENSION_MATH_MARKERS = (
     "Near-term volatility (",
     "Portfolio construction (",
     "This summary was assembled from the final dimension scores",
-    "Low-confidence coverage: only",
+    "Limited data: only",
     "analyzed event(s) were available",
     "analyzed event(s) supported this score",
 )
@@ -514,7 +624,7 @@ def _is_legacy_dimension_math(text: str) -> bool:
 _GENERIC_FALLBACK_MARKERS = (
     "We're still building a full picture for this ticker.",
     "Risk is based on",
-    "Risk reflects recent news coverage and sector conditions.",
+    "Risk reflects recent data and sector conditions.",
     "The score reflects underlying fundamentals and sector context",
     "recent news is low risk",
     "recent news is elevated risk",
@@ -528,16 +638,191 @@ _GENERIC_FALLBACK_MARKERS = (
     "Grade held at ",
     "analyzed event(s) with",
     "analyzed event(s) supported",
-    "Low-confidence coverage: only",
-    "limited recent coverage",
-    "thesis defaults to structural factors",
-    "thesis rests on structural and macro factors",
+    "Limited data: only",
+    "limited recent data",
+    "rating defaults to structural factors",
+    "rating rests on structural and macro factors",
+    "known facts are limited",
+    "current rating leans on existing position context",
+    "not enough recent news to form a confident risk rating",
+    "relies on existing position context",
+    "no strong news signal surfaced",
+    "insufficient evidence was available",
+    "risk is broadly contained unless new developments emerge",
+    "one new development could shift the rating",
+    "event data for ",
 )
 
 
 def _is_generic_fallback_reasoning(text: str) -> bool:
     """Detect our own generic fallback template text (not article-specific)."""
-    return any(marker in text for marker in _GENERIC_FALLBACK_MARKERS)
+    lowered = (text or "").lower()
+    return any(marker.lower() in lowered for marker in _GENERIC_FALLBACK_MARKERS)
+
+
+_PUBLIC_RATIONALE_BAD_MARKERS = (
+    "risk factors for ",
+    "synthesized",
+    "methodology",
+    "fallback",
+    "processed",
+    "quick brief ready",
+    "started the deeper analysis",
+    "found ",
+    "relevant headlines",
+    "coverage is thin",
+    "low-confidence data",
+    "limited data",
+    "this summary was assembled",
+    "deterministic score built",
+    "company-specific news (",
+    "pipeline",
+    "analysis running",
+    "the model",
+    "clavynx",
+    "known facts are limited",
+    "existing position context",
+    "not enough recent news",
+    "insufficient evidence was available",
+    "event data for ",
+)
+
+
+def _is_public_rationale_text(text: str | None) -> bool:
+    candidate = (text or "").strip()
+    if not candidate:
+        return False
+    lowered = candidate.lower()
+    return not any(marker in lowered for marker in _PUBLIC_RATIONALE_BAD_MARKERS)
+
+
+def _looks_like_internal_score_breakdown(text: str | None) -> bool:
+    candidate = (text or "").strip().lower()
+    return candidate.startswith("structural:") and "macro:" in candidate and "event:" in candidate
+
+
+def _clean_public_rationale_text(text: str | None) -> str | None:
+    if not text:
+        return None
+    if _is_generic_fallback_reasoning(text):
+        _log_rationale_metric("block", "generic_fallback")
+        return None
+    if _looks_like_internal_score_breakdown(text):
+        _log_rationale_metric("block", "internal_score_breakdown")
+        return None
+    if not _is_public_rationale_text(text):
+        _log_rationale_metric("block", "public_bad_marker")
+        return None
+    return sanitize_public_analysis_text(text)
+
+
+def _clean_public_text_list(items: list[Any] | None) -> list[str]:
+    cleaned_items: list[str] = []
+    for item in items or []:
+        if not isinstance(item, str):
+            continue
+        cleaned = _clean_public_rationale_text(item)
+        if cleaned:
+            cleaned_items.append(cleaned)
+    return cleaned_items
+
+
+def _sanitize_public_analysis_payload(
+    analysis: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    if not analysis:
+        return None
+    sanitized = _normalize_driver_cards_payload(analysis) or {}
+    sanitized["summary"] = _clean_public_rationale_text(sanitized.get("summary"))
+    sanitized["long_report"] = _clean_public_rationale_text(
+        sanitized.get("long_report")
+    )
+    sanitized["methodology"] = _clean_public_rationale_text(
+        sanitized.get("methodology")
+    )
+    sanitized["top_risks"] = _clean_public_text_list(sanitized.get("top_risks"))
+    sanitized["watch_items"] = _clean_public_text_list(sanitized.get("watch_items"))
+    return sanitize_public_analysis_text(sanitized)
+
+
+def _sanitize_public_snapshot(snapshot: dict[str, Any] | None) -> dict[str, Any] | None:
+    if not snapshot:
+        return None
+    sanitized = {**snapshot}
+    sanitized["reasoning"] = _clean_public_rationale_text(sanitized.get("reasoning"))
+    sanitized["news_summary"] = _clean_public_rationale_text(
+        sanitized.get("news_summary")
+    )
+    source_count = int(sanitized.get("source_count") or 0)
+    score = sanitized.get("safety_score")
+    raw_public_text = sanitized.get("reasoning") or sanitized.get("news_summary")
+    if score is not None:
+        sanitized["grade"] = score_to_grade(score)
+        if raw_public_text:
+            sanitized["reasoning"] = format_rationale(
+                grade=sanitized["grade"],
+                direction=grade_direction(score, sanitized.get("previous_total_score")),
+                raw_text=raw_public_text,
+                scores=sanitized,
+                source_count=source_count,
+            )
+    sanitized["evidence_strength"] = evidence_strength(source_count)
+    return sanitize_public_analysis_text(sanitized)
+
+
+def _canonical_public_rationale(
+    *,
+    ticker: str,
+    current_score: dict[str, Any] | None,
+    current_analysis: dict[str, Any] | None = None,
+    latest_event_analyses: list[dict[str, Any]] | None = None,
+    latest_risk_snapshot: dict[str, Any] | None = None,
+) -> str | None:
+    current_score = current_score or {}
+    current_analysis = current_analysis or {}
+    latest_risk_snapshot = latest_risk_snapshot or {}
+    latest_event_analyses = latest_event_analyses or []
+
+    if latest_event_analyses:
+        article_reasoning = _build_article_aware_reasoning(
+            latest_event_analyses,
+            current_score,
+            ticker,
+        )
+        article_reasoning = _clean_public_rationale_text(article_reasoning)
+        if article_reasoning:
+            _log_rationale_metric("source", "event_analyses", ticker=ticker)
+            return article_reasoning
+
+    score_reasoning = _clean_public_rationale_text(current_score.get("reasoning"))
+    if score_reasoning:
+        _log_rationale_metric("source", "score_reasoning", ticker=ticker)
+        return score_reasoning
+
+    if current_analysis.get("status") == "ready":
+        for candidate in (
+            current_analysis.get("summary"),
+            current_analysis.get("long_report"),
+        ):
+            cleaned = _clean_public_rationale_text(candidate)
+            if cleaned:
+                source = (
+                    "analysis_summary"
+                    if candidate == current_analysis.get("summary")
+                    else "analysis_long_report"
+                )
+                _log_rationale_metric("source", source, ticker=ticker)
+                return cleaned
+
+    cleaned_snapshot = _clean_public_rationale_text(
+        latest_risk_snapshot.get("news_summary")
+    )
+    if cleaned_snapshot:
+        _log_rationale_metric("source", "news_summary", ticker=ticker)
+        return cleaned_snapshot
+
+    _log_rationale_metric("source", "safe_fallback", ticker=ticker)
+    return None
 
 
 def _normalize_headline(title: str) -> str:
@@ -591,9 +876,9 @@ def _build_article_aware_reasoning(
     ticker: str,
 ) -> str | None:
     """
-    Build thesis-driven rationale using actual event analyses.
+    Build rating-driven rationale using actual event analyses.
     Leads with the dominant risk force, resolves contradictions,
-    and closes with what would change the thesis.
+    and closes with what would change the rating.
     Returns None if there are no events to build from.
     """
     if not events:
@@ -714,37 +999,37 @@ def _build_article_aware_reasoning(
         str(e.get("significance") or "").lower() == "major" for e in improving
     )
 
-    thesis_parts: list[str] = []
+    rating_parts: list[str] = []
     caveat_parts: list[str] = []
 
-    # --- Paragraph 1: dominant thesis ---
-    # Editorial principle: gist (analytic insight) drives the thesis, 
+    # --- Paragraph 1: dominant rating force ---
+    # Editorial principle: gist (analytic insight) drives the rating, 
     # headlines are only used as short labels when contrasting two forces.
     if worsening and not improving:
         w = worsening[0]
         gist = _gist(w)
         if gist:
-            thesis_parts.append(f"{ticker} faces pressure — {gist}.")
+            rating_parts.append(f"{ticker} faces pressure — {gist}.")
         else:
             headline = _headline(w)
-            thesis_parts.append(f"{headline} raises risk for {ticker}.")
+            rating_parts.append(f"{headline} raises risk for {ticker}.")
         if len(worsening) > 1:
             extras = [_gist(e) for e in worsening[1:3] if _gist(e)]
             if extras:
-                thesis_parts.append(f"Also weighing: {'; '.join(extras)}.")
+                rating_parts.append(f"Also weighing: {'; '.join(extras)}.")
 
     elif improving and not worsening:
         best = improving[0]
         gist = _gist(best)
         if gist:
-            thesis_parts.append(f"{ticker} benefits from positive momentum — {gist}.")
+            rating_parts.append(f"{ticker} benefits from improving trend — {gist}.")
         else:
             headline = _headline(best)
-            thesis_parts.append(f"{headline} is a positive for {ticker}.")
+            rating_parts.append(f"{headline} lowers risk for {ticker}.")
         if len(improving) > 1:
             extras = [_gist(e) for e in improving[1:3] if _gist(e)]
             if extras:
-                thesis_parts.append(f"Also favorable: {'; '.join(extras)}.")
+                rating_parts.append(f"Also favorable: {'; '.join(extras)}.")
 
     elif worsening and improving:
         w_top = worsening[0]
@@ -756,35 +1041,35 @@ def _build_article_aware_reasoning(
 
         if has_major_worsening and not has_major_improving:
             if w_gist:
-                thesis_parts.append(f"{ticker}'s main risk is {_sentence_case(w_gist)}.")
+                rating_parts.append(f"{ticker}'s main risk is {_sentence_case(w_gist)}.")
                 if b_gist:
-                    thesis_parts.append(f"Positive signals — {_sentence_case(b_gist)} — don't offset this.")
+                    rating_parts.append(f"Favorable signals — {_sentence_case(b_gist)} — don't offset this.")
                 else:
-                    thesis_parts.append(f"Positive signals from {b_head} don't offset this.")
+                    rating_parts.append(f"Favorable signals from {b_head} don't offset this.")
             else:
-                thesis_parts.append(f"{w_head} outweighs {b_head} for {ticker}.")
+                rating_parts.append(f"{w_head} outweighs {b_head} for {ticker}.")
 
         elif has_major_improving and not has_major_worsening:
             if b_gist:
-                thesis_parts.append(f"{_sentence_case(b_gist)} drives the thesis for {ticker}.")
+                rating_parts.append(f"{_sentence_case(b_gist)} drives the risk rating for {ticker}.")
                 if w_gist:
-                    thesis_parts.append(f"Pressure from {_sentence_case(w_gist)} is secondary.")
+                    rating_parts.append(f"Pressure from {_sentence_case(w_gist)} is secondary.")
                 else:
-                    thesis_parts.append(f"Pressure from {w_head} is secondary.")
+                    rating_parts.append(f"Pressure from {w_head} is secondary.")
             else:
-                thesis_parts.append(f"{b_head} outweighs {w_head} for {ticker}.")
+                rating_parts.append(f"{b_head} outweighs {w_head} for {ticker}.")
 
         elif news_score <= 42:
             if w_gist:
-                thesis_parts.append(f"Downside dominates for {ticker} — {_sentence_case(w_gist)} outweighs the positive read.")
+                rating_parts.append(f"Downside dominates for {ticker} — {_sentence_case(w_gist)} outweighs the favorable rating.")
             else:
-                thesis_parts.append(f"Downside from {w_head} outweighs {b_head} for {ticker}.")
+                rating_parts.append(f"Downside from {w_head} outweighs {b_head} for {ticker}.")
 
         elif news_score >= 58:
             if b_gist:
-                thesis_parts.append(f"{_sentence_case(b_gist)} leads the thesis for {ticker}. Pressure is secondary.")
+                rating_parts.append(f"{_sentence_case(b_gist)} leads the risk rating for {ticker}. Pressure is secondary.")
             else:
-                thesis_parts.append(f"Momentum from {b_head} outweighs {w_head} for {ticker}.")
+                rating_parts.append(f"Improving trend from {b_head} outweighs {w_head} for {ticker}.")
 
         else:
             # Balanced — present both forces as sentences
@@ -797,23 +1082,22 @@ def _build_article_aware_reasoning(
                 parts.append(f"on the other, {_sentence_case(b_gist)}")
             else:
                 parts.append(f"on the other, {b_head}")
-            thesis_parts.append(f"{ticker} is pulled {parts[0]}, {parts[1]} — neither force dominates yet.")
+            rating_parts.append(f"{ticker} is pulled {parts[0]}, {parts[1]} — neither force dominates yet.")
 
     else:
         if neutral_events:
             gist = _gist(neutral_events[0])
             if gist:
-                thesis_parts.append(f"Recent coverage for {ticker} — {gist} — doesn't shift the thesis.")
+                rating_parts.append(f"Recent data for {ticker} — {gist} — doesn't shift the risk rating.")
             else:
-                thesis_parts.append(f"Recent coverage for {ticker} lacks a clear catalyst.")
+                rating_parts.append(f"Recent data for {ticker} lacks a clear risk catalyst.")
 
-    # --- Paragraph 2: context + what changes the thesis ---
     if macro_score <= 35:
-        caveat_parts.append("Macro headwinds add pressure.")
+        caveat_parts.append("Macro pressure adds risk.")
     elif macro_score >= 65:
-        caveat_parts.append("Macro conditions are supportive.")
+        caveat_parts.append("Macro conditions lower risk.")
 
-    # What would change the thesis — extract a short noun-phrase concept
+    # What would change the rating — extract a short noun-phrase concept
     watch_candidates = worsening + improving
     watch_text: str | None = None
     for e in watch_candidates:
@@ -824,49 +1108,49 @@ def _build_article_aware_reasoning(
 
     if watch_text:
         wt_lower = watch_text[0].lower() + watch_text[1:] if watch_text and watch_text[0].isupper() and not watch_text[:3].isupper() else watch_text
-        caveat_parts.append(f"A shift in {wt_lower} would change this read.")
+        caveat_parts.append(f"A shift in {wt_lower} would change this rating.")
     elif coverage_state == "substantive":
-        caveat_parts.append("New developments would shift this read.")
+        caveat_parts.append("New developments would change this rating.")
 
     if coverage_state == "provisional":
-        caveat_parts.append("Provisional — fundamentals dominate until fuller coverage arrives.")
+        caveat_parts.append("Limited data — fundamentals dominate until fuller data arrives.")
     elif coverage_state == "thin":
-        caveat_parts.append("Thin coverage — one new development could shift the picture.")
+        caveat_parts.append("Thin data — one new development could change the rating.")
 
-    # Assemble: thesis paragraph + caveat paragraph
-    thesis = " ".join(thesis_parts)
+    # Assemble: rating paragraph + caveat paragraph
+    rating = " ".join(rating_parts)
     caveat = " ".join(caveat_parts)
-    if thesis and caveat:
-        return f"{thesis} {caveat}"
-    return thesis or caveat or None
+    if rating and caveat:
+        return f"{rating} {caveat}"
+    return rating or caveat or None
 
 
 def _investor_coverage_note(coverage_state: str, source_count: Any) -> str:
     sc = int(source_count or 0)
     word = "source" if sc == 1 else "sources"
     if coverage_state == "provisional":
-        return "Provisional — based on fundamentals pending fuller coverage."
+        return "Limited data — based on fundamentals pending fuller data."
     if coverage_state == "thin":
-        return f"Thin coverage ({sc} {word}); more news would sharpen the read."
+        return f"Thin data ({sc} {word}); more news would sharpen the rating."
     return f"{sc} {word} reviewed."
 
 
 def _investor_fallback_reasoning(coverage_state: str, source_count: Any) -> str:
     if coverage_state == "provisional":
         return (
-            "This ticker has limited recent coverage — the read leans on fundamentals "
-            "and sector context until fuller news sharpens the thesis."
+            "This ticker has limited recent data — the rating leans on fundamentals "
+            "and sector context until fuller news sharpens the assessment."
         )
     if coverage_state == "thin":
         sc = int(source_count or 0)
         word = "source" if sc == 1 else "sources"
         return (
-            f"Only {sc} {word} reviewed — the thesis defaults to structural factors. "
-            f"One new earnings report, guidance update, or macro shift could change the picture."
+            f"Only {sc} {word} reviewed — the rating defaults to structural factors. "
+            f"One new earnings report, guidance update, or macro shift could change the rating."
         )
     return (
-        "The thesis rests on structural and macro factors right now — "
-        "new company-specific news would be needed to shift it."
+        "The rating rests on structural and sector factors right now — "
+        "new company-specific news would be needed to change it."
     )
 
 
@@ -944,11 +1228,49 @@ def build_risk_score_response(
         or coverage_context.get("is_provisional")
         or coverage_state != "substantive"
     )
-    reasoning = fallback.get("reasoning") or snapshot.get("reasoning")
+    total_score_val = _first_present(
+        fallback.get("total_score"),
+        fallback.get("safety_score"),
+        snapshot.get("safety_score"),
+    )
+    previous_total_score = (
+        fallback.get("previous_total_score") or snapshot.get("previous_total_score")
+    )
+    grade = (
+        score_to_grade(total_score_val)
+        if total_score_val is not None
+        else fallback.get("grade") or snapshot.get("grade")
+    )
+
+    reasoning = _clean_public_rationale_text(fallback.get("reasoning"))
     if reasoning and _is_legacy_dimension_math(reasoning):
         reasoning = None
     if not reasoning:
-        reasoning = _investor_fallback_reasoning(coverage_state, source_count)
+        reasoning = _clean_public_rationale_text(snapshot.get("reasoning"))
+        if reasoning and _is_legacy_dimension_math(reasoning):
+            reasoning = None
+    if not reasoning and coverage_context.get("status") == "ready":
+        reasoning = _clean_public_rationale_text(coverage_context.get("summary"))
+        if not reasoning:
+            reasoning = _clean_public_rationale_text(coverage_context.get("long_report"))
+    if not reasoning:
+        reasoning = _canonical_public_rationale(
+            ticker=str(position_id),
+            current_score=fallback,
+            current_analysis=coverage_context if coverage_context.get("status") == "ready" else {},
+            latest_risk_snapshot=snapshot,
+        )
+    if not reasoning:
+        reasoning = "Rating pending — data still being processed."
+    ev_strength = evidence_strength(int(source_count or 0))
+    formatted = format_rationale(
+        grade=str(grade or "C"),
+        direction=grade_direction(total_score_val, previous_total_score),
+        raw_text=reasoning,
+        scores=fallback,
+        source_count=int(source_count or 0),
+    )
+    reasoning = formatted
     return sanitize_public_analysis_text(
         {
             "id": snapshot.get("id"),
@@ -959,9 +1281,7 @@ def build_risk_score_response(
             "score_version": fallback.get("analysis_run_id")
             or snapshot.get("methodology_version")
             or snapshot.get("snapshot_date"),
-            "safety_score": fallback.get("safety_score")
-            or fallback.get("total_score")
-            or snapshot.get("safety_score"),
+            "safety_score": total_score_val,
             "confidence": fallback.get("confidence") or snapshot.get("confidence"),
             "structural_base_score": fallback.get("structural_base_score")
             or snapshot.get("structural_base_score"),
@@ -969,15 +1289,15 @@ def build_risk_score_response(
             or snapshot.get("macro_adjustment"),
             "event_adjustment": fallback.get("event_adjustment")
             or snapshot.get("event_adjustment"),
-            "grade": fallback.get("grade") or snapshot.get("grade"),
+            "grade": grade,
+            "grade_direction": grade_direction(total_score_val, previous_total_score),
+            "score_delta": int(round((total_score_val or 0) - (previous_total_score or 0))) if total_score_val is not None and previous_total_score is not None else None,
             "reasoning": reasoning,
             "factor_breakdown": factor_breakdown,
             "mirofish_used": False,
             "calculated_at": fallback.get("calculated_at")
             or snapshot.get("analysis_as_of"),
-            "total_score": fallback.get("total_score")
-            or fallback.get("safety_score")
-            or snapshot.get("safety_score"),
+            "total_score": total_score_val,
             "news_sentiment": fallback.get("news_sentiment")
             or ai_dims.get("news_sentiment"),
             "macro_exposure": fallback.get("macro_exposure")
@@ -995,6 +1315,7 @@ def build_risk_score_response(
             "coverage_state": coverage_state,
             "coverage_note": coverage_note,
             "is_provisional": is_provisional,
+            "evidence_strength": ev_strength,
         }
     )
 
@@ -1006,8 +1327,18 @@ def _build_virtual_position(
     metadata: dict[str, Any],
     snapshot: dict[str, Any] | None,
     previous_snapshot: dict[str, Any] | None,
+    current_score: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     now_iso = _utcnow_iso()
+    current_score = current_score or {}
+    total_score = current_score.get("total_score")
+    if total_score is None and snapshot:
+        total_score = snapshot.get("safety_score")
+    grade = current_score.get("grade")
+    if grade is None and total_score is not None:
+        grade = score_to_grade(total_score)
+    elif grade is None and snapshot:
+        grade = snapshot.get("grade")
     return {
         "id": f"virtual:{ticker}",
         "user_id": user_id,
@@ -1018,14 +1349,18 @@ def _build_virtual_position(
         "created_at": now_iso,
         "updated_at": now_iso,
         "current_price": metadata.get("price"),
-        "risk_grade": snapshot.get("grade") if snapshot else None,
-        "total_score": snapshot.get("safety_score") if snapshot else None,
+        "risk_grade": grade,
+        "total_score": total_score,
         "previous_grade": previous_snapshot.get("grade") if previous_snapshot else None,
         "inferred_labels": None,
-        "summary": (snapshot or {}).get("news_summary")
-        or (snapshot or {}).get("reasoning"),
-        "last_analyzed_at": (snapshot or {}).get("analysis_as_of"),
+        "summary": current_score.get("reasoning")
+        or (snapshot or {}).get("reasoning")
+        or (snapshot or {}).get("news_summary"),
+        "last_analyzed_at": current_score.get("score_as_of")
+        or (snapshot or {}).get("analysis_as_of"),
         "analysis_started_at": None,
+        "evidence_strength": current_score.get("evidence_strength")
+        or (snapshot or {}).get("evidence_strength"),
     }
 
 
@@ -1121,16 +1456,39 @@ def _get_latest_position_analysis_for_ids(
         supabase.table("position_analyses")
         .select("*")
         .in_("position_id", position_ids)
+        .eq("status", "ready")
         .order("updated_at", desc=True)
         .order("created_at", desc=True)
         .limit(10)
         .execute()
     )
     rows = result.data or []
+    latest_ready = None
     for row in rows:
-        if row.get("position_id") in position_ids:
+        if row.get("position_id") not in position_ids:
+            continue
+        if latest_ready is None:
+            latest_ready = row
+        source_count = int(row.get("source_count") or 0)
+        major_event_count = int(row.get("major_event_count") or 0)
+        minor_event_count = int(row.get("minor_event_count") or 0)
+        top_news = row.get("top_news") or []
+        top_risks = row.get("top_risks") or []
+        has_real_risk = any(
+            isinstance(item, str)
+            and item.strip()
+            and item.strip() != "No new material risk catalysts identified."
+            for item in top_risks
+        )
+        if (
+            source_count > 0
+            or major_event_count > 0
+            or minor_event_count > 0
+            or bool(top_news)
+            or has_real_risk
+        ):
             return row
-    return None
+    return latest_ready
 
 
 def _get_latest_analysis_run_for_ids(
@@ -1477,16 +1835,23 @@ def build_holding_workflow_response(
     }
 
 
-def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, Any]:
+def get_ticker_detail_bundle(
+    supabase,
+    user_id: str,
+    ticker: str,
+    position_id: str | None = None,
+) -> dict[str, Any]:
     supported = require_supported_ticker(supabase, ticker)
     ticker = supported["ticker"]
 
     metadata = get_metadata_map(supabase, [ticker]).get(ticker, {})
     history = get_latest_risk_snapshot_history_map(
-        supabase, [ticker], per_ticker=2
+        supabase, [ticker], per_ticker=10
     ).get(ticker, [])
+    history = sorted(history, key=_canonical_snapshot_sort_key, reverse=True)
     snapshot = history[0] if history else None
     previous_snapshot = history[1] if len(history) > 1 else None
+    public_snapshot = _sanitize_public_snapshot(snapshot)
     news_result = (
         supabase.table("ticker_news_cache")
         .select("*")
@@ -1505,8 +1870,19 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
         .execute()
     )
     held_positions = positions_result.data or []
+    selected_position = None
+    if position_id:
+        selected_position = next(
+            (row for row in held_positions if row.get("id") == position_id),
+            None,
+        )
+        if not selected_position:
+            raise HTTPException(404, "Position not found")
+    elif held_positions:
+        selected_position = held_positions[0]
+
     holding_ids = [row["id"] for row in held_positions]
-    reference_position_ids = holding_ids
+    reference_position_ids = [selected_position["id"]] if selected_position else holding_ids
     if not reference_position_ids:
         system_position_rows = (
             supabase.table("positions")
@@ -1531,7 +1907,7 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
         supabase, reference_position_ids
     )
     latest_refresh_job = get_latest_refresh_job(supabase, ticker)
-    current_analysis = (
+    current_analysis = _sanitize_public_analysis_payload(
         latest_position_analysis
         or build_position_analysis_from_snapshot(
             snapshot,
@@ -1544,7 +1920,7 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
         )
     )
     current_score = build_risk_score_response(
-        snapshot,
+        public_snapshot,
         position_id=(
             reference_position_ids[0] if reference_position_ids else f"virtual:{ticker}"
         ),
@@ -1552,6 +1928,22 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
         include_position_sizing=bool(held_positions),
         coverage_context=latest_position_analysis or current_analysis,
     )
+    if current_score:
+        canonical_reasoning = _canonical_public_rationale(
+            ticker=ticker,
+            current_score=current_score,
+            current_analysis=current_analysis,
+            latest_event_analyses=[],
+            latest_risk_snapshot=public_snapshot or {},
+        )
+        if canonical_reasoning:
+            current_score["reasoning"] = format_rationale(
+                grade=str(current_score.get("grade") or "C"),
+                direction=current_score.get("grade_direction"),
+                raw_text=canonical_reasoning,
+                scores=current_score,
+                source_count=int(current_score.get("source_count") or 0),
+            )
     coverage_state = (
         (current_score or {}).get("coverage_state")
         or (latest_position_analysis or {}).get("coverage_state")
@@ -1570,7 +1962,7 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
         analysis_state = "failed"
     elif latest_refresh_status == "skipped_ai_scored":
         analysis_state = "fresh"
-    elif snapshot and coverage_state == "substantive" and latest_news_row:
+    elif public_snapshot and coverage_state == "substantive" and latest_news_row:
         analysis_state = "fresh"
     else:
         analysis_state = "stale"
@@ -1622,23 +2014,23 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
     }
 
     if held_positions:
-        position = held_positions[0]
+        position = selected_position or held_positions[0]
         position["risk_grade"] = current_score.get("grade") or (
-            snapshot.get("grade") if snapshot else None
+            public_snapshot.get("grade") if public_snapshot else None
         )
         position["total_score"] = current_score.get("total_score") or (
-            snapshot.get("safety_score") if snapshot else None
+            public_snapshot.get("safety_score") if public_snapshot else None
         )
         position["previous_grade"] = (
             previous_snapshot.get("grade") if previous_snapshot else None
         )
         position["summary"] = (
             current_score.get("reasoning")
-            or (snapshot or {}).get("news_summary")
-            or (snapshot or {}).get("reasoning")
+            or (public_snapshot or {}).get("news_summary")
+            or (public_snapshot or {}).get("reasoning")
         )
         position["last_analyzed_at"] = current_score.get("score_as_of") or (
-            snapshot or {}
+            public_snapshot or {}
         ).get("analysis_as_of")
         if position.get("current_price") is None:
             position["current_price"] = metadata.get("price")
@@ -1649,6 +2041,7 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
             metadata=metadata,
             snapshot=snapshot,
             previous_snapshot=previous_snapshot,
+            current_score=current_score,
         )
 
     position["score_source"] = analysis_state_payload.get("score_source")
@@ -1688,16 +2081,23 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
             position_id=position["id"],
         )
 
-    # Replace generic/fallback reasoning with article-specific text when we have events.
-    # This gives users a specific, article-grounded explanation rather than template prose.
     if latest_event_analyses and current_score:
-        existing_reasoning = current_score.get("reasoning") or ""
-        if not existing_reasoning or _is_generic_fallback_reasoning(existing_reasoning):
-            article_reasoning = _build_article_aware_reasoning(
-                latest_event_analyses, current_score, ticker
+        article_reasoning = _canonical_public_rationale(
+            ticker=ticker,
+            current_score=current_score,
+            current_analysis=current_analysis,
+            latest_event_analyses=latest_event_analyses,
+            latest_risk_snapshot=public_snapshot or {},
+        )
+        if article_reasoning:
+            current_score["reasoning"] = format_rationale(
+                grade=str(current_score.get("grade") or "C"),
+                direction=current_score.get("grade_direction"),
+                raw_text=article_reasoning,
+                scores=current_score,
+                source_count=int(current_score.get("source_count") or 0),
             )
-            if article_reasoning:
-                current_score["reasoning"] = article_reasoning
+            position["summary"] = current_score["reasoning"]
 
     alerts_result = (
         supabase.table("alerts")
@@ -1708,6 +2108,14 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
         .limit(5)
         .execute()
     )
+    current_analysis = _backfill_legacy_driver_cards(
+        current_analysis,
+        position,
+        latest_event_analyses,
+        news_result.data or [],
+        alerts_result.data or [],
+        coverage_state=coverage_state,
+    )
     watchlist = get_or_create_default_watchlist(supabase, user_id)
     watchlist_items = (
         supabase.table("watchlist_items")
@@ -1717,6 +2125,19 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
         .limit(1)
         .execute()
     )
+
+    latest_snapshot_payload = dict(public_snapshot or {})
+    snapshot_reasoning = _clean_public_rationale_text(
+        latest_snapshot_payload.get("reasoning")
+    )
+    if (
+        not snapshot_reasoning
+        or _is_legacy_dimension_math(snapshot_reasoning)
+        or _is_generic_fallback_reasoning(snapshot_reasoning)
+    ):
+        latest_snapshot_payload["reasoning"] = None
+    else:
+        latest_snapshot_payload["reasoning"] = snapshot_reasoning
 
     return sanitize_public_analysis_text(
         {
@@ -1740,14 +2161,14 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
             "latest_analysis_run": latest_analysis_run,
             "latest_refresh_job": latest_refresh_job,
             "coverage_state": coverage_state,
-            "latest_risk_snapshot": snapshot,
+            "latest_risk_snapshot": latest_snapshot_payload,
             "current_score": current_score,
             "current_analysis": current_analysis,
             "methodology": current_analysis.get("methodology")
             if current_analysis
             else None,
-            "dimension_breakdown": snapshot.get("dimension_rationale")
-            if snapshot
+            "dimension_breakdown": public_snapshot.get("dimension_rationale")
+            if public_snapshot
             else None,
             "latest_event_analyses": latest_event_analyses,
             "mirofish_used_this_cycle": False,
@@ -1757,7 +2178,9 @@ def get_ticker_detail_bundle(supabase, user_id: str, ticker: str) -> dict[str, A
             "recent_alerts": enrich_alert_rows(alerts_result.data or []),
             "freshness": {
                 "price_as_of": metadata.get("price_as_of"),
-                "analysis_as_of": snapshot.get("analysis_as_of") if snapshot else None,
+                "analysis_as_of": public_snapshot.get("analysis_as_of")
+                if public_snapshot
+                else None,
                 "last_news_refresh_at": analysis_state_payload["last_news_refresh_at"],
                 "news_as_of": latest_news_row.get("published_at")
                 if latest_news_row
@@ -1837,45 +2260,6 @@ def refresh_ticker_snapshot(
     if active_job:
         return active_job[0]
 
-    shared_news_rows = (
-        supabase.table("news_items")
-        .select("title, body, source, url, significance, published_at, processed_at, event_hash")
-        .eq("ticker", ticker)
-        .order("processed_at", desc=True)
-        .limit(50)
-        .execute()
-        .data
-        or []
-    )
-    news_cache_refresh = sync_ticker_news_cache(
-        supabase,
-        ticker=ticker,
-        news_rows=shared_news_rows,
-    )
-
-    existing_ai_snapshot = (
-        supabase.table("ticker_risk_snapshots")
-        .select("id, methodology_version, grade, safety_score")
-        .eq("ticker", ticker)
-        .eq("snapshot_date", date.today().isoformat())
-        .eq("snapshot_type", job_type)
-        .ilike("methodology_version", "%ai%")
-        .limit(1)
-        .execute()
-        .data
-    )
-    if existing_ai_snapshot:
-        return {
-            "ticker": ticker,
-            "job_type": job_type,
-            "status": "skipped_ai_scored",
-            "methodology_version": existing_ai_snapshot[0].get("methodology_version"),
-            "grade": existing_ai_snapshot[0].get("grade"),
-            "safety_score": existing_ai_snapshot[0].get("safety_score"),
-            "news_cache_status": news_cache_refresh.get("status"),
-            "news_cache_count": news_cache_refresh.get("count", 0),
-        }
-
     job_result = (
         supabase.table("ticker_refresh_jobs")
         .insert(
@@ -1893,6 +2277,59 @@ def refresh_ticker_snapshot(
     job = job_result.data[0]
 
     try:
+        shared_news_rows = (
+            supabase.table("news_items")
+            .select("title, body, source, url, significance, published_at, processed_at, event_hash")
+            .eq("ticker", ticker)
+            .order("processed_at", desc=True)
+            .limit(50)
+            .execute()
+            .data
+            or []
+        )
+        news_cache_refresh = sync_ticker_news_cache(
+            supabase,
+            ticker=ticker,
+            news_rows=shared_news_rows,
+        )
+
+        existing_ai_snapshot = (
+            supabase.table("ticker_risk_snapshots")
+            .select("id, methodology_version, grade, safety_score")
+            .eq("ticker", ticker)
+            .eq("snapshot_date", date.today().isoformat())
+            .eq("snapshot_type", job_type)
+            .limit(10)
+            .execute()
+            .data
+        )
+        existing_ai_snapshot = [
+            row
+            for row in (existing_ai_snapshot or [])
+            if "ai" in str(row.get("methodology_version") or "").lower()
+        ]
+        if existing_ai_snapshot:
+            completed_at = _utcnow_iso()
+            _update_refresh_job(
+                supabase,
+                job["id"],
+                {
+                    "status": "completed",
+                    "completed_at": completed_at,
+                    "error_message": None,
+                },
+            )
+            return {
+                **job,
+                "status": "skipped_ai_scored",
+                "completed_at": completed_at,
+                "methodology_version": existing_ai_snapshot[0].get("methodology_version"),
+                "grade": existing_ai_snapshot[0].get("grade"),
+                "safety_score": existing_ai_snapshot[0].get("safety_score"),
+                "news_cache_status": news_cache_refresh.get("status"),
+                "news_cache_count": news_cache_refresh.get("count", 0),
+            }
+
         metadata = upsert_ticker_metadata(supabase, ticker)
         if not metadata:
             raise RuntimeError(f"Unable to refresh ticker metadata for {ticker}")
@@ -1940,8 +2377,6 @@ def refresh_ticker_snapshot(
             "analysis_as_of": analysis_as_of,
             "refresh_triggered_by_user_id": requested_by_user_id,
             "updated_at": analysis_as_of,
-            "news_cache_status": news_cache_refresh.get("status"),
-            "news_cache_count": news_cache_refresh.get("count", 0),
         }
         snapshot = _upsert_ticker_snapshot(
             supabase,

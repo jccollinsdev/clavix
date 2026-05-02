@@ -6,7 +6,7 @@ enum ClavisTheme {
     static let cornerRadius: CGFloat = 12         // cards
     static let innerCornerRadius: CGFloat = 10    // controls and inline surfaces
     static let sectionSpacing: CGFloat = 10
-    static let cardPadding: CGFloat = 12
+    static let cardPadding: CGFloat = 14
     static let screenPadding: CGFloat = 16
     static let microSpacing: CGFloat = 4
     static let smallSpacing: CGFloat = 8
@@ -32,12 +32,12 @@ enum ClavisTypography {
 
     // Spec-defined styles
     static let portfolioScore = mono(52)                     // portfolio hero score
-    static let h1             = inter(28, weight: .medium)   // screen title
-    static let h2             = inter(20, weight: .medium)   // section header
+    static let h1             = inter(28, weight: .semibold)  // screen title
+    static let h2             = inter(20, weight: .semibold)  // section header
     static let dataNumber     = mono(22)                     // data/number display
     static let gradeTag       = mono(13)                     // grade badge label
-    static let label          = inter(11, weight: .medium)   // UPPERCASE labels
-    static let rowTicker      = inter(13, weight: .medium)   // ticker in rows
+    static let label          = inter(11, weight: .semibold)  // UPPERCASE labels
+    static let rowTicker      = inter(13, weight: .semibold)   // ticker in rows
     static let rowScore       = mono(13)                     // score in rows
     static let bodySmall      = inter(13, weight: .regular)
 
@@ -48,12 +48,12 @@ enum ClavisTypography {
     static let dashboardTitle    = h1
     static let pageTitle         = h1
     static let sectionTitle      = h2
-    static let cardTitle         = inter(15, weight: .medium)
+    static let cardTitle         = inter(15, weight: .semibold)
     static let body              = inter(15, weight: .regular)
-    static let bodyStrong        = inter(15, weight: .medium)
-    static let bodyEmphasis      = inter(15, weight: .medium)
+    static let bodyStrong        = inter(15, weight: .semibold)
+    static let bodyEmphasis      = inter(15, weight: .semibold)
     static let footnote          = inter(12, weight: .regular)
-    static let footnoteEmphasis  = inter(12, weight: .medium)
+    static let footnoteEmphasis  = inter(12, weight: .semibold)
     static let metric            = mono(32)
     static let grade             = mono(36)
     static let heroNumber        = mono(48)
@@ -70,28 +70,28 @@ enum ClavisTypography {
 
 extension Color {
     // MARK: Surfaces (dark)
-    static let backgroundPrimary = Color(hex: "#0F1117")
+    static let backgroundPrimary = Color(hex: "#0B0D12")
     static let surface           = Color(hex: "#14171E")
     static let surfaceElevated   = Color(hex: "#1B1F28")
     static let surfaceMuted      = Color(hex: "#101319")
-    static let border            = Color(hex: "#2A3140")
+    static let border            = Color(hex: "#242934")
     static let borderSubtleTone  = Color(hex: "#1E232D")
 
     // MARK: Text
-    static let textPrimary   = Color(hex: "#E8ECF0")
-    static let textSecondary = Color(hex: "#8A95A6")
-    static let textTertiary  = Color(hex: "#5B6577")
-    static let brandCream    = Color(hex: "#E7D8B7")
+    static let textPrimary   = Color(hex: "#EEF1F5")
+    static let textSecondary = Color(hex: "#8A93A3")
+    static let textTertiary  = Color(hex: "#5A6374")
+    static let brandCream    = Color(hex: "#D4C49B")
 
     // MARK: Informational (non-risk blue — never near score displays)
     static let informational = Color(hex: "#3B82C4")
 
     // MARK: Risk Scale — 5-state closed set. Color = state, never brand.
-    static let riskA = Color(hex: "#1D9E75")   // Safe      75–100
-    static let riskB = Color(hex: "#639922")   // Stable    55–74
-    static let riskC = Color(hex: "#BA7517")   // Watch     35–54
-    static let riskD = Color(hex: "#D85A30")   // Risky     15–34
-    static let riskF = Color(hex: "#C8342B")   // Critical  0–14
+    static let riskA = Color(hex: "#1D9E75")   // Safe      (A) ≥80
+    static let riskB = Color(hex: "#639922")   // Stable    (B) ≥65
+    static let riskC = Color(hex: "#BA7517")   // Elevated  (C) ≥50
+    static let riskD = Color(hex: "#D85A30")   // Risky     (D) ≥35
+    static let riskF = Color(hex: "#C8342B")   // Critical  (F) <35
 
     // MARK: Grade Tag Surfaces
     static let gradeABg   = Color(hex: "#E1F5EE")
@@ -129,7 +129,7 @@ extension Color {
     static let warningSurface     = Color(hex: "#BA7517").opacity(0.12)
     static let dangerSurface      = Color(hex: "#C8342B").opacity(0.12)
     static let decisionSafe       = riskA
-    static let decisionWatch      = riskC
+    static let decisionElevated   = riskC
     static let decisionReduce     = riskF
     static let decisionInfo       = textSecondary
     static let semanticGreen      = riskA
@@ -213,45 +213,12 @@ enum ClavisGradeStyle {
 
     static func gradeBandLabel(for grade: String?) -> String {
         switch grade {
-        case "A": return "Safe (75–100)"
-        case "B": return "Stable (55–74)"
-        case "C": return "Watch (35–54)"
-        case "D": return "Risky (15–34)"
-        case "F": return "Critical (0–14)"
+        case "A": return "Safe (80–100)"
+        case "B": return "Stable (65–79)"
+        case "C": return "Elevated (50–64)"
+        case "D": return "Risky (35–49)"
+        case "F": return "Critical (0–34)"
         default:  return "—"
-        }
-    }
-}
-
-// MARK: - Decision Style (backward compat)
-
-enum ClavisDecisionStyle {
-    static func color(for score: Double) -> Color {
-        switch score {
-        case 75...100: return .riskA
-        case 55..<75:  return .riskB
-        case 35..<55:  return .riskC
-        case 15..<35:  return .riskD
-        default:       return .riskF
-        }
-    }
-
-    static func label(for score: Double) -> String {
-        switch score {
-        case 75...100: return "Safe"
-        case 55..<75:  return "Stable"
-        case 35..<55:  return "Watch"
-        case 15..<35:  return "Risky"
-        default:       return "Critical"
-        }
-    }
-
-    static func tint(for pressure: ActionPressure?) -> Color {
-        switch pressure {
-        case .low:    return .riskA
-        case .medium: return .riskC
-        case .high:   return .riskF
-        case .none:   return .textSecondary
         }
     }
 }
@@ -292,22 +259,126 @@ struct ClavisAtmosphereBackground: View {
     }
 }
 
-// MARK: - Grade Tag
+// MARK: - Grade Badge
 
-/// Filled grade badge. 32×32 standard, 32×24 compact, 56×56 large. 4px radius. JetBrains Mono 13px.
+enum GradeBadgeSize {
+    case compact
+    case standard
+    case large
+}
+
+struct GradeBadge: View {
+    let grade: String
+    var size: GradeBadgeSize = .standard
+
+    private var width: CGFloat {
+        switch size {
+        case .compact:  return 26
+        case .standard: return 34
+        case .large:    return 76
+        }
+    }
+
+    private var height: CGFloat {
+        switch size {
+        case .compact:  return 20
+        case .standard: return 26
+        case .large:    return 76
+        }
+    }
+
+    private var fontSize: CGFloat {
+        switch size {
+        case .compact:  return 13
+        case .standard: return 13
+        case .large:    return 40
+        }
+    }
+
+    var body: some View {
+        Text(grade)
+            .font(.system(size: fontSize, weight: .bold, design: .monospaced))
+            .foregroundColor(ClavisGradeStyle.gradeBandText(for: grade))
+            .frame(width: width, height: height, alignment: .center)
+            .background(ClavisGradeStyle.gradeBandBg(for: grade))
+            .cornerRadius(4)
+    }
+}
+
+// MARK: - Risk Direction Label
+
+struct RiskDirectionLabel: View {
+    let trend: RiskTrend
+
+    private var color: Color {
+        switch trend {
+        case .worsening:  return .riskD
+        case .improving:  return .riskA
+        case .stable:     return .textSecondary
+        }
+    }
+
+    private var label: String {
+        switch trend {
+        case .worsening:  return "↑ worsening"
+        case .improving:  return "↓ improving"
+        case .stable:     return "→ stable"
+        }
+    }
+
+    var body: some View {
+        Text(label)
+            .font(.system(size: 12, weight: .semibold, design: .monospaced))
+            .foregroundColor(color)
+            .accessibilityLabel(label.replacingOccurrences(of: "↑", with: "worsening")
+                .replacingOccurrences(of: "↓", with: "improving")
+                .replacingOccurrences(of: "→", with: "stable"))
+    }
+}
+
+// MARK: - Evidence Dots
+
+struct EvidenceDots: View {
+    let evidence: EvidenceStrength
+    var grade: String? = nil
+
+    private var dotColor: Color {
+        if let grade {
+            return ClavisGradeStyle.riskColor(for: grade).opacity(0.4)
+        }
+        return .textSecondary.opacity(0.4)
+    }
+
+    var body: some View {
+        HStack(spacing: 4) {
+            ForEach(0..<3, id: \.self) { index in
+                Circle()
+                    .fill(index < evidence.dotCount ? dotColor : dotColor.opacity(0.25))
+                    .frame(width: 5, height: 5)
+                    .overlay(
+                        Circle()
+                            .stroke(dotColor, lineWidth: 0.5)
+                            .frame(width: 5, height: 5)
+                    )
+            }
+        }
+        .accessibilityLabel("\(evidence.rawValue) evidence")
+    }
+}
+
+// MARK: - Grade Tag (deprecated)
+
+@available(*, deprecated, message: "Use GradeBadge instead. P1-C requires GradeBadge for visual hierarchy.")
 struct GradeTag: View {
     let grade: String
     var compact: Bool = false
     var large: Bool = false
 
     var body: some View {
-        Text(grade)
-            .font(large ? .system(size: 40, weight: .bold, design: .monospaced) : ClavisTypography.gradeTag)
-            .fontWeight(.medium)
-            .foregroundColor(ClavisGradeStyle.gradeBandText(for: grade))
-            .frame(width: large ? 76 : (compact ? 26 : 34), height: large ? 76 : (compact ? 20 : 26), alignment: .center)
-            .background(ClavisGradeStyle.gradeBandBg(for: grade))
-            .cornerRadius(4)
+        GradeBadge(
+            grade: grade,
+            size: large ? .large : (compact ? .compact : .standard)
+        )
     }
 }
 
@@ -960,7 +1031,7 @@ struct ClavisGlassHeader: View {
                 }
                 Spacer(minLength: 16)
                 if let grade {
-                    GradeTag(grade: grade)
+                    GradeBadge(grade: grade)
                 }
             }
         }
@@ -1121,6 +1192,200 @@ struct ClavisMetricLabel: View {
             Text(value)
                 .font(ClavisTypography.dataNumber)
                 .foregroundColor(tone ?? .textPrimary)
+        }
+    }
+}
+
+// MARK: - GradeDisplay
+
+enum GradeDisplayStyle {
+    case hero
+    case row
+    case compact
+}
+
+struct GradeDisplay: View {
+    let grade: String
+    let score: Int?
+    var trend: RiskTrend? = nil
+    var evidence: EvidenceStrength? = nil
+    var previousScore: Int? = nil
+    var style: GradeDisplayStyle = .hero
+
+    var body: some View {
+        switch style {
+        case .hero:
+            heroBody
+        case .row:
+            rowBody
+        case .compact:
+            compactBody
+        }
+    }
+
+    private var heroBody: some View {
+        HStack(alignment: .center, spacing: 14) {
+            GradeBadge(grade: grade, size: .large)
+
+            VStack(alignment: .leading, spacing: 6) {
+                if let trend {
+                    RiskDirectionLabel(trend: trend)
+                }
+
+                if let score {
+                    HStack(alignment: .firstTextBaseline, spacing: 6) {
+                        Text("Score")
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(.textSecondary)
+
+                        Text("\(score)")
+                            .font(.system(size: 22, weight: .bold, design: .monospaced))
+                            .foregroundColor(.textSecondary)
+                            .monospacedDigit()
+
+                        if let previousScore {
+                            Text("was \(previousScore)")
+                                .font(.system(size: 11, weight: .regular))
+                                .foregroundColor(.textTertiary)
+                        }
+                    }
+                }
+
+                if let evidence {
+                    EvidenceDots(evidence: evidence, grade: grade)
+                }
+            }
+        }
+    }
+
+    private var rowBody: some View {
+        HStack(alignment: .center, spacing: 10) {
+            GradeBadge(grade: grade, size: .standard)
+
+            VStack(alignment: .leading, spacing: 4) {
+                if let trend {
+                    RiskDirectionLabel(trend: trend)
+                }
+
+                if let score {
+                    Text("\(score)")
+                        .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                        .foregroundColor(.textSecondary)
+                        .monospacedDigit()
+                }
+
+                if let evidence {
+                    EvidenceDots(evidence: evidence, grade: grade)
+                }
+            }
+        }
+    }
+
+    private var compactBody: some View {
+        HStack(alignment: .center, spacing: 6) {
+            GradeBadge(grade: grade, size: .compact)
+
+            VStack(alignment: .leading, spacing: 3) {
+                if let trend {
+                    RiskDirectionLabel(trend: trend)
+                }
+
+                if let score {
+                    Text("\(score)")
+                        .font(.system(size: 13, weight: .semibold, design: .monospaced))
+                        .foregroundColor(.textSecondary)
+                        .monospacedDigit()
+                }
+
+                if let evidence {
+                    EvidenceDots(evidence: evidence, grade: grade)
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Score Source Chip
+
+struct ScoreSourceChip: View {
+    let source: String?
+
+    private var label: String {
+        guard let source else { return "" }
+        let normalized = source.lowercased().trimmingCharacters(in: .whitespaces)
+        if normalized.contains("position") || normalized.contains("holding") || normalized.contains("user") {
+            return "Portfolio-specific"
+        }
+        if normalized.contains("shared") || normalized.contains("snapshot") {
+            return "Shared rating"
+        }
+        return ClavisCopy.Status.sourceLabel(for: source)
+    }
+
+    private var isPortfolioSpecific: Bool {
+        guard let source else { return false }
+        let normalized = source.lowercased()
+        return normalized.contains("position") || normalized.contains("holding") || normalized.contains("user")
+    }
+
+    var body: some View {
+        if !label.isEmpty {
+            Text(label)
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(isPortfolioSpecific ? .informational : .textSecondary)
+                .padding(.horizontal, 6)
+                .padding(.vertical, 3)
+                .background(Color.surfaceElevated)
+                .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4, style: .continuous)
+                        .stroke(Color.border, lineWidth: 0.5)
+                )
+        }
+    }
+}
+
+// MARK: - Freshness Chip
+
+struct FreshnessChip: View {
+    let date: Date?
+
+    private var text: String {
+        guard let date else { return "" }
+        let interval = Date().timeIntervalSince(date)
+        if interval < 0 { return "Updated now" }
+        let hours = interval / 3600
+        if hours < 1 {
+            let minutes = Int(interval / 60)
+            return "Updated \(minutes)m ago"
+        }
+        if hours < 24 {
+            return "Updated \(Int(hours))h ago"
+        }
+        if hours < 48 {
+            return "Updated today"
+        }
+        return "Stale"
+    }
+
+    private var isStale: Bool {
+        guard let date else { return false }
+        return Date().timeIntervalSince(date) > 48 * 3600
+    }
+
+    var body: some View {
+        if !text.isEmpty {
+            Text(text)
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(isStale ? .riskC : .textTertiary)
+                .padding(.horizontal, 6)
+                .padding(.vertical, 3)
+                .background(Color.surfaceElevated)
+                .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4, style: .continuous)
+                        .stroke(Color.border, lineWidth: 0.5)
+                )
         }
     }
 }

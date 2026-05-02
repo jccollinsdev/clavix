@@ -4,7 +4,7 @@ from ..services.minimax import chatcompletion_text
 from .analysis_utils import extract_json_object
 
 
-SYSTEM_PROMPT = """You write the Clavis morning portfolio digest for a self-directed investor.
+SYSTEM_PROMPT = """You write the Clavis morning portfolio rating for a self-directed investor.
 
 This is not a research note and not a market essay.
 It should feel like a sharp morning briefing that summarizes current portfolio conditions.
@@ -13,7 +13,7 @@ Core rules:
 - Focus on what changed, what matters, and what is being observed today.
 - Only discuss the user's actual holdings.
 - Lead with the single most important portfolio takeaway.
-- Be concrete and decisive. Avoid analyst fluff, vague finance jargon, and generic macro commentary.
+- Be concrete and decisive. Avoid rating fluff, vague finance jargon, and generic macro commentary.
 - If only one position truly matters today, say that plainly.
 - For positions with no meaningful update, say "no material change" or "nothing urgent".
 - Keep the language proportional. Do not overdramatize stable names.
@@ -33,7 +33,7 @@ Return strict JSON with this shape:
       {"sector": "technology", "brief": "...", "headlines": ["..."]}
     ],
     "position_impacts": [
-      {"ticker": "...", "macro_relevance": "confirms|challenges|neutral", "impact_summary": "..."}
+      {"ticker": "...", "macro_relevance": "supports|contradicts|neutral", "impact_summary": "..."}
     ],
     "portfolio_impact": [
       "1-3 bullets on the portfolio-wide takeaway"
@@ -62,7 +62,7 @@ Digest structure for content field:
 - Then a section titled: **What Matters Today** (forward-looking catalysts)
 - Then a section titled: **Watchlist Alerts** (only if a watchlist name has real news or risk changes)
 - Then a section titled: **Per Position**
-- Then a section titled: **Monitoring Notes**
+- Then a section titled: **Risk Notes**
 - Keep the whole digest compact enough to scan in under a minute.
 - Under **Per Position**, cover each holding in descending order of urgency.
 - Each position entry should be 1-3 short sentences.
@@ -77,7 +77,7 @@ Voice:
 - Plain English
 - Specific
 - Calm, direct, useful
-- More operator than analyst
+- More operator than rater
 
 Avoid phrases like:
 - "middle of the road"
@@ -320,7 +320,7 @@ def _build_portfolio_advice(
         summary = str(impact.get("impact_summary") or "").strip()
         relevance = str(impact.get("macro_relevance") or "neutral").strip().lower()
 
-        if relevance in {"confirms", "challenges"} and summary:
+        if relevance in {"supports", "contradicts", "confirms", "challenges"} and summary:
             advice.append(f"{ticker}: {summary}")
             continue
 
@@ -335,7 +335,7 @@ def _build_portfolio_advice(
         ):
             if ticker == "HIMS":
                 advice.append(
-                    f"{ticker}: risk read remains elevated relative to the rest of the book."
+                    f"{ticker}: risk rating remains elevated relative to the rest of the book."
                 )
             elif ticker == "GDX":
                 advice.append(f"{ticker}: macro sensitivity remains elevated.")
@@ -344,7 +344,7 @@ def _build_portfolio_advice(
                     f"{ticker}: tech follow-through remains a relevant backdrop."
                 )
             elif ticker == "SMCI":
-                advice.append(f"{ticker}: volatility remains a major part of the read.")
+                advice.append(f"{ticker}: volatility remains a key risk factor.")
             elif ticker == "HOOD":
                 advice.append(f"{ticker}: rates and risk appetite remain key context.")
             else:
@@ -592,9 +592,9 @@ def _fallback_portfolio_digest(
             f"**{ticker}** — {change_text}. {summary} Primary thing to watch: {risk_hint}"
         )
 
-    monitoring_notes_block = ""
+    risk_notes_block = ""
     if fallback_advice:
-        monitoring_notes_block = "**Monitoring Notes**\n" + "\n".join(
+        risk_notes_block = "**Risk Notes**\n" + "\n".join(
             f"- {item}" for item in fallback_advice
         )
 
@@ -646,8 +646,8 @@ def _fallback_portfolio_digest(
     ]
     if watchlist_alerts_block:
         content_parts.append(watchlist_alerts_block)
-    if monitoring_notes_block:
-        content_parts.append(monitoring_notes_block)
+    if risk_notes_block:
+        content_parts.append(risk_notes_block)
     content_parts.extend(
         [
             "**Per Position**\n"
@@ -738,10 +738,10 @@ Portfolio Risk Analysis:
                     f"  Previous grade: {position.get('previous_grade') or 'no change'}",
                     f"  Shares: {position.get('shares', 0)}",
                     f"  Summary: {position.get('summary') or 'No summary available.'}",
-                    f"  Watch items: {', '.join(str(item).replace('_', ' ') for item in position.get('watch_items', [])[:3]) or 'none'}",
+                    f"  Risk drivers: {', '.join(position.get('risk_drivers', position.get('watch_items', []))[:3]) or 'none'}",
                     f"  Top risks: {', '.join(position.get('top_risks', [])[:3]) or 'none'}",
                     f"  Dimension breakdown: {position.get('dimension_breakdown') or 'none'}",
-                    f"  Risk verifier: {position.get('thesis_verifier', [])}",
+                    f"  Risk drivers: {position.get('risk_context') or position.get('rating_verifier', [])}",
                 ]
             )
             for position in ranked_positions
@@ -787,7 +787,7 @@ Important instruction:
 - Emit the markdown content in this exact order: overall grade, overnight macro, sector overview, position impacts, portfolio impact, what matters today, watchlist alerts, per position, monitoring notes.
 - Make "sector_overview" only cover the sectors the user actually owns.
 - Make "position_impacts" concise, ticker-specific, and risk-oriented.
-- Make "monitoring_notes" a short checklist of factual notes for the holdings that matter most today.
+- Make "monitoring_notes" a short checklist of factual risk notes for the holdings that matter most today.
 - Do not include holdings that do not have a meaningful change.
 - If it is a weekend, frame the observations for the next trading session.
 - Mention the day and date in the opening line.

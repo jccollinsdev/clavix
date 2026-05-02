@@ -28,7 +28,7 @@ class DashboardViewModel: ObservableObject {
     }
 
     var portfolioScoreText: String {
-        portfolioScore.map { "\(Int($0.rounded()))" } ?? "Pending"
+        portfolioScore.map { "\(Int($0.rounded()))" } ?? "Calculating..."
     }
 
     var portfolioRiskState: RiskState? {
@@ -38,10 +38,14 @@ class DashboardViewModel: ObservableObject {
 
     var portfolioRiskTrend: RiskTrend {
         let improving = improvingCount
-        let worsening = deterioratingCount
-        if worsening > improving { return .increasing }
-        if improving > worsening { return .improving }
+        let worseningCount = deterioratingCount
+        if worseningCount > improving { return .worsening }
+        if improving > worseningCount { return .improving }
         return .stable
+    }
+
+    var portfolioEvidenceStrength: EvidenceStrength? {
+        dashboard?.evidenceStrength
     }
 
     var portfolioActionPressure: ActionPressure? {
@@ -53,7 +57,7 @@ class DashboardViewModel: ObservableObject {
         guard let state = portfolioRiskState?.displayName.lowercased() else {
             return "Score unavailable, analysis pending."
         }
-        if let driver = topRiskDriverSummary, portfolioRiskTrend == .increasing {
+        if let driver = topRiskDriverSummary, portfolioRiskTrend == .worsening {
             return "Portfolio risk is \(state), driven mainly by \(driver)."
         }
         if portfolioRiskTrend == .improving {
@@ -68,7 +72,7 @@ class DashboardViewModel: ObservableObject {
                   let previous = position.previousGrade else {
                 return false
             }
-            return gradeValue(current) > gradeValue(previous)
+            return Grade.ordinalValue(for: current) > Grade.ordinalValue(for: previous)
         }.count
     }
 
@@ -78,7 +82,7 @@ class DashboardViewModel: ObservableObject {
                   let previous = position.previousGrade else {
                 return false
             }
-            return gradeValue(current) < gradeValue(previous)
+            return Grade.ordinalValue(for: current) < Grade.ordinalValue(for: previous)
         }.count
     }
 
@@ -111,7 +115,7 @@ class DashboardViewModel: ObservableObject {
 
     var needsAttentionPositions: [Position] {
         holdings
-            .filter { $0.riskGrade == "D" || $0.riskGrade == "F" || $0.riskTrend == .increasing }
+            .filter { $0.riskGrade == "D" || $0.riskGrade == "F" || $0.riskTrend == .worsening }
             .sorted { attentionRank(for: $0) < attentionRank(for: $1) }
             .prefix(3)
             .map { $0 }
@@ -261,8 +265,8 @@ class DashboardViewModel: ObservableObject {
                 activeRun = fetched.analysisRun
             case "failed":
                 activeRun = fetched.analysisRun
-                let displayError = fetched.analysisRun?.displayErrorMessage ?? "Analysis failed. Please run a fresh review."
-                errorMessage = isTransientAnalysisError(displayError) ? nil : displayError
+                let displayError = fetched.analysisRun?.displayErrorMessage ?? ClavisCopy.Errors.analysisRefreshFailed
+                errorMessage = isTransientAnalysisError(displayError) ? nil : ClavisCopy.Errors.analysisRefreshFailed
             default:
                 activeRun = nil
             }
@@ -270,7 +274,7 @@ class DashboardViewModel: ObservableObject {
             errorMessage = nil
         } catch {
             if dashboard == nil {
-                errorMessage = "We couldn't load the dashboard right now."
+                errorMessage = ClavisCopy.Errors.dashboardLoad(error)
             }
         }
 
@@ -304,7 +308,7 @@ class DashboardViewModel: ObservableObject {
         } catch is CancellationError {
             errorMessage = nil
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = ClavisCopy.Errors.dashboardRefresh(error)
         }
     }
 
@@ -320,7 +324,7 @@ class DashboardViewModel: ObservableObject {
                     activeRun = nil
                     return true
                 case "failed":
-                    errorMessage = isTransientAnalysisError(run.displayErrorMessage) ? nil : run.displayErrorMessage
+                    errorMessage = isTransientAnalysisError(run.displayErrorMessage) ? nil : ClavisCopy.Errors.analysisRefreshFailed
                     activeRun = run
                     return false
                 default:
@@ -329,7 +333,7 @@ class DashboardViewModel: ObservableObject {
             } catch is CancellationError {
                 return false
             } catch {
-                errorMessage = error.localizedDescription
+                errorMessage = ClavisCopy.Errors.dashboardRefresh(error)
                 activeRun = nil
                 return false
             }
@@ -342,21 +346,10 @@ class DashboardViewModel: ObservableObject {
         return false
     }
 
-    private func gradeValue(_ grade: String) -> Double {
-        switch grade {
-        case "A": return 90
-        case "B": return 72
-        case "C": return 57
-        case "D": return 42
-        case "F": return 25
-        default: return 50
-        }
-    }
-
     private func attentionRank(for position: Position) -> Int {
         if position.riskGrade == "F" { return 0 }
         if position.riskGrade == "D" { return 1 }
-        if position.riskTrend == .increasing { return 2 }
+        if position.riskTrend == .worsening { return 2 }
         return 3
     }
 
@@ -366,10 +359,10 @@ class DashboardViewModel: ObservableObject {
         }
 
         if position.riskGrade == "F" || position.riskGrade == "D" {
-            return "Low-grade holding needs review."
+            return "Low-grade holding."
         }
 
-        if position.riskTrend == .increasing {
+        if position.riskTrend == .worsening {
             return "Risk trend is worsening."
         }
 
@@ -377,7 +370,7 @@ class DashboardViewModel: ObservableObject {
             return firstSentence(summary)
         }
 
-        return "Monitoring this position."
+        return "Rating active."
     }
 
     private var topRiskDriverSummary: String? {

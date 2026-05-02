@@ -199,8 +199,12 @@ class APIService {
         return response.results
     }
 
-    func fetchTickerDetail(ticker: String) async throws -> TickerDetailResponse {
-        let data = try await makeRequest(path: "/tickers/\(ticker)")
+    func fetchTickerDetail(ticker: String, positionId: String? = nil) async throws -> TickerDetailResponse {
+        let query = positionId.flatMap { id -> String? in
+            let encoded = id.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? id
+            return "?position_id=\(encoded)"
+        } ?? ""
+        let data = try await makeRequest(path: "/tickers/\(ticker)\(query)")
         return try decoder.decode(TickerDetailResponse.self, from: data)
     }
 

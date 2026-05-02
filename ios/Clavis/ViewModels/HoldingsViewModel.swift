@@ -55,7 +55,7 @@ class HoldingsViewModel: ObservableObject {
         } catch is CancellationError {
             errorMessage = nil
         } catch {
-            errorMessage = "Failed to load: \(error.localizedDescription)"
+            errorMessage = ClavisCopy.Errors.holdingsLoad(error)
         }
 
         isLoading = false
@@ -110,7 +110,7 @@ class HoldingsViewModel: ObservableObject {
             showProgressSheet = false
             progressValue = 0.0
             pendingTicker = nil
-            errorMessage = "Failed to add: \(error.localizedDescription)"
+            errorMessage = ClavisCopy.Errors.holdingAdd(error)
             showError = true
         }
     }
@@ -169,7 +169,7 @@ class HoldingsViewModel: ObservableObject {
             try await api.deleteHolding(id: position.id)
         } catch {
             holdings.insert(backup, at: index)
-            errorMessage = "Failed to delete: \(error.localizedDescription)"
+            errorMessage = ClavisCopy.Errors.holdingDelete(error)
             showError = true
         }
     }
@@ -230,9 +230,9 @@ class HoldingsViewModel: ObservableObject {
                 showProgressSheet = false
                 progressValue = 0.0
                 if let apiError = error as? APIError {
-                    errorMessage = "Failed to analyze: \(apiError.localizedDescription)"
+                    errorMessage = ClavisCopy.Errors.holdingRefresh(apiError)
                 } else {
-                    errorMessage = "Failed to analyze: \(error.localizedDescription)"
+                    errorMessage = ClavisCopy.Errors.holdingRefresh(error)
                 }
                 showError = true
                 activeRun = nil

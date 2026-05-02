@@ -2,7 +2,7 @@ import logging
 from datetime import datetime, timezone
 
 from ..services.minimax import chatcompletion_text
-from .analysis_utils import clamp_score, extract_json_object
+from .analysis_utils import clamp_score, extract_json_object, score_to_grade, grade_direction, sanitize_rationale, format_rationale, evidence_strength
 from .structural_scorer import (
     calculate_structural_base_score,
     calculate_macro_adjustment,
@@ -12,7 +12,7 @@ from .structural_scorer import (
     get_daily_move_cap,
 )
 
-SYSTEM_PROMPT = """You are a portfolio risk analyst writing for a self-directed investor. Given the position context and event evidence below, score this position across 4 dimensions and write a thesis-driven risk rationale.
+SYSTEM_PROMPT = """You are a risk rating system. Given the position context and event evidence below, score this position across 4 risk dimensions and write a concise risk rationale.
 
 Scale: 0 = penny-stock-like / very risky. 100 = treasury-like / very safe. Higher = lower risk.
 
@@ -31,23 +31,43 @@ Scoring criteria:
 3. position_sizing (0-100): Appropriately sized, prudent exposure → high. Oversized or speculative → low.
 4. volatility_trend (0-100): Falling volatility / stable trend → high. Rising volatility / unstable → low.
 
-How to write "reasoning" — this is the investor-facing rationale:
-1. Lead with the dominant risk force: what is the single most important factor acting on this position right now?
-2. If positive and negative forces compete (e.g., strong earnings but regulatory overhang), explain which resolves higher and why. Do not just list both sides — resolve the tension.
-3. If positive news coexists with a weak overall score, explain that structural or macro factors outweigh the positive headline. If negative news is offset by strong fundamentals, say so.
-4. Close with what would materially change the thesis (e.g., a catalyst resolution, an earnings miss, a regulatory decision).
-5. Write like a concise equity research note — direct, specific, grounded in the evidence provided. Not a score explanation.
+How to write "reasoning" — the investor-facing rationale:
+FORMAT: Header line + max 2 driver lines. No paragraphs. No hedging.
+Example:
+C — Elevated Risk (↑ worsening)
+Earnings miss on revenue weakness
+Sector rotation into defensives
 
-How to write "dimension_rationale" — one sentence per dimension explaining what is happening, not what the score number is:
-- news_sentiment: what the news means for the position (not "the score is 60")
-- macro_exposure: how macro conditions interact with this position's profile
-- position_sizing: whether the position size is appropriate and why
+Rules:
+1. First line: [GRADE] — [Risk Level] ([arrow direction])
+   - Risk Level: A=Low Risk, B=Moderate Risk, C=Elevated Risk, D=High Risk, F=Severe Risk
+   - Arrow: ↓ improving if score improved >2pts, ↑ worsening if score dropped >2pts, → stable otherwise
+2. Next 1-2 lines: specific, causal risk drivers. Each driver ≤60 chars.
+3. Each driver MUST name a concrete event, metric change, or sector theme:
+   ✅ "Earnings miss on revenue weakness"
+   ✅ "High rate sensitivity"
+   ✅ "Valuation stretched vs earnings"
+   ✅ "Weak revenue momentum"
+   ❌ "Mixed signals across sectors"
+   ❌ "Market uncertainty"
+   ❌ "Positive momentum"
+   ❌ "Could impact performance"
+4. If evidence is thin (<3 events), write: "Limited data — risk based on fundamentals" as the only driver.
+5. Total output ≤140 chars preferred.
+
+Banned words — DO NOT USE: may, could, would, suggests, indicates, sentiment, momentum, thesis, coverage, provisional, research, analyst, monitor, watch.
+Write like a credit rating bulletin — direct, specific, concrete. Not a research note, not a process description.
+
+How to write "dimension_rationale" — one short phrase per dimension:
+- news_sentiment: what the news means for risk (not "the score is 60")
+- macro_exposure: how macro conditions affect risk
+- position_sizing: whether the position size amplifies risk
 - volatility_trend: what is driving volatility behavior
 
-Forbidden language: dimension scores, "the model", "the score reflects", "based on the dimension", "coverage across N sources", internal evidence labels (full_body, title_only, headline_summary), implementation jargon. Avoid returning 50 for every dimension unless the evidence is genuinely neutral.
+Forbidden language: dimension scores, "the model", "the score reflects", "based on the dimension", "data across N sources", internal evidence labels (full_body, title_only, headline_summary), implementation jargon. Avoid returning 50 for every dimension unless the evidence is genuinely neutral.
 
 Respond in this exact JSON format (no markdown, no explanation):
-{{"news_sentiment": 0-100, "macro_exposure": 0-100, "position_sizing": 0-100, "volatility_trend": 0-100, "grade": "A|B|C|D|F", "reasoning": "thesis-driven rationale per rules above", "dimension_rationale": {{"news_sentiment": "...", "macro_exposure": "...", "position_sizing": "...", "volatility_trend": "..."}}}}"""
+{{"news_sentiment": 0-100, "macro_exposure": 0-100, "position_sizing": 0-100, "volatility_trend": 0-100, "grade": "A|B|C|D|F", "reasoning": "concise risk rationale per rules above", "dimension_rationale": {{"news_sentiment": "...", "macro_exposure": "...", "position_sizing": "...", "volatility_trend": "..."}}}}"""
 
 DIMENSION_KEYS = [
     "news_sentiment",
@@ -70,7 +90,7 @@ GRADE_HYSTERESIS = 3.0
 def _neutral_dimension_count(scores: dict | None) -> int:
     if not isinstance(scores, dict):
         return len(DIMENSION_KEYS)
-    return sum(clamp_score(scores.get(key), 50) == 50 for key in DIMENSION_KEYS)
+    return sum(clamp_score(scores.get(key), 0) == 50 for key in DIMENSION_KEYS)
 
 
 def has_suspicious_neutral_scores(
@@ -95,7 +115,7 @@ def _is_batch_response_suspicious(
     return suspicious > 0
 
 
-def _coverage_state_for_position(position_data: dict) -> tuple[str, int, int, int, str]:
+def _data_state_for_position(position_data: dict) -> tuple[str, int, int, int, str]:
     event_analyses = list(position_data.get("event_analyses") or [])
     source_count = len(event_analyses)
     major_event_count = sum(
@@ -112,7 +132,7 @@ def _coverage_state_for_position(position_data: dict) -> tuple[str, int, int, in
     elif source_count <= 2:
         coverage_state = "thin"
         word = "source" if source_count == 1 else "sources"
-        coverage_note = f"Limited coverage: {source_count} recent {word} reviewed."
+        coverage_note = f"Limited data: {source_count} recent {word} reviewed."
     else:
         coverage_state = "substantive"
         word = "source" if source_count == 1 else "sources"
@@ -136,62 +156,45 @@ def _synthesized_reasoning(
     llm_used: bool,
     total_score: float | None = None,
 ) -> str:
-    news_v = clamp_score(scores.get("news_sentiment"), 50)
-    macro_v = clamp_score(scores.get("macro_exposure"), 50)
-    vol_v = clamp_score(scores.get("volatility_trend"), 50)
-    sizing_v = clamp_score(scores.get("position_sizing"), 50)
+    news_v = clamp_score(scores.get("news_sentiment"), 0)
+    macro_v = clamp_score(scores.get("macro_exposure"), 0)
+    vol_v = clamp_score(scores.get("volatility_trend"), 0)
+    sizing_v = clamp_score(scores.get("position_sizing"), 0)
 
-    # Build thesis: what matters most
+    drivers: list[str] = []
+
     if news_v <= 35:
-        thesis = f"Negative company-specific news is the main risk for {ticker}."
+        drivers.append("Negative company-specific news")
     elif news_v >= 65:
-        thesis = f"Company news is supportive for {ticker}."
-    elif macro_v <= 35:
-        thesis = f"Macro and sector headwinds are the dominant concern for {ticker}, overshadowing mixed company news."
-    elif sizing_v <= 40:
-        thesis = f"Position size amplifies downside risk for {ticker} regardless of mixed signals."
-    elif vol_v <= 40:
-        thesis = f"Elevated volatility is the primary risk for {ticker}."
-    elif news_v <= 45:
-        thesis = f"Company news leans cautious for {ticker}."
-    elif news_v >= 55:
-        thesis = f"Company news leans constructive for {ticker}."
-    else:
-        thesis = f"Risk factors for {ticker} are relatively balanced — no single force dominates."
+        drivers.append("Positive news support")
 
-    # Add secondary context if it matters
-    context_parts: list[str] = []
-    if macro_v <= 35 and news_v > 35:
-        context_parts.append("Macro headwinds add pressure.")
-    elif macro_v >= 65:
-        context_parts.append("Macro conditions are supportive.")
-    if sizing_v <= 40 and news_v > 35:
-        context_parts.append("Concentration risk amplifies the downside.")
-    if vol_v <= 40 and news_v > 35:
-        context_parts.append("Volatility is elevated.")
-    elif vol_v >= 65 and news_v < 65:
-        context_parts.append("Volatility is contained.")
+    if macro_v <= 35:
+        drivers.append("Macro pressure on the sector")
+    elif macro_v <= 45:
+        drivers.append("Rate sensitivity adds risk")
 
-    # Horizon
-    if vol_v <= 40 or news_v <= 40:
-        horizon = "Near-term risk is the primary focus."
-    elif macro_v <= 45 or sizing_v <= 45:
-        horizon = "Risks are manageable near-term but worth monitoring."
-    else:
-        horizon = "Risk is broadly contained unless new developments emerge."
+    if sizing_v <= 40:
+        drivers.append("Concentration amplifies downside")
 
-    result = thesis
-    if context_parts:
-        result = f"{thesis} {' '.join(context_parts)} {horizon}"
-    else:
-        result = f"{thesis} {horizon}"
+    if vol_v <= 40:
+        drivers.append("Elevated volatility")
 
-    if coverage_state == "provisional":
-        result += " This read is provisional — fuller coverage will sharpen it."
-    elif coverage_state == "thin":
-        result += " Coverage is thin; one new development could shift the picture."
+    if not drivers:
+        if news_v <= 45:
+            drivers.append("Negative news pressure")
+        elif news_v >= 55:
+            drivers.append("Positive news support")
+        elif macro_v <= 45:
+            drivers.append("Macro sensitivity")
+        elif vol_v <= 45:
+            drivers.append("Moderate volatility")
+        else:
+            drivers.append("Structural profile dominant")
 
-    return result
+    if coverage_state in ("provisional", "thin"):
+        drivers = drivers[:1] + ["Limited data — fundamentals dominate"]
+
+    return "\n".join(drivers[:2])
 
 
 def _article_evidence_brief(position_data: dict, limit: int = 4) -> str:
@@ -334,12 +337,12 @@ def _macro_adjustment_from_context(position_data: dict) -> tuple[float, str]:
     macro_relevance = (
         str(macro_impact.get("macro_relevance") or "neutral").strip().lower()
     )
-    if macro_relevance == "challenges":
+    if macro_relevance == "challenges" or macro_relevance == "contradicts":
         score -= 18
-        rationale_parts.append("overnight macro conditions are working against this position")
-    elif macro_relevance == "confirms":
+        rationale_parts.append("overnight macro conditions raise risk for this position")
+    elif macro_relevance == "confirms" or macro_relevance == "supports":
         score += 10
-        rationale_parts.append("overnight macro backdrop supports the position's risk profile")
+        rationale_parts.append("overnight macro backdrop lowers risk for this position")
     else:
         rationale_parts.append("no clear overnight macro shift detected")
 
@@ -356,7 +359,7 @@ def _macro_adjustment_from_context(position_data: dict) -> tuple[float, str]:
     elif sector in {"healthcare", "consumer staples", "utilities"}:
         score += 2
 
-    return clamp_score(round(score), 50), "; ".join(rationale_parts)
+    return clamp_score(round(score), 0), "; ".join(rationale_parts)
 
 
 def _deterministic_dimension_scores(
@@ -370,7 +373,7 @@ def _deterministic_dimension_scores(
         major_event_count,
         minor_event_count,
         coverage_note,
-    ) = _coverage_state_for_position(position_data)
+    ) = _data_state_for_position(position_data)
     ticker_metadata = position_data.get("ticker_metadata") or {}
     current_price = _safe_float(
         position_data.get("current_price")
@@ -399,11 +402,11 @@ def _deterministic_dimension_scores(
         if significance == "major" and direction > 0:
             improving_major += 1
 
-    news_sentiment = clamp_score(round(50 + news_delta), 50)
+    news_sentiment = clamp_score(round(50 + news_delta), 0)
     news_rationale = (
-        f"News sentiment is driven down by {worsening_major} major negative development(s) and supported by {improving_major} positive one(s)."
+        f"News risk is driven by {worsening_major} major negative development(s) and improved by {improving_major} positive one(s)."
         if event_analyses
-        else "No recent news with a clear directional signal — the read defaults to neutral pending new coverage."
+        else "No recent news with a clear directional signal — rating defaults to neutral pending new data."
     )
 
     macro_exposure, macro_rationale = _macro_adjustment_from_context(position_data)
@@ -415,7 +418,7 @@ def _deterministic_dimension_scores(
         volatility_trend -= min(18, max(0.0, (beta - 1.0) * 10))
     volatility_trend -= worsening_major * 5
     volatility_trend += improving_major * 3
-    volatility_trend = clamp_score(round(volatility_trend), 50)
+    volatility_trend = clamp_score(round(volatility_trend), 0)
     if beta and volatility_proxy:
         volatility_rationale = f"Beta of {ticker_metadata.get('beta')} and elevated volatility proxy drive near-term price instability, compounded by {worsening_major} negative event(s)."
     elif worsening_major:
@@ -436,7 +439,7 @@ def _deterministic_dimension_scores(
         sizing_score -= 8
     if portfolio_weight <= 0.01 and shares > 0:
         sizing_score += 2
-    position_sizing = clamp_score(round(sizing_score), 50)
+    position_sizing = clamp_score(round(sizing_score), 0)
     if portfolio_weight >= 0.2:
         sizing_rationale = f"Concentration risk is elevated — this position represents {portfolio_weight:.0%} of portfolio value, amplifying downside from any adverse development."
     elif portfolio_weight >= 0.1:
@@ -458,7 +461,7 @@ def _deterministic_dimension_scores(
         ),
         1,
     )
-    grade = _apply_grade_hysteresis(total, position_data.get("previous_grade"))
+    grade = score_to_grade(total)
 
     reasoning = _synthesized_reasoning(
         str(position_data.get("ticker") or "this position"),
@@ -469,17 +472,23 @@ def _deterministic_dimension_scores(
         llm_used=False,
         total_score=total,
     )
+    formatted_reasoning = format_rationale(
+        grade=grade,
+        direction=grade_direction(total, position_data.get("previous_total_score")),
+        raw_text=reasoning,
+        scores=normalized_scores,
+        source_count=source_count,
+    )
     if position_data.get("previous_grade") and grade != score_to_grade(weighted):
-        reasoning = (
-            f"{reasoning} Grade held at {grade} to stay consistent near the threshold."
-        )
+        pass
 
     return {
         **normalized_scores,
         "total_score": total,
         "grade": grade,
-        "reasoning": reasoning,
-        "grade_reason": reasoning,
+        "grade_direction": grade_direction(total, position_data.get("previous_total_score")),
+        "score_delta": int(round(total - position_data.get("previous_total_score", total))),
+        "reasoning": formatted_reasoning,
         "evidence_summary": position_data.get("summary", ""),
         "dimension_rationale": {
             "news_sentiment": news_rationale,
@@ -493,6 +502,7 @@ def _deterministic_dimension_scores(
         "coverage_state": coverage_state,
         "coverage_note": coverage_note,
         "is_provisional": coverage_state != "substantive",
+        "evidence_strength": evidence_strength(source_count),
         "llm_scoring_used": False,
         "mirofish_used": position_data.get("mirofish_used", False),
     }
@@ -534,20 +544,8 @@ def _llm_score_prompt(position_data: dict) -> str:
 
 
 def calculate_weighted_score(scores: dict) -> float:
-    values = [clamp_score(scores.get(key), 50) for key in DIMENSION_KEYS]
+    values = [clamp_score(scores.get(key), 0) for key in DIMENSION_KEYS]
     return sum(values) / len(values)
-
-
-def score_to_grade(score: float) -> str:
-    if score >= 80:
-        return "A"
-    if score >= 65:
-        return "B"
-    if score >= 50:
-        return "C"
-    if score >= 35:
-        return "D"
-    return "F"
 
 
 def _apply_grade_hysteresis(score: float, previous_grade: str | None) -> str:
@@ -656,10 +654,10 @@ async def score_position(
         return deterministic
 
     normalized_scores = {
-        "news_sentiment": clamp_score(scores.get("news_sentiment"), 50),
-        "macro_exposure": clamp_score(scores.get("macro_exposure"), 50),
-        "position_sizing": clamp_score(scores.get("position_sizing"), 50),
-        "volatility_trend": clamp_score(scores.get("volatility_trend"), 50),
+        "news_sentiment": clamp_score(scores.get("news_sentiment"), 0),
+        "macro_exposure": clamp_score(scores.get("macro_exposure"), 0),
+        "position_sizing": clamp_score(scores.get("position_sizing"), 0),
+        "volatility_trend": clamp_score(scores.get("volatility_trend"), 0),
     }
     (
         coverage_state,
@@ -667,7 +665,7 @@ async def score_position(
         major_event_count,
         minor_event_count,
         coverage_note,
-    ) = _coverage_state_for_position(position_data)
+    ) = _data_state_for_position(position_data)
 
     weighted = calculate_weighted_score(normalized_scores)
     total = round(
@@ -677,7 +675,7 @@ async def score_position(
         ),
         1,
     )
-    grade = _apply_grade_hysteresis(total, position_report.get("previous_grade"))
+    grade = score_to_grade(total)
     dimension_rationale = scores.get("dimension_rationale") or {}
     reasoning = (scores.get("reasoning") or "").strip()
     if not reasoning:
@@ -690,12 +688,13 @@ async def score_position(
             llm_used=True,
             total_score=total,
         )
-
-    if position_report.get("previous_grade") and grade != score_to_grade(weighted):
-        if reasoning:
-            reasoning = f"{reasoning} Grade held at {grade} to stay consistent near the threshold."
-        else:
-            reasoning = f"Grade held at {grade} to stay consistent near the threshold."
+    formatted_reasoning = format_rationale(
+        grade=grade,
+        direction=grade_direction(total, position_report.get("previous_total_score")),
+        raw_text=reasoning,
+        scores=normalized_scores,
+        source_count=source_count,
+    )
 
     return {
         "news_sentiment": normalized_scores["news_sentiment"],
@@ -704,8 +703,9 @@ async def score_position(
         "volatility_trend": normalized_scores["volatility_trend"],
         "total_score": total,
         "grade": grade,
-        "reasoning": reasoning,
-        "grade_reason": reasoning,
+        "grade_direction": grade_direction(total, position_report.get("previous_total_score")),
+        "score_delta": int(round(total - position_report.get("previous_total_score", total))),
+        "reasoning": formatted_reasoning,
         "evidence_summary": scores.get("evidence_summary") or position_data.get("summary", ""),
         "dimension_rationale": dimension_rationale,
         "source_count": source_count,
@@ -714,6 +714,7 @@ async def score_position(
         "coverage_state": coverage_state,
         "coverage_note": coverage_note,
         "is_provisional": coverage_state != "substantive",
+        "evidence_strength": evidence_strength(source_count),
         "llm_scoring_used": True,
         "mirofish_used": mirofish_used,
     }
@@ -784,6 +785,22 @@ def score_position_structural(
         )
 
     safety_grade = score_to_grade(final_safety)
+    direction = grade_direction(final_safety, previous_safety_score)
+    source_count_struct = len(recent_events)
+    structural_drivers = []
+    if abs(macro_adj) > 3:
+        structural_drivers.append(f"Macro adjustment: {'+' if macro_adj > 0 else ''}{macro_adj}")
+    if abs(total_event_adjustment) > 1:
+        structural_drivers.append(f"Event adjustment: {'+' if total_event_adjustment > 0 else ''}{total_event_adjustment:.0f}")
+    if not structural_drivers:
+        structural_drivers.append("Structural profile dominant")
+    structural_reasoning = format_rationale(
+        grade=safety_grade,
+        direction=direction,
+        raw_text="\n".join(structural_drivers[:2]),
+        scores={"news_sentiment": 50, "macro_exposure": structural_result["structural_base_score"], "position_sizing": 50, "volatility_trend": 50},
+        source_count=source_count_struct,
+    )
     source_count = len(recent_events)
     major_event_count = sum(
         1
@@ -793,10 +810,10 @@ def score_position_structural(
     minor_event_count = max(source_count - major_event_count, 0)
     if source_count == 0:
         coverage_state = "provisional"
-        coverage_note = "No recent event coverage was available, so this structural score is provisional."
+        coverage_note = "No recent event data was available, so this structural score uses limited data."
     elif source_count <= 2:
         coverage_state = "thin"
-        coverage_note = f"Low-confidence coverage: only {source_count} recent event(s) were available."
+        coverage_note = f"Limited data: only {source_count} recent event(s) were available."
     else:
         coverage_state = "substantive"
         coverage_note = (
@@ -828,10 +845,11 @@ def score_position_structural(
         "event_adjustment": total_event_adjustment,
         "total_score": final_safety,
         "grade": safety_grade,
+        "grade_direction": grade_direction(final_safety, previous_safety_score),
+        "score_delta": int(round(final_safety - previous_safety_score)) if previous_safety_score is not None else None,
         "factor_breakdown": factor_breakdown,
         "market_cap_bucket": structural_result.get("market_cap_bucket"),
-        "reasoning": f"Structural: {structural_result['structural_base_score']}, Macro: {macro_adj}, Event: {total_event_adjustment}",
-        "grade_reason": f"Safety score {final_safety} based on structural factors and adjustments",
+        "reasoning": structural_reasoning,
         "dimension_rationale": {
             "structural_base_score": f"Deterministic scoring from market cap, liquidity, volatility, leverage, profitability",
             "macro_adjustment": f"Regime {regime_state} with {macro_sensitivity} sensitivity",
@@ -843,6 +861,7 @@ def score_position_structural(
         "coverage_state": coverage_state,
         "coverage_note": coverage_note,
         "is_provisional": coverage_state != "substantive",
+        "evidence_strength": evidence_strength(source_count),
         "mirofish_used": False,
     }
 
@@ -935,12 +954,25 @@ Return EXACTLY this JSON format (no markdown, no explanation, no thinking):
         - volatility_trend: falling volatility / stable trend=high (70-100), rising volatility / unstable behavior=low (0-40)
         - Grade A=80+, B=65-79, C=50-64, D=35-49, F=<35
 
-        How to write "reasoning" — thesis-driven rationale for each position:
-        1. Lead with the dominant risk force acting on this position right now.
-        2. If positive and negative forces compete, resolve which matters more and why. Do not just list both sides.
-        3. If positive news coexists with a weak score, explain that structural or macro factors outweigh the headline. If negative news is offset by strong fundamentals, say so.
-        4. Close with what would materially change the thesis.
-        5. Write like a concise equity research note — not a score explanation, not a process description.
+        How to write "reasoning" — strict credit-rating format:
+        FORMAT: [GRADE] — [Risk Level] ([arrow]) + max 2 driver lines. Each driver ≤60 chars.
+        Risk Levels: A=Low Risk, B=Moderate Risk, C=Elevated Risk, D=High Risk, F=Severe Risk
+        Arrows: ↓ improving if score improved, ↑ worsening if score dropped, → stable
+        Example:
+        C — Elevated Risk (↑ worsening)
+        Earnings miss on revenue weakness
+        Sector rotation into defensives
+
+        Rules:
+        1. Each driver MUST name a concrete event, metric change, or sector theme:
+           ✅ "Earnings miss on revenue weakness"
+           ✅ "High rate sensitivity"
+           ✅ "Valuation stretched vs earnings"
+           ❌ "Mixed signals across sectors"
+           ❌ "Market uncertainty"
+           ❌ "Could impact performance"
+        2. If evidence is thin (<3 events), write: "Limited data — risk based on fundamentals"
+        3. No paragraphs. No hedging. No "may", "could", "would", "suggests", "indicates"
 
         How to write "dimension_rationale" — one sentence per dimension about what is happening, not what the score number is:
         - news_sentiment: what the news means (not "the score is 60")
@@ -952,9 +984,8 @@ Return EXACTLY this JSON format (no markdown, no explanation, no thinking):
         - Do not return 50 across all four dimensions unless the evidence is genuinely absent.
         - If the evidence is directional, move the relevant dimensions away from 50.
         - Use the position value and portfolio weight context when estimating position sizing.
-        - Include a thesis-driven reasoning string, per-dimension rationale about what is happening, and a one-line evidence summary for each ticker.
 
-        Forbidden: dimension scores in rationale, "the model", "the score reflects", "based on the dimension", "coverage across N sources", internal evidence labels (full_body, title_only, headline_summary).
+        Forbidden: dimension scores in rationale, "the model", "the score reflects", "based on the dimension", "data across N sources", internal evidence labels (full_body, title_only, headline_summary), "thesis", "positive momentum", "macro headwinds", "provisional", "sentiment", "confirms", "coverage", "monitor", "research", "analyst", "watch".
 
 Respond with ONLY the JSON object. Start with {{ and end with }}."""
 
@@ -1015,7 +1046,7 @@ Respond with ONLY the JSON object. Start with {{ and end with }}."""
                 major_event_count,
                 minor_event_count,
                 coverage_note,
-            ) = _coverage_state_for_position(position)
+            ) = _data_state_for_position(position)
             if _prefer_llm_scoring(position) and has_suspicious_neutral_scores(
                 raw_scores
             ):
@@ -1025,10 +1056,10 @@ Respond with ONLY the JSON object. Start with {{ and end with }}."""
                 )
                 continue
             normalized = {
-                "news_sentiment": clamp_score(raw_scores.get("news_sentiment"), 50),
-                "macro_exposure": clamp_score(raw_scores.get("macro_exposure"), 50),
-                "position_sizing": clamp_score(raw_scores.get("position_sizing"), 50),
-                "volatility_trend": clamp_score(raw_scores.get("volatility_trend"), 50),
+                "news_sentiment": clamp_score(raw_scores.get("news_sentiment"), 0),
+                "macro_exposure": clamp_score(raw_scores.get("macro_exposure"), 0),
+                "position_sizing": clamp_score(raw_scores.get("position_sizing"), 0),
+                "volatility_trend": clamp_score(raw_scores.get("volatility_trend"), 0),
             }
             reasoning = (raw_scores.get("reasoning") or "").strip()
             if not reasoning:
@@ -1048,13 +1079,24 @@ Respond with ONLY the JSON object. Start with {{ and end with }}."""
                 ),
                 1,
             )
-            grade = _apply_grade_hysteresis(total, position.get("previous_grade"))
-            if position.get("previous_grade") and grade != score_to_grade(weighted):
-                reasoning = (
-                    f"{reasoning} Grade held at {grade} to stay consistent near the threshold."
-                    if reasoning
-                    else f"Grade held at {grade} to stay consistent near the threshold."
+            grade = score_to_grade(total)
+            reasoning = (raw_scores.get("reasoning") or "").strip()
+            if not reasoning:
+                reasoning = _synthesized_reasoning(
+                    ticker,
+                    normalized,
+                    coverage_state,
+                    source_count,
+                    coverage_note,
+                    llm_used=True,
                 )
+            formatted_reasoning = format_rationale(
+                grade=grade,
+                direction=grade_direction(total, position.get("previous_total_score")),
+                raw_text=reasoning,
+                scores=normalized,
+                source_count=source_count,
+            )
             results[result_index] = {
                 "news_sentiment": normalized["news_sentiment"],
                 "macro_exposure": normalized["macro_exposure"],
@@ -1062,8 +1104,9 @@ Respond with ONLY the JSON object. Start with {{ and end with }}."""
                 "volatility_trend": normalized["volatility_trend"],
                 "total_score": total,
                 "grade": grade,
-                "reasoning": reasoning,
-                "grade_reason": reasoning,
+                "grade_direction": grade_direction(total, position.get("previous_total_score")),
+                "score_delta": int(round(total - position.get("previous_total_score", total))),
+                "reasoning": formatted_reasoning,
                 "evidence_summary": raw_scores.get("evidence_summary") or position.get("summary", ""),
                 "dimension_rationale": raw_scores.get("dimension_rationale") or {},
                 "source_count": source_count,
@@ -1072,6 +1115,7 @@ Respond with ONLY the JSON object. Start with {{ and end with }}."""
                 "coverage_state": coverage_state,
                 "coverage_note": coverage_note,
                 "is_provisional": coverage_state != "substantive",
+                "evidence_strength": evidence_strength(source_count),
                 "llm_scoring_used": True,
                 "mirofish_used": position.get("mirofish_used", False),
                 "factor_breakdown": {

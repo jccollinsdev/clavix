@@ -39,6 +39,9 @@ struct PositionAnalysis: Codable {
     let topRisks: [String]?
     let watchItems: [String]?
     let topNews: [String]?
+    let driverCardsState: DriverCardsState?
+    let driverCards: [DriverCard]
+    let driverCardsSource: String?
     let majorEventCount: Int?
     let minorEventCount: Int?
     let status: String?
@@ -58,6 +61,9 @@ struct PositionAnalysis: Codable {
         case topRisks = "top_risks"
         case watchItems = "watch_items"
         case topNews = "top_news"
+        case driverCardsState = "driver_cards_state"
+        case driverCards = "driver_cards"
+        case driverCardsSource = "driver_cards_source"
         case majorEventCount = "major_event_count"
         case minorEventCount = "minor_event_count"
         case status
@@ -79,6 +85,9 @@ struct PositionAnalysis: Codable {
         topRisks = try container.decodeIfPresent([String].self, forKey: .topRisks)
         watchItems = try container.decodeIfPresent([String].self, forKey: .watchItems)
         topNews = try container.decodeIfPresent([String].self, forKey: .topNews)
+        driverCardsState = try? container.decodeIfPresent(DriverCardsState.self, forKey: .driverCardsState)
+        driverCards = (try? container.decode([DriverCard].self, forKey: .driverCards)) ?? []
+        driverCardsSource = try container.decodeIfPresent(String.self, forKey: .driverCardsSource)
         majorEventCount = try container.decodeFlexibleIntIfPresent(forKey: .majorEventCount)
         minorEventCount = try container.decodeFlexibleIntIfPresent(forKey: .minorEventCount)
         status = try container.decodeIfPresent(String.self, forKey: .status)

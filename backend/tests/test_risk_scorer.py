@@ -1,6 +1,7 @@
 import sys
 import types
 import asyncio
+import re
 
 
 _fake_openai_module = types.ModuleType("openai")
@@ -16,6 +17,17 @@ sys.modules.setdefault("openai", _fake_openai_module)
 
 from app.pipeline import risk_scorer
 from app.services.ticker_cache_service import build_risk_score_response
+
+
+def _assert_strict_rationale(text: str, grade: str):
+    assert text
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    assert lines
+    assert re.fullmatch(
+        rf"{grade} — (Low|Moderate|Elevated|High|Severe) Risk \([↑↓→] (improving|worsening|stable)\)",
+        lines[0],
+    )
+    assert len(lines) <= 3
 
 
 def test_prefer_llm_scoring_for_backfill_when_analysis_exists():
@@ -123,6 +135,42 @@ def test_score_position_synthesizes_reasoning_when_llm_returns_blank(monkeypatch
     assert result["is_provisional"] is True
 
 
+def test_score_position_uses_canonical_grade_band_over_previous_grade(monkeypatch):
+    monkeypatch.setattr(
+        risk_scorer,
+        "chatcompletion_text",
+        lambda **kwargs: (
+            '{"news_sentiment": 65, "macro_exposure": 65, "position_sizing": 65, '
+            '"volatility_trend": 65, "grade": "D", "reasoning": "Balanced risk read.", '
+            '"dimension_rationale": {}}'
+        ),
+    )
+
+    result = asyncio.run(
+        risk_scorer.score_position(
+            {
+                "ticker": "ABT",
+                "shares": 10,
+                "purchase_price": 100,
+                "current_price": 110,
+                "analysis_mode": "sp500_backfill",
+                "event_analyses": [],
+                "summary": "Company-specific catalyst",
+                "long_report": "Long-form report.",
+                "previous_total_score": 42,
+            },
+            {
+                "summary": "Company-specific catalyst",
+                "long_report": "Long-form report.",
+                "previous_grade": "D",
+            },
+        )
+    )
+
+    assert result["total_score"] == 65.0
+    assert result["grade"] == "B"
+
+
 def test_build_risk_score_response_surfaces_coverage_context():
     response = build_risk_score_response(
         {
@@ -142,13 +190,14 @@ def test_build_risk_score_response_surfaces_coverage_context():
         },
     )
 
-    assert response["coverage_state"] == "provisional"
+    assert response["coverage_state"] == "limited data"
     assert response["is_provisional"] is True
     assert response["source_count"] == 0
-    assert response["reasoning"]
+    _assert_strict_rationale(response["reasoning"], "C")
     # Rationale must be investor-facing, not dimension-math
     assert "Macro/sector exposure (" not in response["reasoning"]
     assert "adds risk at" not in response["reasoning"]
+    assert "provisional" not in response["reasoning"].lower()
 
 
 def test_build_risk_score_response_uses_latest_position_score_without_snapshot():
@@ -176,3 +225,22 @@ def test_build_risk_score_response_uses_latest_position_score_without_snapshot()
     assert response["safety_score"] == 61
     assert response["factor_breakdown"]["ai_dimensions"]["news_sentiment"] == 72
     assert response["source_count"] == 3
+
+
+def test_build_risk_score_response_ignores_draft_position_analysis_summary():
+    response = build_risk_score_response(
+        {"id": "snapshot-1", "safety_score": 58, "grade": "C", "analysis_as_of": "2026-04-21T18:00:00+00:00"},
+        position_id="position-1",
+        latest_position_score={"reasoning": "", "total_score": 58, "grade": "C"},
+        coverage_context={
+            "status": "draft",
+            "summary": "Quick brief ready for AMD. Found 3 relevant headlines and started the deeper analysis.",
+            "long_report": "Draft status text.",
+            "source_count": 3,
+        },
+    )
+
+    assert response is not None
+    _assert_strict_rationale(response["reasoning"], "C")
+    assert "Quick brief ready" not in response["reasoning"]
+    assert "started the deeper analysis" not in response["reasoning"]

@@ -136,6 +136,30 @@ def test_sync_user_job_replaces_digest_job_for_new_time():
     assert result == {}
 
 
+def test_upsert_draft_position_snapshot_keeps_publishable_fields_empty():
+    captured = {}
+
+    def _capture(*_args, **kwargs):
+        captured.update(kwargs)
+
+    with patch.object(scheduler, "_upsert_position_analysis", side_effect=_capture):
+        scheduler._upsert_draft_position_snapshot(
+            object(),
+            analysis_run_id="run-1",
+            position={"id": "pos-1", "ticker": "AMD", "archetype": "core"},
+            ticker="AMD",
+            top_headlines=["Headline"],
+            progress_message="Risk review in progress.",
+            source_count=2,
+        )
+
+    assert captured["summary"] is None
+    assert captured["long_report"] is None
+    assert captured["methodology"] is None
+    assert captured["top_risks"] == []
+    assert captured["watch_items"] == []
+
+
 class _WeekdayDigestFakeResult:
     def __init__(self, data):
         self.data = data
@@ -375,3 +399,90 @@ def test_get_scheduler_status_exposes_last_run_summary():
     assert status["last_run_status"] == "failed"
     assert status["last_failure_at"] == "2026-04-24T05:00:00+00:00"
     assert status["last_success_at"] is None
+
+
+class _MetadataRefreshStop(Exception):
+    pass
+
+
+class _ExecuteFakeResult:
+    def __init__(self, data):
+        self.data = data
+
+
+class _ExecuteFakeQuery:
+    def __init__(self, table_name, rows):
+        self.table_name = table_name
+        self.rows = rows
+        self.filters = {}
+        self.in_filters = {}
+
+    def select(self, *_args, **_kwargs):
+        return self
+
+    def eq(self, key, value):
+        self.filters[key] = value
+        return self
+
+    def in_(self, key, values):
+        self.in_filters[key] = set(values)
+        return self
+
+    def order(self, *_args, **_kwargs):
+        return self
+
+    def limit(self, *_args, **_kwargs):
+        return self
+
+    def execute(self):
+        if self.table_name == "ticker_metadata":
+            raise _MetadataRefreshStop()
+        rows = list(self.rows.get(self.table_name, []))
+        for key, value in self.filters.items():
+            rows = [row for row in rows if row.get(key) == value]
+        for key, values in self.in_filters.items():
+            rows = [row for row in rows if row.get(key) in values]
+        return _ExecuteFakeResult(rows)
+
+
+class _ExecuteFakeSupabase:
+    def __init__(self, rows):
+        self.rows = rows
+
+    def table(self, table_name):
+        return _ExecuteFakeQuery(table_name, self.rows)
+
+
+def test_execute_analysis_run_reaches_metadata_refresh_without_nameerror():
+    fake_supabase = _ExecuteFakeSupabase(
+        {
+            "positions": [
+                {"id": "pos-1", "user_id": "user-1", "ticker": "AMD"}
+            ]
+        }
+    )
+
+    async def _fake_to_thread(func, *args, **kwargs):
+        return func(*args, **kwargs)
+
+    with (
+        patch("app.services.supabase.get_supabase", return_value=fake_supabase),
+        patch.object(scheduler, "upsert_ticker_metadata", return_value={"ticker": "AMD"}),
+        patch.object(scheduler, "_set_analysis_stage"),
+        patch.object(scheduler, "_record_scheduled_run_start"),
+        patch.object(scheduler, "_record_scheduled_run_result"),
+        patch.object(scheduler.asyncio, "to_thread", side_effect=_fake_to_thread),
+    ):
+        try:
+            asyncio.run(
+                scheduler.execute_analysis_run(
+                    user_id="user-1",
+                    analysis_run_id="run-1",
+                    triggered_by="scheduled",
+                    skip_metadata_refresh=False,
+                )
+            )
+        except _MetadataRefreshStop:
+            pass
+        else:
+            raise AssertionError("Expected metadata refresh sentinel after import path")
