@@ -86,8 +86,8 @@ class DigestViewModel: ObservableObject {
                 errorMessage = nil
             case "failed":
                 activeRun = resolvedRun
-                let displayError = resolvedRun?.displayErrorMessage ?? "Analysis failed. Please run a fresh review."
-                errorMessage = isTransientAnalysisError(displayError) ? nil : displayError
+                let displayError = resolvedRun?.displayErrorMessage ?? ClavisCopy.Errors.analysisRefreshFailed
+                errorMessage = isTransientAnalysisError(displayError) ? nil : ClavisCopy.Errors.analysisRefreshFailed
             case "completed":
                 activeRun = response.digest == nil ? resolvedRun : nil
                 errorMessage = nil
@@ -116,9 +116,9 @@ class DigestViewModel: ObservableObject {
                     timeoutMessage = "Analysis is taking longer than expected. You can leave this screen."
                 }
             } else if (error as? APIError) != nil {
-                errorMessage = "We couldn't load the latest digest right now."
+                errorMessage = ClavisCopy.Errors.digestLoad(error)
             } else {
-                errorMessage = error.localizedDescription
+                errorMessage = ClavisCopy.Errors.digestLoad(error)
             }
         }
 
@@ -154,7 +154,7 @@ class DigestViewModel: ObservableObject {
         } catch is CancellationError {
             errorMessage = nil
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = ClavisCopy.Errors.digestRefresh(error)
         }
 
         isLoading = false
@@ -176,7 +176,7 @@ class DigestViewModel: ObservableObject {
 
                 if run.isTerminal {
                     if run.lifecycleStatus == "failed" {
-                        errorMessage = isTransientAnalysisError(run.displayErrorMessage) ? nil : run.displayErrorMessage
+                        errorMessage = isTransientAnalysisError(run.displayErrorMessage) ? nil : ClavisCopy.Errors.analysisRefreshFailed
                         return false
                     }
                     return true
@@ -184,7 +184,7 @@ class DigestViewModel: ObservableObject {
             } catch is CancellationError {
                 return false
             } catch {
-                errorMessage = error.localizedDescription
+                errorMessage = ClavisCopy.Errors.digestRefresh(error)
                 return false
             }
 

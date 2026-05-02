@@ -15,6 +15,7 @@ from ..pipeline.macro_classifier import classify_overnight_macro
 from ..pipeline.rss_ingest import fetch_cnbc_macro_rss, fetch_cnbc_sector_rss
 from ..pipeline.macro_classifier import summarize_sector_overview
 from ..pipeline.portfolio_risk import calculate_portfolio_risk_score
+from ..pipeline.analysis_utils import score_to_grade
 from ..pipeline.scheduler import (
     _compute_portfolio_grade,
     _maybe_create_alert,
@@ -38,17 +39,7 @@ def _compute_shared_portfolio_grade(positions: list[dict]) -> tuple[float, str]:
     if not scores:
         return 50.0, "C"
     avg = sum(scores) / len(scores)
-    if avg >= 80:
-        grade = "A"
-    elif avg >= 65:
-        grade = "B"
-    elif avg >= 50:
-        grade = "C"
-    elif avg >= 35:
-        grade = "D"
-    else:
-        grade = "F"
-    return round(avg, 1), grade
+    return round(avg, 1), score_to_grade(avg)
 
 
 def _build_watchlist_alerts(
@@ -375,16 +366,16 @@ async def _build_force_refresh_digest(
             },
         )
 
-    await _maybe_create_alert(
-        supabase,
-        {
-            "user_id": user_id,
-            "type": "digest_ready",
-            "message": "Your latest Clavynx digest is ready.",
-            "analysis_run_id": digest_run["id"],
-        },
-        dedupe_hours=4,
-    )
+        await _maybe_create_alert(
+            supabase,
+            {
+                "user_id": user_id,
+                "type": "digest_ready",
+                "message": "New Clavix portfolio rating available.",
+                "analysis_run_id": digest_run["id"],
+            },
+            dedupe_hours=4,
+        )
 
     _set_analysis_stage(
         supabase,

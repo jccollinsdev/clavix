@@ -23,14 +23,16 @@ struct AlertsView: View {
                     if viewModel.isLoading && viewModel.alerts.isEmpty {
                         ClavisLoadingCard(title: "Loading alerts", subtitle: "Checking recent alert activity.")
                     } else if viewModel.alerts.isEmpty {
-                        AlertsEmptyStateCard()
+                        AlertsEmptyStateCard(openHoldings: { selectedTab = 1 })
                     } else {
                         AlertsSummaryGrid(alerts: viewModel.sortedAlerts)
                         AlertFilterChipRow(selectedFilter: $selectedFilter, alerts: viewModel.sortedAlerts)
 
                         AlertsTimelineCard(
                             alerts: filteredAlerts,
-                            positionIdForTicker: { viewModel.positionId(for: $0) },
+                            evidenceForTicker: { ticker in
+                                viewModel.holdings.first(where: { $0.ticker.caseInsensitiveCompare(ticker ?? "") == .orderedSame })?.evidenceStrength
+                            },
                             onTapAlert: handleAlertTap
                         )
                     }
@@ -80,7 +82,7 @@ struct AlertsView: View {
     }
 
     private func alertDestination(for alert: Alert) -> AlertDestination? {
-        if alert.type == .digestReady {
+        if alert.type == .ratingReady || alert.type == .digestReady {
             return .digest
         }
 
@@ -106,12 +108,18 @@ private struct AlertsSummaryGrid: View {
     let alerts: [Alert]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 6) {
-                summaryCell(label: "Critical", count: alerts.filter { $0.type.severity == .critical }.count, tint: .riskF, fill: .dangerSurface, border: .riskF)
-                summaryCell(label: "High", count: alerts.filter { severityBucket(for: $0) == .high }.count, tint: .riskD, fill: .warningSurface, border: .riskD)
-                summaryCell(label: "Watch", count: alerts.filter { severityBucket(for: $0) == .watch }.count, tint: .riskC, fill: .warningSurface, border: .riskC)
-                summaryCell(label: "Info", count: alerts.filter { $0.type.severity == .informational }.count, tint: .textPrimary, fill: .surface, border: .border)
+        ClavisStandardCard(fill: .surface, padding: ClavisTheme.cardPadding) {
+            LazyVGrid(
+                columns: [
+                    GridItem(.flexible(), spacing: 8),
+                    GridItem(.flexible(), spacing: 8),
+                ],
+                spacing: 8
+            ) {
+                summaryCell(label: "Critical", count: alerts.filter { $0.type.severity == .critical }.count, tint: .riskF)
+                summaryCell(label: "High", count: alerts.filter { severityBucket(for: $0) == .high }.count, tint: .riskD)
+                summaryCell(label: "Elevated", count: alerts.filter { severityBucket(for: $0) == .elevated }.count, tint: .riskC)
+                summaryCell(label: "Info", count: alerts.filter { $0.type.severity == .informational }.count, tint: .textSecondary)
             }
         }
     }
@@ -122,7 +130,7 @@ private struct AlertsSummaryGrid: View {
             return .high
         case .warning:
             if alert.newGrade == "C" || alert.previousGrade == "C" || alert.type == .majorEvent {
-                return .watch
+                return .elevated
             }
             return .high
         case .informational:
@@ -130,37 +138,34 @@ private struct AlertsSummaryGrid: View {
         }
     }
 
-    private func summaryCell(label: String, count: Int, tint: Color, fill: Color, border: Color) -> some View {
-        VStack(spacing: 3) {
-            Text(label)
-                .font(.system(size: 11, weight: .medium))
-                .foregroundColor(.textSecondary)
+    private func summaryCell(label: String, count: Int, tint: Color) -> some View {
+        ClavisRaisedControlSurface(padding: 10) {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text(label)
+                        .font(.system(size: 11, weight: .medium))
+                        .foregroundColor(.textSecondary)
 
-            Text("\(count)")
-                .font(.system(size: 22, weight: .bold, design: .monospaced))
-                .foregroundColor(.textPrimary)
-                .monospacedDigit()
+                    Spacer(minLength: 6)
+
+                    Text("\(count)")
+                        .font(.system(size: 22, weight: .bold, design: .monospaced))
+                        .foregroundColor(.textPrimary)
+                        .monospacedDigit()
+                }
+
+                Rectangle()
+                    .fill(tint)
+                    .frame(height: 2)
+                    .clipShape(RoundedRectangle(cornerRadius: 1))
+            }
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 10)
-        .background(Color.surface)
-        .overlay(
-            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                .stroke(Color.border, lineWidth: 1)
-        )
-        .overlay(alignment: .top) {
-            Rectangle()
-                .fill(tint)
-                .frame(height: 2)
-                .clipShape(RoundedRectangle(cornerRadius: 1))
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
     }
 }
 
 private enum AlertSummaryBucket {
     case high
-    case watch
+    case elevated
     case info
 }
 
@@ -170,7 +175,7 @@ private struct AlertFilterChipRow: View {
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 7) {
+            HStack(spacing: 6) {
                 ForEach(AlertFeedFilter.allCases, id: \.self) { filter in
                     Button {
                         selectedFilter = filter
@@ -196,30 +201,29 @@ private struct AlertFilterChipRow: View {
 
 private struct AlertsTimelineCard: View {
     let alerts: [Alert]
-    let positionIdForTicker: (String?) -> String?
+    let evidenceForTicker: (String?) -> EvidenceStrength?
     let onTapAlert: (Alert) -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
-            ForEach(Array(alerts.enumerated()), id: \.element.id) { index, alert in
-                AlertsTimelineRow(
-                    alert: alert,
-                    showsConnector: index < alerts.count - 1,
-                    positionId: positionIdForTicker(alert.positionTicker),
-                    onTap: { onTapAlert(alert) }
-                )
+        ClavisFlushListCard(fill: .surface, padding: 14) {
+            VStack(spacing: 0) {
+                ForEach(Array(alerts.enumerated()), id: \.element.id) { index, alert in
+                    AlertsTimelineRow(
+                        alert: alert,
+                        showsConnector: index < alerts.count - 1,
+                        positionEvidence: evidenceForTicker(alert.positionTicker),
+                        onTap: { onTapAlert(alert) }
+                    )
+                }
             }
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, 4)
-        .clavisCardStyle(fill: .surface)
     }
 }
 
 private struct AlertsTimelineRow: View {
     let alert: Alert
     let showsConnector: Bool
-    let positionId: String?
+    var positionEvidence: EvidenceStrength? = nil
     let onTap: () -> Void
 
     var body: some View {
@@ -230,9 +234,9 @@ private struct AlertsTimelineRow: View {
     }
 
     private var rowContent: some View {
-        HStack(alignment: .top, spacing: 12) {
-            VStack(spacing: 5) {
-                GradeTag(grade: displayGrade, compact: true)
+        HStack(alignment: .top, spacing: 10) {
+            VStack(spacing: 4) {
+                GradeBadge(grade: displayGrade, size: .compact)
                 if showsConnector {
                     Rectangle()
                         .fill(Color.border)
@@ -242,7 +246,7 @@ private struct AlertsTimelineRow: View {
             }
             .frame(width: 24)
 
-            VStack(alignment: .leading, spacing: 3) {
+            VStack(alignment: .leading, spacing: 6) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(alert.type.displayName)
                         .font(ClavisTypography.label)
@@ -256,30 +260,69 @@ private struct AlertsTimelineRow: View {
                 }
 
                 Text(alert.message.sanitizedDisplayText)
-                    .font(ClavisTypography.footnoteEmphasis)
+                    .font(ClavisTypography.bodyEmphasis)
                     .foregroundColor(.textPrimary)
                     .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 if let ticker = alert.positionTicker {
-                    Text(ticker)
+                    Text(ticker.uppercased())
                         .font(.system(size: 12, weight: .semibold, design: .monospaced))
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(.textPrimary)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .background(Color.surfaceElevated)
+                        .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                 }
 
                 if let previous = alert.previousGrade, let next = alert.newGrade {
-                    HStack(spacing: 8) {
-                        GradeTag(grade: previous, compact: true)
+                    HStack(spacing: 6) {
+                        GradeBadge(grade: previous, size: .compact)
                         Image(systemName: "arrow.right")
-                            .font(.system(size: 15, weight: .semibold))
+                            .font(.system(size: 13, weight: .semibold))
                             .foregroundColor(.textTertiary)
-                        GradeTag(grade: next, compact: true)
+                        GradeBadge(grade: next, size: .compact)
+                        if let direction = alertGradeDirection(previous: previous, new: next) {
+                            RiskDirectionLabel(trend: direction)
+                        }
                     }
                     .padding(.top, 2)
+                }
+
+                if let reason = alert.changeReason?.sanitizedDisplayText, !reason.isEmpty {
+                    Text(reason)
+                        .font(.system(size: 12, weight: .regular))
+                        .foregroundColor(.textSecondary)
+                        .padding(.top, 2)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+
+                if let details = alert.changeDetails, !details.isEmpty {
+                    let detailValues = Array(details.values.prefix(2)).map { $0.sanitizedDisplayText }.filter { !$0.isEmpty }
+                    if !detailValues.isEmpty {
+                        HStack(spacing: 6) {
+                            ForEach(detailValues, id: \.self) { detail in
+                                Text(detail)
+                                    .font(.system(size: 11, weight: .medium))
+                                    .foregroundColor(.textTertiary)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 3)
+                                    .background(Color.surfaceElevated)
+                                    .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                            }
+                        }
+                        .padding(.top, 2)
+                    }
+                }
+
+                if let evidence = positionEvidence {
+                    EvidenceDots(evidence: evidence, grade: displayGrade)
+                        .padding(.top, 2)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding(.vertical, 12)
+        .padding(.vertical, 10)
         .overlay(alignment: .bottom) {
             if showsConnector {
                 Rectangle()
@@ -291,15 +334,15 @@ private struct AlertsTimelineRow: View {
     }
 
     private var displayGrade: String {
-        alert.newGrade ?? alert.previousGrade ?? fallbackGrade
+        alert.newGrade ?? alert.previousGrade ?? "—"
     }
 
-    private var fallbackGrade: String {
-        switch alert.type.severity {
-        case .critical: return "F"
-        case .warning: return "C"
-        case .informational: return "B"
-        }
+    private func alertGradeDirection(previous: String, new: String) -> RiskTrend? {
+        let prevVal = Grade.ordinalValue(for: previous)
+        let newVal = Grade.ordinalValue(for: new)
+        if newVal < prevVal { return .worsening }
+        if newVal > prevVal { return .improving }
+        return .stable
     }
 }
 
@@ -333,11 +376,11 @@ private enum AlertFeedFilter: CaseIterable {
         case .all:
             return "All · \(alerts.count)"
         case .critical:
-            return "Critical"
+            return "Critical · \(alerts.filter { $0.type.severity == .critical }.count)"
         case .grade:
-            return "Grade"
+            return "Grade · \(alerts.filter { $0.type == .gradeChange || $0.type == .portfolioGradeChange }.count)"
         case .events:
-            return "Events"
+            return "Events · \(alerts.filter { $0.type == .majorEvent || $0.type == .macroShock }.count)"
         }
     }
 }
@@ -374,9 +417,9 @@ extension AlertType {
              .portfolioSafetyThresholdBreach:
             return .critical
         case .majorEvent, .portfolioGradeChange, .clusterRisk,
-             .macroShock, .structuralFragility:
+              .macroShock, .structuralFragility:
             return .warning
-        case .digestReady:
+        case .ratingReady, .digestReady:
             return .informational
         }
     }
@@ -385,16 +428,20 @@ extension AlertType {
 // MARK: - Empty State
 
 struct AlertsEmptyStateCard: View {
+    let openHoldings: () -> Void
+
     var body: some View {
-        VStack(alignment: .leading, spacing: ClavisTheme.smallSpacing) {
-            Text("No alerts")
-                .font(ClavisTypography.cardTitle)
-                .foregroundColor(.textPrimary)
-            Text("You don't have any recent alerts.")
-                .font(ClavisTypography.body)
-                .foregroundColor(.textSecondary)
+        ClavisStandardCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: ClavisTheme.smallSpacing) {
+                Text("No alerts")
+                    .font(ClavisTypography.cardTitle)
+                    .foregroundColor(.textPrimary)
+                Text("You don't have any recent alerts.")
+                    .font(ClavisTypography.body)
+                    .foregroundColor(.textSecondary)
+
+                ClavisPrimaryButton(title: "Open holdings", action: openHoldings)
+            }
         }
-        .padding(ClavisTheme.cardPadding)
-        .clavisCardStyle(fill: .surface)
     }
 }

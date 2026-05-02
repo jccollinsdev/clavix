@@ -13,6 +13,7 @@ from ..services.ticker_cache_service import (
     _dedup_event_analyses,
     _is_generic_fallback_reasoning,
     _get_latest_position_score_for_ids,
+    _sanitize_public_analysis_payload,
     build_position_analysis_from_snapshot,
     build_risk_score_response,
     get_latest_risk_snapshot_map,
@@ -50,10 +51,10 @@ def _select_current_analysis(analyses: list[dict]) -> dict | None:
     ready_analyses = [
         analysis
         for analysis in analyses
-        if analysis.get("status") not in {"draft", "queued"}
+        if analysis.get("status") == "ready"
     ]
     if not ready_analyses:
-        return analyses[0] if analyses else None
+        return None
 
     for analysis in ready_analyses:
         if _has_substantive_analysis(analysis):
@@ -136,7 +137,7 @@ async def get_position_detail(
         .execute()
     )
 
-    current_analysis = sanitize_public_analysis_text(
+    current_analysis = _sanitize_public_analysis_payload(
         _select_current_analysis(analyses)
         or build_position_analysis_from_snapshot(
             snapshot, position_id=position_id, ticker=position["ticker"]

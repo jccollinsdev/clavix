@@ -76,7 +76,7 @@ class TestCookieSession:
         nonce = secrets.token_hex(8)
         payload = f"{issued_at}:{nonce}"
         sig = hmac.new(
-            "a" * 64, payload.encode("utf-8"), hashlib.sha256
+            ("a" * 64).encode("utf-8"), payload.encode("utf-8"), hashlib.sha256
         ).hexdigest()
         expired_cookie = f"{payload}.{sig}"
         assert verify_admin_session_cookie(expired_cookie) is False

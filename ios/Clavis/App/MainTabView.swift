@@ -23,8 +23,8 @@ struct MainTabView: View {
 
         let tabAppearance = UITabBarAppearance()
         tabAppearance.configureWithOpaqueBackground()
-        tabAppearance.backgroundColor = UIColor(Color.surface)
-        tabAppearance.shadowColor = UIColor(Color.border)
+        tabAppearance.backgroundColor = UIColor(Color.backgroundPrimary)
+        tabAppearance.shadowColor = UIColor(Color.borderSubtle)
 
         let selectedColor = UIColor(Color.textPrimary)
         let normalColor = UIColor(Color.textSecondary)
@@ -69,7 +69,7 @@ struct MainTabView: View {
 
             DigestView(selectedTab: $selectedTab)
                 .tabItem {
-                    Label("Digest", systemImage: "doc.text")
+                    Label("Rating", systemImage: "doc.text")
                 }
                 .tag(2)
 

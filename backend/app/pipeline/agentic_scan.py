@@ -1,7 +1,7 @@
 from ..services.minimax import chatcompletion_text
 from .analysis_utils import extract_json_list, extract_json_object
 
-SYSTEM_PROMPT = """You are a portfolio risk analyst. Given a news item and a stock position, state the primary risk implication — not just what happened, but what it means for the position.
+SYSTEM_PROMPT = """You are a portfolio risk rater. Given a news item and a stock position, state the primary risk implication — not just what happened, but what it means for the position.
 
 Position context:
 - Ticker: {ticker}
@@ -16,7 +16,7 @@ Analysis rules:
 1. State the primary risk implication first — does this help, hurt, or leave unchanged the position's risk profile?
 2. If the news has both positive and negative angles, state which effect is primary and why.
 3. Be specific: explain how the development connects to the company's fundamentals, competitive position, or valuation — not just that "it could have an impact."
-4. If evidence_quality is title_only or headline_summary, do not pretend you read a full article. Lower confidence and state that the read is provisional.
+4. If evidence_quality is title_only or headline_summary, do not pretend you read a full article. Lower confidence and state that the rating is limited-data.
 
 Forbidden: internal evidence labels, body-depth terms, or implementation jargon such as full_body, title_only, or headline_summary.
 
@@ -42,12 +42,12 @@ def _fallback_minor_event_analysis(news_item: dict, position: dict) -> dict:
     trimmed = (
         combined[:280]
         if combined
-        else "Recent coverage did not include enough detail for a confident read."
+        else "Recent data did not include enough detail for a confident rating."
     )
     evidence_note = (
-        f"The read on {ticker} is provisional — headline-level evidence only, so the risk implication may change with fuller reporting."
+        f"The rating for {ticker} is limited-data — headline-level evidence only, so the risk implication may change with fuller reporting."
         if evidence_quality in {"title_only", "headline_summary"}
-        else f"The read uses extracted article content but still requires validation against follow-on reporting for {ticker}."
+        else f"The rating uses extracted article content but still requires validation against follow-on reporting for {ticker}."
     )
     return {
         "analysis_text": f"{trimmed} {evidence_note}",
@@ -58,7 +58,7 @@ def _fallback_minor_event_analysis(news_item: dict, position: dict) -> dict:
         else 0.45,
         "scenario_summary": f"Insufficient depth to confirm a directional risk impact for {ticker} from this {'headline-only' if evidence_quality in {'title_only', 'headline_summary'} else 'article'} event.",
         "key_implications": [
-            f"Determine whether '{title[:60]}' has confirming detail or follow-through before adjusting the risk thesis."
+            f"Determine whether '{title[:60]}' has confirming detail or follow-through before treating it as a risk driver."
         ],
         "followup_notes": [
             "Look for management commentary, regulatory filings, or additional reporting that changes the fundamental read-through."
@@ -75,10 +75,10 @@ def _fallback_shared_minor_event_analysis(news_item: dict) -> dict:
     trimmed = (
         combined[:280]
         if combined
-        else "Recent coverage did not include enough detail for a confident read."
+        else "Recent data did not include enough detail for a confident rating."
     )
     evidence_note = (
-        "Low-confidence read — headline evidence only, so the risk implication may shift with fuller reporting."
+        "Limited-data rating — headline evidence only, so the risk implication may shift with fuller reporting."
         if evidence_quality in {"title_only", "headline_summary"}
         else "The read uses extracted article content but still requires follow-on confirmation."
     )
@@ -134,7 +134,7 @@ async def analyze_minor_event(
     }
 
 
-MINOR_EVENTS_BATCH_PROMPT = """You are a portfolio risk analyst. Given multiple news items and a stock position, state the primary risk implication of each — not just what happened, but what it means.
+MINOR_EVENTS_BATCH_PROMPT = """You are a portfolio risk rater. Given multiple news items and a stock position, state the primary risk implication of each — not just what happened, but what it means.
 
 Position context:
 - Ticker: {ticker}
@@ -158,7 +158,7 @@ For each news item above, return a JSON object with:
 Return a JSON array with one object per news item in order."""
 
 
-GENERIC_MINOR_EVENTS_BATCH_PROMPT = """You are a portfolio risk analyst.
+GENERIC_MINOR_EVENTS_BATCH_PROMPT = """You are a portfolio risk rater.
 
 Given multiple news items, produce a reusable base analysis for each event without assuming a specific holder. For each event, state the primary risk implication — what it means for the company's risk profile, not just what happened.
 

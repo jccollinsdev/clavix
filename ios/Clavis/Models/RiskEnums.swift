@@ -3,49 +3,69 @@ import Foundation
 enum RiskState: String, Codable, CaseIterable {
     case safe
     case stable
-    case watch
     case elevated
-    case highRisk = "high_risk"
+    case risky
+    case critical
 
     var displayName: String {
         switch self {
         case .safe: return "Safe"
         case .stable: return "Stable"
-        case .watch: return "Watch"
         case .elevated: return "Elevated"
-        case .highRisk: return "High Risk"
+        case .risky: return "Risky"
+        case .critical: return "Critical"
         }
     }
 
     static func from(score: Double) -> RiskState {
-        switch score {
-        case 75...100: return .safe
-        case 55..<75:  return .stable
-        case 35..<55:  return .watch
-        case 15..<35:  return .elevated
-        default:       return .highRisk
-        }
+        if score >= 80 { return .safe }
+        if score >= 65 { return .stable }
+        if score >= 50 { return .elevated }
+        if score >= 35 { return .risky }
+        return .critical
     }
 }
 
 enum RiskTrend: String, Codable, CaseIterable {
-    case increasing
+    case worsening
     case stable
     case improving
 
     var displayName: String {
         switch self {
-        case .increasing: return "Increasing"
-        case .stable: return "Stable"
-        case .improving: return "Improving"
+        case .worsening:  return "Worsening"
+        case .stable:     return "Stable"
+        case .improving:  return "Improving"
+        }
+    }
+
+    var arrow: String {
+        switch self {
+        case .worsening:  return "↑"
+        case .stable:     return "→"
+        case .improving:  return "↓"
         }
     }
 
     var iconName: String {
         switch self {
-        case .increasing: return "arrow.up.right"
-        case .stable: return "minus"
-        case .improving: return "arrow.down.right"
+        case .worsening:  return "arrow.up.right"
+        case .stable:     return "minus"
+        case .improving:  return "arrow.down.right"
+        }
+    }
+}
+
+enum EvidenceStrength: String, Codable, CaseIterable {
+    case thin
+    case moderate
+    case strong
+
+    var dotCount: Int {
+        switch self {
+        case .thin:     return 1
+        case .moderate: return 2
+        case .strong:   return 3
         }
     }
 }
@@ -66,13 +86,13 @@ enum ActionPressure: String, Codable, CaseIterable {
     var description: String {
         switch self {
         case .low: return "No action needed"
-        case .medium: return "Review closely / monitor for change"
+        case .medium: return "Review closely — check for change"
         case .high: return "Consider reducing exposure / reassessing now"
         }
     }
 
     static func from(score: Double, trend: RiskTrend) -> ActionPressure {
-        if trend == .increasing && score < 65 {
+        if trend == .worsening && score < 65 {
             return .high
         }
         switch score {
@@ -92,21 +112,25 @@ enum Grade: String, Codable, CaseIterable {
 
     var displayName: String { rawValue }
 
-    static func from(score: Double) -> Grade {
-        switch score {
-        case 75...100: return .a
-        case 55..<75:  return .b
-        case 35..<55:  return .c
-        case 15..<35:  return .d
-        default:       return .f
+    var ordinalValue: Int {
+        switch self {
+        case .a: return 5
+        case .b: return 4
+        case .c: return 3
+        case .d: return 2
+        case .f: return 1
         }
     }
 
-    var riskState: RiskState {
-        RiskState.from(score: gradeToScore)
+    static func ordinalValue(for grade: String) -> Int {
+        Grade(rawValue: grade)?.ordinalValue ?? 0
     }
 
-    private var gradeToScore: Double {
+    var riskState: RiskState {
+        RiskState.from(score: midpointScore)
+    }
+
+    private var midpointScore: Double {
         switch self {
         case .a: return 90
         case .b: return 72.5
@@ -126,22 +150,22 @@ struct RiskDrivers: Codable {
 
     var strongestPositive: String {
         let scores: [(String, Double)] = [
-            ("News Sentiment", newsSentiment),
-            ("Macro Exposure", macroExposure),
-            ("Position Sizing", positionSizing),
-            ("Volatility Trend", volatilityTrend),
-            ("Market Integrity", marketIntegrity)
+            ("News risk signals", newsSentiment),
+            ("Macro exposure", macroExposure),
+            ("Position sizing", positionSizing),
+            ("Volatility trend", volatilityTrend),
+            ("Market integrity", marketIntegrity)
         ]
-        return scores.max(by: { $0.1 < $1.1 })?.0 ?? "News Sentiment"
+        return scores.max(by: { $0.1 < $1.1 })?.0 ?? "News risk signals"
     }
 
     var strongestNegative: String {
         let scores: [(String, Double)] = [
-            ("News Sentiment", newsSentiment),
-            ("Macro Exposure", macroExposure),
-            ("Position Sizing", positionSizing),
-            ("Volatility Trend", volatilityTrend),
-            ("Market Integrity", marketIntegrity)
+            ("News risk signals", newsSentiment),
+            ("Macro exposure", macroExposure),
+            ("Position sizing", positionSizing),
+            ("Volatility trend", volatilityTrend),
+            ("Market integrity", marketIntegrity)
         ]
         return scores.min(by: { $0.1 < $1.1 })?.0 ?? "Market Integrity"
     }
@@ -173,9 +197,9 @@ struct RecentDevelopment: Codable, Identifiable {
 
 enum HoldingFilter: String, CaseIterable {
     case all = "All"
-    case highRisk = "High Risk"
+    case critical = "Critical"
+    case risky = "Risky"
     case elevated = "Elevated"
-    case watch = "Watch"
     case improving = "Improving"
     case majorEvent = "Major Event"
 
@@ -183,11 +207,11 @@ enum HoldingFilter: String, CaseIterable {
         switch self {
         case .all:
             return true
-        case .highRisk:
-            return position.riskGrade == "D" || position.riskGrade == "F"
-        case .elevated:
+        case .critical:
+            return position.riskGrade == "F"
+        case .risky:
             return position.riskGrade == "D"
-        case .watch:
+        case .elevated:
             return position.riskGrade == "C"
         case .improving:
             return gradeImproved(position)
@@ -199,18 +223,7 @@ enum HoldingFilter: String, CaseIterable {
     private func gradeImproved(_ position: Position) -> Bool {
         guard let current = position.riskGrade,
               let previous = position.previousGrade else { return false }
-        return gradeValue(current) > gradeValue(previous)
-    }
-
-    private func gradeValue(_ grade: String) -> Int {
-        switch grade {
-        case "A": return 5
-        case "B": return 4
-        case "C": return 3
-        case "D": return 2
-        case "F": return 1
-        default: return 0
-        }
+        return Grade.ordinalValue(for: current) > Grade.ordinalValue(for: previous)
     }
 }
 

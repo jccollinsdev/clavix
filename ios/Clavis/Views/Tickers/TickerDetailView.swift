@@ -2,6 +2,7 @@ import SwiftUI
 
 struct TickerDetailView: View {
     let ticker: String
+    let positionId: String?
 
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject private var authViewModel: AuthViewModel
@@ -11,9 +12,13 @@ struct TickerDetailView: View {
     @State private var errorMessage: String?
     @State private var isMutatingWatchlist = false
     @State private var isRefreshingTicker = false
-    @State private var isRefreshingAnalysis = false
     @State private var selectedDays: Int = 30
     @State private var hasLoaded = false
+
+    init(ticker: String, positionId: String? = nil) {
+        self.ticker = ticker
+        self.positionId = positionId
+    }
 
     var body: some View {
         ScrollView {
@@ -56,33 +61,22 @@ struct TickerDetailView: View {
                 if isLoading && detail == nil {
                     ClavisLoadingCard(
                         title: "Loading \(ticker)",
-                        subtitle: "Pulling the latest cached ticker snapshot."
+                        subtitle: "Pulling the latest market data and risk summary."
                     )
                 } else if let detail {
                     TickerHeroCard(
                         ticker: ticker,
                         companyName: detail.profile.companyName ?? ticker,
-                        sector: detail.profile.sector ?? detail.profile.industry ?? "Shared ticker cache",
+                        sector: detail.profile.sector ?? detail.profile.industry ?? "Market view",
                         grade: displayGrade(for: detail),
                         score: displayScore(for: detail),
                         previousScore: estimatedPreviousScore(for: detail),
-                        rationale: tickerRationale(for: detail)
+                        direction: detail.position.riskTrend,
+                        rationale: tickerRationale(for: detail),
+                        evidenceStrength: detail.currentScore?.evidenceStrength ?? (detail.position.evidenceStrength),
+                        scoreSource: detail.currentScore?.scoreSource ?? detail.position.scoreSource,
+                        scoreAsOf: detail.currentScore?.scoreAsOf ?? detail.position.scoreAsOf ?? detail.freshness.analysisAsOf
                     )
-
-                    if let analysisState = detail.analysisState {
-                        TickerAnalysisStateCard(
-                            source: detail.source ?? analysisState.source ?? "shared",
-                            status: analysisState.status,
-                            coverageState: analysisState.coverageState ?? detail.coverageState,
-                            analysisAsOf: analysisState.analysisAsOf ?? detail.freshness.analysisAsOf,
-                            lastNewsRefreshAt: analysisState.lastNewsRefreshAt ?? detail.freshness.lastNewsRefreshAt,
-                            newsRefreshStatus: analysisState.newsRefreshStatus ?? detail.freshness.newsRefreshStatus,
-                            priceAsOf: analysisState.priceAsOf ?? detail.freshness.priceAsOf,
-                            newsAsOf: analysisState.newsAsOf ?? detail.freshness.newsAsOf,
-                            latestAnalysisRun: detail.latestAnalysisRun,
-                            latestRefreshJob: detail.latestRefreshJob
-                        )
-                    }
 
                     TickerPriceCard(
                         price: currency(detail.latestPrice.price),
@@ -95,33 +89,34 @@ struct TickerDetailView: View {
                         }
                     )
 
-                    if detail.userContext.isHeld {
-                        TickerAnalysisActionCard(
-                            isRefreshing: isRefreshingAnalysis,
-                            onRefreshAnalysis: { Task { await refreshPositionAnalysis(positionId: detail.position.id) } }
-                        )
-                    }
-
                     TickerMetricGridCard(metrics: fundamentals(for: detail))
 
                     if let dimensions = riskDimensions(for: detail) {
-                        TickerRiskDimensionsCard(dimensions: dimensions)
+                        TickerRiskDimensionsCard(dimensions: dimensions, rationale: detail.dimensionBreakdown)
                     }
 
-                    if detail.currentScore != nil || detail.currentAnalysis != nil {
-                        aiScoreRationaleCard(detail)
-                    }
+                    ratingRationaleCard(detail)
+
+                    TickerDriverCardsSection(analysis: detail.currentAnalysis)
+
 
                     if !detail.latestEventAnalyses.isEmpty {
-                        TickerEventAnalysesCard(events: Array(detail.latestEventAnalyses.prefix(4)))
+                        TickerEventAnalysesCard(
+                            events: Array(detail.latestEventAnalyses.prefix(4)),
+                            isHeld: detail.userContext.isHeld
+                        )
                     }
 
                     if !watchItems(for: detail).isEmpty {
-                        TickerBulletedListCard(title: "Urgent", items: watchItems(for: detail))
+                        TickerBulletedListCard(title: "What to watch", items: watchItems(for: detail))
                     }
 
                     if !detail.recentAlerts.isEmpty {
                         TickerAlertsListCard(alerts: Array(detail.recentAlerts.prefix(3)))
+                    }
+
+                    if !detail.recentNews.isEmpty {
+                        TickerRecentNewsCard(stories: Array(detail.recentNews.prefix(3)))
                     }
                 }
             }
@@ -155,48 +150,28 @@ struct TickerDetailView: View {
     }
 
     private func displayScore(for detail: TickerDetailResponse) -> Int {
-        Int((detail.currentScore?.displayScore ?? detail.position.totalScore ?? detail.latestRiskSnapshot?.safetyScore ?? 50).rounded())
+        Int((detail.currentScore?.displayScore ?? detail.position.totalScore ?? 50).rounded())
     }
 
     private func displayGrade(for detail: TickerDetailResponse) -> String {
-        detail.currentScore?.displayGrade ?? detail.position.riskGrade ?? detail.latestRiskSnapshot?.grade ?? "C"
+        detail.currentScore?.displayGrade ?? detail.position.riskGrade ?? "—"
     }
 
     private func estimatedPreviousScore(for detail: TickerDetailResponse) -> Int? {
-        if let previousGrade = detail.position.previousGrade {
-            return previousScore(for: previousGrade)
+        if let delta = detail.currentScore?.scoreDelta {
+            return displayScore(for: detail) - delta
         }
         return nil
-    }
-
-    private func previousScore(for grade: String) -> Int {
-        switch grade {
-        case "A": return 83
-        case "B": return 65
-        case "C": return 45
-        case "D": return 25
-        case "F": return 8
-        default: return 50
-        }
     }
 
     private func tickerRationale(for detail: TickerDetailResponse) -> String {
         if let reasoning = detail.currentScore?.reasoning?.trimmingCharacters(in: .whitespacesAndNewlines), !reasoning.isEmpty {
             return reasoning
         }
-        if let methodology = detail.currentAnalysis?.methodology?.trimmingCharacters(in: .whitespacesAndNewlines), !methodology.isEmpty {
-            return methodology
-        }
-        if let coverageNote = detail.currentScore?.coverageNote?.trimmingCharacters(in: .whitespacesAndNewlines), !coverageNote.isEmpty {
-            return coverageNote
-        }
-        if let reasoning = detail.latestRiskSnapshot?.reasoning?.trimmingCharacters(in: .whitespacesAndNewlines), !reasoning.isEmpty {
-            return reasoning
-        }
         if let summary = detail.latestRiskSnapshot?.newsSummary?.trimmingCharacters(in: .whitespacesAndNewlines), !summary.isEmpty {
             return summary
         }
-        return "Coverage is still being assembled for this ticker."
+        return "Rating pending — data still being processed."
     }
 
     private func priceChangePercent(for detail: TickerDetailResponse) -> Double? {
@@ -229,7 +204,7 @@ struct TickerDetailView: View {
     private func riskDimensions(for detail: TickerDetailResponse) -> [TickerRiskDimensionItem]? {
         if let ai = detail.currentScore?.factorBreakdown?.aiDimensions ?? detail.latestRiskSnapshot?.factorBreakdown?.aiDimensions {
             var dimensions = [
-                TickerRiskDimensionItem(title: "News sentiment", value: ai.newsSentiment, accent: .riskA),
+                TickerRiskDimensionItem(title: "News risk signals", value: ai.newsSentiment, accent: .riskA),
                 TickerRiskDimensionItem(title: "Macro exposure", value: ai.macroExposure, accent: .riskB),
                 TickerRiskDimensionItem(title: "Volatility trend", value: ai.volatilityTrend, accent: .riskD),
             ]
@@ -241,7 +216,7 @@ struct TickerDetailView: View {
 
         guard let score = detail.currentScore else { return nil }
         var dimensions = [
-            TickerRiskDimensionItem(title: "News sentiment", value: score.newsSentiment, accent: .riskA),
+            TickerRiskDimensionItem(title: "News risk signals", value: score.newsSentiment, accent: .riskA),
             TickerRiskDimensionItem(title: "Macro exposure", value: score.macroExposure, accent: .riskB),
             TickerRiskDimensionItem(title: "Volatility trend", value: score.volatilityTrend, accent: .riskD),
         ]
@@ -280,96 +255,115 @@ struct TickerDetailView: View {
     }
 
     @ViewBuilder
+    private func ratingRationaleCard(_ detail: TickerDetailResponse) -> some View {
+        let rationale = tickerRationale(for: detail)
+
+        if !rationale.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            ClavisStandardCard(fill: .surface) {
+                VStack(alignment: .leading, spacing: 10) {
+                    CX2SectionLabel(text: "Score rationale")
+
+                    Text(rationale)
+                        .font(ClavisTypography.body)
+                        .foregroundColor(.textSecondary)
+                        .lineSpacing(4)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
     private func fundamentalsCard(_ detail: TickerDetailResponse) -> some View {
-        HoldingsSectionCard(title: "Snapshot", subtitle: "Shared ticker cache") {
-            HStack(spacing: ClavisTheme.smallSpacing) {
-                metricPill(title: "P/E", value: number(detail.profile.peRatio))
-                metricPill(title: "52W High", value: currency(detail.profile.week52High))
-                metricPill(title: "52W Low", value: currency(detail.profile.week52Low))
-            }
+        ClavisStandardCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Snapshot")
+                        .font(ClavisTypography.cardTitle)
+                        .foregroundColor(.textPrimary)
 
-            HStack(spacing: ClavisTheme.smallSpacing) {
-                metricPill(title: "Open", value: currency(detail.latestPrice.openPrice))
-                metricPill(title: "Day High", value: currency(detail.latestPrice.dayHigh))
-                metricPill(title: "Day Low", value: currency(detail.latestPrice.dayLow))
-            }
-
-            VStack(alignment: .leading, spacing: ClavisTheme.smallSpacing) {
-                Text(detail.profile.companyName ?? ticker)
-                    .font(ClavisTypography.bodyEmphasis)
-                    .foregroundColor(.textPrimary)
-                Text(detail.profile.sector ?? detail.profile.industry ?? "Shared ticker cache")
-                    .font(ClavisTypography.footnote)
-                    .foregroundColor(.textSecondary)
-
-                if let summary = detail.latestRiskSnapshot?.newsSummary ?? detail.latestRiskSnapshot?.reasoning {
-                    Text(summary)
+                    Text("Latest market view")
                         .font(ClavisTypography.footnote)
                         .foregroundColor(.textSecondary)
                 }
 
                 HStack(spacing: ClavisTheme.smallSpacing) {
-                    metricPill(title: "Price", value: currency(detail.latestPrice.price))
-                    metricPill(title: "Score", value: score(Double(displayScore(for: detail))))
-                    metricPill(title: "Freshness", value: freshnessText(detail.freshness.analysisAsOf))
+                    metricPill(title: "P/E", value: number(detail.profile.peRatio))
+                    metricPill(title: "52W High", value: currency(detail.profile.week52High))
+                    metricPill(title: "52W Low", value: currency(detail.profile.week52Low))
                 }
 
-                if detail.userContext.isHeld {
-                    Text("Already in holdings")
-                        .font(ClavisTypography.footnoteEmphasis)
-                        .foregroundColor(.riskA)
+                HStack(spacing: ClavisTheme.smallSpacing) {
+                    metricPill(title: "Open", value: currency(detail.latestPrice.openPrice))
+                    metricPill(title: "Day High", value: currency(detail.latestPrice.dayHigh))
+                    metricPill(title: "Day Low", value: currency(detail.latestPrice.dayLow))
                 }
-            }
-        }
-    }
 
-    @ViewBuilder
-    private func aiScoreRationaleCard(_ detail: TickerDetailResponse) -> some View {
-        let rationale = tickerRationale(for: detail)
-        let methodology = detail.currentAnalysis?.methodology?.trimmingCharacters(in: .whitespacesAndNewlines)
-            ?? detail.currentScore?.coverageNote?.trimmingCharacters(in: .whitespacesAndNewlines)
-            ?? detail.methodology?.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        HoldingsSectionCard(
-            title: "Risk Score Rationale",
-            subtitle: "Method and summary"
-        ) {
-            Text(rationale)
-                .font(ClavisTypography.footnote)
-                .foregroundColor(.textSecondary)
-
-            if let methodology, !methodology.isEmpty {
-                Text(methodology)
-                    .font(ClavisTypography.footnote)
-                    .foregroundColor(.textSecondary)
-                    .padding(.top, 4)
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func alertsCard(_ alerts: [Alert]) -> some View {
-        HoldingsSectionCard(title: "Recent Alerts", subtitle: "Ticker-specific changes for your account") {
-            ForEach(alerts.prefix(5)) { alert in
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(alert.type.displayName)
-                        .font(ClavisTypography.footnoteEmphasis)
+                VStack(alignment: .leading, spacing: ClavisTheme.smallSpacing) {
+                    Text(detail.profile.companyName ?? ticker)
+                        .font(ClavisTypography.bodyEmphasis)
                         .foregroundColor(.textPrimary)
-                    Text(alert.message)
-                        .font(ClavisTypography.body)
+                    Text(detail.profile.sector ?? detail.profile.industry ?? "Market view")
+                        .font(ClavisTypography.footnote)
                         .foregroundColor(.textSecondary)
-                    if let reason = alert.changeReason?.sanitizedDisplayText, !reason.isEmpty {
-                        Text(reason)
+
+                    if let summary = detail.latestRiskSnapshot?.newsSummary ?? detail.latestRiskSnapshot?.reasoning {
+                        Text(summary)
+                            .font(ClavisTypography.footnote)
+                            .foregroundColor(.textSecondary)
+                    }
+
+                    HStack(spacing: ClavisTheme.smallSpacing) {
+                        metricPill(title: "Price", value: currency(detail.latestPrice.price))
+                        metricPill(title: "Score", value: score(Double(displayScore(for: detail))))
+                        metricPill(title: "Freshness", value: freshnessText(detail.freshness.analysisAsOf))
+                    }
+
+                    if detail.userContext.isHeld {
+                        Text("Already in holdings")
+                            .font(ClavisTypography.footnoteEmphasis)
+                            .foregroundColor(.riskA)
+                    }
+                }
+            }
+        }
+    }
+
+@ViewBuilder
+    private func alertsCard(_ alerts: [Alert]) -> some View {
+        ClavisStandardCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Recent Alerts")
+                        .font(ClavisTypography.cardTitle)
+                        .foregroundColor(.textPrimary)
+
+                    Text("Ticker-specific changes for your account")
+                        .font(ClavisTypography.footnote)
+                        .foregroundColor(.textSecondary)
+                }
+
+                ForEach(alerts.prefix(5)) { alert in
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(alert.type.displayName)
+                            .font(ClavisTypography.footnoteEmphasis)
+                            .foregroundColor(.textPrimary)
+                        Text(alert.message)
+                            .font(ClavisTypography.body)
+                            .foregroundColor(.textSecondary)
+                        if let reason = alert.changeReason?.sanitizedDisplayText, !reason.isEmpty {
+                            Text(reason)
+                                .font(ClavisTypography.footnote)
+                                .foregroundColor(.textTertiary)
+                        }
+                        Text(alert.createdAt.formatted(date: .abbreviated, time: .shortened))
                             .font(ClavisTypography.footnote)
                             .foregroundColor(.textTertiary)
                     }
-                    Text(alert.createdAt.formatted(date: .abbreviated, time: .shortened))
-                        .font(ClavisTypography.footnote)
-                        .foregroundColor(.textTertiary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(ClavisTheme.cardPadding)
+                    .clavisCardStyle(fill: .surfaceElevated)
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(ClavisTheme.cardPadding)
-                .clavisCardStyle(fill: .surfaceElevated)
             }
         }
     }
@@ -382,10 +376,10 @@ struct TickerDetailView: View {
         isLoading = true
         defer { isLoading = false }
         do {
-            detail = try await APIService.shared.fetchTickerDetail(ticker: ticker)
+            detail = try await APIService.shared.fetchTickerDetail(ticker: ticker, positionId: positionId)
             errorMessage = nil
         } catch {
-            errorMessage = "Failed to load \(ticker): \(error.localizedDescription)"
+            errorMessage = ClavisCopy.Errors.tickerLoad(ticker: ticker, error: error)
         }
     }
 
@@ -406,27 +400,6 @@ struct TickerDetailView: View {
         await loadPriceHistory(days: selectedDays)
     }
 
-    private func refreshPositionAnalysis(positionId: String) async {
-        isRefreshingAnalysis = true
-        defer { isRefreshingAnalysis = false }
-
-        do {
-            let trigger = try await APIService.shared.triggerAnalysis(positionId: positionId)
-            if let runId = trigger.analysisRunId {
-                for _ in 0..<60 {
-                    let run = try await APIService.shared.fetchAnalysisRun(id: runId)
-                    if run.isTerminal {
-                        break
-                    }
-                    try? await Task.sleep(nanoseconds: 1_500_000_000)
-                }
-            }
-            await loadDetail()
-        } catch {
-            errorMessage = "Analysis refresh failed: \(error.localizedDescription)"
-        }
-    }
-
     private func toggleWatchlist() async {
         isMutatingWatchlist = true
         defer { isMutatingWatchlist = false }
@@ -438,7 +411,7 @@ struct TickerDetailView: View {
             }
             await loadDetail()
         } catch {
-            errorMessage = "Watchlist update failed: \(error.localizedDescription)"
+            errorMessage = ClavisCopy.Errors.watchlistUpdate(error)
         }
     }
 
@@ -450,7 +423,7 @@ struct TickerDetailView: View {
             try? await Task.sleep(nanoseconds: 1_000_000_000)
             await reloadAll()
         } catch {
-            errorMessage = "Refresh failed: \(error.localizedDescription)"
+            errorMessage = ClavisCopy.Errors.tickerRefresh(error)
         }
     }
 
@@ -489,8 +462,7 @@ struct TickerDetailView: View {
     }
 
     private func freshnessText(_ date: Date?) -> String {
-        guard let date else { return "Pending" }
-        return date.formatted(date: .abbreviated, time: .shortened)
+        ClavisCopy.Status.timestamp(date)
     }
 }
 
@@ -539,51 +511,70 @@ private struct TickerHeroCard: View {
     let grade: String
     let score: Int
     let previousScore: Int?
+    let direction: RiskTrend?
     let rationale: String
+    var evidenceStrength: EvidenceStrength? = nil
+    var scoreSource: String? = nil
+    var scoreAsOf: Date? = nil
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 18) {
-            HStack(alignment: .center, spacing: 14) {
-                GradeTag(grade: grade, large: true)
-
-                VStack(alignment: .leading, spacing: 4) {
-                    CX2SectionLabel(text: "Risk score")
-
-                    Text("\(score)")
-                        .font(.system(size: 44, weight: .bold, design: .monospaced))
-                        .foregroundColor(.textPrimary)
-                        .monospacedDigit()
-
-                    if let previousScore {
-                        HStack(spacing: 8) {
-                            Text(scoreDeltaText(previousScore: previousScore))
-                                .font(.system(size: 13, weight: .semibold, design: .monospaced))
-                                .foregroundColor(score >= previousScore ? .riskA : .riskD)
-
-                            Text("was \(previousScore)")
-                                .font(.system(size: 12, weight: .regular))
-                                .foregroundColor(.textSecondary)
-                        }
-                    }
-
-                    Text(sector)
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(.textSecondary)
-                }
-            }
-
-            Text(rationale)
-                .font(.system(size: 14, weight: .regular))
-                .foregroundColor(.textSecondary)
-                .lineSpacing(3)
-                .fixedSize(horizontal: false, vertical: true)
-        }
+    private var parsedRationale: (header: String, drivers: [String]) {
+        let lines = rationale
+            .split(separator: "\n", omittingEmptySubsequences: true)
+            .map(String.init)
+        let header = lines.first ?? rationale
+        let drivers = Array(lines.dropFirst()).map {
+            $0.trimmingCharacters(in: .whitespaces)
+        }.filter { !$0.isEmpty }
+        return (header, Array(drivers.prefix(2)))
     }
 
-    private func scoreDeltaText(previousScore: Int) -> String {
-        let delta = score - previousScore
-        let arrow = delta >= 0 ? "▲" : "▼"
-        return "\(arrow) \(abs(delta))"
+    var body: some View {
+        ClavisStandardCard(fill: .surface) {
+                VStack(alignment: .leading, spacing: 16) {
+                    GradeDisplay(
+                        grade: grade,
+                        score: score,
+                        trend: direction,
+                        evidence: evidenceStrength,
+                        previousScore: previousScore,
+                        style: .hero
+                    )
+
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(ticker)
+                            .font(ClavisTypography.label)
+                            .foregroundColor(.textSecondary)
+
+                        Text(companyName)
+                            .font(ClavisTypography.bodyEmphasis)
+                            .foregroundColor(.textPrimary)
+                    }
+
+                    HStack(spacing: 6) {
+                        ScoreSourceChip(source: scoreSource)
+                        FreshnessChip(date: scoreAsOf)
+                    Spacer()
+                    Text(sector)
+                        .font(ClavisTypography.footnote)
+                        .foregroundColor(.textSecondary)
+                }
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(parsedRationale.header)
+                        .font(ClavisTypography.bodyEmphasis)
+                        .foregroundColor(.textPrimary)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    ForEach(parsedRationale.drivers, id: \.self) { driver in
+                        Text(driver)
+                            .font(ClavisTypography.body)
+                            .foregroundColor(.textSecondary)
+                            .lineSpacing(3)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -593,89 +584,7 @@ private enum TickerChangeDirection {
     case flat
 }
 
-private struct TickerAnalysisStateCard: View {
-    let source: String
-    let status: String
-    let coverageState: String?
-    let analysisAsOf: Date?
-    let lastNewsRefreshAt: Date?
-    let newsRefreshStatus: String?
-    let priceAsOf: Date?
-    let newsAsOf: Date?
-    let latestAnalysisRun: AnalysisRun?
-    let latestRefreshJob: TickerRefreshJob?
 
-    var body: some View {
-        HoldingsSectionCard(title: "State", subtitle: "Freshness and job status") {
-            HStack(spacing: 8) {
-                stateChip(text: statusLabel)
-                stateChip(text: source.capitalized)
-                if let coverageState, !coverageState.isEmpty {
-                    stateChip(text: coverageState.capitalized)
-                }
-            }
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(detailLine)
-                    .font(ClavisTypography.footnote)
-                    .foregroundColor(.textSecondary)
-
-                if let lastNewsRefreshAt {
-                    Text("News refreshed \(lastNewsRefreshAt.formatted(date: .abbreviated, time: .shortened))")
-                        .font(ClavisTypography.footnote)
-                        .foregroundColor(.textTertiary)
-                }
-
-                if let runStatus = latestAnalysisRun?.status, !runStatus.isEmpty {
-                    Text("Analysis run: \(runStatus.capitalized)")
-                        .font(ClavisTypography.footnote)
-                        .foregroundColor(.textTertiary)
-                }
-
-                if let refreshStatus = latestRefreshJob?.status, !refreshStatus.isEmpty {
-                    Text("Refresh job: \(refreshStatus.capitalized)")
-                        .font(ClavisTypography.footnote)
-                        .foregroundColor(.textTertiary)
-                }
-
-                if let newsRefreshStatus, !newsRefreshStatus.isEmpty {
-                    Text("News cache: \(newsRefreshStatus.capitalized)")
-                        .font(ClavisTypography.footnote)
-                        .foregroundColor(.textTertiary)
-                }
-            }
-        }
-    }
-
-    private var statusLabel: String {
-        switch status {
-        case "queued": return "Queued"
-        case "running": return "Running"
-        case "failed": return "Failed"
-        case "ready", "fresh": return "Ready"
-        case "thin", "stale": return "Thin"
-        default: return status.capitalized
-        }
-    }
-
-    private var detailLine: String {
-        let analysisText = analysisAsOf?.formatted(date: .abbreviated, time: .shortened) ?? "pending"
-        let priceText = priceAsOf?.formatted(date: .abbreviated, time: .shortened) ?? "pending"
-        let newsText = newsAsOf?.formatted(date: .abbreviated, time: .shortened) ?? "pending"
-        return "Analysis \(analysisText) · Price \(priceText) · News \(newsText)"
-    }
-
-    @ViewBuilder
-    private func stateChip(text: String) -> some View {
-        Text(text)
-            .font(.system(size: 11, weight: .semibold))
-            .foregroundColor(.textPrimary)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(Color.surfaceElevated)
-            .clipShape(Capsule())
-    }
-}
 
 private struct TickerPriceCard: View {
     let price: String
@@ -688,51 +597,40 @@ private struct TickerPriceCard: View {
     private let dayOptions: [Int] = [1, 7, 30, 90, 365]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(price)
-                        .font(.system(size: 26, weight: .bold, design: .monospaced))
-                        .foregroundColor(.textPrimary)
-                    Text(labelForDays(selectedDays).lowercased())
-                        .font(.system(size: 12, weight: .regular))
-                        .foregroundColor(.textSecondary)
-                }
-
-                Spacer()
-
-                VStack(alignment: .trailing, spacing: 2) {
-                    Text(changeText)
-                        .font(.system(size: 14, weight: .semibold, design: .monospaced))
-                        .foregroundColor(changeColor)
-                    Text("Today")
-                        .font(.system(size: 11, weight: .regular))
-                        .foregroundColor(.textSecondary)
-                }
-            }
-
-            TickerSparkline(priceHistory: priceHistory, direction: changeDirection)
-                .frame(height: 56)
-
-            HStack(spacing: 6) {
-                ForEach(dayOptions, id: \.self) { days in
-                    Button {
-                        selectedDays = days
-                        onDaysChange(days)
-                    } label: {
-                        Text(labelForDays(days))
-                            .font(.system(size: 11, weight: .semibold, design: .monospaced))
-                            .foregroundColor(selectedDays == days ? .textPrimary : .textSecondary)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 6)
-                            .background(selectedDays == days ? Color.surfaceElevated : Color.clear)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 6, style: .continuous)
-                                    .stroke(selectedDays == days ? Color.border : Color.clear, lineWidth: 1)
-                            )
-                            .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+        ClavisStandardCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: 10) {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(price)
+                            .font(.system(size: 26, weight: .bold, design: .monospaced))
+                            .foregroundColor(.textPrimary)
+                        Text(labelForDays(selectedDays))
+                            .font(ClavisTypography.footnote)
+                            .foregroundColor(.textSecondary)
                     }
-                    .buttonStyle(.plain)
+
+                    Spacer()
+
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text(changeText)
+                            .font(.system(size: 14, weight: .semibold, design: .monospaced))
+                            .foregroundColor(changeColor)
+                        Text("Today")
+                            .font(ClavisTypography.label)
+                            .foregroundColor(.textSecondary)
+                    }
+                }
+
+                TickerSparkline(priceHistory: priceHistory, direction: changeDirection)
+                    .frame(height: 56)
+
+                HStack(spacing: 6) {
+                    ForEach(dayOptions, id: \.self) { days in
+                        ClavisSelectablePill(title: labelForDays(days), isSelected: selectedDays == days) {
+                            selectedDays = days
+                            onDaysChange(days)
+                        }
+                    }
                 }
             }
         }
@@ -806,14 +704,16 @@ private struct TickerPriceCard: View {
 
 private struct TickerEventAnalysesCard: View {
     let events: [EventAnalysis]
+    let isHeld: Bool
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Event analysis")
-                .font(ClavisTypography.label)
-                .foregroundColor(.textSecondary)
+        ClavisFlushListCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: 0) {
+                Text(isHeld ? "Event analyses" : "Recent news")
+                    .font(ClavisTypography.label)
+                    .foregroundColor(.textSecondary)
+                    .padding(.vertical, 12)
 
-            VStack(spacing: 0) {
                 ForEach(events) { event in
                     NavigationLink(destination: TickerEventAnalysisDetailView(event: event)) {
                         VStack(alignment: .leading, spacing: 6) {
@@ -821,13 +721,14 @@ private struct TickerEventAnalysesCard: View {
                                 .font(ClavisTypography.bodyEmphasis)
                                 .foregroundColor(.textPrimary)
                                 .multilineTextAlignment(.leading)
+                                .fixedSize(horizontal: false, vertical: true)
 
                             if let summary = event.summary?.trimmingCharacters(in: .whitespacesAndNewlines), !summary.isEmpty {
                                 Text(summary)
                                     .font(ClavisTypography.footnote)
                                     .foregroundColor(.textSecondary)
-                                    .lineLimit(2)
                                     .multilineTextAlignment(.leading)
+                                    .fixedSize(horizontal: false, vertical: true)
                             }
 
                             HStack {
@@ -853,40 +754,6 @@ private struct TickerEventAnalysesCard: View {
                 }
             }
         }
-        .padding(ClavisTheme.cardPadding)
-        .clavisCardStyle(fill: .surface)
-    }
-}
-
-private struct TickerAnalysisActionCard: View {
-    let isRefreshing: Bool
-    let onRefreshAnalysis: () -> Void
-
-    var body: some View {
-        HStack(alignment: .center, spacing: 12) {
-            VStack(alignment: .leading, spacing: 4) {
-                CX2SectionLabel(text: "Position analysis")
-                Text("Queue a fresh backend run for this held position.")
-                    .font(.system(size: 13, weight: .regular))
-                    .foregroundColor(.textSecondary)
-            }
-
-            Spacer()
-
-            Button(action: onRefreshAnalysis) {
-                Text(isRefreshing ? "Refreshing" : "Refresh")
-                    .font(.system(size: 12, weight: .medium))
-                    .foregroundColor(.backgroundPrimary)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 6)
-                    .background(Color.textPrimary)
-                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-            }
-            .buttonStyle(.plain)
-            .disabled(isRefreshing)
-        }
-        .padding(14)
-        .clavisCardStyle(fill: .surface)
     }
 }
 
@@ -1048,37 +915,36 @@ private struct TickerMetricGridCard: View {
     let metrics: [TickerMetricItem]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            CX2SectionLabel(text: "Fundamentals")
+        ClavisStandardCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: 8) {
+                CX2SectionLabel(text: "Fundamentals")
 
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 3), spacing: 0) {
-                ForEach(metrics) { metric in
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(metric.label)
-                            .font(.system(size: 11, weight: .regular))
-                            .foregroundColor(.textSecondary)
-                        Text(metric.value)
-                            .font(.system(size: 15, weight: .bold, design: .monospaced))
-                            .foregroundColor(.textPrimary)
-                            .monospacedDigit()
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 12)
-                    .background(Color.surface)
-                    .overlay(alignment: .trailing) {
-                        Rectangle()
-                            .fill(Color.border)
-                            .frame(width: 1)
-                            .opacity(metric.id == metrics.last?.id ? 0 : 1)
+                ClavisFlushListCard(fill: .surface, padding: 0) {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 3), spacing: 0) {
+                        ForEach(metrics) { metric in
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(metric.label)
+                                    .font(ClavisTypography.label)
+                                    .foregroundColor(.textSecondary)
+                                Text(metric.value)
+                                    .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                                    .foregroundColor(.textPrimary)
+                                    .monospacedDigit()
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 12)
+                            .background(Color.surface)
+                            .overlay(alignment: .trailing) {
+                                Rectangle()
+                                    .fill(Color.border)
+                                    .frame(width: 1)
+                                    .opacity(metric.id == metrics.last?.id ? 0 : 1)
+                            }
+                        }
                     }
                 }
             }
-            .overlay(
-                RoundedRectangle(cornerRadius: 10, style: .continuous)
-                    .stroke(Color.border, lineWidth: 1)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         }
     }
 }
@@ -1092,22 +958,34 @@ private struct TickerRiskDimensionItem: Identifiable {
 
 private struct TickerRiskDimensionsCard: View {
     let dimensions: [TickerRiskDimensionItem]
+    var rationale: [String: String]? = nil
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            CX2SectionLabel(text: "Risk dimensions")
+        ClavisStandardCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: 10) {
+                CX2SectionLabel(text: "Risk dimensions")
 
-            VStack(spacing: 10) {
-                ForEach(dimensions) { item in
-                    TickerRiskDimensionRow(item: item)
+                VStack(spacing: 10) {
+                    ForEach(dimensions) { item in
+                        TickerRiskDimensionRow(item: item, rationaleText: rationaleText(for: item.title))
+                    }
                 }
             }
         }
+    }
+
+    private func rationaleText(for title: String) -> String? {
+        guard let rationale else { return nil }
+        let normalizedKey = title.lowercased()
+            .replacingOccurrences(of: " ", with: "_")
+            .replacingOccurrences(of: "risk signals", with: "sentiment")
+        return rationale[normalizedKey]?.sanitizedDisplayText
     }
 }
 
 private struct TickerRiskDimensionRow: View {
     let item: TickerRiskDimensionItem
+    var rationaleText: String? = nil
 
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
@@ -1132,6 +1010,14 @@ private struct TickerRiskDimensionRow: View {
                 }
             }
             .frame(height: 4)
+
+            if let rationaleText, !rationaleText.isEmpty {
+                Text(rationaleText)
+                    .font(.system(size: 11, weight: .regular))
+                    .foregroundColor(.textTertiary)
+                    .lineSpacing(3)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
     }
 
@@ -1151,25 +1037,26 @@ private struct TickerBulletedListCard: View {
     let items: [String]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Text(title)
-                .font(ClavisTypography.label)
-                .foregroundColor(.textSecondary)
+        ClavisStandardCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: 10) {
+                Text(title)
+                    .font(ClavisTypography.label)
+                    .foregroundColor(.textSecondary)
 
-            ForEach(items, id: \.self) { item in
-                HStack(alignment: .top, spacing: 10) {
-                    Circle()
-                        .fill(Color.textSecondary)
-                        .frame(width: 5, height: 5)
-                        .padding(.top, 6)
-                    Text(item)
-                        .font(ClavisTypography.bodySmall)
-                        .foregroundColor(.textPrimary)
+                ForEach(items, id: \.self) { item in
+                    HStack(alignment: .top, spacing: 10) {
+                        Circle()
+                            .fill(Color.textSecondary)
+                            .frame(width: 5, height: 5)
+                            .padding(.top, 6)
+                        Text(item)
+                            .font(ClavisTypography.body)
+                            .foregroundColor(.textPrimary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
             }
         }
-        .padding(ClavisTheme.cardPadding)
-        .clavisCardStyle(fill: .surface)
     }
 }
 
@@ -1177,49 +1064,163 @@ private struct TickerAlertsListCard: View {
     let alerts: [Alert]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .lastTextBaseline) {
-                CX2SectionLabel(text: "Recent alerts")
-                Spacer()
-                Text("All alerts")
-                    .font(.system(size: 13, weight: .regular))
-                    .foregroundColor(.informational)
-            }
+        ClavisFlushListCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .lastTextBaseline) {
+                    CX2SectionLabel(text: "Recent alerts")
+                    Spacer()
+                    Text("All alerts")
+                        .font(ClavisTypography.body)
+                        .foregroundColor(.informational)
+                }
+                .padding(.vertical, 12)
 
-            VStack(spacing: 0) {
-                ForEach(alerts) { alert in
-                    HStack(alignment: .top, spacing: 12) {
-                        GradeTag(grade: alert.newGrade ?? alert.previousGrade ?? fallbackGrade(for: alert), compact: true)
+                VStack(spacing: 0) {
+                    ForEach(alerts) { alert in
+                        HStack(alignment: .top, spacing: 12) {
+                            GradeBadge(grade: alert.newGrade ?? alert.previousGrade ?? "—", size: .compact)
 
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text(alert.type.displayName)
-                                .font(ClavisTypography.label)
+                            VStack(alignment: .leading, spacing: 3) {
+                                Text(alert.type.displayName)
+                                    .font(ClavisTypography.label)
+                                    .foregroundColor(.textSecondary)
+                                Text(alert.message)
+                                    .font(ClavisTypography.body)
+                                    .foregroundColor(.textPrimary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+
+                            Spacer()
+
+                            Text(alert.createdAt.formatted(date: .omitted, time: .shortened))
+                                .font(ClavisTypography.footnote)
                                 .foregroundColor(.textSecondary)
-                            Text(alert.message)
-                                .font(ClavisTypography.bodySmall)
-                                .foregroundColor(.textPrimary)
                         }
-
-                        Spacer()
-
-                        Text(alert.createdAt.formatted(date: .omitted, time: .shortened))
-                            .font(ClavisTypography.footnote)
-                            .foregroundColor(.textSecondary)
+                        .padding(.vertical, 12)
                     }
-                    .padding(.vertical, 12)
                 }
             }
-            .padding(.horizontal, 14)
-            .padding(.vertical, 2)
-            .clavisCardStyle(fill: .surface)
         }
     }
+}
 
-    private func fallbackGrade(for alert: Alert) -> String {
-        switch alert.type.severity {
-        case .critical: return "F"
-        case .warning: return "C"
-        case .informational: return "B"
+private struct TickerRecentNewsCard: View {
+    let stories: [NewsItem]
+
+    var body: some View {
+        ClavisFlushListCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .lastTextBaseline) {
+                    CX2SectionLabel(text: "Recent news")
+                    Spacer()
+                    Text("All news")
+                        .font(ClavisTypography.body)
+                        .foregroundColor(.informational)
+                }
+                .padding(.vertical, 12)
+
+                VStack(spacing: 0) {
+                    ForEach(stories) { story in
+                        VStack(alignment: .leading, spacing: 6) {
+                            HStack(alignment: .firstTextBaseline) {
+                                if let ticker = story.ticker {
+                                    Text(ticker)
+                                        .font(ClavisTypography.label)
+                                        .foregroundColor(.textSecondary)
+                                }
+
+                                Spacer()
+
+                                if let source = story.source, !source.isEmpty {
+                                    Text(source)
+                                        .font(ClavisTypography.footnote)
+                                        .foregroundColor(.textSecondary)
+                                }
+                            }
+
+                            Text(story.title)
+                                .font(ClavisTypography.bodyEmphasis)
+                                .foregroundColor(.textPrimary)
+                                .fixedSize(horizontal: false, vertical: true)
+
+                            if let summary = story.summary, !summary.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                Text(summary)
+                                    .font(ClavisTypography.footnote)
+                                    .foregroundColor(.textSecondary)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+
+                            HStack {
+                                if let publishedAt = story.publishedAt {
+                                    Text(publishedAt.formatted(date: .omitted, time: .shortened))
+                                        .font(ClavisTypography.footnote)
+                                        .foregroundColor(.textTertiary)
+                                }
+                                Spacer()
+                            }
+                        }
+                        .padding(.vertical, 12)
+
+                        if story.id != stories.last?.id {
+                            Divider().overlay(Color.border)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+private struct WhyThisGradeItem: Identifiable {
+    let id = UUID()
+    let title: String
+    let detail: String
+    let horizon: String?
+}
+
+private struct TickerWhyThisGradeCard: View {
+    let items: [WhyThisGradeItem]
+
+    var body: some View {
+        ClavisFlushListCard(fill: .surface) {
+            VStack(alignment: .leading, spacing: 0) {
+                CX2SectionLabel(text: "Why this grade")
+                    .padding(.vertical, 12)
+
+                VStack(spacing: 0) {
+                    ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack(alignment: .top, spacing: 8) {
+                                Text(item.title)
+                                    .font(ClavisTypography.bodyEmphasis)
+                                    .foregroundColor(.textPrimary)
+                                    .fixedSize(horizontal: false, vertical: true)
+
+                                if let horizon = item.horizon, !horizon.isEmpty {
+                                    Text(horizon.capitalized)
+                                        .font(.system(size: 10, weight: .medium))
+                                        .foregroundColor(.textSecondary)
+                                        .padding(.horizontal, 5)
+                                        .padding(.vertical, 2)
+                                        .background(Color.surfaceElevated)
+                                        .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                                }
+                            }
+
+                            Text(item.detail)
+                                .font(ClavisTypography.footnote)
+                                .foregroundColor(.textSecondary)
+                                .lineSpacing(4)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding(.vertical, 12)
+
+                        if index < items.count - 1 {
+                            Divider().overlay(Color.border)
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -1235,7 +1236,7 @@ struct TickerSearchSheet: View {
         NavigationStack {
             List {
                 Section {
-                    TextField("Search shared tickers", text: $query)
+                        TextField("Search tickers", text: $query)
                         .textInputAutocapitalization(.characters)
                         .autocorrectionDisabled()
                         .onChange(of: query) { _, newValue in
@@ -1268,7 +1269,7 @@ struct TickerSearchSheet: View {
                                         .foregroundColor(.textSecondary)
                                 }
                                 Spacer()
-                                GradeTag(grade: result.grade ?? "C", compact: true)
+                                GradeBadge(grade: result.grade ?? "—", size: .compact)
                             }
                         }
                     }
@@ -1300,7 +1301,7 @@ struct TickerSearchSheet: View {
             errorMessage = nil
         } catch {
             results = []
-            errorMessage = error.localizedDescription
+            errorMessage = ClavisCopy.Errors.tickerSearch(error)
         }
     }
 

@@ -88,11 +88,17 @@ def _safe_refresh_snapshot(supabase, ticker: str) -> None:
 async def get_ticker_detail(
     ticker: str,
     background_tasks: BackgroundTasks,
+    position_id: str | None = Query(default=None),
     user_id: str = Depends(get_user_id),
 ):
     supabase = get_supabase()
     try:
-        result = get_ticker_detail_bundle(supabase, user_id, ticker)
+        result = get_ticker_detail_bundle(
+            supabase,
+            user_id,
+            ticker,
+            position_id=position_id,
+        )
         if _snapshot_is_stale(result):
             logger.info(
                 "Ticker %s snapshot is stale (news newer than analysis_as_of by >%dh) — scheduling refresh",

@@ -9,6 +9,8 @@ struct RiskScore: Identifiable, Codable {
     let volatilityTrend: Double?
     let totalScore: Double?
     let grade: String?
+    let gradeDirection: String?
+    let scoreDelta: Int?
 
     let safetyScore: Double?
     let confidence: Double?
@@ -22,6 +24,7 @@ struct RiskScore: Identifiable, Codable {
     let coverageState: String?
     let coverageNote: String?
     let isProvisional: Bool?
+    let evidenceStrength: EvidenceStrength?
 
     let scoreSource: String?
     let scoreAsOf: Date?
@@ -40,6 +43,8 @@ struct RiskScore: Identifiable, Codable {
         case volatilityTrend = "volatility_trend"
         case totalScore = "total_score"
         case grade
+        case gradeDirection = "grade_direction"
+        case scoreDelta = "score_delta"
         case safetyScore = "safety_score"
         case confidence
         case structuralBaseScore = "structural_base_score"
@@ -52,6 +57,7 @@ struct RiskScore: Identifiable, Codable {
         case coverageState = "coverage_state"
         case coverageNote = "coverage_note"
         case isProvisional = "is_provisional"
+        case evidenceStrength = "evidence_strength"
         case scoreSource = "score_source"
         case scoreAsOf = "score_as_of"
         case scoreVersion = "score_version"
@@ -70,6 +76,8 @@ struct RiskScore: Identifiable, Codable {
         volatilityTrend = try? container.decodeFlexibleDoubleIfPresent(forKey: .volatilityTrend)
         totalScore = try? container.decodeFlexibleDoubleIfPresent(forKey: .totalScore)
         grade = try? container.decodeIfPresent(String.self, forKey: .grade)
+        gradeDirection = try? container.decodeIfPresent(String.self, forKey: .gradeDirection)
+        scoreDelta = try? container.decodeIfPresent(Int.self, forKey: .scoreDelta)
         safetyScore = try? container.decodeFlexibleDoubleIfPresent(forKey: .safetyScore)
         confidence = try? container.decodeFlexibleDoubleIfPresent(forKey: .confidence)
         structuralBaseScore = try? container.decodeFlexibleDoubleIfPresent(forKey: .structuralBaseScore)
@@ -82,6 +90,7 @@ struct RiskScore: Identifiable, Codable {
         coverageState = try? container.decodeIfPresent(String.self, forKey: .coverageState)
         coverageNote = try? container.decodeIfPresent(String.self, forKey: .coverageNote)
         isProvisional = try? container.decodeIfPresent(Bool.self, forKey: .isProvisional)
+        evidenceStrength = try? container.decodeIfPresent(EvidenceStrength.self, forKey: .evidenceStrength)
         scoreSource = try? container.decodeIfPresent(String.self, forKey: .scoreSource)
         scoreAsOf = try? container.decodeIfPresent(Date.self, forKey: .scoreAsOf)
         scoreVersion = try? container.decodeIfPresent(String.self, forKey: .scoreVersion)
@@ -91,22 +100,11 @@ struct RiskScore: Identifiable, Codable {
     }
 
     var displayScore: Double {
-        totalScore ?? safetyScore ?? 0
+        totalScore ?? 0
     }
 
     var displayGrade: String {
-        totalScore != nil ? grade ?? "C" : (grade ?? "C")
-    }
-
-    var gradeColor: String {
-        switch displayGrade {
-        case "A": return "green"
-        case "B": return "yellow"
-        case "C": return "orange"
-        case "D": return "red"
-        case "F": return "red"
-        default: return "gray"
-        }
+        grade ?? "—"
     }
 
     var confidenceLevel: ConfidenceLevel {

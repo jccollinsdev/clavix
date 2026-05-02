@@ -30,7 +30,7 @@ struct Alert: Identifiable, Codable {
         id = try container.decodeIfPresent(String.self, forKey: .id) ?? UUID().uuidString
         userId = try container.decodeIfPresent(String.self, forKey: .userId) ?? ""
         positionTicker = try container.decodeIfPresent(String.self, forKey: .positionTicker)
-        type = (try? container.decode(AlertType.self, forKey: .type)) ?? .digestReady
+        type = (try? container.decode(AlertType.self, forKey: .type)) ?? .ratingReady
         previousGrade = try container.decodeIfPresent(String.self, forKey: .previousGrade)
         newGrade = try container.decodeIfPresent(String.self, forKey: .newGrade)
         changeReason = try container.decodeIfPresent(String.self, forKey: .changeReason)
@@ -44,6 +44,7 @@ enum AlertType: String, Codable {
     case gradeChange = "grade_change"
     case majorEvent = "major_event"
     case portfolioGradeChange = "portfolio_grade_change"
+    case ratingReady = "rating_ready"
     case digestReady = "digest_ready"
     case safetyDeterioration = "safety_deterioration"
     case concentrationDanger = "concentration_danger"
@@ -55,7 +56,7 @@ enum AlertType: String, Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let rawValue = (try? container.decode(String.self)) ?? ""
-        self = AlertType(rawValue: rawValue) ?? .digestReady
+        self = AlertType(rawValue: rawValue) ?? .ratingReady
     }
 
     var displayName: String {
@@ -63,7 +64,8 @@ enum AlertType: String, Codable {
         case .gradeChange: return "Grade Change"
         case .majorEvent: return "Major Event"
         case .portfolioGradeChange: return "Portfolio Grade Change"
-        case .digestReady: return "Digest Ready"
+        case .ratingReady: return "New Rating"
+        case .digestReady: return "New Rating"
         case .safetyDeterioration: return "Safety Deterioration"
         case .concentrationDanger: return "Concentration Danger"
         case .clusterRisk: return "Cluster Risk"
@@ -78,7 +80,8 @@ enum AlertType: String, Codable {
         case .gradeChange: return "arrow.up.arrow.down"
         case .majorEvent: return "exclamationmark.triangle"
         case .portfolioGradeChange: return "chart.pie"
-        case .digestReady: return "doc.text"
+        case .ratingReady: return "checkmark.shield"
+        case .digestReady: return "checkmark.shield"
         case .safetyDeterioration: return "chart.line.downtrend.xyaxis"
         case .concentrationDanger: return "chart.bar"
         case .clusterRisk: return "square.stack.3d.up"

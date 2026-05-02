@@ -38,23 +38,20 @@ def test_portfolio_score_fields_use_digest_contract():
 
     fields = dashboard._portfolio_score_fields(digest)
 
-    assert fields == {
-        "overall_score": 61.2,
-        "overall_grade": "B",
-        "score_source": "digest",
-        "score_as_of": "2026-04-24T14:00:00Z",
-        "score_version": "run-123",
-    }
+    assert fields["overall_score"] == 61.2
+    assert fields["overall_grade"] == "B"
+    assert fields["score_source"] == "digest"
+    assert fields["score_as_of"] == "2026-04-24T14:00:00Z"
+    assert fields["score_version"] == "run-123"
 
 
 def test_portfolio_score_fields_return_unknown_state_without_digest():
-    assert dashboard._portfolio_score_fields(None) == {
-        "overall_score": None,
-        "overall_grade": None,
-        "score_source": None,
-        "score_as_of": None,
-        "score_version": None,
-    }
+    fields = dashboard._portfolio_score_fields(None)
+    assert fields["overall_score"] is None
+    assert fields["overall_grade"] is None
+    assert fields["score_source"] is None
+    assert fields["score_as_of"] is None
+    assert fields["score_version"] is None
 
 
 class _DigestFakeResult:

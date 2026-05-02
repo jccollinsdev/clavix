@@ -135,7 +135,7 @@ private struct WelcomeStepView: View {
 
             Spacer()
 
-            ClavisPrimaryButton(title: "Get started", isEnabled: isValid) {
+            ClavisPrimaryButton(title: "Continue", isEnabled: isValid) {
                 viewModel.nextPage()
             }
             .padding(.horizontal, ClavisTheme.screenPadding)
@@ -317,8 +317,8 @@ struct OnboardingPreferencesView: View {
 
                 VStack(spacing: 10) {
                     OnboardingToggleCard(
-                        title: "Morning digest",
-                        subtitle: "Daily portfolio summary at your configured digest time",
+                        title: "Morning rating",
+                        subtitle: "Daily portfolio summary at your configured rating time",
                         isOn: $viewModel.morningDigestEnabled
                     )
 
@@ -391,7 +391,7 @@ struct OnboardingBrokerageView: View {
                         .font(ClavisTypography.h1)
                         .foregroundColor(.textPrimary)
 
-                    Text("Optional. SnapTrade keeps this read-only and only imports holdings so Clavix can replace manual entry.")
+                    Text("Optional. Brokerage connections are read-only and only import holdings, so you can keep manual entries when you want to.")
                         .font(ClavisTypography.body)
                         .foregroundColor(.textSecondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -410,13 +410,13 @@ struct OnboardingBrokerageView: View {
 
                     Text(brokerageViewModel.isConnected
                          ? "Your holdings can now sync into Clavix. You can switch between manual and automatic sync later in Settings."
-                         : "Importing holdings here is faster than typing positions by hand, and you can still keep manual positions alongside synced ones.")
+                         : "Importing holdings here is faster than entering them by hand, and you can still keep manual holdings alongside synced ones.")
                         .font(ClavisTypography.body)
                         .foregroundColor(.textSecondary)
                 }
 
                 if brokerageUnavailable {
-                    Text("Brokerage auto-import is not available right now. You can add positions manually and connect a brokerage later in Settings.")
+                    Text("Brokerage auto-import is not available right now. You can add holdings manually and connect a brokerage later in Settings.")
                         .font(ClavisTypography.footnote)
                         .foregroundColor(.textSecondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -571,7 +571,8 @@ struct ClavisTextFieldStyle: TextFieldStyle {
     func _body(configuration: TextField<Self._Label>) -> some View {
         configuration
             .font(monospaced ? .system(size: 15, weight: .regular, design: .monospaced) : .system(size: 15, weight: .regular))
-            .padding(13)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 13)
             .background(Color.surfaceElevated)
             .foregroundColor(.textPrimary)
             .overlay(

@@ -3,6 +3,7 @@ from datetime import datetime
 from fastapi import APIRouter, BackgroundTasks, Depends, Request, Response
 
 from ..services.alert_payloads import enrich_alert_rows
+from ..pipeline.analysis_utils import score_to_grade, grade_direction
 from ..services.digest_selection import select_latest_trading_day_digest
 from ..services.supabase import get_supabase
 from ..services.ticker_cache_service import enrich_positions_with_ticker_cache
@@ -121,14 +122,20 @@ def _portfolio_score_fields(digest: dict | None) -> dict[str, object | None]:
         return {
             "overall_score": None,
             "overall_grade": None,
+            "grade_direction": None,
+            "score_delta": None,
             "score_source": None,
             "score_as_of": None,
             "score_version": None,
         }
 
+    overall_score = digest.get("overall_score")
+    overall_grade = digest.get("overall_grade") or (score_to_grade(overall_score) if overall_score is not None else None)
     return {
-        "overall_score": digest.get("overall_score"),
-        "overall_grade": digest.get("overall_grade"),
+        "overall_score": overall_score,
+        "overall_grade": overall_grade,
+        "grade_direction": None,
+        "score_delta": None,
         "score_source": "digest",
         "score_as_of": digest.get("generated_at"),
         "score_version": digest.get("analysis_run_id"),

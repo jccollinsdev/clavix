@@ -10,6 +10,9 @@ struct DashboardResponse: Decodable {
     let portfolioRiskSnapshot: PortfolioRiskSnapshot?
     let overallScore: Double?
     let overallGrade: String?
+    let gradeDirection: String?
+    let evidenceStrength: EvidenceStrength?
+    let scoreDelta: Int?
     let scoreSource: String?
     let scoreAsOf: Date?
     let scoreVersion: String?
@@ -25,6 +28,9 @@ struct DashboardResponse: Decodable {
         case portfolioRiskSnapshot = "portfolio_risk_snapshot"
         case overallScore = "overall_score"
         case overallGrade = "overall_grade"
+        case gradeDirection = "grade_direction"
+        case evidenceStrength = "evidence_strength"
+        case scoreDelta = "score_delta"
         case scoreSource = "score_source"
         case scoreAsOf = "score_as_of"
         case scoreVersion = "score_version"
@@ -42,6 +48,9 @@ struct DashboardResponse: Decodable {
         portfolioRiskSnapshot = try container.decodeIfPresent(PortfolioRiskSnapshot.self, forKey: .portfolioRiskSnapshot)
         overallScore = try container.decodeFlexibleDoubleIfPresent(forKey: .overallScore)
         overallGrade = try container.decodeIfPresent(String.self, forKey: .overallGrade)
+        gradeDirection = try container.decodeIfPresent(String.self, forKey: .gradeDirection)
+        evidenceStrength = try? container.decodeIfPresent(EvidenceStrength.self, forKey: .evidenceStrength)
+        scoreDelta = try container.decodeIfPresent(Int.self, forKey: .scoreDelta)
         scoreSource = try container.decodeIfPresent(String.self, forKey: .scoreSource)
         scoreAsOf = try container.decodeIfPresent(Date.self, forKey: .scoreAsOf)
         scoreVersion = try container.decodeIfPresent(String.self, forKey: .scoreVersion)

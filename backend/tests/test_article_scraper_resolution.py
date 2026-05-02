@@ -312,7 +312,7 @@ class _FlakySearchClient:
 
     async def get(self, url):
         self.calls += 1
-        if self.calls == 1:
+        if self.calls <= 3:
             raise RuntimeError("temporary search failure")
         markdown = "## [Result](http://duckduckgo.com/l/?uddg=https%3A%2F%2Fexample.com%2Fstory%3Fa%3D1)"
         return _FakeResponse(markdown, url)

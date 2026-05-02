@@ -17,12 +17,15 @@ struct Position: Identifiable, Codable, Hashable {
     var riskGrade: String?
     var totalScore: Double?
     var previousGrade: String?
+    var gradeDirection: String?
+    var scoreDelta: Int?
     var inferredLabels: [String]?
     var summary: String?
     var lastAnalyzedAt: Date?
     var analysisState: String?
     var coverageState: String?
     var coverageNote: String?
+    var evidenceStrength: EvidenceStrength?
     var analysisRunId: String?
     var latestAnalysisRunStatus: String?
     var latestRefreshJobId: String?
@@ -44,14 +47,23 @@ struct Position: Identifiable, Codable, Hashable {
     }
 
     var riskTrend: RiskTrend? {
-        guard let current = riskGrade,
-              let previous = previousGrade else { return .stable }
-        if gradeValue(current) > gradeValue(previous) {
+        switch gradeDirection {
+        case "up":
             return .improving
-        } else if gradeValue(current) < gradeValue(previous) {
-            return .increasing
+        case "down":
+            return .worsening
+        case "flat":
+            return .stable
+        default:
+            if let current = riskGrade, let previous = previousGrade {
+                if Grade.ordinalValue(for: current) > Grade.ordinalValue(for: previous) {
+                    return .improving
+                } else if Grade.ordinalValue(for: current) < Grade.ordinalValue(for: previous) {
+                    return .worsening
+                }
+            }
+            return .stable
         }
-        return .stable
     }
 
     var actionPressure: ActionPressure? {
@@ -79,17 +91,6 @@ struct Position: Identifiable, Codable, Hashable {
         syncedFromBrokerage ?? false
     }
 
-    private func gradeValue(_ grade: String) -> Int {
-        switch grade {
-        case "A": return 5
-        case "B": return 4
-        case "C": return 3
-        case "D": return 2
-        case "F": return 1
-        default: return 0
-        }
-    }
-
     enum CodingKeys: String, CodingKey {
         case id
         case userId = "user_id"
@@ -107,12 +108,15 @@ struct Position: Identifiable, Codable, Hashable {
         case riskGrade = "risk_grade"
         case totalScore = "total_score"
         case previousGrade = "previous_grade"
+        case gradeDirection = "grade_direction"
+        case scoreDelta = "score_delta"
         case inferredLabels = "inferred_labels"
         case summary
         case lastAnalyzedAt = "last_analyzed_at"
         case analysisState = "analysis_state"
         case coverageState = "coverage_state"
         case coverageNote = "coverage_note"
+        case evidenceStrength = "evidence_strength"
         case analysisRunId = "analysis_run_id"
         case latestAnalysisRunStatus = "latest_analysis_run_status"
         case latestRefreshJobId = "latest_refresh_job_id"
@@ -147,12 +151,15 @@ struct Position: Identifiable, Codable, Hashable {
         riskGrade = try container.decodeIfPresent(String.self, forKey: .riskGrade)
         totalScore = try container.decodeFlexibleDoubleIfPresent(forKey: .totalScore)
         previousGrade = try container.decodeIfPresent(String.self, forKey: .previousGrade)
+        gradeDirection = try container.decodeIfPresent(String.self, forKey: .gradeDirection)
+        scoreDelta = try container.decodeIfPresent(Int.self, forKey: .scoreDelta)
         inferredLabels = try container.decodeIfPresent([String].self, forKey: .inferredLabels)
         summary = try container.decodeIfPresent(String.self, forKey: .summary)
         lastAnalyzedAt = try container.decodeIfPresent(Date.self, forKey: .lastAnalyzedAt)
         analysisState = try container.decodeIfPresent(String.self, forKey: .analysisState)
         coverageState = try container.decodeIfPresent(String.self, forKey: .coverageState)
         coverageNote = try container.decodeIfPresent(String.self, forKey: .coverageNote)
+        evidenceStrength = try? container.decodeIfPresent(EvidenceStrength.self, forKey: .evidenceStrength)
         analysisRunId = try container.decodeIfPresent(String.self, forKey: .analysisRunId)
         latestAnalysisRunStatus = try container.decodeIfPresent(String.self, forKey: .latestAnalysisRunStatus)
         latestRefreshJobId = try container.decodeIfPresent(String.self, forKey: .latestRefreshJobId)

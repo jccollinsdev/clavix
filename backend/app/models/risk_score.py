@@ -10,6 +10,8 @@ class RiskScoreBase(BaseModel):
     volatility_trend: Optional[float] = None
     total_score: Optional[float] = None
     grade: Optional[str] = None
+    grade_direction: Optional[str] = None
+    score_delta: Optional[int] = None
 
     confidence: Optional[float] = None
     structural_base_score: Optional[float] = None
@@ -18,7 +20,6 @@ class RiskScoreBase(BaseModel):
     safety_score: Optional[float] = None
 
     reasoning: Optional[str] = None
-    grade_reason: Optional[str] = None
     evidence_summary: Optional[str] = None
     dimension_rationale: Optional[dict] = None
     factor_breakdown: Optional[dict] = None

@@ -142,7 +142,7 @@ def _detect_macro_themes(articles: list[dict]) -> list[dict]:
     return detected
 
 
-SYSTEM_PROMPT = """You are a macro analyst writing a brief morning portfolio backdrop.
+SYSTEM_PROMPT = """You are a macro rater writing a brief morning portfolio backdrop.
 
 Given a list of overnight macro developments (news articles classified as macro-relevant), synthesize them into a clear structured brief.
 
@@ -156,7 +156,7 @@ Return strict JSON with this shape:
   "position_impacts": [
     {{
       "ticker": "NVDA",
-      "macro_relevance": "confirms|challenges|neutral",
+      "macro_relevance": "supports|contradicts|neutral",
       "impact_summary": "one sentence on how macro affects this position"
     }}
   ],
@@ -209,7 +209,7 @@ def _fallback_sector_brief(sector: str, articles: list[dict]) -> dict:
     if not article_count:
         brief = f"No material overnight update was identified for {sector}."
     else:
-        brief = f"Overnight {sector} coverage was active across {article_count} CNBC item(s), with the main developments concentrated in the sector rather than isolated to a single company headline."
+        brief = f"Overnight {sector} data was active across {article_count} item(s), with the main developments concentrated in the sector rather than isolated to a single company headline."
     return {"sector": sector, "brief": brief, "headlines": []}
 
 

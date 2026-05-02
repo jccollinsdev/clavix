@@ -38,7 +38,7 @@ final class BrokerageViewModel: ObservableObject {
                 try await self.api.fetchBrokerageStatus()
             }
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = ClavisCopy.Errors.brokerageStatus(error)
         }
     }
 
@@ -57,14 +57,14 @@ final class BrokerageViewModel: ObservableObject {
         } catch let error as APIError {
             switch error {
             case .serverError(let code) where code == 503:
-                errorMessage = "Brokerage auto-import is not available on this account. You can add positions manually."
+                errorMessage = "Brokerage connection is not available right now. You can add holdings manually."
             case .unauthorized:
-                errorMessage = "Session expired — please sign out and sign in again."
+                errorMessage = ClavisCopy.Errors.sessionExpired
             default:
-                errorMessage = error.localizedDescription
+                errorMessage = ClavisCopy.Errors.brokerageConnect(error)
             }
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = ClavisCopy.Errors.brokerageConnect(error)
         }
     }
 
@@ -79,7 +79,7 @@ final class BrokerageViewModel: ObservableObject {
                 try await self.api.fetchBrokerageStatus()
             }
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = ClavisCopy.Errors.brokerageSettings(error)
         }
     }
 
@@ -99,7 +99,7 @@ final class BrokerageViewModel: ObservableObject {
                 ? "Brokerage sync complete. Imported or refreshed \(imported) holding\(imported == 1 ? "" : "s")."
                 : "Brokerage sync complete. No holdings needed to change."
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = ClavisCopy.Errors.brokerageSync(error)
         }
     }
 
@@ -116,7 +116,7 @@ final class BrokerageViewModel: ObservableObject {
             }
             infoMessage = "Brokerage disconnected. Synced holdings were removed from Clavix."
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = ClavisCopy.Errors.brokerageDisconnect(error)
         }
     }
 

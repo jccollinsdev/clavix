@@ -10,12 +10,12 @@ struct PositionDetailView: View {
     var body: some View {
         Group {
             if let resolvedTicker {
-                TickerDetailView(ticker: resolvedTicker)
+                TickerDetailView(ticker: resolvedTicker, positionId: positionId)
             } else if isLoading {
                 PositionDetailSkeletonView()
             } else if let errorMessage {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Unable to load position")
+                    Text("Unable to load holding")
                         .font(ClavisTypography.cardTitle)
                         .foregroundColor(.textPrimary)
                     Text(errorMessage)
@@ -41,7 +41,7 @@ struct PositionDetailView: View {
             let detail = try await APIService.shared.fetchPositionDetail(id: positionId)
             resolvedTicker = detail.position.ticker
         } catch {
-            errorMessage = "Failed to load position details: \(error.localizedDescription)"
+            errorMessage = ClavisCopy.Errors.positionLoad(error)
         }
 
         isLoading = false

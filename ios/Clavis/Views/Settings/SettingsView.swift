@@ -106,7 +106,7 @@ struct BrokerageSettingsGroup: View {
     var body: some View {
         SettingsGroupCard(
             title: "Brokerage",
-            footnote: "SnapTrade stays read-only here. Clavix only imports holdings and lets you choose between manual and automatic sync behavior."
+            footnote: "Brokerage connections are read-only. Clavix imports holdings and lets you choose between manual and automatic sync."
         ) {
             if let infoMessage = viewModel.infoMessage {
                 SettingsMessageRow(message: infoMessage, color: .informational)
@@ -193,10 +193,10 @@ struct DigestSettingsGroup: View {
 
     var body: some View {
         SettingsGroupCard(
-            title: "Digest",
-            footnote: "Morning digest is generated from overnight data. Changes save automatically."
+            title: "Rating",
+            footnote: "Morning rating is generated from overnight data. Changes save automatically."
         ) {
-            SettingsValueRow(label: "Digest time") {
+            SettingsValueRow(label: "Rating time") {
                 DatePicker("", selection: $viewModel.digestTime, displayedComponents: .hourAndMinute)
                     .labelsHidden()
                     .onChange(of: viewModel.digestTime) { _, _ in
@@ -204,22 +204,9 @@ struct DigestSettingsGroup: View {
                     }
             }
 
-            SettingsValueRow(label: "Summary length") {
-                Picker("Summary Length", selection: $viewModel.summaryLength) {
-                    ForEach(SummaryLength.allCases, id: \.self) { length in
-                        Text(length.rawValue).tag(length)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .frame(maxWidth: 180)
-                .onChange(of: viewModel.summaryLength) { _, _ in
-                    Task { await viewModel.saveSummaryLength() }
-                }
-            }
-
             SettingsToggleListRow(
                 label: "Weekday only",
-                subtitle: "Skip weekend digest delivery",
+                subtitle: "Skip weekend rating delivery",
                 isOn: $viewModel.weekdayOnly,
                 onChange: { Task { await viewModel.saveWeekdayOnly() } },
                 last: true
@@ -300,7 +287,7 @@ struct NotificationSettingsGroup: View {
         SettingsGroupCard(title: "Notifications") {
             SettingsToggleListRow(
                 label: "Push notifications",
-                subtitle: "Controls whether the app sends digest and alert pushes",
+                subtitle: "Controls whether the app sends rating and alert pushes",
                 isOn: $viewModel.notificationsEnabled,
                 onChange: { Task { await viewModel.saveNotifications() } },
                 last: true
@@ -369,11 +356,9 @@ struct SettingsGroupCard<Content: View>: View {
                     .padding(.leading, 2)
             }
 
-            VStack(spacing: 0) {
+            ClavisStandardCard(fill: .surface, padding: 14) {
                 content
             }
-            .padding(.horizontal, 14)
-            .clavisCardStyle(fill: .surface)
 
             if let footnote, !footnote.isEmpty {
                 Text(footnote)
@@ -396,12 +381,12 @@ struct SettingsToggleListRow: View {
         HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 2) {
                 Text(label)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(ClavisTypography.body)
                     .foregroundColor(.textPrimary)
 
                 if let subtitle, !subtitle.isEmpty {
                     Text(subtitle)
-                        .font(.system(size: 12, weight: .regular))
+                        .font(ClavisTypography.footnote)
                         .foregroundColor(.textSecondary)
                 }
             }
@@ -441,7 +426,7 @@ struct SettingsValueRow<ValueView: View>: View {
     var body: some View {
         HStack(spacing: 12) {
             Text(label)
-                .font(.system(size: 15, weight: .regular))
+                .font(ClavisTypography.body)
                 .foregroundColor(.textPrimary)
 
             Spacer()
@@ -467,7 +452,7 @@ struct SettingsStaticRow: View {
     var body: some View {
         HStack(spacing: 12) {
             Text(label)
-                .font(.system(size: 15, weight: .regular))
+                .font(ClavisTypography.body)
                 .foregroundColor(.textPrimary)
 
             Spacer()
@@ -519,7 +504,7 @@ struct SettingsActionRow: View {
         Button(action: action) {
             HStack {
                 Text(title)
-                    .font(.system(size: 15, weight: .regular))
+                    .font(ClavisTypography.body)
                     .foregroundColor(disabled ? .textTertiary : tint)
                 Spacer()
                 CX2Chevron()
@@ -541,7 +526,7 @@ struct SettingsActionRow: View {
 struct AboutSection: View {
     var body: some View {
         SettingsGroupCard(title: "About") {
-            SettingsStaticRow(label: "Clavix", value: "v1.0.0")
+            SettingsStaticRow(label: "Version", value: ClavisCopy.appVersionString)
 
             NavigationLink(destination: ScoreExplanationView()) {
                 SettingsNavigationRow(title: "Score explanation")
@@ -616,29 +601,36 @@ struct SettingsLinkRow: View {
 }
 struct SettingsDisclaimerCard: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text("Informational only")
-                .font(ClavisTypography.label)
-                .foregroundColor(.textSecondary)
+        ClavisStandardCard(fill: .surfaceElevated) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Informational only")
+                    .font(ClavisTypography.label)
+                    .foregroundColor(.textSecondary)
 
-            Text(ClavisCopy.settingsDisclaimer)
-                .font(ClavisTypography.footnote)
-                .foregroundColor(.textSecondary)
-                .fixedSize(horizontal: false, vertical: true)
+                Text(ClavisCopy.settingsDisclaimer)
+                    .font(ClavisTypography.footnote)
+                    .foregroundColor(.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
-        .padding(14)
-        .clavisCardStyle(fill: .surfaceElevated)
     }
 }
 
 struct SignOutGroup: View {
     let onSignOut: () -> Void
+    @State private var showConfirmation = false
 
     var body: some View {
         SettingsGroupCard {
             SettingsActionRow(title: "Sign out", tint: .riskF, last: true) {
-                onSignOut()
+                showConfirmation = true
             }
+        }
+        .alert("Sign out of Clavix?", isPresented: $showConfirmation) {
+            Button("Sign out", role: .destructive, action: onSignOut)
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("You'll need to sign in again to access your portfolio.")
         }
     }
 }
@@ -658,11 +650,11 @@ struct ScoreExplanationView: View {
                 }
 
                 VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
-                    ScoreBandRow(grade: "A", range: "75–100", description: "Safe — minimum risk exposure", color: .riskA)
-                    ScoreBandRow(grade: "B", range: "55–74", description: "Stable — low risk", color: .riskB)
-                    ScoreBandRow(grade: "C", range: "35–54", description: "Watch — moderate risk", color: .riskC)
-                    ScoreBandRow(grade: "D", range: "15–34", description: "Risky — elevated risk", color: .riskD)
-                    ScoreBandRow(grade: "F", range: "0–14", description: "Critical — high risk", color: .riskF)
+                    ScoreBandRow(grade: "A", range: "80–100", description: "Safe — minimum risk exposure", color: .riskA)
+                    ScoreBandRow(grade: "B", range: "65–79", description: "Stable — low risk", color: .riskB)
+                    ScoreBandRow(grade: "C", range: "50–64", description: "Elevated — moderate risk", color: .riskC)
+                    ScoreBandRow(grade: "D", range: "35–49", description: "Risky — elevated risk", color: .riskD)
+                    ScoreBandRow(grade: "F", range: "0–34", description: "Critical — high risk", color: .riskF)
                 }
 
                 Text("Informational only. Scores reflect model output based on available data. They do not constitute financial advice.")
@@ -686,7 +678,7 @@ struct ScoreBandRow: View {
 
     var body: some View {
         HStack(alignment: .top, spacing: ClavisTheme.mediumSpacing) {
-            GradeTag(grade: grade)
+            GradeBadge(grade: grade)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(range)
@@ -712,15 +704,15 @@ struct MethodologyView: View {
                         .font(ClavisTypography.sectionTitle)
                         .foregroundColor(.textPrimary)
 
-                    Text("Clavix evaluates positions across multiple risk dimensions including market structure, macro sensitivity, sentiment, and catalyst quality.")
+                    Text("Clavix evaluates holdings across multiple risk dimensions including market structure, macro sensitivity, news risk signals, and catalyst quality.")
                         .font(ClavisTypography.body)
                         .foregroundColor(.textSecondary)
                 }
 
                 VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
-                    MethodologyStepRow(number: "01", title: "Data Collection", description: "Real-time price, news, and market structure signals are gathered for each position.")
-                    MethodologyStepRow(number: "02", title: "Relevance Filtering", description: "Market noise is filtered out so only position-relevant stories move forward.")
-                    MethodologyStepRow(number: "03", title: "Risk Analysis", description: "Each position is scored across four dimensions: news sentiment, macro exposure, position sizing, and volatility trend.")
+                    MethodologyStepRow(number: "01", title: "Data Collection", description: "Real-time price, news, and market structure signals are gathered for each holding.")
+                    MethodologyStepRow(number: "02", title: "Relevance Filtering", description: "Market noise is filtered out so only holding-relevant stories move forward.")
+                    MethodologyStepRow(number: "03", title: "Risk Analysis", description: "Each holding is scored across four dimensions: news risk signals, macro exposure, position sizing, and volatility trend.")
                     MethodologyStepRow(number: "04", title: "Grade Assignment", description: "Composite scores are mapped to letter grades with fixed boundaries.")
                 }
 
