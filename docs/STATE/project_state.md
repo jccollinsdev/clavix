@@ -1,14 +1,15 @@
 ---
 project: Clavis
 version: 1
-last_updated: 2026-05-02T1443Z
+last_updated: 2026-05-03T1200Z
 status: active
 current_phase: "P3 — Render Backend Driver Cards (iOS)"
 current_focus:
-  - ACTIVE: iOS ticker/holding detail now renders backend driver cards
-  - IN PROGRESS: Legacy ready analyses now backfill structured driver cards on read when event evidence exists
-  - NEXT: Verify the live AMD bundle and extend any remaining surfaces that should reuse the same driver-card section
-  - P2-D: Future cleanup items documented (no destructive migrations yet)
+  - DONE: Added centralized sanitize_text_field() in analysis_utils.py — strips HTML/JS/JSON-LD/consent-boilerplate, detects and rejects code-like text (const, function, document., window., localStorage, bidRequests, prebid, googletag, etc.), with multi-pass HTML entity decoding and fallback to empty/title when text is unsalvageable
+  - DONE: Integrated sanitizer across all text entry points: news_normalizer.py (title/summary/body), scheduler.py (event_analyses title/summary/long_analysis/scenario_summary/key_implications), ticker_cache_service.py (news-driven event_analyses), position_report_builder.py (_clean_text), news_feed_service.py (_clean_string), and sanitize_public_analysis_text() (recursive dict/list/string scrubbing on all API responses)
+  - DONE: 38 code-detection tests passing covering Investing.com JS, Prebid, googletag, webpack, consent boilerplate, HTML stripping, JSON-LD removal, mixed content, nested entities, news normalizer integration, and public analysis text sanitization
+  - DONE: Added scripts/clean_dirty_text_rows.py for finding and cleaning dirty DB rows (dry-run + apply modes)
+  - NEXT: Run DB cleanup against production Supabase, validate live API, deploy to VPS
 future_db_cleanup:
   - risk_scores.thesis_integrity (legacy, unused in display)
   - risk_scores.grade_reason (replaced by format_rationale, safe to drop)
@@ -17,6 +18,7 @@ future_db_cleanup:
   - position_analyses.top_news (unused column)
   - recommended_followups (deferred, safe to drop)
   - Old thesis placeholders in position_analyses fields
+  - TEXT SANITIZER: Added centralized sanitize_text_field() and _is_code_like_text() in analysis_utils.py; strips HTML/script/style/noscript tags, JSON-LD, HTML entities (multi-pass for nesting), and detects JS/code patterns (const, function, document., window., localStorage, bidRequests, prebid, googletag, etc); consent boilerplate detection with short-text suppression; integrated into news_normalizer (title/summary/body with title-only fallback for code), scheduler event_analyses (title/summary/long_analysis/scenario_summary/key_implications/recommended_followups), ticker_cache_service _build_event_analyses_from_news_rows, position_report_builder _clean_text, news_feed_service _clean_string via sanitize_public_analysis_text, and sanitize_public_analysis_text itself (HTML stripping + code detection before word replacement; 38 tests passing; added scripts/clean_dirty_text_rows.py for DB cleanup
 blockers:
   - BETA DATA REFRESH: ran full pipeline refresh for both active users — structural scores, AI analysis runs (2 completed runs, grade=C for both portfolios), digest generation, alerts creation; fixed score_to_grade bug (scheduler.py missing import) and digest_ready alert type bug (digest.py rating_ready→digest_ready); corrected 2 risk_scores rows where grade=D but computed_grade=C; cleaned 29 stale running ticker_refresh_jobs from April backfill; verified 0 mismatches across all 6492 risk_scores
   - P1-A DONE: format_rationale() enforces credit-rating bulletin format ([GRADE] — [Risk Level] ([↑↓→]) + max 2 drivers), all 3 scorer output paths + ticker_cache_service use it, evidence_strength field added, prompt rewritten, banned-word list expanded, P0 + P1-A = 33 tests passing

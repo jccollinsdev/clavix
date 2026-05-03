@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from typing import Any
 import re
 
-from .analysis_utils import make_event_hash
+from .analysis_utils import make_event_hash, sanitize_text_field
 
 
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
@@ -25,9 +25,9 @@ def _body_html_like(value: Any) -> bool:
 
 
 def _evidence_quality(title: str, body: str, summary: str, *, raw_body: Any) -> str:
-    clean_title = _strip_html(title)
-    clean_body = _strip_html(body)
-    clean_summary = _strip_html(summary)
+    clean_title = sanitize_text_field(title) or _strip_html(title)
+    clean_body = sanitize_text_field(body) or _strip_html(body)
+    clean_summary = sanitize_text_field(summary) or _strip_html(summary)
     body_words = len(clean_body.split())
 
     if not clean_body:
@@ -72,9 +72,14 @@ def normalize_news_item(article: dict, source_type: str) -> dict:
     raw_summary = article.get("summary") or article.get("body") or ""
     incoming_body = article.get("body") or ""
     raw_body = incoming_body or raw_summary
-    title = _strip_html(raw_title)
-    summary = _strip_html(raw_summary)
-    body = _strip_html(raw_body)
+    title = sanitize_text_field(raw_title) or _strip_html(raw_title)
+    summary = sanitize_text_field(raw_summary) or ""
+    body = sanitize_text_field(raw_body) or ""
+    # If summary/body are code-like garbage, fall back to title only
+    if not summary:
+        summary = title
+    if not body:
+        body = title
     source = article.get("source") or source_type
     url = article.get("url") or ""
     source_url = article.get("source_url") or (article.get("raw") or {}).get(
