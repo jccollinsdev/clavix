@@ -97,7 +97,7 @@ struct PositionAnalysis: Codable {
     }
 }
 
-struct EventAnalysis: Identifiable, Codable {
+struct EventAnalysis: Identifiable, Codable, Hashable {
     let id: String
     let analysisRunId: String?
     let positionId: String?
