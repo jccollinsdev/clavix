@@ -145,6 +145,45 @@ def test_build_driver_cards_classifies_stretched_valuation_as_negative():
     assert cards[0]["summary"] == "The current multiple prices in near-perfect execution; any earnings miss or guidance cut would cause outsized multiple compression."
 
 
+def test_build_driver_cards_prefers_richer_goog_evidence_over_blog_landing_page():
+    cards, state, source = _build_driver_cards(
+        {"ticker": "GOOG", "status": "ready"},
+        event_analyses=[
+            {
+                "id": "ev-1",
+                "title": "Q1 2026 earnings call: Remarks from our CEO - blog.google",
+                "summary": "Q1 2026 earnings call: Remarks from our CEO blog.google",
+                "scenario_summary": "The earnings call landing page contains no substantive remarks, so the key risk signal remains opaque.",
+                "long_analysis": "The earnings call landing page contains no substantive remarks, so the key risk signal remains opaque.",
+                "source": "blog.google",
+                "published_at": "2026-05-03T12:00:00+00:00",
+                "confidence": 0.9,
+                "significance": "major",
+                "risk_direction": "neutral",
+            },
+            {
+                "id": "ev-2",
+                "title": "Google shares hit all-time high on blowout earnings, market cap doubles to $4.4 trillion in just a year - Fortune",
+                "summary": "Google shares hit all-time high on blowout earnings, market cap doubles to $4.4 trillion in just a year Fortune",
+                "scenario_summary": "All-time highs and doubling market cap in one year reflect exceptional recent performance, but the pace of appreciation creates elevated downside risk if AI monetization expectations disappoint or competitive positioning shifts.",
+                "long_analysis": "All-time highs and doubling market cap in one year reflect exceptional recent performance, but the pace of appreciation creates elevated downside risk if AI monetization expectations disappoint or competitive positioning shifts.",
+                "source": "Fortune",
+                "published_at": "2026-05-03T13:00:00+00:00",
+                "confidence": 0.95,
+                "significance": "major",
+                "risk_direction": "neutral",
+            },
+        ],
+    )
+
+    assert state == "ready"
+    assert source == "generated"
+    assert len(cards) == 1
+    assert "all-time highs" in cards[0]["summary"].lower()
+    assert "elevated downside risk" in cards[0]["summary"].lower()
+    assert "blog.google" not in cards[0]["summary"].lower()
+
+
 def test_build_driver_cards_handles_missing_timestamps():
     cards, state, _source = _build_driver_cards(
         {"ticker": "HOOD", "status": "ready"},
