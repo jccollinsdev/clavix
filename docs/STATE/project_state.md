@@ -1,15 +1,21 @@
 ---
 project: Clavis
 version: 1
-last_updated: 2026-05-03T1200Z
+last_updated: 2026-05-03T2235Z
 status: active
-current_phase: "P3 — Render Backend Driver Cards (iOS)"
+current_phase: "P1 — Data Pipeline Fixes (Driver Titles)"
 current_focus:
-  - DONE: Added centralized sanitize_text_field() in analysis_utils.py — strips HTML/JS/JSON-LD/consent-boilerplate, detects and rejects code-like text (const, function, document., window., localStorage, bidRequests, prebid, googletag, etc.), with multi-pass HTML entity decoding and fallback to empty/title when text is unsalvageable
-  - DONE: Integrated sanitizer across all text entry points: news_normalizer.py (title/summary/body), scheduler.py (event_analyses title/summary/long_analysis/scenario_summary/key_implications), ticker_cache_service.py (news-driven event_analyses), position_report_builder.py (_clean_text), news_feed_service.py (_clean_string), and sanitize_public_analysis_text() (recursive dict/list/string scrubbing on all API responses)
-  - DONE: 38 code-detection tests passing covering Investing.com JS, Prebid, googletag, webpack, consent boilerplate, HTML stripping, JSON-LD removal, mixed content, nested entities, news normalizer integration, and public analysis text sanitization
-  - DONE: Added scripts/clean_dirty_text_rows.py for finding and cleaning dirty DB rows (dry-run + apply modes)
-  - NEXT: Run DB cleanup against production Supabase, validate live API, deploy to VPS
+  - DONE: Phase 1 driver title fix implemented in `position_report_builder._build_driver_cards()`; titles now come from theme+direction generation only, never raw RSS headlines, and summaries now prefer risk-mechanism descriptions over evidence snippets
+  - DONE: Added Phase 1 generator hardening for missing driver-card timestamps after HOOD rerun exposed a `max(None, None)` crash path during card ranking
+  - DONE: Re-ran held-position analyses for AMD, HOOD, and GOOG through the normal `/trigger-analysis` pipeline to regenerate stored `position_analyses.driver_cards` with the Phase 1 logic
+  - NEXT: Commit Phase 1, deploy backend to VPS, and validate the public API payloads for AMD/HOOD/GOOG
+  - DONE: Commit 1bf7e70 deployed to VPS
+  - DONE: Global sticky headers on ALL screens (Dashboard, Holdings, Digest, Alerts, Settings, TickerDetail) using .safeAreaInset + frosted glass background
+  - DONE: Hero cleanup — removed updated X ago, sector tags, metadata footer; kept Grade, Ticker (brand gold), Company name, Trend, Score
+  - DONE: Executive Summary simplified to TL;DR + Bullish Tailwinds + Bearish Headwinds + What Would Change Rating only
+  - DONE: Key Drivers regression fix — _select_summary_text no longer falls back to title; summaries filtered for duplicates and length
+  - DONE: Risk Dimensions BUG FIX — Python `or` treating 0 as falsy caused macro_exposure and volatility_trend to show 0 for watchlist tickers; fixed with explicit `is not None` checks in build_risk_score_response + scheduler.py
+  - NEXT: Validate live app with AMD + HOOD ticker detail
 future_db_cleanup:
   - risk_scores.thesis_integrity (legacy, unused in display)
   - risk_scores.grade_reason (replaced by format_rationale, safe to drop)
