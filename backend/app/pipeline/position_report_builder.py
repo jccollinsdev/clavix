@@ -7,6 +7,7 @@ from .analysis_utils import (
     extract_json_list,
     extract_json_object,
     sanitize_public_analysis_text,
+    sanitize_text_field,
 )
 
 
@@ -220,11 +221,8 @@ _GENERIC_DRIVER_MARKERS = (
 
 
 def _clean_text(value: Any) -> str:
-    if value is None:
-        return ""
-    text = str(value).strip()
-    text = re.sub(r"\s+", " ", text)
-    return text
+    cleaned = sanitize_text_field(value)
+    return cleaned
 
 
 def _truncate(text: str, limit: int) -> str:

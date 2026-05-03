@@ -13,7 +13,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.date import DateTrigger
 
-from .analysis_utils import utcnow_iso, clamp_score, score_to_grade
+from .analysis_utils import utcnow_iso, clamp_score, score_to_grade, sanitize_text_field
 from .news_normalizer import normalize_news_batch, _evidence_quality
 from ..services.backfill_artifacts import record_stage, get_run_artifact_dir, begin_artifact_session, write_named_json, end_artifact_session, record_position_artifact
 from ..services.ticker_cache_service import ensure_sp500_universe_seeded, list_active_sp500_tickers
@@ -2544,9 +2544,11 @@ async def execute_analysis_run(
                     "position_id": position["id"],
                     "event_hash": event_hash,
                     "external_event_id": article.get("external_id"),
-                    "title": article.get("title", ""),
-                    "summary": article.get("summary", ""),
-                    "source": article.get("source", ""),
+                    "title": sanitize_text_field(article.get("title", ""),
+                                                fallback=article.get("title", "")),
+                    "summary": sanitize_text_field(article.get("summary", ""),
+                                                   fallback=article.get("title", "")),
+                    "source": sanitize_text_field(article.get("source", "")) or article.get("source", ""),
                     "source_url": article.get("url", ""),
                     "published_at": article.get("published_at"),
                     "event_type": significance.get("event_type", "other"),
@@ -2557,7 +2559,8 @@ async def execute_analysis_run(
                         "significance": significance,
                     },
                     "analysis_source": "minimax",
-                    "long_analysis": result.get("analysis_text", "") if result else "",
+                    "long_analysis": sanitize_text_field(result.get("analysis_text", "") if result else "",
+                                                          fallback=""),
                     "confidence": result.get("confidence", 0.5) if result else 0.5,
                     "impact_horizon": result.get("impact_horizon", "near_term")
                     if result
@@ -2565,15 +2568,12 @@ async def execute_analysis_run(
                     "risk_direction": result.get("risk_direction", "neutral")
                     if result
                     else "neutral",
-                    "scenario_summary": result.get("scenario_summary", "")
-                    if result
-                    else "",
-                    "key_implications": result.get("key_implications", [])
-                    if result
-                    else [],
-                    "recommended_followups": result.get("recommended_followups", [])
-                    if result
-                    else [],
+                    "scenario_summary": sanitize_text_field(result.get("scenario_summary", "") if result else "",
+                                                              fallback=""),
+                    "key_implications": [sanitize_text_field(impl, fallback="") or impl
+                                         for impl in (result.get("key_implications", []) if result else [])],
+                    "recommended_followups": [sanitize_text_field(fu, fallback="") or fu
+                                              for fu in (result.get("recommended_followups", []) if result else [])],
                 }
                 event_analyses.append(event_record)
                 supabase.table("event_analyses").insert(event_record).execute()
@@ -2594,9 +2594,11 @@ async def execute_analysis_run(
                     "position_id": position["id"],
                     "event_hash": event_hash,
                     "external_event_id": article.get("external_id"),
-                    "title": article.get("title", ""),
-                    "summary": article.get("summary", ""),
-                    "source": article.get("source", ""),
+                    "title": sanitize_text_field(article.get("title", ""),
+                                                fallback=article.get("title", "")),
+                    "summary": sanitize_text_field(article.get("summary", ""),
+                                                   fallback=article.get("title", "")),
+                    "source": sanitize_text_field(article.get("source", "")) or article.get("source", ""),
                     "source_url": article.get("url", ""),
                     "published_at": article.get("published_at"),
                     "event_type": significance.get("event_type", "other"),
@@ -2607,7 +2609,8 @@ async def execute_analysis_run(
                         "significance": significance,
                     },
                     "analysis_source": analysis_source,
-                    "long_analysis": result.get("analysis_text", "") if result else "",
+                    "long_analysis": sanitize_text_field(result.get("analysis_text", "") if result else "",
+                                                          fallback=""),
                     "confidence": result.get("confidence", 0.5) if result else 0.5,
                     "impact_horizon": result.get("impact_horizon", "near_term")
                     if result
@@ -2615,15 +2618,12 @@ async def execute_analysis_run(
                     "risk_direction": result.get("risk_direction", "neutral")
                     if result
                     else "neutral",
-                    "scenario_summary": result.get("scenario_summary", "")
-                    if result
-                    else "",
-                    "key_implications": result.get("key_implications", [])
-                    if result
-                    else [],
-                    "recommended_followups": result.get("recommended_followups", [])
-                    if result
-                    else [],
+                    "scenario_summary": sanitize_text_field(result.get("scenario_summary", "") if result else "",
+                                                              fallback=""),
+                    "key_implications": [sanitize_text_field(impl, fallback="") or impl
+                                         for impl in (result.get("key_implications", []) if result else [])],
+                    "recommended_followups": [sanitize_text_field(fu, fallback="") or fu
+                                              for fu in (result.get("recommended_followups", []) if result else [])],
                 }
                 event_analyses.append(event_record)
                 supabase.table("event_analyses").insert(event_record).execute()

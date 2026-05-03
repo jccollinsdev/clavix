@@ -306,17 +306,161 @@ def make_event_hash(*parts: Any) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+_CODE_PATTERNS = [
+    re.compile(r"\bconst\s"),
+    re.compile(r"\bfunction\b"),
+    re.compile(r"\bdocument\."),
+    re.compile(r"\bwindow\."),
+    re.compile(r"\blocalStorage\b"),
+    re.compile(r"\bbidRequests"),
+    re.compile(r"\bpubx"),
+    re.compile(r"\bprebid"),
+    re.compile(r"\bpbjs\b"),
+    re.compile(r"\bgoogletag\b"),
+    re.compile(r"\b__tcfapi\b"),
+    re.compile(r"\bvar\s+\w+\s*=\s*\{"),
+    re.compile(r"\blet\s+\w+\s*=\s*\{"),
+    re.compile(r"\bconst\s+\w+\s*=\s*\{"),
+    re.compile(r"\bmodule\.exports\b"),
+    re.compile(r"\brequire\s*\("),
+    re.compile(r"\bdefine\s*\("),
+    re.compile(r"\bwebpackJsonp\b"),
+    re.compile(r"\btypeof\s"),
+    re.compile(r"\bundefined\b.*\bnull\b"),
+    re.compile(r"\basync\s+function\b"),
+    re.compile(r"\bawait\s"),
+    re.compile(r"console\.\w+\("),
+    re.compile(r"\.addEventListener\s*\("),
+    re.compile(r"\.querySelector\b"),
+    re.compile(r"\.getElementById\b"),
+    re.compile(r"innerHTML\b"),
+    re.compile(r"outerHTML\b"),
+    re.compile(r"\.style\s*[.=]"),
+    re.compile(r"\breturn\s*\{"),
+    re.compile(r"\bvar\s+\w+\s*="),
+]
+_CODE_BRACE_SEMICOLON_RE = re.compile(r"[{;]\s*[a-zA-Z_$]\w*\s*[=:]", re.IGNORECASE)
+_HIGH_BRACE_DENSITY_RE = re.compile(r"[{};]")
+_SCRIPT_TAG_RE = re.compile(r"<(script|style|noscript)[^>]*>.*?</\1>", re.IGNORECASE | re.DOTALL)
+_JSON_LD_RE = re.compile(r'<script[^>]*type=["\']application/ld\+json["\'][^>]*>.*?</script>', re.IGNORECASE | re.DOTALL)
+_HTML_TAG_RE = re.compile(r"<[^>]+>")
+_HTML_ENTITY_RE = re.compile(r"&(?:nbsp|amp|lt|gt|quot|#\d+);", re.IGNORECASE)
+_CONSENT_BOILERPLATE_RE = re.compile(
+    r"(?:" + "|".join([
+        r"cookie\s+(?:policy|settings|preferences|consent|banner)",
+        r"accept\s+(?:all\s+)?cookies",
+        r"manage\s+cookies",
+        r"privacy\s+(?:policy|notice|preferences)",
+        r"terms\s+of\s+(?:service|use)",
+        r"sign\s+in\s+to\s+continue",
+        r"subscribe\s+to\s+read",
+        r"continue\s+reading",
+        r"related\s+(?:articles|stories|videos)",
+        r"recommended\s+(?:for\s+you|stories|articles)",
+        r"advertisement",
+        r"powered\s+by",
+        r"all\s+rights\s+reserved",
+        r"copyright\s+\d{4}",
+        r"we\s+use\s+cookies",
+        r"this\s+site\s+uses\s+cookies",
+        r"consent\s+management",
+        r"opt-out",
+        r"do\s+not\s+sell",
+        r"ccpa",
+        r"gdpr",
+    ]) + r")",
+    re.IGNORECASE,
+)
+
+
+def _is_code_like_text(text: str) -> bool:
+    if not text:
+        return False
+    hits = 0
+    for pattern in _CODE_PATTERNS:
+        if pattern.search(text):
+            hits += 1
+            if hits >= 2:
+                return True
+    brace_matches = _HIGH_BRACE_DENSITY_RE.findall(text)
+    semi_count = text.count(";")
+    if len(brace_matches) > 8 and semi_count > 5:
+        return True
+    if semi_count > 15 and len(text.split()) < 80:
+        return True
+    if _CODE_BRACE_SEMICOLON_RE.search(text[:500]):
+        for pattern in _CODE_PATTERNS[:6]:
+            if pattern.search(text):
+                return True
+    return False
+
+
+_ENTITY_MAP = {"&nbsp;": " ", "&amp;": "&", "&lt;": "<", "&gt;": ">", "&quot;": '"'}
+
+
+def _decode_html_entities(text: str) -> str:
+    for _ in range(3):
+        prev = text
+        text = _HTML_ENTITY_RE.sub(
+            lambda m: _ENTITY_MAP.get(m.group(0).lower(), " "), text
+        )
+        if text == prev:
+            break
+    return text
+
+
+def sanitize_text_field(value: Any, *, fallback: str = "") -> str:
+    """Strip HTML/JS/boilerplate and detect code-like text.
+
+    Returns the cleaned readable text, or ``fallback`` if the text
+    appears to be raw code/JS/boilerplate that cannot be meaningfully
+    presented to a user.
+    """
+    if value is None:
+        return fallback
+    text = str(value or "").strip()
+    if not text:
+        return fallback
+    # Strip HTML/JS before code detection so mixed content survives.
+    text = _SCRIPT_TAG_RE.sub(" ", text)
+    text = _JSON_LD_RE.sub(" ", text)
+    text = _HTML_TAG_RE.sub(" ", text)
+    text = _decode_html_entities(text)
+    text = re.sub(r"\s+", " ", text).strip()
+    # Reject pure code/JS.
+    if _is_code_like_text(text):
+        return fallback
+    if len(text) < 10:
+        return fallback if not text else text
+    lower = text.lower()
+    consent_match = _CONSENT_BOILERPLATE_RE.search(lower)
+    if consent_match:
+        consent_hits = len(_CONSENT_BOILERPLATE_RE.findall(lower))
+        if consent_hits >= 3 or len(text) < len(consent_match.group()) * 3 + 30:
+            return fallback
+    return text
+
+
 def sanitize_public_analysis_text(value: Any) -> Any:
     if isinstance(value, str):
-        cleaned = value
+        # Strip HTML/JS first so mixed content survives code detection.
+        text = value
+        text = _SCRIPT_TAG_RE.sub(" ", text)
+        text = _JSON_LD_RE.sub(" ", text)
+        text = _HTML_TAG_RE.sub(" ", text)
+        text = _decode_html_entities(text)
+        text = re.sub(r"\s+", " ", text).strip()
+        # Reject pure code/JS after stripping HTML.
+        if _is_code_like_text(text):
+            return ""
         for pattern, replacement in _PUBLIC_ANALYSIS_REPLACEMENTS:
-            cleaned = re.sub(pattern, replacement, cleaned, flags=re.IGNORECASE)
-        if "\n" in cleaned:
-            lines = [re.sub(r"[ \t]+", " ", line).strip() for line in cleaned.splitlines()]
-            cleaned = "\n".join(line for line in lines if line)
+            text = re.sub(pattern, replacement, text, flags=re.IGNORECASE)
+        if "\n" in text:
+            lines = [re.sub(r"[ \t]+", " ", line).strip() for line in text.splitlines()]
+            text = "\n".join(line for line in lines if line)
         else:
-            cleaned = re.sub(r"\s+", " ", cleaned).strip()
-        return cleaned
+            text = re.sub(r"\s+", " ", text).strip()
+        return text
     if isinstance(value, list):
         return [sanitize_public_analysis_text(item) for item in value]
     if isinstance(value, dict):

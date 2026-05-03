@@ -11,7 +11,7 @@ from uuid import uuid4
 from fastapi import HTTPException
 
 from ..pipeline.risk_scorer import score_position_structural
-from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength
+from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength, sanitize_text_field
 from ..pipeline.position_report_builder import _build_driver_cards
 from .alert_payloads import enrich_alert_rows
 from .ticker_metadata import upsert_ticker_metadata
@@ -1381,25 +1381,28 @@ def _build_event_analyses_from_news_rows(
             risk_direction = "neutral"
 
         summary = row.get("summary") or row.get("headline") or ""
+        clean_title = sanitize_text_field(row.get("headline") or ticker,
+                                           fallback=row.get("headline") or ticker)
+        clean_summary = sanitize_text_field(summary, fallback=summary)
         events.append(
             {
                 "id": row.get("id") or str(uuid4()),
                 "analysis_run_id": None,
                 "position_id": position_id,
                 "event_hash": None,
-                "title": row.get("headline") or ticker,
-                "summary": summary,
+                "title": clean_title,
+                "summary": clean_summary,
                 "source": row.get("source"),
                 "source_url": row.get("url"),
                 "published_at": row.get("published_at"),
                 "event_type": row.get("event_type") or "news",
                 "significance": significance,
                 "analysis_source": "ticker_cache",
-                "long_analysis": summary,
+                "long_analysis": clean_summary,
                 "confidence": 0.45,
                 "impact_horizon": "near_term",
                 "risk_direction": risk_direction,
-                "scenario_summary": summary,
+                "scenario_summary": clean_summary,
                 "key_implications": [],
                 "recommended_followups": [],
             }

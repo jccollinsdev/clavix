@@ -8,8 +8,8 @@ from .ticker_cache_service import (
     get_latest_risk_snapshot_history_map,
     get_latest_risk_snapshot_map,
     get_metadata_map,
-    get_or_create_default_watchlist,
 )
+from ..pipeline.analysis_utils import sanitize_text_field
 
 
 SEVERE_ALERT_TYPES = {
@@ -54,7 +54,7 @@ def _parse_timestamp(value: Any) -> datetime:
 
 
 def _clean_string(value: Any) -> str:
-    return " ".join(str(value or "").split()).strip()
+    return sanitize_text_field(value).strip() or " ".join(str(value or "").split()).strip()
 
 
 def _clean_string_list(values: Any) -> list[str]:
