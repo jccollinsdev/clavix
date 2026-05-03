@@ -219,6 +219,92 @@ _GENERIC_DRIVER_MARKERS = (
     "nothing urgent",
 )
 
+_RSS_HEADLINE_SUFFIX_RE = re.compile(r"\s+-\s+[A-Z][A-Za-z .&]+$")
+
+_THEME_DRIVER_SUBJECTS: dict[str, str] = {
+    "regulatory_risk": "Regulatory pressure",
+    "earnings_risk": "Earnings risk",
+    "guidance_risk": "Guidance",
+    "margin_risk": "Margins",
+    "growth_risk": "Growth",
+    "macro_risk": "Macro pressure",
+    "leverage_risk": "Leverage",
+    "liquidity_risk": "Liquidity",
+    "technical_risk": "Technical setup",
+    "execution_risk": "Execution risk",
+    "valuation_risk": "Valuation",
+    "competitive_risk": "Competitive pressure",
+    "revenue_risk": "Revenue trend",
+    "competition_risk": "Competitive pressure",
+    "demand_risk": "Demand",
+    "volatility_risk": "Volatility",
+    "concentration_risk": "Customer concentration",
+    "product_risk": "Product risk",
+}
+
+_THEME_DRIVER_PHRASES: dict[str, dict[str, str]] = {
+    "negative": {
+        "regulatory_risk": "is intensifying",
+        "earnings_risk": "is deteriorating",
+        "guidance_risk": "is moving lower",
+        "margin_risk": "are compressing",
+        "growth_risk": "is slowing",
+        "macro_risk": "is building",
+        "leverage_risk": "is elevated",
+        "liquidity_risk": "is tightening",
+        "technical_risk": "is weakening",
+        "execution_risk": "is rising",
+        "valuation_risk": "is stretched",
+        "competitive_risk": "is intensifying",
+        "revenue_risk": "is decelerating",
+        "competition_risk": "is intensifying",
+        "demand_risk": "is weakening",
+        "volatility_risk": "is elevated",
+        "concentration_risk": "is elevated",
+        "product_risk": "is increasing",
+    },
+    "positive": {
+        "regulatory_risk": "is easing",
+        "earnings_risk": "is improving",
+        "guidance_risk": "is strengthening",
+        "margin_risk": "are recovering",
+        "growth_risk": "is accelerating",
+        "macro_risk": "is easing",
+        "leverage_risk": "is improving",
+        "liquidity_risk": "is improving",
+        "technical_risk": "is improving",
+        "execution_risk": "is improving",
+        "valuation_risk": "has de-risked",
+        "competitive_risk": "is improving",
+        "revenue_risk": "is accelerating",
+        "competition_risk": "is improving",
+        "demand_risk": "is strengthening",
+        "volatility_risk": "is normalizing",
+        "concentration_risk": "is easing",
+        "product_risk": "is easing",
+    },
+    "neutral": {
+        "regulatory_risk": "remains uncertain",
+        "earnings_risk": "remains uncertain",
+        "guidance_risk": "remains mixed",
+        "margin_risk": "remain in focus",
+        "growth_risk": "remains uncertain",
+        "macro_risk": "remains mixed",
+        "leverage_risk": "remains stable",
+        "liquidity_risk": "remains adequate",
+        "technical_risk": "remains mixed",
+        "execution_risk": "remains mixed",
+        "valuation_risk": "remains balanced",
+        "competitive_risk": "remains stable",
+        "revenue_risk": "remains uncertain",
+        "competition_risk": "remains stable",
+        "demand_risk": "remains mixed",
+        "volatility_risk": "remains contained",
+        "concentration_risk": "remains elevated",
+        "product_risk": "remains mixed",
+    },
+}
+
 
 def _clean_text(value: Any) -> str:
     cleaned = sanitize_text_field(value)
@@ -286,6 +372,45 @@ def _direction_for_text(text: str, risk_direction: str | None = None) -> str:
 def _is_generic_driver_text(text: str) -> bool:
     lowered = _clean_text(text).lower()
     return any(marker in lowered for marker in _GENERIC_DRIVER_MARKERS)
+
+
+def _looks_like_rss_headline(text: str) -> bool:
+    return bool(_RSS_HEADLINE_SUFFIX_RE.search(_clean_text(text)))
+
+
+def _generate_driver_title(theme: str, direction: str | None) -> str:
+    normalized_direction = direction if direction in {"negative", "positive", "neutral"} else "neutral"
+    mapped_title = _THEME_DRIVER_TITLES.get((theme, normalized_direction))
+    if mapped_title and not _looks_like_rss_headline(mapped_title):
+        return mapped_title
+
+    subject = _THEME_DRIVER_SUBJECTS.get(theme) or _clean_text(theme).replace("_", " ").strip().title() or "Risk outlook"
+    phrase = (_THEME_DRIVER_PHRASES.get(normalized_direction) or {}).get(theme)
+    if not phrase:
+        fallback_phrases = {
+            "negative": "is worsening",
+            "positive": "is improving",
+            "neutral": "remains uncertain",
+        }
+        phrase = fallback_phrases[normalized_direction]
+    return f"{subject} {phrase}".strip()
+
+
+def _generate_driver_summary(theme: str, direction: str | None, group: list[dict[str, Any]]) -> str:
+    normalized_direction = direction if direction in {"negative", "positive", "neutral"} else "neutral"
+    static_desc = _THEME_DRIVER_DESCRIPTIONS.get((theme, normalized_direction)) or _THEME_DRIVER_DESCRIPTIONS.get((theme, "neutral"), "")
+    if static_desc:
+        return _truncate(static_desc, 220)
+
+    candidate_summaries = [
+        _clean_text(item.get("summary"))
+        for item in group
+        if _clean_text(item.get("summary"))
+        and _clean_text(item.get("summary")) != _clean_text(item.get("title"))
+        and not _looks_like_rss_headline(_clean_text(item.get("summary")))
+        and len(_clean_text(item.get("summary"))) > 30
+    ]
+    return _truncate(_first_non_empty(*candidate_summaries), 180) if candidate_summaries else ""
 
 
 def _normalize_source(source: Any) -> str:
@@ -531,36 +656,27 @@ def _build_driver_cards(
     cards_with_meta: list[tuple[dict[str, Any], dict[str, Any]]] = []
     for (theme, direction), group in groups.items():
         group.sort(key=_candidate_sort_key, reverse=True)
-        title = _THEME_DRIVER_TITLES.get(
-            (theme, direction or "neutral"),
-            _THEME_DRIVER_TITLES.get((theme, "neutral"), _truncate(group[0]["title"], 80)),
-        )
-        ai_summary = ""
-        for item in group:
-            if item.get("kind") == "event_analysis":
-                s = _clean_text(item.get("summary", ""))
-                if len(s) > 50:
-                    ai_summary = s
-                    break
-        if ai_summary:
-            summary = _truncate(ai_summary, 220)
-        else:
-            static_desc = _THEME_DRIVER_DESCRIPTIONS.get((theme, direction or "neutral"), "")
-            if static_desc:
-                summary = static_desc
-            else:
-                candidate_summaries = [
-                    item["summary"] for item in group
-                    if item.get("summary")
-                    and item["summary"] != item.get("title")
-                    and len(item["summary"]) > 30
-                ]
-                summary = _truncate(_first_non_empty(*candidate_summaries), 180) if candidate_summaries else ""
+        title = _generate_driver_title(theme, direction)
+        summary = _generate_driver_summary(theme, direction, group)
+        timestamps = [
+            timestamp
+            for timestamp in (
+                _parse_datetime(item.get("published_at")) or _parse_datetime(item.get("created_at"))
+                for item in group
+            )
+            if timestamp is not None
+        ]
         if not title or not summary:
             continue
         # For AI summaries (>= 80 chars), skip the generic check — real scenario
         # summaries may mention "analyst" or "watch" in meaningful context.
-        if _is_generic_driver_text(title) or (len(summary) < 80 and _is_generic_driver_text(summary)):
+        if (
+            _looks_like_rss_headline(title)
+            or _is_generic_driver_text(title)
+            or summary == title
+            or any(summary == _clean_text(item.get("title")) for item in group)
+            or (len(summary) < 80 and _is_generic_driver_text(summary))
+        ):
             continue
         strength = _strength_for_group(group)
         evidence_items = [_evidence_item_from_candidate(item) for item in group[:3]]
@@ -582,12 +698,7 @@ def _build_driver_cards(
             "evidence_count": len(group),
             "unique_sources": len({_normalize_source(item.get("source")) for item in group if _normalize_source(item.get("source"))}),
             "max_confidence": max((float(item.get("confidence") or 0) for item in group), default=0),
-            "latest_timestamp": max(
-                (
-                    _parse_datetime(item.get("published_at")) or _parse_datetime(item.get("created_at"))
-                )
-                for item in group
-            ) if group else None,
+            "latest_timestamp": max(timestamps) if timestamps else None,
             "theme_priority": _DRIVER_THEME_PRIORITY.get(theme, 999),
         }
         cards_with_meta.append((card, meta))

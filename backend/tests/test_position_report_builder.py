@@ -1,6 +1,9 @@
 import asyncio
 
-from app.pipeline.position_report_builder import build_position_report
+from app.pipeline.position_report_builder import (
+    _build_driver_cards,
+    build_position_report,
+)
 
 
 def test_build_position_report_generates_driver_cards(monkeypatch):
@@ -44,6 +47,9 @@ def test_build_position_report_generates_driver_cards(monkeypatch):
     assert report["driver_cards"][0]["direction"] == "negative"
     assert report["driver_cards"][0]["source_chips"] == ["Reuters"]
     assert report["driver_cards"][0]["supporting_evidence"][0]["id"] == "ev-1"
+    assert report["driver_cards"][0]["title"] == "Earnings risk is elevated"
+    assert report["driver_cards"][0]["summary"] != report["driver_cards"][0]["title"]
+    assert report["driver_cards"][0]["summary"] != "Revenue beat, but management cut guidance after margin pressure."
 
 
 def test_build_position_report_uses_insufficient_evidence_fallback():
@@ -59,3 +65,59 @@ def test_build_position_report_uses_insufficient_evidence_fallback():
     assert "limited-data" in report["long_report"]
     assert report["driver_cards"] == []
     assert report["driver_cards_state"] == "limited"
+
+
+def test_build_driver_cards_never_uses_rss_headline_or_snippet_for_unknown_theme_mapping(monkeypatch):
+    monkeypatch.delitem(
+        __import__("app.pipeline.position_report_builder", fromlist=["_THEME_DRIVER_TITLES"])._THEME_DRIVER_TITLES,
+        ("margin_risk", "negative"),
+        raising=False,
+    )
+    monkeypatch.delitem(
+        __import__("app.pipeline.position_report_builder", fromlist=["_THEME_DRIVER_DESCRIPTIONS"])._THEME_DRIVER_DESCRIPTIONS,
+        ("margin_risk", "negative"),
+        raising=False,
+    )
+
+    cards, state, source = _build_driver_cards(
+        {"ticker": "AMD", "status": "ready"},
+        event_analyses=[
+            {
+                "id": "ev-1",
+                "title": "Chipmaker warns of margin pressure after pricing reset - Reuters",
+                "summary": "Chipmaker warns of margin pressure after pricing reset - Reuters",
+                "long_analysis": "Margin pressure is building as pricing discipline weakens across the segment.",
+                "source": "Yahoo Finance",
+                "source_url": "https://example.com/article",
+                "published_at": "2026-05-03T12:00:00+00:00",
+                "confidence": 0.88,
+                "significance": "major",
+                "risk_direction": "worsening",
+            }
+        ],
+    )
+
+    assert state == "ready"
+    assert source == "generated"
+    assert len(cards) == 1
+    assert cards[0]["title"] == "Margins are compressing"
+    assert cards[0]["title"] != "Chipmaker warns of margin pressure after pricing reset - Reuters"
+    assert cards[0]["summary"] == "Margin trajectory is stable but offers no near-term catalyst to drive meaningful earnings upside."
+
+
+def test_build_driver_cards_handles_missing_timestamps():
+    cards, state, _source = _build_driver_cards(
+        {"ticker": "HOOD", "status": "ready"},
+        news_items=[
+            {
+                "headline": "Robinhood revenue outlook weakens after crypto slowdown - Reuters",
+                "summary": "Robinhood revenue outlook weakens after crypto slowdown Reuters",
+                "source": "Reuters",
+                "sentiment": "negative",
+            }
+        ],
+    )
+
+    assert state == "ready"
+    assert len(cards) == 1
+    assert cards[0]["title"] == "Revenue growth is decelerating"
