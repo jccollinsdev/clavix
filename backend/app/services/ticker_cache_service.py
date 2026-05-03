@@ -2520,22 +2520,64 @@ def get_default_watchlist_detail(supabase, user_id: str) -> dict[str, Any]:
     tickers = [item["ticker"] for item in items]
     metadata_map = get_metadata_map(supabase, tickers)
     snapshot_map = get_latest_risk_snapshot_map(supabase, tickers)
+    news_cache_map = get_latest_news_cache_map(supabase, tickers)
+
+    ticker_to_sys_pid: dict[str, str] = {}
+    if tickers:
+        sys_positions = (
+            supabase.table("positions")
+            .select("id, ticker")
+            .eq("user_id", "00000000-0000-0000-0000-000000000001")
+            .in_("ticker", tickers)
+            .execute()
+            .data or []
+        )
+        for p in sys_positions:
+            ticker_to_sys_pid[p["ticker"]] = p["id"]
+
+    sys_pids = list(ticker_to_sys_pid.values())
+    event_map: dict[str, list[dict[str, Any]]] = {}
+    if sys_pids:
+        event_result = (
+            supabase.table("event_analyses")
+            .select("*")
+            .in_("position_id", sys_pids)
+            .order("created_at", desc=True)
+            .execute()
+        )
+        for row in event_result.data or []:
+            pid = row["position_id"]
+            if pid not in event_map:
+                event_map[pid] = []
+            if len(event_map[pid]) < 3:
+                event_map[pid].append(row)
+
     enriched_items = []
     for item in items:
         ticker = item["ticker"]
         metadata = metadata_map.get(ticker, {})
         snapshot = snapshot_map.get(ticker, {})
-        enriched_items.append(
-            {
-                **item,
-                "company_name": metadata.get("company_name"),
-                "price": metadata.get("price"),
-                "price_as_of": metadata.get("price_as_of"),
-                "grade": snapshot.get("grade"),
-                "safety_score": snapshot.get("safety_score"),
-                "analysis_as_of": snapshot.get("analysis_as_of"),
-                "summary": snapshot.get("news_summary") or snapshot.get("reasoning"),
-            }
-        )
+        sys_pid = ticker_to_sys_pid.get(ticker)
+        raw_events = event_map.get(sys_pid, []) if sys_pid else []
+
+        enriched = {
+            **item,
+            "company_name": metadata.get("company_name"),
+            "price": metadata.get("price"),
+            "price_as_of": metadata.get("price_as_of"),
+            "grade": snapshot.get("grade"),
+            "safety_score": snapshot.get("safety_score"),
+            "analysis_as_of": snapshot.get("analysis_as_of"),
+            "summary": snapshot.get("news_summary") or snapshot.get("reasoning"),
+        }
+
+        if raw_events:
+            enriched["latest_event_analyses"] = [
+                normalize_event_analysis_payload(e, ticker=ticker)
+                for e in raw_events
+            ]
+
+        enriched_items.append(enriched)
+
     watchlist["items"] = enriched_items
     return watchlist
