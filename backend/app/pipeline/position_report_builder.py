@@ -79,7 +79,7 @@ _THEME_DRIVER_TITLES: dict[tuple[str, str], str] = {
     ("growth_risk", "positive"): "Growth momentum is accelerating",
     ("growth_risk", "neutral"): "Growth trajectory is uncertain",
     ("macro_risk", "negative"): "Macro headwinds are weighing on the outlook",
-    ("macro_risk", "positive"): "Macro tailwinds support the thesis",
+    ("macro_risk", "positive"): "Macro tailwinds are supporting the near-term outlook",
     ("macro_risk", "neutral"): "Macro environment remains in flux",
     ("leverage_risk", "negative"): "Debt load and leverage risk are concerns",
     ("leverage_risk", "positive"): "Balance sheet is improving",
@@ -102,6 +102,71 @@ _THEME_DRIVER_TITLES: dict[tuple[str, str], str] = {
     ("revenue_risk", "negative"): "Revenue growth is decelerating",
     ("revenue_risk", "positive"): "Revenue growth is accelerating",
     ("revenue_risk", "neutral"): "Revenue trajectory is uncertain",
+    # Additional themes present in _DRIVER_THEME_RULES
+    ("guidance_risk", "negative"): "Guidance has been cut, raising near-term earnings risk",
+    ("guidance_risk", "positive"): "Guidance raised above consensus expectations",
+    ("guidance_risk", "neutral"): "Forward guidance is in line with street expectations",
+    ("competition_risk", "negative"): "Competitive pressure is intensifying",
+    ("competition_risk", "positive"): "Competitive position is strengthening",
+    ("competition_risk", "neutral"): "Competitive dynamics are stable",
+    ("demand_risk", "negative"): "Demand signals are weakening",
+    ("demand_risk", "positive"): "Demand signals are strengthening",
+    ("demand_risk", "neutral"): "Demand trajectory is uncertain",
+    ("volatility_risk", "negative"): "Price volatility is elevated",
+    ("volatility_risk", "positive"): "Price action is stabilizing",
+    ("volatility_risk", "neutral"): "Volatility is in line with sector norms",
+}
+
+_THEME_DRIVER_DESCRIPTIONS: dict[tuple[str, str], str] = {
+    ("regulatory_risk", "negative"): "Active investigations, fines, or policy changes are creating legal cost exposure that could compress margins and delay strategic plans.",
+    ("regulatory_risk", "positive"): "Regulatory clarity or approvals are removing a key overhang, directly reducing the risk premium embedded in the stock.",
+    ("regulatory_risk", "neutral"): "Pending regulatory outcomes could shift materially in either direction, keeping uncertainty elevated in the risk premium.",
+    ("earnings_risk", "negative"): "Guidance cuts or consensus estimate reductions signal near-term earnings pressure that typically precedes multiple contraction.",
+    ("earnings_risk", "positive"): "Earnings beats or upward guidance revisions are reducing near-term uncertainty and supporting multiple expansion.",
+    ("earnings_risk", "neutral"): "Earnings are roughly in line with expectations, providing little catalyst in either direction.",
+    ("margin_risk", "negative"): "Rising input costs, pricing pressure, or mix shift are squeezing gross margins, directly reducing near-term earnings power.",
+    ("margin_risk", "positive"): "Cost discipline or improved pricing is expanding operating margins, lifting earnings power ahead of street expectations.",
+    ("margin_risk", "neutral"): "Margin trajectory is stable but offers no near-term catalyst to drive meaningful earnings upside.",
+    ("growth_risk", "negative"): "Decelerating revenue or unit growth is reducing the premium multiple investors assign to future cash flows.",
+    ("growth_risk", "positive"): "Accelerating growth is expanding the addressable market story and supporting a higher forward earnings multiple.",
+    ("growth_risk", "neutral"): "Growth is steady and in line with expectations, leaving the risk-reward roughly unchanged.",
+    ("macro_risk", "negative"): "Rate sensitivity, currency exposure, or economic softness are creating top-line headwinds that pressure earnings estimates.",
+    ("macro_risk", "positive"): "Favorable macro conditions — rate cuts, stronger consumer spending, or favorable currency — are providing a direct tailwind to earnings.",
+    ("macro_risk", "neutral"): "Macro crosscurrents are partially offsetting each other, leaving near-term sector direction unclear.",
+    ("leverage_risk", "negative"): "Elevated debt levels raise refinancing risk and limit financial flexibility, increasing the cost of capital for the business.",
+    ("leverage_risk", "positive"): "Debt paydown or improved interest service ratios are lowering financial risk and expanding the investor base who can own the stock.",
+    ("leverage_risk", "neutral"): "Current leverage is manageable but leaves limited room to absorb a revenue shortfall without covenant risk.",
+    ("liquidity_risk", "negative"): "Tightening cash runway or widening credit spreads are raising the probability of a dilutive equity raise.",
+    ("liquidity_risk", "positive"): "A strengthened cash position or renewed credit facility reduces funding risk and supports sustained reinvestment.",
+    ("liquidity_risk", "neutral"): "Liquidity is sufficient for near-term operations but provides no meaningful buffer beyond 12 months.",
+    ("technical_risk", "negative"): "Price action is showing distribution with volume — a technical signal that institutional sellers are actively reducing exposure.",
+    ("technical_risk", "positive"): "Price structure and relative strength suggest accumulation, which often precedes fundamental re-rating catalysts.",
+    ("technical_risk", "neutral"): "The chart is range-bound with no clear directional signal from price action or relative momentum.",
+    ("execution_risk", "negative"): "Product launches, integrations, or ramp timelines are slipping, creating downside risk to consensus earnings estimates.",
+    ("execution_risk", "positive"): "On-time delivery and improving operational metrics are reducing execution uncertainty embedded in the discount rate.",
+    ("execution_risk", "neutral"): "Some initiatives are on track while others face delays, leaving the near-term earnings picture uncertain.",
+    ("valuation_risk", "negative"): "The current multiple prices in near-perfect execution; any earnings miss or guidance cut would cause outsized multiple compression.",
+    ("valuation_risk", "positive"): "After a material pullback the stock now trades at a discount to intrinsic value, improving the asymmetric risk-reward.",
+    ("valuation_risk", "neutral"): "Valuation is in line with peers and growth expectations, leaving the stock a hold until a re-rating catalyst emerges.",
+    ("competitive_risk", "negative"): "New entrants or feature parity from incumbents are eroding pricing power and threatening market share.",
+    ("competitive_risk", "positive"): "Widening product advantages are enabling pricing power and share gains that should flow into operating leverage.",
+    ("competitive_risk", "neutral"): "The competitive landscape is stable with no near-term threat to share, but also no clear path to significant share gain.",
+    ("revenue_risk", "negative"): "Revenue growth is decelerating faster than the market expects, putting consensus estimates at downside risk.",
+    ("revenue_risk", "positive"): "Accelerating revenue driven by new products or geographies is providing an upward estimate revision catalyst.",
+    ("revenue_risk", "neutral"): "Revenue is growing within the range of expectations, offering no near-term earnings surprise potential.",
+    # Additional themes present in _DRIVER_THEME_RULES
+    ("guidance_risk", "negative"): "A guidance cut signals management sees near-term headwinds, which typically triggers consensus estimate reductions and multiple contraction.",
+    ("guidance_risk", "positive"): "Raised guidance reduces near-term uncertainty and is often a leading indicator of further upward estimate revisions.",
+    ("guidance_risk", "neutral"): "In-line guidance removes a near-term catalyst in either direction, leaving the rating dependent on longer-term execution.",
+    ("competition_risk", "negative"): "New entrants or feature parity from incumbents are eroding pricing power and threatening market share.",
+    ("competition_risk", "positive"): "Widening product advantages are enabling pricing power and share gains that should flow into operating leverage.",
+    ("competition_risk", "neutral"): "The competitive landscape is stable with no near-term threat to share, but also no clear path to significant share gain.",
+    ("demand_risk", "negative"): "Softening order flow or inventory build-up is creating near-term revenue pressure and raising the risk of an earnings miss.",
+    ("demand_risk", "positive"): "Strengthening demand signals point to revenue upside and could support upward estimate revisions.",
+    ("demand_risk", "neutral"): "Demand signals are steady but not strong enough to drive a material change in the near-term revenue outlook.",
+    ("volatility_risk", "negative"): "Elevated price volatility is increasing short-term risk and may signal uncertainty about near-term fundamentals.",
+    ("volatility_risk", "positive"): "Declining volatility suggests the market is becoming more confident in the near-term outlook.",
+    ("volatility_risk", "neutral"): "Price action is choppy but within normal bounds, offering no clear directional signal.",
 }
 
 _NEGATIVE_DIRECTION_MARKERS = (
@@ -284,7 +349,11 @@ def _candidate_from_event(event: dict[str, Any]) -> dict[str, Any] | None:
         return None
     title = _clean_text(event.get("title"))
     summary = _select_summary_text(event)
-    if not title or not summary or _is_generic_driver_text(title) or _is_generic_driver_text(summary):
+    if not title or not summary or _is_generic_driver_text(title):
+        return None
+    # Only reject AI-generated summaries for boilerplate (short texts); longer summaries
+    # may incidentally contain words like "analyst" or "watch" in meaningful context
+    if len(summary) < 80 and _is_generic_driver_text(summary):
         return None
     return {
         "id": _clean_text(event.get("id")),
@@ -469,10 +538,26 @@ def _build_driver_cards(
             (theme, direction or "neutral"),
             _THEME_DRIVER_TITLES.get((theme, "neutral"), _truncate(group[0]["title"], 80)),
         )
-        summary = _truncate(_first_non_empty(*(item["summary"] for item in group)), 180)
+        ai_summary = ""
+        for item in group:
+            if item.get("kind") == "event_analysis":
+                s = _clean_text(item.get("summary", ""))
+                if len(s) > 50:
+                    ai_summary = s
+                    break
+        if ai_summary:
+            summary = _truncate(ai_summary, 220)
+        else:
+            static_desc = _THEME_DRIVER_DESCRIPTIONS.get((theme, direction or "neutral"), "")
+            if static_desc:
+                summary = static_desc
+            else:
+                summary = _truncate(_first_non_empty(*(item["summary"] for item in group)), 180)
         if not title or not summary:
             continue
-        if _is_generic_driver_text(title) or _is_generic_driver_text(summary):
+        # For AI summaries (>= 80 chars), skip the generic check — real scenario
+        # summaries may mention "analyst" or "watch" in meaningful context.
+        if _is_generic_driver_text(title) or (len(summary) < 80 and _is_generic_driver_text(summary)):
             continue
         strength = _strength_for_group(group)
         evidence_items = [_evidence_item_from_candidate(item) for item in group[:3]]

@@ -1,5 +1,18 @@
 import SwiftUI
 
+// MARK: - Evidence Item Model
+
+private struct TDEvidItem: Identifiable {
+    let id: String
+    let title: String
+    let summary: String
+    let source: String
+    let category: String
+    let url: String?
+    let publishedAt: Date?
+    let eventAnalysis: EventAnalysis?
+}
+
 // MARK: - Main View
 
 struct TickerDetailView: View {
@@ -17,6 +30,7 @@ struct TickerDetailView: View {
     @State private var selectedDays: Int = 30
     @State private var hasLoaded = false
     @State private var showFullSummary = false
+    @State private var selectedEvidItem: TDEvidItem?
 
     init(ticker: String, positionId: String? = nil) {
         self.ticker = ticker
@@ -57,8 +71,15 @@ struct TickerDetailView: View {
             await reloadAll()
         }
         .sheet(isPresented: $showFullSummary) {
-            if let summary = detail?.currentAnalysis?.longReport ?? detail?.currentAnalysis?.summary, !summary.isEmpty {
-                TDSummarySheet(ticker: ticker, summary: summary)
+            if let analysis = detail?.currentAnalysis {
+                TDExecSummarySheet(ticker: ticker, analysis: analysis)
+            }
+        }
+        .sheet(item: $selectedEvidItem) { item in
+            if let ev = item.eventAnalysis {
+                TickerEventAnalysisDetailView(event: ev)
+            } else {
+                TDEvidDetailSheet(item: item)
             }
         }
     }
@@ -124,9 +145,8 @@ struct TickerDetailView: View {
     private func detailContent(_ detail: TickerDetailResponse) -> some View {
         heroCard(detail)
 
-        if let summary = detail.currentAnalysis?.longReport ?? detail.currentAnalysis?.summary,
-           !summary.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            executiveSummaryCard(summary)
+        if let analysis = detail.currentAnalysis {
+            executiveSummaryCard(analysis)
         }
 
         if detail.latestPrice.price != nil {
@@ -152,9 +172,9 @@ struct TickerDetailView: View {
             keyDriversSection(detail, cards: dCards, state: dState)
         }
 
-        let evidence = flatEvidence(from: dCards)
+        let evidence = flatEvidence(from: detail)
         if !evidence.isEmpty {
-            supportingEvidenceSection(evidence)
+            eventAnalysisSection(evidence)
         }
     }
 
@@ -261,45 +281,49 @@ struct TickerDetailView: View {
 
     // MARK: - Executive Summary Card
 
-    private func executiveSummaryCard(_ summary: String) -> some View {
-        Button(action: { showFullSummary = true }) {
-            ClavisStandardCard(fill: .surface) {
-                HStack(spacing: 13) {
-                    ZStack {
-                        Circle()
-                            .fill(
-                                LinearGradient(
-                                    colors: [Color(hex: "#9b3030"), Color(hex: "#6f1c1e")],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
+    private func executiveSummaryCard(_ analysis: PositionAnalysis) -> some View {
+        let teaser = (analysis.summary ?? analysis.longReport ?? "")
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !teaser.isEmpty else { return AnyView(EmptyView()) }
+        return AnyView(
+            Button(action: { showFullSummary = true }) {
+                ClavisStandardCard(fill: .surface) {
+                    HStack(spacing: 13) {
+                        ZStack {
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color(hex: "#9b3030"), Color(hex: "#6f1c1e")],
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
                                 )
-                            )
-                        Image(systemName: "doc.text")
-                            .font(.system(size: 17, weight: .medium))
-                            .foregroundColor(Color(hex: "#ffd7d3"))
+                            Image(systemName: "doc.text")
+                                .font(.system(size: 17, weight: .medium))
+                                .foregroundColor(Color(hex: "#ffd7d3"))
+                        }
+                        .frame(width: 40, height: 40)
+
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Executive Summary")
+                                .font(ClavisTypography.inter(17, weight: .semibold))
+                                .foregroundColor(.textPrimary)
+                            Text(teaser.count > 100 ? String(teaser.prefix(100)) + "…" : teaser)
+                                .font(ClavisTypography.footnote)
+                                .foregroundColor(.textSecondary)
+                                .lineLimit(2)
+                        }
+
+                        Spacer(minLength: 4)
+
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.textTertiary)
                     }
-                    .frame(width: 40, height: 40)
-
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Executive Summary")
-                            .font(ClavisTypography.inter(17, weight: .semibold))
-                            .foregroundColor(.textPrimary)
-                        let teaser = summary.trimmingCharacters(in: .whitespacesAndNewlines)
-                        Text(teaser.count > 90 ? String(teaser.prefix(90)) + "…" : teaser)
-                            .font(ClavisTypography.footnote)
-                            .foregroundColor(.textSecondary)
-                            .lineLimit(2)
-                    }
-
-                    Spacer(minLength: 4)
-
-                    Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(.textTertiary)
                 }
             }
-        }
-        .buttonStyle(.plain)
+            .buttonStyle(.plain)
+        )
     }
 
     // MARK: - Price Section
@@ -644,20 +668,34 @@ struct TickerDetailView: View {
 
     // MARK: - Supporting Evidence
 
-    private struct TDEvidItem: Identifiable {
-        let id: String
-        let title: String
-        let summary: String
-        let source: String
-        let category: String
-        let url: String?
-    }
-
-    private func flatEvidence(from cards: [DriverCard]) -> [TDEvidItem] {
+    private func flatEvidence(from detail: TickerDetailResponse) -> [TDEvidItem] {
         var seen = Set<String>()
         var result: [TDEvidItem] = []
-        for card in cards {
-            for item in card.supportingEvidence {
+
+        // Primary: latest event analyses (richest data — has AI scenario summaries)
+        for ev in detail.latestEventAnalyses {
+            guard !seen.contains(ev.id) else { continue }
+            seen.insert(ev.id)
+            let summary = ev.scenarioSummary ?? ev.summary ?? ""
+            let category = ev.eventType
+                .map { $0.replacingOccurrences(of: "_", with: " ").capitalized } ?? "Event"
+            result.append(TDEvidItem(
+                id: ev.id,
+                title: ev.title,
+                summary: summary,
+                source: ev.source ?? "",
+                category: category,
+                url: ev.sourceURL,
+                publishedAt: ev.publishedAt,
+                eventAnalysis: ev
+            ))
+            if result.count >= 5 { break }
+        }
+
+        // Supplement: driver card supporting evidence not already shown
+        let cards = detail.currentAnalysis?.driverCards ?? []
+        for card in cards where result.count < 5 {
+            for item in card.supportingEvidence where result.count < 5 {
                 guard !seen.contains(item.id) else { continue }
                 seen.insert(item.id)
                 result.append(TDEvidItem(
@@ -666,22 +704,41 @@ struct TickerDetailView: View {
                     summary: item.summary,
                     source: item.source,
                     category: card.theme.displayName + " risk",
-                    url: item.url
+                    url: item.url,
+                    publishedAt: item.publishedAt,
+                    eventAnalysis: nil
                 ))
             }
         }
-        return Array(result.prefix(5))
+
+        // Fallback: recent news
+        for item in detail.recentNews where result.count < 5 {
+            guard !seen.contains(item.id) else { continue }
+            seen.insert(item.id)
+            result.append(TDEvidItem(
+                id: item.id,
+                title: item.title,
+                summary: item.summary ?? "",
+                source: item.source ?? "",
+                category: "News",
+                url: item.url,
+                publishedAt: item.publishedAt,
+                eventAnalysis: nil
+            ))
+        }
+
+        return result
     }
 
-    private func supportingEvidenceSection(_ items: [TDEvidItem]) -> some View {
+    private func eventAnalysisSection(_ items: [TDEvidItem]) -> some View {
         ClavisStandardCard(fill: .surface, padding: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("Supporting Evidence")
+                        Text("Event Analysis")
                             .font(ClavisTypography.inter(18, weight: .semibold))
                             .foregroundColor(.textPrimary)
-                        Text("Source items behind the grade.")
+                        Text("Analysis of recent events affecting the rating.")
                             .font(ClavisTypography.inter(12, weight: .regular))
                             .foregroundColor(.textSecondary)
                     }
@@ -692,55 +749,69 @@ struct TickerDetailView: View {
 
                 ForEach(items) { item in
                     Divider().overlay(Color.border.opacity(0.6))
-                    evidenceRow(item)
+                    eventAnalysisRow(item)
                 }
             }
         }
     }
 
-    private func evidenceRow(_ item: TDEvidItem) -> some View {
-        HStack(alignment: .center, spacing: 14) {
-            VStack(alignment: .leading, spacing: 7) {
-                if !item.title.isEmpty {
-                    Text(item.title)
-                        .font(ClavisTypography.inter(15, weight: .semibold))
-                        .foregroundColor(.textPrimary)
-                        .lineLimit(3)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                if !item.summary.isEmpty {
-                    Text(item.summary)
-                        .font(ClavisTypography.inter(13, weight: .regular))
-                        .foregroundColor(.textSecondary)
-                        .lineSpacing(2)
-                        .lineLimit(3)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                HStack(spacing: 4) {
-                    if !item.source.isEmpty {
-                        Text(item.source)
-                            .font(ClavisTypography.inter(12, weight: .regular))
-                            .foregroundColor(.textTertiary)
+    private func eventAnalysisRow(_ item: TDEvidItem) -> some View {
+        Button(action: { selectedEvidItem = item }) {
+            HStack(alignment: .center, spacing: 12) {
+                VStack(alignment: .leading, spacing: 7) {
+                    if !item.title.isEmpty {
+                        Text(item.title)
+                            .font(ClavisTypography.inter(15, weight: .semibold))
+                            .foregroundColor(.textPrimary)
+                            .lineLimit(2)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
-                    if !item.category.isEmpty && !item.source.isEmpty {
-                        Text("·")
-                            .foregroundColor(.textTertiary)
-                            .font(ClavisTypography.footnote)
-                        Text(item.category)
-                            .font(ClavisTypography.inter(12, weight: .regular))
-                            .foregroundColor(.textTertiary)
+                    if !item.summary.isEmpty {
+                        Text(item.summary)
+                            .font(ClavisTypography.inter(13, weight: .regular))
+                            .foregroundColor(.textSecondary)
+                            .lineSpacing(2)
+                            .lineLimit(3)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    HStack(spacing: 6) {
+                        if !item.source.isEmpty {
+                            Text(item.source)
+                                .font(ClavisTypography.inter(11, weight: .regular))
+                                .foregroundColor(.textTertiary)
+                                .padding(.horizontal, 7)
+                                .padding(.vertical, 3)
+                                .background(Color.white.opacity(0.05))
+                                .clipShape(Capsule())
+                        }
+                        if !item.category.isEmpty {
+                            Text(item.category)
+                                .font(ClavisTypography.inter(11, weight: .regular))
+                                .foregroundColor(.textTertiary)
+                                .padding(.horizontal, 7)
+                                .padding(.vertical, 3)
+                                .background(Color.white.opacity(0.05))
+                                .clipShape(Capsule())
+                        }
+                        if let date = item.publishedAt {
+                            Text(date.formatted(.dateTime.month(.abbreviated).day().year()))
+                                .font(ClavisTypography.inter(11, weight: .regular))
+                                .foregroundColor(Color(hex: "#5a6470"))
+                        }
                     }
                 }
-            }
 
-            if let urlStr = item.url, let url = URL(string: urlStr) {
-                Link("Open", destination: url)
-                    .font(ClavisTypography.inter(14, weight: .semibold))
-                    .foregroundColor(.informational)
+                Image(systemName: "chevron.right")
+                    .font(.system(size: 11, weight: .semibold))
+                    .foregroundColor(.textTertiary)
+                    .frame(minWidth: 12)
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 14)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 14)
+        .buttonStyle(.plain)
     }
 
     // MARK: - Helpers
@@ -968,23 +1039,164 @@ private struct TDSparkline: View {
 
 // MARK: - Executive Summary Sheet
 
-private struct TDSummarySheet: View {
+private struct TDExecSummarySheet: View {
     let ticker: String
-    let summary: String
+    let analysis: PositionAnalysis
+    @Environment(\.dismiss) private var dismiss
+
+    private var positiveCards: [DriverCard] {
+        analysis.driverCards.filter { $0.direction == .positive }
+    }
+    private var negativeCards: [DriverCard] {
+        analysis.driverCards.filter { $0.direction == .negative }
+    }
+    private var headwinds: [String] {
+        if let r = analysis.topRisks, !r.isEmpty { return r }
+        return negativeCards.map(\.title)
+    }
+    private var tailwinds: [String] {
+        positiveCards.map(\.title)
+    }
+
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: ClavisTheme.sectionSpacing) {
+                    if let tldr = analysis.summary, !tldr.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        execSection(label: "TL;DR", body: tldr)
+                    }
+                    if !headwinds.isEmpty {
+                        execBullets(label: "Bearish Headwinds", items: headwinds)
+                    }
+                    if !tailwinds.isEmpty {
+                        execBullets(label: "Bullish Tailwinds", items: tailwinds)
+                    }
+                    if let watchItems = analysis.watchItems, !watchItems.isEmpty {
+                        execBullets(label: "What Would Change the Rating", items: watchItems)
+                    }
+                    if let report = analysis.longReport, !report.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        execSection(label: "Full Analysis", body: report)
+                    }
+                }
+                .padding(ClavisTheme.screenPadding)
+                .padding(.bottom, ClavisTheme.largeSpacing)
+            }
+            .background(ClavisAtmosphereBackground())
+            .navigationTitle("\(ticker) — Executive Summary")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Close") { dismiss() }
+                        .foregroundColor(.informational)
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func execSection(label: String, body: String) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(label.uppercased())
+                .font(ClavisTypography.inter(11, weight: .semibold))
+                .foregroundColor(.textTertiary)
+                .tracking(0.6)
+            Text(body)
+                .font(ClavisTypography.body)
+                .foregroundColor(.textSecondary)
+                .lineSpacing(5)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(ClavisTheme.cardPadding)
+        .clavisCardStyle(fill: .surface)
+    }
+
+    @ViewBuilder
+    private func execBullets(label: String, items: [String]) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(label.uppercased())
+                .font(ClavisTypography.inter(11, weight: .semibold))
+                .foregroundColor(.textTertiary)
+                .tracking(0.6)
+            VStack(alignment: .leading, spacing: 10) {
+                ForEach(items, id: \.self) { item in
+                    HStack(alignment: .top, spacing: 10) {
+                        Text("•")
+                            .font(ClavisTypography.body)
+                            .foregroundColor(.textTertiary)
+                            .frame(width: 8)
+                        Text(item)
+                            .font(ClavisTypography.body)
+                            .foregroundColor(.textSecondary)
+                            .lineSpacing(3)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+            }
+        }
+        .padding(ClavisTheme.cardPadding)
+        .clavisCardStyle(fill: .surface)
+    }
+}
+
+// MARK: - Evidence Detail Sheet (for non-EventAnalysis items)
+
+private struct TDEvidDetailSheet: View {
+    let item: TDEvidItem
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                Text(summary)
-                    .font(ClavisTypography.body)
-                    .foregroundColor(.textSecondary)
-                    .lineSpacing(5)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(ClavisTheme.screenPadding)
+                VStack(alignment: .leading, spacing: ClavisTheme.sectionSpacing) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        if !item.title.isEmpty {
+                            Text(item.title)
+                                .font(ClavisTypography.h2)
+                                .foregroundColor(.textPrimary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        HStack {
+                            if !item.source.isEmpty {
+                                Text(item.source)
+                                    .font(ClavisTypography.footnote)
+                                    .foregroundColor(.textSecondary)
+                            }
+                            Spacer()
+                            if let date = item.publishedAt {
+                                Text(date.formatted(date: .abbreviated, time: .omitted))
+                                    .font(ClavisTypography.footnote)
+                                    .foregroundColor(.textSecondary)
+                            }
+                        }
+                    }
+                    .padding(ClavisTheme.cardPadding)
+                    .clavisCardStyle(fill: .surface)
+
+                    if !item.summary.isEmpty {
+                        TDAnalysisDetailSection(title: "What this means", text: item.summary)
+                    }
+
+                    if let urlStr = item.url, let url = URL(string: urlStr) {
+                        Link(destination: url) {
+                            HStack {
+                                Text("Open Source")
+                                    .font(ClavisTypography.bodyEmphasis)
+                                    .foregroundColor(.informational)
+                                Spacer()
+                                Image(systemName: "arrow.up.right")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundColor(.informational)
+                            }
+                        }
+                        .padding(ClavisTheme.cardPadding)
+                        .clavisCardStyle(fill: .surfaceElevated)
+                    }
+                }
+                .padding(ClavisTheme.screenPadding)
+                .padding(.bottom, ClavisTheme.largeSpacing)
             }
             .background(ClavisAtmosphereBackground())
-            .navigationTitle("\(ticker) — Executive Summary")
+            .navigationTitle(item.category.isEmpty ? "Event" : item.category)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -1050,7 +1262,7 @@ struct TickerEventAnalysisDetailView: View {
             VStack(alignment: .leading, spacing: ClavisTheme.sectionSpacing) {
                 HStack {
                     Button(action: { dismiss() }) {
-                        Text("‹ Back")
+                        Text("Close")
                             .font(ClavisTypography.footnoteEmphasis)
                             .foregroundColor(.informational)
                     }
@@ -1096,10 +1308,15 @@ struct TickerEventAnalysisDetailView: View {
                 }
                 if let urlStr = event.sourceURL, let url = URL(string: urlStr) {
                     Link(destination: url) {
-                        Text("Open source article →")
-                            .font(ClavisTypography.footnoteEmphasis)
-                            .foregroundColor(.informational)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+                        HStack {
+                            Text("Open Source")
+                                .font(ClavisTypography.bodyEmphasis)
+                                .foregroundColor(.informational)
+                            Spacer()
+                            Image(systemName: "arrow.up.right")
+                                .font(.system(size: 13, weight: .semibold))
+                                .foregroundColor(.informational)
+                        }
                     }
                     .padding(ClavisTheme.cardPadding)
                     .clavisCardStyle(fill: .surfaceElevated)
