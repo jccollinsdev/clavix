@@ -8,18 +8,7 @@ from fastapi import (
 )
 from ..services.supabase import get_supabase
 from ..services.alert_payloads import enrich_alert_rows
-from ..services.ticker_cache_service import (
-    _build_article_aware_reasoning,
-    _dedup_event_analyses,
-    _is_generic_fallback_reasoning,
-    _get_latest_position_score_for_ids,
-    _sanitize_public_analysis_payload,
-    build_position_analysis_from_snapshot,
-    build_risk_score_response,
-    get_latest_risk_snapshot_map,
-    get_metadata_map,
-    sanitize_public_analysis_text,
-)
+from ..services.ticker_cache_service import get_ticker_detail_bundle
 from .holdings import refresh_position_price
 
 router = APIRouter()
@@ -90,114 +79,9 @@ async def get_position_detail(
         background_tasks.add_task(
             refresh_position_price, position_id, position["ticker"]
         )
-
-    analyses_result = (
-        supabase.table("position_analyses")
-        .select("*")
-        .eq("position_id", position_id)
-        .order("updated_at", desc=True)
-        .order("created_at", desc=True)
-        .execute()
-    )
-    analyses = analyses_result.data or []
-
-    metadata = get_metadata_map(supabase, [position["ticker"]]).get(
-        position["ticker"], {}
-    )
-    snapshot = get_latest_risk_snapshot_map(supabase, [position["ticker"]]).get(
-        position["ticker"]
-    )
-    if position.get("current_price") is None:
-        position["current_price"] = metadata.get("price")
-
-    news_result = (
-        supabase.table("ticker_news_cache")
-        .select("*")
-        .eq("ticker", position["ticker"])
-        .order("published_at", desc=True)
-        .limit(10)
-        .execute()
-    )
-    event_result = (
-        supabase.table("event_analyses")
-        .select("*")
-        .eq("position_id", position_id)
-        .order("created_at", desc=True)
-        .limit(10)
-        .execute()
-    )
-
-    alerts_result = (
-        supabase.table("alerts")
-        .select("*")
-        .eq("user_id", user_id)
-        .eq("position_ticker", position["ticker"])
-        .order("created_at", desc=True)
-        .limit(5)
-        .execute()
-    )
-
-    current_analysis = _sanitize_public_analysis_payload(
-        _select_current_analysis(analyses)
-        or build_position_analysis_from_snapshot(
-            snapshot, position_id=position_id, ticker=position["ticker"]
-        )
-    )
-    latest_position_score = _get_latest_position_score_for_ids(supabase, [position_id])
-    score_response = sanitize_public_analysis_text(
-        build_risk_score_response(
-            snapshot,
-            position_id=position_id,
-            latest_position_score=latest_position_score,
-            coverage_context=current_analysis,
-        )
-    )
-
-    # Replace generic/fallback reasoning with article-specific text when we have events
-    deduped_events = _dedup_event_analyses(event_result.data or [])
-    # Cap displayed events to source_count so the count matches the risk rationale
-    sc = int((score_response or {}).get("source_count") or 0)
-    if sc and len(deduped_events) > sc:
-        deduped_events = deduped_events[:sc]
-    if deduped_events and score_response:
-        existing = score_response.get("reasoning") or ""
-        if not existing or _is_generic_fallback_reasoning(existing):
-            article = _build_article_aware_reasoning(
-                deduped_events, score_response, position["ticker"]
-            )
-            if article:
-                score_response["reasoning"] = article
-    recent_news = []
-    for row in news_result.data or []:
-        recent_news.append(
-            {
-                "id": row.get("id"),
-                "user_id": user_id,
-                "ticker": position["ticker"],
-                "title": row.get("headline"),
-                "summary": row.get("summary"),
-                "source": row.get("source"),
-                "url": row.get("url"),
-                "significance": row.get("sentiment"),
-                "published_at": row.get("published_at"),
-                "affected_tickers": [position["ticker"]],
-                "processed_at": row.get("processed_at"),
-            }
-        )
-
-    return sanitize_public_analysis_text(
-        {
-            "position": position,
-            "current_score": score_response,
-            "current_analysis": current_analysis,
-            "methodology": current_analysis.get("methodology")
-            if current_analysis
-            else None,
-            "dimension_breakdown": snapshot.get("dimension_rationale")
-            if snapshot
-            else None,
-            "latest_event_analyses": deduped_events,
-            "recent_news": recent_news,
-            "recent_alerts": enrich_alert_rows(alerts_result.data),
-        }
+    return get_ticker_detail_bundle(
+        supabase,
+        user_id,
+        position["ticker"],
+        position_id=position_id,
     )

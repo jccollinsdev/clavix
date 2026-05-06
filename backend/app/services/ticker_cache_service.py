@@ -212,7 +212,7 @@ def require_supported_ticker(supabase, ticker: str) -> dict:
 
 
 def search_supported_tickers(
-    supabase, query: str | None, limit: int = 20
+    supabase, query: str | None, limit: int = 20, user_id: str | None = None
 ) -> list[dict[str, Any]]:
     ensure_sp500_universe_seeded(supabase)
     universe = (
@@ -240,25 +240,87 @@ def search_supported_tickers(
     selected = filtered[:limit]
     tickers = [row["ticker"] for row in selected]
     metadata_map = get_metadata_map(supabase, tickers)
-    snapshot_map = get_latest_risk_snapshot_map(supabase, tickers)
+    history_map = get_latest_risk_snapshot_history_map(supabase, tickers, per_ticker=2)
+    snapshot_map = {ticker: rows[0] for ticker, rows in history_map.items() if rows}
+    news_cache_map = get_latest_news_cache_map(supabase, tickers)
+    refresh_job_map = get_latest_refresh_job_map(supabase, tickers)
+
+    held_ticker_to_position: dict[str, dict[str, Any]] = {}
+    watchlist_tickers: set[str] = set()
+    if user_id and tickers:
+        held_rows = (
+            supabase.table("positions")
+            .select("id, user_id, ticker, shares, purchase_price, current_price")
+            .eq("user_id", user_id)
+            .in_("ticker", tickers)
+            .execute()
+            .data
+            or []
+        )
+        for held in held_rows:
+            held_ticker_to_position[str(held.get("ticker") or "").upper()] = held
+        watchlist = get_or_create_default_watchlist(supabase, user_id)
+        if watchlist.get("id"):
+            watchlist_rows = (
+                supabase.table("watchlist_items")
+                .select("ticker")
+                .eq("watchlist_id", watchlist["id"])
+                .in_("ticker", tickers)
+                .execute()
+                .data
+                or []
+            )
+            watchlist_tickers = {
+                str(row.get("ticker") or "").upper()
+                for row in watchlist_rows
+                if row.get("ticker")
+            }
 
     results = []
     for row in selected:
         ticker = row["ticker"]
         metadata = metadata_map.get(ticker, {})
         snapshot = snapshot_map.get(ticker, {})
-        results.append(
-            {
-                **row,
-                "price": metadata.get("price"),
-                "price_as_of": metadata.get("price_as_of"),
-                "grade": snapshot.get("grade"),
-                "safety_score": snapshot.get("safety_score"),
-                "analysis_as_of": snapshot.get("analysis_as_of"),
-                "summary": snapshot.get("news_summary") or snapshot.get("reasoning"),
-                "is_supported": True,
-            }
+        previous_snapshot = history_map.get(ticker, [None, None])[1]
+        _shared_position_id, shared_analysis, shared_event_rows = _get_shared_reference_analysis(
+            supabase,
+            ticker=ticker,
+            snapshot=snapshot,
         )
+        shared_summary = build_shared_ticker_analysis_summary(
+            ticker=ticker,
+            metadata=metadata,
+            snapshot=snapshot,
+            previous_snapshot=previous_snapshot,
+            latest_news_row=news_cache_map.get(ticker),
+            latest_refresh_job=refresh_job_map.get(ticker),
+            current_analysis=shared_analysis,
+            latest_event_analyses=shared_event_rows,
+            analysis_run_id=(shared_analysis or {}).get("analysis_run_id"),
+        )
+        position = held_ticker_to_position.get(ticker)
+        portfolio_overlay = build_portfolio_overlay(
+            ticker=ticker,
+            position=position,
+            held_positions=[position] if position else [],
+            is_in_watchlist=ticker in watchlist_tickers,
+            current_price=metadata.get("price"),
+        )
+        result = {
+            **row,
+            "price": metadata.get("price"),
+            "price_as_of": metadata.get("price_as_of"),
+            "grade": shared_summary.get("current_grade"),
+            "safety_score": shared_summary.get("current_score"),
+            "analysis_as_of": (shared_summary.get("freshness") or {}).get(
+                "analysis_as_of"
+            ),
+            "summary": shared_summary.get("grade_rationale"),
+            "is_supported": True,
+            "shared_analysis": shared_summary,
+            "portfolio_overlay": portfolio_overlay,
+        }
+        results.append(sanitize_public_analysis_text(result))
     return results
 
 
@@ -308,6 +370,8 @@ def enrich_positions_with_ticker_cache(
     positions: list[dict[str, Any]], supabase
 ) -> list[dict[str, Any]]:
     positions = positions or []
+    if not positions:
+        return []
     tickers = [
         position.get("ticker", "").upper()
         for position in positions
@@ -315,33 +379,37 @@ def enrich_positions_with_ticker_cache(
     ]
     metadata_map = get_metadata_map(supabase, tickers)
     history_map = get_latest_risk_snapshot_history_map(supabase, tickers, per_ticker=2)
-    analysis_run_map = get_latest_analysis_run_map_for_ids(
-        supabase,
-        [position.get("id", "") for position in positions if position.get("id")],
-    )
-    score_map = _get_latest_position_score_map_for_ids(
-        supabase,
-        [position.get("id", "") for position in positions if position.get("id")],
-    )
     refresh_job_map = get_latest_refresh_job_map(supabase, tickers)
     news_cache_map = get_latest_news_cache_map(supabase, tickers)
+    user_id = positions[0].get("user_id")
+    watchlist_tickers: set[str] = set()
+    if user_id:
+        watchlist = get_or_create_default_watchlist(supabase, user_id)
+        if watchlist.get("id"):
+            watchlist_rows = (
+                supabase.table("watchlist_items")
+                .select("ticker")
+                .eq("watchlist_id", watchlist["id"])
+                .execute()
+                .data
+                or []
+            )
+            watchlist_tickers = {
+                str(row.get("ticker") or "").upper()
+                for row in watchlist_rows
+                if row.get("ticker")
+            }
 
-    position_ids = [p.get("id", "") for p in positions if p.get("id")]
-    event_map: dict[str, list[dict[str, Any]]] = {}
-    if position_ids:
-        event_result = (
-            supabase.table("event_analyses")
-            .select("*")
-            .in_("position_id", position_ids)
-            .order("created_at", desc=True)
-            .execute()
-        )
-        for row in event_result.data or []:
-            pid = row["position_id"]
-            if pid not in event_map:
-                event_map[pid] = []
-            if len(event_map[pid]) < 3:
-                event_map[pid].append(row)
+    total_portfolio_value = 0.0
+    for position in positions:
+        ticker = (position.get("ticker") or "").upper()
+        metadata = metadata_map.get(ticker, {})
+        resolved_price = position.get("current_price")
+        if resolved_price is None:
+            resolved_price = metadata.get("price")
+        shares = position.get("shares")
+        if resolved_price is not None and shares is not None:
+            total_portfolio_value += float(resolved_price) * float(shares)
 
     for position in positions:
         ticker = (position.get("ticker") or "").upper()
@@ -349,79 +417,43 @@ def enrich_positions_with_ticker_cache(
         snapshots = history_map.get(ticker, [])
         latest = snapshots[0] if snapshots else {}
         previous = snapshots[1] if len(snapshots) > 1 else {}
-        latest_analysis_run = analysis_run_map.get(position.get("id"), {})
-        latest_position_score = score_map.get(position.get("id"), {})
         latest_refresh_job = refresh_job_map.get(ticker, {})
         latest_news_row = news_cache_map.get(ticker, {})
-        current_score = build_risk_score_response(
-            latest,
-            position_id=position.get("id", ""),
-            latest_position_score=latest_position_score,
-            include_position_sizing=True,
-            coverage_context={
-                "coverage_state": latest.get("coverage_state"),
-                "coverage_note": latest.get("coverage_note"),
-            },
-        )
-        analysis_state = _analysis_state_from_context(
+        _shared_position_id, shared_analysis, shared_event_rows = _get_shared_reference_analysis(
+            supabase,
+            ticker=ticker,
             snapshot=latest,
-            latest_position_analysis=None,
-            latest_analysis_run=latest_analysis_run,
-            latest_refresh_job=latest_refresh_job,
-            metadata=metadata,
-            current_score=current_score,
-            latest_news_row=latest_news_row,
         )
-
+        shared_summary = build_shared_ticker_analysis_summary(
+            ticker=ticker,
+            metadata=metadata,
+            snapshot=latest,
+            previous_snapshot=previous,
+            latest_news_row=latest_news_row,
+            latest_refresh_job=latest_refresh_job,
+            current_analysis=shared_analysis,
+            latest_event_analyses=shared_event_rows,
+            analysis_run_id=(shared_analysis or {}).get("analysis_run_id"),
+        )
         if position.get("current_price") is None:
             position["current_price"] = metadata.get("price")
-
-        score = current_score or {}
-        position["risk_grade"] = score.get("grade") or latest.get("grade")
-        position["total_score"] = score.get("total_score") or latest.get("safety_score")
-        position["last_analyzed_at"] = score.get("score_as_of") or latest.get(
-            "analysis_as_of"
+        portfolio_overlay = build_portfolio_overlay(
+            ticker=ticker,
+            position=position,
+            held_positions=[position],
+            is_in_watchlist=ticker in watchlist_tickers,
+            total_portfolio_value=total_portfolio_value,
+            current_price=position.get("current_price") or metadata.get("price"),
         )
-        position["previous_grade"] = previous.get("grade")
-        position["grade_direction"] = score.get("grade_direction") or grade_direction(
-            score.get("total_score"), previous.get("safety_score") or previous.get("total_score")
+        projected = _project_shared_summary_compatibility(
+            base=position,
+            shared_summary=shared_summary,
+            portfolio_overlay=portfolio_overlay,
+            previous_grade=previous.get("grade"),
+            risk_dimensions=_shared_risk_dimensions(latest),
         )
-        position["score_delta"] = score.get("score_delta")
-        position["inferred_labels"] = None
-        position["summary"] = (
-            score.get("reasoning")
-            or latest.get("news_summary")
-            or latest.get("reasoning")
-        )
-        position["dimension_breakdown"] = (
-            score.get("factor_breakdown") or latest.get("dimension_rationale") or {}
-        )
-        position["analysis_state"] = analysis_state.get("status")
-        position["coverage_state"] = analysis_state.get("coverage_state")
-        position["coverage_note"] = analysis_state.get("coverage_note")
-        position["analysis_run_id"] = analysis_state.get("latest_analysis_run_id")
-        position["latest_analysis_run_status"] = latest_analysis_run.get("status")
-        position["latest_refresh_job_id"] = latest_refresh_job.get("id")
-        position["latest_refresh_job_status"] = latest_refresh_job.get("status")
-        position["analysis_as_of"] = analysis_state.get("analysis_as_of")
-        position["score_source"] = score.get("score_source")
-        position["score_as_of"] = score.get("score_as_of")
-        position["score_version"] = score.get("score_version")
-        position["last_news_refresh_at"] = analysis_state.get("last_news_refresh_at")
-        position["price_as_of"] = analysis_state.get("price_as_of")
-        position["news_as_of"] = analysis_state.get("news_as_of")
-        position["news_refresh_status"] = analysis_state.get("news_refresh_status")
-        position["source"] = analysis_state.get("source")
-        position["company_name"] = metadata.get("company_name")
-
-        raw_events = event_map.get(position.get("id"), [])
-        if raw_events:
-            position["latest_event_analyses"] = [
-                normalize_event_analysis_payload(e, ticker=ticker)
-                for e in raw_events
-            ]
-        else:
-            position["latest_event_analyses"] = None
+        position.clear()
+        position.update(projected)
 
     return positions
 
@@ -556,6 +588,7 @@ def build_position_analysis_from_snapshot(
             "summary": summary,
             "methodology": "Shared S&P ticker cache using canonical structural scoring and the latest cached ticker snapshot.",
             "top_risks": [],
+            "top_tailwinds": [],
             "watch_items": watch_items,
             "top_news": [],
             "driver_cards_state": "pending",
@@ -768,6 +801,7 @@ def _sanitize_public_analysis_payload(
         sanitized.get("methodology")
     )
     sanitized["top_risks"] = _clean_public_text_list(sanitized.get("top_risks"))
+    sanitized["top_tailwinds"] = _clean_public_text_list(sanitized.get("top_tailwinds"))
     sanitized["watch_items"] = _clean_public_text_list(sanitized.get("watch_items"))
     return sanitize_public_analysis_text(sanitized)
 
@@ -795,6 +829,670 @@ def _sanitize_public_snapshot(snapshot: dict[str, Any] | None) -> dict[str, Any]
             )
     sanitized["evidence_strength"] = evidence_strength(source_count)
     return sanitize_public_analysis_text(sanitized)
+
+
+def _derive_coverage_state(source_count: Any, fallback: str | None = None) -> str:
+    if fallback:
+        return str(fallback)
+    count = int(source_count or 0)
+    if count == 0:
+        return "provisional"
+    if count <= 2:
+        return "thin"
+    return "substantive"
+
+
+def _shared_freshness_status(
+    *,
+    snapshot: dict[str, Any] | None,
+    latest_news_row: dict[str, Any] | None,
+    latest_refresh_job: dict[str, Any] | None,
+    coverage_state: str,
+) -> str:
+    latest_refresh_status = (latest_refresh_job or {}).get("status")
+    if latest_refresh_status == "queued":
+        return "queued"
+    if latest_refresh_status == "running":
+        return "running"
+    if latest_refresh_status == "failed":
+        return "failed"
+    if not snapshot:
+        return "thin" if coverage_state in {"provisional", "thin"} else "stale"
+    if coverage_state in {"provisional", "thin"}:
+        return "thin"
+
+    analysis_dt = _parse_iso_datetime((snapshot or {}).get("analysis_as_of"))
+    news_dt = _parse_iso_datetime((latest_news_row or {}).get("processed_at"))
+    if analysis_dt and news_dt and news_dt - analysis_dt > timedelta(hours=6):
+        return "stale"
+    return "ready"
+
+
+def _shared_risk_dimensions(snapshot: dict[str, Any] | None) -> dict[str, Any]:
+    snapshot = snapshot or {}
+    factor_breakdown = snapshot.get("factor_breakdown") or {}
+    if isinstance(factor_breakdown, str):
+        import json
+
+        try:
+            factor_breakdown = json.loads(factor_breakdown)
+        except Exception:
+            factor_breakdown = {}
+    ai_dims = (factor_breakdown or {}).get("ai_dimensions") or {}
+    return {
+        "news_sentiment": ai_dims.get("news_sentiment"),
+        "macro_exposure": ai_dims.get("macro_exposure"),
+        "volatility_trend": ai_dims.get("volatility_trend"),
+    }
+
+
+def _project_driver_cards_to_risk_drivers(
+    analysis: dict[str, Any] | None,
+    *,
+    ticker: str,
+) -> tuple[list[dict[str, Any]], str]:
+    analysis = analysis or {}
+    cards = analysis.get("driver_cards") or []
+    state = analysis.get("driver_cards_state") or ("ready" if cards else "pending")
+    projected: list[dict[str, Any]] = []
+    for card in cards:
+        projected.append(
+            {
+                "driver_id": card.get("id") or str(uuid4()),
+                "ticker": ticker,
+                "rank": card.get("rank") or len(projected) + 1,
+                "category": card.get("theme"),
+                "title": card.get("title") or "",
+                "summary": card.get("summary") or "",
+                "direction": card.get("direction"),
+                "strength": card.get("strength") or "thin",
+                "source_chips": card.get("source_chips") or [],
+                "evidence_event_ids": [
+                    evidence.get("id")
+                    for evidence in (card.get("supporting_evidence") or [])
+                    if evidence.get("id")
+                ],
+                "updated_at": analysis.get("updated_at"),
+                "provenance": analysis.get("driver_cards_source"),
+            }
+        )
+    return sanitize_public_analysis_text(projected), state
+
+
+def _get_shared_reference_position_id(supabase, ticker: str) -> str | None:
+    result = (
+        supabase.table("positions")
+        .select("id")
+        .eq("user_id", SYSTEM_SP500_USER_ID)
+        .eq("ticker", ticker)
+        .execute()
+        .data
+        or []
+    )
+    return result[0].get("id") if result else None
+
+
+def _get_shared_reference_analysis(
+    supabase,
+    *,
+    ticker: str,
+    snapshot: dict[str, Any] | None,
+) -> tuple[str | None, dict[str, Any] | None, list[dict[str, Any]]]:
+    position_id = _get_shared_reference_position_id(supabase, ticker)
+    analysis = _sanitize_public_analysis_payload(
+        _get_latest_position_analysis_for_ids(supabase, [position_id])
+        if position_id
+        else None
+        or build_position_analysis_from_snapshot(
+            snapshot,
+            position_id=position_id or f"virtual:{ticker}",
+            ticker=ticker,
+        )
+    )
+    event_rows: list[dict[str, Any]] = []
+    if position_id:
+        event_result = (
+            supabase.table("event_analyses")
+            .select("*")
+            .eq("position_id", position_id)
+            .order("created_at", desc=True)
+            .limit(10)
+            .execute()
+        )
+        event_rows = _dedup_event_analyses(event_result.data or [])
+    return position_id, analysis, event_rows
+
+
+def build_shared_ticker_analysis_summary(
+    *,
+    ticker: str,
+    metadata: dict[str, Any] | None,
+    snapshot: dict[str, Any] | None,
+    previous_snapshot: dict[str, Any] | None = None,
+    latest_news_row: dict[str, Any] | None = None,
+    latest_refresh_job: dict[str, Any] | None = None,
+    current_analysis: dict[str, Any] | None = None,
+    latest_event_analyses: list[dict[str, Any]] | None = None,
+    analysis_run_id: str | None = None,
+) -> dict[str, Any]:
+    metadata = metadata or {}
+    snapshot = _sanitize_public_snapshot(snapshot) or {}
+    previous_snapshot = previous_snapshot or {}
+    current_analysis = _sanitize_public_analysis_payload(current_analysis) or {}
+    latest_event_analyses = latest_event_analyses or []
+
+    current_score = snapshot.get("safety_score")
+    previous_score = previous_snapshot.get("safety_score")
+    source_count = snapshot.get("source_count")
+    if source_count is None:
+        source_count = current_analysis.get("source_count")
+    coverage_state = _derive_coverage_state(
+        source_count,
+        fallback=snapshot.get("coverage_state") or current_analysis.get("coverage_state"),
+    )
+    if source_count is None and coverage_state == "substantive":
+        source_count = 3
+    coverage_note = snapshot.get("coverage_note") or current_analysis.get(
+        "coverage_note"
+    ) or _investor_coverage_note(coverage_state, source_count)
+    freshness_status = _shared_freshness_status(
+        snapshot=snapshot,
+        latest_news_row=latest_news_row,
+        latest_refresh_job=latest_refresh_job,
+        coverage_state=coverage_state,
+    )
+    latest_refresh_status = (latest_refresh_job or {}).get("status")
+
+    raw_rationale = (
+        snapshot.get("news_summary")
+        or snapshot.get("reasoning")
+        or current_analysis.get("summary")
+        or current_analysis.get("long_report")
+    )
+    grade_rationale = None
+    if raw_rationale:
+        grade_rationale = format_rationale(
+            grade=snapshot.get("grade")
+            or (score_to_grade(current_score) if current_score is not None else "C"),
+            direction=grade_direction(current_score, previous_score),
+            raw_text=raw_rationale,
+            scores={
+                "news_sentiment": (_shared_risk_dimensions(snapshot) or {}).get(
+                    "news_sentiment"
+                ),
+                "macro_exposure": (_shared_risk_dimensions(snapshot) or {}).get(
+                    "macro_exposure"
+                ),
+                "volatility_trend": (_shared_risk_dimensions(snapshot) or {}).get(
+                    "volatility_trend"
+                ),
+            },
+            source_count=int(source_count or 0),
+        )
+    if not grade_rationale:
+        grade_rationale = format_rationale(
+            grade=snapshot.get("grade")
+            or (score_to_grade(current_score) if current_score is not None else "C"),
+            direction=grade_direction(current_score, previous_score),
+            raw_text="",
+            scores={},
+            source_count=int(source_count or 0),
+        )
+    if latest_event_analyses:
+        canonical_reasoning = _canonical_public_rationale(
+            ticker=ticker,
+            current_score={
+                "grade": snapshot.get("grade"),
+                "total_score": current_score,
+                "source_count": source_count,
+            },
+            current_analysis=current_analysis,
+            latest_event_analyses=latest_event_analyses,
+            latest_risk_snapshot=snapshot,
+        )
+        if canonical_reasoning:
+            grade_rationale = format_rationale(
+                grade=snapshot.get("grade")
+                or (score_to_grade(current_score) if current_score is not None else "C"),
+                direction=grade_direction(current_score, previous_score),
+                raw_text=canonical_reasoning,
+                scores={},
+                source_count=int(source_count or 0),
+            )
+
+    summary = {
+        "ticker": ticker,
+        "company_name": metadata.get("company_name"),
+        "exchange": metadata.get("exchange"),
+        "sector": metadata.get("sector"),
+        "industry": metadata.get("industry"),
+        "current_score": current_score,
+        "current_grade": snapshot.get("grade")
+        or (score_to_grade(current_score) if current_score is not None else None),
+        "grade_direction": grade_direction(current_score, previous_score),
+        "score_delta": int(round(current_score - previous_score))
+        if current_score is not None and previous_score is not None
+        else None,
+        "grade_rationale": grade_rationale,
+        "source_count": source_count,
+        "major_event_count": current_analysis.get("major_event_count"),
+        "minor_event_count": current_analysis.get("minor_event_count"),
+        "evidence_strength": snapshot.get("evidence_strength")
+        or evidence_strength(int(source_count or 0)),
+        "analysis_run_id": analysis_run_id or current_analysis.get("analysis_run_id"),
+        "methodology_version": snapshot.get("methodology_version"),
+        "analysis_source": "shared",
+        "freshness": {
+            "status": freshness_status,
+            "coverage_state": coverage_state,
+            "coverage_note": coverage_note,
+            "score_as_of": snapshot.get("analysis_as_of"),
+            "analysis_as_of": snapshot.get("analysis_as_of"),
+            "price_as_of": metadata.get("price_as_of"),
+            "news_as_of": (latest_news_row or {}).get("published_at"),
+            "last_news_refresh_at": (latest_news_row or {}).get("processed_at")
+            or (latest_refresh_job or {}).get("completed_at"),
+            "last_success_at": (latest_refresh_job or {}).get("completed_at")
+            if latest_refresh_status == "completed"
+            else None,
+            "last_failure_at": (latest_refresh_job or {}).get("completed_at")
+            if latest_refresh_status == "failed"
+            else None,
+            "latest_analysis_run_id": analysis_run_id or current_analysis.get("analysis_run_id"),
+            "latest_analysis_status": None,
+            "latest_refresh_job_id": (latest_refresh_job or {}).get("id"),
+            "latest_refresh_status": latest_refresh_status,
+            "analysis_run_id": analysis_run_id or current_analysis.get("analysis_run_id"),
+            "methodology_version": snapshot.get("methodology_version"),
+        },
+    }
+    return sanitize_public_analysis_text(summary)
+
+
+def build_portfolio_overlay(
+    *,
+    ticker: str,
+    position: dict[str, Any] | None = None,
+    held_positions: list[dict[str, Any]] | None = None,
+    is_in_watchlist: bool = False,
+    total_portfolio_value: float | None = None,
+    latest_alerts: list[dict[str, Any]] | None = None,
+    current_price: float | None = None,
+) -> dict[str, Any]:
+    held_positions = held_positions or ([] if not position else [position])
+    selected_position = position or (held_positions[0] if held_positions else None)
+    shares = selected_position.get("shares") if selected_position else None
+    cost_basis = selected_position.get("purchase_price") if selected_position else None
+    resolved_price = current_price
+    if resolved_price is None and selected_position is not None:
+        resolved_price = selected_position.get("current_price")
+    market_value = None
+    if shares is not None and resolved_price is not None:
+        market_value = float(shares) * float(resolved_price)
+    portfolio_weight = None
+    if market_value is not None and total_portfolio_value and total_portfolio_value > 0:
+        portfolio_weight = market_value / total_portfolio_value
+    latest_alerts = latest_alerts or []
+    latest_alert_at = latest_alerts[0].get("created_at") if latest_alerts else None
+    overlay = {
+        "position_id": selected_position.get("id") if selected_position else None,
+        "holding_ids": [row.get("id") for row in held_positions if row.get("id")],
+        "is_held": bool(held_positions),
+        "is_in_watchlist": bool(is_in_watchlist),
+        "shares": shares,
+        "cost_basis": cost_basis,
+        "current_price": resolved_price,
+        "market_value": market_value,
+        "portfolio_weight": portfolio_weight,
+        "risk_contribution_score": None,
+        "recent_alert_count": len(latest_alerts),
+        "latest_alert_at": latest_alert_at,
+        "user_notes": None,
+        "overlay_as_of": (
+            selected_position.get("updated_at")
+            if selected_position and selected_position.get("updated_at")
+            else selected_position.get("created_at")
+            if selected_position and selected_position.get("created_at")
+            else _utcnow_iso()
+        ),
+    }
+    return sanitize_public_analysis_text(overlay)
+
+
+def build_shared_ticker_analysis_detail(
+    *,
+    ticker: str,
+    metadata: dict[str, Any] | None,
+    snapshot: dict[str, Any] | None,
+    previous_snapshot: dict[str, Any] | None = None,
+    latest_news_row: dict[str, Any] | None = None,
+    latest_refresh_job: dict[str, Any] | None = None,
+    current_analysis: dict[str, Any] | None = None,
+    latest_event_analyses: list[dict[str, Any]] | None = None,
+    recent_news_rows: list[dict[str, Any]] | None = None,
+    analysis_run_id: str | None = None,
+) -> dict[str, Any]:
+    metadata = metadata or {}
+    snapshot = _sanitize_public_snapshot(snapshot) or {}
+    current_analysis = _sanitize_public_analysis_payload(current_analysis) or {}
+    latest_event_analyses = latest_event_analyses or []
+    recent_news_rows = recent_news_rows or []
+    if not latest_event_analyses and recent_news_rows:
+        snapshot_as_of = snapshot.get("analysis_as_of")
+        if snapshot_as_of:
+            recent_news_rows = [
+                row
+                for row in recent_news_rows
+                if (row.get("processed_at") or "") <= snapshot_as_of
+            ]
+        latest_event_analyses = _build_event_analyses_from_news_rows(
+            recent_news_rows,
+            ticker=ticker,
+            position_id=analysis_run_id or f"virtual:{ticker}",
+        )
+    summary = build_shared_ticker_analysis_summary(
+        ticker=ticker,
+        metadata=metadata,
+        snapshot=snapshot,
+        previous_snapshot=previous_snapshot,
+        latest_news_row=latest_news_row,
+        latest_refresh_job=latest_refresh_job,
+        current_analysis=current_analysis,
+        latest_event_analyses=latest_event_analyses,
+        analysis_run_id=analysis_run_id,
+    )
+    risk_drivers, drivers_state = _project_driver_cards_to_risk_drivers(
+        current_analysis,
+        ticker=ticker,
+    )
+    drivers_provenance = current_analysis.get("driver_cards_source")
+    events = build_public_event_news_items(latest_event_analyses, ticker=ticker)
+    source_count_limit = int(summary.get("source_count") or 0)
+    if snapshot.get("analysis_as_of") and source_count_limit and len(events) > source_count_limit:
+        events = events[:source_count_limit]
+    key_implications = []
+    follow_up_notes = []
+    source_links = []
+    for event in events:
+        for implication in event.get("key_implications") or []:
+            if implication not in key_implications:
+                key_implications.append(implication)
+        for note in event.get("follow_up_notes") or []:
+            if note not in follow_up_notes:
+                follow_up_notes.append(note)
+        source_link = event.get("source_article_link")
+        if source_link and source_link not in source_links:
+            source_links.append(source_link)
+    detail = {
+        "summary": summary,
+        "latest_price": metadata.get("price"),
+        "previous_close": metadata.get("previous_close"),
+        "open_price": metadata.get("open_price"),
+        "day_high": metadata.get("day_high"),
+        "day_low": metadata.get("day_low"),
+        "week_52_high": metadata.get("week_52_high"),
+        "week_52_low": metadata.get("week_52_low"),
+        "avg_volume": metadata.get("avg_volume"),
+        "pe_ratio": metadata.get("pe_ratio"),
+        "market_cap": metadata.get("market_cap"),
+        "risk_dimensions": _shared_risk_dimensions(snapshot),
+        "executive_summary": current_analysis.get("summary")
+        or snapshot.get("news_summary")
+        or snapshot.get("reasoning"),
+        "detailed_report": current_analysis.get("long_report"),
+        "methodology_note": current_analysis.get("methodology"),
+        "risk_drivers": risk_drivers,
+        "risk_drivers_state": drivers_state,
+        "risk_drivers_provenance": drivers_provenance,
+        "events": events,
+        "key_implications": key_implications,
+        "follow_up_notes": follow_up_notes,
+        "source_links": source_links,
+    }
+    return sanitize_public_analysis_text(detail)
+
+
+def _project_shared_summary_compatibility(
+    *,
+    base: dict[str, Any],
+    shared_summary: dict[str, Any],
+    portfolio_overlay: dict[str, Any] | None = None,
+    previous_grade: str | None = None,
+    risk_dimensions: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    overlay = portfolio_overlay or {}
+    freshness = shared_summary.get("freshness") or {}
+    projected = {
+        **base,
+        "shared_analysis": shared_summary,
+        "portfolio_overlay": overlay or None,
+        "grade": shared_summary.get("current_grade"),
+        "risk_grade": shared_summary.get("current_grade"),
+        "safety_score": shared_summary.get("current_score"),
+        "total_score": shared_summary.get("current_score"),
+        "previous_grade": previous_grade,
+        "grade_direction": shared_summary.get("grade_direction"),
+        "score_delta": shared_summary.get("score_delta"),
+        "summary": shared_summary.get("grade_rationale"),
+        "dimension_breakdown": risk_dimensions or {},
+        "last_analyzed_at": freshness.get("score_as_of"),
+        "analysis_state": freshness.get("status"),
+        "coverage_state": freshness.get("coverage_state"),
+        "coverage_note": freshness.get("coverage_note"),
+        "analysis_run_id": shared_summary.get("analysis_run_id"),
+        "latest_analysis_run_status": freshness.get("latest_analysis_status"),
+        "latest_refresh_job_id": freshness.get("latest_refresh_job_id"),
+        "latest_refresh_job_status": freshness.get("latest_refresh_status"),
+        "analysis_as_of": freshness.get("analysis_as_of"),
+        "score_source": shared_summary.get("analysis_source"),
+        "score_as_of": freshness.get("score_as_of"),
+        "score_version": shared_summary.get("methodology_version"),
+        "last_news_refresh_at": freshness.get("last_news_refresh_at"),
+        "price_as_of": freshness.get("price_as_of"),
+        "news_as_of": freshness.get("news_as_of"),
+        "news_refresh_status": freshness.get("latest_refresh_status")
+        or ("cached" if freshness.get("news_as_of") else None),
+        "source": shared_summary.get("analysis_source"),
+        "company_name": shared_summary.get("company_name"),
+    }
+    return sanitize_public_analysis_text(projected)
+
+
+def _project_shared_detail_compatibility(
+    *,
+    ticker: str,
+    shared_detail: dict[str, Any],
+    portfolio_overlay: dict[str, Any],
+    base_position: dict[str, Any],
+    metadata: dict[str, Any],
+    latest_refresh_job: dict[str, Any] | None,
+    latest_analysis_run: dict[str, Any] | None,
+    latest_alerts: list[dict[str, Any]],
+    recent_news_rows: list[dict[str, Any]],
+    is_selected_held: bool,
+) -> dict[str, Any]:
+    summary = shared_detail.get("summary") or {}
+    freshness = summary.get("freshness") or {}
+    previous_grade = base_position.get("previous_grade")
+    position = _project_shared_summary_compatibility(
+        base=base_position,
+        shared_summary=summary,
+        portfolio_overlay=portfolio_overlay,
+        previous_grade=previous_grade,
+        risk_dimensions=shared_detail.get("risk_dimensions") or {},
+    )
+    position["current_price"] = portfolio_overlay.get("current_price") or metadata.get("price")
+    position["evidence_strength"] = summary.get("evidence_strength")
+    compat_status = freshness.get("status")
+    latest_run_status = (latest_analysis_run or {}).get("status")
+    if latest_run_status == "queued":
+        compat_status = "queued"
+    elif latest_run_status in {"starting", "running"}:
+        compat_status = "running"
+    elif latest_run_status == "failed":
+        compat_status = "failed"
+    current_score = {
+        "id": None,
+        "position_id": f"shared:{ticker}",
+        "score_source": summary.get("analysis_source"),
+        "score_as_of": freshness.get("score_as_of"),
+        "score_version": summary.get("methodology_version"),
+        "safety_score": summary.get("current_score"),
+        "confidence": None,
+        "structural_base_score": None,
+        "macro_adjustment": None,
+        "event_adjustment": None,
+        "grade": summary.get("current_grade"),
+        "grade_direction": summary.get("grade_direction"),
+        "score_delta": summary.get("score_delta"),
+        "reasoning": summary.get("grade_rationale"),
+        "factor_breakdown": {
+            "ai_dimensions": shared_detail.get("risk_dimensions") or {},
+        },
+        "mirofish_used": False,
+        "calculated_at": freshness.get("score_as_of"),
+        "total_score": summary.get("current_score"),
+        "news_sentiment": (shared_detail.get("risk_dimensions") or {}).get(
+            "news_sentiment"
+        ),
+        "macro_exposure": (shared_detail.get("risk_dimensions") or {}).get(
+            "macro_exposure"
+        ),
+        "position_sizing": None,
+        "volatility_trend": (shared_detail.get("risk_dimensions") or {}).get(
+            "volatility_trend"
+        ),
+        "source_count": summary.get("source_count"),
+        "major_event_count": summary.get("major_event_count"),
+        "minor_event_count": summary.get("minor_event_count"),
+        "coverage_state": freshness.get("coverage_state"),
+        "coverage_note": freshness.get("coverage_note"),
+        "is_provisional": freshness.get("coverage_state") != "substantive",
+        "evidence_strength": summary.get("evidence_strength"),
+    }
+    current_analysis = {
+        "id": None,
+        "analysis_run_id": summary.get("analysis_run_id"),
+        "position_id": f"shared:{ticker}",
+        "ticker": ticker,
+        "summary": shared_detail.get("executive_summary"),
+        "long_report": shared_detail.get("detailed_report"),
+        "methodology": shared_detail.get("methodology_note"),
+        "top_risks": shared_detail.get("key_implications") or [],
+        "top_tailwinds": [],
+        "watch_items": shared_detail.get("follow_up_notes") or [],
+        "top_news": [],
+        "driver_cards_state": shared_detail.get("risk_drivers_state"),
+        "driver_cards": [
+            {
+                "id": driver.get("driver_id"),
+                "rank": driver.get("rank"),
+                "theme": driver.get("category"),
+                "direction": driver.get("direction"),
+                "title": driver.get("title"),
+                "summary": driver.get("summary"),
+                "strength": driver.get("strength"),
+                "source_chips": driver.get("source_chips") or [],
+                "supporting_evidence": [
+                    {"id": evidence_id}
+                    for evidence_id in (driver.get("evidence_event_ids") or [])
+                ],
+            }
+            for driver in (shared_detail.get("risk_drivers") or [])
+        ],
+        "driver_cards_source": shared_detail.get("risk_drivers_provenance") or "generated",
+        "major_event_count": summary.get("major_event_count"),
+        "minor_event_count": summary.get("minor_event_count"),
+        "status": "ready",
+        "progress_message": "Shared ticker analysis is ready.",
+        "source_count": summary.get("source_count"),
+        "updated_at": freshness.get("analysis_as_of"),
+    }
+    snapshot_reasoning = summary.get("grade_rationale")
+    if (
+        int(summary.get("source_count") or 0) <= 1
+        and not (shared_detail.get("events") or [])
+        and not (shared_detail.get("risk_drivers") or [])
+    ):
+        snapshot_reasoning = None
+    return sanitize_public_analysis_text(
+        {
+            "ticker": ticker,
+            "profile": {
+                "ticker": ticker,
+                "company_name": summary.get("company_name"),
+                "exchange": summary.get("exchange"),
+                "sector": summary.get("sector"),
+                "industry": summary.get("industry"),
+                "pe_ratio": metadata.get("pe_ratio"),
+                "week_52_high": metadata.get("week_52_high"),
+                "week_52_low": metadata.get("week_52_low"),
+                "market_cap": metadata.get("market_cap"),
+            },
+            "position": position,
+            "latest_price": {
+                "price": shared_detail.get("latest_price"),
+                "price_as_of": freshness.get("price_as_of"),
+                "previous_close": shared_detail.get("previous_close"),
+                "open_price": shared_detail.get("open_price"),
+                "day_high": shared_detail.get("day_high"),
+                "day_low": shared_detail.get("day_low"),
+                "week_52_high": shared_detail.get("week_52_high"),
+                "week_52_low": shared_detail.get("week_52_low"),
+                "avg_volume": shared_detail.get("avg_volume"),
+                "source": metadata.get("last_price_source"),
+            },
+            "source": summary.get("analysis_source"),
+            "analysis_state": {
+                **freshness,
+                "status": compat_status,
+                "source": summary.get("analysis_source"),
+                "latest_analysis_run_id": (latest_analysis_run or {}).get("id"),
+                "latest_analysis_status": (latest_analysis_run or {}).get("status"),
+                "score_source": summary.get("analysis_source"),
+                "score_as_of": freshness.get("score_as_of"),
+                "score_version": summary.get("methodology_version"),
+            },
+            "latest_analysis_run": latest_analysis_run,
+            "latest_refresh_job": latest_refresh_job,
+            "coverage_state": freshness.get("coverage_state"),
+            "latest_risk_snapshot": {
+                "id": None,
+                "ticker": ticker,
+                "grade": summary.get("current_grade"),
+                "safety_score": summary.get("current_score"),
+                "factor_breakdown": {"ai_dimensions": shared_detail.get("risk_dimensions") or {}},
+                "reasoning": snapshot_reasoning,
+                "news_summary": shared_detail.get("executive_summary"),
+                "analysis_as_of": freshness.get("analysis_as_of"),
+                "methodology_version": summary.get("methodology_version"),
+            },
+            "current_score": current_score,
+            "current_analysis": current_analysis,
+            "methodology": shared_detail.get("methodology_note"),
+            "dimension_breakdown": {"ai_dimensions": shared_detail.get("risk_dimensions") or {}},
+            "latest_event_analyses": shared_detail.get("events") or [],
+            "mirofish_used_this_cycle": False,
+            "recent_news": _news_rows_to_response(recent_news_rows, user_id=base_position.get("user_id") or "", ticker=ticker),
+            "recent_alerts": enrich_alert_rows(latest_alerts),
+            "freshness": {
+                "price_as_of": freshness.get("price_as_of"),
+                "analysis_as_of": freshness.get("analysis_as_of"),
+                "last_news_refresh_at": freshness.get("last_news_refresh_at"),
+                "news_as_of": freshness.get("news_as_of"),
+                "news_refresh_status": freshness.get("latest_refresh_status")
+                or ("cached" if freshness.get("news_as_of") else None),
+            },
+            "user_context": {
+                "is_held": portfolio_overlay.get("is_held"),
+                "holding_ids": portfolio_overlay.get("holding_ids") or [],
+                "is_in_watchlist": portfolio_overlay.get("is_in_watchlist"),
+            },
+            "shared_analysis": shared_detail,
+            "portfolio_overlay": portfolio_overlay,
+            "selected_position_held": is_selected_held,
+        }
+    )
 
 
 def _canonical_public_rationale(
@@ -895,6 +1593,100 @@ def _dedup_event_analyses(events: list[dict]) -> list[dict]:
             seen_titles.add(norm)
         result.append(event)
     return result
+
+
+def _clean_public_event_text(value: Any) -> str | None:
+    text = sanitize_text_field(value, fallback="").strip()
+    return text or None
+
+
+def _clean_public_event_list(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    cleaned: list[str] = []
+    seen: set[str] = set()
+    for item in value:
+        text = sanitize_text_field(item, fallback="").strip()
+        if not text or text in seen:
+            continue
+        seen.add(text)
+        cleaned.append(text)
+    return cleaned
+
+
+def _public_event_tags(row: dict[str, Any]) -> list[str]:
+    tags = _clean_public_event_list(row.get("tags"))
+    if tags:
+        return tags[:5]
+
+    for candidate in (row.get("event_type"), row.get("significance")):
+        text = sanitize_text_field(candidate, fallback="").strip()
+        if text and text not in tags:
+            tags.append(text)
+
+    if not tags:
+        source = sanitize_text_field(row.get("source"), fallback="").strip()
+        if source:
+            tags.append(source)
+
+    return tags[:5]
+
+
+def build_public_event_news_item(
+    row: dict[str, Any], *, ticker: str | None = None
+) -> dict[str, Any] | None:
+    title = _clean_public_event_text(row.get("title") or row.get("headline"))
+    if not title:
+        return None
+
+    raw_time = row.get("published_at") or row.get("created_at") or row.get("processed_at")
+    if isinstance(raw_time, datetime):
+        published_at = raw_time.isoformat()
+    elif raw_time is not None:
+        published_at = str(raw_time)
+    else:
+        published_at = None
+
+    source_article_link = (
+        row.get("source_article_link")
+        or row.get("source_url")
+        or row.get("url")
+    )
+    source_article_link = (
+        str(source_article_link).strip() if source_article_link is not None else None
+    )
+
+    event_id = row.get("id") or f"public:{ticker or 'ticker'}:{uuid4()}"
+    return {
+        "id": str(event_id),
+        "title": title,
+        "source": _clean_public_event_text(row.get("source")),
+        "published_at": published_at,
+        "tldr": _clean_public_event_text(row.get("tldr")),
+        "what_it_means": _clean_public_event_text(row.get("what_it_means")),
+        "key_implications": _clean_public_event_list(row.get("key_implications")),
+        "follow_up_notes": _clean_public_event_list(
+            row.get("follow_up_notes") or row.get("recommended_followups")
+        ),
+        "source_article_link": source_article_link,
+        "tags": _public_event_tags(row),
+    }
+
+
+def build_public_event_news_items(
+    rows: list[dict[str, Any]], *, ticker: str | None = None
+) -> list[dict[str, Any]]:
+    items: list[dict[str, Any]] = []
+    seen_ids: set[str] = set()
+    for row in _dedup_event_analyses(rows):
+        item = build_public_event_news_item(row, ticker=ticker)
+        if not item:
+            continue
+        if item["id"] in seen_ids:
+            continue
+        seen_ids.add(item["id"])
+        items.append(item)
+    return items
 
 
 def _build_article_aware_reasoning(
@@ -1433,18 +2225,24 @@ def _build_event_analyses_from_news_rows(
                 "title": clean_title,
                 "summary": clean_summary,
                 "source": row.get("source"),
-                "source_url": row.get("url"),
+                "source_url": row.get("source_article_link") or row.get("source_url") or row.get("url"),
                 "published_at": row.get("published_at"),
                 "event_type": row.get("event_type") or "news",
                 "significance": significance,
                 "analysis_source": "ticker_cache",
                 "long_analysis": clean_summary,
+                "what_happened": sanitize_text_field(row.get("what_happened"), fallback=""),
+                "tldr": sanitize_text_field(row.get("tldr"), fallback=""),
+                "what_it_means": sanitize_text_field(row.get("what_it_means"), fallback=""),
                 "confidence": 0.45,
                 "impact_horizon": "near_term",
                 "risk_direction": risk_direction,
-                "scenario_summary": clean_summary,
-                "key_implications": [],
-                "recommended_followups": [],
+                "scenario_summary": sanitize_text_field(row.get("scenario_summary"), fallback=""),
+                "key_implications": row.get("key_implications") or [],
+                "recommended_followups": row.get("follow_up_notes")
+                or row.get("recommended_followups")
+                or [],
+                "tags": row.get("tags") or [],
             }
         )
     return events
@@ -1676,6 +2474,30 @@ def get_latest_news_cache_map(
     return grouped
 
 
+def get_latest_news_cache_rows_map(
+    supabase, tickers: list[str], *, limit_per_ticker: int = 5
+) -> dict[str, list[dict[str, Any]]]:
+    if not tickers:
+        return {}
+    result = (
+        supabase.table("ticker_news_cache")
+        .select("*")
+        .in_("ticker", [ticker.upper() for ticker in tickers])
+        .order("processed_at", desc=True)
+        .order("published_at", desc=True)
+        .execute()
+    )
+    grouped: dict[str, list[dict[str, Any]]] = {}
+    for row in result.data or []:
+        ticker = row.get("ticker")
+        if not ticker:
+            continue
+        bucket = grouped.setdefault(ticker, [])
+        if len(bucket) < limit_per_ticker:
+            bucket.append(row)
+    return grouped
+
+
 def _analysis_state_from_context(
     *,
     snapshot: dict[str, Any] | None,
@@ -1894,7 +2716,6 @@ def get_ticker_detail_bundle(
     history = sorted(history, key=_canonical_snapshot_sort_key, reverse=True)
     snapshot = history[0] if history else None
     previous_snapshot = history[1] if len(history) > 1 else None
-    public_snapshot = _sanitize_public_snapshot(snapshot)
     news_result = (
         supabase.table("ticker_news_cache")
         .select("*")
@@ -1905,6 +2726,7 @@ def get_ticker_detail_bundle(
         .execute()
     )
     latest_news_row = news_result.data[0] if news_result.data else None
+    latest_refresh_job = get_latest_refresh_job(supabase, ticker)
     positions_result = (
         supabase.table("positions")
         .select("*")
@@ -1923,229 +2745,48 @@ def get_ticker_detail_bundle(
             raise HTTPException(404, "Position not found")
     elif held_positions:
         selected_position = held_positions[0]
-
     holding_ids = [row["id"] for row in held_positions]
-    reference_position_ids = [selected_position["id"]] if selected_position else holding_ids
-    if not reference_position_ids:
-        system_position_rows = (
-            supabase.table("positions")
-            .select("id")
-            .eq("user_id", SYSTEM_SP500_USER_ID)
-            .eq("ticker", ticker)
-            .limit(1)
-            .execute()
-            .data
-            or []
-        )
-        reference_position_ids = (
-            [system_position_rows[0]["id"]] if system_position_rows else []
-        )
-    latest_position_score = _get_latest_position_score_for_ids(
-        supabase, reference_position_ids
-    )
-    latest_position_analysis = _get_latest_position_analysis_for_ids(
-        supabase, reference_position_ids
-    )
     latest_analysis_run = _get_latest_analysis_run_for_ids(
-        supabase, reference_position_ids
+        supabase,
+        [selected_position.get("id")] if selected_position else holding_ids,
     )
-    latest_refresh_job = get_latest_refresh_job(supabase, ticker)
-    current_analysis = _sanitize_public_analysis_payload(
-        latest_position_analysis
+    system_position_rows = (
+        supabase.table("positions")
+        .select("id")
+        .eq("user_id", SYSTEM_SP500_USER_ID)
+        .eq("ticker", ticker)
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    shared_position_id = (
+        system_position_rows[0]["id"]
+        if system_position_rows
+        else selected_position.get("id")
+        if selected_position
+        else None
+    )
+    shared_position_ids = [shared_position_id] if shared_position_id else []
+    shared_current_analysis = _sanitize_public_analysis_payload(
+        _get_latest_position_analysis_for_ids(supabase, shared_position_ids)
         or build_position_analysis_from_snapshot(
             snapshot,
-            position_id=(
-                reference_position_ids[0]
-                if reference_position_ids
-                else f"virtual:{ticker}"
-            ),
+            position_id=shared_position_id or f"virtual:{ticker}",
             ticker=ticker,
         )
     )
-    current_score = build_risk_score_response(
-        public_snapshot,
-        position_id=(
-            reference_position_ids[0] if reference_position_ids else f"virtual:{ticker}"
-        ),
-        latest_position_score=latest_position_score,
-        include_position_sizing=bool(held_positions),
-        coverage_context=latest_position_analysis or current_analysis,
-    )
-    if current_score:
-        canonical_reasoning = _canonical_public_rationale(
-            ticker=ticker,
-            current_score=current_score,
-            current_analysis=current_analysis,
-            latest_event_analyses=[],
-            latest_risk_snapshot=public_snapshot or {},
-        )
-        if canonical_reasoning:
-            current_score["reasoning"] = format_rationale(
-                grade=str(current_score.get("grade") or "C"),
-                direction=current_score.get("grade_direction"),
-                raw_text=canonical_reasoning,
-                scores=current_score,
-                source_count=int(current_score.get("source_count") or 0),
-            )
-    coverage_state = (
-        (current_score or {}).get("coverage_state")
-        or (latest_position_analysis or {}).get("coverage_state")
-        or "provisional"
-    )
-    latest_refresh_status = (latest_refresh_job or {}).get("status")
-    latest_run_status = (latest_analysis_run or {}).get("status")
-
-    if latest_refresh_status in {"queued", "running"} or latest_run_status in {
-        "queued",
-        "starting",
-        "running",
-    }:
-        analysis_state = "running"
-    elif latest_refresh_status == "failed" or latest_run_status == "failed":
-        analysis_state = "failed"
-    elif latest_refresh_status == "skipped_ai_scored":
-        analysis_state = "fresh"
-    elif public_snapshot and coverage_state == "substantive" and latest_news_row:
-        analysis_state = "fresh"
-    else:
-        analysis_state = "stale"
-
-    last_success_at = (
-        (latest_refresh_job or {}).get("completed_at")
-        if latest_refresh_status in {"completed", "skipped_ai_scored"}
-        else (latest_analysis_run or {}).get("completed_at")
-        if latest_run_status in {"completed", "partial"}
-        else None
-    )
-    last_failure_at = (
-        (latest_refresh_job or {}).get("completed_at")
-        if latest_refresh_status == "failed"
-        else (latest_analysis_run or {}).get("completed_at")
-        if latest_run_status == "failed"
-        else None
-    )
-    last_news_refresh_at = (
-        latest_news_row.get("processed_at")
-        if latest_news_row and latest_news_row.get("processed_at")
-        else (latest_refresh_job or {}).get("completed_at")
-        if latest_refresh_status in {"completed", "skipped_ai_scored"}
-        else None
-    )
-    analysis_state_payload = {
-        "status": analysis_state,
-        "source": "user" if latest_position_analysis else "shared",
-        "coverage_state": coverage_state,
-        "latest_analysis_run_id": latest_analysis_run.get("id")
-        if latest_analysis_run
-        else None,
-        "latest_analysis_status": latest_run_status,
-        "latest_refresh_job_id": latest_refresh_job.get("id")
-        if latest_refresh_job
-        else None,
-        "latest_refresh_status": latest_refresh_status,
-        "news_refresh_status": latest_refresh_status
-        or ("cached" if latest_news_row else None),
-        "score_source": current_score.get("score_source"),
-        "score_as_of": current_score.get("score_as_of"),
-        "score_version": current_score.get("score_version"),
-        "last_success_at": last_success_at,
-        "last_failure_at": last_failure_at,
-        "analysis_as_of": (snapshot or {}).get("analysis_as_of"),
-        "last_news_refresh_at": last_news_refresh_at,
-        "price_as_of": metadata.get("price_as_of"),
-        "news_as_of": latest_news_row.get("published_at") if latest_news_row else None,
-    }
-
-    if held_positions:
-        position = selected_position or held_positions[0]
-        position["risk_grade"] = current_score.get("grade") or (
-            public_snapshot.get("grade") if public_snapshot else None
-        )
-        position["total_score"] = current_score.get("total_score") or (
-            public_snapshot.get("safety_score") if public_snapshot else None
-        )
-        position["previous_grade"] = (
-            previous_snapshot.get("grade") if previous_snapshot else None
-        )
-        position["summary"] = (
-            current_score.get("reasoning")
-            or (public_snapshot or {}).get("news_summary")
-            or (public_snapshot or {}).get("reasoning")
-        )
-        position["last_analyzed_at"] = current_score.get("score_as_of") or (
-            public_snapshot or {}
-        ).get("analysis_as_of")
-        if position.get("current_price") is None:
-            position["current_price"] = metadata.get("price")
-    else:
-        position = _build_virtual_position(
-            user_id=user_id,
-            ticker=ticker,
-            metadata=metadata,
-            snapshot=snapshot,
-            previous_snapshot=previous_snapshot,
-            current_score=current_score,
-        )
-
-    position["score_source"] = analysis_state_payload.get("score_source")
-    position["score_as_of"] = analysis_state_payload.get("score_as_of")
-    position["score_version"] = analysis_state_payload.get("score_version")
-
-    if holding_ids:
-        event_rows = (
+    shared_event_rows = []
+    if shared_position_id:
+        shared_event_result = (
             supabase.table("event_analyses")
             .select("*")
-            .in_("position_id", holding_ids)
+            .eq("position_id", shared_position_id)
             .order("created_at", desc=True)
-            .limit(20)  # fetch extra so dedup has room to work
+            .limit(10)
             .execute()
         )
-        # Dedup by event_hash then normalized headline; prefer highest-confidence rows
-        latest_event_analyses = _dedup_event_analyses(event_rows.data or [])
-        # Cap displayed events to source_count so the count matches the risk rationale
-        sc = int((current_score or {}).get("source_count") or 0)
-        if sc and len(latest_event_analyses) > sc:
-            latest_event_analyses = latest_event_analyses[:sc]
-    else:
-        # Only show news articles that were in the cache when the snapshot was scored,
-        # so the displayed list aligns with the source_count in the risk rationale.
-        snapshot_as_of = (snapshot or {}).get("analysis_as_of")
-        if snapshot_as_of:
-            display_news_rows = [
-                row
-                for row in (news_result.data or [])
-                if (row.get("processed_at") or "") <= snapshot_as_of
-            ]
-        else:
-            display_news_rows = news_result.data or []
-        latest_event_analyses = _build_event_analyses_from_news_rows(
-            display_news_rows,
-            ticker=ticker,
-            position_id=position["id"],
-        )
-
-    latest_event_analyses = [
-        normalize_event_analysis_payload(event, ticker=ticker)
-        for event in latest_event_analyses
-    ]
-
-    if latest_event_analyses and current_score:
-        article_reasoning = _canonical_public_rationale(
-            ticker=ticker,
-            current_score=current_score,
-            current_analysis=current_analysis,
-            latest_event_analyses=latest_event_analyses,
-            latest_risk_snapshot=public_snapshot or {},
-        )
-        if article_reasoning:
-            current_score["reasoning"] = format_rationale(
-                grade=str(current_score.get("grade") or "C"),
-                direction=current_score.get("grade_direction"),
-                raw_text=article_reasoning,
-                scores=current_score,
-                source_count=int(current_score.get("source_count") or 0),
-            )
-            position["summary"] = current_score["reasoning"]
+        shared_event_rows = _dedup_event_analyses(shared_event_result.data or [])
 
     alerts_result = (
         supabase.table("alerts")
@@ -2156,20 +2797,27 @@ def get_ticker_detail_bundle(
         .limit(5)
         .execute()
     )
-    current_analysis = _backfill_legacy_driver_cards(
-        current_analysis,
-        position,
-        latest_event_analyses,
+    base_position = selected_position or {
+        "id": f"virtual:{ticker}",
+        "user_id": user_id,
+        "ticker": ticker,
+        "shares": 0.0,
+        "purchase_price": metadata.get("price") or 0.0,
+        "archetype": "growth",
+        "created_at": _utcnow_iso(),
+        "updated_at": _utcnow_iso(),
+        "current_price": metadata.get("price"),
+    }
+    shared_current_analysis = _backfill_legacy_driver_cards(
+        shared_current_analysis,
+        base_position,
+        shared_event_rows,
         news_result.data or [],
         alerts_result.data or [],
-        coverage_state=coverage_state,
+        coverage_state=(shared_current_analysis or {}).get("coverage_state")
+        or (snapshot or {}).get("coverage_state")
+        or _derive_coverage_state((snapshot or {}).get("source_count")),
     )
-
-    if current_score and current_analysis:
-        analysis_summary = _clean_public_rationale_text(current_analysis.get("summary"))
-        reasoning = current_score.get("reasoning") or ""
-        if analysis_summary and analysis_summary not in reasoning:
-            current_score["reasoning"] = f"{reasoning} {analysis_summary}".strip()
 
     watchlist = get_or_create_default_watchlist(supabase, user_id)
     watchlist_items = (
@@ -2180,74 +2828,37 @@ def get_ticker_detail_bundle(
         .limit(1)
         .execute()
     )
-
-    latest_snapshot_payload = dict(public_snapshot or {})
-    snapshot_reasoning = _clean_public_rationale_text(
-        latest_snapshot_payload.get("reasoning")
+    shared_detail = build_shared_ticker_analysis_detail(
+        ticker=ticker,
+        metadata=metadata,
+        snapshot=snapshot,
+        previous_snapshot=previous_snapshot,
+        latest_news_row=latest_news_row,
+        latest_refresh_job=latest_refresh_job,
+        current_analysis=shared_current_analysis,
+        latest_event_analyses=shared_event_rows,
+        recent_news_rows=news_result.data or [],
+        analysis_run_id=(shared_current_analysis or {}).get("analysis_run_id"),
     )
-    if (
-        not snapshot_reasoning
-        or _is_legacy_dimension_math(snapshot_reasoning)
-        or _is_generic_fallback_reasoning(snapshot_reasoning)
-    ):
-        latest_snapshot_payload["reasoning"] = None
-    else:
-        latest_snapshot_payload["reasoning"] = snapshot_reasoning
-
-    return sanitize_public_analysis_text(
-        {
-            "ticker": ticker,
-            "profile": {**supported, **metadata},
-            "position": position,
-            "latest_price": {
-                "price": metadata.get("price"),
-                "price_as_of": metadata.get("price_as_of"),
-                "previous_close": metadata.get("previous_close"),
-                "open_price": metadata.get("open_price"),
-                "day_high": metadata.get("day_high"),
-                "day_low": metadata.get("day_low"),
-                "week_52_high": metadata.get("week_52_high"),
-                "week_52_low": metadata.get("week_52_low"),
-                "avg_volume": metadata.get("avg_volume"),
-                "source": metadata.get("last_price_source"),
-            },
-            "source": analysis_state_payload["source"],
-            "analysis_state": analysis_state_payload,
-            "latest_analysis_run": latest_analysis_run,
-            "latest_refresh_job": latest_refresh_job,
-            "coverage_state": coverage_state,
-            "latest_risk_snapshot": latest_snapshot_payload,
-            "current_score": current_score,
-            "current_analysis": current_analysis,
-            "methodology": current_analysis.get("methodology")
-            if current_analysis
-            else None,
-            "dimension_breakdown": public_snapshot.get("dimension_rationale")
-            if public_snapshot
-            else None,
-            "latest_event_analyses": latest_event_analyses,
-            "mirofish_used_this_cycle": False,
-            "recent_news": _news_rows_to_response(
-                news_result.data or [], user_id=user_id, ticker=ticker
-            ),
-            "recent_alerts": enrich_alert_rows(alerts_result.data or []),
-            "freshness": {
-                "price_as_of": metadata.get("price_as_of"),
-                "analysis_as_of": public_snapshot.get("analysis_as_of")
-                if public_snapshot
-                else None,
-                "last_news_refresh_at": analysis_state_payload["last_news_refresh_at"],
-                "news_as_of": latest_news_row.get("published_at")
-                if latest_news_row
-                else None,
-                "news_refresh_status": analysis_state_payload["news_refresh_status"],
-            },
-            "user_context": {
-                "is_held": bool(held_positions),
-                "holding_ids": holding_ids,
-                "is_in_watchlist": bool(watchlist_items.data),
-            },
-        }
+    overlay = build_portfolio_overlay(
+        ticker=ticker,
+        position=selected_position,
+        held_positions=held_positions,
+        is_in_watchlist=bool(watchlist_items.data),
+        latest_alerts=alerts_result.data or [],
+        current_price=metadata.get("price"),
+    )
+    return _project_shared_detail_compatibility(
+        ticker=ticker,
+        shared_detail=shared_detail,
+        portfolio_overlay=overlay,
+        base_position=base_position,
+        metadata=metadata,
+        latest_refresh_job=latest_refresh_job,
+        latest_analysis_run=latest_analysis_run,
+        latest_alerts=alerts_result.data or [],
+        recent_news_rows=news_result.data or [],
+        is_selected_held=bool(selected_position),
     )
 
 
@@ -2519,65 +3130,61 @@ def get_default_watchlist_detail(supabase, user_id: str) -> dict[str, Any]:
     )
     tickers = [item["ticker"] for item in items]
     metadata_map = get_metadata_map(supabase, tickers)
-    snapshot_map = get_latest_risk_snapshot_map(supabase, tickers)
+    history_map = get_latest_risk_snapshot_history_map(supabase, tickers, per_ticker=2)
     news_cache_map = get_latest_news_cache_map(supabase, tickers)
-
-    ticker_to_sys_pid: dict[str, str] = {}
-    if tickers:
-        sys_positions = (
-            supabase.table("positions")
-            .select("id, ticker")
-            .eq("user_id", "00000000-0000-0000-0000-000000000001")
-            .in_("ticker", tickers)
-            .execute()
-            .data or []
-        )
-        for p in sys_positions:
-            ticker_to_sys_pid[p["ticker"]] = p["id"]
-
-    sys_pids = list(ticker_to_sys_pid.values())
-    event_map: dict[str, list[dict[str, Any]]] = {}
-    if sys_pids:
-        event_result = (
-            supabase.table("event_analyses")
-            .select("*")
-            .in_("position_id", sys_pids)
-            .order("created_at", desc=True)
-            .execute()
-        )
-        for row in event_result.data or []:
-            pid = row["position_id"]
-            if pid not in event_map:
-                event_map[pid] = []
-            if len(event_map[pid]) < 3:
-                event_map[pid].append(row)
+    news_cache_rows_map = get_latest_news_cache_rows_map(supabase, tickers)
+    refresh_job_map = get_latest_refresh_job_map(supabase, tickers)
 
     enriched_items = []
     for item in items:
         ticker = item["ticker"]
         metadata = metadata_map.get(ticker, {})
-        snapshot = snapshot_map.get(ticker, {})
-        sys_pid = ticker_to_sys_pid.get(ticker)
-        raw_events = event_map.get(sys_pid, []) if sys_pid else []
-
+        snapshots = history_map.get(ticker, [])
+        snapshot = snapshots[0] if snapshots else {}
+        previous = snapshots[1] if len(snapshots) > 1 else {}
+        _shared_position_id, shared_analysis, shared_event_rows = _get_shared_reference_analysis(
+            supabase,
+            ticker=ticker,
+            snapshot=snapshot,
+        )
+        shared_summary = build_shared_ticker_analysis_summary(
+            ticker=ticker,
+            metadata=metadata,
+            snapshot=snapshot,
+            previous_snapshot=previous,
+            latest_news_row=news_cache_map.get(ticker),
+            latest_refresh_job=refresh_job_map.get(ticker),
+            current_analysis=shared_analysis,
+            latest_event_analyses=shared_event_rows,
+            analysis_run_id=(shared_analysis or {}).get("analysis_run_id"),
+        )
+        portfolio_overlay = build_portfolio_overlay(
+            ticker=ticker,
+            position=None,
+            held_positions=[],
+            is_in_watchlist=True,
+            current_price=metadata.get("price"),
+        )
         enriched = {
             **item,
             "company_name": metadata.get("company_name"),
             "price": metadata.get("price"),
             "price_as_of": metadata.get("price_as_of"),
-            "grade": snapshot.get("grade"),
-            "safety_score": snapshot.get("safety_score"),
-            "analysis_as_of": snapshot.get("analysis_as_of"),
-            "summary": snapshot.get("news_summary") or snapshot.get("reasoning"),
+            "grade": shared_summary.get("current_grade"),
+            "safety_score": shared_summary.get("current_score"),
+            "analysis_as_of": (shared_summary.get("freshness") or {}).get(
+                "analysis_as_of"
+            ),
+            "summary": shared_summary.get("grade_rationale"),
+            "shared_analysis": shared_summary,
+            "portfolio_overlay": portfolio_overlay,
         }
-
-        if raw_events:
-            enriched["latest_event_analyses"] = [
-                normalize_event_analysis_payload(e, ticker=ticker)
-                for e in raw_events
-            ]
-
-        enriched_items.append(enriched)
+        if news_cache_rows_map.get(ticker):
+            enriched["latest_event_analyses"] = build_public_event_news_items(
+                news_cache_rows_map[ticker],
+                ticker=ticker,
+            )
+        enriched_items.append(sanitize_public_analysis_text(enriched))
 
     watchlist["items"] = enriched_items
     return watchlist

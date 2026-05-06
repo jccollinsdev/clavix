@@ -49,7 +49,7 @@ async def search_tickers(
     user_id: str = Depends(get_user_id),
 ):
     supabase = get_supabase()
-    results = search_supported_tickers(supabase, q, limit=limit)
+    results = search_supported_tickers(supabase, q, limit=limit, user_id=user_id)
     return {"results": results, "message": "ok"}
 
 
