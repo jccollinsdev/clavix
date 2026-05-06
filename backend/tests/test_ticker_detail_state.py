@@ -183,22 +183,101 @@ def test_get_ticker_detail_bundle_exposes_analysis_state(monkeypatch):
 
     result = ticker_cache_service.get_ticker_detail_bundle(supabase, "user-1", "HOOD")
 
-    assert result["source"] == "user"
+    assert result["source"] == "shared"
     assert result["coverage_state"] == "substantive"
-    assert result["analysis_state"]["status"] == "fresh"
+    assert result["analysis_state"]["status"] == "ready"
     assert result["analysis_state"]["latest_refresh_status"] == "completed"
     assert result["latest_analysis_run"]["id"] == "run-1"
     assert result["latest_refresh_job"]["id"] == "job-1"
-    assert result["current_score"]["score_source"] == "user"
-    assert result["current_score"]["score_as_of"] == "2026-04-24T01:05:00+00:00"
+    assert result["current_score"]["score_source"] == "shared"
+    assert result["current_score"]["score_as_of"] == "2026-04-24T01:00:00+00:00"
     assert result["current_score"]["score_version"] is None
-    assert result["position"]["score_source"] == "user"
+    assert result["position"]["score_source"] == "shared"
     assert result["current_analysis"]["driver_cards_state"] == "pending"
     assert result["current_analysis"]["driver_cards"] == []
-    assert result["current_analysis"].get("driver_cards_source") is None
+    assert result["current_analysis"].get("driver_cards_source") == "generated"
+    assert result["shared_analysis"]["summary"]["ticker"] == "HOOD"
+    assert result["portfolio_overlay"]["position_id"] == "pos-1"
     assert result["freshness"]["news_as_of"] == "2026-04-24T02:00:00+00:00"
     assert result["freshness"]["last_news_refresh_at"] == "2026-04-24T02:05:00+00:00"
     assert result["freshness"]["news_refresh_status"] == "completed"
+
+
+def test_get_default_watchlist_detail_uses_recent_news_fallback(monkeypatch):
+    monkeypatch.setattr(
+        "app.services.ticker_cache_service.ensure_sp500_universe_seeded",
+        lambda _supabase: None,
+    )
+    supabase = _FakeSupabase(
+        {
+            "watchlists": [
+                {
+                    "id": "watchlist-1",
+                    "user_id": "user-1",
+                    "name": "Watchlist",
+                    "is_default": True,
+                }
+            ],
+            "watchlist_items": [
+                {"id": "item-1", "watchlist_id": "watchlist-1", "ticker": "HOOD"}
+            ],
+            "ticker_universe": [
+                {
+                    "ticker": "HOOD",
+                    "company_name": "Robinhood Markets",
+                    "exchange": "NASDAQ",
+                    "sector": "Financials",
+                    "industry": "Capital Markets",
+                    "is_active": True,
+                }
+            ],
+            "ticker_metadata": [
+                {
+                    "ticker": "HOOD",
+                    "company_name": "Robinhood Markets",
+                    "price": 42.1,
+                    "price_as_of": "2026-04-24T00:00:00+00:00",
+                    "last_price_source": "finnhub",
+                }
+            ],
+            "ticker_risk_snapshots": [
+                {
+                    "id": "snap-1",
+                    "ticker": "HOOD",
+                    "grade": "B",
+                    "safety_score": 71,
+                    "analysis_as_of": "2026-04-24T01:00:00+00:00",
+                    "coverage_state": "substantive",
+                    "news_summary": "Coverage is substantive.",
+                    "reasoning": "Coverage is substantive.",
+                    "dimension_rationale": {},
+                }
+            ],
+            "ticker_news_cache": [
+                {
+                    "id": f"news-{idx}",
+                    "ticker": "HOOD",
+                    "headline": f"HOOD news {idx}",
+                    "summary": f"Summary {idx}",
+                    "source": "Reuters",
+                    "url": f"https://example.com/{idx}",
+                    "sentiment": "neutral",
+                    "published_at": f"2026-04-24T0{idx}:00:00+00:00",
+                    "processed_at": f"2026-04-24T0{idx}:05:00+00:00",
+                }
+                for idx in range(5)
+            ],
+            "positions": [],
+            "event_analyses": [],
+        }
+    )
+
+    result = ticker_cache_service.get_default_watchlist_detail(supabase, "user-1")
+
+    items = result["items"]
+    assert len(items) == 1
+    assert len(items[0]["latest_event_analyses"]) == 5
+    assert items[0]["latest_event_analyses"][0]["title"] == "HOOD news 0"
 
 
 def test_get_ticker_detail_bundle_normalizes_explicit_event_analysis_fields(monkeypatch):
@@ -247,6 +326,15 @@ def test_get_ticker_detail_bundle_normalizes_explicit_event_analysis_fields(monk
                     "summary": "AMD signed a new supply agreement that expands access to wafers.",
                     "source": "Reuters",
                     "url": "https://example.com/article",
+                    "tldr": "Supply access improves execution visibility.",
+                    "what_it_means": "The deal reduces near-term supply constraints and supports manufacturing continuity.",
+                    "key_implications": [
+                        "Supply risk eases",
+                        "Execution visibility improves",
+                    ],
+                    "follow_up_notes": ["Watch for margin impact in the next update"],
+                    "source_article_link": "https://example.com/article",
+                    "tags": ["supply", "manufacturing"],
                     "sentiment": "positive",
                     "published_at": "2026-04-24T02:00:00+00:00",
                     "processed_at": "2026-04-24T00:05:00+00:00",
@@ -273,11 +361,19 @@ def test_get_ticker_detail_bundle_normalizes_explicit_event_analysis_fields(monk
     result = ticker_cache_service.get_ticker_detail_bundle(supabase, "user-1", "AMD")
 
     event = result["latest_event_analyses"][0]
-    assert event["what_happened"] == "AMD signed a new supply agreement that expands access to wafers."
-    assert len(event["tldr"].split()) <= 18
-    assert event["what_happened"] != event["tldr"]
-    assert event["what_happened"] != event["what_it_means"]
-    assert event["tldr"] != event["what_it_means"]
+    assert event["title"] == "AMD supply deal offsets shortage risk"
+    assert event["source"] == "Reuters"
+    assert event["published_at"] == "2026-04-24T02:00:00+00:00"
+    assert event["tldr"] == "Supply access improves execution visibility."
+    assert event["what_it_means"] == "The deal reduces near-term supply constraints and supports manufacturing continuity."
+    assert event["key_implications"] == [
+        "Supply risk eases",
+        "Execution visibility improves",
+    ]
+    assert event["follow_up_notes"] == ["track for margin impact in the next update"]
+    assert event["source_article_link"] == "https://example.com/article"
+    assert event["tags"] == ["supply", "manufacturing"]
+    assert "what_happened" not in event
 
 
 def test_get_ticker_detail_bundle_backfills_legacy_driver_cards(monkeypatch):
@@ -513,7 +609,7 @@ def test_get_ticker_detail_bundle_prefers_active_analysis_run(monkeypatch):
     result = ticker_cache_service.get_ticker_detail_bundle(supabase, "user-1", "HOOD")
 
     assert result["latest_analysis_run"]["id"] == "run-new"
-    assert result["analysis_state"]["status"] == "running"
+    assert result["analysis_state"]["status"] == "queued"
 
 
 def test_get_ticker_detail_bundle_uses_canonical_public_reasoning(monkeypatch):
@@ -1030,7 +1126,7 @@ def test_get_ticker_detail_bundle_hides_weak_snapshot_reasoning(monkeypatch):
     assert result["latest_risk_snapshot"]["reasoning"] is None
 
 
-def test_get_ticker_detail_bundle_prefers_user_path_when_system_position_exists(monkeypatch):
+def test_get_ticker_detail_bundle_prefers_shared_path_when_system_position_exists(monkeypatch):
     monkeypatch.setattr(
         "app.services.ticker_cache_service.ensure_sp500_universe_seeded",
         lambda _supabase: None,
@@ -1138,10 +1234,12 @@ def test_get_ticker_detail_bundle_prefers_user_path_when_system_position_exists(
 
     result = ticker_cache_service.get_ticker_detail_bundle(supabase, "user-1", "AMD")
 
-    assert result["analysis_state"]["source"] == "user"
-    assert result["current_analysis"]["summary"] == "User-specific AMD risk assessment remains intact."
+    assert result["analysis_state"]["source"] == "shared"
+    assert result["portfolio_overlay"]["position_id"] == "pos-user"
+    assert result["shared_analysis"]["summary"]["analysis_source"] == "shared"
+    assert result["current_analysis"]["summary"] == "System-level AMD risk assessment should not override the held user path."
     assert result["current_score"]["reasoning"].startswith("C — Elevated Risk (")
-    assert "AMD risk assessment remains intact" in result["current_score"]["reasoning"]
+    assert "Shared AMD summary" in result["current_score"]["reasoning"]
 
 
 def test_get_latest_risk_snapshot_history_map_prefers_ai_snapshot_on_ties(monkeypatch):

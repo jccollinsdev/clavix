@@ -2,6 +2,8 @@ from pydantic import BaseModel
 from typing import Any, Optional
 from datetime import datetime
 
+from .event_news import EventNewsItem
+
 
 class PositionBase(BaseModel):
     ticker: str
@@ -52,7 +54,9 @@ class Position(PositionBase):
     news_as_of: Optional[datetime] = None
     source: Optional[str] = None
     company_name: Optional[str] = None
-    latest_event_analyses: Optional[list[dict[str, Any]]] = None
+    latest_event_analyses: Optional[list[EventNewsItem]] = None
+    shared_analysis: Optional[dict[str, Any]] = None
+    portfolio_overlay: Optional[dict[str, Any]] = None
     created_at: datetime
     updated_at: datetime
 
@@ -78,3 +82,5 @@ class HoldingWorkflowResponse(BaseModel):
     price_as_of: Optional[datetime] = None
     position: Optional[Position] = None
     source: Optional[str] = None
+    shared_analysis: Optional[dict[str, Any]] = None
+    portfolio_overlay: Optional[dict[str, Any]] = None
