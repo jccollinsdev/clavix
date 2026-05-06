@@ -949,8 +949,8 @@ def _get_shared_reference_analysis(
             ticker=ticker,
         )
     )
-    event_rows: list[dict[str, Any]] = []
-    if position_id:
+    event_rows = _get_shared_ticker_events(supabase, ticker=ticker, limit=10)
+    if not event_rows and position_id:
         event_result = (
             supabase.table("event_analyses")
             .select("*")
@@ -961,6 +961,63 @@ def _get_shared_reference_analysis(
         )
         event_rows = _dedup_event_analyses(event_result.data or [])
     return position_id, analysis, event_rows
+
+
+def _get_shared_ticker_events(
+    supabase,
+    *,
+    ticker: str,
+    limit: int = 10,
+) -> list[dict[str, Any]]:
+    """Read canonical shared ticker events, preferring highest confidence."""
+    try:
+        result = (
+            supabase.table("shared_ticker_events")
+            .select("*")
+            .eq("ticker", ticker)
+            .order("published_at", desc=True)
+            .order("confidence", desc=True, nullsfirst=False)
+            .limit(limit * 3)
+            .execute()
+        )
+        rows = result.data or []
+        deduped = _dedup_event_analyses(rows)
+        return deduped[:limit]
+    except Exception:
+        return []
+
+
+def _project_shared_event_to_legacy(event: dict[str, Any], *, ticker: str | None = None) -> dict[str, Any]:
+    """Project a shared_ticker_events row into event_analyses-compatible shape."""
+    return {
+        "id": event.get("id"),
+        "analysis_run_id": event.get("analysis_run_id"),
+        "position_id": f"shared:ticker:{ticker or event.get('ticker', 'unknown')}",
+        "event_hash": event.get("event_hash"),
+        "title": event.get("title", ""),
+        "summary": event.get("summary"),
+        "source": event.get("source"),
+        "source_url": event.get("source_url"),
+        "published_at": event.get("published_at"),
+        "event_type": event.get("event_type"),
+        "significance": event.get("significance"),
+        "classification": event.get("classification"),
+        "analysis_source": event.get("analysis_source") or event.get("provenance", "shared"),
+        "long_analysis": event.get("long_analysis"),
+        "what_happened": event.get("what_happened"),
+        "tldr": event.get("tldr"),
+        "what_it_means": event.get("what_it_means"),
+        "confidence": event.get("confidence"),
+        "impact_horizon": event.get("impact_horizon"),
+        "risk_direction": event.get("risk_direction"),
+        "scenario_summary": event.get("scenario_summary"),
+        "key_implications": event.get("key_implications") or [],
+        "recommended_followups": event.get("follow_up_notes") or [],
+        "tags": event.get("tags") or [],
+        "created_at": event.get("created_at") or event.get("published_at"),
+        "factored_into_score": event.get("factored_into_score", False),
+        "provenance": event.get("provenance", "shared"),
+    }
 
 
 def build_shared_ticker_analysis_summary(
@@ -2768,8 +2825,8 @@ def get_ticker_detail_bundle(
             ticker=ticker,
         )
     )
-    shared_event_rows = []
-    if shared_position_id:
+    shared_event_rows = _get_shared_ticker_events(supabase, ticker=ticker, limit=10)
+    if not shared_event_rows and shared_position_id:
         shared_event_result = (
             supabase.table("event_analyses")
             .select("*")
