@@ -4,8 +4,9 @@ import logging
 import httpx
 import os
 from collections import Counter
-from itertools import zip_longest
 from datetime import datetime, timedelta, timezone
+from itertools import zip_longest
+from typing import Any
 from dateutil.parser import isoparse
 from zoneinfo import ZoneInfo
 
@@ -296,6 +297,62 @@ def _project_shared_event_analysis(
         "key_implications": key_implications[:3],
         "recommended_followups": recommended_followups[:3],
     }
+
+
+def _upsert_shared_ticker_event(
+    supabase,
+    *,
+    event_record: dict[str, Any],
+    ticker: str,
+    tags: list[str] | None = None,
+) -> str | None:
+    """Dual-write a canonical shared_ticker_events row alongside legacy event_analyses.
+
+    Uses ON CONFLICT (ticker, event_hash) DO UPDATE to prefer higher confidence.
+    Returns the id of the upserted shared event row.
+    """
+    if not event_record.get("event_hash"):
+        return None
+
+    shared = {
+        "ticker": ticker,
+        "event_hash": event_record.get("event_hash"),
+        "external_event_id": event_record.get("external_event_id"),
+        "title": event_record.get("title", ""),
+        "summary": event_record.get("summary"),
+        "source": event_record.get("source"),
+        "source_url": event_record.get("source_url"),
+        "published_at": event_record.get("published_at"),
+        "event_type": event_record.get("event_type"),
+        "significance": event_record.get("significance"),
+        "classification": event_record.get("classification"),
+        "analysis_source": event_record.get("analysis_source", "minimax"),
+        "what_happened": event_record.get("what_happened"),
+        "tldr": event_record.get("tldr"),
+        "what_it_means": event_record.get("what_it_means"),
+        "long_analysis": event_record.get("long_analysis"),
+        "confidence": event_record.get("confidence"),
+        "impact_horizon": event_record.get("impact_horizon"),
+        "risk_direction": event_record.get("risk_direction"),
+        "scenario_summary": event_record.get("scenario_summary"),
+        "key_implications": event_record.get("key_implications") or [],
+        "follow_up_notes": event_record.get("recommended_followups") or [],
+        "tags": tags or [],
+        "analysis_run_id": event_record.get("analysis_run_id"),
+        "provenance": "shared",
+        "updated_at": _utcnow_iso(),
+    }
+
+    upserted = (
+        supabase.table("shared_ticker_events")
+        .upsert(
+            shared,
+            on_conflict="ticker,event_hash",
+        )
+        .execute()
+    )
+    rows = upserted.data or []
+    return rows[0].get("id") if rows else None
 
 
 def _position_weight(position: dict) -> float:
@@ -2581,6 +2638,7 @@ async def execute_analysis_run(
                 event_record["what_it_means"] = normalized["what_it_means"]
                 event_analyses.append(event_record)
                 supabase.table("event_analyses").insert(event_record).execute()
+                _upsert_shared_ticker_event(supabase, event_record=event_record, ticker=ticker)
 
             for item in major_article_analysis_results:
                 article = item["article"]
@@ -2635,6 +2693,7 @@ async def execute_analysis_run(
                 event_record["what_it_means"] = normalized["what_it_means"]
                 event_analyses.append(event_record)
                 supabase.table("event_analyses").insert(event_record).execute()
+                _upsert_shared_ticker_event(supabase, event_record=event_record, ticker=ticker)
 
                 created = await _maybe_create_alert(
                     supabase,
