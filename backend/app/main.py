@@ -1,3 +1,4 @@
+from __future__ import annotations
 from contextlib import asynccontextmanager
 import logging
 import time
@@ -23,6 +24,7 @@ from .routes.scheduler import router as scheduler_router
 from .routes.push_test_route import router as test_push_router
 from .routes.debug import router as debug_router
 from .routes.tickers import router as tickers_router
+from .routes.methodology import router as methodology_router
 from .routes.watchlists import router as watchlists_router
 from .routes.brokerage import router as brokerage_router
 from .pipeline.scheduler import start_scheduler
@@ -303,6 +305,7 @@ app.include_router(alerts_router, prefix="/alerts", tags=["alerts"])
 app.include_router(news_router, prefix="/news", tags=["news"])
 app.include_router(preferences_router, prefix="/preferences", tags=["preferences"])
 app.include_router(tickers_router, prefix="/tickers", tags=["tickers"])
+app.include_router(methodology_router, prefix="/tickers", tags=["methodology"])
 app.include_router(watchlists_router, prefix="/watchlists", tags=["watchlists"])
 app.include_router(brokerage_router, prefix="/brokerage", tags=["brokerage"])
 app.include_router(prices_router, prefix="/prices", tags=["prices"])

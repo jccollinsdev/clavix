@@ -413,7 +413,7 @@ struct TickerDetailView: View {
     private func fundamentalsItems(for detail: TickerDetailResponse) -> [TDFundItem] {
         let pe = peDisplay(detail.profile.peRatio)
         let cap = compactCurrency(detail.profile.marketCap)
-        let volScore = detail.currentScore?.factorBreakdown?.aiDimensions?.volatilityTrend
+        let volScore = detail.currentScore?.factorBreakdown?.aiDimensions?.volatility
             ?? detail.latestRiskSnapshot?.factorBreakdown?.volatilityScore
         let vol = score(volScore)
         return [
