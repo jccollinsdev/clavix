@@ -256,7 +256,7 @@ struct DigestHeroCard: View {
 
     private var riskDriverEntries: [String] {
         var drivers: [String] = []
-        if let impacts = digest?.structuredSections?.positionImpacts {
+        if let impacts = digest?.structuredSections?.positions {
             for impact in impacts.prefix(2) {
                 let ticker = impact.ticker
                 let summary = impact.impactSummary.sanitizedDisplayText
