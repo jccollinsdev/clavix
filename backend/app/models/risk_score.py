@@ -4,26 +4,23 @@ from datetime import datetime
 
 
 class RiskScoreBase(BaseModel):
+    financial_health: Optional[float] = None
     news_sentiment: Optional[float] = None
     macro_exposure: Optional[float] = None
-    position_sizing: Optional[float] = None
-    volatility_trend: Optional[float] = None
+    sector_exposure: Optional[float] = None
+    volatility: Optional[float] = None
     total_score: Optional[float] = None
     grade: Optional[str] = None
     grade_direction: Optional[str] = None
     score_delta: Optional[int] = None
 
     confidence: Optional[float] = None
-    structural_base_score: Optional[float] = None
-    macro_adjustment: Optional[float] = None
-    event_adjustment: Optional[float] = None
     safety_score: Optional[float] = None
 
     reasoning: Optional[str] = None
     evidence_summary: Optional[str] = None
     dimension_rationale: Optional[dict] = None
     factor_breakdown: Optional[dict] = None
-    mirofish_used: bool = False
 
 
 class RiskScoreCreate(RiskScoreBase):

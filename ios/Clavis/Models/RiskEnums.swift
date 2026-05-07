@@ -41,9 +41,9 @@ enum RiskTrend: String, Codable, CaseIterable {
 
     var arrow: String {
         switch self {
-        case .worsening:  return "↑"
-        case .stable:     return "→"
-        case .improving:  return "↓"
+        case .worsening:  return "\u{2191}"
+        case .stable:     return "\u{2192}"
+        case .improving:  return "\u{2193}"
         }
     }
 
@@ -86,7 +86,7 @@ enum ActionPressure: String, Codable, CaseIterable {
     var description: String {
         switch self {
         case .low: return "No action needed"
-        case .medium: return "Review closely — check for change"
+        case .medium: return "Review closely \u{2014} check for change"
         case .high: return "Consider reducing exposure / reassessing now"
         }
     }
@@ -104,21 +104,31 @@ enum ActionPressure: String, Codable, CaseIterable {
 }
 
 enum Grade: String, Codable, CaseIterable {
-    case a = "A"
-    case b = "B"
-    case c = "C"
-    case d = "D"
-    case f = "F"
+    case aaa = "AAA"
+    case aa  = "AA"
+    case a   = "A"
+    case bbb = "BBB"
+    case bb  = "BB"
+    case b   = "B"
+    case ccc = "CCC"
+    case cc  = "CC"
+    case c   = "C"
+    case f   = "F"
 
     var displayName: String { rawValue }
 
     var ordinalValue: Int {
         switch self {
-        case .a: return 5
-        case .b: return 4
-        case .c: return 3
-        case .d: return 2
-        case .f: return 1
+        case .aaa: return 10
+        case .aa:  return 9
+        case .a:   return 8
+        case .bbb: return 7
+        case .bb:  return 6
+        case .b:   return 5
+        case .ccc: return 4
+        case .cc:  return 3
+        case .c:   return 2
+        case .f:   return 1
         }
     }
 
@@ -130,52 +140,57 @@ enum Grade: String, Codable, CaseIterable {
         RiskState.from(score: midpointScore)
     }
 
-    private var midpointScore: Double {
+    var midpointScore: Double {
         switch self {
-        case .a: return 90
-        case .b: return 72.5
-        case .c: return 57.5
-        case .d: return 42.5
-        case .f: return 17
+        case .aaa: return 95
+        case .aa:  return 85
+        case .a:   return 75
+        case .bbb: return 65
+        case .bb:  return 55
+        case .b:   return 45
+        case .ccc: return 35
+        case .cc:  return 25
+        case .c:   return 15
+        case .f:   return 5
         }
     }
 }
 
 struct RiskDrivers: Codable {
+    let financialHealth: Double
     let newsSentiment: Double
     let macroExposure: Double
-    let positionSizing: Double
-    let volatilityTrend: Double
-    let marketIntegrity: Double
+    let sectorExposure: Double
+    let volatility: Double
 
     var strongestPositive: String {
         let scores: [(String, Double)] = [
-            ("News risk signals", newsSentiment),
-            ("Macro exposure", macroExposure),
-            ("Position sizing", positionSizing),
-            ("Volatility trend", volatilityTrend),
-            ("Market integrity", marketIntegrity)
+            ("Financial Health", financialHealth),
+            ("News Sentiment", newsSentiment),
+            ("Macro Exposure", macroExposure),
+            ("Sector Exposure", sectorExposure),
+            ("Volatility", volatility)
         ]
-        return scores.max(by: { $0.1 < $1.1 })?.0 ?? "News risk signals"
+        return scores.max(by: { $0.1 < $1.1 })?.0 ?? "Financial Health"
     }
 
     var strongestNegative: String {
         let scores: [(String, Double)] = [
-            ("News risk signals", newsSentiment),
-            ("Macro exposure", macroExposure),
-            ("Position sizing", positionSizing),
-            ("Volatility trend", volatilityTrend),
-            ("Market integrity", marketIntegrity)
+            ("Financial Health", financialHealth),
+            ("News Sentiment", newsSentiment),
+            ("Macro Exposure", macroExposure),
+            ("Sector Exposure", sectorExposure),
+            ("Volatility", volatility)
         ]
-        return scores.min(by: { $0.1 < $1.1 })?.0 ?? "Market Integrity"
+        return scores.min(by: { $0.1 < $1.1 })?.0 ?? "Financial Health"
     }
 
     enum CodingKeys: String, CodingKey {
+        case financialHealth = "financial_health"
         case newsSentiment = "news_sentiment"
         case macroExposure = "macro_exposure"
-        case positionSizing = "position_sizing"
-        case volatilityTrend = "volatility_trend"
-        case marketIntegrity = "market_integrity"
+        case sectorExposure = "sector_exposure"
+        case volatility = "volatility"
     }
 }
 
@@ -208,11 +223,14 @@ enum HoldingFilter: String, CaseIterable {
         case .all:
             return true
         case .critical:
-            return position.resolvedRiskGrade == "F"
+            let g = position.resolvedRiskGrade ?? ""
+            return g == "F" || g == "C" || g == "CC"
         case .risky:
-            return position.resolvedRiskGrade == "D"
+            let g = position.resolvedRiskGrade ?? ""
+            return g == "CCC" || g == "B"
         case .elevated:
-            return position.resolvedRiskGrade == "C"
+            let g = position.resolvedRiskGrade ?? ""
+            return g == "BB" || g == "BBB"
         case .improving:
             return gradeImproved(position)
         case .majorEvent:

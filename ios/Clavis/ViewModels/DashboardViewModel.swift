@@ -87,7 +87,7 @@ class DashboardViewModel: ObservableObject {
     }
 
     var majorEventCount: Int {
-        todayDigest?.structuredSections?.majorEvents.count ?? 0
+        return (todayDigest?.structuredSections?.positions ?? []).count
     }
 
     var lastUpdatedAt: Date? {
@@ -115,7 +115,10 @@ class DashboardViewModel: ObservableObject {
 
     var needsAttentionPositions: [Position] {
         holdings
-            .filter { $0.resolvedRiskGrade == "D" || $0.resolvedRiskGrade == "F" || $0.riskTrend == .worsening }
+            .filter { p in
+                let g = p.resolvedRiskGrade ?? ""
+                return Grade.ordinalValue(for: g) <= 4 || p.riskTrend == .worsening
+            }
             .sorted { attentionRank(for: $0) < attentionRank(for: $1) }
             .prefix(3)
             .map { $0 }
@@ -164,20 +167,18 @@ class DashboardViewModel: ObservableObject {
 
     var morningFocusItems: [String] {
         var items: [String] = []
-        if let watchlistAlerts = todayDigest?.structuredSections?.watchlistAlerts {
-            items.append(contentsOf: watchlistAlerts.prefix(2))
+        if let wl = todayDigest?.structuredSections?.watchlistUpdates {
+            items.append(contentsOf: wl.alerts.prefix(2))
+            items.append(contentsOf: wl.watchList.prefix(2))
         }
-        if let watchList = todayDigest?.structuredSections?.watchList {
-            items.append(contentsOf: watchList.prefix(2))
-        }
-        if let majorEvents = todayDigest?.structuredSections?.majorEvents {
-            items.append(contentsOf: majorEvents.prefix(2))
+        if let catalysts = todayDigest?.structuredSections?.whatToWatchToday?.catalysts {
+            items.append(contentsOf: catalysts.map(\.catalyst).prefix(2))
         }
         return dedupe(items)
     }
 
     var actionItems: [String] {
-        Array(todayDigest?.structuredSections?.portfolioImpact.prefix(3) ?? [])
+        todayDigest?.structuredSections?.whatToWatchToday?.monitoring.prefix(3).map { $0 } ?? []
     }
 
     var nextScheduledRunText: String {
@@ -347,8 +348,10 @@ class DashboardViewModel: ObservableObject {
     }
 
     private func attentionRank(for position: Position) -> Int {
-        if position.resolvedRiskGrade == "F" { return 0 }
-        if position.resolvedRiskGrade == "D" { return 1 }
+        let g = position.resolvedRiskGrade ?? ""
+        let ord = Grade.ordinalValue(for: g)
+        if ord <= 2 { return 0 }
+        if ord <= 4 { return 1 }
         if position.riskTrend == .worsening { return 2 }
         return 3
     }
@@ -377,7 +380,10 @@ class DashboardViewModel: ObservableObject {
         if let first = riskDriverHighlights.first {
             return first.lowercased()
         }
-        if let atRisk = holdings.first(where: { $0.resolvedRiskGrade == "D" || $0.resolvedRiskGrade == "F" }) {
+        if let atRisk = holdings.first(where: { p in
+            let g = p.resolvedRiskGrade ?? ""
+            return Grade.ordinalValue(for: g) <= 4
+        }) {
             return atRisk.ticker
         }
         return nil

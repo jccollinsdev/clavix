@@ -3,8 +3,13 @@ import Foundation
 struct RiskScore: Identifiable, Codable {
     let id: String
     let positionId: String
+
+    let financialHealth: Double?
     let newsSentiment: Double?
     let macroExposure: Double?
+    let sectorExposure: Double?
+    let volatility: Double?
+
     let positionSizing: Double?
     let volatilityTrend: Double?
     let totalScore: Double?
@@ -31,14 +36,16 @@ struct RiskScore: Identifiable, Codable {
     let scoreVersion: String?
 
     let reasoning: String?
-    let mirofishUsed: Bool
     let calculatedAt: Date
 
     enum CodingKeys: String, CodingKey {
         case id
         case positionId = "position_id"
+        case financialHealth = "financial_health"
         case newsSentiment = "news_sentiment"
         case macroExposure = "macro_exposure"
+        case sectorExposure = "sector_exposure"
+        case volatility = "volatility"
         case positionSizing = "position_sizing"
         case volatilityTrend = "volatility_trend"
         case totalScore = "total_score"
@@ -62,7 +69,6 @@ struct RiskScore: Identifiable, Codable {
         case scoreAsOf = "score_as_of"
         case scoreVersion = "score_version"
         case reasoning
-        case mirofishUsed = "mirofish_used"
         case calculatedAt = "calculated_at"
     }
 
@@ -70,8 +76,11 @@ struct RiskScore: Identifiable, Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         positionId = try container.decode(String.self, forKey: .positionId)
+        financialHealth = try? container.decodeFlexibleDoubleIfPresent(forKey: .financialHealth)
         newsSentiment = try? container.decodeFlexibleDoubleIfPresent(forKey: .newsSentiment)
         macroExposure = try? container.decodeFlexibleDoubleIfPresent(forKey: .macroExposure)
+        sectorExposure = try? container.decodeFlexibleDoubleIfPresent(forKey: .sectorExposure)
+        volatility = try? container.decodeFlexibleDoubleIfPresent(forKey: .volatility)
         positionSizing = try? container.decodeFlexibleDoubleIfPresent(forKey: .positionSizing)
         volatilityTrend = try? container.decodeFlexibleDoubleIfPresent(forKey: .volatilityTrend)
         totalScore = try? container.decodeFlexibleDoubleIfPresent(forKey: .totalScore)
@@ -95,7 +104,6 @@ struct RiskScore: Identifiable, Codable {
         scoreAsOf = try? container.decodeIfPresent(Date.self, forKey: .scoreAsOf)
         scoreVersion = try? container.decodeIfPresent(String.self, forKey: .scoreVersion)
         reasoning = try? container.decodeIfPresent(String.self, forKey: .reasoning)
-        mirofishUsed = (try? container.decode(Bool.self, forKey: .mirofishUsed)) ?? false
         calculatedAt = try container.decode(Date.self, forKey: .calculatedAt)
     }
 
@@ -104,7 +112,7 @@ struct RiskScore: Identifiable, Codable {
     }
 
     var displayGrade: String {
-        grade ?? "—"
+        grade ?? "\u{2014}"
     }
 
     var confidenceLevel: ConfidenceLevel {
@@ -158,14 +166,20 @@ struct FactorBreakdown: Codable {
 }
 
 struct AIDimensions: Codable {
+    let financialHealth: Double?
     let newsSentiment: Double?
     let macroExposure: Double?
+    let sectorExposure: Double?
+    let volatility: Double?
     let positionSizing: Double?
     let volatilityTrend: Double?
 
     enum CodingKeys: String, CodingKey {
+        case financialHealth = "financial_health"
         case newsSentiment = "news_sentiment"
         case macroExposure = "macro_exposure"
+        case sectorExposure = "sector_exposure"
+        case volatility = "volatility"
         case positionSizing = "position_sizing"
         case volatilityTrend = "volatility_trend"
     }

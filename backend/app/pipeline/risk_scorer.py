@@ -524,6 +524,10 @@ def _fin_rationale(metadata: dict, score: int) -> str:
 
 
 def _score_macro_exposure(metadata: dict) -> int:
+    reg = metadata.get("macro_regression_result")
+    if isinstance(reg, dict) and not reg.get("limited_data") and reg.get("sensitivity_score") is not None:
+        return clamp_score(round(reg["sensitivity_score"]), 0)
+
     beta = abs(_safe_float(metadata.get("beta"), 0.0))
     macro_sens = str(metadata.get("macro_sensitivity") or "moderate").lower()
 
@@ -550,6 +554,15 @@ def _score_macro_exposure(metadata: dict) -> int:
 
 
 def _macro_rationale(metadata: dict, score: int) -> str:
+    reg = metadata.get("macro_regression_result")
+    if isinstance(reg, dict) and reg.get("r_squared") is not None and not reg.get("limited_data"):
+        coef = reg.get("coefficients", {})
+        top_factor = max(coef.items(), key=lambda x: abs(x[1])) if coef else ("market", 0.0)
+        return (
+            f"Regression R\xb2={reg['r_squared']:.2f}, "
+            f"top driver: {top_factor[0].upper()} ({top_factor[1]:.3f})."
+        )
+
     beta = _safe_float(metadata.get("beta"))
     if beta:
         return f"Beta of {beta:.2f} drives macro sensitivity."
@@ -803,13 +816,30 @@ def score_position_structural(
             improving_major += 1
 
     fin = _score_financial_health(ticker_metadata)
-    news = clamp_score(round(50 + sum(
-        _risk_direction_value(e.get("risk_direction")) * 7
-        for e in recent_events
-    )), 0)
     macro = _score_macro_exposure(ticker_metadata)
     sector = _score_sector_exposure(ticker_metadata)
     vol = _score_volatility(ticker_metadata, worsening_major, improving_major)
+
+    weighted_news = 0.0
+    total_weight = 0.0
+    article_count = len(recent_events)
+    for e in recent_events:
+        recency_w = _safe_float(e.get("recency_weight"), 1.0)
+        source_w = _safe_float(e.get("source_weight"), 1.0)
+        sent = _safe_float(e.get("sentiment_score") or e.get("confidence"))
+        if sent is not None:
+            w = recency_w * source_w
+            weighted_news += sent * w
+            total_weight += w
+    if total_weight > 0 and article_count >= 3:
+        news = clamp_score(round(weighted_news / total_weight), 0)
+    elif article_count >= 3:
+        news = clamp_score(round(50 + sum(
+            _risk_direction_value(e.get("risk_direction")) * 7
+            for e in recent_events
+        )), 0)
+    else:
+        news = None
 
     normalized = {
         "financial_health": fin,

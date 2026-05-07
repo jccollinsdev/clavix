@@ -459,28 +459,37 @@ struct TickerDetailView: View {
     }
 
     private func riskDimensions(for detail: TickerDetailResponse) -> [TDDimItem]? {
+        var fh: Double?
         var news: Double?
         var macro: Double?
+        var sector: Double?
         var vol: Double?
 
         if let shared = detail.sharedAnalysis?.riskDimensions {
+            fh = shared.financialHealth
             news = shared.newsSentiment
             macro = shared.macroExposure
-            vol = shared.volatilityTrend
+            sector = shared.sectorExposure
+            vol = shared.volatility
         } else if let ai = detail.currentScore?.factorBreakdown?.aiDimensions
             ?? detail.latestRiskSnapshot?.factorBreakdown?.aiDimensions {
-            news = ai.newsSentiment; macro = ai.macroExposure
-            vol = ai.volatilityTrend
+            fh = ai.financialHealth; news = ai.newsSentiment
+            macro = ai.macroExposure; sector = ai.sectorExposure
+            vol = ai.volatility
         } else if let sc = detail.currentScore {
-            news = sc.newsSentiment; macro = sc.macroExposure; vol = sc.volatilityTrend
+            fh = sc.financialHealth; news = sc.newsSentiment
+            macro = sc.macroExposure; sector = sc.sectorExposure
+            vol = sc.volatility
         }
 
-        guard news != nil || macro != nil || vol != nil else { return nil }
+        guard fh != nil || news != nil || macro != nil || sector != nil || vol != nil else { return nil }
 
         return [
-            TDDimItem(title: "News risk signals", value: news),
-            TDDimItem(title: "Macro exposure", value: macro),
-            TDDimItem(title: "Volatility trend", value: vol),
+            TDDimItem(title: "Financial Health", value: fh),
+            TDDimItem(title: "News Sentiment", value: news),
+            TDDimItem(title: "Macro Exposure", value: macro),
+            TDDimItem(title: "Sector Exposure", value: sector),
+            TDDimItem(title: "Volatility", value: vol),
         ]
     }
 

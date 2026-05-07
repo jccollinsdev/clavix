@@ -664,11 +664,16 @@ struct ScoreExplanationView: View {
                 }
 
                 VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
-                    ScoreBandRow(grade: "A", range: "80–100", description: "Safe — minimum risk exposure", color: .riskA)
-                    ScoreBandRow(grade: "B", range: "65–79", description: "Stable — low risk", color: .riskB)
-                    ScoreBandRow(grade: "C", range: "50–64", description: "Elevated — moderate risk", color: .riskC)
-                    ScoreBandRow(grade: "D", range: "35–49", description: "Risky — elevated risk", color: .riskD)
-                    ScoreBandRow(grade: "F", range: "0–34", description: "Critical — high risk", color: .riskF)
+                    ScoreBandRow(grade: "AAA", range: "90\u{2013}100", description: "Investment Grade \u{2014} minimum risk", color: .gradeCAAA)
+                    ScoreBandRow(grade: "AA", range: "80\u{2013}89", description: "Strong \u{2014} low risk", color: .gradeCAA)
+                    ScoreBandRow(grade: "A", range: "70\u{2013}79", description: "Sound \u{2014} moderate-low risk", color: .gradeCA)
+                    ScoreBandRow(grade: "BBB", range: "60\u{2013}69", description: "Adequate \u{2014} moderate risk", color: .gradeCBBB)
+                    ScoreBandRow(grade: "BB", range: "50\u{2013}59", description: "Speculative \u{2014} elevated risk", color: .gradeCBB)
+                    ScoreBandRow(grade: "B", range: "40\u{2013}49", description: "Vulnerable \u{2014} high risk", color: .gradeCB)
+                    ScoreBandRow(grade: "CCC", range: "30\u{2013}39", description: "Weak \u{2014} very high risk", color: .gradeCCCC)
+                    ScoreBandRow(grade: "CC", range: "20\u{2013}29", description: "Distressed \u{2014} extreme risk", color: .gradeCCC)
+                    ScoreBandRow(grade: "C", range: "10\u{2013}19", description: "Near Default \u{2014} severe risk", color: .gradeCC)
+                    ScoreBandRow(grade: "F", range: "0\u{2013}9", description: "Default \u{2014} critical risk", color: .gradeCF)
                 }
 
                 Text("Informational only. Scores reflect model output based on available data. They do not constitute financial advice.")

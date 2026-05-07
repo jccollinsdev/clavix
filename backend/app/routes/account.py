@@ -46,30 +46,30 @@ async def export_account(user_id: str = Depends(get_user_id)):
             or []
         )
 
-    watchlist_items = []
+    held_tickers = sorted({str(p.get("ticker", "")).strip().upper() for p in positions if p.get("ticker")})
+    watchlist_ticker_rows = []
     if watchlist_ids:
-        watchlist_items = (
+        watchlist_ticker_rows = (
             supabase.table("watchlist_items")
-            .select("*")
+            .select("ticker")
             .in_("watchlist_id", watchlist_ids)
             .execute()
             .data
             or []
         )
-
-    auth_user = None
-    auth_response = supabase.auth.admin.get_user_by_id(user_id)
-    user = getattr(auth_response, "user", None)
-    if user:
-        auth_user = {
-            "id": str(getattr(user, "id", "")),
-            "email": getattr(user, "email", None),
-            "created_at": getattr(user, "created_at", None),
-            "updated_at": getattr(user, "updated_at", None),
-            "app_metadata": getattr(user, "app_metadata", None),
-            "user_metadata": getattr(user, "user_metadata", None),
-            "identities": getattr(user, "identities", None),
-        }
+    user_tickers = sorted(set(held_tickers) | {str(w.get("ticker", "")).strip().upper() for w in watchlist_ticker_rows if w.get("ticker")})
+    shared_events = []
+    if user_tickers:
+        shared_events = (
+            supabase.table("shared_ticker_events")
+            .select("*")
+            .in_("ticker", user_tickers)
+            .order("published_at", desc=True)
+            .limit(200)
+            .execute()
+            .data
+            or []
+        )
 
     return {
         "exported_at": datetime.now(timezone.utc).isoformat(),
@@ -78,7 +78,7 @@ async def export_account(user_id: str = Depends(get_user_id)):
         "positions": positions,
         "analysis_runs": _table_rows(supabase, "analysis_runs", user_id),
         "risk_scores": risk_scores,
-        "news_items": _table_rows(supabase, "news_items", user_id),
+        "news_items": shared_events,
         "digests": _table_rows(supabase, "digests", user_id),
         "alerts": _table_rows(supabase, "alerts", user_id),
         "position_analyses": (
@@ -186,7 +186,7 @@ async def delete_account(user_id: str = Depends(get_user_id)):
     # ── Step 4: All tables with FK → auth.users (must clear before auth delete)
     deleted_counts["alerts"] = delete_rows("alerts")
     deleted_counts["digests"] = delete_rows("digests")
-    deleted_counts["news_items"] = delete_rows("news_items")
+    deleted_counts["shared_ticker_events"] = 0  # shared table, no user FK
     deleted_counts["portfolio_risk_snapshots"] = delete_rows("portfolio_risk_snapshots")
     deleted_counts["analysis_runs"] = delete_rows("analysis_runs")
     deleted_counts["positions"] = delete_rows("positions")

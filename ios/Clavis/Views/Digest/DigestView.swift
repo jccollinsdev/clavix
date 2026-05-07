@@ -47,11 +47,11 @@ struct DigestView: View {
                             isLoading: viewModel.isLoading,
                             onRunDigest: { Task { await viewModel.triggerAnalysis() } }
                         )
-                        DigestWhatMattersSection(digest: digest)
-                        DigestSectorOverviewSection(digest: digest)
                         DigestMacroSectionView(digest: digest)
+                        DigestSectorOverviewSection(digest: digest)
                         DigestPrototypePositionImpactsSection(digest: digest, holdings: viewModel.holdings)
                         DigestWatchlistAlertsSection(digest: digest)
+                        DigestWhatMattersSection(digest: digest)
                     } else if shouldShowIdleState {
                         DigestEmptyStateCard {
                             Task { await viewModel.triggerAnalysis() }
@@ -130,7 +130,7 @@ private struct DigestPrototypePositionImpactsSection: View {
     let holdings: [Position]
 
     private var impacts: [DigestPositionImpact] {
-        digest.structuredSections?.positionImpacts ?? []
+        digest.structuredSections?.positions ?? []
     }
 
     var body: some View {
@@ -382,7 +382,7 @@ struct DigestSectorOverviewSection: View {
     let digest: Digest
 
     private var sectors: [DigestSectorOverviewItem] {
-        digest.structuredSections?.sectorOverview ?? []
+        digest.structuredSections?.sectorHeat ?? []
     }
 
     var body: some View {
@@ -429,7 +429,7 @@ struct DigestWhatMattersSection: View {
     let digest: Digest
 
     private var items: [DigestWhatMattersItem] {
-        digest.structuredSections?.whatMattersToday ?? []
+        digest.structuredSections?.whatToWatchToday?.catalysts ?? []
     }
 
     var body: some View {
@@ -498,7 +498,7 @@ struct DigestWatchlistAlertsSection: View {
     let digest: Digest
 
     private var items: [String] {
-        digest.structuredSections?.watchlistAlerts ?? []
+        digest.structuredSections?.watchlistUpdates?.alerts ?? []
     }
 
     var body: some View {

@@ -468,97 +468,24 @@ def _news_rows_to_response(
                 "id": row.get("id"),
                 "user_id": user_id,
                 "ticker": ticker,
-                "title": row.get("headline"),
+                "title": row.get("title"),
                 "summary": row.get("summary"),
                 "source": row.get("source"),
-                "url": row.get("url"),
-                "significance": row.get("sentiment"),
+                "url": row.get("source_url") or row.get("canonical_url") or row.get("url", ""),
+                "significance": row.get("significance"),
+                "sentimentScore": row.get("sentiment_score"),
+                "tldr": row.get("tldr"),
+                "whatItMeans": row.get("what_it_means"),
+                "keyImplications": row.get("key_implications"),
                 "published_at": row.get("published_at"),
                 "affected_tickers": [ticker],
-                "processed_at": row.get("processed_at"),
+                "processed_at": row.get("created_at") or row.get("published_at"),
             }
         )
     return responses
 
 
-def _news_row_to_cache_payload(row: dict[str, Any], ticker: str) -> dict[str, Any]:
-    headline = row.get("headline") or row.get("title") or ""
-    summary = row.get("summary") or row.get("body") or row.get("headline") or ""
-    sentiment = row.get("sentiment") or row.get("significance")
-    return {
-        "ticker": ticker,
-        "headline": headline,
-        "summary": summary,
-        "source": row.get("source") or "",
-        "url": row.get("url") or "",
-        "sentiment": sentiment,
-        "published_at": row.get("published_at"),
-        "processed_at": row.get("processed_at") or _utcnow_iso(),
-    }
 
-
-def sync_ticker_news_cache(
-    supabase,
-    *,
-    ticker: str,
-    news_rows: list[dict[str, Any]],
-) -> dict[str, Any]:
-    normalized_ticker = (ticker or "").strip().upper()
-    if not normalized_ticker:
-        return {"ticker": normalized_ticker, "status": "skipped", "count": 0}
-
-    deduped_rows: list[dict[str, Any]] = []
-    seen_keys: set[str] = set()
-    for row in news_rows or []:
-        key = str(
-            row.get("event_hash") or row.get("url") or row.get("headline") or ""
-        ).strip()
-        if not key or key in seen_keys:
-            continue
-        seen_keys.add(key)
-        deduped_rows.append(row)
-
-    deduped_rows.sort(
-        key=lambda row: row.get("published_at") or row.get("processed_at") or "",
-        reverse=True,
-    )
-
-    cache_rows = [
-        _news_row_to_cache_payload(row, normalized_ticker) for row in deduped_rows[:10]
-    ]
-
-    if cache_rows:
-        supabase.table("ticker_news_cache").upsert(
-            cache_rows,
-            on_conflict="ticker,url",
-        ).execute()
-
-    last_news_refresh_at = None
-    if cache_rows:
-        last_news_refresh_at = max(
-            row.get("processed_at") for row in cache_rows if row.get("processed_at")
-        )
-
-    if deduped_rows and not cache_rows:
-        logger.warning(
-            "[NEWS_CACHE] ticker=%s mirrored 0/%s rows from news_items",
-            normalized_ticker,
-            len(deduped_rows),
-        )
-    else:
-        logger.info(
-            "[NEWS_CACHE] ticker=%s mirrored %s/%s rows from news_items",
-            normalized_ticker,
-            len(cache_rows),
-            len(deduped_rows),
-        )
-
-    return {
-        "ticker": normalized_ticker,
-        "status": "completed" if cache_rows else "empty",
-        "count": len(cache_rows),
-        "last_news_refresh_at": last_news_refresh_at,
-    }
 
 
 def build_position_analysis_from_snapshot(
@@ -2254,55 +2181,57 @@ def _build_virtual_position(
 def _build_event_analyses_from_news_rows(
     news_rows: list[dict[str, Any]], *, ticker: str, position_id: str
 ) -> list[dict[str, Any]]:
-    """Build lightweight event-like records from raw ticker_news_cache rows.
+    """Build event-like records from shared_ticker_events rows.
 
-    These are NOT canonical event analyses — they are raw news cache records
-    surfaced as event-shaped objects when no analyzed event_analyses rows exist.
-    Analyzed fields (what_happened, tldr, what_it_means, key_implications,
-    recommended_followups) are always empty — never fabricated from raw fields.
-    Provenance is explicitly 'ticker_news_cache_raw'.
+    When no analyzed event_analyses rows exist, surface shared_ticker_events
+    as event-shaped objects with real TLDR/what_it_means/key_implications.
+    Provenance is 'shared_ticker_events'.
     """
     events: list[dict[str, Any]] = []
     for row in news_rows[:10]:
-        sentiment = (row.get("sentiment") or "neutral").lower()
-        if sentiment in {"negative", "bearish"}:
-            significance = "major"
-            risk_direction = "negative"
-        elif sentiment in {"positive", "bullish"}:
-            significance = "minor"
-            risk_direction = "positive"
+        sentiment_score = row.get("sentiment_score")
+        if sentiment_score is not None:
+            if sentiment_score <= 30:
+                significance = "major"
+                risk_direction = "negative"
+            elif sentiment_score >= 70:
+                significance = "minor"
+                risk_direction = "positive"
+            else:
+                significance = "minor"
+                risk_direction = "neutral"
         else:
             significance = "minor"
             risk_direction = "neutral"
 
-        clean_title = sanitize_text_field(row.get("headline") or ticker,
-                                           fallback=row.get("headline") or ticker)
+        clean_title = sanitize_text_field(row.get("title") or ticker,
+                                            fallback=row.get("title") or ticker)
         clean_summary = sanitize_text_field(row.get("summary") or "", fallback="")
         events.append(
             {
                 "id": row.get("id") or str(uuid4()),
                 "analysis_run_id": None,
                 "position_id": position_id,
-                "event_hash": None,
+                "event_hash": row.get("event_hash"),
                 "title": clean_title,
                 "summary": clean_summary,
                 "source": row.get("source"),
-                "source_url": row.get("source_article_link") or row.get("source_url") or row.get("url"),
+                "source_url": row.get("canonical_url") or row.get("source_url") or "",
                 "published_at": row.get("published_at"),
                 "event_type": row.get("event_type") or "news",
                 "significance": significance,
-                "analysis_source": "ticker_news_cache_raw",
+                "analysis_source": "shared_ticker_events",
                 "long_analysis": None,
-                "what_happened": "",
-                "tldr": "",
-                "what_it_means": "",
-                "confidence": None,
+                "what_happened": row.get("tldr") or "",
+                "tldr": row.get("tldr") or "",
+                "what_it_means": row.get("what_it_means") or "",
+                "confidence": row.get("sentiment_score"),
                 "impact_horizon": "near_term",
                 "risk_direction": risk_direction,
                 "scenario_summary": None,
-                "key_implications": [],
+                "key_implications": row.get("key_implications") or [],
                 "recommended_followups": [],
-                "tags": [],
+                "tags": row.get("tags") or [],
             }
         )
     return events
@@ -2519,10 +2448,9 @@ def get_latest_news_cache_map(
     if not tickers:
         return {}
     result = (
-        supabase.table("ticker_news_cache")
+        supabase.table("shared_ticker_events")
         .select("*")
         .in_("ticker", [ticker.upper() for ticker in tickers])
-        .order("processed_at", desc=True)
         .order("published_at", desc=True)
         .execute()
     )
@@ -2540,10 +2468,9 @@ def get_latest_news_cache_rows_map(
     if not tickers:
         return {}
     result = (
-        supabase.table("ticker_news_cache")
+        supabase.table("shared_ticker_events")
         .select("*")
         .in_("ticker", [ticker.upper() for ticker in tickers])
-        .order("processed_at", desc=True)
         .order("published_at", desc=True)
         .execute()
     )
@@ -2680,10 +2607,9 @@ def build_holding_workflow_response(
     )
     if latest_news_row is None:
         news_result = (
-            supabase.table("ticker_news_cache")
+            supabase.table("shared_ticker_events")
             .select("*")
             .eq("ticker", normalized_ticker)
-            .order("processed_at", desc=True)
             .order("published_at", desc=True)
             .limit(1)
             .execute()
@@ -2777,10 +2703,9 @@ def get_ticker_detail_bundle(
     snapshot = history[0] if history else None
     previous_snapshot = history[1] if len(history) > 1 else None
     news_result = (
-        supabase.table("ticker_news_cache")
+        supabase.table("shared_ticker_events")
         .select("*")
         .eq("ticker", ticker)
-        .order("processed_at", desc=True)
         .order("published_at", desc=True)
         .limit(10)
         .execute()
@@ -3004,20 +2929,16 @@ def refresh_ticker_snapshot(
 
     try:
         shared_news_rows = (
-            supabase.table("news_items")
-            .select("title, body, source, url, significance, published_at, processed_at, event_hash")
+            supabase.table("shared_ticker_events")
+            .select("*")
             .eq("ticker", ticker)
-            .order("processed_at", desc=True)
+            .order("published_at", desc=True)
             .limit(50)
             .execute()
             .data
             or []
         )
-        news_cache_refresh = sync_ticker_news_cache(
-            supabase,
-            ticker=ticker,
-            news_rows=shared_news_rows,
-        )
+        news_cache_refresh = {"ticker": ticker, "status": "ok", "count": len(shared_news_rows)}
 
         existing_ai_snapshot = (
             supabase.table("ticker_risk_snapshots")
@@ -3061,10 +2982,9 @@ def refresh_ticker_snapshot(
 
         previous_snapshot = get_latest_risk_snapshot_map(supabase, [ticker]).get(ticker)
         news_rows = (
-            supabase.table("ticker_news_cache")
+            supabase.table("shared_ticker_events")
             .select("*")
             .eq("ticker", ticker)
-            .order("processed_at", desc=True)
             .order("published_at", desc=True)
             .limit(10)
             .execute()
