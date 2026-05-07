@@ -434,7 +434,17 @@ Estimated effort: 1-2 days.
 
 ## Phase 6 — iOS: Screen-by-Screen Rebuild
 
-What's in scope:
+Before any UI work, Phase 6 MUST begin with:
+
+0. **Complete risk_scores retirement (prerequisite task, execute first):**
+   - Remove all scheduler dual-writes to `risk_scores` — write only to `ticker_risk_snapshots`
+   - Remove all `_get_latest_position_score_for_ids()` and `_get_latest_position_score_map_for_ids()` reads from `risk_scores`
+   - Replace all remaining `risk_scores` queries with `ticker_risk_snapshots` reads
+   - Delete `risk_scores` rows from holdings DELETE, SnapTrade disconnect, and account delete paths (table drop deferred until zero references confirmed)
+   - Run `grep -rn "risk_scores" backend/app/ --include="*.py"` to confirm zero active code paths remain
+   - Exit gate: grep returns zero hits in non-script, non-comment code
+
+What's in scope (after step 0):
 
 - Rebuild in dependency order: app shell tabs, onboarding, Today digest, Holdings+Watchlist, Ticker Detail, Search, Alerts, Settings, Paywall shell.
 - Use wireframe C as ticker detail direction and D3 or final product choice for digest style.

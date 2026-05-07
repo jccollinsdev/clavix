@@ -138,6 +138,13 @@ def _base_story(
     position_id: str | None,
     analysis_run_id: str | None,
     image_url: str | None = None,
+    sentiment_score: float | None = None,
+    sentiment_reason: str | None = None,
+    impact_tag: str | None = None,
+    tldr: str | None = None,
+    what_it_means: str | None = None,
+    key_implications: list[str] | None = None,
+    source_tier: int | None = None,
 ) -> dict[str, Any]:
     article_id = f"{source_table}:{source_id}"
     return {
@@ -163,6 +170,13 @@ def _base_story(
         "position_id": position_id,
         "analysis_run_id": analysis_run_id,
         "image_url": _clean_string(image_url) or None,
+        "sentiment_score": sentiment_score,
+        "sentiment_reason": _clean_string(sentiment_reason) or None,
+        "impact_tag": impact_tag,
+        "tldr": _clean_string(tldr) or None,
+        "what_it_means": _clean_string(what_it_means) or None,
+        "key_implications": key_implications or [],
+        "source_tier": source_tier,
     }
 
 
@@ -181,7 +195,7 @@ def _news_item_story(
         ticker=ticker,
         held_tickers=held_tickers,
         watchlist_tickers=watchlist_tickers,
-        source_type="news_items",
+        source_type="shared_ticker_events",
         relevance=relevance,
         alerts_by_ticker=alerts_by_ticker,
     )
@@ -207,14 +221,20 @@ def _news_item_story(
         category=category,
         relevance=_clean_string((relevance or {}).get("event_type")) or category,
         grade=(snapshot or {}).get("grade") or position.get("risk_grade"),
-        previous_grade=(snapshot or {}).get("previous_grade")
-        or position.get("previous_grade"),
+        previous_grade=snapshot.get("previous_grade"),
         current_grade=(snapshot or {}).get("grade") or position.get("risk_grade"),
         factored=bool(row.get("analysis_run_id")),
         impact=(relevance or {}).get("why_it_matters") or row.get("summary"),
         held_shares=position.get("shares") if position else None,
         position_id=position.get("id") if position else None,
         analysis_run_id=str(row.get("analysis_run_id") or "") or None,
+        sentiment_score=row.get("sentiment_score"),
+        sentiment_reason=row.get("sentiment_reason"),
+        impact_tag=row.get("impact_tag"),
+        tldr=row.get("tldr"),
+        what_it_means=row.get("what_it_means"),
+        key_implications=row.get("key_implications"),
+        source_tier=row.get("source_tier"),
     )
 
 
@@ -232,7 +252,7 @@ def _ticker_cache_story(
         ticker=ticker,
         held_tickers=held_tickers,
         watchlist_tickers=watchlist_tickers,
-        source_type="ticker_news_cache",
+        source_type="shared_ticker_events",
         relevance=None,
         alerts_by_ticker=alerts_by_ticker,
     )
@@ -272,6 +292,13 @@ def _ticker_cache_story(
         held_shares=position.get("shares") if position else None,
         position_id=position.get("id") if position else None,
         analysis_run_id=None,
+        sentiment_score=row.get("sentiment_score"),
+        sentiment_reason=row.get("sentiment_reason"),
+        impact_tag=row.get("impact_tag"),
+        tldr=row.get("tldr"),
+        what_it_means=row.get("what_it_means"),
+        key_implications=row.get("key_implications"),
+        source_tier=row.get("source_tier"),
     )
 
 
@@ -348,21 +375,23 @@ def _build_feed_state(supabase, user_id: str) -> dict[str, Any]:
         if ticker:
             alerts_by_ticker[ticker].append(alert)
 
-    news_items = (
-        supabase.table("news_items")
-        .select("*")
-        .eq("user_id", user_id)
-        .order("published_at", desc=True)
-        .limit(75)
-        .execute()
-        .data
-        or []
-    )
+    news_items: list[dict[str, Any]] = []
+    if tracked_tickers:
+        news_items = (
+            supabase.table("shared_ticker_events")
+            .select("*")
+            .in_("ticker", tracked_tickers)
+            .order("published_at", desc=True)
+            .limit(75)
+            .execute()
+            .data
+            or []
+        )
 
     ticker_news: list[dict[str, Any]] = []
     if tracked_tickers:
         ticker_news = (
-            supabase.table("ticker_news_cache")
+            supabase.table("shared_ticker_events")
             .select("*")
             .in_("ticker", tracked_tickers)
             .order("published_at", desc=True)
@@ -481,19 +510,12 @@ def _resolve_article_record(
     raw_id = _clean_string(article_id)
     if ":" in raw_id:
         prefix, record_id = raw_id.split(":", 1)
-        if prefix == "news_item":
-            return "news_item", _find_row_by_id(supabase, "news_items", record_id)
-        if prefix == "ticker_news":
-            return "ticker_news", _find_row_by_id(
-                supabase, "ticker_news_cache", record_id
-            )
+        if prefix in ("news_item", "ticker_news", "shared_event"):
+            return "shared_event", _find_row_by_id(supabase, "shared_ticker_events", record_id)
 
-    row = _find_row_by_id(supabase, "news_items", raw_id)
+    row = _find_row_by_id(supabase, "shared_ticker_events", raw_id)
     if row:
-        return "news_item", row
-    row = _find_row_by_id(supabase, "ticker_news_cache", raw_id)
-    if row:
-        return "ticker_news", row
+        return "shared_event", row
     return "", None
 
 
@@ -540,7 +562,7 @@ def get_news_article_bundle(supabase, user_id: str, article_id: str) -> dict[str
                 ticker=ticker,
                 held_tickers=held_tickers,
                 watchlist_tickers=watchlist_tickers,
-                source_type="news_items",
+                source_type="shared_ticker_events",
                 relevance=relevance,
                 alerts_by_ticker=alerts_by_ticker,
             ),
@@ -553,6 +575,13 @@ def get_news_article_bundle(supabase, user_id: str, article_id: str) -> dict[str
             held_shares=position.get("shares") if position else None,
             position_id=position.get("id") if position else None,
             analysis_run_id=str(row.get("analysis_run_id") or "") or None,
+            sentiment_score=row.get("sentiment_score"),
+            sentiment_reason=row.get("sentiment_reason"),
+            impact_tag=row.get("impact_tag"),
+            tldr=row.get("tldr"),
+            what_it_means=row.get("what_it_means"),
+            key_implications=row.get("key_implications"),
+            source_tier=row.get("source_tier"),
         )
     else:
         article = _ticker_cache_story(

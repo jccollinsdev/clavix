@@ -143,10 +143,12 @@ private struct AlertsSummaryGrid: View {
         case .critical:
             return .high
         case .warning:
-            if alert.newGrade == "C" || alert.previousGrade == "C" || alert.type == .majorEvent {
-                return .elevated
+            let currentOrd = Grade.ordinalValue(for: alert.newGrade ?? "")
+            let prevOrd = Grade.ordinalValue(for: alert.previousGrade ?? "")
+            if abs(currentOrd - prevOrd) >= 3 {
+                return .high
             }
-            return .high
+            return .elevated
         case .informational:
             return .info
         }

@@ -1,3 +1,4 @@
+from __future__ import annotations
 import asyncio
 import re
 import time
@@ -5,6 +6,12 @@ import warnings
 from urllib.parse import parse_qs, quote_plus, unquote, urlparse, urlsplit
 
 import httpx
+
+_TRAFILATURA_LOADED = True
+try:
+    import trafilatura
+except ImportError:
+    _TRAFILATURA_LOADED = False
 
 _NEWSPAPER4K_LOADED = True
 try:
@@ -39,6 +46,19 @@ def _extract_with_newspaper4k(
             return text, title, authors, publish_date
     except Exception:
         return None, None, None, None
+
+
+def _extract_with_trafilatura(html: str, url: str = "") -> str | None:
+    if not _TRAFILATURA_LOADED or not html:
+        return None
+    try:
+        result = trafilatura.extract(html, include_comments=False, include_tables=False,
+                                     include_links=False, include_images=False)
+        if result:
+            return result.strip()
+        return None
+    except Exception:
+        return None
 
 
 _PARAGRAPH_RE = re.compile(r"<p[^>]*>(.*?)</p>", re.IGNORECASE | re.DOTALL)
@@ -1003,6 +1023,32 @@ async def enrich_article_content(
         )
 
         if not html_evaluation["accepted"]:
+            traf_text = _extract_with_trafilatura(html, resolved_url)
+            if traf_text and len(traf_text.split()) >= 60:
+                traf_body = _strip_article_boilerplate(
+                    traf_text, _normalize_host(resolved_url)
+                )
+                traf_eval = _evaluate_candidate_body(
+                    article, traf_body, resolved_url, method="trafilatura"
+                )
+                if traf_eval["accepted"] or traf_eval.get("word_count", 0) >= 60:
+                    return {
+                        **article,
+                        "title": title or article.get("title") or "",
+                        "body": traf_body,
+                        "resolved_url": resolved_url,
+                        "content_source": _normalize_host(resolved_url) or article.get("source") or "",
+                        "scrape_status": "ok_trafilatura",
+                        "resolution_status": "resolved_trafilatura",
+                        "resolution_failure_reason": "",
+                        "resolution_debug": {
+                            "method": "trafilatura",
+                            "evaluation": traf_eval,
+                            "proxy_evaluation": proxy_evaluation if proxy_failure_reason else None,
+                            "html_evaluation": html_evaluation,
+                        },
+                    }
+
             np_text, np_title, np_authors, np_date = _extract_with_newspaper4k(
                 resolved_url
             )

@@ -551,7 +551,7 @@ def _extract_drivers(text: str, max_drivers: int = 2) -> list[str]:
     drivers: list[str] = []
     if lines:
         skip_header = lines[0] if lines else ""
-        is_header = bool(re.match(r'^[A-F]\s*—', skip_header))
+        is_header = bool(re.match(r'^(AAA|AA|A|BBB|BB|B|CCC|CC|C|F)\s*—', skip_header))
         start = 1 if is_header else 0
         for line in lines[start:]:
             cleaned = line.lstrip("•-*• ").rstrip()

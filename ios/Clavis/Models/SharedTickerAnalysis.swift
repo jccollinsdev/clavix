@@ -93,14 +93,18 @@ struct SharedTickerAnalysisSummary: Codable, Hashable {
 }
 
 struct SharedRiskDimensions: Codable, Hashable {
+    let financialHealth: Double?
     let newsSentiment: Double?
     let macroExposure: Double?
-    let volatilityTrend: Double?
+    let sectorExposure: Double?
+    let volatility: Double?
 
     enum CodingKeys: String, CodingKey {
+        case financialHealth = "financial_health"
         case newsSentiment = "news_sentiment"
         case macroExposure = "macro_exposure"
-        case volatilityTrend = "volatility_trend"
+        case sectorExposure = "sector_exposure"
+        case volatility = "volatility"
     }
 }
 
@@ -217,5 +221,23 @@ struct PortfolioOverlay: Codable, Hashable {
         case latestAlertAt = "latest_alert_at"
         case userNotes = "user_notes"
         case overlayAsOf = "overlay_as_of"
+    }
+}
+
+struct DimensionBreakdown: Codable, Hashable {
+    let financialHealth: Double?
+    let newsSentiment: Double?
+    let macroExposure: Double?
+    let sectorExposure: Double?
+    let volatility: Double?
+    let compositeScore: Double?
+
+    enum CodingKeys: String, CodingKey {
+        case financialHealth = "financial_health"
+        case newsSentiment = "news_sentiment"
+        case macroExposure = "macro_exposure"
+        case sectorExposure = "sector_exposure"
+        case volatility = "volatility"
+        case compositeScore = "composite_score"
     }
 }

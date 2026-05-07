@@ -1082,72 +1082,36 @@ def _store_relevant_news_items(
     analysis_run_id: str,
     relevant_articles: list[dict],
 ):
+    from ..services.news_enrichment import enrich_and_store_articles_batch
+    import asyncio
+
+    articles_to_store = []
     for article in relevant_articles:
-        affected_tickers = article.get("relevance", {}).get("affected_tickers", []) or [
-            None
-        ]
-        for affected_ticker in affected_tickers:
-            existing = (
-                supabase.table("news_items")
-                .select("id")
-                .eq("analysis_run_id", analysis_run_id)
-                .eq("event_hash", article.get("event_hash"))
-                .eq("ticker", affected_ticker)
-                .limit(1)
-                .execute()
-                .data
+        articles_to_store.append({
+            "ticker": article.get("ticker", ""),
+            "title": article.get("title", ""),
+            "source": article.get("source", ""),
+            "url": article.get("url", ""),
+            "source_url": article.get("source_url") or article.get("url", ""),
+            "resolved_url": article.get("resolved_url") or article.get("url", ""),
+            "published_at": article.get("published_at"),
+            "body": article.get("body", ""),
+            "summary": article.get("summary", ""),
+            "event_hash": article.get("event_hash"),
+            "event_type": article.get("event_type"),
+            "significance": "minor",
+            "tags": article.get("tags") or [],
+        })
+
+    if articles_to_store:
+        try:
+            asyncio.ensure_future(
+                enrich_and_store_articles_batch(
+                    supabase, articles_to_store, analysis_run_id=analysis_run_id
+                )
             )
-            if existing:
-                continue
-
-            try:
-                supabase.table("news_items").insert(
-                    {
-                        "user_id": user_id,
-                        "ticker": affected_ticker,
-                        "title": article.get("title", ""),
-                        "source": article.get("source", ""),
-                        "url": article.get("url", ""),
-                        "significance": None,
-                        "event_hash": article.get("event_hash"),
-                        "published_at": article.get("published_at"),
-                        "body": article.get("body", ""),
-                        "affected_tickers": article.get("relevance", {}).get(
-                            "affected_tickers", []
-                        ),
-                        "relevance": article.get("relevance", {}),
-                        "analysis_run_id": analysis_run_id,
-                    }
-                ).execute()
-            except Exception:
-                continue
-
-    from ..services.ticker_cache_service import sync_ticker_news_cache
-
-    for ticker in sorted(
-        {
-            str(ticker or "").strip().upper()
-            for article in relevant_articles
-            for ticker in (
-                article.get("relevance", {}).get("affected_tickers", [])
-                or [article.get("ticker")]
-            )
-            if str(ticker or "").strip()
-        }
-    ):
-        cache_articles = []
-        for article in relevant_articles:
-            affected_tickers = article.get("relevance", {}).get(
-                "affected_tickers", []
-            ) or [article.get("ticker")]
-            normalized = {
-                str(item or "").strip().upper()
-                for item in affected_tickers
-                if str(item or "").strip()
-            }
-            if ticker in normalized:
-                cache_articles.append(article)
-        sync_ticker_news_cache(supabase, ticker=ticker, news_rows=cache_articles)
+        except Exception as exc:
+            logger.warning("news_enrichment batch failed: %s", exc)
 
 
 async def _load_ticker_metadata_map(
@@ -5242,8 +5206,7 @@ def _cleanup_old_news_items() -> None:
 
     cutoff = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat()
     supabase = get_supabase()
-    supabase.table("news_items").delete().lt("processed_at", cutoff).execute()
-    supabase.table("ticker_news_cache").delete().lt("processed_at", cutoff).execute()
+    supabase.table("shared_ticker_events").delete().lt("published_at", cutoff).execute()
 
 
 def _schedule_news_cleanup() -> None:

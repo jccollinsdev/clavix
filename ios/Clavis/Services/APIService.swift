@@ -610,9 +610,8 @@ struct PositionDetailResponse: Codable {
     let currentScore: RiskScore?
     let currentAnalysis: PositionAnalysis?
     let methodology: String?
-    let dimensionBreakdown: [String: String]?
+    let dimensionBreakdown: DimensionBreakdown?
     let latestEventAnalyses: [EventAnalysis]
-    let mirofishUsedThisCycle: Bool
     let recentNews: [NewsItem]
     let recentAlerts: [Alert]
 
@@ -623,7 +622,6 @@ struct PositionDetailResponse: Codable {
         case methodology
         case dimensionBreakdown = "dimension_breakdown"
         case latestEventAnalyses = "latest_event_analyses"
-        case mirofishUsedThisCycle = "mirofish_used_this_cycle"
         case recentNews = "recent_news"
         case recentAlerts = "recent_alerts"
     }
@@ -634,9 +632,8 @@ struct PositionDetailResponse: Codable {
         currentScore = try? container.decodeIfPresent(RiskScore.self, forKey: .currentScore)
         currentAnalysis = try? container.decodeIfPresent(PositionAnalysis.self, forKey: .currentAnalysis)
         methodology = try container.decodeIfPresent(String.self, forKey: .methodology)
-        dimensionBreakdown = try? container.decodeIfPresent([String: String].self, forKey: .dimensionBreakdown)
+        dimensionBreakdown = try? container.decodeIfPresent(DimensionBreakdown.self, forKey: .dimensionBreakdown)
         latestEventAnalyses = (try? container.decode([EventAnalysis].self, forKey: .latestEventAnalyses)) ?? []
-        mirofishUsedThisCycle = (try? container.decode(Bool.self, forKey: .mirofishUsedThisCycle)) ?? false
         recentNews = (try? container.decode([NewsItem].self, forKey: .recentNews)) ?? []
         recentAlerts = (try? container.decode([Alert].self, forKey: .recentAlerts)) ?? []
     }
@@ -743,7 +740,7 @@ struct TickerDetailResponse: Codable {
     let currentScore: RiskScore?
     let currentAnalysis: PositionAnalysis?
     let methodology: String?
-    let dimensionBreakdown: [String: String]?
+    let dimensionBreakdown: DimensionBreakdown?
     let latestEventAnalyses: [EventAnalysis]
     let recentNews: [NewsItem]
     let recentAlerts: [Alert]
@@ -791,7 +788,7 @@ struct TickerDetailResponse: Codable {
         currentScore = try? container.decodeIfPresent(RiskScore.self, forKey: .currentScore)
         currentAnalysis = try? container.decodeIfPresent(PositionAnalysis.self, forKey: .currentAnalysis)
         methodology = try container.decodeIfPresent(String.self, forKey: .methodology)
-        dimensionBreakdown = try? container.decodeIfPresent([String: String].self, forKey: .dimensionBreakdown)
+        dimensionBreakdown = try? container.decodeIfPresent(DimensionBreakdown.self, forKey: .dimensionBreakdown)
         latestEventAnalyses = (try? container.decode([EventAnalysis].self, forKey: .latestEventAnalyses)) ?? []
         recentNews = (try? container.decode([NewsItem].self, forKey: .recentNews)) ?? []
         recentAlerts = (try? container.decode([Alert].self, forKey: .recentAlerts)) ?? []

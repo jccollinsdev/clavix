@@ -48,7 +48,10 @@ struct HoldingsListView: View {
     }
 
     private var riskyCount: Int {
-        viewModel.holdings.filter { $0.resolvedRiskGrade == "D" || $0.resolvedRiskGrade == "F" }.count
+        viewModel.holdings.filter {
+            let g = $0.resolvedRiskGrade ?? ""
+            return Grade.ordinalValue(for: g) <= 5
+        }.count
     }
 
     private var improvingCount: Int {
@@ -335,7 +338,8 @@ struct HoldingsListView: View {
 
     private var needsReviewPositions: [Position] {
         sortedHoldings.filter {
-            $0.resolvedRiskGrade == "D" || $0.resolvedRiskGrade == "F" || $0.riskTrend == .worsening
+            let g = $0.resolvedRiskGrade ?? ""
+            return Grade.ordinalValue(for: g) <= 5 || $0.riskTrend == .worsening
         }
     }
 
@@ -1188,10 +1192,7 @@ struct AddPositionProgressView: View {
     }
 
     private var progressGrade: String {
-        if viewModel.progressValue >= 1.0 { return "A" }
-        if viewModel.progressValue >= 0.6 { return "B" }
-        if viewModel.progressValue >= 0.3 { return "C" }
-        return "D"
+        return "Analyzing\u{2026}"
     }
 
     private var progressStageText: String {

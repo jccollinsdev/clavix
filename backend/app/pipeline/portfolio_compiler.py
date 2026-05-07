@@ -796,7 +796,7 @@ Positions:
 {position_summary}
 """
 
-    token_map = {"brief": 800, "standard": 1400, "detailed": 2200}
+    token_map = {"brief": 800, "standard": 1400, "verbose": 2200}
     max_tokens = token_map.get(summary_length, 1400)
 
     try:
@@ -877,6 +877,11 @@ Positions:
         or parsed.get("content")
         or fallback["overall_summary"],
         "sections": {
+            "header": {
+                "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                "portfolio_grade": overall_grade,
+                "summary_line": f"Your portfolio is rated {overall_grade} today.",
+            },
             "overnight_macro": sections.get("overnight_macro")
             or (macro_context.get("overnight_macro") if macro_context else None)
             or fallback["sections"].get("overnight_macro")
@@ -885,17 +890,15 @@ Positions:
                 "themes": [],
                 "brief": "No overnight macro developments.",
             },
-            "sector_overview": normalized_sector_overview,
-            "position_impacts": normalized_position_impacts,
-            "portfolio_impact": sections.get("portfolio_impact")
-            or fallback["sections"].get("portfolio_impact")
-            or [],
-            "major_events": sections.get("major_events")
-            or fallback["sections"]["major_events"],
-            "what_matters_today": what_matters_today,
-            "watchlist_alerts": normalized_watchlist_alerts,
-            "watch_list": normalized_watch_list,
-            "monitoring_notes": monitoring_notes,
-            "portfolio_advice": monitoring_notes,
+            "sector_heat": normalized_sector_overview,
+            "positions": normalized_position_impacts,
+            "watchlist_updates": {
+                "alerts": normalized_watchlist_alerts,
+                "watch_list": normalized_watch_list,
+            },
+            "what_to_watch_today": {
+                "catalysts": what_matters_today,
+                "monitoring": monitoring_notes,
+            },
         },
     }

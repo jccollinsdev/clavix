@@ -100,47 +100,67 @@ struct DigestHistoryResponse: Codable {
     let message: String?
 }
 
-struct DigestSections: Codable {
-    let digestVersion: Int?
-    let overnightMacro: DigestMacroSection?
-    let sectorOverview: [DigestSectorOverviewItem]
-    let positionImpacts: [DigestPositionImpact]
-    let portfolioImpact: [String]
-    let whatMattersToday: [DigestWhatMattersItem]
-    let watchlistAlerts: [String]
-    let majorEvents: [String]
-    let watchList: [String]
-    let portfolioAdvice: [String]
+struct DigestHeader: Codable, Hashable {
+    let date: String
+    let portfolioGrade: String
+    let summaryLine: String
 
     enum CodingKeys: String, CodingKey {
-        case digestVersion = "digest_version"
+        case date
+        case portfolioGrade = "portfolio_grade"
+        case summaryLine = "summary_line"
+    }
+}
+
+struct DigestSections: Codable {
+    let header: DigestHeader?
+    let overnightMacro: DigestMacroSection?
+    let sectorHeat: [DigestSectorOverviewItem]
+    let positions: [DigestPositionImpact]
+    let watchlistUpdates: DigestWatchlistUpdates?
+    let whatToWatchToday: DigestWhatToWatch?
+
+    enum CodingKeys: String, CodingKey {
+        case header
         case overnightMacro = "overnight_macro"
-        case sectorOverview = "sector_overview"
-        case positionImpacts = "position_impacts"
-        case portfolioImpact = "portfolio_impact"
-        case whatMattersToday = "what_matters_today"
-        case watchlistAlerts = "watchlist_alerts"
-        case majorEvents = "major_events"
-        case watchList = "watch_list"
-        case portfolioAdvice = "portfolio_advice"
+        case sectorHeat = "sector_heat"
+        case positions
+        case watchlistUpdates = "watchlist_updates"
+        case whatToWatchToday = "what_to_watch_today"
     }
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        digestVersion = try container.decodeIfPresent(Int.self, forKey: .digestVersion)
+        header = try? container.decodeIfPresent(DigestHeader.self, forKey: .header)
         overnightMacro = try? container.decodeIfPresent(DigestMacroSection.self, forKey: .overnightMacro)
-        sectorOverview = (try? container.decode([DigestSectorOverviewItem].self, forKey: .sectorOverview)) ?? []
-        positionImpacts = (try? container.decode([DigestPositionImpact].self, forKey: .positionImpacts)) ?? []
-        portfolioImpact = (try? container.decode([String].self, forKey: .portfolioImpact)) ?? []
-        whatMattersToday = (try? container.decode([DigestWhatMattersItem].self, forKey: .whatMattersToday)) ?? []
-        watchlistAlerts = (try? container.decode([String].self, forKey: .watchlistAlerts)) ?? []
-        majorEvents = (try? container.decode([String].self, forKey: .majorEvents)) ?? []
-        watchList = (try? container.decode([String].self, forKey: .watchList)) ?? []
-        portfolioAdvice = (try? container.decode([String].self, forKey: .portfolioAdvice)) ?? []
+        sectorHeat = (try? container.decode([DigestSectorOverviewItem].self, forKey: .sectorHeat)) ?? []
+        positions = (try? container.decode([DigestPositionImpact].self, forKey: .positions)) ?? []
+        watchlistUpdates = try? container.decodeIfPresent(DigestWatchlistUpdates.self, forKey: .watchlistUpdates)
+        whatToWatchToday = try? container.decodeIfPresent(DigestWhatToWatch.self, forKey: .whatToWatchToday)
     }
 }
 
-struct DigestMacroSection: Codable {
+struct DigestWatchlistUpdates: Codable, Hashable {
+    let alerts: [String]
+    let watchList: [String]
+
+    enum CodingKeys: String, CodingKey {
+        case alerts
+        case watchList = "watch_list"
+    }
+}
+
+struct DigestWhatToWatch: Codable, Hashable {
+    let catalysts: [DigestWhatMattersItem]
+    let monitoring: [String]
+
+    enum CodingKeys: String, CodingKey {
+        case catalysts
+        case monitoring
+    }
+}
+
+struct DigestMacroSection: Codable, Hashable {
     let headlines: [String]
     let themes: [String]
     let brief: String
@@ -160,7 +180,7 @@ struct DigestPositionImpact: Codable, Hashable, Identifiable {
     let impactSummary: String
     let watchItems: [String]
     let topRisks: [String]
-    let dimensionBreakdown: [String: String]
+    let dimensionBreakdown: DimensionBreakdown?
     let urgency: String?
 
     var id: String { ticker }
@@ -182,7 +202,7 @@ struct DigestPositionImpact: Codable, Hashable, Identifiable {
         impactSummary = try container.decodeIfPresent(String.self, forKey: .impactSummary) ?? ""
         watchItems = (try? container.decode([String].self, forKey: .watchItems)) ?? []
         topRisks = (try? container.decode([String].self, forKey: .topRisks)) ?? []
-        dimensionBreakdown = (try? container.decode([String: String].self, forKey: .dimensionBreakdown)) ?? [:]
+        dimensionBreakdown = try? container.decodeIfPresent(DimensionBreakdown.self, forKey: .dimensionBreakdown)
         urgency = try container.decodeIfPresent(String.self, forKey: .urgency)
     }
 }
