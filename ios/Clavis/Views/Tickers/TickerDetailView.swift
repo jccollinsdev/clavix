@@ -17,6 +17,9 @@ struct TickerDetailView: View {
     @State private var selectedDays: Int = 30
     @State private var hasLoaded = false
     @State private var showFullSummary = false
+    @State private var showMethodologyDrawer = false
+    @State private var selectedDimension: String = "financial_health"
+    @State private var methodology: MethodologyResponse?
     @State private var selectedEvent: EventAnalysis?
 
     init(ticker: String, positionId: String? = nil) {
@@ -62,6 +65,15 @@ struct TickerDetailView: View {
                 TDExecSummarySheet(
                     ticker: ticker,
                     analysis: analysis
+                )
+            }
+        }
+        .sheet(isPresented: $showMethodologyDrawer) {
+            if let m = methodology {
+                MethodologyDrawerSheet(
+                    ticker: ticker,
+                    methodology: m,
+                    tappedDimension: selectedDimension
                 )
             }
         }
@@ -454,6 +466,7 @@ struct TickerDetailView: View {
 
     private struct TDDimItem: Identifiable {
         let id = UUID()
+        let key: String
         let title: String
         let value: Double?
     }
@@ -485,41 +498,62 @@ struct TickerDetailView: View {
         guard fh != nil || news != nil || macro != nil || sector != nil || vol != nil else { return nil }
 
         return [
-            TDDimItem(title: "Financial Health", value: fh),
-            TDDimItem(title: "News Sentiment", value: news),
-            TDDimItem(title: "Macro Exposure", value: macro),
-            TDDimItem(title: "Sector Exposure", value: sector),
-            TDDimItem(title: "Volatility", value: vol),
+            TDDimItem(key: "financial_health", title: "Financial Health", value: fh),
+            TDDimItem(key: "news_sentiment", title: "News Sentiment", value: news),
+            TDDimItem(key: "macro_exposure", title: "Macro Exposure", value: macro),
+            TDDimItem(key: "sector_exposure", title: "Sector Exposure", value: sector),
+            TDDimItem(key: "volatility", title: "Volatility", value: vol),
         ]
+    }
+
+    private func openMethodologyDrawer(dimension: String) {
+        Task {
+            do {
+                let m = try await APIService.shared.fetchTickerMethodology(ticker: ticker)
+                await MainActor.run {
+                    methodology = m
+                    selectedDimension = dimension
+                    showMethodologyDrawer = true
+                }
+            } catch {
+                print("[Methodology] failed to load: \(error)")
+            }
+        }
     }
 
     private func riskDimensionsList(_ dims: [TDDimItem]) -> some View {
         VStack(spacing: 12) {
             ForEach(dims) { dim in
-                VStack(spacing: 7) {
-                    HStack {
-                        Text(dim.title)
-                            .font(ClavisTypography.inter(14, weight: .regular))
-                            .foregroundColor(.textSecondary)
-                        Spacer()
-                        Text(dim.value.map { "\(Int($0.rounded()))" } ?? "—")
-                            .font(ClavisTypography.inter(14, weight: .bold))
-                            .foregroundColor(.textPrimary)
-                    }
-                    GeometryReader { geo in
-                        ZStack(alignment: .leading) {
-                            RoundedRectangle(cornerRadius: 999, style: .continuous)
-                                .fill(Color.surfaceElevated)
-                                .frame(height: 4)
-                            if let v = dim.value {
+                Button(action: { openMethodologyDrawer(dimension: dim.key) }) {
+                    VStack(spacing: 7) {
+                        HStack {
+                            Text(dim.title)
+                                .font(ClavisTypography.inter(14, weight: .regular))
+                                .foregroundColor(.textSecondary)
+                            Spacer()
+                            Text(dim.value.map { "\(Int($0.rounded()))" } ?? "\u{2014}")
+                                .font(ClavisTypography.inter(14, weight: .bold))
+                                .foregroundColor(.textPrimary)
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 11, weight: .medium))
+                                .foregroundColor(.textTertiary)
+                        }
+                        GeometryReader { geo in
+                            ZStack(alignment: .leading) {
                                 RoundedRectangle(cornerRadius: 999, style: .continuous)
-                                    .fill(Color(hex: "#9ba4b3"))
-                                    .frame(width: max(0, geo.size.width * CGFloat(min(max(v, 0), 100) / 100.0)), height: 4)
+                                    .fill(Color.surfaceElevated)
+                                    .frame(height: 4)
+                                if let v = dim.value {
+                                    RoundedRectangle(cornerRadius: 999, style: .continuous)
+                                        .fill(Color(hex: "#9ba4b3"))
+                                        .frame(width: max(0, geo.size.width * CGFloat(min(max(v, 0), 100) / 100.0)), height: 4)
+                                }
                             }
                         }
+                        .frame(height: 4)
                     }
-                    .frame(height: 4)
                 }
+                .buttonStyle(.plain)
             }
         }
     }
