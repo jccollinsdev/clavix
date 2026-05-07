@@ -208,6 +208,11 @@ class APIService {
         return try decoder.decode(TickerDetailResponse.self, from: data)
     }
 
+    func fetchTickerMethodology(ticker: String) async throws -> MethodologyResponse {
+        let data = try await makeRequest(path: "/tickers/\(ticker)/methodology")
+        return try decoder.decode(MethodologyResponse.self, from: data)
+    }
+
     func refreshTicker(ticker: String) async throws -> TickerRefreshResponse {
         let data = try await makeRequest(path: "/tickers/\(ticker)/refresh", method: "POST", body: Data())
         return try decoder.decode(TickerRefreshResponse.self, from: data)

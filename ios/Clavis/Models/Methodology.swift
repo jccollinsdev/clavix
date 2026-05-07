@@ -31,7 +31,7 @@ struct MethodologyDimensions: Codable {
 struct MethodologyDimension: Codable, Identifiable {
     let score: Double?
     let label: String
-    let inputs: [String: AnyCodable]?
+    let inputs: [String: String]?
     let regression: MacroRegressionData?
     let articles: [MethodologyArticle]?
     let articleCount: Int?
@@ -107,41 +107,5 @@ struct MethodologyComposite: Codable {
         case grade
         case score
         case methodologyVersion = "methodology_version"
-    }
-}
-
-struct AnyCodable: Codable {
-    let value: Any
-
-    init(_ value: Any) { self.value = value }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let intVal = try? container.decode(Int.self) {
-            value = intVal
-        } else if let doubleVal = try? container.decode(Double.self) {
-            value = doubleVal
-        } else if let stringVal = try? container.decode(String.self) {
-            value = stringVal
-        } else if let boolVal = try? container.decode(Bool.self) {
-            value = boolVal
-        } else {
-            value = NSNull()
-        }
-    }
-
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        if let intVal = value as? Int {
-            try container.encode(intVal)
-        } else if let doubleVal = value as? Double {
-            try container.encode(doubleVal)
-        } else if let stringVal = value as? String {
-            try container.encode(stringVal)
-        } else if let boolVal = value as? Bool {
-            try container.encode(boolVal)
-        } else {
-            try container.encodeNil()
-        }
     }
 }
