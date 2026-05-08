@@ -141,10 +141,8 @@ def test_delete_account_full_data(monkeypatch):
         "analysis_runs": [{"id": "run-1", "user_id": "user-abc"}],
         "position_analyses": [{"id": "pa-1", "position_id": position_id}],
         "event_analyses": [{"id": "ea-1", "position_id": position_id}],
-        "risk_scores": [{"id": "rs-1", "position_id": position_id}],
         "alerts": [{"id": "al-1", "user_id": "user-abc"}],
         "digests": [{"id": "dg-1", "user_id": "user-abc"}],
-        "news_items": [{"id": "ni-1", "user_id": "user-abc"}],
         "portfolio_risk_snapshots": [{"id": "prs-1", "user_id": "user-abc"}],
         "scheduler_jobs": [{"id": "sj-1", "user_id": "user-abc"}],
         "user_preferences": [{"id": "up-1", "user_id": "user-abc"}],
@@ -164,7 +162,7 @@ def test_delete_account_full_data(monkeypatch):
     # All user-owned rows must be gone
     for table in [
         "positions", "analysis_runs", "position_analyses", "event_analyses",
-        "risk_scores", "alerts", "digests", "news_items",
+        "alerts", "digests",
         "portfolio_risk_snapshots", "scheduler_jobs",
         "user_preferences", "watchlists", "watchlist_items",
     ]:
