@@ -69,8 +69,6 @@ struct DigestView: View {
             .safeAreaInset(edge: .top, spacing: 0) {
                 DigestTopHeader(onOpenHoldings: { selectedTab = 1 })
             }
-            .contentMargins(.top, 0, for: .scrollContent)
-            .contentMargins(.bottom, 0, for: .scrollContent)
             .refreshable {
                 await viewModel.reloadDigestFromDatabase()
             }
@@ -82,7 +80,7 @@ struct DigestView: View {
                     Task { await viewModel.loadDigest() }
                 }
             }
-            .onChange(of: selectedTab) { _, newValue in
+            .onChange(of: selectedTab) { newValue in
                 if newValue == 2 && !hasLoaded && !viewModel.isLoading {
                     hasLoaded = true
                     Task { await viewModel.loadDigest() }
@@ -184,16 +182,13 @@ private struct DigestPrototypePositionImpactsSection: View {
                                     .fixedSize(horizontal: false, vertical: true)
                             }
 
-                            if !impact.dimensionBreakdown.isEmpty {
+                            if let db = impact.dimensionBreakdown {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    ForEach(impact.dimensionBreakdown.keys.sorted(), id: \.self) { key in
-                                        if let value = impact.dimensionBreakdown[key], !value.isEmpty {
-                                            Text("\(key.replacingOccurrences(of: "_", with: " ").capitalized): \(value)")
-                                                .font(ClavisTypography.footnote)
-                                                .foregroundColor(.textSecondary)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                        }
-                                    }
+                                    DimensionBreakdownRow(label: "Financial Health", value: db.financialHealth)
+                                    DimensionBreakdownRow(label: "News Sentiment", value: db.newsSentiment)
+                                    DimensionBreakdownRow(label: "Macro Exposure", value: db.macroExposure)
+                                    DimensionBreakdownRow(label: "Sector Exposure", value: db.sectorExposure)
+                                    DimensionBreakdownRow(label: "Volatility", value: db.volatility)
                                 }
                             }
                         }
@@ -266,7 +261,7 @@ struct DigestHeroCard: View {
                 }
             }
         }
-        if let warnings = digest?.structuredSections?.watchlistAlerts, let first = warnings.first {
+        if let warnings = digest?.structuredSections?.watchlistUpdates?.alerts, let first = warnings.first {
             drivers.append(first.sanitizedDisplayText)
         }
         return Array(drivers.prefix(2))
@@ -697,5 +692,24 @@ private extension String {
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
         return paragraphs.first
+    }
+}
+
+private struct DimensionBreakdownRow: View {
+    let label: String
+    let value: Double?
+
+    var body: some View {
+        if let v = value {
+            HStack {
+                Text(label)
+                    .font(ClavisTypography.footnote)
+                    .foregroundColor(.textSecondary)
+                Spacer()
+                Text("\(Int(v.rounded()))")
+                    .font(.system(size: 12, weight: .medium, design: .monospaced))
+                    .foregroundColor(.textPrimary)
+            }
+        }
     }
 }

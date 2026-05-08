@@ -60,8 +60,6 @@ struct DashboardView: View {
             .safeAreaInset(edge: .top, spacing: 0) {
                 DashboardTopHeader(refresh: { Task { await viewModel.loadData() } })
             }
-            .contentMargins(.top, 0, for: .scrollContent)
-            .contentMargins(.bottom, 0, for: .scrollContent)
             .refreshable {
                 await viewModel.loadData()
             }

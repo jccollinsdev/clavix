@@ -198,12 +198,10 @@ struct HoldingsListView: View {
                     HoldingsSearchBar(query: $searchQuery)
                 }
             }
-            .contentMargins(.top, 0, for: .scrollContent)
-            .contentMargins(.bottom, 0, for: .scrollContent)
             .refreshable {
                 await viewModel.refreshHoldings()
             }
-            .onChange(of: searchQuery) { _, newValue in
+            .onChange(of: searchQuery) { newValue in
                 scheduleTickerSearch(for: newValue)
             }
             .background(ClavisAtmosphereBackground())
@@ -238,8 +236,8 @@ struct HoldingsListView: View {
                     Task { await viewModel.refreshWatchlist() }
                 }
             }
-            .onChange(of: deepLinkTicker) { _, newValue in
-                guard let newValue else { return }
+            .onChange(of: deepLinkTicker) { newValue in
+                guard let newValue = newValue else { return }
                 navigationPath = [.ticker(newValue)]
                 deepLinkTicker = nil
             }
@@ -918,7 +916,7 @@ struct AddPositionSheet: View {
                         .textCase(.uppercase)
                         .textInputAutocapitalization(.characters)
                         .autocorrectionDisabled()
-                        .onChange(of: ticker) { _, newValue in
+                        .onChange(of: ticker) { newValue in
                             resolveTickerTask?.cancel()
                             resolveTickerTask = Task { await resolveTicker(newValue) }
                         }
