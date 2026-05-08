@@ -1,3 +1,4 @@
+from __future__ import annotations
 from app.services.minimax import chatcompletion_text
 from .analysis_utils import extract_json_list, extract_json_object
 

@@ -127,7 +127,7 @@ def test_build_driver_cards_prefers_specific_summary_over_generic_primary_note()
 def test_build_driver_cards_classifies_stretched_valuation_as_negative():
     cards, state, source = _build_driver_cards(
         {"ticker": "AMD", "status": "ready"},
-        news_items=[
+        related_articles=[
             {
                 "headline": "AMD: Strong AI Tailwinds, But Valuation Is Getting Ahead Of Reality (NASDAQ:AMD) - Seeking Alpha",
                 "summary": "AMD: Strong AI Tailwinds, But Valuation Is Getting Ahead Of Reality (NASDAQ:AMD) Seeking Alpha",
@@ -213,7 +213,7 @@ def test_build_driver_cards_prefers_crypto_revenue_summary_over_headline():
 def test_build_driver_cards_handles_missing_timestamps():
     cards, state, _source = _build_driver_cards(
         {"ticker": "HOOD", "status": "ready"},
-        news_items=[
+        related_articles=[
             {
                 "headline": "Robinhood revenue outlook weakens after crypto slowdown - Reuters",
                 "summary": "Robinhood revenue outlook weakens after crypto slowdown Reuters",

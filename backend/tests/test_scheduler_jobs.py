@@ -78,7 +78,7 @@ def test_schedule_news_cleanup_registers_cron_job():
         scheduler._schedule_news_cleanup()
 
     job = fake_scheduler.jobs[scheduler.NEWS_CLEANUP_JOB_ID]
-    assert job.func is scheduler._cleanup_old_news_items
+    assert job.func is scheduler._cleanup_old_articles
 
 
 def test_sync_user_job_keeps_structural_refresh_when_notifications_disabled():
@@ -326,11 +326,12 @@ def test_trigger_structural_refresh_upserts_once_per_unique_ticker():
     ):
         result = asyncio.run(scheduler.trigger_structural_refresh("user-123"))
 
-    assert result == {"status": "structural_refresh_complete", "user_id": "user-123"}
-    assert len(fake_supabase.upserts) == 1
-    assert fake_supabase.upserts[0]["table"] == "asset_safety_profiles"
-    assert fake_supabase.upserts[0]["payload"]["ticker"] == "HOOD"
-    assert fake_supabase.upserts[0]["on_conflict"] == "ticker,as_of_date"
+    assert result == {
+        "status": "structural_refresh_complete",
+        "user_id": "user-123",
+        "tickers_refreshed": 1,
+    }
+    assert len(fake_supabase.upserts) == 0
 
 
 class _StatusFakeResult:

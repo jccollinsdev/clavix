@@ -137,7 +137,7 @@ def _base_rows(
                 "dimension_rationale": {},
             }
         ],
-        "ticker_news_cache": news_rows,
+        "shared_ticker_events": news_rows,
         "positions": [],
         "risk_scores": [],
         "position_analyses": [],
@@ -284,7 +284,7 @@ def test_build_risk_score_response_no_dimension_math_when_no_reasoning():
             }
         },
     }
-    result = build_risk_score_response(snapshot, position_id="pos-1", include_position_sizing=False)
+    result = build_risk_score_response(snapshot, position_id="pos-1")
     reasoning = result["reasoning"] or ""
     assert not _DIMENSION_MATH_PATTERN.search(reasoning), (
         f"Dimension math leaked into reasoning: {reasoning!r}"
@@ -316,7 +316,6 @@ def test_legacy_text_is_replaced_in_build_risk_score_response():
          "analysis_as_of": "2026-04-25T01:00:00+00:00", "source_count": 2},
         position_id="pos-1",
         latest_position_score={"reasoning": old_reasoning, "safety_score": 60, "source_count": 2},
-        include_position_sizing=False,
     )
     reasoning = result["reasoning"] or ""
     assert not _DIMENSION_MATH_PATTERN.search(reasoning), (
