@@ -48,7 +48,10 @@ struct HoldingsListView: View {
     }
 
     private var riskyCount: Int {
-        viewModel.holdings.filter { $0.resolvedRiskGrade == "D" || $0.resolvedRiskGrade == "F" }.count
+        viewModel.holdings.filter {
+            let g = $0.resolvedRiskGrade ?? ""
+            return Grade.ordinalValue(for: g) <= 5
+        }.count
     }
 
     private var improvingCount: Int {
@@ -195,12 +198,10 @@ struct HoldingsListView: View {
                     HoldingsSearchBar(query: $searchQuery)
                 }
             }
-            .contentMargins(.top, 0, for: .scrollContent)
-            .contentMargins(.bottom, 0, for: .scrollContent)
             .refreshable {
                 await viewModel.refreshHoldings()
             }
-            .onChange(of: searchQuery) { _, newValue in
+            .onChange(of: searchQuery) { newValue in
                 scheduleTickerSearch(for: newValue)
             }
             .background(ClavisAtmosphereBackground())
@@ -235,8 +236,8 @@ struct HoldingsListView: View {
                     Task { await viewModel.refreshWatchlist() }
                 }
             }
-            .onChange(of: deepLinkTicker) { _, newValue in
-                guard let newValue else { return }
+            .onChange(of: deepLinkTicker) { newValue in
+                guard let newValue = newValue else { return }
                 navigationPath = [.ticker(newValue)]
                 deepLinkTicker = nil
             }
@@ -335,7 +336,8 @@ struct HoldingsListView: View {
 
     private var needsReviewPositions: [Position] {
         sortedHoldings.filter {
-            $0.resolvedRiskGrade == "D" || $0.resolvedRiskGrade == "F" || $0.riskTrend == .worsening
+            let g = $0.resolvedRiskGrade ?? ""
+            return Grade.ordinalValue(for: g) <= 5 || $0.riskTrend == .worsening
         }
     }
 
@@ -914,7 +916,7 @@ struct AddPositionSheet: View {
                         .textCase(.uppercase)
                         .textInputAutocapitalization(.characters)
                         .autocorrectionDisabled()
-                        .onChange(of: ticker) { _, newValue in
+                        .onChange(of: ticker) { newValue in
                             resolveTickerTask?.cancel()
                             resolveTickerTask = Task { await resolveTicker(newValue) }
                         }
@@ -1188,10 +1190,7 @@ struct AddPositionProgressView: View {
     }
 
     private var progressGrade: String {
-        if viewModel.progressValue >= 1.0 { return "A" }
-        if viewModel.progressValue >= 0.6 { return "B" }
-        if viewModel.progressValue >= 0.3 { return "C" }
-        return "D"
+        return "Analyzing\u{2026}"
     }
 
     private var progressStageText: String {
@@ -1199,9 +1198,9 @@ struct AddPositionProgressView: View {
         switch viewModel.progressMessage {
         case let m where m.contains("Adding"):      return "CREATING POSITION"
         case let m where m.contains("limited"):     return "LIMITED DATA"
-        case let m where m.contains("running"):     return "ANALYSIS RUNNING"
+        case let m where m.contains("running"):     return "ANALYSIS IN PROGRESS"
         case let m where m.contains("ready"):       return "POSITION READY"
-        case let m where m.contains("failed"):      return "ANALYSIS FAILED"
+        case let m where m.contains("failed"):      return "ANALYSIS UNAVAILABLE"
         default:                                     return "UPDATING POSITION"
         }
     }

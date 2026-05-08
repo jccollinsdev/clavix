@@ -39,11 +39,6 @@ struct AlertsView: View {
                 .padding(.top, 0)
                 .padding(.bottom, ClavisTheme.largeSpacing)
             }
-            .safeAreaInset(edge: .top, spacing: 0) {
-                AlertsTopHeader()
-            }
-            .contentMargins(.top, 0, for: .scrollContent)
-            .contentMargins(.bottom, 0, for: .scrollContent)
             .refreshable {
                 await viewModel.loadAlerts()
             }
@@ -55,7 +50,7 @@ struct AlertsView: View {
                     Task { await viewModel.loadAlerts() }
                 }
             }
-            .onChange(of: selectedTab) { _, newValue in
+            .onChange(of: selectedTab) { newValue in
                 if newValue == 3 && !hasLoaded && !viewModel.isLoading {
                     hasLoaded = true
                     Task { await viewModel.loadAlerts() }
@@ -143,10 +138,12 @@ private struct AlertsSummaryGrid: View {
         case .critical:
             return .high
         case .warning:
-            if alert.newGrade == "C" || alert.previousGrade == "C" || alert.type == .majorEvent {
-                return .elevated
+            let currentOrd = Grade.ordinalValue(for: alert.newGrade ?? "")
+            let prevOrd = Grade.ordinalValue(for: alert.previousGrade ?? "")
+            if abs(currentOrd - prevOrd) >= 3 {
+                return .high
             }
-            return .high
+            return .elevated
         case .informational:
             return .info
         }

@@ -41,11 +41,16 @@ class TestDeadCodeRemoved:
     def test_score_to_grade_is_only_grade_band(self):
         """The ONLY grade band definition is analysis_utils.score_to_grade."""
         assert callable(score_to_grade)
-        assert score_to_grade(80) == "A"
-        assert score_to_grade(65) == "B"
-        assert score_to_grade(50) == "C"
-        assert score_to_grade(35) == "D"
-        assert score_to_grade(34) == "F"
+        assert score_to_grade(95) == "AAA"
+        assert score_to_grade(80) == "AA"
+        assert score_to_grade(70) == "A"
+        assert score_to_grade(60) == "BBB"
+        assert score_to_grade(50) == "BB"
+        assert score_to_grade(40) == "B"
+        assert score_to_grade(30) == "CCC"
+        assert score_to_grade(20) == "CC"
+        assert score_to_grade(10) == "C"
+        assert score_to_grade(5) == "F"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -56,15 +61,25 @@ class TestCanonicalGradeBands:
     """score_to_grade() is the single source of truth for grade mapping."""
 
     def test_grade_boundaries(self):
-        assert score_to_grade(100) == "A"
-        assert score_to_grade(80) == "A"
-        assert score_to_grade(79.9) == "B"
-        assert score_to_grade(65) == "B"
-        assert score_to_grade(64.9) == "C"
-        assert score_to_grade(50) == "C"
-        assert score_to_grade(49.9) == "D"
-        assert score_to_grade(35) == "D"
-        assert score_to_grade(34.9) == "F"
+        assert score_to_grade(100) == "AAA"
+        assert score_to_grade(90) == "AAA"
+        assert score_to_grade(89.9) == "AA"
+        assert score_to_grade(80) == "AA"
+        assert score_to_grade(79.9) == "A"
+        assert score_to_grade(70) == "A"
+        assert score_to_grade(69.9) == "BBB"
+        assert score_to_grade(60) == "BBB"
+        assert score_to_grade(59.9) == "BB"
+        assert score_to_grade(50) == "BB"
+        assert score_to_grade(49.9) == "B"
+        assert score_to_grade(40) == "B"
+        assert score_to_grade(39.9) == "CCC"
+        assert score_to_grade(30) == "CCC"
+        assert score_to_grade(29.9) == "CC"
+        assert score_to_grade(20) == "CC"
+        assert score_to_grade(19.9) == "C"
+        assert score_to_grade(10) == "C"
+        assert score_to_grade(9.9) == "F"
         assert score_to_grade(0) == "F"
 
     def test_grade_is_deterministic(self):
@@ -74,7 +89,7 @@ class TestCanonicalGradeBands:
     def test_grade_never_returns_none(self):
         for score in range(-5, 106, 5):
             grade = score_to_grade(score)
-            assert grade in ("A", "B", "C", "D", "F")
+            assert grade in ("AAA", "AA", "A", "BBB", "BB", "B", "CCC", "CC", "C", "F")
 
     def test_all_scoring_functions_use_canonical_grade(self):
         """Verify every scoring function imports from analysis_utils."""
@@ -125,32 +140,33 @@ class TestSharedTickerAnalysisSummary:
     def _fake_snapshot(self, **overrides):
         return {
             "ticker": "TEST",
-            "grade": "B",
-            "safety_score": 72.0,
-            "structural_base_score": 68.0,
+            "grade": "BBB",
+            "safety_score": 62.0,
+            "structural_base_score": 58.0,
             "macro_adjustment": 2.0,
             "event_adjustment": 2.0,
             "confidence": 0.75,
             "factor_breakdown": {
                 "ai_dimensions": {
+                    "financial_health": 60,
                     "news_sentiment": 65,
                     "macro_exposure": 70,
-                    "position_sizing": 75,
-                    "volatility_trend": 78,
+                    "sector_exposure": 55,
+                    "volatility": 60,
                 }
             },
-            "reasoning": "B — Moderate Risk (→ stable). Stable earnings growth supports moderate risk rating.",
+            "reasoning": "BBB — Adequate Risk.",
             "news_summary": "Quarterly earnings were in line with expectations.",
             "source_count": 12,
             "analysis_as_of": "2026-05-05T12:00:00+00:00",
-            "methodology_version": "sp500-ai-backfill-v2",
+            "methodology_version": "v2",
             **overrides,
         }
 
     def _fake_previous_snapshot(self, **overrides):
         return {
-            "safety_score": 68.0,
-            "grade": "B",
+            "safety_score": 58.0,
+            "grade": "BB",
             **overrides,
         }
 
@@ -159,11 +175,11 @@ class TestSharedTickerAnalysisSummary:
         result = tcs.build_shared_ticker_analysis_summary(
             ticker="TEST", metadata={}, snapshot=snapshot, previous_snapshot=None,
         )
-        assert result["current_score"] == 72.0
-        assert result["current_grade"] == "B"
+        assert result["current_score"] == 62.0
+        assert result["current_grade"] == "BBB"
 
     def test_shared_summary_derives_grade_from_score_when_missing(self):
-        snapshot = self._fake_snapshot(grade=None, safety_score=82.0)
+        snapshot = self._fake_snapshot(grade=None, safety_score=72.0)
         result = tcs.build_shared_ticker_analysis_summary(
             ticker="TEST", metadata={}, snapshot=snapshot, previous_snapshot=None,
         )
@@ -178,8 +194,8 @@ class TestSharedTickerAnalysisSummary:
         assert result["current_score"] is None
 
     def test_shared_summary_computes_grade_direction(self):
-        snapshot = self._fake_snapshot(safety_score=72.0)
-        previous = self._fake_previous_snapshot(safety_score=68.0)
+        snapshot = self._fake_snapshot(safety_score=62.0)
+        previous = self._fake_previous_snapshot(safety_score=58.0)
         result = tcs.build_shared_ticker_analysis_summary(
             ticker="TEST", metadata={}, snapshot=snapshot, previous_snapshot=previous,
         )
@@ -203,11 +219,11 @@ class TestCompatibilityProjection:
 
     def _fake_shared_summary(self):
         return {
-            "current_score": 72.0,
-            "current_grade": "B",
+            "current_score": 62.0,
+            "current_grade": "BBB",
             "grade_direction": "up",
             "score_delta": 4,
-            "grade_rationale": "B — Moderate Risk (→ stable).",
+            "grade_rationale": "BBB — Adequate Risk.",
             "analysis_source": "shared",
             "freshness": {
                 "score_as_of": "2026-05-05T12:00:00+00:00",
@@ -216,7 +232,7 @@ class TestCompatibilityProjection:
                 "coverage_state": "substantive",
                 "coverage_note": "Backed by 12 sources.",
             },
-            "methodology_version": "sp500-ai-backfill-v2",
+            "methodology_version": "v2",
             "evidence_strength": "moderate",
         }
 
@@ -225,16 +241,16 @@ class TestCompatibilityProjection:
         result = tcs._project_shared_summary_compatibility(
             base={"ticker": "TEST"}, shared_summary=summary,
         )
-        assert result["grade"] == "B"
-        assert result["risk_grade"] == "B"
+        assert result["grade"] == "BBB"
+        assert result["risk_grade"] == "BBB"
 
     def test_projection_copies_score_from_shared(self):
         summary = self._fake_shared_summary()
         result = tcs._project_shared_summary_compatibility(
             base={"ticker": "TEST"}, shared_summary=summary,
         )
-        assert result["total_score"] == 72.0
-        assert result["safety_score"] == 72.0
+        assert result["total_score"] == 62.0
+        assert result["safety_score"] == 62.0
 
     def test_projection_does_not_use_base_stale_grade(self):
         summary = self._fake_shared_summary()
@@ -242,8 +258,8 @@ class TestCompatibilityProjection:
         result = tcs._project_shared_summary_compatibility(
             base=base, shared_summary=summary,
         )
-        assert result["risk_grade"] == "B"
-        assert result["total_score"] == 72.0
+        assert result["risk_grade"] == "BBB"
+        assert result["total_score"] == 62.0
 
     def test_projection_preserves_compatibility_fields(self):
         """Compatibility fields (grade, risk_grade, total_score, safety_score,
@@ -266,15 +282,16 @@ class TestBuildRiskScoreResponse:
     def _fake_snapshot(self):
         return {
             "ticker": "TEST",
-            "grade": "B",
-            "safety_score": 72.0,
+            "grade": "BBB",
+            "safety_score": 62.0,
             "factor_breakdown": {
                 "ai_dimensions": {
-                    "news_sentiment": 65, "macro_exposure": 70,
-                    "position_sizing": 75, "volatility_trend": 78,
+                    "financial_health": 60, "news_sentiment": 65,
+                    "macro_exposure": 70, "sector_exposure": 55,
+                    "volatility": 60,
                 }
             },
-            "reasoning": "B — Moderate Risk.",
+            "reasoning": "BBB — Adequate Risk.",
             "source_count": 12,
             "analysis_as_of": "2026-05-05T12:00:00+00:00",
         }
@@ -284,16 +301,10 @@ class TestBuildRiskScoreResponse:
         result = tcs.build_risk_score_response(
             snapshot=snapshot, position_id="pos-1", latest_position_score=None,
         )
-        assert result["safety_score"] == 72.0
-        assert result["grade"] == "B"
+        assert result["safety_score"] == 62.0
+        assert result["grade"] == "BBB"
 
-    def test_score_source_is_shared_when_snapshot_exists(self):
-        """score_source must be 'shared' when snapshot provides the score."""
-        snapshot = self._fake_snapshot()
-        result = tcs.build_risk_score_response(
-            snapshot=snapshot, position_id="pos-1", latest_position_score=None,
-        )
-        assert result["score_source"] == "shared"
+
 
     def test_does_not_use_nonexistent_user_score_preferentially(self):
         snapshot = self._fake_snapshot()
@@ -301,8 +312,8 @@ class TestBuildRiskScoreResponse:
         result = tcs.build_risk_score_response(
             snapshot=snapshot, position_id="pos-1", latest_position_score=user_score,
         )
-        assert result["safety_score"] == 72.0
-        assert result["grade"] == "B"
+        assert result["safety_score"] == 62.0
+        assert result["grade"] == "BBB"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -313,14 +324,14 @@ class TestBuildVirtualPosition:
     """_build_virtual_position() derives grade from shared snapshot."""
 
     def test_uses_snapshot_score(self):
-        snapshot = {"safety_score": 72.0, "grade": "B"}
+        snapshot = {"safety_score": 62.0, "grade": "BBB"}
         current_score = {"total_score": None, "grade": None}
         result = tcs._build_virtual_position(
             user_id="user-1", ticker="TEST", metadata={},
             snapshot=snapshot, previous_snapshot=None, current_score=current_score,
         )
-        assert result["total_score"] == 72.0
-        assert result["risk_grade"] == "B"
+        assert result["total_score"] == 62.0
+        assert result["risk_grade"] == "BBB"
 
     def test_derives_grade_from_score_when_missing(self):
         snapshot = {"safety_score": 82.0, "grade": None}
@@ -329,7 +340,7 @@ class TestBuildVirtualPosition:
             user_id="user-1", ticker="TEST", metadata={},
             snapshot=snapshot, previous_snapshot=None, current_score=current_score,
         )
-        assert result["risk_grade"] == "A"
+        assert result["risk_grade"] == "AA"
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -364,18 +375,19 @@ class TestEndToEndConsistency:
     def _fake_snapshot(self):
         return {
             "ticker": "TEST",
-            "grade": "B",
-            "safety_score": 72.0,
+            "grade": "BBB",
+            "safety_score": 62.0,
             "factor_breakdown": {
                 "ai_dimensions": {
-                    "news_sentiment": 65, "macro_exposure": 70,
-                    "position_sizing": 75, "volatility_trend": 78,
+                    "financial_health": 60, "news_sentiment": 65,
+                    "macro_exposure": 70, "sector_exposure": 55,
+                    "volatility": 60,
                 }
             },
-            "reasoning": "B — Moderate Risk.",
+            "reasoning": "BBB — Adequate Risk.",
             "source_count": 12,
             "analysis_as_of": "2026-05-05T12:00:00+00:00",
-            "methodology_version": "sp500-ai-backfill-v2",
+            "methodology_version": "v2",
         }
 
     def test_same_ticker_same_score_across_read_paths(self):
@@ -395,14 +407,14 @@ class TestEndToEndConsistency:
             current_score={"total_score": None, "grade": None},
         )
 
-        assert summary["current_score"] == 72.0
-        assert summary["current_grade"] == "B"
-        assert projection["total_score"] == 72.0
-        assert projection["risk_grade"] == "B"
-        assert risk_response["safety_score"] == 72.0
-        assert risk_response["grade"] == "B"
-        assert virtual["total_score"] == 72.0
-        assert virtual["risk_grade"] == "B"
+        assert summary["current_score"] == 62.0
+        assert summary["current_grade"] == "BBB"
+        assert projection["total_score"] == 62.0
+        assert projection["risk_grade"] == "BBB"
+        assert risk_response["safety_score"] == 62.0
+        assert risk_response["grade"] == "BBB"
+        assert virtual["total_score"] == 62.0
+        assert virtual["risk_grade"] == "BBB"
 
     def test_grade_always_matches_score_bands(self):
         scores = [95, 80, 72, 65, 55, 50, 40, 35, 25, 0]

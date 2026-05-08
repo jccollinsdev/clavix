@@ -60,8 +60,6 @@ struct DashboardView: View {
             .safeAreaInset(edge: .top, spacing: 0) {
                 DashboardTopHeader(refresh: { Task { await viewModel.loadData() } })
             }
-            .contentMargins(.top, 0, for: .scrollContent)
-            .contentMargins(.bottom, 0, for: .scrollContent)
             .refreshable {
                 await viewModel.loadData()
             }
@@ -227,7 +225,7 @@ private struct DashboardWhatChangedCard: View {
         var items = viewModel.changeAlerts.prefix(3).map {
             DashboardChangeEntry(
                 title: $0.positionTicker ?? $0.type.displayName,
-                grade: $0.newGrade ?? $0.previousGrade ?? "C",
+                grade: $0.newGrade ?? $0.previousGrade ?? "\u{2014}",
                 message: $0.message.sanitizedDisplayText.isEmpty ? "Change detected" : $0.message.sanitizedDisplayText,
                 time: $0.createdAt.relativeTimestamp
             )

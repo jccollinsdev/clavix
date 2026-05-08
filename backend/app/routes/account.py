@@ -34,51 +34,66 @@ async def export_account(user_id: str = Depends(get_user_id)):
     position_ids = [row["id"] for row in positions if row.get("id")]
     watchlists = _table_rows(supabase, "watchlists", user_id)
     watchlist_ids = [row["id"] for row in watchlists if row.get("id")]
+    held_tickers = sorted(
+        {
+            str(position.get("ticker", "")).strip().upper()
+            for position in positions
+            if position.get("ticker")
+        }
+    )
 
-    risk_scores = []
-    if position_ids:
-        risk_scores = (
-            supabase.table("risk_scores")
+    ticker_snapshots = []
+    if held_tickers:
+        ticker_snapshots = (
+            supabase.table("ticker_risk_snapshots")
             .select("*")
-            .in_("position_id", position_ids)
+            .in_("ticker", held_tickers)
+            .order("created_at", desc=True)
+            .limit(200)
             .execute()
             .data
             or []
         )
 
-    watchlist_items = []
+    watchlist_ticker_rows = []
     if watchlist_ids:
-        watchlist_items = (
+        watchlist_ticker_rows = (
             supabase.table("watchlist_items")
-            .select("*")
+            .select("watchlist_id, ticker, created_at")
             .in_("watchlist_id", watchlist_ids)
             .execute()
             .data
             or []
         )
-
-    auth_user = None
-    auth_response = supabase.auth.admin.get_user_by_id(user_id)
-    user = getattr(auth_response, "user", None)
-    if user:
-        auth_user = {
-            "id": str(getattr(user, "id", "")),
-            "email": getattr(user, "email", None),
-            "created_at": getattr(user, "created_at", None),
-            "updated_at": getattr(user, "updated_at", None),
-            "app_metadata": getattr(user, "app_metadata", None),
-            "user_metadata": getattr(user, "user_metadata", None),
-            "identities": getattr(user, "identities", None),
+    watchlist_items = watchlist_ticker_rows
+    user_tickers = sorted(
+        set(held_tickers)
+        | {
+            str(watchlist_item.get("ticker", "")).strip().upper()
+            for watchlist_item in watchlist_ticker_rows
+            if watchlist_item.get("ticker")
         }
+    )
+    shared_events = []
+    if user_tickers:
+        shared_events = (
+            supabase.table("shared_ticker_events")
+            .select("*")
+            .in_("ticker", user_tickers)
+            .order("published_at", desc=True)
+            .limit(200)
+            .execute()
+            .data
+            or []
+        )
 
     return {
         "exported_at": datetime.now(timezone.utc).isoformat(),
-        "auth_user": auth_user,
         "user_preferences": _table_rows(supabase, "user_preferences", user_id),
         "positions": positions,
         "analysis_runs": _table_rows(supabase, "analysis_runs", user_id),
-        "risk_scores": risk_scores,
-        "news_items": _table_rows(supabase, "news_items", user_id),
+        "ticker_snapshots": ticker_snapshots,
+        "shared_events": shared_events,
         "digests": _table_rows(supabase, "digests", user_id),
         "alerts": _table_rows(supabase, "alerts", user_id),
         "position_analyses": (
@@ -116,7 +131,7 @@ async def delete_account(user_id: str = Depends(get_user_id)):
     Postgres raises a FK violation and the whole request fails with 500.
 
     Tables with FK → auth.users (NO ACTION):
-      alerts, analysis_runs, digests, news_items,
+      alerts, analysis_runs, digests,
       portfolio_risk_snapshots, positions, scheduler_jobs, user_preferences
 
     Tables without FK (safe to delete in any order):
@@ -173,9 +188,7 @@ async def delete_account(user_id: str = Depends(get_user_id)):
         deleted_counts["position_analyses"] = delete_rows_in(
             "position_analyses", "position_id", position_ids
         )
-        deleted_counts["risk_scores"] = delete_rows_in(
-            "risk_scores", "position_id", position_ids
-        )
+        deleted_counts["ticker_snapshots"] = 0
 
     # ── Step 3: Children of watchlists ──────────────────────────────────────
     if watchlist_ids:
@@ -186,7 +199,7 @@ async def delete_account(user_id: str = Depends(get_user_id)):
     # ── Step 4: All tables with FK → auth.users (must clear before auth delete)
     deleted_counts["alerts"] = delete_rows("alerts")
     deleted_counts["digests"] = delete_rows("digests")
-    deleted_counts["news_items"] = delete_rows("news_items")
+    deleted_counts["shared_ticker_events"] = 0  # shared table, no user FK
     deleted_counts["portfolio_risk_snapshots"] = delete_rows("portfolio_risk_snapshots")
     deleted_counts["analysis_runs"] = delete_rows("analysis_runs")
     deleted_counts["positions"] = delete_rows("positions")

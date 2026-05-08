@@ -47,11 +47,11 @@ struct DigestView: View {
                             isLoading: viewModel.isLoading,
                             onRunDigest: { Task { await viewModel.triggerAnalysis() } }
                         )
-                        DigestWhatMattersSection(digest: digest)
-                        DigestSectorOverviewSection(digest: digest)
                         DigestMacroSectionView(digest: digest)
+                        DigestSectorOverviewSection(digest: digest)
                         DigestPrototypePositionImpactsSection(digest: digest, holdings: viewModel.holdings)
                         DigestWatchlistAlertsSection(digest: digest)
+                        DigestWhatMattersSection(digest: digest)
                     } else if shouldShowIdleState {
                         DigestEmptyStateCard {
                             Task { await viewModel.triggerAnalysis() }
@@ -69,8 +69,6 @@ struct DigestView: View {
             .safeAreaInset(edge: .top, spacing: 0) {
                 DigestTopHeader(onOpenHoldings: { selectedTab = 1 })
             }
-            .contentMargins(.top, 0, for: .scrollContent)
-            .contentMargins(.bottom, 0, for: .scrollContent)
             .refreshable {
                 await viewModel.reloadDigestFromDatabase()
             }
@@ -82,7 +80,7 @@ struct DigestView: View {
                     Task { await viewModel.loadDigest() }
                 }
             }
-            .onChange(of: selectedTab) { _, newValue in
+            .onChange(of: selectedTab) { newValue in
                 if newValue == 2 && !hasLoaded && !viewModel.isLoading {
                     hasLoaded = true
                     Task { await viewModel.loadDigest() }
@@ -130,7 +128,7 @@ private struct DigestPrototypePositionImpactsSection: View {
     let holdings: [Position]
 
     private var impacts: [DigestPositionImpact] {
-        digest.structuredSections?.positionImpacts ?? []
+        digest.structuredSections?.positions ?? []
     }
 
     var body: some View {
@@ -184,16 +182,13 @@ private struct DigestPrototypePositionImpactsSection: View {
                                     .fixedSize(horizontal: false, vertical: true)
                             }
 
-                            if !impact.dimensionBreakdown.isEmpty {
+                            if let db = impact.dimensionBreakdown {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    ForEach(impact.dimensionBreakdown.keys.sorted(), id: \.self) { key in
-                                        if let value = impact.dimensionBreakdown[key], !value.isEmpty {
-                                            Text("\(key.replacingOccurrences(of: "_", with: " ").capitalized): \(value)")
-                                                .font(ClavisTypography.footnote)
-                                                .foregroundColor(.textSecondary)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                        }
-                                    }
+                                    DimensionBreakdownRow(label: "Financial Health", value: db.financialHealth)
+                                    DimensionBreakdownRow(label: "News Sentiment", value: db.newsSentiment)
+                                    DimensionBreakdownRow(label: "Macro Exposure", value: db.macroExposure)
+                                    DimensionBreakdownRow(label: "Sector Exposure", value: db.sectorExposure)
+                                    DimensionBreakdownRow(label: "Volatility", value: db.volatility)
                                 }
                             }
                         }
@@ -256,7 +251,7 @@ struct DigestHeroCard: View {
 
     private var riskDriverEntries: [String] {
         var drivers: [String] = []
-        if let impacts = digest?.structuredSections?.positionImpacts {
+        if let impacts = digest?.structuredSections?.positions {
             for impact in impacts.prefix(2) {
                 let ticker = impact.ticker
                 let summary = impact.impactSummary.sanitizedDisplayText
@@ -266,7 +261,7 @@ struct DigestHeroCard: View {
                 }
             }
         }
-        if let warnings = digest?.structuredSections?.watchlistAlerts, let first = warnings.first {
+        if let warnings = digest?.structuredSections?.watchlistUpdates?.alerts, let first = warnings.first {
             drivers.append(first.sanitizedDisplayText)
         }
         return Array(drivers.prefix(2))
@@ -382,7 +377,7 @@ struct DigestSectorOverviewSection: View {
     let digest: Digest
 
     private var sectors: [DigestSectorOverviewItem] {
-        digest.structuredSections?.sectorOverview ?? []
+        digest.structuredSections?.sectorHeat ?? []
     }
 
     var body: some View {
@@ -429,7 +424,7 @@ struct DigestWhatMattersSection: View {
     let digest: Digest
 
     private var items: [DigestWhatMattersItem] {
-        digest.structuredSections?.whatMattersToday ?? []
+        digest.structuredSections?.whatToWatchToday?.catalysts ?? []
     }
 
     var body: some View {
@@ -498,7 +493,7 @@ struct DigestWatchlistAlertsSection: View {
     let digest: Digest
 
     private var items: [String] {
-        digest.structuredSections?.watchlistAlerts ?? []
+        digest.structuredSections?.watchlistUpdates?.alerts ?? []
     }
 
     var body: some View {
@@ -626,14 +621,14 @@ struct AnalysisRunStatusCard: View {
         case "computing_portfolio_risk": return "Computing portfolio risk"
         case "building_digest": return "Building your rating"
         default:
-            return run.status == "queued" ? "Queued for analysis" : "Analysis in progress"
+            return run.status == "queued" ? "Pending analysis" : "Analysis in progress"
         }
     }
 
     private var statusBadge: String {
         switch run.lifecycleStatus {
-        case "completed": return "Done"
-        case "failed": return "Failed"
+        case "completed": return "Ready"
+        case "failed": return "Unavailable"
         default: return ClavisCopy.Status.label(for: run.status)
         }
     }
@@ -697,5 +692,24 @@ private extension String {
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
         return paragraphs.first
+    }
+}
+
+private struct DimensionBreakdownRow: View {
+    let label: String
+    let value: Double?
+
+    var body: some View {
+        if let v = value {
+            HStack {
+                Text(label)
+                    .font(ClavisTypography.footnote)
+                    .foregroundColor(.textSecondary)
+                Spacer()
+                Text("\(Int(v.rounded()))")
+                    .font(.system(size: 12, weight: .medium, design: .monospaced))
+                    .foregroundColor(.textPrimary)
+            }
+        }
     }
 }

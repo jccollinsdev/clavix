@@ -86,26 +86,46 @@ extension Color {
     // MARK: Informational (non-risk blue — never near score displays)
     static let informational = Color(hex: "#3B82C4")
 
-    // MARK: Risk Scale — 5-state closed set. Color = state, never brand.
-    static let riskA = Color(hex: "#1D9E75")   // Safe      (A) ≥80
-    static let riskB = Color(hex: "#639922")   // Stable    (B) ≥65
-    static let riskC = Color(hex: "#BA7517")   // Elevated  (C) ≥50
-    static let riskD = Color(hex: "#D85A30")   // Risky     (D) ≥35
-    static let riskF = Color(hex: "#C8342B")   // Critical  (F) <35
+    // MARK: Risk Scale — 10-grade bond-rating closed set
+    static let gradeCAAA = Color(hex: "#0C5E3A")  // Deep green  — AAA
+    static let gradeCAA  = Color(hex: "#1D9E75")  // Green       — AA
+    static let gradeCA   = Color(hex: "#45B88E")  // Light green — A
+    static let gradeCBBB = Color(hex: "#3B8C8C")  // Teal        — BBB
+    static let gradeCBB  = Color(hex: "#B39229")  // Amber       — BB
+    static let gradeCB   = Color(hex: "#BA7517")  // Dark amber  — B
+    static let gradeCCCC = Color(hex: "#D86A20")  // Orange      — CCC
+    static let gradeCCC  = Color(hex: "#D85A30")  // Deep orange — CC
+    static let gradeCC   = Color(hex: "#C83B30")  // Red         — C
+    static let gradeCF   = Color(hex: "#A02020")  // Deep red    — F
 
-    // MARK: Grade Tag Surfaces
-    static let gradeABg   = Color(hex: "#E1F5EE")
-    static let gradeAText = Color(hex: "#085041")
-    static let gradeBBg   = Color(hex: "#EAF3DE")
-    static let gradeBText = Color(hex: "#27500A")
-    static let gradeCBg   = Color(hex: "#FAEEDA")
-    static let gradeCText = Color(hex: "#633806")
-    static let gradeDBg   = Color(hex: "#FAECE7")
-    static let gradeDText = Color(hex: "#712B13")
-    static let gradeFBg   = Color(hex: "#FCEBEB")
-    static let gradeFText = Color(hex: "#791F1F")
+    // MARK: Grade Tag Surfaces — 10-grade background/text pairs
+    static let gradeAAABg   = Color(hex: "#D4EFE3")
+    static let gradeAAAText = Color(hex: "#085041")
+    static let gradeAABg    = Color(hex: "#DCF5E6")
+    static let gradeAAText  = Color(hex: "#085041")
+    static let gradeABg     = Color(hex: "#E1F5EE")
+    static let gradeAText   = Color(hex: "#126B5C")
+    static let gradeBBBBg   = Color(hex: "#DFF0EF")
+    static let gradeBBBText = Color(hex: "#10555A")
+    static let gradeBBBg    = Color(hex: "#FCF2E2")
+    static let gradeBBText  = Color(hex: "#634B10")
+    static let gradeBBg     = Color(hex: "#FAEEDA")
+    static let gradeBText   = Color(hex: "#633806")
+    static let gradeCCCBg   = Color(hex: "#FDEBDE")
+    static let gradeCCCText = Color(hex: "#783A14")
+    static let gradeCCBg    = Color(hex: "#FAECE7")
+    static let gradeCCText  = Color(hex: "#712B13")
+    static let gradeCBg     = Color(hex: "#FCEBEB")
+    static let gradeCText   = Color(hex: "#791F1F")
+    static let gradeFBg     = Color(hex: "#FADEDE")
+    static let gradeFText   = Color(hex: "#6B1515")
 
-    // MARK: Backward-compat aliases
+    // MARK: Backward-compat aliases — legacy 5-state names
+    static let riskA = gradeCAA   // old A → AA green
+    static let riskB = gradeCA    // old B → A green  
+    static let riskC = gradeCBB   // old C → BB amber
+    static let riskD = gradeCCCC  // old D → CCC orange
+    static let riskF = gradeCF    // old F → F red
     static let accentBlue         = informational
     static let canvasBackground   = backgroundPrimary
     static let cardBackground     = surface
@@ -115,26 +135,26 @@ extension Color {
     static let surfaceSecondary   = surfaceElevated
     static let borderSubtle       = borderSubtleTone
     static let borderStrong       = border
-    static let successTone        = riskA
-    static let warningTone        = riskC
-    static let criticalTone       = riskF
-    static let mint               = riskB
+    static let successTone        = gradeCAA
+    static let warningTone        = gradeCBB
+    static let criticalTone       = gradeCF
+    static let mint               = gradeCA
     static let trustNavy          = informational
     static let neutralSurface     = surfaceElevated
     static let clavisCardBorder   = border
     static let clavisShadow       = Color.clear
-    static let clavisAlertText    = riskF
-    static let clavisAlertBg      = Color(hex: "#C8342B").opacity(0.12)
-    static let successSurface     = Color(hex: "#1D9E75").opacity(0.12)
-    static let warningSurface     = Color(hex: "#BA7517").opacity(0.12)
-    static let dangerSurface      = Color(hex: "#C8342B").opacity(0.12)
-    static let decisionSafe       = riskA
-    static let decisionElevated   = riskC
-    static let decisionReduce     = riskF
+    static let clavisAlertText    = gradeCF
+    static let clavisAlertBg      = gradeCF.opacity(0.12)
+    static let successSurface     = gradeCAA.opacity(0.12)
+    static let warningSurface     = gradeCBB.opacity(0.12)
+    static let dangerSurface      = gradeCF.opacity(0.12)
+    static let decisionSafe       = gradeCAA
+    static let decisionElevated   = gradeCBB
+    static let decisionReduce     = gradeCF
     static let decisionInfo       = textSecondary
-    static let semanticGreen      = riskA
-    static let semanticAmber      = riskC
-    static let semanticRed        = riskF
+    static let semanticGreen      = gradeCAA
+    static let semanticAmber      = gradeCBB
+    static let semanticRed        = gradeCF
     static let semanticBlue       = informational
     static let semanticGray       = textSecondary
 
@@ -177,12 +197,17 @@ extension Color {
 enum ClavisGradeStyle {
     static func riskColor(for grade: String?) -> Color {
         switch grade {
-        case "A": return .riskA
-        case "B": return .riskB
-        case "C": return .riskC
-        case "D": return .riskD
-        case "F": return .riskF
-        default:  return .textSecondary
+        case "AAA": return .gradeCAAA
+        case "AA":  return .gradeCAA
+        case "A":   return .gradeCA
+        case "BBB": return .gradeCBBB
+        case "BB":  return .gradeCBB
+        case "B":   return .gradeCB
+        case "CCC": return .gradeCCCC
+        case "CC":  return .gradeCCC
+        case "C":   return .gradeCC
+        case "F":   return .gradeCF
+        default:    return .textSecondary
         }
     }
 
@@ -191,34 +216,49 @@ enum ClavisGradeStyle {
 
     static func gradeBandBg(for grade: String?) -> Color {
         switch grade {
-        case "A": return .gradeABg
-        case "B": return .gradeBBg
-        case "C": return .gradeCBg
-        case "D": return .gradeDBg
-        case "F": return .gradeFBg
-        default:  return .surfaceElevated
+        case "AAA": return .gradeAAABg
+        case "AA":  return .gradeAABg
+        case "A":   return .gradeABg
+        case "BBB": return .gradeBBBBg
+        case "BB":  return .gradeBBBg
+        case "B":   return .gradeBBg
+        case "CCC": return .gradeCCCBg
+        case "CC":  return .gradeCCBg
+        case "C":   return .gradeCBg
+        case "F":   return .gradeFBg
+        default:    return .surfaceElevated
         }
     }
 
     static func gradeBandText(for grade: String?) -> Color {
         switch grade {
-        case "A": return .gradeAText
-        case "B": return .gradeBText
-        case "C": return .gradeCText
-        case "D": return .gradeDText
-        case "F": return .gradeFText
-        default:  return .textSecondary
+        case "AAA": return .gradeAAAText
+        case "AA":  return .gradeAAText
+        case "A":   return .gradeAText
+        case "BBB": return .gradeBBBText
+        case "BB":  return .gradeBBText
+        case "B":   return .gradeBText
+        case "CCC": return .gradeCCCText
+        case "CC":  return .gradeCCText
+        case "C":   return .gradeCText
+        case "F":   return .gradeFText
+        default:    return .textSecondary
         }
     }
 
     static func gradeBandLabel(for grade: String?) -> String {
         switch grade {
-        case "A": return "Safe (80–100)"
-        case "B": return "Stable (65–79)"
-        case "C": return "Elevated (50–64)"
-        case "D": return "Risky (35–49)"
-        case "F": return "Critical (0–34)"
-        default:  return "—"
+        case "AAA": return "Investment Grade (90\u{2013}100)"
+        case "AA":  return "Strong (80\u{2013}89)"
+        case "A":   return "Sound (70\u{2013}79)"
+        case "BBB": return "Adequate (60\u{2013}69)"
+        case "BB":  return "Speculative (50\u{2013}59)"
+        case "B":   return "Vulnerable (40\u{2013}49)"
+        case "CCC": return "Weak (30\u{2013}39)"
+        case "CC":  return "Distressed (20\u{2013}29)"
+        case "C":   return "Near Default (10\u{2013}19)"
+        case "F":   return "Default (0\u{2013}9)"
+        default:    return "\u{2014}"
         }
     }
 }
