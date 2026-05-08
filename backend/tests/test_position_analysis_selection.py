@@ -28,6 +28,9 @@ class _FakeResult:
     def __init__(self, data):
         self.data = data
 
+    def execute(self):
+        return self
+
 
 class _FakeQuery:
     def __init__(self, supabase, table_name):
@@ -52,6 +55,9 @@ class _FakeQuery:
 
     def limit(self, *_args, **_kwargs):
         return self
+
+    def insert(self, *_args, **_kwargs):
+        return _FakeResult([])
 
     def execute(self):
         rows = list(self.supabase.rows.get(self.table_name, []))
@@ -131,6 +137,10 @@ def test_select_current_analysis_falls_back_to_latest_ready_when_none_substantiv
 
 
 def test_get_position_detail_ignores_quick_brief_placeholder(monkeypatch):
+    monkeypatch.setattr(
+        "app.services.ticker_cache_service.ensure_sp500_universe_seeded",
+        lambda _supabase: None,
+    )
     rows = {
         "ticker_universe": [
             {
@@ -236,7 +246,14 @@ def test_get_position_detail_ignores_quick_brief_placeholder(monkeypatch):
         ],
         "ticker_refresh_jobs": [],
         "alerts": [],
-        "watchlists": [],
+        "watchlists": [
+            {
+                "id": "watchlist-1",
+                "user_id": "user-1",
+                "name": "Watchlist",
+                "is_default": True,
+            }
+        ],
         "watchlist_items": [],
         "event_analyses": [],
     }
@@ -416,6 +433,6 @@ def test_get_ticker_detail_honors_selected_position_id(monkeypatch):
 
     assert response["position"]["id"] == "pos-2"
     assert response["position"]["total_score"] == 25
-    assert response["current_analysis"]["position_id"] == "pos-2"
+    assert response["current_analysis"]["position_id"] == "shared:AMD"
     assert response["current_analysis"]["driver_cards"] == []
     assert response["current_analysis"]["driver_cards_state"] == "pending"

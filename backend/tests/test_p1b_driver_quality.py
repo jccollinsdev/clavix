@@ -42,14 +42,14 @@ def test_sanitize_driver_strips_banned():
 
 
 def test_thin_evidence_forces_fallback():
-    result = format_rationale("D", "flat", "Risk factors are balanced", source_count=0)
+    result = format_rationale("CCC", "flat", "Risk factors are balanced", source_count=0)
     assert "Limited data" in result
-    assert "D — High Risk" in result
+    assert "CCC — High Risk" in result
     assert "balanced" not in result.lower()
 
 
 def test_garbled_drivers_replaced_with_generic():
-    result = format_rationale("C", "flat", "Balanced risk factors", source_count=3)
+    result = format_rationale("B", "flat", "Balanced risk factors", source_count=3)
     lines = [l for l in result.strip().split("\n") if l.strip()]
     assert len(lines) >= 2
     for line in lines[1:]:
@@ -64,7 +64,7 @@ def test_generic_filler_banned_in_output():
         "Could impact performance",
     ]
     for filler in fillers:
-        result = format_rationale("C", "flat", filler, source_count=3)
+        result = format_rationale("B", "flat", filler, source_count=3)
         result_lower = result.lower()
         assert "mixed signals" not in result_lower, f"Filler found in: {result}"
         assert "market uncertainty" not in result_lower, f"Filler found in: {result}"
@@ -72,19 +72,19 @@ def test_generic_filler_banned_in_output():
 
 
 def test_concrete_drivers_pass_through():
-    result = format_rationale("D", "down", "Earnings miss on revenue weakness\nSector rotation into defensives", source_count=5)
-    assert "D — High Risk" in result
+    result = format_rationale("CCC", "down", "Earnings miss on revenue weakness\nSector rotation into defensives", source_count=5)
+    assert "CCC — High Risk" in result
     assert "Earnings miss" in result
     assert "Sector rotation" in result
 
 
 def test_thin_evidence_label_in_output():
-    result = format_rationale("C", "flat", None, source_count=1)
-    assert "C — Elevated Risk" in result
+    result = format_rationale("B", "flat", None, source_count=1)
+    assert "B — Elevated Risk" in result
 
 
 def test_format_rationale_max_2_drivers_enforced():
-    result = format_rationale("D", "down", "Driver 1\nDriver 2\nDriver 3\nDriver 4", source_count=5)
+    result = format_rationale("CCC", "down", "Driver 1\nDriver 2\nDriver 3\nDriver 4", source_count=5)
     lines = [l for l in result.strip().split("\n") if l.strip()]
     assert len(lines) <= 3
 
@@ -102,6 +102,17 @@ def test_evidence_strength_consistency_with_format():
 
 
 def test_risk_level_mapping_complete():
-    levels = {"A": "Low Risk", "B": "Moderate Risk", "C": "Elevated Risk", "D": "High Risk", "F": "Severe Risk"}
+    levels = {
+        "AAA": "Treasury-Grade",
+        "AA": "Investment-Grade Safe",
+        "A": "Solid",
+        "BBB": "Stable, Watch Points",
+        "BB": "Mixed Signals",
+        "B": "Elevated Risk",
+        "CCC": "High Risk",
+        "CC": "Severe Risk",
+        "C": "Distressed",
+        "F": "Failure Mode",
+    }
     for grade, expected in levels.items():
         assert grade_to_risk_level(grade) == expected

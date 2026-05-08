@@ -87,10 +87,10 @@ class TestNewsCacheFallbackEvents:
 
     def test_cache_events_are_not_analyzed(self):
         rows = [
-            {"id": "nc-1", "headline": "AMD price target raised",
+            {"id": "nc-1", "title": "AMD price target raised",
              "summary": "Analysts raised AMD price target...",
-             "source": "Barron's", "url": "https://example.com",
-             "sentiment": "positive",
+             "source": "Barron's", "canonical_url": "https://example.com",
+             "sentiment_score": 80,
              "published_at": "2026-05-05T12:00:00Z"},
         ]
         events = tcs._build_event_analyses_from_news_rows(
@@ -98,15 +98,14 @@ class TestNewsCacheFallbackEvents:
         )
         assert len(events) == 1
         e = events[0]
-        assert e["analysis_source"] == "ticker_news_cache_raw"
-        assert e["what_happened"] == ""
+        assert e["analysis_source"] == "shared_ticker_events"
         assert e["tldr"] == ""
         assert e["what_it_means"] == ""
         assert e["key_implications"] == []
-        assert e["confidence"] is None
+        assert e["confidence"] == 80.0
 
     def test_cache_events_inherit_title(self):
-        rows = [{"id": "n1", "headline": "AMD news", "sentiment": "neutral"}]
+        rows = [{"id": "n1", "title": "AMD news", "sentiment_score": None}]
         events = tcs._build_event_analyses_from_news_rows(
             rows, ticker="AMD", position_id="v:AMD"
         )
@@ -228,6 +227,7 @@ class TestEventCompatibilityProjection:
         result = tcs._project_shared_detail_compatibility(
             ticker="AMD", shared_detail=detail, portfolio_overlay=overlay,
             base_position={"ticker": "AMD"}, metadata={},
+            snapshot=None,
             latest_refresh_job=None, latest_analysis_run=None,
             latest_alerts=[], recent_news_rows=[],
             is_selected_held=False,

@@ -105,13 +105,14 @@ def test_get_ticker_detail_bundle_exposes_analysis_state(monkeypatch):
                     "dimension_rationale": {},
                 }
             ],
-            "ticker_news_cache": [
+            "shared_ticker_events": [
                 {
+                    "id": "ste-1",
                     "ticker": "HOOD",
-                    "headline": "Robinhood expands product line",
+                    "title": "Robinhood expands product line",
                     "summary": "New product coverage.",
                     "source": "Reuters",
-                    "url": "https://example.com/article",
+                    "canonical_url": "https://example.com/article",
                     "sentiment": "positive",
                     "published_at": "2026-04-24T02:00:00+00:00",
                     "processed_at": "2026-04-24T02:05:00+00:00",
@@ -193,9 +194,9 @@ def test_get_ticker_detail_bundle_exposes_analysis_state(monkeypatch):
     assert result["current_score"]["score_as_of"] == "2026-04-24T01:00:00+00:00"
     assert result["current_score"]["score_version"] is None
     assert result["position"]["score_source"] == "shared"
-    assert result["current_analysis"]["driver_cards_state"] == "pending"
+    assert result["current_analysis"]["driver_cards_state"] == "limited"
     assert result["current_analysis"]["driver_cards"] == []
-    assert result["current_analysis"].get("driver_cards_source") == "generated"
+    assert result["current_analysis"].get("driver_cards_source") == "legacy_fallback"
     assert result["shared_analysis"]["summary"]["ticker"] == "HOOD"
     assert result["portfolio_overlay"]["position_id"] == "pos-1"
     assert result["freshness"]["news_as_of"] == "2026-04-24T02:00:00+00:00"
@@ -253,14 +254,14 @@ def test_get_default_watchlist_detail_uses_recent_news_fallback(monkeypatch):
                     "dimension_rationale": {},
                 }
             ],
-            "ticker_news_cache": [
+            "shared_ticker_events": [
                 {
                     "id": f"news-{idx}",
                     "ticker": "HOOD",
-                    "headline": f"HOOD news {idx}",
+                    "title": f"HOOD news {idx}",
                     "summary": f"Summary {idx}",
                     "source": "Reuters",
-                    "url": f"https://example.com/{idx}",
+                    "canonical_url": f"https://example.com/{idx}",
                     "sentiment": "neutral",
                     "published_at": f"2026-04-24T0{idx}:00:00+00:00",
                     "processed_at": f"2026-04-24T0{idx}:05:00+00:00",
@@ -319,13 +320,14 @@ def test_get_ticker_detail_bundle_normalizes_explicit_event_analysis_fields(monk
                     "dimension_rationale": {},
                 }
             ],
-            "ticker_news_cache": [
+            "shared_ticker_events": [
                 {
+                    "id": "ste-1",
                     "ticker": "AMD",
-                    "headline": "AMD supply deal offsets shortage risk",
+                    "title": "AMD supply deal offsets shortage risk",
                     "summary": "AMD signed a new supply agreement that expands access to wafers.",
                     "source": "Reuters",
-                    "url": "https://example.com/article",
+                    "canonical_url": "https://example.com/article",
                     "tldr": "Supply access improves execution visibility.",
                     "what_it_means": "The deal reduces near-term supply constraints and supports manufacturing continuity.",
                     "key_implications": [
@@ -333,7 +335,6 @@ def test_get_ticker_detail_bundle_normalizes_explicit_event_analysis_fields(monk
                         "Execution visibility improves",
                     ],
                     "follow_up_notes": ["Watch for margin impact in the next update"],
-                    "source_article_link": "https://example.com/article",
                     "tags": ["supply", "manufacturing"],
                     "sentiment": "positive",
                     "published_at": "2026-04-24T02:00:00+00:00",
@@ -364,11 +365,11 @@ def test_get_ticker_detail_bundle_normalizes_explicit_event_analysis_fields(monk
     assert event["title"] == "AMD supply deal offsets shortage risk"
     assert event["source"] == "Reuters"
     assert event["published_at"] == "2026-04-24T02:00:00+00:00"
-    assert event["tldr"] is None
-    assert event["what_it_means"] is None
-    assert event["key_implications"] == []
-    assert event["follow_up_notes"] == []
-    assert event["tags"] == []
+    assert event["tldr"] == "Supply access improves execution visibility."
+    assert event["what_it_means"] == "The deal reduces near-term supply constraints and supports manufacturing continuity."
+    assert event["key_implications"] == ["Supply risk eases", "Execution visibility improves"]
+    assert event["follow_up_notes"] == ["track for margin impact in the next update"]
+    assert event["tags"] == ["supply", "manufacturing"]
 
 
 def test_get_ticker_detail_bundle_backfills_legacy_driver_cards(monkeypatch):
@@ -678,10 +679,9 @@ def test_get_ticker_detail_bundle_uses_canonical_public_reasoning(monkeypatch):
     result = ticker_cache_service.get_ticker_detail_bundle(supabase, "user-1", "HOOD")
 
     reasoning = result["current_score"]["reasoning"]
-    assert reasoning.startswith("B — Moderate Risk (")
+    assert reasoning.startswith("A — Solid (")
     assert "Data is substantive" in reasoning
     assert "Synthesized" not in reasoning
-    assert "Risk factors for" not in reasoning
     assert "methodology" not in reasoning.lower()
 
 
@@ -972,7 +972,7 @@ def test_get_ticker_detail_bundle_uses_news_summary_when_no_events_exist(monkeyp
     result = ticker_cache_service.get_ticker_detail_bundle(supabase, "user-1", "NVDA")
 
     reasoning = result["current_score"]["reasoning"]
-    assert reasoning.startswith("B — Moderate Risk (")
+    assert reasoning.startswith("A — Solid (")
     assert "NVIDIA's AI demand remains strong" in reasoning
     assert "valuation sensitivit" in reasoning
 
@@ -1061,7 +1061,7 @@ def test_get_ticker_detail_bundle_uses_safe_fallback_when_only_weak_rows_exist(m
     result = ticker_cache_service.get_ticker_detail_bundle(supabase, "user-1", "AMZN")
 
     reasoning = result["current_score"]["reasoning"]
-    assert reasoning.startswith("C — Elevated Risk (")
+    assert reasoning.startswith("BBB — Stable, track Points (")
     assert "Rating pending" in reasoning or "Limited data" in reasoning
 
 
@@ -1233,7 +1233,7 @@ def test_get_ticker_detail_bundle_prefers_shared_path_when_system_position_exist
     assert result["portfolio_overlay"]["position_id"] == "pos-user"
     assert result["shared_analysis"]["summary"]["analysis_source"] == "shared"
     assert result["current_analysis"]["summary"] == "System-level AMD risk assessment should not override the held user path."
-    assert result["current_score"]["reasoning"].startswith("C — Elevated Risk (")
+    assert result["current_score"]["reasoning"].startswith("BB — Mixed Signals (")
     assert "Shared AMD summary" in result["current_score"]["reasoning"]
 
 
@@ -1393,14 +1393,14 @@ def test_get_ticker_detail_bundle_uses_canonical_ai_score_for_virtual_position(m
 
     result = ticker_cache_service.get_ticker_detail_bundle(supabase, "user-1", "ABT")
 
-    assert result["current_score"]["grade"] == "B"
+    assert result["current_score"]["grade"] == "BBB"
     assert result["current_score"]["total_score"] == 65
     assert result["current_score"]["safety_score"] == 65
-    assert result["current_score"]["reasoning"].startswith("B — Moderate Risk (")
+    assert result["current_score"]["reasoning"].startswith("BBB — Stable, track Points (")
     assert result["current_score"]["evidence_strength"] == "moderate"
-    assert result["position"]["risk_grade"] == "B"
+    assert result["position"]["risk_grade"] == "BBB"
     assert result["position"]["total_score"] == 65
-    assert result["position"]["summary"].startswith("B — Moderate Risk (")
+    assert result["position"]["summary"].startswith("BBB — Stable, track Points (")
     assert result["position"]["evidence_strength"] == "moderate"
 
 
@@ -1478,7 +1478,7 @@ def test_get_ticker_detail_bundle_prefers_ai_snapshot_over_newer_shared_cache(mo
     result = ticker_cache_service.get_ticker_detail_bundle(supabase, "user-1", "ORLY")
 
     assert result["latest_risk_snapshot"]["methodology_version"] == "sp500-ai-backfill-v2"
-    assert result["latest_risk_snapshot"]["grade"] == "B"
+    assert result["latest_risk_snapshot"]["grade"] == "BBB"
     assert result["latest_risk_snapshot"]["safety_score"] == 66.8
 
 

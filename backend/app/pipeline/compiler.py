@@ -1,3 +1,4 @@
+from __future__ import annotations
 from .portfolio_compiler import compile_portfolio_digest
 
 

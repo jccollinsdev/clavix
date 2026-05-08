@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime, timezone
 
 from ..services.minimax import chatcompletion_text
@@ -810,7 +812,7 @@ Positions:
 {position_summary}
 """
 
-    token_map = {"brief": 800, "standard": 1400, "verbose": 2200}
+    token_map = {"brief": 800, "standard": 1400, "detailed": 2200, "verbose": 2800}
     max_tokens = token_map.get(summary_length, 1400)
 
     try:

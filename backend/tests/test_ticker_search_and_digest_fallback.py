@@ -135,16 +135,16 @@ def test_compile_portfolio_digest_falls_back_to_structured_sector_and_position_f
     ):
         digest = asyncio.run(compile_portfolio_digest(positions, "D"))
 
-    assert digest["sections"]["sector_overview"]
-    impact = digest["sections"]["position_impacts"][0]
+    assert digest["sections"]["sector_heat"]
+    impact = digest["sections"]["positions"][0]
     assert impact["watch_items"] == ["Margin pressure", "Funding mix"]
     assert impact["top_risks"] == ["Funding stress", "Higher volatility"]
     assert impact["dimension_breakdown"] == {
         "news_sentiment": "Weak",
         "volatility_trend": "High",
     }
-    assert digest["sections"]["what_matters_today"]
-    assert digest["sections"]["what_matters_today"][0]["urgency"] == "low"
+    assert digest["sections"]["what_to_watch_today"]["catalysts"]
+    assert digest["sections"]["what_to_watch_today"]["catalysts"][0]["urgency"] == "low"
     assert "No immediate portfolio-level risk driver found today" in digest["content"]
 
 
@@ -172,8 +172,8 @@ def test_compile_portfolio_digest_preserves_real_urgent_items():
     ):
         digest = asyncio.run(compile_portfolio_digest(positions, "B"))
 
-    assert digest["sections"]["what_matters_today"][0]["urgency"] == "high"
-    assert digest["sections"]["what_matters_today"][0]["impacted_positions"] == ["HOOD"]
+    assert digest["sections"]["what_to_watch_today"]["catalysts"][0]["urgency"] == "high"
+    assert digest["sections"]["what_to_watch_today"]["catalysts"][0]["impacted_positions"] == ["HOOD"]
 
 
 # ---------------------------------------------------------------------------

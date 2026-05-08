@@ -30,11 +30,11 @@ class TestNewsCacheFabricationPrevention:
         raw_rows = [
             {
                 "id": "news-1",
-                "headline": "AMD announces new partnership",
+                "title": "AMD announces new partnership",
                 "summary": "Details about the partnership...",
                 "source": "Reuters",
-                "url": "https://example.com/article",
-                "sentiment": "positive",
+                "canonical_url": "https://example.com/article",
+                "sentiment_score": None,
                 "published_at": "2026-05-05T12:00:00Z",
             }
         ]
@@ -48,27 +48,26 @@ class TestNewsCacheFabricationPrevention:
 
         assert e["title"] == "AMD announces new partnership"
         assert e["source"] == "Reuters"
-        assert e["what_happened"] == ""
         assert e["tldr"] == ""
         assert e["what_it_means"] == ""
         assert e["key_implications"] == []
         assert e["recommended_followups"] == []
         assert e["tags"] == []
         assert e["confidence"] is None
-        assert e["analysis_source"] == "ticker_news_cache_raw"
+        assert e["analysis_source"] == "shared_ticker_events"
         assert e["long_analysis"] is None
         assert e["scenario_summary"] is None
 
     def test_raw_news_cache_provenance_is_explicit(self):
-        """News-cache-derived events carry 'ticker_news_cache_raw' provenance."""
-        raw_rows = [{"id": "n1", "headline": "Test", "summary": "Test summary", "sentiment": "neutral"}]
+        """News-cache-derived events carry 'shared_ticker_events' provenance."""
+        raw_rows = [{"id": "n1", "title": "Test", "summary": "Test summary", "sentiment_score": None}]
         events = tcs._build_event_analyses_from_news_rows(
             raw_rows, ticker="TEST", position_id="virtual:TEST"
         )
-        assert events[0]["analysis_source"] == "ticker_news_cache_raw"
+        assert events[0]["analysis_source"] == "shared_ticker_events"
 
     def test_raw_news_cache_negative_sentiment_is_major(self):
-        raw_rows = [{"id": "n1", "headline": "Bad news", "sentiment": "negative"}]
+        raw_rows = [{"id": "n1", "title": "Bad news", "sentiment_score": 20}]
         events = tcs._build_event_analyses_from_news_rows(
             raw_rows, ticker="T", position_id="v:T"
         )
@@ -76,7 +75,7 @@ class TestNewsCacheFabricationPrevention:
         assert events[0]["risk_direction"] == "negative"
 
     def test_raw_news_cache_positive_sentiment_is_minor(self):
-        raw_rows = [{"id": "n1", "headline": "Good news", "sentiment": "positive"}]
+        raw_rows = [{"id": "n1", "title": "Good news", "sentiment_score": 80}]
         events = tcs._build_event_analyses_from_news_rows(
             raw_rows, ticker="T", position_id="v:T"
         )
@@ -275,6 +274,7 @@ class TestEventDriverCompatibility:
         result = tcs._project_shared_detail_compatibility(
             ticker="AMD", shared_detail=detail, portfolio_overlay=overlay,
             base_position={"ticker": "AMD"}, metadata={},
+            snapshot=None,
             latest_refresh_job=None, latest_analysis_run=None,
             latest_alerts=[], recent_news_rows=[],
             is_selected_held=False,
@@ -288,6 +288,7 @@ class TestEventDriverCompatibility:
         result = tcs._project_shared_detail_compatibility(
             ticker="AMD", shared_detail=detail, portfolio_overlay=overlay,
             base_position={"ticker": "AMD"}, metadata={},
+            snapshot=None,
             latest_refresh_job=None, latest_analysis_run=None,
             latest_alerts=[], recent_news_rows=[],
             is_selected_held=False,

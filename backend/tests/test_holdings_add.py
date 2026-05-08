@@ -233,7 +233,7 @@ def test_create_holding_rejects_unsupported_ticker():
             )
         except HTTPException as exc:
             assert exc.status_code == 400
-            assert "shared ticker cache" in exc.detail
+            assert "Clavix" in exc.detail
         else:
             raise AssertionError("expected HTTPException")
 
