@@ -76,71 +76,76 @@ struct ScoreHistoryChart: View {
     }
 
     private var chartView: some View {
-        Chart {
-            RectangleMark(
-                xStart: .value("date", snapshots.first!.date),
-                xEnd: .value("date", snapshots.last!.date),
-                yStart: .value("score", 90),
-                yEnd: .value("score", 100)
-            )
-            .foregroundStyle(Color.gradeCAAA.opacity(0.08))
-
-            RectangleMark(
-                xStart: .value("date", snapshots.first!.date),
-                xEnd: .value("date", snapshots.last!.date),
-                yStart: .value("score", 80),
-                yEnd: .value("score", 89)
-            )
-            .foregroundStyle(Color.gradeCAA.opacity(0.06))
-
-            RectangleMark(
-                xStart: .value("date", snapshots.first!.date),
-                xEnd: .value("date", snapshots.last!.date),
-                yStart: .value("score", 70),
-                yEnd: .value("score", 79)
-            )
-            .foregroundStyle(Color.gradeCA.opacity(0.05))
-
-            RectangleMark(
-                xStart: .value("date", snapshots.first!.date),
-                xEnd: .value("date", snapshots.last!.date),
-                yStart: .value("score", 0),
-                yEnd: .value("score", 59)
-            )
-            .foregroundStyle(Color.gradeCF.opacity(0.04))
-
-            ForEach(snapshots) { snap in
-                LineMark(
-                    x: .value("Date", snap.date),
-                    y: .value("Composite", snap.composite)
+        guard let first = snapshots.first, let lastSnap = snapshots.last else {
+            return AnyView(newIndicator)
+        }
+        return AnyView(
+            Chart {
+                RectangleMark(
+                    xStart: .value("date", first.date),
+                    xEnd: .value("date", lastSnap.date),
+                    yStart: .value("score", 90),
+                    yEnd: .value("score", 100)
                 )
-                .foregroundStyle(Color.textPrimary)
-                .lineStyle(StrokeStyle(lineWidth: 2))
-            }
+                .foregroundStyle(Color.gradeCAAA.opacity(0.08))
 
-            ForEach(dimensionKeys, id: \.0) { key, label, color in
-                if toggledDimensions.contains(key) {
-                    ForEach(snapshots) { snap in
-                        if let value = snap.dimensionValue(for: key) {
-                            LineMark(
-                                x: .value("Date", snap.date),
-                                y: .value(label, value)
-                            )
-                            .foregroundStyle(color)
-                            .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 2]))
+                RectangleMark(
+                    xStart: .value("date", first.date),
+                    xEnd: .value("date", lastSnap.date),
+                    yStart: .value("score", 80),
+                    yEnd: .value("score", 89)
+                )
+                .foregroundStyle(Color.gradeCAA.opacity(0.06))
+
+                RectangleMark(
+                    xStart: .value("date", first.date),
+                    xEnd: .value("date", lastSnap.date),
+                    yStart: .value("score", 70),
+                    yEnd: .value("score", 79)
+                )
+                .foregroundStyle(Color.gradeCA.opacity(0.05))
+
+                RectangleMark(
+                    xStart: .value("date", first.date),
+                    xEnd: .value("date", lastSnap.date),
+                    yStart: .value("score", 0),
+                    yEnd: .value("score", 59)
+                )
+                .foregroundStyle(Color.gradeCF.opacity(0.04))
+
+                ForEach(snapshots) { snap in
+                    LineMark(
+                        x: .value("Date", snap.date),
+                        y: .value("Composite", snap.composite)
+                    )
+                    .foregroundStyle(Color.textPrimary)
+                    .lineStyle(StrokeStyle(lineWidth: 2))
+                }
+
+                ForEach(dimensionKeys, id: \.0) { key, label, color in
+                    if toggledDimensions.contains(key) {
+                        ForEach(snapshots) { snap in
+                            if let value = snap.dimensionValue(for: key) {
+                                LineMark(
+                                    x: .value("Date", snap.date),
+                                    y: .value(label, value)
+                                )
+                                .foregroundStyle(color)
+                                .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 2]))
+                            }
                         }
                     }
                 }
             }
-        }
-        .chartYScale(domain: 0...100)
-        .chartXAxis {
-            AxisMarks(values: .automatic(desiredCount: 5))
-        }
-        .chartYAxis {
-            AxisMarks(values: [0, 25, 50, 75, 100])
-        }
-        .frame(height: 220)
+            .chartYScale(domain: 0...100)
+            .chartXAxis {
+                AxisMarks(values: .automatic(desiredCount: 5))
+            }
+            .chartYAxis {
+                AxisMarks(values: [0, 25, 50, 75, 100])
+            }
+            .frame(height: 220)
+        )
     }
 }
 

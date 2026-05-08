@@ -39,11 +39,6 @@ struct AlertsView: View {
                 .padding(.top, 0)
                 .padding(.bottom, ClavisTheme.largeSpacing)
             }
-            .safeAreaInset(edge: .top, spacing: 0) {
-                AlertsTopHeader()
-            }
-            .contentMargins(.top, 0, for: .scrollContent)
-            .contentMargins(.bottom, 0, for: .scrollContent)
             .refreshable {
                 await viewModel.loadAlerts()
             }
@@ -55,7 +50,7 @@ struct AlertsView: View {
                     Task { await viewModel.loadAlerts() }
                 }
             }
-            .onChange(of: selectedTab) { _, newValue in
+            .onChange(of: selectedTab) { newValue in
                 if newValue == 3 && !hasLoaded && !viewModel.isLoading {
                     hasLoaded = true
                     Task { await viewModel.loadAlerts() }

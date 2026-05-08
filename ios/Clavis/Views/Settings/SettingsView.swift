@@ -61,8 +61,6 @@ struct SettingsView: View {
                             .frame(height: 0.5)
                     }
             }
-            .contentMargins(.top, 0, for: .scrollContent)
-            .contentMargins(.bottom, 0, for: .scrollContent)
             .background(ClavisAtmosphereBackground())
             .toolbar(.hidden, for: .navigationBar)
             .onAppear {
@@ -213,7 +211,7 @@ struct DigestSettingsGroup: View {
             SettingsValueRow(label: "Rating time") {
                 DatePicker("", selection: $viewModel.digestTime, displayedComponents: .hourAndMinute)
                     .labelsHidden()
-                    .onChange(of: viewModel.digestTime) { _, _ in
+                    .onChange(of: viewModel.digestTime) { _ in
                         Task { await viewModel.saveDigestTime() }
                     }
             }
@@ -277,7 +275,7 @@ struct AlertsSettingsGroup: View {
                 SettingsValueRow(label: "From") {
                     DatePicker("", selection: $viewModel.quietHoursStart, displayedComponents: .hourAndMinute)
                         .labelsHidden()
-                        .onChange(of: viewModel.quietHoursStart) { _, _ in
+                        .onChange(of: viewModel.quietHoursStart) { _ in
                             Task { await viewModel.saveAlertSettings() }
                         }
                 }
@@ -285,7 +283,7 @@ struct AlertsSettingsGroup: View {
                 SettingsValueRow(label: "To", last: true) {
                     DatePicker("", selection: $viewModel.quietHoursEnd, displayedComponents: .hourAndMinute)
                         .labelsHidden()
-                        .onChange(of: viewModel.quietHoursEnd) { _, _ in
+                        .onChange(of: viewModel.quietHoursEnd) { _ in
                             Task { await viewModel.saveAlertSettings() }
                         }
                 }

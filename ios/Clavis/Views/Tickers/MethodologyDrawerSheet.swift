@@ -422,7 +422,8 @@ private struct MethodologyAccordionRow: View {
                 if reg.limitedData == true {
                     limitedDataLabel
                 }
-            } else if let beta = dimension.betaProxy {
+            }
+            else if let beta = dimension.betaProxy {
                 Text("Beta proxy: \(String(format: "%.2f", beta))")
                     .font(ClavisTypography.footnote)
                     .foregroundColor(.textSecondary)
@@ -487,67 +488,6 @@ private struct MethodologyAccordionRow: View {
             .font(ClavisTypography.footnote)
             .foregroundColor(.gradeCBB)
             .padding(.vertical, 4)
-    }
-}
-                if let industryVal = inputs["industry"], let anyI = industryVal as? AnyCodable {
-                    LabeledRow("Industry", String(describing: anyI.value), .textSecondary)
-                }
-                if let mcVal = inputs["market_cap"], let anyM = mcVal as? AnyCodable {
-                    let formatted = formatMarketCap(anyM.value)
-                    LabeledRow("Market Cap", formatted, .textSecondary)
-                }
-                if let betaVal = inputs["beta"], let anyB = betaVal as? AnyCodable {
-                    let beta = formatAny(anyB.value)
-                    LabeledRow("Beta to SPY", beta, .textSecondary)
-                }
-            } else {
-                limitedDataLabel
-            }
-        }
-    }
-
-    // MARK: - Volatility
-
-    private var volatilityDetail: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            if let inputs = dimension.inputs {
-                if let betaVal = inputs["beta"], let anyB = betaVal as? AnyCodable {
-                    let beta = formatAny(anyB.value)
-                    LabeledRow("Beta (252d)", beta, .textSecondary)
-                }
-                if let sensVal = inputs["macro_sensitivity"], let anyS = sensVal as? AnyCodable {
-                    LabeledRow("Macro Sensitivity", String(describing: anyS.value), .textSecondary)
-                }
-            } else {
-                limitedDataLabel
-            }
-        }
-    }
-
-    // MARK: - Helpers
-
-    private var limitedDataLabel: some View {
-        Text("Limited Data")
-            .font(ClavisTypography.footnote)
-            .foregroundColor(.gradeCBB)
-            .padding(.vertical, 4)
-    }
-
-    private func formatAny(_ value: Any) -> String {
-        if let d = value as? Double {
-            return String(format: "%.2f", d)
-        }
-        if let i = value as? Int {
-            return String(i)
-        }
-        return String(describing: value)
-    }
-
-    private func formatMarketCap(_ value: Any) -> String {
-        guard let num = value as? Double else { return String(describing: value) }
-        if num >= 1e12 { return String(format: "$%.2fT", num / 1e12) }
-        if num >= 1e9  { return String(format: "$%.2fB", num / 1e9) }
-        return String(format: "$%.0fM", num / 1e6)
     }
 }
 
