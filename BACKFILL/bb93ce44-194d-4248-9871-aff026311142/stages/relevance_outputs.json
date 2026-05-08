@@ -1,0 +1,1510 @@
+{
+  "cached_count": 261,
+  "uncached_count": 40,
+  "results": [
+    {
+      "article_index": 0,
+      "relevant": true,
+      "affected_tickers": [
+        "AFL"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Aflac's Q1 2026 earnings beat with $4.35B revenue and $1.98 EPS provides direct insight into the growth archetype held position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPR2xuV0pMdEl5d2V6aXVTU1dqMkZjaDJuYWdNOXVzS00zSm11VW1sNVVVdWY2bGpFbTUwdDRnaVo3TUZKbmNWb29IYzBKaURiYUZsNWZjMWgwaENZNF9veC1qV0Yza21yNXRMemE1MURQcDVzejlUY3ZrcFJZTW5pU1lFTGx4NE8xN1d3YWJEQVkxd2pqMVpQS0w0ekE0Q2RHQzl6LVNnOEE3RlViYzBaRmgydm16Z1Q0VUtJcC1nU0dWQTVXM0xCTDZEUHo?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "acee790795a41982f2a360fc71e16b89fbad623ef042264484cd7a53cd922054",
+        "source_type": "company_news",
+        "source": "TradingView",
+        "source_url": "https://www.tradingview.com/news/tradingview:7d4973f5b756c:0-aflac-inc-1q-2026-revenue-4-35b-net-income-1-02b-eps-1-98-10-q-summary/",
+        "title": "AFLAC INC 1Q 2026: Revenue $4.35B, Net income $1.02B, EPS $1.98\u2014 10-Q Summary - TradingView",
+        "summary": "AFLAC INC 1Q 2026: Revenue $4.35B, Net income $1.02B, EPS $1.98\u2014 10-Q Summary TradingView",
+        "body": "AFLAC INC 1Q 2026: Revenue $4.35B, Net income $1.02B, EPS $1.98\u2014 10-Q Summary TradingView",
+        "evidence_quality": "title_only",
+        "url": "https://www.tradingview.com/news/tradingview:7d4973f5b756c:0-aflac-inc-1q-2026-revenue-4-35b-net-income-1-02b-eps-1-98-10-q-summary/",
+        "published_at": "Wed, 06 May 2026 12:11:00 GMT",
+        "ticker_hints": [
+          "AFL"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizAFBVV95cUxPR2xuV0pMdEl5d2V6aXVTU1dqMkZjaDJuYWdNOXVzS00zSm11VW1sNVVVdWY2bGpFbTUwdDRnaVo3TUZKbmNWb29IYzBKaURiYUZsNWZjMWgwaENZNF9veC1qV0Yza21yNXRMemE1MURQcDVzejlUY3ZrcFJZTW5pU1lFTGx4NE8xN1d3YWJEQVkxd2pqMVpQS0w0ekE0Q2RHQzl6LVNnOEE3RlViYzBaRmgydm16Z1Q0VUtJcC1nU0dWQTVXM0xCTDZEUHo?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "AFLAC INC 1Q 2026: Revenue $4.35B, Net income $1.02B, EPS $1.98\u2014 10-Q Summary - TradingView",
+          "source": "TradingView",
+          "source_url": "https://www.tradingview.com/news/tradingview:7d4973f5b756c:0-aflac-inc-1q-2026-revenue-4-35b-net-income-1-02b-eps-1-98-10-q-summary/",
+          "publisher_homepage_url": "https://www.tradingview.com",
+          "url": "https://www.tradingview.com/news/tradingview:7d4973f5b756c:0-aflac-inc-1q-2026-revenue-4-35b-net-income-1-02b-eps-1-98-10-q-summary/",
+          "published_at": "Wed, 06 May 2026 12:11:00 GMT",
+          "summary": "AFLAC INC 1Q 2026: Revenue $4.35B, Net income $1.02B, EPS $1.98\u2014 10-Q Summary  TradingView",
+          "ticker": "AFL",
+          "company_name": "Aflac Inc",
+          "query": "Aflac Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.tradingview.com/news/tradingview:7d4973f5b756c:0-aflac-inc-1q-2026-revenue-4-35b-net-income-1-02b-eps-1-98-10-q-summary/"
+        }
+      }
+    },
+    {
+      "article_index": 1,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a routine institutional ownership filing showing Danske Bank acquired shares\u2014it provides no meaningful signal for the growth archetype position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNMkppQTNBMXVQOUR0LURkNnNZQW4yaVFRZ3cyUnJLM2FOTVRINUNPdXRhakMxUDJTX3o2OGZYbkhzX05mSU4tYjl1alV3RnhycmcwcWtraXltMDUtZXE4ZVM3LXFMSGhCb0IxakZSeVdQQ3BzYTlBRHVISkxxZVNDcnFLTTFOOGRRYnVucHVjTW0wdUFGV0F1VUQ1NmZ5aVkzZzFxMEtDbmFkS2FxZ2poWWJFdXJoSFFFZHc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "dddb6d2a7e461d7a46540ed218a7acaca56be498485256d6dde1766bc1bfea24",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-aflac-incorporated-afl-shares-acquired-by-danske-bank-a-s-2026-05-02/",
+        "title": "Aflac Incorporated $AFL Shares Acquired by Danske Bank A S - MarketBeat",
+        "summary": "Aflac Incorporated $AFL Shares Acquired by Danske Bank A S MarketBeat",
+        "body": "Aflac Incorporated $AFL Shares Acquired by Danske Bank A S MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-aflac-incorporated-afl-shares-acquired-by-danske-bank-a-s-2026-05-02/",
+        "published_at": "Sat, 02 May 2026 08:37:41 GMT",
+        "ticker_hints": [
+          "AFL"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNMkppQTNBMXVQOUR0LURkNnNZQW4yaVFRZ3cyUnJLM2FOTVRINUNPdXRhakMxUDJTX3o2OGZYbkhzX05mSU4tYjl1alV3RnhycmcwcWtraXltMDUtZXE4ZVM3LXFMSGhCb0IxakZSeVdQQ3BzYTlBRHVISkxxZVNDcnFLTTFOOGRRYnVucHVjTW0wdUFGV0F1VUQ1NmZ5aVkzZzFxMEtDbmFkS2FxZ2poWWJFdXJoSFFFZHc?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Aflac Incorporated $AFL Shares Acquired by Danske Bank A S - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-aflac-incorporated-afl-shares-acquired-by-danske-bank-a-s-2026-05-02/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-aflac-incorporated-afl-shares-acquired-by-danske-bank-a-s-2026-05-02/",
+          "published_at": "Sat, 02 May 2026 08:37:41 GMT",
+          "summary": "Aflac Incorporated $AFL Shares Acquired by Danske Bank A S  MarketBeat",
+          "ticker": "AFL",
+          "company_name": "Aflac Inc",
+          "query": "Aflac Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-aflac-incorporated-afl-shares-acquired-by-danske-bank-a-s-2026-05-02/"
+        }
+      }
+    },
+    {
+      "article_index": 2,
+      "relevant": true,
+      "affected_tickers": [
+        "LNT"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Alliant Energy's Q1 2026 earnings call highlights reveal operational performance and project updates directly relevant to the growth archetype position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiiwJBVV95cUxPVmdaQ1p0Tk9SaFJXc3ZSdGl6Uy11TVFWeHNleGlBU2g5ekQ2c19zclpGQzE1MnFiTzdaQXgwNDg2NDJKQmZyc2RQdWxBTFBpM3ZReS0xMHNNbW5qTVBNaEFrbHJaRF9UbVFiTHhQYms2bXdyRXkzaEZPbFZuRkJ4ZmxtOHEyY21HNDdlNUwzR25RSkxSRV9oLXVOVTN5aS0xRC1WRzdwa3pEWmdUV18wcHBzNjBKV3NLVWZEaUtLQzBMaWVuWF9hTkVHX2VldEpYQkljNllWMXhEcDVIUlhmY2NNUnNCSkpSWGJkQ0c2OERmYWYwZk1qbTYwSl83Z2NjejY3SEl0Ym8xMlk?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "8653405b6903a26aded5d625d70d6b0cb3aa41a8f4b9dd130a919191e677eeda",
+        "source_type": "company_news",
+        "source": "GuruFocus",
+        "source_url": "https://www.gurufocus.com/news/8838846/alliant-energy-corp-lnt-q1-2026-earnings-call-highlights-strong-earnings-amid-mild-temperatures-and-strategic-growth-initiatives?mobile=true",
+        "title": "Alliant Energy Corp (LNT) Q1 2026 Earnings Call Highlights: Stro - GuruFocus",
+        "summary": "Alliant Energy Corp (LNT) Q1 2026 Earnings Call Highlights: Stro GuruFocus",
+        "body": "Alliant Energy Corp (LNT) Q1 2026 Earnings Call Highlights: Stro GuruFocus",
+        "evidence_quality": "title_only",
+        "url": "https://www.gurufocus.com/news/8838846/alliant-energy-corp-lnt-q1-2026-earnings-call-highlights-strong-earnings-amid-mild-temperatures-and-strategic-growth-initiatives?mobile=true",
+        "published_at": "Sat, 02 May 2026 06:33:16 GMT",
+        "ticker_hints": [
+          "LNT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiiwJBVV95cUxPVmdaQ1p0Tk9SaFJXc3ZSdGl6Uy11TVFWeHNleGlBU2g5ekQ2c19zclpGQzE1MnFiTzdaQXgwNDg2NDJKQmZyc2RQdWxBTFBpM3ZReS0xMHNNbW5qTVBNaEFrbHJaRF9UbVFiTHhQYms2bXdyRXkzaEZPbFZuRkJ4ZmxtOHEyY21HNDdlNUwzR25RSkxSRV9oLXVOVTN5aS0xRC1WRzdwa3pEWmdUV18wcHBzNjBKV3NLVWZEaUtLQzBMaWVuWF9hTkVHX2VldEpYQkljNllWMXhEcDVIUlhmY2NNUnNCSkpSWGJkQ0c2OERmYWYwZk1qbTYwSl83Z2NjejY3SEl0Ym8xMlk?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Alliant Energy Corp (LNT) Q1 2026 Earnings Call Highlights: Stro - GuruFocus",
+          "source": "GuruFocus",
+          "source_url": "https://www.gurufocus.com/news/8838846/alliant-energy-corp-lnt-q1-2026-earnings-call-highlights-strong-earnings-amid-mild-temperatures-and-strategic-growth-initiatives?mobile=true",
+          "publisher_homepage_url": "https://www.gurufocus.com",
+          "url": "https://www.gurufocus.com/news/8838846/alliant-energy-corp-lnt-q1-2026-earnings-call-highlights-strong-earnings-amid-mild-temperatures-and-strategic-growth-initiatives?mobile=true",
+          "published_at": "Sat, 02 May 2026 06:33:16 GMT",
+          "summary": "Alliant Energy Corp (LNT) Q1 2026 Earnings Call Highlights: Stro  GuruFocus",
+          "ticker": "LNT",
+          "company_name": "Alliant Energy Corp",
+          "query": "Alliant Energy Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.gurufocus.com/news/8838846/alliant-energy-corp-lnt-q1-2026-earnings-call-highlights-strong-earnings-amid-mild-temperatures-and-strategic-growth-initiatives?mobile=true"
+        }
+      }
+    },
+    {
+      "article_index": 3,
+      "relevant": true,
+      "affected_tickers": [
+        "LNT"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Alliant Energy's higher Q1 2026 EPS and major project advances are direct company metrics that impact the growth archetype position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPWmRMRllIVW4ySmpGZ3p0akVpTGlmeGVBbGpBcWNGNjZ0WjB3WnRBNU14M0FVOHQzbTlmc25UZlRzZXBVY1pNcGRNMTdmNGJ1ZU5VUkZmU3VLS2ZqMVh2bU1McnZPelhhTEpjWkUyUFk4dy1VWVhFT1BQU3FSaVBTREZwLWFTZEc4bHNkWXF5ZUk1eG9PU3NLRXNSN2NSQ3hmSFQ3Rnd2SlFVQ21wenUwMg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "f813b93f636014e2b642f2803444e1a9e1dd42c3945a96581d0f02b51ee8f38f",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/LNT/10-q-alliant-energy-corp-quarterly-earnings-report-9b276da6938d.html",
+        "title": "Alliant Energy (NASDAQ: LNT) posts higher Q1 2026 EPS and advances major projects - Stock Titan",
+        "summary": "Alliant Energy (NASDAQ: LNT) posts higher Q1 2026 EPS and advances major projects Stock Titan",
+        "body": "Alliant Energy (NASDAQ: LNT) posts higher Q1 2026 EPS and advances major projects Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/LNT/10-q-alliant-energy-corp-quarterly-earnings-report-9b276da6938d.html",
+        "published_at": "Fri, 01 May 2026 15:07:49 GMT",
+        "ticker_hints": [
+          "LNT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPWmRMRllIVW4ySmpGZ3p0akVpTGlmeGVBbGpBcWNGNjZ0WjB3WnRBNU14M0FVOHQzbTlmc25UZlRzZXBVY1pNcGRNMTdmNGJ1ZU5VUkZmU3VLS2ZqMVh2bU1McnZPelhhTEpjWkUyUFk4dy1VWVhFT1BQU3FSaVBTREZwLWFTZEc4bHNkWXF5ZUk1eG9PU3NLRXNSN2NSQ3hmSFQ3Rnd2SlFVQ21wenUwMg?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Alliant Energy (NASDAQ: LNT) posts higher Q1 2026 EPS and advances major projects - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/LNT/10-q-alliant-energy-corp-quarterly-earnings-report-9b276da6938d.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/LNT/10-q-alliant-energy-corp-quarterly-earnings-report-9b276da6938d.html",
+          "published_at": "Fri, 01 May 2026 15:07:49 GMT",
+          "summary": "Alliant Energy (NASDAQ: LNT) posts higher Q1 2026 EPS and advances major projects  Stock Titan",
+          "ticker": "LNT",
+          "company_name": "Alliant Energy Corp",
+          "query": "Alliant Energy Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/LNT/10-q-alliant-energy-corp-quarterly-earnings-report-9b276da6938d.html"
+        }
+      }
+    },
+    {
+      "article_index": 4,
+      "relevant": true,
+      "affected_tickers": [
+        "AMZN"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Amazon's expansion of its logistics network as a service offering to other businesses represents a significant growth initiative for the AMZN position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNY19LUk5xYzhtVTZucWktS3V5QUxHd3djYkV5eHRrSFY4ZTFEZUNoNWxOS1piWGhHVDdQS3ZMRWRTQ04xMjBFNTVGTkhJcGNNWVJSMjBJb3pKUFlkbmZpZjRwOUJlQjRHRFUtU0I2QlhtMmdUN19IYTV5SXBBaUdYdkJJSHJQZEpk?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "021807b5e5d2268fd7534648d18c827e6f60b899943802424531bdee8e1c8d93",
+        "source_type": "company_news",
+        "source": "About Amazon",
+        "source_url": "https://www.aboutamazon.com/news/retail/amazon-supply-chain-services-for-business",
+        "title": "Introducing Amazon Supply Chain Services: Amazon\u2019s logistics network, now open to every business - About Amazon",
+        "summary": "Introducing Amazon Supply Chain Services: Amazon\u2019s logistics network, now open to every business About Amazon",
+        "body": "Introducing Amazon Supply Chain Services: Amazon\u2019s logistics network, now open to every business About Amazon",
+        "evidence_quality": "title_only",
+        "url": "https://www.aboutamazon.com/news/retail/amazon-supply-chain-services-for-business",
+        "published_at": "Mon, 04 May 2026 10:01:19 GMT",
+        "ticker_hints": [
+          "AMZN"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNY19LUk5xYzhtVTZucWktS3V5QUxHd3djYkV5eHRrSFY4ZTFEZUNoNWxOS1piWGhHVDdQS3ZMRWRTQ04xMjBFNTVGTkhJcGNNWVJSMjBJb3pKUFlkbmZpZjRwOUJlQjRHRFUtU0I2QlhtMmdUN19IYTV5SXBBaUdYdkJJSHJQZEpk?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Introducing Amazon Supply Chain Services: Amazon\u2019s logistics network, now open to every business - About Amazon",
+          "source": "About Amazon",
+          "source_url": "https://www.aboutamazon.com/news/retail/amazon-supply-chain-services-for-business",
+          "publisher_homepage_url": "https://www.aboutamazon.com",
+          "url": "https://www.aboutamazon.com/news/retail/amazon-supply-chain-services-for-business",
+          "published_at": "Mon, 04 May 2026 10:01:19 GMT",
+          "summary": "Introducing Amazon Supply Chain Services: Amazon\u2019s logistics network, now open to every business  About Amazon",
+          "ticker": "AMZN",
+          "company_name": "Amazon.com Inc",
+          "query": "Amazon.com Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.aboutamazon.com/news/retail/amazon-supply-chain-services-for-business"
+        }
+      }
+    },
+    {
+      "article_index": 5,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFAtaGhkZm55MnZGT2lMOEFMX21Oa2tyMFRjTU55ZzM3LXlFcWhtZ1ZDcGN1aHRHalpIMXM2bVVSdEc4SFYzalowNHdpVkVkTzlXQVNaVjl0cw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "013758065ef6ed8aa215f9dc6ed29757da1d3e819c59130c43ab6928be572717",
+        "source_type": "company_news",
+        "source": "GuruFocus",
+        "source_url": "https://www.gurufocus.com/stock/AMZN/summary",
+        "title": "Amazon.com Inc (AMZN) Stock Price, Trades & News - GuruFocus",
+        "summary": "Amazon.com Inc (AMZN) Stock Price, Trades & News GuruFocus",
+        "body": "Amazon.com Inc (AMZN) Stock Price, Trades & News GuruFocus",
+        "evidence_quality": "title_only",
+        "url": "https://www.gurufocus.com/stock/AMZN/summary",
+        "published_at": "Fri, 08 May 2026 00:27:45 GMT",
+        "ticker_hints": [
+          "AMZN"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFAtaGhkZm55MnZGT2lMOEFMX21Oa2tyMFRjTU55ZzM3LXlFcWhtZ1ZDcGN1aHRHalpIMXM2bVVSdEc4SFYzalowNHdpVkVkTzlXQVNaVjl0cw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Amazon.com Inc (AMZN) Stock Price, Trades & News - GuruFocus",
+          "source": "GuruFocus",
+          "source_url": "https://www.gurufocus.com/stock/AMZN/summary",
+          "publisher_homepage_url": "https://www.gurufocus.com",
+          "url": "https://www.gurufocus.com/stock/AMZN/summary",
+          "published_at": "Fri, 08 May 2026 00:27:45 GMT",
+          "summary": "Amazon.com Inc (AMZN) Stock Price, Trades & News  GuruFocus",
+          "ticker": "AMZN",
+          "company_name": "Amazon.com Inc",
+          "query": "Amazon.com Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.gurufocus.com/stock/AMZN/summary"
+        }
+      }
+    },
+    {
+      "article_index": 6,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Britannica encyclopedia page contains no investment-specific information, only general company history and facts.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1tcl9ud3kxbHlhSERRUGRJNG9NNU53VWdRa2tOQWJqUUl1aFM0WEIwTmVIQ0tWSFpVaklpa25XWEFvaXJ0VGk5NVNHSjRkR0FlNHJRYQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "7732eb47988268eae424fa8a87da6d02925f43a39fdac862826d7024f883ea75",
+        "source_type": "company_news",
+        "source": "Britannica",
+        "source_url": "https://www.britannica.com/money/Amazoncom",
+        "title": "Amazon | E-commerce, Amazon Web Services, History, & Facts | Britannica Money - Britannica",
+        "summary": "Amazon | E-commerce, Amazon Web Services, History, & Facts | Britannica Money Britannica",
+        "body": "Amazon | E-commerce, Amazon Web Services, History, & Facts | Britannica Money Britannica",
+        "evidence_quality": "title_only",
+        "url": "https://www.britannica.com/money/Amazoncom",
+        "published_at": "Tue, 05 May 2026 17:35:00 GMT",
+        "ticker_hints": [
+          "AMZN"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1tcl9ud3kxbHlhSERRUGRJNG9NNU53VWdRa2tOQWJqUUl1aFM0WEIwTmVIQ0tWSFpVaklpa25XWEFvaXJ0VGk5NVNHSjRkR0FlNHJRYQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Amazon | E-commerce, Amazon Web Services, History, & Facts | Britannica Money - Britannica",
+          "source": "Britannica",
+          "source_url": "https://www.britannica.com/money/Amazoncom",
+          "publisher_homepage_url": "https://www.britannica.com",
+          "url": "https://www.britannica.com/money/Amazoncom",
+          "published_at": "Tue, 05 May 2026 17:35:00 GMT",
+          "summary": "Amazon | E-commerce, Amazon Web Services, History, & Facts | Britannica Money  Britannica",
+          "ticker": "AMZN",
+          "company_name": "Amazon.com Inc",
+          "query": "Amazon.com Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.britannica.com/money/Amazoncom"
+        }
+      }
+    },
+    {
+      "article_index": 7,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxPb1BfWTFYTDlGdWFJZ3NYMFhvUU1KaWs4enFrYTlyd2ctVXVfMzJpamtwSS13WVR2VUVCNTlzMGhIX2htRzV1cmlqYy1IM3ZKVzNhRWxkSjM4U0VWUzR0blVfdXZKWGhhUEVfRGN5SktuU1paVktkNmE4Nlo0RlB6MUM4Y0RSYmRqZ3VGT29uN1RwUWszLUl5eDFmNTQ3MEJIZDBnUTVfLWh6NG1QNkxubTZwdmlYQ0ozdzF3bThmUUdQTVphY09MQjM0WFFqeFprcWNLQndtWWllck91bS0wdnpPN1B6OEhnOC1YSGFTLTVKYld6?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "b71a7f69dacd152f43c83c9a92cb56060f505e0793d04e3461c7bdd09c26b3f5",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/air-products-chemicals-inc-stock-underperforms-thursday-when-compared-to-competitors-f522bd6a-35f26b608666?mod=mw_quote_news",
+        "title": "Air Products & Chemicals Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+        "summary": "Air Products & Chemicals Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "body": "Air Products & Chemicals Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/air-products-chemicals-inc-stock-underperforms-thursday-when-compared-to-competitors-f522bd6a-35f26b608666?mod=mw_quote_news",
+        "published_at": "Thu, 07 May 2026 20:46:00 GMT",
+        "ticker_hints": [
+          "APD"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxPb1BfWTFYTDlGdWFJZ3NYMFhvUU1KaWs4enFrYTlyd2ctVXVfMzJpamtwSS13WVR2VUVCNTlzMGhIX2htRzV1cmlqYy1IM3ZKVzNhRWxkSjM4U0VWUzR0blVfdXZKWGhhUEVfRGN5SktuU1paVktkNmE4Nlo0RlB6MUM4Y0RSYmRqZ3VGT29uN1RwUWszLUl5eDFmNTQ3MEJIZDBnUTVfLWh6NG1QNkxubTZwdmlYQ0ozdzF3bThmUUdQTVphY09MQjM0WFFqeFprcWNLQndtWWllck91bS0wdnpPN1B6OEhnOC1YSGFTLTVKYld6?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Air Products & Chemicals Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/air-products-chemicals-inc-stock-underperforms-thursday-when-compared-to-competitors-f522bd6a-35f26b608666?mod=mw_quote_news",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/air-products-chemicals-inc-stock-underperforms-thursday-when-compared-to-competitors-f522bd6a-35f26b608666?mod=mw_quote_news",
+          "published_at": "Thu, 07 May 2026 20:46:00 GMT",
+          "summary": "Air Products & Chemicals Inc. stock underperforms Thursday when compared to competitors  MarketWatch",
+          "ticker": "APD",
+          "company_name": "Air Products and Chemicals Inc",
+          "query": "Air Products and Chemicals Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/air-products-chemicals-inc-stock-underperforms-thursday-when-compared-to-competitors-f522bd6a-35f26b608666?mod=mw_quote_news"
+        }
+      }
+    },
+    {
+      "article_index": 8,
+      "relevant": true,
+      "affected_tickers": [
+        "APD"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Analyst upgrade at BMO citing strong environment and execution provides relevant sentiment signal for the held APD position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNeW0wV3pBQTdvUERhZjhvWlJOTGUtQl9DNVVOVXlhSE9Td2lyR1czUFkzWE5TMWZzSG1qZVh0U2hFeGgzSXozLU1wOTFhUm1CQzM1cUdJdXZzVm9NSnFEcEVGV0MxeDJKNVJMY3pIVTQyOExhdXdlWnBIQTg2VkRVRGhHVi13NDhUaURlaGg2WEdBaVdaaGExM2tPM3NmQ2xwQnNYelZSTQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "3f3dbac0120ae7efa56474ad6a28b6230817df6c716c972d3f88100d7f71a0b1",
+        "source_type": "company_news",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/news/4584290-air-products-raised-at-bmo-citing-strong-environment-and-execution",
+        "title": "Air Products raised at BMO, citing strong environment and execution (APD:NYSE) - Seeking Alpha",
+        "summary": "Air Products raised at BMO, citing strong environment and execution (APD:NYSE) Seeking Alpha",
+        "body": "Air Products raised at BMO, citing strong environment and execution (APD:NYSE) Seeking Alpha",
+        "evidence_quality": "title_only",
+        "url": "https://seekingalpha.com/news/4584290-air-products-raised-at-bmo-citing-strong-environment-and-execution",
+        "published_at": "Fri, 01 May 2026 19:25:16 GMT",
+        "ticker_hints": [
+          "APD"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNeW0wV3pBQTdvUERhZjhvWlJOTGUtQl9DNVVOVXlhSE9Td2lyR1czUFkzWE5TMWZzSG1qZVh0U2hFeGgzSXozLU1wOTFhUm1CQzM1cUdJdXZzVm9NSnFEcEVGV0MxeDJKNVJMY3pIVTQyOExhdXdlWnBIQTg2VkRVRGhHVi13NDhUaURlaGg2WEdBaVdaaGExM2tPM3NmQ2xwQnNYelZSTQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Air Products raised at BMO, citing strong environment and execution (APD:NYSE) - Seeking Alpha",
+          "source": "Seeking Alpha",
+          "source_url": "https://seekingalpha.com/news/4584290-air-products-raised-at-bmo-citing-strong-environment-and-execution",
+          "publisher_homepage_url": "https://seekingalpha.com",
+          "url": "https://seekingalpha.com/news/4584290-air-products-raised-at-bmo-citing-strong-environment-and-execution",
+          "published_at": "Fri, 01 May 2026 19:25:16 GMT",
+          "summary": "Air Products raised at BMO, citing strong environment and execution (APD:NYSE)  Seeking Alpha",
+          "ticker": "APD",
+          "company_name": "Air Products and Chemicals Inc",
+          "query": "Air Products and Chemicals Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://seekingalpha.com/news/4584290-air-products-raised-at-bmo-citing-strong-environment-and-execution"
+        }
+      }
+    },
+    {
+      "article_index": 9,
+      "relevant": true,
+      "affected_tickers": [
+        "AES"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Wall Street sentiment article provides relevant analyst perspective on the held AES position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNU2FGMFljSXRUalkyaTk2VVo2eFowMDJDWTlvOFRMMHhZZ3dWZGpGZkJPdXp6bkNVYjdSSXA4Y0x5bWswUEhkNzdlM00yTlVrQUpsR3VGblVLbElFU1lqQzloN2lhNmpDZmJKYzBGbkU3WTgyR092S3lTaTlxeXVlOXNlT2lBNTVLc0FJV2tBV29XOXpFenNlS0FXY3dqMWsxdHVVZA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "e94c4e3e6a22b7523aaca1c8382a4c22f782639a41a6d1a06ae04c4696480374",
+        "source_type": "company_news",
+        "source": "Barchart.com",
+        "source_url": "https://www.barchart.com/story/news/1681727/is-wall-street-bullish-or-bearish-on-aes-corporation-stock",
+        "title": "Is Wall Street Bullish or Bearish on AES Corporation Stock? - Barchart.com",
+        "summary": "Is Wall Street Bullish or Bearish on AES Corporation Stock? Barchart.com",
+        "body": "Is Wall Street Bullish or Bearish on AES Corporation Stock? Barchart.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.barchart.com/story/news/1681727/is-wall-street-bullish-or-bearish-on-aes-corporation-stock",
+        "published_at": "Mon, 04 May 2026 11:35:48 GMT",
+        "ticker_hints": [
+          "AES"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNU2FGMFljSXRUalkyaTk2VVo2eFowMDJDWTlvOFRMMHhZZ3dWZGpGZkJPdXp6bkNVYjdSSXA4Y0x5bWswUEhkNzdlM00yTlVrQUpsR3VGblVLbElFU1lqQzloN2lhNmpDZmJKYzBGbkU3WTgyR092S3lTaTlxeXVlOXNlT2lBNTVLc0FJV2tBV29XOXpFenNlS0FXY3dqMWsxdHVVZA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Is Wall Street Bullish or Bearish on AES Corporation Stock? - Barchart.com",
+          "source": "Barchart.com",
+          "source_url": "https://www.barchart.com/story/news/1681727/is-wall-street-bullish-or-bearish-on-aes-corporation-stock",
+          "publisher_homepage_url": "https://www.barchart.com",
+          "url": "https://www.barchart.com/story/news/1681727/is-wall-street-bullish-or-bearish-on-aes-corporation-stock",
+          "published_at": "Mon, 04 May 2026 11:35:48 GMT",
+          "summary": "Is Wall Street Bullish or Bearish on AES Corporation Stock?  Barchart.com",
+          "ticker": "AES",
+          "company_name": "AES Corp",
+          "query": "AES Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.barchart.com/story/news/1681727/is-wall-street-bullish-or-bearish-on-aes-corporation-stock"
+        }
+      }
+    },
+    {
+      "article_index": 10,
+      "relevant": true,
+      "affected_tickers": [
+        "ATO"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Atmos Energy raised its profit forecast on strong natural gas demand, directly impacting the ATO growth archetype position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPMHREYV9DWFpGTDQ5cFNzM2FFeHVJNm13Q3RGX2k1V2NmaC11RGItbFk1RElTemU0TlNPZl9EeDkxRTM0Y0pic2czLS00S2dUZGp4a2dHMV9paWhTc0hfenQyRGVVaXVLZUFhTnRYUUZpRURXZk5PbTFrZ3lxSURNQXdlSE01ckVoNXA5NVY0b3RHWkVaOFhMXzczSW9oZGVjdm5XcENfejE3bm9CTG9CUEhzeHVEc0FXczJJQw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "222df6e8e888126cbd2eef1dd3dd075a353380cc8f61d4559858c8a2c16cbdca",
+        "source_type": "company_news",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/business/energy/atmos-energy-raises-annual-profit-forecast-strong-natural-gas-demand-2026-05-06/",
+        "title": "Atmos Energy raises annual profit forecast on strong natural gas demand - Reuters",
+        "summary": "Atmos Energy raises annual profit forecast on strong natural gas demand Reuters",
+        "body": "Atmos Energy raises annual profit forecast on strong natural gas demand Reuters",
+        "evidence_quality": "title_only",
+        "url": "https://www.reuters.com/business/energy/atmos-energy-raises-annual-profit-forecast-strong-natural-gas-demand-2026-05-06/",
+        "published_at": "Wed, 06 May 2026 22:22:17 GMT",
+        "ticker_hints": [
+          "ATO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPMHREYV9DWFpGTDQ5cFNzM2FFeHVJNm13Q3RGX2k1V2NmaC11RGItbFk1RElTemU0TlNPZl9EeDkxRTM0Y0pic2czLS00S2dUZGp4a2dHMV9paWhTc0hfenQyRGVVaXVLZUFhTnRYUUZpRURXZk5PbTFrZ3lxSURNQXdlSE01ckVoNXA5NVY0b3RHWkVaOFhMXzczSW9oZGVjdm5XcENfejE3bm9CTG9CUEhzeHVEc0FXczJJQw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Atmos Energy raises annual profit forecast on strong natural gas demand - Reuters",
+          "source": "Reuters",
+          "source_url": "https://www.reuters.com/business/energy/atmos-energy-raises-annual-profit-forecast-strong-natural-gas-demand-2026-05-06/",
+          "publisher_homepage_url": "https://www.reuters.com",
+          "url": "https://www.reuters.com/business/energy/atmos-energy-raises-annual-profit-forecast-strong-natural-gas-demand-2026-05-06/",
+          "published_at": "Wed, 06 May 2026 22:22:17 GMT",
+          "summary": "Atmos Energy raises annual profit forecast on strong natural gas demand  Reuters",
+          "ticker": "ATO",
+          "company_name": "Atmos Energy Corp",
+          "query": "Atmos Energy Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.reuters.com/business/energy/atmos-energy-raises-annual-profit-forecast-strong-natural-gas-demand-2026-05-06/"
+        }
+      }
+    },
+    {
+      "article_index": 11,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQS2dhVTR2ZFZzMjlnSThjdFJUemxsTy01dDB5ZXdTS3VwRjhCQm1VbGtTNGNjSTh4OGxDdUVKUG1KWGhLV1hIWEN3cnlMZWJJaUtQSUJ1SE52cU54Nlh5UUxOeGhnV1pULUNNejEzaFRJQVhqNmFPUVpIV1B4cUZVd1lQY0dGMnFHenVRU3Z6eHg1Z20tZ3NCN0QycE5odkdINE1lU1lzaktWdFV0eDFST3BTNUlOOTRncFlnV3lLczJrYXhGd3ZyQ0hJWTVOdWh2?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "498a8f5ed681a67c85595a075a78f48df9a129e3f24ba76fad81e0f391526f51",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/atmos-energy-corp-stock-underperforms-thursday-when-compared-to-competitors-3066e3e4-c369855e47b8",
+        "title": "Atmos Energy Corp. stock underperforms Thursday when compared to competitors - MarketWatch",
+        "summary": "Atmos Energy Corp. stock underperforms Thursday when compared to competitors MarketWatch",
+        "body": "Atmos Energy Corp. stock underperforms Thursday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/atmos-energy-corp-stock-underperforms-thursday-when-compared-to-competitors-3066e3e4-c369855e47b8",
+        "published_at": "Thu, 07 May 2026 20:58:00 GMT",
+        "ticker_hints": [
+          "ATO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQS2dhVTR2ZFZzMjlnSThjdFJUemxsTy01dDB5ZXdTS3VwRjhCQm1VbGtTNGNjSTh4OGxDdUVKUG1KWGhLV1hIWEN3cnlMZWJJaUtQSUJ1SE52cU54Nlh5UUxOeGhnV1pULUNNejEzaFRJQVhqNmFPUVpIV1B4cUZVd1lQY0dGMnFHenVRU3Z6eHg1Z20tZ3NCN0QycE5odkdINE1lU1lzaktWdFV0eDFST3BTNUlOOTRncFlnV3lLczJrYXhGd3ZyQ0hJWTVOdWh2?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Atmos Energy Corp. stock underperforms Thursday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/atmos-energy-corp-stock-underperforms-thursday-when-compared-to-competitors-3066e3e4-c369855e47b8",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/atmos-energy-corp-stock-underperforms-thursday-when-compared-to-competitors-3066e3e4-c369855e47b8",
+          "published_at": "Thu, 07 May 2026 20:58:00 GMT",
+          "summary": "Atmos Energy Corp. stock underperforms Thursday when compared to competitors  MarketWatch",
+          "ticker": "ATO",
+          "company_name": "Atmos Energy Corp",
+          "query": "Atmos Energy Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/atmos-energy-corp-stock-underperforms-thursday-when-compared-to-competitors-3066e3e4-c369855e47b8"
+        }
+      }
+    },
+    {
+      "article_index": 12,
+      "relevant": true,
+      "affected_tickers": [
+        "MMM"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "3M filed an 8-K reporting a material event, which is relevant for MMM holders.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPa1c3UHBGX3paOUlzaFpPMHRIVDVnaU9kTmtieE5IenBrUnZNczk1RXRSQlAySWNLVGJsdHJ3UXptVmtmaVZvVUNJYWFBQld5MXNzLWF2TWNwS25LMEFOWndyYU43Rk41dzVhNi1rcUMwYmRCeHVSUzBpQWprekhTSEpVc3F6NWpBRGoxT0dXeTctWDhxVkZtQw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "3302cd59c841ccb86e52959bc18ce4c6780ce6ed950ad8a20b17e5d2ba795fc0",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/MMM/8-k-3m-co-reports-material-event-1e9ab12ca57e.html",
+        "title": "[8-K] 3M CO Reports Material Event - Stock Titan",
+        "summary": "[8-K] 3M CO Reports Material Event Stock Titan",
+        "body": "[8-K] 3M CO Reports Material Event Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/MMM/8-k-3m-co-reports-material-event-1e9ab12ca57e.html",
+        "published_at": "Wed, 06 May 2026 12:01:28 GMT",
+        "ticker_hints": [
+          "MMM"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPa1c3UHBGX3paOUlzaFpPMHRIVDVnaU9kTmtieE5IenBrUnZNczk1RXRSQlAySWNLVGJsdHJ3UXptVmtmaVZvVUNJYWFBQld5MXNzLWF2TWNwS25LMEFOWndyYU43Rk41dzVhNi1rcUMwYmRCeHVSUzBpQWprekhTSEpVc3F6NWpBRGoxT0dXeTctWDhxVkZtQw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "[8-K] 3M CO Reports Material Event - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/MMM/8-k-3m-co-reports-material-event-1e9ab12ca57e.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/MMM/8-k-3m-co-reports-material-event-1e9ab12ca57e.html",
+          "published_at": "Wed, 06 May 2026 12:01:28 GMT",
+          "summary": "[8-K] 3M CO Reports Material Event  Stock Titan",
+          "ticker": "MMM",
+          "company_name": "3M Co",
+          "query": "3M Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/MMM/8-k-3m-co-reports-material-event-1e9ab12ca57e.html"
+        }
+      }
+    },
+    {
+      "article_index": 13,
+      "relevant": true,
+      "affected_tickers": [
+        "MMM"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "A jury found 3M not liable in a Texas explosion case, representing a favorable legal outcome for MMM.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5LWDlLMDA5MHlPWmIxNTJLbjlfSWEzWGFXZEJObGJnUGg4bW9SWDRVTzAyTFBKTEU2eEdvRmFkMlRRaXV0NUdrYXBwdll3TGZaWHJ1aDF30gFWQVVfeXFMTktYOUswMDkweU9aYjE1MktuOV9JYTNYYVdkQk5sYmdQaDhtb1JYNFVPMDJMUEpMRTZ4R29GYWQyVFFpdXQ1R2thcHB2WXdMZlpYcnVoMXc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "2fe439a78909e155a9e6c14555f52d22389c2f4c9213d2b935939902ba0a81de",
+        "source_type": "company_news",
+        "source": "Law360",
+        "source_url": "https://www.law360.com/amp/articles/2475178",
+        "title": "Jury Says 3M Not Liable In Texas Explosion - Law360",
+        "summary": "Jury Says 3M Not Liable In Texas Explosion Law360",
+        "body": "Jury Says 3M Not Liable In Texas Explosion Law360",
+        "evidence_quality": "title_only",
+        "url": "https://www.law360.com/amp/articles/2475178",
+        "published_at": "Thu, 07 May 2026 22:09:00 GMT",
+        "ticker_hints": [
+          "MMM"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5LWDlLMDA5MHlPWmIxNTJLbjlfSWEzWGFXZEJObGJnUGg4bW9SWDRVTzAyTFBKTEU2eEdvRmFkMlRRaXV0NUdrYXBwdll3TGZaWHJ1aDF30gFWQVVfeXFMTktYOUswMDkweU9aYjE1MktuOV9JYTNYYVdkQk5sYmdQaDhtb1JYNFVPMDJMUEpMRTZ4R29GYWQyVFFpdXQ1R2thcHB2WXdMZlpYcnVoMXc?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Jury Says 3M Not Liable In Texas Explosion - Law360",
+          "source": "Law360",
+          "source_url": "https://www.law360.com/amp/articles/2475178",
+          "publisher_homepage_url": "https://www.law360.com",
+          "url": "https://www.law360.com/amp/articles/2475178",
+          "published_at": "Thu, 07 May 2026 22:09:00 GMT",
+          "summary": "Jury Says 3M Not Liable In Texas Explosion  Law360",
+          "ticker": "MMM",
+          "company_name": "3M Co",
+          "query": "3M Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.law360.com/amp/articles/2475178"
+        }
+      }
+    },
+    {
+      "article_index": 14,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic analyst price target article without substantive new information qualifies as low-information stock recap per rules.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNYll2MnRCZkpEaDVkVDFZckxrcWY5NFdJTlVJOHdYeUhhMlRMQ0gxam1odURkMklncWFaeVVUaC1Dd050cnJUMGhSMU1MOUIxSk1zYXVXNmJiZG5Qd3hPdzB2WnRwRlhwVHJYU2NpWkpMeExqNnZyZmUtTUw0U0tIcFFJbDYtNFlFYlJlM1dQSnpISEpxcnN2VUh2S1RHSDA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ea6793f4fd938675af8a5a7725beef8e383f2b55c3a822ddc19570e8273c833e",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/wall-street-analysts-target-price-144840392.html",
+        "title": "What Are Wall Street Analysts' Target Price for 3M Company Stock? - Yahoo Finance",
+        "summary": "What Are Wall Street Analysts' Target Price for 3M Company Stock? Yahoo Finance",
+        "body": "What Are Wall Street Analysts' Target Price for 3M Company Stock? Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/wall-street-analysts-target-price-144840392.html",
+        "published_at": "Wed, 06 May 2026 14:48:40 GMT",
+        "ticker_hints": [
+          "MMM"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNYll2MnRCZkpEaDVkVDFZckxrcWY5NFdJTlVJOHdYeUhhMlRMQ0gxam1odURkMklncWFaeVVUaC1Dd050cnJUMGhSMU1MOUIxSk1zYXVXNmJiZG5Qd3hPdzB2WnRwRlhwVHJYU2NpWkpMeExqNnZyZmUtTUw0U0tIcFFJbDYtNFlFYlJlM1dQSnpISEpxcnN2VUh2S1RHSDA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "What Are Wall Street Analysts' Target Price for 3M Company Stock? - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/wall-street-analysts-target-price-144840392.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/wall-street-analysts-target-price-144840392.html",
+          "published_at": "Wed, 06 May 2026 14:48:40 GMT",
+          "summary": "What Are Wall Street Analysts' Target Price for 3M Company Stock?  Yahoo Finance",
+          "ticker": "MMM",
+          "company_name": "3M Co",
+          "query": "3M Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/wall-street-analysts-target-price-144840392.html"
+        }
+      }
+    },
+    {
+      "article_index": 15,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This appears to be a generic 'should you buy' quote page with no substantive news or analysis that would impact a growth position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNeVk4SjkydVViSzFRZndabktpbS1vbUFmSk1Bb3BCYVBqUW1BNkVwaGYtbjJERUZ3RzJ6Y20xak41R1ZjTHNJUlNoV2Z0YUxBLTcxeVQ1WnJXV1hfc3RBbS1oNFlBZkVJMVBQN1lGUWxzdm5tRmVJWHFJZkxrOTdtLWtGdkhVUm90RWxYMUsycDZVdGxzdUI2Xw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "a49c4fe179618f4053c87f1950be37d5b3ff2b45558d9a9daf862a6a382a1542",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/altria-group-inc-mo-trending-130004782.html",
+        "title": "Altria Group, Inc. (MO) Is a Trending Stock: Facts to Know Before Betting on It - Yahoo Finance",
+        "summary": "Altria Group, Inc. (MO) Is a Trending Stock: Facts to Know Before Betting on It Yahoo Finance",
+        "body": "Altria Group, Inc. (MO) Is a Trending Stock: Facts to Know Before Betting on It Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/altria-group-inc-mo-trending-130004782.html",
+        "published_at": "Wed, 06 May 2026 13:00:04 GMT",
+        "ticker_hints": [
+          "MO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNeVk4SjkydVViSzFRZndabktpbS1vbUFmSk1Bb3BCYVBqUW1BNkVwaGYtbjJERUZ3RzJ6Y20xak41R1ZjTHNJUlNoV2Z0YUxBLTcxeVQ1WnJXV1hfc3RBbS1oNFlBZkVJMVBQN1lGUWxzdm5tRmVJWHFJZkxrOTdtLWtGdkhVUm90RWxYMUsycDZVdGxzdUI2Xw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Altria Group, Inc. (MO) Is a Trending Stock: Facts to Know Before Betting on It - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/altria-group-inc-mo-trending-130004782.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/altria-group-inc-mo-trending-130004782.html",
+          "published_at": "Wed, 06 May 2026 13:00:04 GMT",
+          "summary": "Altria Group, Inc. (MO) Is a Trending Stock: Facts to Know Before Betting on It  Yahoo Finance",
+          "ticker": "MO",
+          "company_name": "Altria Group Inc",
+          "query": "Altria Group Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/altria-group-inc-mo-trending-130004782.html"
+        }
+      }
+    },
+    {
+      "article_index": 16,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a low-information stock recap noting daily performance with no specific news catalyst or material information for a growth position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOYVhqMnNxcFJqSi1KZ3NzbERPR0Vuc3JWSGQ3c2tXUEZKTDJLSG5lVXB3UjJBVlVZSTNfQjY4Tm94ak9kMHpURGN2YUJWemFERnB1QmNIa3Yzd3ZaOVA0bGxXME94VHNuYlhUSXE5cEVaUEY0WnVOSFZCcDE3QV9lbDk5X0FhRGJRRTlhZTlUcTFwOV94cDJUckJESjhNOTcwTXZiT01ZeWE2N3B5R3ZxVHBBMHhlRnNSYXNGREcycHBJbGptYXdF?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "9363c4973d687b406343f03a342a06ef3e0a3a53a66a0bc797111c888ea7b4b6",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/altria-group-inc-stock-outperforms-competitors-on-strong-trading-day-584aab1b-65fe9db21abc",
+        "title": "Altria Group Inc. stock outperforms competitors on strong trading day - MarketWatch",
+        "summary": "Altria Group Inc. stock outperforms competitors on strong trading day MarketWatch",
+        "body": "Altria Group Inc. stock outperforms competitors on strong trading day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/altria-group-inc-stock-outperforms-competitors-on-strong-trading-day-584aab1b-65fe9db21abc",
+        "published_at": "Fri, 01 May 2026 20:37:00 GMT",
+        "ticker_hints": [
+          "MO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxOYVhqMnNxcFJqSi1KZ3NzbERPR0Vuc3JWSGQ3c2tXUEZKTDJLSG5lVXB3UjJBVlVZSTNfQjY4Tm94ak9kMHpURGN2YUJWemFERnB1QmNIa3Yzd3ZaOVA0bGxXME94VHNuYlhUSXE5cEVaUEY0WnVOSFZCcDE3QV9lbDk5X0FhRGJRRTlhZTlUcTFwOV94cDJUckJESjhNOTcwTXZiT01ZeWE2N3B5R3ZxVHBBMHhlRnNSYXNGREcycHBJbGptYXdF?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Altria Group Inc. stock outperforms competitors on strong trading day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/altria-group-inc-stock-outperforms-competitors-on-strong-trading-day-584aab1b-65fe9db21abc",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/altria-group-inc-stock-outperforms-competitors-on-strong-trading-day-584aab1b-65fe9db21abc",
+          "published_at": "Fri, 01 May 2026 20:37:00 GMT",
+          "summary": "Altria Group Inc. stock outperforms competitors on strong trading day  MarketWatch",
+          "ticker": "MO",
+          "company_name": "Altria Group Inc",
+          "query": "Altria Group Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/altria-group-inc-stock-outperforms-competitors-on-strong-trading-day-584aab1b-65fe9db21abc"
+        }
+      }
+    },
+    {
+      "article_index": 17,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "A routine secondary market transaction report for a small share count that is not material news and does not affect the fundamental thesis of a growth position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMitwFBVV95cUxORFZFLUNrYUljaHcza2ZZb3N5RHM0YXpRS01vTlU2UGhWVk5wWXc3dUlUX3h5cG04M0VMTEdyZHRpVUNnaVp0M2gwa0xNUnhiTDY4N05SZldxV1I2ZHNYUFNJTUw4eXJtSy1pU19nSFFPakU3OWhDbmpHamxMUWtybGFFbnVYRXlmU0pQWlJ2bWktOUlNc2otSHFhOG5rRHI0Rk5XVmp4d0JFVEp5MGt1RnVNTHRwWTA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "5727bb2fce8124621eb9692496a237fe70f0ce1ce88c3277af445e360c685c79",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-us-bancorp-de-sells-14073-shares-of-altria-group-inc-mo-2026-05-02/",
+        "title": "US Bancorp DE Sells 14,073 Shares of Altria Group, Inc. $MO - MarketBeat",
+        "summary": "US Bancorp DE Sells 14,073 Shares of Altria Group, Inc. $MO MarketBeat",
+        "body": "US Bancorp DE Sells 14,073 Shares of Altria Group, Inc. $MO MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-us-bancorp-de-sells-14073-shares-of-altria-group-inc-mo-2026-05-02/",
+        "published_at": "Sat, 02 May 2026 13:18:19 GMT",
+        "ticker_hints": [
+          "MO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMitwFBVV95cUxORFZFLUNrYUljaHcza2ZZb3N5RHM0YXpRS01vTlU2UGhWVk5wWXc3dUlUX3h5cG04M0VMTEdyZHRpVUNnaVp0M2gwa0xNUnhiTDY4N05SZldxV1I2ZHNYUFNJTUw4eXJtSy1pU19nSFFPakU3OWhDbmpHamxMUWtybGFFbnVYRXlmU0pQWlJ2bWktOUlNc2otSHFhOG5rRHI0Rk5XVmp4d0JFVEp5MGt1RnVNTHRwWTA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "US Bancorp DE Sells 14,073 Shares of Altria Group, Inc. $MO - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-us-bancorp-de-sells-14073-shares-of-altria-group-inc-mo-2026-05-02/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-us-bancorp-de-sells-14073-shares-of-altria-group-inc-mo-2026-05-02/",
+          "published_at": "Sat, 02 May 2026 13:18:19 GMT",
+          "summary": "US Bancorp DE Sells 14,073 Shares of Altria Group, Inc. $MO  MarketBeat",
+          "ticker": "MO",
+          "company_name": "Altria Group Inc",
+          "query": "Altria Group Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-us-bancorp-de-sells-14073-shares-of-altria-group-inc-mo-2026-05-02/"
+        }
+      }
+    },
+    {
+      "article_index": 18,
+      "relevant": true,
+      "affected_tickers": [
+        "NI"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Q1 earnings snapshots provide actual results versus expectations, which is material for evaluating growth position performance and thesis.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNQTY3NlFFMVUwUGNPSkswRGtQam1tUnlhYjhzaUhYMFNpR0MxODhYUXdsNndscDVObUN4QjRnT3N3ZkxOOUdSQTFrSFNkaUNvNUxpczQzbklfZXpVUlktajltUXV3LV9hQjhNeFdKalg2bmNRTDdoajRxNmRKSElOR0FyWElVcFdlLW1Sa05LMFhIRjkyWWNZUDY0NUVmbkFyNXNkeEp1MW1qNW9YVU56TmtHMEtCcnQzZ3NETl8tTTlfdXc5ckNR?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "dac2c283b76c84b1538a51176f0630b9ccce230ba69bf26010e49d8dd698632f",
+        "source_type": "company_news",
+        "source": "KING5.com",
+        "source_url": "https://www.king5.com/article/syndication/associatedpress/nisource-q1-earnings-snapshot/616-77396b0c-a578-4161-9d2d-0e4fadc94f29",
+        "title": "NiSource: Q1 Earnings Snapshot - KING5.com",
+        "summary": "NiSource: Q1 Earnings Snapshot KING5.com",
+        "body": "NiSource: Q1 Earnings Snapshot KING5.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.king5.com/article/syndication/associatedpress/nisource-q1-earnings-snapshot/616-77396b0c-a578-4161-9d2d-0e4fadc94f29",
+        "published_at": "Wed, 06 May 2026 10:54:00 GMT",
+        "ticker_hints": [
+          "NI"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNQTY3NlFFMVUwUGNPSkswRGtQam1tUnlhYjhzaUhYMFNpR0MxODhYUXdsNndscDVObUN4QjRnT3N3ZkxOOUdSQTFrSFNkaUNvNUxpczQzbklfZXpVUlktajltUXV3LV9hQjhNeFdKalg2bmNRTDdoajRxNmRKSElOR0FyWElVcFdlLW1Sa05LMFhIRjkyWWNZUDY0NUVmbkFyNXNkeEp1MW1qNW9YVU56TmtHMEtCcnQzZ3NETl8tTTlfdXc5ckNR?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "NiSource: Q1 Earnings Snapshot - KING5.com",
+          "source": "KING5.com",
+          "source_url": "https://www.king5.com/article/syndication/associatedpress/nisource-q1-earnings-snapshot/616-77396b0c-a578-4161-9d2d-0e4fadc94f29",
+          "publisher_homepage_url": "https://www.king5.com",
+          "url": "https://www.king5.com/article/syndication/associatedpress/nisource-q1-earnings-snapshot/616-77396b0c-a578-4161-9d2d-0e4fadc94f29",
+          "published_at": "Wed, 06 May 2026 10:54:00 GMT",
+          "summary": "NiSource: Q1 Earnings Snapshot  KING5.com",
+          "ticker": "NI",
+          "company_name": "NiSource Inc",
+          "query": "NiSource Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.king5.com/article/syndication/associatedpress/nisource-q1-earnings-snapshot/616-77396b0c-a578-4161-9d2d-0e4fadc94f29"
+        }
+      }
+    },
+    {
+      "article_index": 19,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a low-information stock recap noting daily performance with no specific news catalyst or material information for a growth position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQeFpTcEYtVG81cnNBQUJVLTVyWXNRTzk5Q1BsVFdWa1JNUVlvbnNjMGhoaUNPdEV0RmVfMlBoOWprSHZmc2wzOHNySGJoRmg1WlVNZ2pqZGRhUzAyX0Vpb0pFMVhLbEhwclZLeFVweURxWXhReGItb2N3V0U4dmFpZnNFQXd5eGVROUtDbUp0eTJFMFhMa1RtVHBtd3ZmaFpUVzFTcjAta3FnM1Bib1lsYUJxY2ZfQ29vYTYzTFRFTVQxdkF5azhn?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "e10dcd908032ed064eb563b5080b2df36b9c351f76b5f9800e3d65c18818f487",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/nisource-inc-stock-outperforms-competitors-despite-losses-on-the-day-cd1c5eb8-c3046bf453fa",
+        "title": "NiSource Inc. stock outperforms competitors despite losses on the day - MarketWatch",
+        "summary": "NiSource Inc. stock outperforms competitors despite losses on the day MarketWatch",
+        "body": "NiSource Inc. stock outperforms competitors despite losses on the day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/nisource-inc-stock-outperforms-competitors-despite-losses-on-the-day-cd1c5eb8-c3046bf453fa",
+        "published_at": "Wed, 06 May 2026 21:03:00 GMT",
+        "ticker_hints": [
+          "NI"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQeFpTcEYtVG81cnNBQUJVLTVyWXNRTzk5Q1BsVFdWa1JNUVlvbnNjMGhoaUNPdEV0RmVfMlBoOWprSHZmc2wzOHNySGJoRmg1WlVNZ2pqZGRhUzAyX0Vpb0pFMVhLbEhwclZLeFVweURxWXhReGItb2N3V0U4dmFpZnNFQXd5eGVROUtDbUp0eTJFMFhMa1RtVHBtd3ZmaFpUVzFTcjAta3FnM1Bib1lsYUJxY2ZfQ29vYTYzTFRFTVQxdkF5azhn?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "NiSource Inc. stock outperforms competitors despite losses on the day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/nisource-inc-stock-outperforms-competitors-despite-losses-on-the-day-cd1c5eb8-c3046bf453fa",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/nisource-inc-stock-outperforms-competitors-despite-losses-on-the-day-cd1c5eb8-c3046bf453fa",
+          "published_at": "Wed, 06 May 2026 21:03:00 GMT",
+          "summary": "NiSource Inc. stock outperforms competitors despite losses on the day  MarketWatch",
+          "ticker": "NI",
+          "company_name": "NiSource Inc",
+          "query": "NiSource Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/nisource-inc-stock-outperforms-competitors-despite-losses-on-the-day-cd1c5eb8-c3046bf453fa"
+        }
+      }
+    },
+    {
+      "article_index": 20,
+      "relevant": true,
+      "affected_tickers": [
+        "NI"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Q1 earnings for NiSource directly impact the growth archetype position through revenue/earnings trajectory.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMingFBVV95cUxNN0dOYnVqaHJaYXZRQk1yRUxqV2dBS0ZpWUV5WDNzSmdUTGdreEd2VTAwbjQ4SU5SbkpldENxV2VEbXprVWtCd2hQYy1ubU5WRjhGdm5yMjV0all3SHBXNHROeEYzaGpmYWVkU05LTTNJRFhCYTRpdUMzU21jYnpzMkF4ajcyejJVQ2ktMkZlWEMxT1Zjc2VoSThEQ01EQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "b91a43996487a787f7673238181f9720786e8dc1c7550cb036b18b62c8d4b256",
+        "source_type": "company_news",
+        "source": "Business Wire",
+        "source_url": "https://www.businesswire.com/news/home/20260506905193/en/NiSource-Announces-First-Quarter-Results",
+        "title": "NiSource Announces First Quarter Results - Business Wire",
+        "summary": "NiSource Announces First Quarter Results Business Wire",
+        "body": "NiSource Announces First Quarter Results Business Wire",
+        "evidence_quality": "title_only",
+        "url": "https://www.businesswire.com/news/home/20260506905193/en/NiSource-Announces-First-Quarter-Results",
+        "published_at": "Wed, 06 May 2026 10:30:00 GMT",
+        "ticker_hints": [
+          "NI"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMingFBVV95cUxNN0dOYnVqaHJaYXZRQk1yRUxqV2dBS0ZpWUV5WDNzSmdUTGdreEd2VTAwbjQ4SU5SbkpldENxV2VEbXprVWtCd2hQYy1ubU5WRjhGdm5yMjV0all3SHBXNHROeEYzaGpmYWVkU05LTTNJRFhCYTRpdUMzU21jYnpzMkF4ajcyejJVQ2ktMkZlWEMxT1Zjc2VoSThEQ01EQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "NiSource Announces First Quarter Results - Business Wire",
+          "source": "Business Wire",
+          "source_url": "https://www.businesswire.com/news/home/20260506905193/en/NiSource-Announces-First-Quarter-Results",
+          "publisher_homepage_url": "https://www.businesswire.com",
+          "url": "https://www.businesswire.com/news/home/20260506905193/en/NiSource-Announces-First-Quarter-Results",
+          "published_at": "Wed, 06 May 2026 10:30:00 GMT",
+          "summary": "NiSource Announces First Quarter Results  Business Wire",
+          "ticker": "NI",
+          "company_name": "NiSource Inc",
+          "query": "NiSource Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.businesswire.com/news/home/20260506905193/en/NiSource-Announces-First-Quarter-Results"
+        }
+      }
+    },
+    {
+      "article_index": 21,
+      "relevant": true,
+      "affected_tickers": [
+        "NI"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Sustainability recognition reinforces ESG positioning and growth narrative for NiSource as a modern utility.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQTmVSVlRQaGlDTWtYWWs1eVNlM3Q0V0NteDAxNUJ2QVN5WUJrbEJCb2xRTnc3eTlkdEtkZlNYUmhCaTR0Q3NIX0o1RzBucFNQeTZNcHlEdU9YcmxQMTRlZkI0b0oxZVVLNGhHTDVPZ3Z6eWlWLWZTNlJVazN4UjdLS2Zuak9sUnN5bEZ4YWFWRmwwUVl3MHpxb0ZFSTNLdUZ3SW9uUmc1dl9mZmRLNmZNYkZwNA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "bb777293b7e21ee424435ac591a7eabe0075e5cf7c6cfdc5747f705ba05463d2",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/news/NI/ni-source-earns-top-sustainability-honors-from-dow-jones-and-ac0ob7ejb5dj.html",
+        "title": "NiSource makes Dow Jones sustainability list for 12th straight year - Stock Titan",
+        "summary": "NiSource makes Dow Jones sustainability list for 12th straight year Stock Titan",
+        "body": "NiSource makes Dow Jones sustainability list for 12th straight year Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/news/NI/ni-source-earns-top-sustainability-honors-from-dow-jones-and-ac0ob7ejb5dj.html",
+        "published_at": "Tue, 05 May 2026 10:57:00 GMT",
+        "ticker_hints": [
+          "NI"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQTmVSVlRQaGlDTWtYWWs1eVNlM3Q0V0NteDAxNUJ2QVN5WUJrbEJCb2xRTnc3eTlkdEtkZlNYUmhCaTR0Q3NIX0o1RzBucFNQeTZNcHlEdU9YcmxQMTRlZkI0b0oxZVVLNGhHTDVPZ3Z6eWlWLWZTNlJVazN4UjdLS2Zuak9sUnN5bEZ4YWFWRmwwUVl3MHpxb0ZFSTNLdUZ3SW9uUmc1dl9mZmRLNmZNYkZwNA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "NiSource makes Dow Jones sustainability list for 12th straight year - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/news/NI/ni-source-earns-top-sustainability-honors-from-dow-jones-and-ac0ob7ejb5dj.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/news/NI/ni-source-earns-top-sustainability-honors-from-dow-jones-and-ac0ob7ejb5dj.html",
+          "published_at": "Tue, 05 May 2026 10:57:00 GMT",
+          "summary": "NiSource makes Dow Jones sustainability list for 12th straight year  Stock Titan",
+          "ticker": "NI",
+          "company_name": "NiSource Inc",
+          "query": "NiSource Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/news/NI/ni-source-earns-top-sustainability-honors-from-dow-jones-and-ac0ob7ejb5dj.html"
+        }
+      }
+    },
+    {
+      "article_index": 22,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Akamai cloud computing news unrelated to utility sector or NiSource.",
+      "article": {
+        "external_id": "108304171",
+        "event_hash": "88ce335c5c5590e6161a1ad5919c5fbb67ce10b4d3da48bc721b7cc0183f8e5f",
+        "source_type": "cnbc_sector_rss",
+        "source": "US Top News and Analysis",
+        "source_url": "",
+        "title": "A cloud computing stock is soaring more than 25%. Here\u2019s what\u2019s driving the rally",
+        "summary": "Cybersecurity and cloud computing firm Akamai reported first-quarter earnings on Thursday and saw its cloud infrastructure business grow 40% year-on-year.",
+        "body": "Cybersecurity and cloud computing firm Akamai reported first-quarter earnings on Thursday and saw its cloud infrastructure business grow 40% year-on-year.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/08/akamai-stock-ai-cloud-infrastructure-deal.html",
+        "published_at": "2026-05-08T11:26:26+00:00",
+        "ticker_hints": [],
+        "sector_hint": "commercialservicessupplies",
+        "raw": {
+          "id": "108304171",
+          "title": "A cloud computing stock is soaring more than 25%. Here\u2019s what\u2019s driving the rally",
+          "source": "US Top News and Analysis",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/08/akamai-stock-ai-cloud-infrastructure-deal.html",
+          "published_at": "2026-05-08T11:26:26+00:00",
+          "summary": "Cybersecurity and cloud computing firm Akamai reported first-quarter earnings on Thursday and saw its cloud infrastructure business grow 40% year-on-year.",
+          "sector": "commercialservicessupplies",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 23,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Zillow economist commentary on housing has no direct connection to utility positions.",
+      "article": {
+        "external_id": "108304051",
+        "event_hash": "4ee5b10cb949397c77baca1b455239f804542ac8ff19baac9ca38ac3cd4e09a9",
+        "source_type": "cnbc_sector_rss",
+        "source": "Real Estate",
+        "source_url": "",
+        "title": "Home sales stuck at same levels from last year, says Zillow chief economist",
+        "summary": "Orphe Divounguy, Zillow chief economist, joins 'Closing Bell Overtime' to talk the health of the housing market.",
+        "body": "Orphe Divounguy, Zillow chief economist, joins 'Closing Bell Overtime' to talk the health of the housing market.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/video/2026/05/07/home-sales-stuck-at-same-levels-from-last-year-says-zillow-chief-economist.html",
+        "published_at": "2026-05-07T22:14:53+00:00",
+        "ticker_hints": [],
+        "sector_hint": "realestate",
+        "raw": {
+          "id": "108304051",
+          "title": "Home sales stuck at same levels from last year, says Zillow chief economist",
+          "source": "Real Estate",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/video/2026/05/07/home-sales-stuck-at-same-levels-from-last-year-says-zillow-chief-economist.html",
+          "published_at": "2026-05-07T22:14:53+00:00",
+          "summary": "Orphe Divounguy, Zillow chief economist, joins 'Closing Bell Overtime'\u00a0 to talk the health of the housing market.",
+          "sector": "realestate",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 24,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Costco retail sales data is not relevant to utility sector performance.",
+      "article": {
+        "external_id": "108303793",
+        "event_hash": "036fa67875ebdc7a694c55290a3ab683a20d4e3cd2fa0255d8c87bec23d56046",
+        "source_type": "cnbc_sector_rss",
+        "source": "Retail",
+        "source_url": "",
+        "title": "Costco delivers another strong sales month, even as a question mark hangs over the stock",
+        "summary": "It's difficult to dispute Costco's leadership as a preferred retailer among consumers. But one metric has been a torn in investors' side.",
+        "body": "It's difficult to dispute Costco's leadership as a preferred retailer among consumers. But one metric has been a torn in investors' side.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/07/costco-delivers-another-strong-sales-month-even-as-a-question-hangs-over-the-stock.html",
+        "published_at": "2026-05-07T18:19:14+00:00",
+        "ticker_hints": [],
+        "sector_hint": "consumerretail",
+        "raw": {
+          "id": "108303793",
+          "title": "Costco delivers another strong sales month, even as a question mark hangs over the stock",
+          "source": "Retail",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/07/costco-delivers-another-strong-sales-month-even-as-a-question-hangs-over-the-stock.html",
+          "published_at": "2026-05-07T18:19:14+00:00",
+          "summary": "It's difficult to dispute Costco's leadership as a preferred retailer among consumers. But one metric has been a torn in investors' side.",
+          "sector": "consumerretail",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 25,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Planet Fitness is not in the portfolio; no ticker match.",
+      "article": {
+        "external_id": "108303734",
+        "event_hash": "2345cece74beac468d1adc801790bb259250e3076fcffa9ef13ddfdc3ff9aa45",
+        "source_type": "cnbc_sector_rss",
+        "source": "Retail",
+        "source_url": "",
+        "title": "Planet Fitness stock plunges 30% after company slashes guidance, cancels planned price hikes",
+        "summary": "Shares of Planet Fitness plunged Thursday after the fitness company slashed its guidance and canceled planned price hikes.",
+        "body": "Shares of Planet Fitness plunged Thursday after the fitness company slashed its guidance and canceled planned price hikes.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/07/planet-fitness-stock.html",
+        "published_at": "2026-05-07T19:28:02+00:00",
+        "ticker_hints": [],
+        "sector_hint": "consumerretail",
+        "raw": {
+          "id": "108303734",
+          "title": "Planet Fitness stock plunges 30% after company slashes guidance, cancels planned price hikes",
+          "source": "Retail",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/07/planet-fitness-stock.html",
+          "published_at": "2026-05-07T19:28:02+00:00",
+          "summary": "Shares of Planet Fitness plunged Thursday after the fitness company slashed its guidance and canceled planned price hikes.",
+          "sector": "consumerretail",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 26,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Shake Shack is not in the portfolio; no ticker match.",
+      "article": {
+        "external_id": "108303312",
+        "event_hash": "883314c3c97e4e379c308d276ead105861207a00d2ec2107901480b4efb24314",
+        "source_type": "cnbc_sector_rss",
+        "source": "Retail",
+        "source_url": "",
+        "title": "Shake Shack shares crater 30% after burger chain reports operating loss",
+        "summary": "Shake Shack CEO Rob Lynch said winter storms and an increase to its projections for store openings this year weighed on the company's results.",
+        "body": "Shake Shack CEO Rob Lynch said winter storms and an increase to its projections for store openings this year weighed on the company's results.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/07/shake-shack-shak-shares-drop-earnings-report.html",
+        "published_at": "2026-05-07T17:51:15+00:00",
+        "ticker_hints": [],
+        "sector_hint": "consumerretail",
+        "raw": {
+          "id": "108303312",
+          "title": "Shake Shack shares crater 30% after burger chain reports operating loss",
+          "source": "Retail",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/07/shake-shack-shak-shares-drop-earnings-report.html",
+          "published_at": "2026-05-07T17:51:15+00:00",
+          "summary": "Shake Shack CEO Rob Lynch said winter storms and an increase to its projections for store openings this year weighed on the company's results.",
+          "sector": "consumerretail",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 27,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Peloton is not in the portfolio; no ticker match.",
+      "article": {
+        "external_id": "108303140",
+        "event_hash": "4ba65620ad8e0c8a27ca7174520943a67a28e10b21f04d8c29311f271d265196",
+        "source_type": "cnbc_sector_rss",
+        "source": "Retail",
+        "source_url": "",
+        "title": "Peloton stock rises as higher subscription prices help company drive a profitable quarter",
+        "summary": "Peloton CEO Peter Stern told CNBC that the company believes raising prices on its subscriptions was a value-driven move.",
+        "body": "Peloton CEO Peter Stern told CNBC that the company believes raising prices on its subscriptions was a value-driven move.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/07/peloton-pton-earnings-q3-2026.html",
+        "published_at": "2026-05-07T20:01:47+00:00",
+        "ticker_hints": [],
+        "sector_hint": "consumerretail",
+        "raw": {
+          "id": "108303140",
+          "title": "Peloton stock rises as higher subscription prices help company drive a profitable quarter",
+          "source": "Retail",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/07/peloton-pton-earnings-q3-2026.html",
+          "published_at": "2026-05-07T20:01:47+00:00",
+          "summary": "Peloton CEO Peter Stern told CNBC that the company believes raising prices on its subscriptions was a value-driven move.",
+          "sector": "consumerretail",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 28,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "McDonald's is not in the portfolio; general consumer spending commentary with no portfolio ticker connection.",
+      "article": {
+        "external_id": "108303089",
+        "event_hash": "93dd5babb7a5172efd79e6543ec26bcaebc4fa20ee1ff8568fdbf52b6d814a6f",
+        "source_type": "cnbc_sector_rss",
+        "source": "Retail",
+        "source_url": "",
+        "title": "McDonald's CEO says consumer spending could be 'getting a little bit worse'",
+        "summary": "Shares of McDonald's have fallen 10% over the last year, hurt by concerns about the broader economy.",
+        "body": "Shares of McDonald's have fallen 10% over the last year, hurt by concerns about the broader economy.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/07/mcdonalds-mcd-q1-2026-earnings.html",
+        "published_at": "2026-05-07T14:26:07+00:00",
+        "ticker_hints": [],
+        "sector_hint": "consumerretail",
+        "raw": {
+          "id": "108303089",
+          "title": "McDonald's CEO says consumer spending could be 'getting a little bit worse'",
+          "source": "Retail",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/07/mcdonalds-mcd-q1-2026-earnings.html",
+          "published_at": "2026-05-07T14:26:07+00:00",
+          "summary": "Shares of McDonald's have fallen 10% over the last year, hurt by concerns about the broader economy.",
+          "sector": "consumerretail",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 29,
+      "relevant": true,
+      "affected_tickers": [
+        "AMZN"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Amazon's logistics expansion strategy is directly relevant to the AMZN position held in the portfolio.",
+      "article": {
+        "external_id": "108301691",
+        "event_hash": "af829beb7469a3db859f87fb49e8a6d1108bed219fb106d93b01b0aa14109431",
+        "source_type": "cnbc_sector_rss",
+        "source": "Retail",
+        "source_url": "",
+        "title": "Amazon's next big logistics bet rips a page from its AWS playbook and rattles rivals",
+        "summary": "Amazon is opening its logistics network to outside businesses, creating a new revenue stream, just like it did two decades ago in the cloud.",
+        "body": "Amazon is opening its logistics network to outside businesses, creating a new revenue stream, just like it did two decades ago in the cloud.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/04/amazons-next-big-logistics-bet-rips-a-page-from-its-aws-playbook-and-rattles-rivals.html",
+        "published_at": "2026-05-04T18:06:56+00:00",
+        "ticker_hints": [],
+        "sector_hint": "consumerretail",
+        "raw": {
+          "id": "108301691",
+          "title": "Amazon's next big logistics bet rips a page from its AWS playbook and rattles rivals",
+          "source": "Retail",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/04/amazons-next-big-logistics-bet-rips-a-page-from-its-aws-playbook-and-rattles-rivals.html",
+          "published_at": "2026-05-04T18:06:56+00:00",
+          "summary": "Amazon is opening its logistics network to outside businesses, creating a new revenue stream, just like it did two decades ago in the cloud.",
+          "sector": "consumerretail",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 30,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Paramount (PARA) is not in the portfolio and has no connection to any held positions.",
+      "article": {
+        "external_id": "108301724",
+        "event_hash": "bb05ec8b2c4c16f90da0af55cb4a2f80a0945ac490fd58780433e259244e599e",
+        "source_type": "cnbc_sector_rss",
+        "source": "Media",
+        "source_url": "",
+        "title": "Paramount earnings, revenue beat expectations as streaming business offers a boost",
+        "summary": "Paramount Skydance said it added streaming subscribers during the first quarter even as it instituted its first price hike since 2024.",
+        "body": "Paramount Skydance said it added streaming subscribers during the first quarter even as it instituted its first price hike since 2024.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/04/paramount-skydance-psky-earnings-q1-2026.html",
+        "published_at": "2026-05-04T20:48:58+00:00",
+        "ticker_hints": [],
+        "sector_hint": "media",
+        "raw": {
+          "id": "108301724",
+          "title": "Paramount earnings, revenue beat expectations as streaming business offers a boost",
+          "source": "Media",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/04/paramount-skydance-psky-earnings-q1-2026.html",
+          "published_at": "2026-05-04T20:48:58+00:00",
+          "summary": "Paramount Skydance said it added streaming subscribers during the first quarter even as it instituted its first price hike since 2024.",
+          "sector": "media",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 31,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Geopolitical Iran news affects oil markets but none of the held positions are in the energy sector.",
+      "article": {
+        "external_id": "108303843",
+        "event_hash": "2bcfb77d34a95857fea14ebbe605572078ac0f5dc4630e42c3accf2007d02806",
+        "source_type": "cnbc_sector_rss",
+        "source": "Energy",
+        "source_url": "",
+        "title": "Iran still reviewing new U.S. peace proposal as Trump predicts war will 'be over quickly': Reports",
+        "summary": "Senior Iranian official Mohsen Rezaee reportedly said Tehran would not let the U.S. reopen the Strait of Hormuz with \"an unrealistic plan.\"",
+        "body": "Senior Iranian official Mohsen Rezaee reportedly said Tehran would not let the U.S. reopen the Strait of Hormuz with \"an unrealistic plan.\"",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/07/trump-iran-war-peace-hormuz-strait.html",
+        "published_at": "2026-05-07T21:00:06+00:00",
+        "ticker_hints": [],
+        "sector_hint": "energy",
+        "raw": {
+          "id": "108303843",
+          "title": "Iran still reviewing new U.S. peace proposal as Trump predicts war will 'be over quickly': Reports",
+          "source": "Energy",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/07/trump-iran-war-peace-hormuz-strait.html",
+          "published_at": "2026-05-07T21:00:06+00:00",
+          "summary": "Senior Iranian official Mohsen Rezaee reportedly said Tehran would not let the U.S. reopen the Strait of Hormuz with \"an unrealistic plan.\"",
+          "sector": "energy",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 32,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Oil market commentary about Shell and Iran war has no direct connection to any held portfolio positions.",
+      "article": {
+        "external_id": "108303814",
+        "event_hash": "7ea42ccf59a34da26e650bb79dcab37f3e7e3bf75922b5242b6f7b3041cc9084",
+        "source_type": "cnbc_sector_rss",
+        "source": "Energy",
+        "source_url": "",
+        "title": "Shell CEO says oil market is short nearly 1 billion barrels due to Iran war, and the hole deepens every day",
+        "summary": "The oil market hopes the U.S. and Iran will strike a deal that could reopen the Strait of Hormuz and restore energy shipments.",
+        "body": "The oil market hopes the U.S. and Iran will strike a deal that could reopen the Strait of Hormuz and restore energy shipments.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/07/shell-ceo-iran-war-oil-lost-shortage.html",
+        "published_at": "2026-05-07T21:29:20+00:00",
+        "ticker_hints": [],
+        "sector_hint": "energy",
+        "raw": {
+          "id": "108303814",
+          "title": "Shell CEO says oil market is short nearly 1 billion barrels due to Iran war, and the hole deepens every day",
+          "source": "Energy",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/07/shell-ceo-iran-war-oil-lost-shortage.html",
+          "published_at": "2026-05-07T21:29:20+00:00",
+          "summary": "The oil market hopes the U.S. and Iran will strike a deal that could reopen the Strait of Hormuz and restore energy shipments.",
+          "sector": "energy",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 33,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic oil price movement without specific ticker mentions or connection to portfolio holdings.",
+      "article": {
+        "external_id": "108303391",
+        "event_hash": "f95d1622dccb095abfcb2f2c55579ea225f632d7526493d173bc43246316e3b1",
+        "source_type": "cnbc_sector_rss",
+        "source": "Energy",
+        "source_url": "",
+        "title": "Oil prices edge lower as U.S. waits for Iran response to deal proposal",
+        "summary": "Oil prices edged lower as investors continue to assess the latest developments in the Middle East.",
+        "body": "Oil prices edged lower as investors continue to assess the latest developments in the Middle East.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/07/oil-prices-today-trump-iran-strait-of-hormuz-us-crude-brent-.html",
+        "published_at": "2026-05-07T19:12:09+00:00",
+        "ticker_hints": [],
+        "sector_hint": "energy",
+        "raw": {
+          "id": "108303391",
+          "title": "Oil prices edge lower as U.S. waits for Iran response to deal proposal",
+          "source": "Energy",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/07/oil-prices-today-trump-iran-strait-of-hormuz-us-crude-brent-.html",
+          "published_at": "2026-05-07T19:12:09+00:00",
+          "summary": "Oil prices edged lower as investors continue to assess the latest developments in the Middle East.",
+          "sector": "energy",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 34,
+      "relevant": true,
+      "affected_tickers": [
+        "AMZN",
+        "GOOGL"
+      ],
+      "event_type": "sector",
+      "why_it_matters": "The article discusses tech sector valuations and positive earnings momentum, directly relevant to AMZN and GOOGL which are held as growth archetype positions.",
+      "article": {
+        "external_id": "108303481",
+        "event_hash": "186f623f611966e2e2247e433edafd5290f64b483d0f7d8211be92954f055afe",
+        "source_type": "cnbc_sector_rss",
+        "source": "Tech",
+        "source_url": "",
+        "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+        "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "body": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+        "published_at": "2026-05-08T07:34:09+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "108303481",
+          "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+          "source": "Tech",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+          "published_at": "2026-05-08T07:34:09+00:00",
+          "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+          "sector": "technology",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 35,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+        "event_hash": "19a94d122eb7bd70af2c33c7cd24315522f743ca92601cb72fb84ee833a16a92",
+        "source_type": "cnbc_sector_rss",
+        "source": "TradingView",
+        "source_url": "https://www.tradingview.com",
+        "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+        "summary": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "body": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+        "published_at": "2026-04-12T07:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "logisticstransportation",
+        "raw": {
+          "id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+          "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+          "source": "TradingView",
+          "source_url": "https://www.tradingview.com",
+          "publisher_homepage_url": "https://www.tradingview.com",
+          "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+          "published_at": "2026-04-12T07:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5\" target=\"_blank\">JTC Stock Price and Chart \u2014 KSE:JTC</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">TradingView</font>",
+          "sector": "logisticstransportation",
+          "source_type": "google_sector_rss",
+          "query": "logisticstransportation stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 36,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+        "event_hash": "9035f9df36440ab60206c92d8645173fd1048cfb5d04a1d7ac0ac7d298352c54",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com",
+        "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+        "summary": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "body": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+        "published_at": "2026-05-07T15:52:40+00:00",
+        "ticker_hints": [],
+        "sector_hint": "airlines",
+        "raw": {
+          "id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+          "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+          "published_at": "2026-05-07T15:52:40+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5\" target=\"_blank\">UBS raises Delta Air Lines stock price target on margin expansion path</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investing.com</font>",
+          "sector": "airlines",
+          "source_type": "google_sector_rss",
+          "query": "airlines stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 37,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+        "event_hash": "7781e95f875227fa69d82f20e4e003cb6ecab937f7d2e893b2a4726e74c9e5fd",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com",
+        "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+        "summary": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "body": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+        "published_at": "2026-05-07T23:12:41+00:00",
+        "ticker_hints": [],
+        "sector_hint": "energy",
+        "raw": {
+          "id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+          "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+          "published_at": "2026-05-07T23:12:41+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5\" target=\"_blank\">Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketBeat</font>",
+          "sector": "energy",
+          "source_type": "google_sector_rss",
+          "query": "energy stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 38,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+        "event_hash": "9dec2ef7a51804cfd1809a68859a9bc47e4042623ad126cfb5cd0d857f04debb",
+        "source_type": "cnbc_sector_rss",
+        "source": "Frontiers",
+        "source_url": "https://www.frontiersin.org",
+        "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+        "summary": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "body": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+        "published_at": "2025-12-15T16:18:58+00:00",
+        "ticker_hints": [],
+        "sector_hint": "machinery",
+        "raw": {
+          "id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+          "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+          "source": "Frontiers",
+          "source_url": "https://www.frontiersin.org",
+          "publisher_homepage_url": "https://www.frontiersin.org",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+          "published_at": "2025-12-15T16:18:58+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5\" target=\"_blank\">Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Frontiers</font>",
+          "sector": "machinery",
+          "source_type": "google_sector_rss",
+          "query": "machinery stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 39,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+        "event_hash": "c268de142bba78da5290b86120bd17a1423dbdf9bce07676bae9afc9f41e2536",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com",
+        "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+        "summary": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "body": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+        "published_at": "2026-05-07T21:14:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+          "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+          "published_at": "2026-05-07T21:14:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5\" target=\"_blank\">Align Technology Inc. stock underperforms Thursday when compared to competitors</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketWatch</font>",
+          "sector": "technology",
+          "source_type": "google_sector_rss",
+          "query": "technology stock market news"
+        }
+      }
+    }
+  ]
+}

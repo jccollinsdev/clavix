@@ -1,0 +1,7 @@
+{
+  "analysis_run_id": "9a6b926f-ea68-49c3-a597-937c86822f1d",
+  "message": "Analysis failed.",
+  "status": "failed",
+  "completed_at": "2026-05-08T11:50:22.910401+00:00",
+  "error_message": "name '_utcnow_iso' is not defined"
+}

@@ -1,0 +1,114 @@
+{
+  "position": {
+    "id": "340e2f75-fd85-4b5a-ac81-a0d24612044a",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "BRO",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 56.56,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "There is not enough recent news to form a confident risk rating for BRO. The current rating relies on existing position context and structural factors.",
+    "long_report": "Data for BRO is thin in this cycle, so the dominant risk rating defaults to structural and sector factors rather than company-specific catalysts. This is a limited-data rating \u2014 any new company-specific development (earnings, guidance, regulatory action) could shift the picture meaningfully. Treat this as limited-data until fuller data arrives.",
+    "methodology": "Limited-data rating based on position metadata and structural context. No usable event data for this cycle.",
+    "top_risks": [
+      "No confirmed company-specific catalyst in this cycle."
+    ],
+    "watch_items": [
+      "Recheck for resolved company or sector data before treating the current rating as settled."
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "340e2f75-fd85-4b5a-ac81-a0d24612044a",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "BRO",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 58.05,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "B",
+    "previous_total_score": 66.2,
+    "summary": "There is not enough recent news to form a confident risk rating for BRO. The current rating relies on existing position context and structural factors.",
+    "long_report": "Data for BRO is thin in this cycle, so the dominant risk rating defaults to structural and sector factors rather than company-specific catalysts. This is a limited-data rating \u2014 any new company-specific development (earnings, guidance, regulatory action) could shift the picture meaningfully. Treat this as limited-data until fuller data arrives.",
+    "top_risks": [
+      "No confirmed company-specific catalyst in this cycle."
+    ],
+    "watch_items": [
+      "Recheck for resolved company or sector data before treating the current rating as settled."
+    ],
+    "top_news": [],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Limited-data rating based on position metadata and structural context. No usable event data for this cycle.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "17198592-66ca-47d8-a393-5a06ea1e2bb0",
+      "ticker": "BRO",
+      "company_name": "Brown & Brown Inc",
+      "asset_class": null,
+      "sector": "Insurance",
+      "industry": null,
+      "exchange": "NEW YORK STOCK EXCHANGE, INC.",
+      "market_cap": 19675922907.005833,
+      "market_cap_bucket": "moderate_high",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 219166033.5,
+      "spread_proxy": 0.001,
+      "beta": 0.6621704,
+      "volatility_proxy": 0.1655426,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:32:51.096322+00:00",
+      "created_at": "2026-04-12T22:00:11.68036+00:00",
+      "pe_ratio": 18.7564,
+      "week_52_high": 113.84,
+      "week_52_low": 56.46,
+      "price": 58.05,
+      "price_as_of": "2026-05-08T10:32:51.087533+00:00",
+      "avg_volume": 3.77547,
+      "previous_close": 56.56,
+      "open_price": 56.76,
+      "day_high": 58.695,
+      "day_low": 56.46,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "BRO",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

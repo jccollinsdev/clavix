@@ -1,0 +1,25 @@
+{
+  "sequence": 18,
+  "logged_at": "2026-05-08T11:50:12.030702+00:00",
+  "model": "MiniMax-M2.7",
+  "function_name": "chatcompletion_text",
+  "caller": {
+    "file": "/Users/sansarkarki/Documents/Clavis/backend/app/pipeline/agentic_scan.py",
+    "function": "analyze_minor_events_shared_batch",
+    "line": 266
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are a portfolio risk rater.\n\nGiven multiple news items, produce a reusable base analysis for each event without assuming a specific holder. For each event, state the primary risk implication \u2014 what it means for the company's risk profile, not just what happened.\n\nNews items to analyze:\n[0] Evidence quality: full_body\n    Title: NiSource makes Dow Jones sustainability list for 12th straight year - Stock Titan\n    Summary: NiSource makes Dow Jones sustainability list for 12th straight year Stock Titan\n    Body: # NiSource lands Dow Jones ESG index, MSCI AAA | NI Stock News\n\n* [](http://www.stocktitan.net/news/NI/ni-source-earns-top-sustainability-honors-from-dow-jones-and-ac0ob7ejb5dj.html#)LoginSign up\n\n* NEWS FEEDStock News LiveStock News TodayTrending News AI newsFDA ApprovalsClinical TrialsCrypto NewsMerger & AcquisitionsEarningsOfferingsIPO NewsStock Splits Top News - GainersTop News - Losers\n\n* SEC FILINGSSEC Filings LiveSEC Filings Today Form 4 - Insider Trading8-K - Material Events10-K - Annual Reports10-Q - Quarterly ReportsDEF 14A - Proxy StatementsS-1 - IPO RegistrationS-3 - Shelf Registration\n\n* STOCKSAll Stock Themes AI StocksEV StocksRenewable EnergyCrypto StocksCybersecurityOil & Gas\n\nFor each news item above, return a JSON object with:\n- \"analysis_text\": \"2-4 sentence analysis stating the primary implication\"\n- \"impact_horizon\": \"immediate|near_term|long_term\"\n- \"risk_direction\": \"improving|neutral|worsening\"\n- \"confidence\": 0.0-1.0\n- \"scenario_summary\": \"one sentence stating the primary implication\"\n- \"key_implications\": [\"...\", \"...\"]\n- \"followup_notes\": [\"...\", \"...\"]\n\nReturn a JSON array with one object per news item in order."
+    }
+  ],
+  "kwargs": {
+    "temperature": 0.2,
+    "max_tokens": 2400,
+    "timeout": 120
+  },
+  "response": "[\n  {\n    \"analysis_text\": \"NiSource's inclusion in the Dow Jones sustainability index for the 12th consecutive year reinforces its ESG credentials and reduces the company's exposure to reputational and regulatory risk. This recognition signals to investors and lenders that NiSource effectively manages environmental and social impacts, which can lower its cost of capital and increase demand for its debt and equity. The sustained ESG performance also mitigates the risk of being excluded from ESG-focused investment mandates, thereby supporting stock\u2011price stability.\",\n    \"impact_horizon\": \"near_term\",\n    \"risk_direction\": \"improving\",\n    \"confidence\": 0.85,\n    \"scenario_summary\": \"Continued ESG leadership lowers NiSource's risk profile by reducing reputational, regulatory, and capital\u2011cost risks.\",\n    \"key_implications\": [\n      \"Enhanced ESG standing reduces risk of regulatory penalties and future compliance costs.\",\n      \"Improved access to ESG\u2011focused capital can lower the cost of debt and equity financing.\",\n      \"Reduced likelihood of ESG\u2011related activist shareholder actions or divestment pressure.\",\n      \"Positive brand reputation supports customer retention and regulatory goodwill.\"\n    ],\n    \"followup_notes\": [\n      \"Monitor changes in ESG rating agencies (MSCI, Sustainalytics) that could affect NiSource's score.\",\n      \"Watch for any policy shifts at the federal or state level that could alter sustainability expectations.\",\n      \"Track capital flows into ESG funds and NiSource's inclusion in major ESG indices to gauge investor demand.\",\n      \"Assess any emerging ESG controversies (e.g., pipeline safety, emissions) that could reverse recent risk\u2011reduction gains.\"\n    ]\n  }\n]",
+  "error": null,
+  "duration_ms": 28377.43
+}

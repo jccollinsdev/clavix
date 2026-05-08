@@ -1,0 +1,1101 @@
+{
+  "cached_count": 277,
+  "uncached_count": 28,
+  "results": [
+    {
+      "article_index": 0,
+      "relevant": true,
+      "affected_tickers": [
+        "CF"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Earnings call summary provides insight into CF Industries' Q1 2026 performance and outlook, directly relevant to the growth position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQazJKbThHZXhXQWxYaXBFVmNOX1J4NDViNnVYNnNTY1UxcjZHc2ZZUEJNRExiUWZpTjdRdldLLUpESGVEQzVSYy1zanIyakk3dUZFdkZ1WkJTVFliZnl5VDB0bjBNQ0VmcGwzYnVfZTV2LWYtQ3JzdFY4d2llQzZHdmtqdGRQUE1JaE1zMnJiS3dEQnpEdXVRS3d3?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "2b86f05019f733ca077df7338ba6357e2e928d6ba57b455317c8a69542b7ff38",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html",
+        "title": "CF Industries Holdings, Inc. Q1 2026 Earnings Call Summary - Yahoo Finance",
+        "summary": "CF Industries Holdings, Inc. Q1 2026 Earnings Call Summary Yahoo Finance",
+        "body": "CF Industries Holdings, Inc. Q1 2026 Earnings Call Summary Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html",
+        "published_at": "Thu, 07 May 2026 12:30:00 GMT",
+        "ticker_hints": [
+          "CF"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQazJKbThHZXhXQWxYaXBFVmNOX1J4NDViNnVYNnNTY1UxcjZHc2ZZUEJNRExiUWZpTjdRdldLLUpESGVEQzVSYy1zanIyakk3dUZFdkZ1WkJTVFliZnl5VDB0bjBNQ0VmcGwzYnVfZTV2LWYtQ3JzdFY4d2llQzZHdmtqdGRQUE1JaE1zMnJiS3dEQnpEdXVRS3d3?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CF Industries Holdings, Inc. Q1 2026 Earnings Call Summary - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html",
+          "published_at": "Thu, 07 May 2026 12:30:00 GMT",
+          "summary": "CF Industries Holdings, Inc. Q1 2026 Earnings Call Summary  Yahoo Finance",
+          "ticker": "CF",
+          "company_name": "CF Industries Holdings Inc",
+          "query": "CF Industries Holdings Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html"
+        }
+      }
+    },
+    {
+      "article_index": 1,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9jVWFIY2dwbGVYU2JkeW80dVF6MDE0emRETDZnZXp1NEp0THRxZlFyR3g5aEc1RnpzWXM2SkcxcUNtb2RqcFQ5SkZaY0ZjNm9yS29TLTVwaWV3bVpIQVE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "cf3dd95211e9f0791518bc35ac0d7be8aa3831f8ddaed344f8008ed01d1dff03",
+        "source_type": "company_news",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/stock/quote/COF/profile",
+        "title": "COF Stock Price, Quote & Chart | CAPITAL ONE FINANCIAL CORP (NYSE:COF) - ChartMill",
+        "summary": "COF Stock Price, Quote & Chart | CAPITAL ONE FINANCIAL CORP (NYSE:COF) ChartMill",
+        "body": "COF Stock Price, Quote & Chart | CAPITAL ONE FINANCIAL CORP (NYSE:COF) ChartMill",
+        "evidence_quality": "title_only",
+        "url": "https://www.chartmill.com/stock/quote/COF/profile",
+        "published_at": "Mon, 04 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "COF"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9jVWFIY2dwbGVYU2JkeW80dVF6MDE0emRETDZnZXp1NEp0THRxZlFyR3g5aEc1RnpzWXM2SkcxcUNtb2RqcFQ5SkZaY0ZjNm9yS29TLTVwaWV3bVpIQVE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "COF Stock Price, Quote & Chart | CAPITAL ONE FINANCIAL CORP (NYSE:COF) - ChartMill",
+          "source": "ChartMill",
+          "source_url": "https://www.chartmill.com/stock/quote/COF/profile",
+          "publisher_homepage_url": "https://www.chartmill.com",
+          "url": "https://www.chartmill.com/stock/quote/COF/profile",
+          "published_at": "Mon, 04 May 2026 07:00:00 GMT",
+          "summary": "COF Stock Price, Quote & Chart | CAPITAL ONE FINANCIAL CORP (NYSE:COF)  ChartMill",
+          "ticker": "COF",
+          "company_name": "Capital One Financial Corp",
+          "query": "Capital One Financial Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.chartmill.com/stock/quote/COF/profile"
+        }
+      }
+    },
+    {
+      "article_index": 2,
+      "relevant": true,
+      "affected_tickers": [
+        "COF"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Institutional investor S Bank disclosed a new position in Capital One, signaling conviction in the stock and relevant to the COF holding.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPUGZLa05QOWFyc1R3NEgtSVNWcDdDNUlHWUZsTUpaWnBfX2xDaXFKeDN0cG9lMFdGOXZLNTh5dmptNWtDa1NrMGZ2OF9Pc21Yclc3all4b0ZXdWRnc1ltVHNhbmUwdHNIWkFDZnkwWTdrTEIxMWxMdG9fTi00UkNHOXZObmx0WU9kUTViT2RFNWs4dE1mR2F1WkRuZnl0Z0ZObjgwN0RTejFfcU9NV2NrLVJ0MS12QTVfZGxXdXRZMFE3ZWN6YTVWYlQtUXZ2SWNickF5NHE2NE42TnJnR0xB?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "19fcae6f714c7c1e0f66a4b40d75425f3ea856b58a484fad79046b49a1d4f4ae",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/",
+        "title": "S Bank Fund Management Ltd Buys New Holdings in Capital One Financial Corporation $COF - MarketBeat",
+        "summary": "S Bank Fund Management Ltd Buys New Holdings in Capital One Financial Corporation $COF MarketBeat",
+        "body": "S Bank Fund Management Ltd Buys New Holdings in Capital One Financial Corporation $COF MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/",
+        "published_at": "Wed, 06 May 2026 12:00:43 GMT",
+        "ticker_hints": [
+          "COF"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPUGZLa05QOWFyc1R3NEgtSVNWcDdDNUlHWUZsTUpaWnBfX2xDaXFKeDN0cG9lMFdGOXZLNTh5dmptNWtDa1NrMGZ2OF9Pc21Yclc3all4b0ZXdWRnc1ltVHNhbmUwdHNIWkFDZnkwWTdrTEIxMWxMdG9fTi00UkNHOXZObmx0WU9kUTViT2RFNWs4dE1mR2F1WkRuZnl0Z0ZObjgwN0RTejFfcU9NV2NrLVJ0MS12QTVfZGxXdXRZMFE3ZWN6YTVWYlQtUXZ2SWNickF5NHE2NE42TnJnR0xB?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "S Bank Fund Management Ltd Buys New Holdings in Capital One Financial Corporation $COF - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/",
+          "published_at": "Wed, 06 May 2026 12:00:43 GMT",
+          "summary": "S Bank Fund Management Ltd Buys New Holdings in Capital One Financial Corporation $COF  MarketBeat",
+          "ticker": "COF",
+          "company_name": "Capital One Financial Corp",
+          "query": "Capital One Financial Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/"
+        }
+      }
+    },
+    {
+      "article_index": 3,
+      "relevant": true,
+      "affected_tickers": [
+        "COF"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Capital One's completion of the Brex acquisition is a significant strategic development that could impact COF's growth trajectory and digital payments expansion.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi8AJBVV95cUxNSjczRkVmZEZORV93azJhYU5pdkZtQU5keVh0MlRSWUNuZmxGQVFLU1l5VHRWZ183UlIzd0ZZSlVKWm9pdVl3dWFRRHc4WndieVV1LS1IX1ZUdl9kS2RMOWEtRlE4ZGctMXQ5a1ZNV3pRWGVWcE9xYkc5UG9RWG9SNUdYVmtUMk85bnEyZWJSTncxcmwzd3ktT0cyVzFBTXA0WHgzLUcwb3dIanpRWnFSeDRTRFBtWUZOejg0WU81TW1ZN0ttb2pMVlFNVThoc0ZhZnhCNi1TRkVNQmF4OU1vX3B6cktIQklRMWl0a1owUEp3U1VaN0FKOFV1cWhuWWVfTHlBS1VBM3VHVTZPRTVuTFNMZFhRZE02Q2prc2Fpdy1qTTVlRndINVliTVRjQUxTTmtGUkpuN184d0lxR2J0UllINmVxTE9OcW12ZFlidGlMS0JuMi1sSXlsRmFQYWs2YXhNSmtpdXdWUDY1SVd5Wg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "a425910a9c53ce6cc05134a9235b0d35feb098d240355bd6a02e1819b8e3cb2e",
+        "source_type": "company_news",
+        "source": "MSN",
+        "source_url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c",
+        "title": "Capital One completes Brex buyout, boosts digital payments strategy - MSN",
+        "summary": "Capital One completes Brex buyout, boosts digital payments strategy MSN",
+        "body": "Capital One completes Brex buyout, boosts digital payments strategy MSN",
+        "evidence_quality": "title_only",
+        "url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c",
+        "published_at": "Fri, 08 May 2026 08:46:28 GMT",
+        "ticker_hints": [
+          "COF"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi8AJBVV95cUxNSjczRkVmZEZORV93azJhYU5pdkZtQU5keVh0MlRSWUNuZmxGQVFLU1l5VHRWZ183UlIzd0ZZSlVKWm9pdVl3dWFRRHc4WndieVV1LS1IX1ZUdl9kS2RMOWEtRlE4ZGctMXQ5a1ZNV3pRWGVWcE9xYkc5UG9RWG9SNUdYVmtUMk85bnEyZWJSTncxcmwzd3ktT0cyVzFBTXA0WHgzLUcwb3dIanpRWnFSeDRTRFBtWUZOejg0WU81TW1ZN0ttb2pMVlFNVThoc0ZhZnhCNi1TRkVNQmF4OU1vX3B6cktIQklRMWl0a1owUEp3U1VaN0FKOFV1cWhuWWVfTHlBS1VBM3VHVTZPRTVuTFNMZFhRZE02Q2prc2Fpdy1qTTVlRndINVliTVRjQUxTTmtGUkpuN184d0lxR2J0UllINmVxTE9OcW12ZFlidGlMS0JuMi1sSXlsRmFQYWs2YXhNSmtpdXdWUDY1SVd5Wg?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Capital One completes Brex buyout, boosts digital payments strategy - MSN",
+          "source": "MSN",
+          "source_url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c",
+          "publisher_homepage_url": "https://www.msn.com",
+          "url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c",
+          "published_at": "Fri, 08 May 2026 08:46:28 GMT",
+          "summary": "Capital One completes Brex buyout, boosts digital payments strategy  MSN",
+          "ticker": "COF",
+          "company_name": "Capital One Financial Corp",
+          "query": "Capital One Financial Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c"
+        }
+      }
+    },
+    {
+      "article_index": 4,
+      "relevant": true,
+      "affected_tickers": [
+        "AJG"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Arthur J. Gallagher's Q1 earnings analyzed in context of insurance broker peers provides relevant performance data for the AJG growth position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOdGlIUXBKS2FFclpxdmVQZURaakg2Uzk3N1VRSHFpR2EtSlZyaS1aVVFEYi01OXJaSEZQaGUyamlIMVhLTmRiTjlWU2Y1VHpyZm9OZW0ySjRUUjY3M0pFOC1sbk1vZXhVWWplOFdSSUFQcXRONk5xWFF2VW1kWEp0b0gtZFJLblhDSG9GeGNPTU1Jd3hRcnlVS2N1Y0F6N214RUlnSTJRZ1JMMDhrNWF0UmNRRlUzWTZKX3RkZzYwZ3pqclFCczNJYlRjdm4yaGU0a0VmN0xtQzM2dng1NU5DenN3enpMTjlh?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ea09584be8822bd486d18a69780a8dc62037682adcfc651d900874e82b003e84",
+        "source_type": "company_news",
+        "source": "StockStory",
+        "source_url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks",
+        "title": "Unpacking Q1 Earnings: Arthur J. Gallagher (NYSE:AJG) In The Context Of Other Insurance Brokers Stocks - StockStory",
+        "summary": "Unpacking Q1 Earnings: Arthur J. Gallagher (NYSE:AJG) In The Context Of Other Insurance Brokers Stocks StockStory",
+        "body": "Unpacking Q1 Earnings: Arthur J. Gallagher (NYSE:AJG) In The Context Of Other Insurance Brokers Stocks StockStory",
+        "evidence_quality": "title_only",
+        "url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks",
+        "published_at": "Fri, 08 May 2026 07:54:14 GMT",
+        "ticker_hints": [
+          "AJG"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOdGlIUXBKS2FFclpxdmVQZURaakg2Uzk3N1VRSHFpR2EtSlZyaS1aVVFEYi01OXJaSEZQaGUyamlIMVhLTmRiTjlWU2Y1VHpyZm9OZW0ySjRUUjY3M0pFOC1sbk1vZXhVWWplOFdSSUFQcXRONk5xWFF2VW1kWEp0b0gtZFJLblhDSG9GeGNPTU1Jd3hRcnlVS2N1Y0F6N214RUlnSTJRZ1JMMDhrNWF0UmNRRlUzWTZKX3RkZzYwZ3pqclFCczNJYlRjdm4yaGU0a0VmN0xtQzM2dng1NU5DenN3enpMTjlh?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Unpacking Q1 Earnings: Arthur J. Gallagher (NYSE:AJG) In The Context Of Other Insurance Brokers Stocks - StockStory",
+          "source": "StockStory",
+          "source_url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks",
+          "publisher_homepage_url": "https://stockstory.org",
+          "url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks",
+          "published_at": "Fri, 08 May 2026 07:54:14 GMT",
+          "summary": "Unpacking Q1 Earnings: Arthur J. Gallagher (NYSE:AJG) In The Context Of Other Insurance Brokers Stocks  StockStory",
+          "ticker": "AJG",
+          "company_name": "Arthur J. Gallagher & Co.",
+          "query": "Arthur J. Gallagher & Co.",
+          "source_type": "company_news",
+          "decoded_google_url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks"
+        }
+      }
+    },
+    {
+      "article_index": 5,
+      "relevant": true,
+      "affected_tickers": [
+        "AJG"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Institutional investor acquisition of AJG shares indicates continued institutional confidence in the position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPNzdzeU9jWnJnOFNsSUVxUHJsNDh2YTVqWER2U1JFOHdES0w5S1h2VDMtQ3pVRFc3Z0FGaEFNSVlxbk9vb2p3blA1V3czMTQ1MGpiRzk5SEljaFJ1bmNwaUFoRzFQdTg0aVVJcVZFM0hhTHlCZmFfYjhWaURBTHhoU3JoLU1oWkdlLW1LOVFLQ09vdmo3OWM2dGZUVFRuekVtT3RJdU9hR3gxN0ZMR3FjZDFUcnVjU0lIYXF1S29ROGNjZS1BLURmWFVLckZQSVE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "dffc6fdb160f0fbdfaeef0b9d9b3369084fe481e5f884cf578d47fcc1651339e",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/",
+        "title": "ASR Vermogensbeheer N.V. Acquires 21,448 Shares of Arthur J. Gallagher & Co. $AJG - MarketBeat",
+        "summary": "ASR Vermogensbeheer N.V. Acquires 21,448 Shares of Arthur J. Gallagher & Co. $AJG MarketBeat",
+        "body": "ASR Vermogensbeheer N.V. Acquires 21,448 Shares of Arthur J. Gallagher & Co. $AJG MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/",
+        "published_at": "Fri, 08 May 2026 07:14:20 GMT",
+        "ticker_hints": [
+          "AJG"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPNzdzeU9jWnJnOFNsSUVxUHJsNDh2YTVqWER2U1JFOHdES0w5S1h2VDMtQ3pVRFc3Z0FGaEFNSVlxbk9vb2p3blA1V3czMTQ1MGpiRzk5SEljaFJ1bmNwaUFoRzFQdTg0aVVJcVZFM0hhTHlCZmFfYjhWaURBTHhoU3JoLU1oWkdlLW1LOVFLQ09vdmo3OWM2dGZUVFRuekVtT3RJdU9hR3gxN0ZMR3FjZDFUcnVjU0lIYXF1S29ROGNjZS1BLURmWFVLckZQSVE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "ASR Vermogensbeheer N.V. Acquires 21,448 Shares of Arthur J. Gallagher & Co. $AJG - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/",
+          "published_at": "Fri, 08 May 2026 07:14:20 GMT",
+          "summary": "ASR Vermogensbeheer N.V. Acquires 21,448 Shares of Arthur J. Gallagher & Co. $AJG  MarketBeat",
+          "ticker": "AJG",
+          "company_name": "Arthur J. Gallagher & Co.",
+          "query": "Arthur J. Gallagher & Co.",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/"
+        }
+      }
+    },
+    {
+      "article_index": 6,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic daily performance recap with no new information or catalyst.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPS3d5V18wYU9lSGh6RlRPQTBaY2R2TXBZQTZlTk5PSnI1SUI3dlI2by1HaE1fOE1pSVhJcVJBZVhNUHZVNm10dVR3VnNMaGdSV1NVVS1Ed2J0QkRQOGJPbTQtTmtOWkFqNi1WQTRiWFdsNEk0X3ZsRVJTWnROdmVJUkpCVl83b19YdVpJbzU0dTczMmJ4N0ZpWmdkQXhIbXNRS0ppYmNXbUJzb09ncE1FWnk5bmREelBjaUdNODQtenl3dmROZHlRb2JraW9yQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "cb1d27abb628c7259127bc0064eb0e25e0eb7b6d36bb05895a16035f7cca88ff",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/arthur-j-gallagher-co-stock-outperforms-competitors-on-strong-trading-day-aa2e7ae8-138f2acfee41",
+        "title": "Arthur J. Gallagher & Co. stock outperforms competitors on strong trading day - MarketWatch",
+        "summary": "Arthur J. Gallagher & Co. stock outperforms competitors on strong trading day MarketWatch",
+        "body": "Arthur J. Gallagher & Co. stock outperforms competitors on strong trading day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/arthur-j-gallagher-co-stock-outperforms-competitors-on-strong-trading-day-aa2e7ae8-138f2acfee41",
+        "published_at": "Thu, 07 May 2026 20:50:00 GMT",
+        "ticker_hints": [
+          "AJG"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizgFBVV95cUxPS3d5V18wYU9lSGh6RlRPQTBaY2R2TXBZQTZlTk5PSnI1SUI3dlI2by1HaE1fOE1pSVhJcVJBZVhNUHZVNm10dVR3VnNMaGdSV1NVVS1Ed2J0QkRQOGJPbTQtTmtOWkFqNi1WQTRiWFdsNEk0X3ZsRVJTWnROdmVJUkpCVl83b19YdVpJbzU0dTczMmJ4N0ZpWmdkQXhIbXNRS0ppYmNXbUJzb09ncE1FWnk5bmREelBjaUdNODQtenl3dmROZHlRb2JraW9yQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Arthur J. Gallagher & Co. stock outperforms competitors on strong trading day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/arthur-j-gallagher-co-stock-outperforms-competitors-on-strong-trading-day-aa2e7ae8-138f2acfee41",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/arthur-j-gallagher-co-stock-outperforms-competitors-on-strong-trading-day-aa2e7ae8-138f2acfee41",
+          "published_at": "Thu, 07 May 2026 20:50:00 GMT",
+          "summary": "Arthur J. Gallagher & Co. stock outperforms competitors on strong trading day  MarketWatch",
+          "ticker": "AJG",
+          "company_name": "Arthur J. Gallagher & Co.",
+          "query": "Arthur J. Gallagher & Co.",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/arthur-j-gallagher-co-stock-outperforms-competitors-on-strong-trading-day-aa2e7ae8-138f2acfee41"
+        }
+      }
+    },
+    {
+      "article_index": 7,
+      "relevant": true,
+      "affected_tickers": [
+        "AJG"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Valuation analysis provides context for the growth archetype positioning after recent price weakness.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNdWRNWEktM2FSVzF6LUlBTXE2ZXQxbWZvYl9pUlZwQ1NfNTIxS19IMExESDNURWhJdnktcmtZYXNMSXRsTTdVbE93dVMxYS1PWGNuUXpoN2stR2JDOUdhOG1mZ09Hcm05ZTdYc0hiTU5ZNEpvX0JjUndTWEtfdW1DcFZnU0QtX1ZLZ0ROLTc3YklMc2tNaERpQ0ZMQWtMSDA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "57ff7bc8c4f3e7245483e715e80e29251aeb058b15bf684b74b8aff162e88af0",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html",
+        "title": "A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness - Yahoo Finance",
+        "summary": "A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness Yahoo Finance",
+        "body": "A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html",
+        "published_at": "Thu, 07 May 2026 11:24:47 GMT",
+        "ticker_hints": [
+          "AJG"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNdWRNWEktM2FSVzF6LUlBTXE2ZXQxbWZvYl9pUlZwQ1NfNTIxS19IMExESDNURWhJdnktcmtZYXNMSXRsTTdVbE93dVMxYS1PWGNuUXpoN2stR2JDOUdhOG1mZ09Hcm05ZTdYc0hiTU5ZNEpvX0JjUndTWEtfdW1DcFZnU0QtX1ZLZ0ROLTc3YklMc2tNaERpQ0ZMQWtMSDA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html",
+          "published_at": "Thu, 07 May 2026 11:24:47 GMT",
+          "summary": "A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness  Yahoo Finance",
+          "ticker": "AJG",
+          "company_name": "Arthur J. Gallagher & Co.",
+          "query": "Arthur J. Gallagher & Co.",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html"
+        }
+      }
+    },
+    {
+      "article_index": 8,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Local crime report referencing a geographic county, not Campbell's Company (CPB).",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMihAJBVV95cUxQbzNhVEpNaHEtVHcyVU50U1lOVHNaZ3ZpbDlLX0dHSEdVdGV2Nk90QU5yY3lCZmtMMm5pcERldk03WEFVZkNPTTVhSG1XMGNTOFlzZ1ZWTHFFM1ZtSDNwN09vbWMwTmlUQmdnbm5hZHRFVVk3YTRxWEJVd2o2T25fNXluakczeEkzNVhnVEFreWtmUzlmQ1ZCV21vSk8wSTk1azdWaXZ6UnVzVHJPdU9NS3lrSzM4UklUWWtGejdZSHk4VVV6U0ZaYVltVnd4TUN4SFJtX1ZfT2YtQkgteFhUSjdXNVgzYWFxazhrdFZwc2o5WS1fcXdrNUhoZzFfN2V1Ukl3Mw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "bbd370151f4487c4c199c4ef294c24a995c9db3ac6704a34ea5d12488e709e07",
+        "source_type": "company_news",
+        "source": "WSET",
+        "source_url": "https://wset.com/news/local/arrest-made-in-campbell-co-sheriffs-office-larceny-incident-deputies-still-investigate-additional-thefts-concord-stolen-bobcat-skid-steer-may-2026",
+        "title": "Arrest made in Campbell Co. larceny incident; deputies still investigate additional thefts - WSET",
+        "summary": "Arrest made in Campbell Co. larceny incident; deputies still investigate additional thefts WSET",
+        "body": "Arrest made in Campbell Co. larceny incident; deputies still investigate additional thefts WSET",
+        "evidence_quality": "title_only",
+        "url": "https://wset.com/news/local/arrest-made-in-campbell-co-sheriffs-office-larceny-incident-deputies-still-investigate-additional-thefts-concord-stolen-bobcat-skid-steer-may-2026",
+        "published_at": "Wed, 06 May 2026 23:06:30 GMT",
+        "ticker_hints": [
+          "CPB"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMihAJBVV95cUxQbzNhVEpNaHEtVHcyVU50U1lOVHNaZ3ZpbDlLX0dHSEdVdGV2Nk90QU5yY3lCZmtMMm5pcERldk03WEFVZkNPTTVhSG1XMGNTOFlzZ1ZWTHFFM1ZtSDNwN09vbWMwTmlUQmdnbm5hZHRFVVk3YTRxWEJVd2o2T25fNXluakczeEkzNVhnVEFreWtmUzlmQ1ZCV21vSk8wSTk1azdWaXZ6UnVzVHJPdU9NS3lrSzM4UklUWWtGejdZSHk4VVV6U0ZaYVltVnd4TUN4SFJtX1ZfT2YtQkgteFhUSjdXNVgzYWFxazhrdFZwc2o5WS1fcXdrNUhoZzFfN2V1Ukl3Mw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Arrest made in Campbell Co. larceny incident; deputies still investigate additional thefts - WSET",
+          "source": "WSET",
+          "source_url": "https://wset.com/news/local/arrest-made-in-campbell-co-sheriffs-office-larceny-incident-deputies-still-investigate-additional-thefts-concord-stolen-bobcat-skid-steer-may-2026",
+          "publisher_homepage_url": "https://wset.com",
+          "url": "https://wset.com/news/local/arrest-made-in-campbell-co-sheriffs-office-larceny-incident-deputies-still-investigate-additional-thefts-concord-stolen-bobcat-skid-steer-may-2026",
+          "published_at": "Wed, 06 May 2026 23:06:30 GMT",
+          "summary": "Arrest made in Campbell Co. larceny incident; deputies still investigate additional thefts  WSET",
+          "ticker": "CPB",
+          "company_name": "Campbell's Co",
+          "query": "Campbell's Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://wset.com/news/local/arrest-made-in-campbell-co-sheriffs-office-larceny-incident-deputies-still-investigate-additional-thefts-concord-stolen-bobcat-skid-steer-may-2026"
+        }
+      }
+    },
+    {
+      "article_index": 9,
+      "relevant": true,
+      "affected_tickers": [
+        "CPB"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Hold rating maintained by Bernstein indicates expectations aligned with current growth archetype positioning.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPeUdfSm9WRlRVYWM0TDBhczRCU0RZdXN5d19FZVNJRlc1VGdlQ0Q1bU1oaUE3akdtb3M0NXhqSFI0QjBCSnVqX2JaX2R0ZTBDX2dYREpDY0hZUDA4RHJCS3diS0cyZmhEQVdMZDc1Z01QMHFYd19JQVplaGtPb0g1ZGg5M1Q0UTVvMktydGFrU1hjakVDZF9OZzZhWEtEQVpuR3AtNw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "53ea2e2a188f030811080b5a6fdf6c00fe662e52b617236e00d734dfe7d78de9",
+        "source_type": "company_news",
+        "source": "Moomoo",
+        "source_url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating",
+        "title": "Bernstein Maintains The Campbell's Co(CPB.US) With Hold Rating - Moomoo",
+        "summary": "Bernstein Maintains The Campbell's Co(CPB.US) With Hold Rating Moomoo",
+        "body": "Bernstein Maintains The Campbell's Co(CPB.US) With Hold Rating Moomoo",
+        "evidence_quality": "title_only",
+        "url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating",
+        "published_at": "Fri, 01 May 2026 13:20:08 GMT",
+        "ticker_hints": [
+          "CPB"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPeUdfSm9WRlRVYWM0TDBhczRCU0RZdXN5d19FZVNJRlc1VGdlQ0Q1bU1oaUE3akdtb3M0NXhqSFI0QjBCSnVqX2JaX2R0ZTBDX2dYREpDY0hZUDA4RHJCS3diS0cyZmhEQVdMZDc1Z01QMHFYd19JQVplaGtPb0g1ZGg5M1Q0UTVvMktydGFrU1hjakVDZF9OZzZhWEtEQVpuR3AtNw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Bernstein Maintains The Campbell's Co(CPB.US) With Hold Rating - Moomoo",
+          "source": "Moomoo",
+          "source_url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating",
+          "publisher_homepage_url": "https://www.moomoo.com",
+          "url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating",
+          "published_at": "Fri, 01 May 2026 13:20:08 GMT",
+          "summary": "Bernstein Maintains The Campbell's Co(CPB.US) With Hold Rating  Moomoo",
+          "ticker": "CPB",
+          "company_name": "Campbell's Co",
+          "query": "Campbell's Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating"
+        }
+      }
+    },
+    {
+      "article_index": 10,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Bio-Techne Corp is unrelated to the held positions (AON, BK, TECH)",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOa3BuSHdNbml0SGJJQ3pvVEZuUHpOZUpFdl80X3pxSU9YWXVSVnl5dGdETkhlTzdwMldvZlQ0WVliZG9wd3hUVHU3Mm1McWFEZGx4aElQb3FmZzNkSGVTZXhneE1ZNXZ1bGJtZC0xWjhfOEVfU0FhOE1kd083SnVKZmZkTlkxdjJUNmJubTBJWGMtMktDcFpSRGdRVWJEc0p6UU8yYjZHbkh4YkNiVFIzMHlKWFdsZGpEMlZDb0JQRC1EeFFJcFE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "df41caabdfd88a6125ab56d37ad63f2d0167b519e003c45cf8ccad13a4555957",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/bio-techne-corp-stock-outperforms-competitors-on-strong-trading-day-9db90588-bf0d040a3eb3",
+        "title": "Bio-Techne Corp. stock outperforms competitors on strong trading day - MarketWatch",
+        "summary": "Bio-Techne Corp. stock outperforms competitors on strong trading day MarketWatch",
+        "body": "Bio-Techne Corp. stock outperforms competitors on strong trading day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/bio-techne-corp-stock-outperforms-competitors-on-strong-trading-day-9db90588-bf0d040a3eb3",
+        "published_at": "Thu, 07 May 2026 20:30:00 GMT",
+        "ticker_hints": [
+          "TECH"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOa3BuSHdNbml0SGJJQ3pvVEZuUHpOZUpFdl80X3pxSU9YWXVSVnl5dGdETkhlTzdwMldvZlQ0WVliZG9wd3hUVHU3Mm1McWFEZGx4aElQb3FmZzNkSGVTZXhneE1ZNXZ1bGJtZC0xWjhfOEVfU0FhOE1kd083SnVKZmZkTlkxdjJUNmJubTBJWGMtMktDcFpSRGdRVWJEc0p6UU8yYjZHbkh4YkNiVFIzMHlKWFdsZGpEMlZDb0JQRC1EeFFJcFE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Bio-Techne Corp. stock outperforms competitors on strong trading day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/bio-techne-corp-stock-outperforms-competitors-on-strong-trading-day-9db90588-bf0d040a3eb3",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/bio-techne-corp-stock-outperforms-competitors-on-strong-trading-day-9db90588-bf0d040a3eb3",
+          "published_at": "Thu, 07 May 2026 20:30:00 GMT",
+          "summary": "Bio-Techne Corp. stock outperforms competitors on strong trading day  MarketWatch",
+          "ticker": "TECH",
+          "company_name": "Bio-Techne Corp",
+          "query": "Bio-Techne Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/bio-techne-corp-stock-outperforms-competitors-on-strong-trading-day-9db90588-bf0d040a3eb3"
+        }
+      }
+    },
+    {
+      "article_index": 11,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Bio-Techne Corp is a different company not held in the portfolio",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQcHU4ZWtHY2xKbWZEbF9nVzhmem9nbGg1bVJYODctZTUwcUVvblB1WmllSUNxSlB3SHpncUJBd3lmX1hKZXdHUXFUSzZ1eWpsVVRqUDFRUGoxQkJ2ZDN5dkJ6T1BOWlNUb091Vk1VeGtOOEl4aURaazk3X05QZFFHZDdHcVA2YmVTVFlZTlBrUTVxMDhHTjdaTnZpeXY5U2F0WW5RMUFmMnRvODJGcWt1VGlsLXFwM3FpMm9QYmJKZnQzWENpNEZj?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "2713821bd6cfd03e820dc8d3609196249ff70c6aaff1c1201a6c60174f9cf3b2",
+        "source_type": "company_news",
+        "source": "Morningstar",
+        "source_url": "https://www.morningstar.com/company-reports/1480429-bio-techne-leads-key-proteomic-reagent-markets-but-near-term-challenges-loom",
+        "title": "Bio-Techne Leads Key Proteomic Reagent Markets, but Near-Term Challenges Loom - Morningstar",
+        "summary": "Bio-Techne Leads Key Proteomic Reagent Markets, but Near-Term Challenges Loom Morningstar",
+        "body": "Bio-Techne Leads Key Proteomic Reagent Markets, but Near-Term Challenges Loom Morningstar",
+        "evidence_quality": "title_only",
+        "url": "https://www.morningstar.com/company-reports/1480429-bio-techne-leads-key-proteomic-reagent-markets-but-near-term-challenges-loom",
+        "published_at": "Thu, 07 May 2026 06:00:22 GMT",
+        "ticker_hints": [
+          "TECH"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQcHU4ZWtHY2xKbWZEbF9nVzhmem9nbGg1bVJYODctZTUwcUVvblB1WmllSUNxSlB3SHpncUJBd3lmX1hKZXdHUXFUSzZ1eWpsVVRqUDFRUGoxQkJ2ZDN5dkJ6T1BOWlNUb091Vk1VeGtOOEl4aURaazk3X05QZFFHZDdHcVA2YmVTVFlZTlBrUTVxMDhHTjdaTnZpeXY5U2F0WW5RMUFmMnRvODJGcWt1VGlsLXFwM3FpMm9QYmJKZnQzWENpNEZj?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Bio-Techne Leads Key Proteomic Reagent Markets, but Near-Term Challenges Loom - Morningstar",
+          "source": "Morningstar",
+          "source_url": "https://www.morningstar.com/company-reports/1480429-bio-techne-leads-key-proteomic-reagent-markets-but-near-term-challenges-loom",
+          "publisher_homepage_url": "https://www.morningstar.com",
+          "url": "https://www.morningstar.com/company-reports/1480429-bio-techne-leads-key-proteomic-reagent-markets-but-near-term-challenges-loom",
+          "published_at": "Thu, 07 May 2026 06:00:22 GMT",
+          "summary": "Bio-Techne Leads Key Proteomic Reagent Markets, but Near-Term Challenges Loom  Morningstar",
+          "ticker": "TECH",
+          "company_name": "Bio-Techne Corp",
+          "query": "Bio-Techne Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.morningstar.com/company-reports/1480429-bio-techne-leads-key-proteomic-reagent-markets-but-near-term-challenges-loom"
+        }
+      }
+    },
+    {
+      "article_index": 12,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Bio-Techne Corp earnings miss is not relevant to AON, BK, or TECH positions",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOdnYyOEFHRUZ3MmlyaTIwQVlDUEw0SXRTZmY0TjU0Q1lXLUV3bF9uaVJoSWI2MzR6UTRzaVNUQTlISy1mSFEybmhTNVZQZTJ2WVE4UTJVb2FGWjhzQ3BUYU1VcmhacjJ1cnd5ZU5zUVdFeElSMEY3MGs4ci1EZDI1QmpYZ0NyakFhV2NFSi0yX2hNQjZ6WjJQWFV5YUdtUExYakJ1WnZtTUpyWlBPTnhETEJJUllUc3h4NTBtTW1famFwelFwZDhKRl8wRXV2QQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "8410bd5fc3f3d33cae2be759825bef678ab02d0af19cf22829ac90ccb595300e",
+        "source_type": "company_news",
+        "source": "Quiver Quantitative",
+        "source_url": "https://www.quiverquant.com/news/Bio-Techne+slides+after+fiscal+Q3+results+show+revenue+decline+and+a+miss+versus+consensus+estimates",
+        "title": "Bio-Techne slides after fiscal Q3 results show revenue decline and a miss versus consensus estimates - Quiver Quantitative",
+        "summary": "Bio-Techne slides after fiscal Q3 results show revenue decline and a miss versus consensus estimates Quiver Quantitative",
+        "body": "Bio-Techne slides after fiscal Q3 results show revenue decline and a miss versus consensus estimates Quiver Quantitative",
+        "evidence_quality": "title_only",
+        "url": "https://www.quiverquant.com/news/Bio-Techne+slides+after+fiscal+Q3+results+show+revenue+decline+and+a+miss+versus+consensus+estimates",
+        "published_at": "Wed, 06 May 2026 15:51:00 GMT",
+        "ticker_hints": [
+          "TECH"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOdnYyOEFHRUZ3MmlyaTIwQVlDUEw0SXRTZmY0TjU0Q1lXLUV3bF9uaVJoSWI2MzR6UTRzaVNUQTlISy1mSFEybmhTNVZQZTJ2WVE4UTJVb2FGWjhzQ3BUYU1VcmhacjJ1cnd5ZU5zUVdFeElSMEY3MGs4ci1EZDI1QmpYZ0NyakFhV2NFSi0yX2hNQjZ6WjJQWFV5YUdtUExYakJ1WnZtTUpyWlBPTnhETEJJUllUc3h4NTBtTW1famFwelFwZDhKRl8wRXV2QQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Bio-Techne slides after fiscal Q3 results show revenue decline and a miss versus consensus estimates - Quiver Quantitative",
+          "source": "Quiver Quantitative",
+          "source_url": "https://www.quiverquant.com/news/Bio-Techne+slides+after+fiscal+Q3+results+show+revenue+decline+and+a+miss+versus+consensus+estimates",
+          "publisher_homepage_url": "https://www.quiverquant.com",
+          "url": "https://www.quiverquant.com/news/Bio-Techne+slides+after+fiscal+Q3+results+show+revenue+decline+and+a+miss+versus+consensus+estimates",
+          "published_at": "Wed, 06 May 2026 15:51:00 GMT",
+          "summary": "Bio-Techne slides after fiscal Q3 results show revenue decline and a miss versus consensus estimates  Quiver Quantitative",
+          "ticker": "TECH",
+          "company_name": "Bio-Techne Corp",
+          "query": "Bio-Techne Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.quiverquant.com/news/Bio-Techne+slides+after+fiscal+Q3+results+show+revenue+decline+and+a+miss+versus+consensus+estimates"
+        }
+      }
+    },
+    {
+      "article_index": 13,
+      "relevant": true,
+      "affected_tickers": [
+        "AON"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Direct earnings call summary for Aon plc, a held position with growth archetype exposure",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMikwFBVV95cUxORUxLYjdwczNmbzV4bkhpcElLQk5IUGVZeWFBaXNoTkJtOHU0OUVoRkhQbGU4LVRmeWRwa0k3b0ltSzBQZkFsMVYteVdqdnZQVUo1TXNJTnp0RWtsc1RyMHVXX0M3OHd4dlNqSWw1NG96WTMwV18zR09UeE5FckVneGQzdHJUX04xMXZZVHZFTFMtTDg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "d78653233168cc3229ccca69a3c7d450cbb4364ee2fae6dc3288b65fbeee24ec",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html",
+        "title": "Aon plc Q1 2026 Earnings Call Summary - Yahoo Finance",
+        "summary": "Aon plc Q1 2026 Earnings Call Summary Yahoo Finance",
+        "body": "Aon plc Q1 2026 Earnings Call Summary Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html",
+        "published_at": "Fri, 01 May 2026 20:47:18 GMT",
+        "ticker_hints": [
+          "AON"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMikwFBVV95cUxORUxLYjdwczNmbzV4bkhpcElLQk5IUGVZeWFBaXNoTkJtOHU0OUVoRkhQbGU4LVRmeWRwa0k3b0ltSzBQZkFsMVYteVdqdnZQVUo1TXNJTnp0RWtsc1RyMHVXX0M3OHd4dlNqSWw1NG96WTMwV18zR09UeE5FckVneGQzdHJUX04xMXZZVHZFTFMtTDg?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Aon plc Q1 2026 Earnings Call Summary - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html",
+          "published_at": "Fri, 01 May 2026 20:47:18 GMT",
+          "summary": "Aon plc Q1 2026 Earnings Call Summary  Yahoo Finance",
+          "ticker": "AON",
+          "company_name": "Aon PLC",
+          "query": "Aon PLC",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html"
+        }
+      }
+    },
+    {
+      "article_index": 14,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a low-information 13F holdings data report for BK, not actionable news affecting the position",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNYVhTQTBCNThFUmdUWWxrdkNpWWYxdi1DeC1mRUc2R2xFWnAzM3BCX0FCcFh4VFZZcFB6Mnp5VGFPaklicE1SaHpRMG4xZ0FXOFlIQnBxLTE3WFNaNkRGOG40a3hFMldBQ05INDFrYTBvZzZvdXBwclI2QVVIb01wOXFYNU1fWWhRdWl1MWhTTngtLTVwNTNMMVhkbmFNZmlVekZwQzVsNHZtQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "e4630f62697767923b2c2df5466637279b8b0283dd8d36d32b1045eb671b8b62",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/BK/13f-hr-bank-of-new-york-mellon-corp-sec-filing-cac1a9e3fe73.html",
+        "title": "BNY Mellon (NYSE: BK) reports $543.9B in 13F holdings across 33,728 entries - Stock Titan",
+        "summary": "BNY Mellon (NYSE: BK) reports $543.9B in 13F holdings across 33,728 entries Stock Titan",
+        "body": "BNY Mellon (NYSE: BK) reports $543.9B in 13F holdings across 33,728 entries Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/BK/13f-hr-bank-of-new-york-mellon-corp-sec-filing-cac1a9e3fe73.html",
+        "published_at": "Tue, 05 May 2026 18:55:51 GMT",
+        "ticker_hints": [
+          "BK"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNYVhTQTBCNThFUmdUWWxrdkNpWWYxdi1DeC1mRUc2R2xFWnAzM3BCX0FCcFh4VFZZcFB6Mnp5VGFPaklicE1SaHpRMG4xZ0FXOFlIQnBxLTE3WFNaNkRGOG40a3hFMldBQ05INDFrYTBvZzZvdXBwclI2QVVIb01wOXFYNU1fWWhRdWl1MWhTTngtLTVwNTNMMVhkbmFNZmlVekZwQzVsNHZtQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "BNY Mellon (NYSE: BK) reports $543.9B in 13F holdings across 33,728 entries - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/BK/13f-hr-bank-of-new-york-mellon-corp-sec-filing-cac1a9e3fe73.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/BK/13f-hr-bank-of-new-york-mellon-corp-sec-filing-cac1a9e3fe73.html",
+          "published_at": "Tue, 05 May 2026 18:55:51 GMT",
+          "summary": "BNY Mellon (NYSE: BK) reports $543.9B in 13F holdings across 33,728 entries  Stock Titan",
+          "ticker": "BK",
+          "company_name": "Bank of New York Mellon Corp",
+          "query": "Bank of New York Mellon Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/BK/13f-hr-bank-of-new-york-mellon-corp-sec-filing-cac1a9e3fe73.html"
+        }
+      }
+    },
+    {
+      "article_index": 15,
+      "relevant": true,
+      "affected_tickers": [
+        "BRK.B"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Berkshire Hathaway annual meeting insights directly impact BRK.B holding and growth archetype assessment.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxONGlRcXRCVFZDQVRCOEFqb0hnQ3dFWEFScW84RkdzdnRpTThpZnlIZGt5b204OUp3UDROS2VPTjRTZ0MtSG9NRW10aE1wOFJtZ0xzNG5ESUFqN1o1X0tiZEdRLUJKcUdMdWhXUTduUHIzVDMzUEU0NDFuWUFwcDdqczNpN3V4bW1GbmtGNDNBZDJ0WFZLU3o3TzAtRXNYa0k?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ae21d08b155fcc81eb6018e939d360a3578d86ad875c45f59503ca057acc7612",
+        "source_type": "company_news",
+        "source": "Morningstar Canada",
+        "source_url": "https://global.morningstar.com/en-nd/stocks/berkshire-hathaway-5-key-takeaways-2026-annual-meeting",
+        "title": "Berkshire Hathaway: 5 Key Takeaways From the 2026 Annual Meeting - Morningstar Canada",
+        "summary": "Berkshire Hathaway: 5 Key Takeaways From the 2026 Annual Meeting Morningstar Canada",
+        "body": "Berkshire Hathaway: 5 Key Takeaways From the 2026 Annual Meeting Morningstar Canada",
+        "evidence_quality": "title_only",
+        "url": "https://global.morningstar.com/en-nd/stocks/berkshire-hathaway-5-key-takeaways-2026-annual-meeting",
+        "published_at": "Mon, 04 May 2026 16:33:47 GMT",
+        "ticker_hints": [
+          "BRK.B"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxONGlRcXRCVFZDQVRCOEFqb0hnQ3dFWEFScW84RkdzdnRpTThpZnlIZGt5b204OUp3UDROS2VPTjRTZ0MtSG9NRW10aE1wOFJtZ0xzNG5ESUFqN1o1X0tiZEdRLUJKcUdMdWhXUTduUHIzVDMzUEU0NDFuWUFwcDdqczNpN3V4bW1GbmtGNDNBZDJ0WFZLU3o3TzAtRXNYa0k?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Berkshire Hathaway: 5 Key Takeaways From the 2026 Annual Meeting - Morningstar Canada",
+          "source": "Morningstar Canada",
+          "source_url": "https://global.morningstar.com/en-nd/stocks/berkshire-hathaway-5-key-takeaways-2026-annual-meeting",
+          "publisher_homepage_url": "https://global.morningstar.com",
+          "url": "https://global.morningstar.com/en-nd/stocks/berkshire-hathaway-5-key-takeaways-2026-annual-meeting",
+          "published_at": "Mon, 04 May 2026 16:33:47 GMT",
+          "summary": "Berkshire Hathaway: 5 Key Takeaways From the 2026 Annual Meeting  Morningstar Canada",
+          "ticker": "BRK.B",
+          "company_name": "Berkshire Hathaway Inc",
+          "query": "Berkshire Hathaway Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://global.morningstar.com/en-nd/stocks/berkshire-hathaway-5-key-takeaways-2026-annual-meeting"
+        }
+      }
+    },
+    {
+      "article_index": 16,
+      "relevant": true,
+      "affected_tickers": [
+        "BRK.B"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Q1 profit rise and record cash position is directly material to BRK.B valuation and investment thesis.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNWERVeDFSVnBOOURDZGh6aGh3ZnVRX3VRV0FjMzN2TVNlbFlMMVNyNGxiczNFZ2tDM002Z0JsTFM0eHc3c0FheG5UQTI1QVlNRUlNemVDUmw4UGZua25WTGNucm9oS1c1eVpZanVXWkU4eHpqYl9uRFBLNEU3SVBsUEN5M2ZKcHgtTzFwcmhPQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "f579c468315240c1f708df509049d1fc2813533056874ceb2bb3b08e93045dc1",
+        "source_type": "company_news",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+        "title": "Berkshire Hathaway profit rises despite consumer stress, cash sets record - Reuters",
+        "summary": "Berkshire Hathaway profit rises despite consumer stress, cash sets record Reuters",
+        "body": "Berkshire Hathaway profit rises despite consumer stress, cash sets record Reuters",
+        "evidence_quality": "title_only",
+        "url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+        "published_at": "Sat, 02 May 2026 15:13:29 GMT",
+        "ticker_hints": [
+          "BRK.B"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNWERVeDFSVnBOOURDZGh6aGh3ZnVRX3VRV0FjMzN2TVNlbFlMMVNyNGxiczNFZ2tDM002Z0JsTFM0eHc3c0FheG5UQTI1QVlNRUlNemVDUmw4UGZua25WTGNucm9oS1c1eVpZanVXWkU4eHpqYl9uRFBLNEU3SVBsUEN5M2ZKcHgtTzFwcmhPQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Berkshire Hathaway profit rises despite consumer stress, cash sets record - Reuters",
+          "source": "Reuters",
+          "source_url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+          "publisher_homepage_url": "https://www.reuters.com",
+          "url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+          "published_at": "Sat, 02 May 2026 15:13:29 GMT",
+          "summary": "Berkshire Hathaway profit rises despite consumer stress, cash sets record  Reuters",
+          "ticker": "BRK.B",
+          "company_name": "Berkshire Hathaway Inc",
+          "query": "Berkshire Hathaway Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/"
+        }
+      }
+    },
+    {
+      "article_index": 17,
+      "relevant": true,
+      "affected_tickers": [
+        "BRK.B"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Berkshire's $380bn cash pile and 14-quarter stock sales streak directly affects BRK.B capital allocation outlook.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcUdOdEtvVmhvTmktRlIxX2NzTnJpNTFHODdxaE03dzViWkZzUUQ4bzRIZTc1YVF3alZhaEVJZFc4NDl2cFpVSWN3WkpITmZfRzBEbWhNM2NDeXhmb2xLWjBnMDM3TjdLWmV1cTV1YlEwMlFsV2pLaHRrUHVBYkRMZkQ1eEc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "faa3dcb837ebc229795ecd5d9ffb1491d0c8821b3ee0e5850076712f133a2cb2",
+        "source_type": "company_news",
+        "source": "Financial Times",
+        "source_url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+        "title": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter - Financial Times",
+        "summary": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times",
+        "body": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times",
+        "evidence_quality": "title_only",
+        "url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+        "published_at": "Sat, 02 May 2026 12:39:44 GMT",
+        "ticker_hints": [
+          "BRK.B"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcUdOdEtvVmhvTmktRlIxX2NzTnJpNTFHODdxaE03dzViWkZzUUQ4bzRIZTc1YVF3alZhaEVJZFc4NDl2cFpVSWN3WkpITmZfRzBEbWhNM2NDeXhmb2xLWjBnMDM3TjdLWmV1cTV1YlEwMlFsV2pLaHRrUHVBYkRMZkQ1eEc?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter - Financial Times",
+          "source": "Financial Times",
+          "source_url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+          "publisher_homepage_url": "https://www.ft.com",
+          "url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+          "published_at": "Sat, 02 May 2026 12:39:44 GMT",
+          "summary": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter  Financial Times",
+          "ticker": "BRK.B",
+          "company_name": "Berkshire Hathaway Inc",
+          "query": "Berkshire Hathaway Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1"
+        }
+      }
+    },
+    {
+      "article_index": 18,
+      "relevant": true,
+      "affected_tickers": [
+        "AIZ"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Assurant Q1 2026 earnings call provides critical insights for growth archetype evaluation of AIZ position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPRjZzc2NjWS0wd1JpNlBSZ2RicmxaaEJZVHZrV0F3TDRHZGdzUXlQbXJMR1ZXUzlCV0gzVG4zUnU4SGtfQzExLWppUWhYdGZrMkF2Ym1yTS1DS04wcWlYYjVmaTMwWWEzbmNvdnV5U3RUV3o1UkoxUzZOb012MV91VkhLUmh5ZnlId3RSN0hHTHNDakh5bG9XSmJVZnY?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "2e19bce699b29171381e3a7b1bb6d381e62187c34ee10c70dca9b9c16a56c814",
+        "source_type": "company_news",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation",
+        "title": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06 - Seeking Alpha",
+        "summary": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06 Seeking Alpha",
+        "body": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06 Seeking Alpha",
+        "evidence_quality": "title_only",
+        "url": "https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation",
+        "published_at": "Wed, 06 May 2026 12:32:18 GMT",
+        "ticker_hints": [
+          "AIZ"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPRjZzc2NjWS0wd1JpNlBSZ2RicmxaaEJZVHZrV0F3TDRHZGdzUXlQbXJMR1ZXUzlCV0gzVG4zUnU4SGtfQzExLWppUWhYdGZrMkF2Ym1yTS1DS04wcWlYYjVmaTMwWWEzbmNvdnV5U3RUV3o1UkoxUzZOb012MV91VkhLUmh5ZnlId3RSN0hHTHNDakh5bG9XSmJVZnY?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06 - Seeking Alpha",
+          "source": "Seeking Alpha",
+          "source_url": "https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation",
+          "publisher_homepage_url": "https://seekingalpha.com",
+          "url": "https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation",
+          "published_at": "Wed, 06 May 2026 12:32:18 GMT",
+          "summary": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06  Seeking Alpha",
+          "ticker": "AIZ",
+          "company_name": "Assurant Inc",
+          "query": "Assurant Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation"
+        }
+      }
+    },
+    {
+      "article_index": 19,
+      "relevant": true,
+      "affected_tickers": [
+        "AIZ"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Assurant Q1 earnings snapshot is directly relevant to assessing AIZ growth archetype performance.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOSTJQMlZQMlZMaFEzNU8wNWdvWFNPYjdZdHFpZ0pkT2dJT09wWmZPdFYtSVltOTZ6QTdmekZXMDlXbFBLT0RVZG9xNEZzN2NSaldFTXc3NTNXZTVqSnVzVTJkcS1SRkpOdnlNc0VURmYxelVyN0xCMlNfYUFWb1ZtT0d0VEVFNm5kb2FXRDcwS1E3eVNjMWVMWmVxeDlMVm9CR2V3SFV1WF9jdUQ4RThuWUFRTVFyQS0wTjU2UDZZOHhkaUQ2ZFE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "3e418819c225f8c3e1a09849c44ad2c0b5034e847fafb14932d9638bc80c0153",
+        "source_type": "company_news",
+        "source": "KTVB",
+        "source_url": "https://www.ktvb.com/article/syndication/associatedpress/assurant-q1-earnings-snapshot/616-6fa03ea2-478d-4408-8cd0-7b015c96c7d1",
+        "title": "Assurant: Q1 Earnings Snapshot - KTVB",
+        "summary": "Assurant: Q1 Earnings Snapshot KTVB",
+        "body": "Assurant: Q1 Earnings Snapshot KTVB",
+        "evidence_quality": "title_only",
+        "url": "https://www.ktvb.com/article/syndication/associatedpress/assurant-q1-earnings-snapshot/616-6fa03ea2-478d-4408-8cd0-7b015c96c7d1",
+        "published_at": "Tue, 05 May 2026 19:07:00 GMT",
+        "ticker_hints": [
+          "AIZ"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixgFBVV95cUxOSTJQMlZQMlZMaFEzNU8wNWdvWFNPYjdZdHFpZ0pkT2dJT09wWmZPdFYtSVltOTZ6QTdmekZXMDlXbFBLT0RVZG9xNEZzN2NSaldFTXc3NTNXZTVqSnVzVTJkcS1SRkpOdnlNc0VURmYxelVyN0xCMlNfYUFWb1ZtT0d0VEVFNm5kb2FXRDcwS1E3eVNjMWVMWmVxeDlMVm9CR2V3SFV1WF9jdUQ4RThuWUFRTVFyQS0wTjU2UDZZOHhkaUQ2ZFE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Assurant: Q1 Earnings Snapshot - KTVB",
+          "source": "KTVB",
+          "source_url": "https://www.ktvb.com/article/syndication/associatedpress/assurant-q1-earnings-snapshot/616-6fa03ea2-478d-4408-8cd0-7b015c96c7d1",
+          "publisher_homepage_url": "https://www.ktvb.com",
+          "url": "https://www.ktvb.com/article/syndication/associatedpress/assurant-q1-earnings-snapshot/616-6fa03ea2-478d-4408-8cd0-7b015c96c7d1",
+          "published_at": "Tue, 05 May 2026 19:07:00 GMT",
+          "summary": "Assurant: Q1 Earnings Snapshot  KTVB",
+          "ticker": "AIZ",
+          "company_name": "Assurant Inc",
+          "query": "Assurant Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.ktvb.com/article/syndication/associatedpress/assurant-q1-earnings-snapshot/616-6fa03ea2-478d-4408-8cd0-7b015c96c7d1"
+        }
+      }
+    },
+    {
+      "article_index": 20,
+      "relevant": true,
+      "affected_tickers": [
+        "AIZ"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Record Q1 performance and raised full-year outlook directly supports the growth archetype for AIZ.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOSi1QQmdYX1BBZFVwekNpZVcteVUxaW5MR3dEZnkyUDBvb05ORGtDZDd2T1J3Vjd1V1RSX1BDc0pEVGxqaTlYa3owZzBMOXZHUzBYWkdKSFlvc2ozWEZWRXZLR2lRSm5qNE8xT05XYi0tYjV1MFlnWHdFeHhnM0VfNWhkZFVtUEozckFNdDk3RklsMnFnOHNWd0RfNkhnNmhwaUE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "b795bf5b50f7c82acb95312553e02ca3c8ba5222d48e15d200b590ce51715add",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html",
+        "title": "Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ) - Stock Titan",
+        "summary": "Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ) Stock Titan",
+        "body": "Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ) Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html",
+        "published_at": "Tue, 05 May 2026 18:01:57 GMT",
+        "ticker_hints": [
+          "AIZ"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOSi1QQmdYX1BBZFVwekNpZVcteVUxaW5MR3dEZnkyUDBvb05ORGtDZDd2T1J3Vjd1V1RSX1BDc0pEVGxqaTlYa3owZzBMOXZHUzBYWkdKSFlvc2ozWEZWRXZLR2lRSm5qNE8xT05XYi0tYjV1MFlnWHdFeHhnM0VfNWhkZFVtUEozckFNdDk3RklsMnFnOHNWd0RfNkhnNmhwaUE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ) - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html",
+          "published_at": "Tue, 05 May 2026 18:01:57 GMT",
+          "summary": "Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ)  Stock Titan",
+          "ticker": "AIZ",
+          "company_name": "Assurant Inc",
+          "query": "Assurant Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html"
+        }
+      }
+    },
+    {
+      "article_index": 21,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPRzhJektPMGk3eFZCazktVUVZajk0RUpqLUZMa1VYdUY5SVp2ZmVGMHlhcXZDM0FDaW9xOS1hQVNvQVVwM0RZMmlfbkw5OXBCRW5EVWVQa20xeDl1bGRaUkZpRnN0WC1JdHdyQ0hGaFJnZWhwV1ZrVnRTUjJnQjQxeHlFQlhtQnJ0Y0V2SHNMQmFtUDZGNlZUY2RuTDhRclU1aEFDV2Fnb1JNdDRCeXpCWnJtLUs1YjdCYjlzZE1mb3RvNEFJ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "9b7a76333ce990cb16dc1685e25f8a9c905dfdc43677f5df58568a5733279e7c",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/biogen-inc-stock-underperforms-friday-when-compared-to-competitors-6acb9d19-f22b9fd4d9bb",
+        "title": "Biogen Inc. stock underperforms Friday when compared to competitors - MarketWatch",
+        "summary": "Biogen Inc. stock underperforms Friday when compared to competitors MarketWatch",
+        "body": "Biogen Inc. stock underperforms Friday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/biogen-inc-stock-underperforms-friday-when-compared-to-competitors-6acb9d19-f22b9fd4d9bb",
+        "published_at": "Fri, 01 May 2026 21:00:00 GMT",
+        "ticker_hints": [
+          "BIIB"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPRzhJektPMGk3eFZCazktVUVZajk0RUpqLUZMa1VYdUY5SVp2ZmVGMHlhcXZDM0FDaW9xOS1hQVNvQVVwM0RZMmlfbkw5OXBCRW5EVWVQa20xeDl1bGRaUkZpRnN0WC1JdHdyQ0hGaFJnZWhwV1ZrVnRTUjJnQjQxeHlFQlhtQnJ0Y0V2SHNMQmFtUDZGNlZUY2RuTDhRclU1aEFDV2Fnb1JNdDRCeXpCWnJtLUs1YjdCYjlzZE1mb3RvNEFJ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Biogen Inc. stock underperforms Friday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/biogen-inc-stock-underperforms-friday-when-compared-to-competitors-6acb9d19-f22b9fd4d9bb",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/biogen-inc-stock-underperforms-friday-when-compared-to-competitors-6acb9d19-f22b9fd4d9bb",
+          "published_at": "Fri, 01 May 2026 21:00:00 GMT",
+          "summary": "Biogen Inc. stock underperforms Friday when compared to competitors  MarketWatch",
+          "ticker": "BIIB",
+          "company_name": "Biogen Inc",
+          "query": "Biogen Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/biogen-inc-stock-underperforms-friday-when-compared-to-competitors-6acb9d19-f22b9fd4d9bb"
+        }
+      }
+    },
+    {
+      "article_index": 22,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "General tech sector commentary with no specific tickers; AIZ is an insurance/risk management company, not a tech stock, so this has no clear connection to the position.",
+      "article": {
+        "external_id": "108303481",
+        "event_hash": "186f623f611966e2e2247e433edafd5290f64b483d0f7d8211be92954f055afe",
+        "source_type": "cnbc_sector_rss",
+        "source": "Tech",
+        "source_url": "",
+        "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+        "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "body": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+        "published_at": "2026-05-08T07:34:09+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "108303481",
+          "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+          "source": "Tech",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+          "published_at": "2026-05-08T07:34:09+00:00",
+          "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+          "sector": "technology",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 23,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+        "event_hash": "19a94d122eb7bd70af2c33c7cd24315522f743ca92601cb72fb84ee833a16a92",
+        "source_type": "cnbc_sector_rss",
+        "source": "TradingView",
+        "source_url": "https://www.tradingview.com",
+        "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+        "summary": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "body": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+        "published_at": "2026-04-12T07:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "logisticstransportation",
+        "raw": {
+          "id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+          "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+          "source": "TradingView",
+          "source_url": "https://www.tradingview.com",
+          "publisher_homepage_url": "https://www.tradingview.com",
+          "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+          "published_at": "2026-04-12T07:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5\" target=\"_blank\">JTC Stock Price and Chart \u2014 KSE:JTC</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">TradingView</font>",
+          "sector": "logisticstransportation",
+          "source_type": "google_sector_rss",
+          "query": "logisticstransportation stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 24,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+        "event_hash": "9035f9df36440ab60206c92d8645173fd1048cfb5d04a1d7ac0ac7d298352c54",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com",
+        "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+        "summary": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "body": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+        "published_at": "2026-05-07T15:52:40+00:00",
+        "ticker_hints": [],
+        "sector_hint": "airlines",
+        "raw": {
+          "id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+          "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+          "published_at": "2026-05-07T15:52:40+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5\" target=\"_blank\">UBS raises Delta Air Lines stock price target on margin expansion path</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investing.com</font>",
+          "sector": "airlines",
+          "source_type": "google_sector_rss",
+          "query": "airlines stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 25,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+        "event_hash": "7781e95f875227fa69d82f20e4e003cb6ecab937f7d2e893b2a4726e74c9e5fd",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com",
+        "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+        "summary": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "body": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+        "published_at": "2026-05-07T23:12:41+00:00",
+        "ticker_hints": [],
+        "sector_hint": "energy",
+        "raw": {
+          "id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+          "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+          "published_at": "2026-05-07T23:12:41+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5\" target=\"_blank\">Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketBeat</font>",
+          "sector": "energy",
+          "source_type": "google_sector_rss",
+          "query": "energy stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 26,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+        "event_hash": "9dec2ef7a51804cfd1809a68859a9bc47e4042623ad126cfb5cd0d857f04debb",
+        "source_type": "cnbc_sector_rss",
+        "source": "Frontiers",
+        "source_url": "https://www.frontiersin.org",
+        "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+        "summary": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "body": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+        "published_at": "2025-12-15T16:18:58+00:00",
+        "ticker_hints": [],
+        "sector_hint": "machinery",
+        "raw": {
+          "id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+          "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+          "source": "Frontiers",
+          "source_url": "https://www.frontiersin.org",
+          "publisher_homepage_url": "https://www.frontiersin.org",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+          "published_at": "2025-12-15T16:18:58+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5\" target=\"_blank\">Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Frontiers</font>",
+          "sector": "machinery",
+          "source_type": "google_sector_rss",
+          "query": "machinery stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 27,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+        "event_hash": "c268de142bba78da5290b86120bd17a1423dbdf9bce07676bae9afc9f41e2536",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com",
+        "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+        "summary": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "body": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+        "published_at": "2026-05-07T21:14:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+          "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+          "published_at": "2026-05-07T21:14:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5\" target=\"_blank\">Align Technology Inc. stock underperforms Thursday when compared to competitors</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketWatch</font>",
+          "sector": "technology",
+          "source_type": "google_sector_rss",
+          "query": "technology stock market news"
+        }
+      }
+    }
+  ]
+}

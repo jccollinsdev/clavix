@@ -1,0 +1,173 @@
+{
+  "position": {
+    "id": "66422dcf-acb0-4c80-848e-a3ed6712290f",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "BAX",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 16.75,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQU1JMYldIb2RrQ09FVzQwbm1DZFRIRF9MRlJrT3A4Q05wRG8wOGZxRGFCQk85RllWaGt0ZnVSWTh0NVZ2eklUTXlWeFh2NUpzWEVPX0RYNUh3LU5TMFNqUDhKazB4TndCcDBiLUhlUjViQVZPclV6ZDhfYVgtRGhMYU5FMDcwVjJIYXZsU1E0VHpFUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "0bc183b04f233a4e9db820984caf2e1543f45d6e2c29979db787ffa95fc56dbe",
+      "source_type": "company_news",
+      "source": "Seeking Alpha",
+      "source_url": "https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside",
+      "title": "Baxter International Still Has A Path To Upside - Seeking Alpha",
+      "summary": "Baxter International Still Has A Path To Upside Seeking Alpha",
+      "body": "Baxter International Still Has A Path To Upside Seeking Alpha",
+      "evidence_quality": "title_only",
+      "url": "https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside",
+      "published_at": "Fri, 08 May 2026 02:30:39 GMT",
+      "ticker_hints": [
+        "BAX"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQU1JMYldIb2RrQ09FVzQwbm1DZFRIRF9MRlJrT3A4Q05wRG8wOGZxRGFCQk85RllWaGt0ZnVSWTh0NVZ2eklUTXlWeFh2NUpzWEVPX0RYNUh3LU5TMFNqUDhKazB4TndCcDBiLUhlUjViQVZPclV6ZDhfYVgtRGhMYU5FMDcwVjJIYXZsU1E0VHpFUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Baxter International Still Has A Path To Upside - Seeking Alpha",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside",
+        "publisher_homepage_url": "https://seekingalpha.com",
+        "url": "https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside",
+        "published_at": "Fri, 08 May 2026 02:30:39 GMT",
+        "summary": "Baxter International Still Has A Path To Upside  Seeking Alpha",
+        "ticker": "BAX",
+        "company_name": "Baxter International Inc",
+        "query": "Baxter International Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "BAX"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Company-specific analysis on Seeking Alpha discussing BAX's path to upside, directly relevant to evaluating the BAX growth position.",
+        "evidence_quality": "title_only"
+      },
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      }
+    }
+  ],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "Baxter's post-spinoff transformation carries execution risk as the remaining portfolio of acute care and nutrition businesses must demonstrate sustainable revenue growth independent of the Vantive kidney care unit, with pricing pressure and hospital spending constraints providing structural headwinds that could cap any valuation multiple expansion.",
+    "long_report": "Baxter's decision to spin off Vantive left a narrower business mix focused on medication delivery, nutrition, and advanced surgery \u2014 categories requiring consistent hospital spending and favorable reimbursement environments. The growth labeling suggests the market is pricing in margin improvement from completed restructuring actions, but the company must now prove it can grow organically amid ongoing hospital cost-containment and potential Medicaid policy shifts that could compress revenue per patient. Counterbalancing this risk is healthcare's relative defensive nature; demand for Baxter's products tends to be non-discretionary, providing a floor under volume declines even in a growth slowdown. The primary concern is valuation: if Baxter's restructuring benefits are already reflected in current multiples, any revenue shortfall or margin compression becomes disproportionately damaging to the position. Geopolitical tariff risk on medical device supply chains adds a cost headwind that could pressure margins further if not offset by pricing actions. A catalyst that would improve this rating materially is a confirmed multi-quarter revenue acceleration trajectory with margins expanding faster than consensus expectations, demonstrating the standalone business can outperform the healthcare sector's low single-digit growth baseline.",
+    "methodology": "Assessment based on Baxter's known business composition following the Vantive spinoff, healthcare sector dynamics including hospital spending trends and reimbursement policy, and the structural tension between transformation-driven growth expectations and the challenging environment for medical device pricing.",
+    "top_risks": [
+      "Post-spinoff execution failure if restructuring savings plateau without organic growth acceleration",
+      "Healthcare policy pressure from Medicaid changes or hospital reimbursement cuts that disproportionately affect Baxter's acute care portfolio",
+      "Medical device tariff exposure creating input cost headwinds not fully offset by pricing power"
+    ],
+    "watch_items": [
+      "Quarterly revenue growth rate versus pre-spinoff baseline to confirm standalone business trajectory",
+      "Hospital capital spending indicators that would signal demand recovery or further pressure for Baxter's procedural products",
+      "Gross margin trend as a gauge of whether restructuring savings are sustaining or being eroded by input costs"
+    ],
+    "risk_context": [],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "66422dcf-acb0-4c80-848e-a3ed6712290f",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "BAX",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 17.49,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "C",
+    "previous_total_score": 56.2,
+    "summary": "Baxter's post-spinoff transformation carries execution risk as the remaining portfolio of acute care and nutrition businesses must demonstrate sustainable revenue growth independent of the Vantive kidney care unit, with pricing pressure and hospital spending constraints providing structural headwinds that could cap any valuation multiple expansion.",
+    "long_report": "Baxter's decision to spin off Vantive left a narrower business mix focused on medication delivery, nutrition, and advanced surgery \u2014 categories requiring consistent hospital spending and favorable reimbursement environments. The growth labeling suggests the market is pricing in margin improvement from completed restructuring actions, but the company must now prove it can grow organically amid ongoing hospital cost-containment and potential Medicaid policy shifts that could compress revenue per patient. Counterbalancing this risk is healthcare's relative defensive nature; demand for Baxter's products tends to be non-discretionary, providing a floor under volume declines even in a growth slowdown. The primary concern is valuation: if Baxter's restructuring benefits are already reflected in current multiples, any revenue shortfall or margin compression becomes disproportionately damaging to the position. Geopolitical tariff risk on medical device supply chains adds a cost headwind that could pressure margins further if not offset by pricing actions. A catalyst that would improve this rating materially is a confirmed multi-quarter revenue acceleration trajectory with margins expanding faster than consensus expectations, demonstrating the standalone business can outperform the healthcare sector's low single-digit growth baseline.",
+    "top_risks": [
+      "Post-spinoff execution failure if restructuring savings plateau without organic growth acceleration",
+      "Healthcare policy pressure from Medicaid changes or hospital reimbursement cuts that disproportionately affect Baxter's acute care portfolio",
+      "Medical device tariff exposure creating input cost headwinds not fully offset by pricing power"
+    ],
+    "watch_items": [
+      "Quarterly revenue growth rate versus pre-spinoff baseline to confirm standalone business trajectory",
+      "Hospital capital spending indicators that would signal demand recovery or further pressure for Baxter's procedural products",
+      "Gross margin trend as a gauge of whether restructuring savings are sustaining or being eroded by input costs"
+    ],
+    "top_news": [
+      "Baxter International Still Has A Path To Upside - Seeking Alpha"
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Assessment based on Baxter's known business composition following the Vantive spinoff, healthcare sector dynamics including hospital spending trends and reimbursement policy, and the structural tension between transformation-driven growth expectations and the challenging environment for medical device pricing.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "bdd685a5-2193-4527-8d9d-a90706fea267",
+      "ticker": "BAX",
+      "company_name": "Baxter International Inc",
+      "asset_class": null,
+      "sector": "Health Care",
+      "industry": null,
+      "exchange": "NEW YORK STOCK EXCHANGE, INC.",
+      "market_cap": 9033042463.908127,
+      "market_cap_bucket": "moderate",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 169241635.2,
+      "spread_proxy": 0.001,
+      "beta": 0.61807644,
+      "volatility_proxy": 0.15451911,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:31:23.160989+00:00",
+      "created_at": "2026-04-12T21:59:46.135301+00:00",
+      "pe_ratio": null,
+      "week_52_high": 32.68,
+      "week_52_low": 15.73,
+      "price": 17.49,
+      "price_as_of": "2026-05-08T10:31:23.15167+00:00",
+      "avg_volume": 9.67648,
+      "previous_close": 16.98,
+      "open_price": 17.16,
+      "day_high": 17.565,
+      "day_low": 17.16,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "BAX",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

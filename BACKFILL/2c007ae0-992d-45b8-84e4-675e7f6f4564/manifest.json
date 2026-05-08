@@ -1,0 +1,20 @@
+{
+  "run_id": "2c007ae0-992d-45b8-84e4-675e7f6f4564",
+  "started_at": "2026-05-08T11:36:35.760174+00:00",
+  "label": "sp500_backfill_batch_2",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "ADBE",
+    "ALGN",
+    "AKAM",
+    "A",
+    "ALL",
+    "ALLE",
+    "AMCR",
+    "AMD",
+    "ABBV",
+    "ARE"
+  ]
+}

@@ -1,0 +1,1091 @@
+{
+  "cached_count": 277,
+  "uncached_count": 28,
+  "results": [
+    {
+      "article_index": 0,
+      "relevant": true,
+      "affected_tickers": [
+        "BX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Blackstone is a key investor/partner in this new AI venture, which could impact its growth portfolio and tech-related investments.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5ydjZELVEzZzQwTUhWQjdfMnZxV2pPN29pLVkxNUpSUWVoN0ozOFBBcm9iV0tkckJyaVdnRk1rT01UclJaQXZtSGdsem03dXNDWjhMT2toTTkwcHlxZGJfZVQxWUI5MzFOMTBjZEhn?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "56872418513e5a4fa669bf8b8e7bcfa6a2e009c9e9e44159af9b35f6ae400493",
+        "source_type": "company_news",
+        "source": "Anthropic",
+        "source_url": "https://www.anthropic.com/news/enterprise-ai-services-company",
+        "title": "Building a new enterprise AI services company with Blackstone, Hellman & Friedman, and Goldman Sachs - Anthropic",
+        "summary": "Building a new enterprise AI services company with Blackstone, Hellman & Friedman, and Goldman Sachs Anthropic",
+        "body": "Building a new enterprise AI services company with Blackstone, Hellman & Friedman, and Goldman Sachs Anthropic",
+        "evidence_quality": "title_only",
+        "url": "https://www.anthropic.com/news/enterprise-ai-services-company",
+        "published_at": "Mon, 04 May 2026 14:13:35 GMT",
+        "ticker_hints": [
+          "BX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5ydjZELVEzZzQwTUhWQjdfMnZxV2pPN29pLVkxNUpSUWVoN0ozOFBBcm9iV0tkckJyaVdnRk1rT01UclJaQXZtSGdsem03dXNDWjhMT2toTTkwcHlxZGJfZVQxWUI5MzFOMTBjZEhn?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Building a new enterprise AI services company with Blackstone, Hellman & Friedman, and Goldman Sachs - Anthropic",
+          "source": "Anthropic",
+          "source_url": "https://www.anthropic.com/news/enterprise-ai-services-company",
+          "publisher_homepage_url": "https://www.anthropic.com",
+          "url": "https://www.anthropic.com/news/enterprise-ai-services-company",
+          "published_at": "Mon, 04 May 2026 14:13:35 GMT",
+          "summary": "Building a new enterprise AI services company with Blackstone, Hellman & Friedman, and Goldman Sachs  Anthropic",
+          "ticker": "BX",
+          "company_name": "Blackstone Inc",
+          "query": "Blackstone Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.anthropic.com/news/enterprise-ai-services-company"
+        }
+      }
+    },
+    {
+      "article_index": 1,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a generic buy/sell recommendation article (Is BX a good stock to buy now?) with no substantive news or analysis.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQMGxKZVQ4dGE5LXRnOEdPX29fSEdHbzJXN1c5S2xIZUp4WkdQQ1NWWVhGVk9OVDFUS0gtWDhDTGtMbHpDTk1nbkZfdXYxZ29mQmxnYTRxd0dkeHg5eTBYWFI1UTVIQmlKZjdpRzlVUlRNSmdYb3BrSU9mUkV6UkdqZlo2cDRqUU1OVTFPNTR6Y0FKM21ZMmxTVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "bfa03ee0651e7747022bc65c92720c032b3556e0a14260f0fc5916bd2d62e420",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/blackstone-inc-bx-good-stock-184200078.html",
+        "title": "Is Blackstone Inc. (BX) A Good Stock To Buy Now? - Yahoo Finance",
+        "summary": "Is Blackstone Inc. (BX) A Good Stock To Buy Now? Yahoo Finance",
+        "body": "Is Blackstone Inc. (BX) A Good Stock To Buy Now? Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/blackstone-inc-bx-good-stock-184200078.html",
+        "published_at": "Sun, 03 May 2026 18:42:00 GMT",
+        "ticker_hints": [
+          "BX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQMGxKZVQ4dGE5LXRnOEdPX29fSEdHbzJXN1c5S2xIZUp4WkdQQ1NWWVhGVk9OVDFUS0gtWDhDTGtMbHpDTk1nbkZfdXYxZ29mQmxnYTRxd0dkeHg5eTBYWFI1UTVIQmlKZjdpRzlVUlRNSmdYb3BrSU9mUkV6UkdqZlo2cDRqUU1OVTFPNTR6Y0FKM21ZMmxTVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Is Blackstone Inc. (BX) A Good Stock To Buy Now? - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/blackstone-inc-bx-good-stock-184200078.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/blackstone-inc-bx-good-stock-184200078.html",
+          "published_at": "Sun, 03 May 2026 18:42:00 GMT",
+          "summary": "Is Blackstone Inc. (BX) A Good Stock To Buy Now?  Yahoo Finance",
+          "ticker": "BX",
+          "company_name": "Blackstone Inc",
+          "query": "Blackstone Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/blackstone-inc-bx-good-stock-184200078.html"
+        }
+      }
+    },
+    {
+      "article_index": 2,
+      "relevant": true,
+      "affected_tickers": [
+        "BX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Blackstone's data center REIT IPO represents a significant portfolio company event and potential value creation for BX investors.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNUW5lLVhwR012Q1d0WF9sMVVnTm1TaFY2RTVTRmt6dHhzb2kzZE9OYm1vaEpsbm1raWkyMGNjWWIxb2ZPc1ZscldDenlaVjZCYXdsQWFGSThXSWtXNEdJQnVwMzRPS3BrTnRxRWpxSWdULXIzazl6QjFlQVFUYjlZUkpPNUNOcUZkRXRKb0lVaF9PVEFrQ0o4?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "f67ded90b05863568c1cbc63f919351a80ddc5f2a42ce92515bb234e98a71288",
+        "source_type": "company_news",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo",
+        "title": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending) - Seeking Alpha",
+        "summary": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending) Seeking Alpha",
+        "body": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending) Seeking Alpha",
+        "evidence_quality": "title_only",
+        "url": "https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo",
+        "published_at": "Mon, 04 May 2026 13:17:16 GMT",
+        "ticker_hints": [
+          "BX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNUW5lLVhwR012Q1d0WF9sMVVnTm1TaFY2RTVTRmt6dHhzb2kzZE9OYm1vaEpsbm1raWkyMGNjWWIxb2ZPc1ZscldDenlaVjZCYXdsQWFGSThXSWtXNEdJQnVwMzRPS3BrTnRxRWpxSWdULXIzazl6QjFlQVFUYjlZUkpPNUNOcUZkRXRKb0lVaF9PVEFrQ0o4?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending) - Seeking Alpha",
+          "source": "Seeking Alpha",
+          "source_url": "https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo",
+          "publisher_homepage_url": "https://seekingalpha.com",
+          "url": "https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo",
+          "published_at": "Mon, 04 May 2026 13:17:16 GMT",
+          "summary": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending)  Seeking Alpha",
+          "ticker": "BX",
+          "company_name": "Blackstone Inc",
+          "query": "Blackstone Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo"
+        }
+      }
+    },
+    {
+      "article_index": 3,
+      "relevant": true,
+      "affected_tickers": [
+        "BX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Blackstone's acquisition of Service King demonstrates active deal-making and portfolio management, relevant to the growth archetype positioning.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOM3l0YUlSUHg4ZTdUdk9vZUl1SzQ1a0lMVFVMUUFvMUJPZ1lIekpleUNVcUlEajBIWjVHMUIxcDQ2dHVMbG13Z2x4amdhMHI5bkQ2MGpaN3pYLVFRQWtNYnNrbmt5NkRIUHQzSndGVUdNVEU1dVQ3SWstRWx4X0hYQ2hJdVZhc3F2VjVxWk02cEtVdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "e76d0176b991f9e29c8936306e10a83c182a93bf1d948adcc49700b639ddccd6",
+        "source_type": "company_news",
+        "source": "Body Shop Business",
+        "source_url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/",
+        "title": "Blackstone Group to Buy Majority Stake in Service King - Body Shop Business",
+        "summary": "Blackstone Group to Buy Majority Stake in Service King Body Shop Business",
+        "body": "Blackstone Group to Buy Majority Stake in Service King Body Shop Business",
+        "evidence_quality": "title_only",
+        "url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/",
+        "published_at": "Tue, 05 May 2026 14:00:00 GMT",
+        "ticker_hints": [
+          "BX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOM3l0YUlSUHg4ZTdUdk9vZUl1SzQ1a0lMVFVMUUFvMUJPZ1lIekpleUNVcUlEajBIWjVHMUIxcDQ2dHVMbG13Z2x4amdhMHI5bkQ2MGpaN3pYLVFRQWtNYnNrbmt5NkRIUHQzSndGVUdNVEU1dVQ3SWstRWx4X0hYQ2hJdVZhc3F2VjVxWk02cEtVdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Blackstone Group to Buy Majority Stake in Service King - Body Shop Business",
+          "source": "Body Shop Business",
+          "source_url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/",
+          "publisher_homepage_url": "https://www.bodyshopbusiness.com",
+          "url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/",
+          "published_at": "Tue, 05 May 2026 14:00:00 GMT",
+          "summary": "Blackstone Group to Buy Majority Stake in Service King  Body Shop Business",
+          "ticker": "BX",
+          "company_name": "Blackstone Inc",
+          "query": "Blackstone Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/"
+        }
+      }
+    },
+    {
+      "article_index": 4,
+      "relevant": true,
+      "affected_tickers": [
+        "EBAY"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "eBay's reported takeover bid for GameStop represents a strategic M&A move that could significantly impact eBay's growth trajectory.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQSVltYU54aE55djhNSUw5V1VNUllGQVV3dnRTZTVUY3lNWWc2WWlUeDhCZ3BkRmV0Y29GM1dvQkNILVJUbHRqWktNZnc4SUR0cjhFeWkyNlZ0d201NGxlQWhsSV9PWXlaYmFXVV81MGduUnhxbDNBZWRGWGlYMXNvZldHU3FLSVJ1eDNNQUpSaHJoZHZxR2JRM09iV1VrSFXSAaQBQVVfeXFMUFdzNXRXS0dpTnFkOEFuWFRybGYyaUJ0M0xYV3dUbXF1QnpYWmZMWGpiRThnWlpjcXhrNXpfaEg0dEdsM2dLZl9zc182VHBhNEFleThwcF94dGdSRi1tcl9ZSWhoSUdKRWVndmZIcTRyQkx2UnJZQl9UbkJfZnNQVEdqZEpNRzNfN3N6YUlwYXRyUTF2b2J4c01UaUZFLW1uVS1iSmk?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "9cd733cb296a9ffba8c96d3d95846250a08b43aa2d1e2bfcbc3bb3ce0f381288",
+        "source_type": "company_news",
+        "source": "CNBC",
+        "source_url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html",
+        "title": "GameStop stock sinks after surprise eBay takeover bid, Cohen's combative CNBC interview - CNBC",
+        "summary": "GameStop stock sinks after surprise eBay takeover bid, Cohen's combative CNBC interview CNBC",
+        "body": "GameStop stock sinks after surprise eBay takeover bid, Cohen's combative CNBC interview CNBC",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html",
+        "published_at": "Mon, 04 May 2026 03:22:00 GMT",
+        "ticker_hints": [
+          "EBAY"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQSVltYU54aE55djhNSUw5V1VNUllGQVV3dnRTZTVUY3lNWWc2WWlUeDhCZ3BkRmV0Y29GM1dvQkNILVJUbHRqWktNZnc4SUR0cjhFeWkyNlZ0d201NGxlQWhsSV9PWXlaYmFXVV81MGduUnhxbDNBZWRGWGlYMXNvZldHU3FLSVJ1eDNNQUpSaHJoZHZxR2JRM09iV1VrSFXSAaQBQVVfeXFMUFdzNXRXS0dpTnFkOEFuWFRybGYyaUJ0M0xYV3dUbXF1QnpYWmZMWGpiRThnWlpjcXhrNXpfaEg0dEdsM2dLZl9zc182VHBhNEFleThwcF94dGdSRi1tcl9ZSWhoSUdKRWVndmZIcTRyQkx2UnJZQl9UbkJfZnNQVEdqZEpNRzNfN3N6YUlwYXRyUTF2b2J4c01UaUZFLW1uVS1iSmk?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "GameStop stock sinks after surprise eBay takeover bid, Cohen's combative CNBC interview - CNBC",
+          "source": "CNBC",
+          "source_url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html",
+          "publisher_homepage_url": "https://www.cnbc.com",
+          "url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html",
+          "published_at": "Mon, 04 May 2026 03:22:00 GMT",
+          "summary": "GameStop stock sinks after surprise eBay takeover bid, Cohen's combative CNBC interview  CNBC",
+          "ticker": "EBAY",
+          "company_name": "eBay Inc",
+          "query": "eBay Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html"
+        }
+      }
+    },
+    {
+      "article_index": 5,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5CYXFaczZRaEZvejg5NVUzUk1qdnFvb3ZfR2U4YmYzTTRFQV80Rk9fMm5qdWhReUt6ZUhzNnl2anpLYWxWS2VPemFXZllFWFR2T1ZJSXZ4eENuYzBfR1Aw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "47d3d40507f0d79b38c1b61fa7413d4099a1cb6a487059c2867ede57902424e9",
+        "source_type": "company_news",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/stock/quote/EBAY/profile",
+        "title": "EBAY Stock Price, Quote & Chart | EBAY INC (NASDAQ:EBAY) - ChartMill",
+        "summary": "EBAY Stock Price, Quote & Chart | EBAY INC (NASDAQ:EBAY) ChartMill",
+        "body": "EBAY Stock Price, Quote & Chart | EBAY INC (NASDAQ:EBAY) ChartMill",
+        "evidence_quality": "title_only",
+        "url": "https://www.chartmill.com/stock/quote/EBAY/profile",
+        "published_at": "Wed, 06 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "EBAY"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5CYXFaczZRaEZvejg5NVUzUk1qdnFvb3ZfR2U4YmYzTTRFQV80Rk9fMm5qdWhReUt6ZUhzNnl2anpLYWxWS2VPemFXZllFWFR2T1ZJSXZ4eENuYzBfR1Aw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "EBAY Stock Price, Quote & Chart | EBAY INC (NASDAQ:EBAY) - ChartMill",
+          "source": "ChartMill",
+          "source_url": "https://www.chartmill.com/stock/quote/EBAY/profile",
+          "publisher_homepage_url": "https://www.chartmill.com",
+          "url": "https://www.chartmill.com/stock/quote/EBAY/profile",
+          "published_at": "Wed, 06 May 2026 07:00:00 GMT",
+          "summary": "EBAY Stock Price, Quote & Chart | EBAY INC (NASDAQ:EBAY)  ChartMill",
+          "ticker": "EBAY",
+          "company_name": "eBay Inc",
+          "query": "eBay Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.chartmill.com/stock/quote/EBAY/profile"
+        }
+      }
+    },
+    {
+      "article_index": 6,
+      "relevant": true,
+      "affected_tickers": [
+        "EBAY"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "eBay shutting down GameStop's account represents a significant business decision that could affect eBay's marketplace dynamics and customer relations.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPQy14eUo4dlZxdVVpbFd0czNEQ09Kc0Z1anVlN200UHNJVnJlR1VqZGtTSXo2Wlp4WFpycUF5ODNkdGdadUZTY2poLUc2S3ZVX3ZPTV91ck9oSDE0bmgwQnUzdWtWZWZzZS1LclNqWGpqWmY1ZFRMeGhjU1RIX1Y0UmYxZ2RsZHpZZXFpblJMOFpWdWl3WlhjWW1Hc2xRN204NXIxVlZyakF0ZlhoYW95M1VBYUFGUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "7cb64260412b8a12b451048fa83fa3109a6bf553667d07c992affbfeb11941d7",
+        "source_type": "company_news",
+        "source": "Bloomberg.com",
+        "source_url": "https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover",
+        "title": "GameStop CEO Says eBay Shut Account After Funding Stunt - Bloomberg.com",
+        "summary": "GameStop CEO Says eBay Shut Account After Funding Stunt Bloomberg.com",
+        "body": "GameStop CEO Says eBay Shut Account After Funding Stunt Bloomberg.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover",
+        "published_at": "Wed, 06 May 2026 23:59:45 GMT",
+        "ticker_hints": [
+          "EBAY"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPQy14eUo4dlZxdVVpbFd0czNEQ09Kc0Z1anVlN200UHNJVnJlR1VqZGtTSXo2Wlp4WFpycUF5ODNkdGdadUZTY2poLUc2S3ZVX3ZPTV91ck9oSDE0bmgwQnUzdWtWZWZzZS1LclNqWGpqWmY1ZFRMeGhjU1RIX1Y0UmYxZ2RsZHpZZXFpblJMOFpWdWl3WlhjWW1Hc2xRN204NXIxVlZyakF0ZlhoYW95M1VBYUFGUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "GameStop CEO Says eBay Shut Account After Funding Stunt - Bloomberg.com",
+          "source": "Bloomberg.com",
+          "source_url": "https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover",
+          "publisher_homepage_url": "https://www.bloomberg.com",
+          "url": "https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover",
+          "published_at": "Wed, 06 May 2026 23:59:45 GMT",
+          "summary": "GameStop CEO Says eBay Shut Account After Funding Stunt  Bloomberg.com",
+          "ticker": "EBAY",
+          "company_name": "eBay Inc",
+          "query": "eBay Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover"
+        }
+      }
+    },
+    {
+      "article_index": 7,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9yZGEwYlhiRlA1ZVJ4RWRDZzZNLTdwdVdBY0dZTnhtajFKN1d6d2ZkQUhDcDh5a0tzQWdDMFl4R0xyb2tPeE01Vk1yeDl0Z2tP?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "39779b53f8f93d01e67b10aa9feb86a8862ae5d9b628976cb4af0da13f82de7d",
+        "source_type": "company_news",
+        "source": "CNN",
+        "source_url": "https://www.cnn.com/markets/stocks/CSCO",
+        "title": "CSCO Stock Quote Price and Forecast - CNN",
+        "summary": "CSCO Stock Quote Price and Forecast CNN",
+        "body": "CSCO Stock Quote Price and Forecast CNN",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnn.com/markets/stocks/CSCO",
+        "published_at": "Tue, 05 May 2026 13:57:32 GMT",
+        "ticker_hints": [
+          "CSCO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9yZGEwYlhiRlA1ZVJ4RWRDZzZNLTdwdVdBY0dZTnhtajFKN1d6d2ZkQUhDcDh5a0tzQWdDMFl4R0xyb2tPeE01Vk1yeDl0Z2tP?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CSCO Stock Quote Price and Forecast - CNN",
+          "source": "CNN",
+          "source_url": "https://www.cnn.com/markets/stocks/CSCO",
+          "publisher_homepage_url": "https://www.cnn.com",
+          "url": "https://www.cnn.com/markets/stocks/CSCO",
+          "published_at": "Tue, 05 May 2026 13:57:32 GMT",
+          "summary": "CSCO Stock Quote Price and Forecast  CNN",
+          "ticker": "CSCO",
+          "company_name": "Cisco Systems Inc",
+          "query": "Cisco Systems Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.cnn.com/markets/stocks/CSCO"
+        }
+      }
+    },
+    {
+      "article_index": 8,
+      "relevant": true,
+      "affected_tickers": [
+        "CSCO"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Cisco's acquisition of an Israeli AI cybersecurity startup aligns with growth-oriented tech investments and expands their security product offerings.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVkZnNlZqRG0xVFZibDZZTFVIeXVrTXNNTVQ5WGlHZmtCMWxDOVhkR2RHMEw1TG0yZE02UjY2UnBGMy0zUVRCUGJyU2drSkk3ZXFMTXdkVHJjTWp1c3U1ajQ3d2g3bHB0NksyRUtJZzNsRFA4c2dUUm91NFFkdEpYVHZZTTJpVTlGVEN6RVlXMGFpbFRLNGFaT3hCUUs1LU1IWng5ME9XcGhMLWRwb0HSAbMBQVVfeXFMTi1DSzhSZ2FuV04tcFB5YUNiVnZQa0ZPMFJ2cm50Z1dIMjBYOUdxV0tRcEtJRExORkJlMUZBTUNNN0k0TTd0WnY1bGhhS05nZEZLazl3and3RmtMaXU5RGNOZWl0SWJyTU42X0F5Q0xjckRSTWlwSmJjcGREVXlJSzl3dERJYkVnRGtBU1IyNG8wZEl0U3pZeUVhYTVlQ1E3V0pCU3MyYnRkaXRmOWgtRzltNzQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "8c8b640449d6e3329cdce3553c895a64149db3307a04151a44ce063099942d23",
+        "source_type": "company_news",
+        "source": "The Times of Israel",
+        "source_url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/",
+        "title": "US tech giant Cisco buys Israeli AI cyber startup to protect digital workforce - The Times of Israel",
+        "summary": "US tech giant Cisco buys Israeli AI cyber startup to protect digital workforce The Times of Israel",
+        "body": "US tech giant Cisco buys Israeli AI cyber startup to protect digital workforce The Times of Israel",
+        "evidence_quality": "title_only",
+        "url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/",
+        "published_at": "Tue, 05 May 2026 15:40:00 GMT",
+        "ticker_hints": [
+          "CSCO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVkZnNlZqRG0xVFZibDZZTFVIeXVrTXNNTVQ5WGlHZmtCMWxDOVhkR2RHMEw1TG0yZE02UjY2UnBGMy0zUVRCUGJyU2drSkk3ZXFMTXdkVHJjTWp1c3U1ajQ3d2g3bHB0NksyRUtJZzNsRFA4c2dUUm91NFFkdEpYVHZZTTJpVTlGVEN6RVlXMGFpbFRLNGFaT3hCUUs1LU1IWng5ME9XcGhMLWRwb0HSAbMBQVVfeXFMTi1DSzhSZ2FuV04tcFB5YUNiVnZQa0ZPMFJ2cm50Z1dIMjBYOUdxV0tRcEtJRExORkJlMUZBTUNNN0k0TTd0WnY1bGhhS05nZEZLazl3and3RmtMaXU5RGNOZWl0SWJyTU42X0F5Q0xjckRSTWlwSmJjcGREVXlJSzl3dERJYkVnRGtBU1IyNG8wZEl0U3pZeUVhYTVlQ1E3V0pCU3MyYnRkaXRmOWgtRzltNzQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "US tech giant Cisco buys Israeli AI cyber startup to protect digital workforce - The Times of Israel",
+          "source": "The Times of Israel",
+          "source_url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/",
+          "publisher_homepage_url": "https://www.timesofisrael.com",
+          "url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/",
+          "published_at": "Tue, 05 May 2026 15:40:00 GMT",
+          "summary": "US tech giant Cisco buys Israeli AI cyber startup to protect digital workforce  The Times of Israel",
+          "ticker": "CSCO",
+          "company_name": "Cisco Systems Inc",
+          "query": "Cisco Systems Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/"
+        }
+      }
+    },
+    {
+      "article_index": 9,
+      "relevant": true,
+      "affected_tickers": [
+        "ETR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Entergy's public stock offering with a forward component affects capital structure and dilution risk for existing shareholders.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOemJoUDZwU2NHYS1DaE1MMmZZWm8zUlpOalNOZjZZbVJ6LW9mSUV5S2J0VTdMRW50U2c1V2o1clg3U2ZhYWVXcUhkdUlGNVo1LThBT3gtSjVPaVNCSkxDdU1UbWhGY3B6V0ZYTlhpcFJBQjZXWXRJQkF4RlZ6NlhOTTNqbTdQSFdpQzJsNmtsamV6YjVVY0RRb29hcmZsTDRJN0VyZGVQQkVFR3Q2Ym03VmpQb016VFlV?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "7481b89fa2af3ff942dbdff68cc191936d8e07a0496d89d0caca403cb23cc731",
+        "source_type": "company_news",
+        "source": "Finviz",
+        "source_url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component",
+        "title": "Entergy Corporation announces public offering of common stock with a forward component - Finviz",
+        "summary": "Entergy Corporation announces public offering of common stock with a forward component Finviz",
+        "body": "Entergy Corporation announces public offering of common stock with a forward component Finviz",
+        "evidence_quality": "title_only",
+        "url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component",
+        "published_at": "Tue, 05 May 2026 21:29:01 GMT",
+        "ticker_hints": [
+          "ETR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOemJoUDZwU2NHYS1DaE1MMmZZWm8zUlpOalNOZjZZbVJ6LW9mSUV5S2J0VTdMRW50U2c1V2o1clg3U2ZhYWVXcUhkdUlGNVo1LThBT3gtSjVPaVNCSkxDdU1UbWhGY3B6V0ZYTlhpcFJBQjZXWXRJQkF4RlZ6NlhOTTNqbTdQSFdpQzJsNmtsamV6YjVVY0RRb29hcmZsTDRJN0VyZGVQQkVFR3Q2Ym03VmpQb016VFlV?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Entergy Corporation announces public offering of common stock with a forward component - Finviz",
+          "source": "Finviz",
+          "source_url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component",
+          "publisher_homepage_url": "https://finviz.com",
+          "url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component",
+          "published_at": "Tue, 05 May 2026 21:29:01 GMT",
+          "summary": "Entergy Corporation announces public offering of common stock with a forward component  Finviz",
+          "ticker": "ETR",
+          "company_name": "Entergy Corp",
+          "query": "Entergy Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component"
+        }
+      }
+    },
+    {
+      "article_index": 10,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOVnpQdGNXdHZnMXpVMmI0bFJwZkRVM0VxVVh5by1uWU16Uy1CZXZGTEI2c0k1WlhRWWdZQ202b2FuNUdVN2Z6X3hmVDJUOUdkS1hDcGVXUWM0NldNMS13eV9oTlhHcmoyOFNnRlpVSFFwdUlYUFlUOEROREliZjMxNkl0d1BhVWl5TVJNQjRCMHh2bXpSVldYRkNvdlBpZHFSUkxfTWVpYzNOSTl2dk0walVJTGY5Ny1kbl9jd2tGREJqSG93c2o5U282Zw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "62e8a98b12f465ee2892a54baba8c92690465bc6c4efa65b3c961997e99e2e8a",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/entergy-corp-stock-underperforms-wednesday-when-compared-to-competitors-4218d3c2-63df2db391b1",
+        "title": "Entergy Corp. stock underperforms Wednesday when compared to competitors - MarketWatch",
+        "summary": "Entergy Corp. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "body": "Entergy Corp. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/entergy-corp-stock-underperforms-wednesday-when-compared-to-competitors-4218d3c2-63df2db391b1",
+        "published_at": "Wed, 06 May 2026 20:49:00 GMT",
+        "ticker_hints": [
+          "ETR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiywFBVV95cUxOVnpQdGNXdHZnMXpVMmI0bFJwZkRVM0VxVVh5by1uWU16Uy1CZXZGTEI2c0k1WlhRWWdZQ202b2FuNUdVN2Z6X3hmVDJUOUdkS1hDcGVXUWM0NldNMS13eV9oTlhHcmoyOFNnRlpVSFFwdUlYUFlUOEROREliZjMxNkl0d1BhVWl5TVJNQjRCMHh2bXpSVldYRkNvdlBpZHFSUkxfTWVpYzNOSTl2dk0walVJTGY5Ny1kbl9jd2tGREJqSG93c2o5U282Zw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Entergy Corp. stock underperforms Wednesday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/entergy-corp-stock-underperforms-wednesday-when-compared-to-competitors-4218d3c2-63df2db391b1",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/entergy-corp-stock-underperforms-wednesday-when-compared-to-competitors-4218d3c2-63df2db391b1",
+          "published_at": "Wed, 06 May 2026 20:49:00 GMT",
+          "summary": "Entergy Corp. stock underperforms Wednesday when compared to competitors  MarketWatch",
+          "ticker": "ETR",
+          "company_name": "Entergy Corp",
+          "query": "Entergy Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/entergy-corp-stock-underperforms-wednesday-when-compared-to-competitors-4218d3c2-63df2db391b1"
+        }
+      }
+    },
+    {
+      "article_index": 11,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a chart/technical analysis page for DOW, which per rules should be flagged as irrelevant even though it mentions the ticker.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5uVVBVOE5ocUprYTI2SnFtV0lEZG5INlJ6N0E5SUZ5WXdNRjhjMl9vY2NjckptclhJdmxYMGtpTnpza0dzR3EzQUlTNzE5LVd6cHhqQllyZ2FWbWpiOTRtdGlCN0RxZTNuemlYZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "3589edc9c684f293fa22fc87ee44a061394be5ec5d7155fbd7b9bccad06bb728",
+        "source_type": "company_news",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/stock/quote/DOW/technical-analysis",
+        "title": "DOW Technical Analysis | Trend, Signals & Chart Patterns | DOW INC (NYSE:DOW) - ChartMill",
+        "summary": "DOW Technical Analysis | Trend, Signals & Chart Patterns | DOW INC (NYSE:DOW) ChartMill",
+        "body": "DOW Technical Analysis | Trend, Signals & Chart Patterns | DOW INC (NYSE:DOW) ChartMill",
+        "evidence_quality": "title_only",
+        "url": "https://www.chartmill.com/stock/quote/DOW/technical-analysis",
+        "published_at": "Mon, 04 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "DOW"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5uVVBVOE5ocUprYTI2SnFtV0lEZG5INlJ6N0E5SUZ5WXdNRjhjMl9vY2NjckptclhJdmxYMGtpTnpza0dzR3EzQUlTNzE5LVd6cHhqQllyZ2FWbWpiOTRtdGlCN0RxZTNuemlYZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "DOW Technical Analysis | Trend, Signals & Chart Patterns | DOW INC (NYSE:DOW) - ChartMill",
+          "source": "ChartMill",
+          "source_url": "https://www.chartmill.com/stock/quote/DOW/technical-analysis",
+          "publisher_homepage_url": "https://www.chartmill.com",
+          "url": "https://www.chartmill.com/stock/quote/DOW/technical-analysis",
+          "published_at": "Mon, 04 May 2026 07:00:00 GMT",
+          "summary": "DOW Technical Analysis | Trend, Signals & Chart Patterns | DOW INC (NYSE:DOW)  ChartMill",
+          "ticker": "DOW",
+          "company_name": "Dow Inc",
+          "query": "Dow Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.chartmill.com/stock/quote/DOW/technical-analysis"
+        }
+      }
+    },
+    {
+      "article_index": 12,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a low-information stock recap showing DOW's price movement alongside general market commentary, which falls under the irrelevant category per rules.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQUFRnZ0wxakNWWXYyem9JS3dsTG9Ob0dTeDNHVS0xTHNpOU9FV3VYRXhyWnRnbXluQ1ozOEM3ODNqbFk5X2M5bjZ5MDBZX1hyZXVvOUFVOU9wa3Uzb21POWRrdjJaRVRQS1JMNVA3dkJGV3BXWXUySUhHUU5lRm04azhyUW1uTnNCeVVrd25hT1BJTUZSZjFN?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "229f9327e8f47bd1ba31a5c2138da165adecd2e38e5a62e0334b7388ed79df03",
+        "source_type": "company_news",
+        "source": "Moomoo",
+        "source_url": "https://www.moomoo.com/news/post/69306081/us-stocks-dow-inc-fell-by-152-dollars-while-nasdaq",
+        "title": "U.S. Stocks: Dow Inc fell by 152 dollars, while Nasdaq closed above 25,000 for the first time (on the 1st). \u2606Revised - Moomoo",
+        "summary": "U.S. Stocks: Dow Inc fell by 152 dollars, while Nasdaq closed above 25,000 for the first time (on the 1st). \u2606Revised Moomoo",
+        "body": "U.S. Stocks: Dow Inc fell by 152 dollars, while Nasdaq closed above 25,000 for the first time (on the 1st). \u2606Revised Moomoo",
+        "evidence_quality": "title_only",
+        "url": "https://www.moomoo.com/news/post/69306081/us-stocks-dow-inc-fell-by-152-dollars-while-nasdaq",
+        "published_at": "Fri, 01 May 2026 20:51:00 GMT",
+        "ticker_hints": [
+          "DOW"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQUFRnZ0wxakNWWXYyem9JS3dsTG9Ob0dTeDNHVS0xTHNpOU9FV3VYRXhyWnRnbXluQ1ozOEM3ODNqbFk5X2M5bjZ5MDBZX1hyZXVvOUFVOU9wa3Uzb21POWRrdjJaRVRQS1JMNVA3dkJGV3BXWXUySUhHUU5lRm04azhyUW1uTnNCeVVrd25hT1BJTUZSZjFN?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "U.S. Stocks: Dow Inc fell by 152 dollars, while Nasdaq closed above 25,000 for the first time (on the 1st). \u2606Revised - Moomoo",
+          "source": "Moomoo",
+          "source_url": "https://www.moomoo.com/news/post/69306081/us-stocks-dow-inc-fell-by-152-dollars-while-nasdaq",
+          "publisher_homepage_url": "https://www.moomoo.com",
+          "url": "https://www.moomoo.com/news/post/69306081/us-stocks-dow-inc-fell-by-152-dollars-while-nasdaq",
+          "published_at": "Fri, 01 May 2026 20:51:00 GMT",
+          "summary": "U.S. Stocks: Dow Inc fell by 152 dollars, while Nasdaq closed above 25,000 for the first time (on the 1st). \u2606Revised  Moomoo",
+          "ticker": "DOW",
+          "company_name": "Dow Inc",
+          "query": "Dow Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.moomoo.com/news/post/69306081/us-stocks-dow-inc-fell-by-152-dollars-while-nasdaq"
+        }
+      }
+    },
+    {
+      "article_index": 13,
+      "relevant": true,
+      "affected_tickers": [
+        "DLR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Article directly mentions DLR and contains substantive company news about Q1 2026 profit growth and data center expansion funding, which is real business information relevant to the growth archetype position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOY09oMzBSc1I2RWVXOTFkNzM3eW8wS0R4N3JZMlYtQV9kd1FDVnZsUmhRQUJlbEU1Q09pdGFUSXZ1T3psaU5jYVR4MzdZQi1lNEUxSWY2WVUxdkIyWHZ1YVY4UUx3c3VscENRbUtXeEZNNHJpaDhSYkoxcDRkRF8wYWlNNi1JcnNQQnBHc2xNZERQLVpBdGNxT0kybGRodl90anlpbkZIekVHTllnNHZ5NVNQdzNId2s?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "5462f604f072a60aad927ff14a403e53c9a7c6a8025e02e26be9ae818a734cc9",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html",
+        "title": "Digital Realty (DLR) grows Q1 2026 profit while funding big data center expansion - Stock Titan",
+        "summary": "Digital Realty (DLR) grows Q1 2026 profit while funding big data center expansion Stock Titan",
+        "body": "Digital Realty (DLR) grows Q1 2026 profit while funding big data center expansion Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html",
+        "published_at": "Fri, 01 May 2026 21:22:35 GMT",
+        "ticker_hints": [
+          "DLR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOY09oMzBSc1I2RWVXOTFkNzM3eW8wS0R4N3JZMlYtQV9kd1FDVnZsUmhRQUJlbEU1Q09pdGFUSXZ1T3psaU5jYVR4MzdZQi1lNEUxSWY2WVUxdkIyWHZ1YVY4UUx3c3VscENRbUtXeEZNNHJpaDhSYkoxcDRkRF8wYWlNNi1JcnNQQnBHc2xNZERQLVpBdGNxT0kybGRodl90anlpbkZIekVHTllnNHZ5NVNQdzNId2s?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Digital Realty (DLR) grows Q1 2026 profit while funding big data center expansion - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html",
+          "published_at": "Fri, 01 May 2026 21:22:35 GMT",
+          "summary": "Digital Realty (DLR) grows Q1 2026 profit while funding big data center expansion  Stock Titan",
+          "ticker": "DLR",
+          "company_name": "Digital Realty Trust Inc",
+          "query": "Digital Realty Trust Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html"
+        }
+      }
+    },
+    {
+      "article_index": 14,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQWnd5Z0RFSlI1ZFRYcHlwYnh2U0hFaHA4akkydXlEOXk1Z2ZvYnpraE1tN1QxQVQ2cFQ1ZFZEVTluVGY0R2RpME9NVnIyLVhiZVFEUmFaV01Gcm5OTmdhOTQ2VTdxdTJNb3NMSnlxOW4xQ2xHLW9nQ2s2eFhzbFdXM0hSaHdDdGQ0VE9SRUJKM2ZhaEp6bWZiZnZXMGNLZ1VsaDlhRmVFOGVSTTI3N1Z1dDFHQ2Q3YVdHWmo1dVV3RGpwQVhhTzhIb255aXd4bkIyV2VtZXpVNUxUZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "6d42605a63728989d77255de0558718d9e57fd9d323aee0b1e1d5180883df485",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/digital-realty-trust-inc-stock-underperforms-thursday-when-compared-to-competitors-109c210d-b078a07192e3",
+        "title": "Digital Realty Trust Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+        "summary": "Digital Realty Trust Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "body": "Digital Realty Trust Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/digital-realty-trust-inc-stock-underperforms-thursday-when-compared-to-competitors-109c210d-b078a07192e3",
+        "published_at": "Thu, 07 May 2026 20:46:00 GMT",
+        "ticker_hints": [
+          "DLR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQWnd5Z0RFSlI1ZFRYcHlwYnh2U0hFaHA4akkydXlEOXk1Z2ZvYnpraE1tN1QxQVQ2cFQ1ZFZEVTluVGY0R2RpME9NVnIyLVhiZVFEUmFaV01Gcm5OTmdhOTQ2VTdxdTJNb3NMSnlxOW4xQ2xHLW9nQ2s2eFhzbFdXM0hSaHdDdGQ0VE9SRUJKM2ZhaEp6bWZiZnZXMGNLZ1VsaDlhRmVFOGVSTTI3N1Z1dDFHQ2Q3YVdHWmo1dVV3RGpwQVhhTzhIb255aXd4bkIyV2VtZXpVNUxUZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Digital Realty Trust Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/digital-realty-trust-inc-stock-underperforms-thursday-when-compared-to-competitors-109c210d-b078a07192e3",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/digital-realty-trust-inc-stock-underperforms-thursday-when-compared-to-competitors-109c210d-b078a07192e3",
+          "published_at": "Thu, 07 May 2026 20:46:00 GMT",
+          "summary": "Digital Realty Trust Inc. stock underperforms Thursday when compared to competitors  MarketWatch",
+          "ticker": "DLR",
+          "company_name": "Digital Realty Trust Inc",
+          "query": "Digital Realty Trust Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/digital-realty-trust-inc-stock-underperforms-thursday-when-compared-to-competitors-109c210d-b078a07192e3"
+        }
+      }
+    },
+    {
+      "article_index": 15,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNSHJhQkQ3a2pta0t2dFVzN0w4aDlReXlyWTE2bTJrcDA5eUdZYWdjSTJtaGljVlRvbExEUGVQRXdheHJuazUtdHd4N3QwTTFKdHZIZVViTEJqcGd2VGdOcmF0bTEySm9DcTdUdy1WVXdQWFNfSFowQmR0NkZPTjNqVWNOMDZfYkZtSC1vLTU3cHk2LU55N2N6aHctc1BXQkdDbmQ1U2xicVFTT1dpSEVJN3MtNU45NGRvdlh6ZFpHVzM3ODd3UHc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "32b04e06f829698f3f020c9b61567ae3316cb89383dcc1454081d1e1b323c07f",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/cintas-corp-stock-underperforms-friday-when-compared-to-competitors-260780a2-d7ae5c1a6bc0",
+        "title": "Cintas Corp. stock underperforms Friday when compared to competitors - MarketWatch",
+        "summary": "Cintas Corp. stock underperforms Friday when compared to competitors MarketWatch",
+        "body": "Cintas Corp. stock underperforms Friday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/cintas-corp-stock-underperforms-friday-when-compared-to-competitors-260780a2-d7ae5c1a6bc0",
+        "published_at": "Fri, 01 May 2026 20:46:00 GMT",
+        "ticker_hints": [
+          "CTAS"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNSHJhQkQ3a2pta0t2dFVzN0w4aDlReXlyWTE2bTJrcDA5eUdZYWdjSTJtaGljVlRvbExEUGVQRXdheHJuazUtdHd4N3QwTTFKdHZIZVViTEJqcGd2VGdOcmF0bTEySm9DcTdUdy1WVXdQWFNfSFowQmR0NkZPTjNqVWNOMDZfYkZtSC1vLTU3cHk2LU55N2N6aHctc1BXQkdDbmQ1U2xicVFTT1dpSEVJN3MtNU45NGRvdlh6ZFpHVzM3ODd3UHc?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Cintas Corp. stock underperforms Friday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/cintas-corp-stock-underperforms-friday-when-compared-to-competitors-260780a2-d7ae5c1a6bc0",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/cintas-corp-stock-underperforms-friday-when-compared-to-competitors-260780a2-d7ae5c1a6bc0",
+          "published_at": "Fri, 01 May 2026 20:46:00 GMT",
+          "summary": "Cintas Corp. stock underperforms Friday when compared to competitors  MarketWatch",
+          "ticker": "CTAS",
+          "company_name": "Cintas Corp",
+          "query": "Cintas Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/cintas-corp-stock-underperforms-friday-when-compared-to-competitors-260780a2-d7ae5c1a6bc0"
+        }
+      }
+    },
+    {
+      "article_index": 16,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a marketing/operational anecdote about a famous food item price change, not a material event for Costco's growth investment thesis.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPanNSazRKdlNscWFCUXN1Sk01RXNfZGM0OEU2Y0tEd0hsVGV2SkJHekpnMUJGNEZWOTZIS1AxVFg1Tll0Tl92LWhCZlR3T0h3ejBuVW9MWjBvb2UwVVdLUi13ODBzdjNDTTVRVnBTNXFrb3BvbUNOMThka01LM1Q3QzFFRi14ZkZhQmlR?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "e254e98c6da9717bb3feb380e3e7d6f68039c51dac3e304b280a662c1ff58eab",
+        "source_type": "company_news",
+        "source": "The Independent",
+        "source_url": "https://www.independent.co.uk/life-style/costco-hot-dog-combo-options-b2968931.html",
+        "title": "Costco announces change to $1.50 hot dog combo for the first time in 40 years - The Independent",
+        "summary": "Costco announces change to $1.50 hot dog combo for the first time in 40 years The Independent",
+        "body": "Costco announces change to $1.50 hot dog combo for the first time in 40 years The Independent",
+        "evidence_quality": "title_only",
+        "url": "https://www.independent.co.uk/life-style/costco-hot-dog-combo-options-b2968931.html",
+        "published_at": "Fri, 01 May 2026 13:49:00 GMT",
+        "ticker_hints": [
+          "COST"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPanNSazRKdlNscWFCUXN1Sk01RXNfZGM0OEU2Y0tEd0hsVGV2SkJHekpnMUJGNEZWOTZIS1AxVFg1Tll0Tl92LWhCZlR3T0h3ejBuVW9MWjBvb2UwVVdLUi13ODBzdjNDTTVRVnBTNXFrb3BvbUNOMThka01LM1Q3QzFFRi14ZkZhQmlR?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Costco announces change to $1.50 hot dog combo for the first time in 40 years - The Independent",
+          "source": "The Independent",
+          "source_url": "https://www.independent.co.uk/life-style/costco-hot-dog-combo-options-b2968931.html",
+          "publisher_homepage_url": "https://www.independent.co.uk",
+          "url": "https://www.independent.co.uk/life-style/costco-hot-dog-combo-options-b2968931.html",
+          "published_at": "Fri, 01 May 2026 13:49:00 GMT",
+          "summary": "Costco announces change to $1.50 hot dog combo for the first time in 40 years  The Independent",
+          "ticker": "COST",
+          "company_name": "Costco Wholesale Corp",
+          "query": "Costco Wholesale Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.independent.co.uk/life-style/costco-hot-dog-combo-options-b2968931.html"
+        }
+      }
+    },
+    {
+      "article_index": 17,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "A tiny insider share sale of 2,230 shares contains no material information relevant to Costco's growth outlook or fundamentals.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQbXFDbkhjTVRJQ2tQaV9ER2lURkhKSER5YjFaVW44ZFFzSGVlVUNLMFBHSDFFVnpoVnFTemJzMXhHZm5fQVVuRmlsblN4aUhLNmRQSUY5bFM3ZVlLM0tDNzdNZkI0ZFFOM2xMSVE0QUMyc0JvdmFBZjZFVm50NFEyOTFVSkZHTVY4ekx5ZnlYUnBGMmtwTy1lTkZpeTJ2RHo5V2dVQWFxanpXT2hjTDd4VXItTy1iU0UzRHdGTVZ6MGdiYXp6dFFqZkRwOXNhajA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "cab3f6705908fe8afb4065fbbf4ce4d2c18c1a2c22d6bf3712e7c3d8806be963",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-sageworth-trust-co-sells-2230-shares-of-costco-wholesale-corporation-cost-2026-05-07/",
+        "title": "Sageworth Trust Co Sells 2,230 Shares of Costco Wholesale Corporation $COST - MarketBeat",
+        "summary": "Sageworth Trust Co Sells 2,230 Shares of Costco Wholesale Corporation $COST MarketBeat",
+        "body": "Sageworth Trust Co Sells 2,230 Shares of Costco Wholesale Corporation $COST MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-sageworth-trust-co-sells-2230-shares-of-costco-wholesale-corporation-cost-2026-05-07/",
+        "published_at": "Thu, 07 May 2026 12:43:58 GMT",
+        "ticker_hints": [
+          "COST"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQbXFDbkhjTVRJQ2tQaV9ER2lURkhKSER5YjFaVW44ZFFzSGVlVUNLMFBHSDFFVnpoVnFTemJzMXhHZm5fQVVuRmlsblN4aUhLNmRQSUY5bFM3ZVlLM0tDNzdNZkI0ZFFOM2xMSVE0QUMyc0JvdmFBZjZFVm50NFEyOTFVSkZHTVY4ekx5ZnlYUnBGMmtwTy1lTkZpeTJ2RHo5V2dVQWFxanpXT2hjTDd4VXItTy1iU0UzRHdGTVZ6MGdiYXp6dFFqZkRwOXNhajA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Sageworth Trust Co Sells 2,230 Shares of Costco Wholesale Corporation $COST - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-sageworth-trust-co-sells-2230-shares-of-costco-wholesale-corporation-cost-2026-05-07/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-sageworth-trust-co-sells-2230-shares-of-costco-wholesale-corporation-cost-2026-05-07/",
+          "published_at": "Thu, 07 May 2026 12:43:58 GMT",
+          "summary": "Sageworth Trust Co Sells 2,230 Shares of Costco Wholesale Corporation $COST  MarketBeat",
+          "ticker": "COST",
+          "company_name": "Costco Wholesale Corp",
+          "query": "Costco Wholesale Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-sageworth-trust-co-sells-2230-shares-of-costco-wholesale-corporation-cost-2026-05-07/"
+        }
+      }
+    },
+    {
+      "article_index": 18,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a promotional gift set article with no investment-relevant information about Costco's financials or growth prospects.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPeFIyTWV6bHBLM211MjZqLWZycDAzRF9Db09wRWpTMXhwY2pQZDVaUU1yWmtLUTNHRGZTNWRpNldFby1HR1NySU9aQmhaQ1RwX1FRbTFLVEFnSWptal9wWk52M2RXalJRdVQ3ZFdWbEJTMzVJX3JFYWtnbWZyZEdOcm55RHJiT0w4TnNocWM5ZjREQk1Ic3c?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "20ab65aa45c903683cce49e5daaaffbd7483ec9cb3a13268a802ae839466dfde",
+        "source_type": "company_news",
+        "source": "Parade",
+        "source_url": "https://parade.com/food/costco-chocolate-covered-company-mothers-day-chocolate-rose-bouquet",
+        "title": "Costco\u2019s 27-Piece Gourmet Gift Set Covers the Best of Both Worlds for Mother\u2019s Day - Parade",
+        "summary": "Costco\u2019s 27-Piece Gourmet Gift Set Covers the Best of Both Worlds for Mother\u2019s Day Parade",
+        "body": "Costco\u2019s 27-Piece Gourmet Gift Set Covers the Best of Both Worlds for Mother\u2019s Day Parade",
+        "evidence_quality": "title_only",
+        "url": "https://parade.com/food/costco-chocolate-covered-company-mothers-day-chocolate-rose-bouquet",
+        "published_at": "Fri, 01 May 2026 18:05:00 GMT",
+        "ticker_hints": [
+          "COST"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPeFIyTWV6bHBLM211MjZqLWZycDAzRF9Db09wRWpTMXhwY2pQZDVaUU1yWmtLUTNHRGZTNWRpNldFby1HR1NySU9aQmhaQ1RwX1FRbTFLVEFnSWptal9wWk52M2RXalJRdVQ3ZFdWbEJTMzVJX3JFYWtnbWZyZEdOcm55RHJiT0w4TnNocWM5ZjREQk1Ic3c?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Costco\u2019s 27-Piece Gourmet Gift Set Covers the Best of Both Worlds for Mother\u2019s Day - Parade",
+          "source": "Parade",
+          "source_url": "https://parade.com/food/costco-chocolate-covered-company-mothers-day-chocolate-rose-bouquet",
+          "publisher_homepage_url": "https://parade.com",
+          "url": "https://parade.com/food/costco-chocolate-covered-company-mothers-day-chocolate-rose-bouquet",
+          "published_at": "Fri, 01 May 2026 18:05:00 GMT",
+          "summary": "Costco\u2019s 27-Piece Gourmet Gift Set Covers the Best of Both Worlds for Mother\u2019s Day  Parade",
+          "ticker": "COST",
+          "company_name": "Costco Wholesale Corp",
+          "query": "Costco Wholesale Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://parade.com/food/costco-chocolate-covered-company-mothers-day-chocolate-rose-bouquet"
+        }
+      }
+    },
+    {
+      "article_index": 19,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5GdmhLVi16aUNnX0ZwYkg2U0pPVTAzYXNUcVMzeXRzaVhQclJPc3M2M2phbHpKWlVQQTE0eHQ2V0JocXRLSWJIMjVzNUljLUNXN3dKaXJnellXajh5Mmc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "e81c7b32b70e98fa86af2c60a561485e866c38ef0dcc5fd8e8d063d580d85237",
+        "source_type": "company_news",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/stock/quote/CCI/profile",
+        "title": "CCI Stock Price, Quote & Chart | CROWN CASTLE INC (NYSE:CCI) - ChartMill",
+        "summary": "CCI Stock Price, Quote & Chart | CROWN CASTLE INC (NYSE:CCI) ChartMill",
+        "body": "CCI Stock Price, Quote & Chart | CROWN CASTLE INC (NYSE:CCI) ChartMill",
+        "evidence_quality": "title_only",
+        "url": "https://www.chartmill.com/stock/quote/CCI/profile",
+        "published_at": "Mon, 04 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "CCI"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE5GdmhLVi16aUNnX0ZwYkg2U0pPVTAzYXNUcVMzeXRzaVhQclJPc3M2M2phbHpKWlVQQTE0eHQ2V0JocXRLSWJIMjVzNUljLUNXN3dKaXJnellXajh5Mmc?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CCI Stock Price, Quote & Chart | CROWN CASTLE INC (NYSE:CCI) - ChartMill",
+          "source": "ChartMill",
+          "source_url": "https://www.chartmill.com/stock/quote/CCI/profile",
+          "publisher_homepage_url": "https://www.chartmill.com",
+          "url": "https://www.chartmill.com/stock/quote/CCI/profile",
+          "published_at": "Mon, 04 May 2026 07:00:00 GMT",
+          "summary": "CCI Stock Price, Quote & Chart | CROWN CASTLE INC (NYSE:CCI)  ChartMill",
+          "ticker": "CCI",
+          "company_name": "Crown Castle Inc",
+          "query": "Crown Castle Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.chartmill.com/stock/quote/CCI/profile"
+        }
+      }
+    },
+    {
+      "article_index": 20,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE50cHQ0OHd3NmpHc1ZtdEl5dDZ3ajBtY3M1QjA3TTVicUVzZFVVcEVYblF2Ylo3dVQwOWZSd251ZmpPZ2lvVEc0T2Rrc3VmLWNfU21QbXpNRHZXNWZHOUE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "0cd512fba8c93cb30e8d0dcd1b1d91febfd8af2fdc5c047b326702e60173b82e",
+        "source_type": "company_news",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/stock/quote/CSX/profile",
+        "title": "CSX Stock Price, Quote & Chart | CSX CORP (NASDAQ:CSX) - ChartMill",
+        "summary": "CSX Stock Price, Quote & Chart | CSX CORP (NASDAQ:CSX) ChartMill",
+        "body": "CSX Stock Price, Quote & Chart | CSX CORP (NASDAQ:CSX) ChartMill",
+        "evidence_quality": "title_only",
+        "url": "https://www.chartmill.com/stock/quote/CSX/profile",
+        "published_at": "Mon, 04 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "CSX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE50cHQ0OHd3NmpHc1ZtdEl5dDZ3ajBtY3M1QjA3TTVicUVzZFVVcEVYblF2Ylo3dVQwOWZSd251ZmpPZ2lvVEc0T2Rrc3VmLWNfU21QbXpNRHZXNWZHOUE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CSX Stock Price, Quote & Chart | CSX CORP (NASDAQ:CSX) - ChartMill",
+          "source": "ChartMill",
+          "source_url": "https://www.chartmill.com/stock/quote/CSX/profile",
+          "publisher_homepage_url": "https://www.chartmill.com",
+          "url": "https://www.chartmill.com/stock/quote/CSX/profile",
+          "published_at": "Mon, 04 May 2026 07:00:00 GMT",
+          "summary": "CSX Stock Price, Quote & Chart | CSX CORP (NASDAQ:CSX)  ChartMill",
+          "ticker": "CSX",
+          "company_name": "CSX Corp",
+          "query": "CSX Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.chartmill.com/stock/quote/CSX/profile"
+        }
+      }
+    },
+    {
+      "article_index": 21,
+      "relevant": true,
+      "affected_tickers": [
+        "CSX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "CEO compensation through phantom stock units is a corporate governance event that can signal board confidence in future performance and affects executive alignment with shareholder interests.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNNmVpOERjRmk2VHlDNWx5TDMzODRPTmhuVUkzTnZPOEJEODlmZXBaOEpQR2FRM19mWEJtcWR4QmxXcVB6MzFaalhSNnkxRWc3TFlnVGNLa2RqeXpVbUhtMDBNN25RUnVpb1BuT19uMlZSaGVjajBMWmNpUXVGcVJYYWM5ZGNGOWRPRzNoSDZXd0NsQXRtQ3Y3UFZsOXVpdjJKY0JN?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "1b55ac14b36edbe62b73449267c7fd787050508cd638e0152e7e89a64c9f96f9",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html",
+        "title": "CSX (CSX) CEO Stephen Angel receives 200 phantom stock units in deferred plan - Stock Titan",
+        "summary": "CSX (CSX) CEO Stephen Angel receives 200 phantom stock units in deferred plan Stock Titan",
+        "body": "CSX (CSX) CEO Stephen Angel receives 200 phantom stock units in deferred plan Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html",
+        "published_at": "Tue, 05 May 2026 20:15:14 GMT",
+        "ticker_hints": [
+          "CSX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNNmVpOERjRmk2VHlDNWx5TDMzODRPTmhuVUkzTnZPOEJEODlmZXBaOEpQR2FRM19mWEJtcWR4QmxXcVB6MzFaalhSNnkxRWc3TFlnVGNLa2RqeXpVbUhtMDBNN25RUnVpb1BuT19uMlZSaGVjajBMWmNpUXVGcVJYYWM5ZGNGOWRPRzNoSDZXd0NsQXRtQ3Y3UFZsOXVpdjJKY0JN?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CSX (CSX) CEO Stephen Angel receives 200 phantom stock units in deferred plan - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html",
+          "published_at": "Tue, 05 May 2026 20:15:14 GMT",
+          "summary": "CSX (CSX) CEO Stephen Angel receives 200 phantom stock units in deferred plan  Stock Titan",
+          "ticker": "CSX",
+          "company_name": "CSX Corp",
+          "query": "CSX Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html"
+        }
+      }
+    },
+    {
+      "article_index": 22,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "General tech sector valuation commentary has no direct connection to CSX, a Class I railroad operator in the transportation sector.",
+      "article": {
+        "external_id": "108303481",
+        "event_hash": "186f623f611966e2e2247e433edafd5290f64b483d0f7d8211be92954f055afe",
+        "source_type": "cnbc_sector_rss",
+        "source": "Tech",
+        "source_url": "",
+        "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+        "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "body": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+        "published_at": "2026-05-08T07:34:09+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "108303481",
+          "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+          "source": "Tech",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+          "published_at": "2026-05-08T07:34:09+00:00",
+          "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+          "sector": "technology",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 23,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+        "event_hash": "19a94d122eb7bd70af2c33c7cd24315522f743ca92601cb72fb84ee833a16a92",
+        "source_type": "cnbc_sector_rss",
+        "source": "TradingView",
+        "source_url": "https://www.tradingview.com",
+        "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+        "summary": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "body": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+        "published_at": "2026-04-12T07:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "logisticstransportation",
+        "raw": {
+          "id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+          "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+          "source": "TradingView",
+          "source_url": "https://www.tradingview.com",
+          "publisher_homepage_url": "https://www.tradingview.com",
+          "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+          "published_at": "2026-04-12T07:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5\" target=\"_blank\">JTC Stock Price and Chart \u2014 KSE:JTC</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">TradingView</font>",
+          "sector": "logisticstransportation",
+          "source_type": "google_sector_rss",
+          "query": "logisticstransportation stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 24,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+        "event_hash": "9035f9df36440ab60206c92d8645173fd1048cfb5d04a1d7ac0ac7d298352c54",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com",
+        "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+        "summary": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "body": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+        "published_at": "2026-05-07T15:52:40+00:00",
+        "ticker_hints": [],
+        "sector_hint": "airlines",
+        "raw": {
+          "id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+          "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+          "published_at": "2026-05-07T15:52:40+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5\" target=\"_blank\">UBS raises Delta Air Lines stock price target on margin expansion path</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investing.com</font>",
+          "sector": "airlines",
+          "source_type": "google_sector_rss",
+          "query": "airlines stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 25,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+        "event_hash": "7781e95f875227fa69d82f20e4e003cb6ecab937f7d2e893b2a4726e74c9e5fd",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com",
+        "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+        "summary": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "body": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+        "published_at": "2026-05-07T23:12:41+00:00",
+        "ticker_hints": [],
+        "sector_hint": "energy",
+        "raw": {
+          "id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+          "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+          "published_at": "2026-05-07T23:12:41+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5\" target=\"_blank\">Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketBeat</font>",
+          "sector": "energy",
+          "source_type": "google_sector_rss",
+          "query": "energy stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 26,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+        "event_hash": "9dec2ef7a51804cfd1809a68859a9bc47e4042623ad126cfb5cd0d857f04debb",
+        "source_type": "cnbc_sector_rss",
+        "source": "Frontiers",
+        "source_url": "https://www.frontiersin.org",
+        "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+        "summary": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "body": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+        "published_at": "2025-12-15T16:18:58+00:00",
+        "ticker_hints": [],
+        "sector_hint": "machinery",
+        "raw": {
+          "id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+          "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+          "source": "Frontiers",
+          "source_url": "https://www.frontiersin.org",
+          "publisher_homepage_url": "https://www.frontiersin.org",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+          "published_at": "2025-12-15T16:18:58+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5\" target=\"_blank\">Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Frontiers</font>",
+          "sector": "machinery",
+          "source_type": "google_sector_rss",
+          "query": "machinery stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 27,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+        "event_hash": "c268de142bba78da5290b86120bd17a1423dbdf9bce07676bae9afc9f41e2536",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com",
+        "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+        "summary": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "body": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+        "published_at": "2026-05-07T21:14:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+          "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+          "published_at": "2026-05-07T21:14:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5\" target=\"_blank\">Align Technology Inc. stock underperforms Thursday when compared to competitors</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketWatch</font>",
+          "sector": "technology",
+          "source_type": "google_sector_rss",
+          "query": "technology stock market news"
+        }
+      }
+    }
+  ]
+}

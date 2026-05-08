@@ -1,0 +1,189 @@
+{
+  "position": {
+    "id": "52331aac-988f-4e43-b513-1834a4072d64",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "GOOG",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 384.27,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMingFBVV95cUxQdjZwUGIwTUpsNjE3M3FTQS1HQmE3dXFwaFRaeEp5TkMzemNMaGpXMVp4Q2toejNsaVlZZVBlRVZjOXhnSUJPNkpEQVVmY05RWGdTcHF1SUYycnJIRE1VTFVTQm9VdkhoTkhpNTFHeWw5ZFptYllkeml2ZExJeHNUUWpRR05MM2VEdGdRSWJXNHVwX1UzQ0NuYkVyOGdYdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://www.barrons.com/articles/why-alphabet-stock-remains-j-p-morgans-top-overall-pick-96ab6d8a",
+        "query": "Alphabet Inc",
+        "title": "Google Closes In on Nvidia. Why Alphabet Stock Remains J.P. Morgan\u2019s \u2018Top Overall Pick\u2019 - Barron's",
+        "source": "Barron's",
+        "ticker": "GOOG",
+        "summary": "Google Closes In on Nvidia. Why Alphabet Stock Remains J.P. Morgan\u2019s \u2018Top Overall Pick\u2019  Barron's",
+        "source_url": "https://www.barrons.com/articles/why-alphabet-stock-remains-j-p-morgans-top-overall-pick-96ab6d8a",
+        "source_type": "company_news",
+        "company_name": "Alphabet Inc",
+        "published_at": "Mon, 04 May 2026 16:32:00 GMT",
+        "decoded_google_url": "https://www.barrons.com/articles/why-alphabet-stock-remains-j-p-morgans-top-overall-pick-96ab6d8a",
+        "publisher_homepage_url": "https://www.barrons.com"
+      },
+      "url": "https://www.barrons.com/articles/why-alphabet-stock-remains-j-p-morgans-top-overall-pick-96ab6d8a",
+      "body": "Google Closes In on Nvidia. Why Alphabet Stock Remains J.P. Morgan\u2019s \u2018Top Overall Pick\u2019 Barron's",
+      "title": "Google Closes In on Nvidia. Why Alphabet Stock Remains J.P. Morgan\u2019s \u2018Top Overall Pick\u2019 - Barron's",
+      "source": "Barron's",
+      "summary": "Google Closes In on Nvidia. Why Alphabet Stock Remains J.P. Morgan\u2019s \u2018Top Overall Pick\u2019 Barron's",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "J.P. Morgan maintains Alphabet as top pick, highlighting Google's competitive positioning against Nvidia in AI/GPU space.",
+        "affected_tickers": [
+          "GOOG"
+        ],
+        "evidence_quality": "title_only"
+      },
+      "event_hash": "d432ccc4435d604fc048f878f835b052174d60220a394e78334a0c8d0e2848d5",
+      "source_url": "https://www.barrons.com/articles/why-alphabet-stock-remains-j-p-morgans-top-overall-pick-96ab6d8a",
+      "external_id": "https://news.google.com/rss/articles/CBMingFBVV95cUxQdjZwUGIwTUpsNjE3M3FTQS1HQmE3dXFwaFRaeEp5TkMzemNMaGpXMVp4Q2toejNsaVlZZVBlRVZjOXhnSUJPNkpEQVVmY05RWGdTcHF1SUYycnJIRE1VTFVTQm9VdkhoTkhpNTFHeWw5ZFptYllkeml2ZExJeHNUUWpRR05MM2VEdGdRSWJXNHVwX1UzQ0NuYkVyOGdYdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Mon, 04 May 2026 16:32:00 GMT",
+      "ticker_hints": [
+        "GOOG"
+      ],
+      "scrape_status": "error:Client error '401 HTTP Forbidden' for url 'https://www.barrons.com/articles/why-alphabet-stock-remains-j-p-morgans-top-overall-pick-96ab6d8a'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "evidence_quality": "title_only",
+      "resolution_debug": {
+        "error": "Client error '401 HTTP Forbidden' for url 'https://www.barrons.com/articles/why-alphabet-stock-remains-j-p-morgans-top-overall-pick-96ab6d8a'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401"
+      },
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '401 HTTP Forbidden' for url 'https://www.barrons.com/articles/why-alphabet-stock-remains-j-p-morgans-top-overall-pick-96ab6d8a'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401"
+    }
+  ],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "GOOG faces structural AI competition risk as its core search/advertising moat faces pressure from AI-native alternatives, though its massive cash generation and AI infrastructure investments provide offsetting resilience; the stock's growth valuation leaves limited room for execution slips in a macro environment focused on recession signals.",
+    "long_report": "Alphabet's primary risk centers on the erosion of its search monopoly as AI-powered alternatives (ChatGPT, Perplexity, specialized agents) reduce the need for traditional query-based search, threatening the pay-for-placement model that drives most revenue. While Google's AI Overviews and Gemini integration represent genuine response efforts, the pace of user behavior shift remains uncertain and faster-than-expected migration would hit ad revenue faster than cost structures can adapt. The company's substantial AI infrastructure spend and cloud growth provide diversification away from pure search dependence, but cloud profitability is still being proven at scale. macro pressure focused on recession risk pose secondary risk through advertising budget cuts, which historically have disproportionate impact on Google's ad-dependent revenue model relative to more diversified tech peers. The growth multiple itself creates vulnerability: any sustained deceleration in core search revenue would trigger multiple compression before growth diversification story can be established.",
+    "methodology": "Assessment based on structural competitive dynamics in search/AI, advertising market sensitivity to macro conditions, and valuation context given growth label. No overnight event catalyst identified; macro context assessed as neutral given no clear read-through to media/tech advertising.",
+    "top_risks": [
+      "AI-driven search behavior shift reducing query volume and ad placement value",
+      "Ad revenue cyclicality during macro downturn or recession",
+      "Antitrust/regulatory actions threatening search distribution agreements"
+    ],
+    "watch_items": [
+      "Search query volume trends and AI Overview engagement metrics in quarterly reports",
+      "AI infrastructure CapEx trajectory and free cash flow impact",
+      "Regulatory court rulings on search dominance cases"
+    ],
+    "risk_context": [
+      {
+        "macro_event": "April jobs report release with recession signals",
+        "rating_impact": "supports",
+        "reasoning": "Recession risk directly threatens discretionary ad spending budgets that drive Alphabet's core revenue"
+      },
+      {
+        "macro_event": "Trump EU tariff escalation threatening global trade disruption",
+        "rating_impact": "neutral",
+        "reasoning": "Tariff escalation has marginal indirect effect on Alphabet as an advertising business rather than a goods exporter, but sustained macro instability could suppress ad budgets"
+      },
+      {
+        "macro_event": "Toyota's tariff-driven profit slump signaling corporate earnings pressure",
+        "rating_impact": "neutral",
+        "reasoning": "Mixed signal: corporate pain increases pressure on ad spend, but Toyota's results reflect manufacturing specifically rather than broader business news signal"
+      }
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "52331aac-988f-4e43-b513-1834a4072d64",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "GOOG",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 395.3,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "C",
+    "previous_total_score": 64.0,
+    "summary": "GOOG faces structural AI competition risk as its core search/advertising moat faces pressure from AI-native alternatives, though its massive cash generation and AI infrastructure investments provide offsetting resilience; the stock's growth valuation leaves limited room for execution slips in a macro environment focused on recession signals.",
+    "long_report": "Alphabet's primary risk centers on the erosion of its search monopoly as AI-powered alternatives (ChatGPT, Perplexity, specialized agents) reduce the need for traditional query-based search, threatening the pay-for-placement model that drives most revenue. While Google's AI Overviews and Gemini integration represent genuine response efforts, the pace of user behavior shift remains uncertain and faster-than-expected migration would hit ad revenue faster than cost structures can adapt. The company's substantial AI infrastructure spend and cloud growth provide diversification away from pure search dependence, but cloud profitability is still being proven at scale. macro pressure focused on recession risk pose secondary risk through advertising budget cuts, which historically have disproportionate impact on Google's ad-dependent revenue model relative to more diversified tech peers. The growth multiple itself creates vulnerability: any sustained deceleration in core search revenue would trigger multiple compression before growth diversification story can be established.",
+    "top_risks": [
+      "AI-driven search behavior shift reducing query volume and ad placement value",
+      "Ad revenue cyclicality during macro downturn or recession",
+      "Antitrust/regulatory actions threatening search distribution agreements"
+    ],
+    "watch_items": [
+      "Search query volume trends and AI Overview engagement metrics in quarterly reports",
+      "AI infrastructure CapEx trajectory and free cash flow impact",
+      "Regulatory court rulings on search dominance cases"
+    ],
+    "top_news": [
+      "Google Closes In on Nvidia. Why Alphabet Stock Remains J.P. Morgan\u2019s \u2018Top Overall Pick\u2019 - Barron's"
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Assessment based on structural competitive dynamics in search/AI, advertising market sensitivity to macro conditions, and valuation context given growth label. No overnight event catalyst identified; macro context assessed as neutral given no clear read-through to media/tech advertising.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "6e844ae1-9c3b-496f-a397-ebe75e1f02c4",
+      "ticker": "GOOG",
+      "company_name": "Alphabet Inc",
+      "asset_class": null,
+      "sector": "Media",
+      "industry": null,
+      "exchange": "NASDAQ NMS - GLOBAL MARKET",
+      "market_cap": 4806138624878.702,
+      "market_cap_bucket": "very_high",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 12897362181.0,
+      "spread_proxy": 0.001,
+      "beta": 1.2768689,
+      "volatility_proxy": 0.319217225,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:39:46.195498+00:00",
+      "created_at": "2026-04-12T21:58:35.805686+00:00",
+      "pe_ratio": 29.9994,
+      "week_52_high": 400.1,
+      "week_52_low": 147.84,
+      "price": 395.3,
+      "price_as_of": "2026-05-08T10:39:46.18484+00:00",
+      "avg_volume": 32.62677,
+      "previous_close": 395.14,
+      "open_price": 397.06,
+      "day_high": 397.355,
+      "day_low": 390.31,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "GOOG",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

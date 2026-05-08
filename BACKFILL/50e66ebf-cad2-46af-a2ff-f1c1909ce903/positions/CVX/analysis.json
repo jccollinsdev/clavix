@@ -1,0 +1,295 @@
+{
+  "position": {
+    "id": "1ffe6a4e-0e74-40d8-baff-a0ef9077b37b",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "CVX",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 192.64,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQMjFhbXhuZlRqOFVTTTZLMk02ZHFabHdpV3ZVX3lkeEZ1VjRnOWJqVllVYmkwWWJmbUFJUjJtTU1KR2hBd1o0Mmt5SkpqS1RISTRyVDVZNUpfbEpyMmNISDVobEdiVVBFakdud2xPenVlQVlsVi1PZGtXNTNRQ3NaV1hCSDRWZDNNY21lTlJ4N1dPM3NmLUh1UUxsOXpoZ1NwZTNWNGRicGdPemhKQ0dhTnIza1prQnd0MGdKX3hR?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "f1d6eb93518bca60460057c59fcb1f381fa6b1fdc955caf88700211633969738",
+      "source_type": "company_news",
+      "source": "Reuters",
+      "source_url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+      "title": "Chevron's upstream strength lifts first-quarter earnings past estimate - Reuters",
+      "summary": "Chevron's upstream strength lifts first-quarter earnings past estimate Reuters",
+      "body": "Chevron's upstream strength lifts first-quarter earnings past estimate Reuters",
+      "evidence_quality": "title_only",
+      "url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+      "published_at": "Fri, 01 May 2026 16:50:13 GMT",
+      "ticker_hints": [
+        "CVX"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQMjFhbXhuZlRqOFVTTTZLMk02ZHFabHdpV3ZVX3lkeEZ1VjRnOWJqVllVYmkwWWJmbUFJUjJtTU1KR2hBd1o0Mmt5SkpqS1RISTRyVDVZNUpfbEpyMmNISDVobEdiVVBFakdud2xPenVlQVlsVi1PZGtXNTNRQ3NaV1hCSDRWZDNNY21lTlJ4N1dPM3NmLUh1UUxsOXpoZ1NwZTNWNGRicGdPemhKQ0dhTnIza1prQnd0MGdKX3hR?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Chevron's upstream strength lifts first-quarter earnings past estimate - Reuters",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+        "publisher_homepage_url": "https://www.reuters.com",
+        "url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+        "published_at": "Fri, 01 May 2026 16:50:13 GMT",
+        "summary": "Chevron's upstream strength lifts first-quarter earnings past estimate  Reuters",
+        "ticker": "CVX",
+        "company_name": "Chevron Corp",
+        "query": "Chevron Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "CVX"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Chevron beats earnings estimates due to upstream strength, confirming the growth archetype thesis for the position.",
+        "evidence_quality": "title_only"
+      },
+      "scrape_status": "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "resolution_debug": {
+        "error": "Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401"
+      }
+    },
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPY24wWjJ1X1Z6VzZVM1ZhV0RtZW5SMTh1NWpzUE9LVWUwVzhPcVdyVzlLTHhLVFVRd25PTG1pYmNrem1rel93M0RZTTlnOG0xb3ZzVjR2WHV4djJNODB4c0ZuMGp6eEV2NlJJVG5Mc1hSUjhNbTM0T0x1UjBpTFVuR0hVT20wM2FEekhrZ011d09DTzg0Ukp2cWZBMkF5VmFlZGVmS3RZdlVkeWIzOGFVV0pscw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+        "query": "Chevron Corp",
+        "title": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices - Bloomberg.com",
+        "source": "Bloomberg.com",
+        "ticker": "CVX",
+        "summary": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices  Bloomberg.com",
+        "source_url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+        "source_type": "company_news",
+        "company_name": "Chevron Corp",
+        "published_at": "Fri, 01 May 2026 17:16:35 GMT",
+        "decoded_google_url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+        "publisher_homepage_url": "https://www.bloomberg.com"
+      },
+      "url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+      "body": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices Bloomberg.com",
+      "title": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices - Bloomberg.com",
+      "source": "Bloomberg.com",
+      "summary": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices Bloomberg.com",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Chevron's earnings beat on war-driven oil prices shows strong energy segment performance, directly supporting CVX growth position.",
+        "affected_tickers": [
+          "CVX"
+        ],
+        "evidence_quality": "title_only"
+      },
+      "event_hash": "7fe203d7fe5f7887b5727a44d41b7f995231f6182f46211a9bd3b5bbcb458bda",
+      "source_url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+      "external_id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPY24wWjJ1X1Z6VzZVM1ZhV0RtZW5SMTh1NWpzUE9LVWUwVzhPcVdyVzlLTHhLVFVRd25PTG1pYmNrem1rel93M0RZTTlnOG0xb3ZzVjR2WHV4djJNODB4c0ZuMGp6eEV2NlJJVG5Mc1hSUjhNbTM0T0x1UjBpTFVuR0hVT20wM2FEekhrZ011d09DTzg0Ukp2cWZBMkF5VmFlZGVmS3RZdlVkeWIzOGFVV0pscw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Fri, 01 May 2026 17:16:35 GMT",
+      "ticker_hints": [
+        "CVX"
+      ],
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "evidence_quality": "title_only",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      },
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    }
+  ],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "The dominant risk for CVX is demand destruction from recession fears, as tariff escalation threatens to slow global growth and erode oil consumption\u2014a structural headwind that outweighs near-term geopolitical supply disruption support for a growth-oriented position.",
+    "long_report": "Recession and growth concerns represent the primary risk vector for CVX as a growth-oriented holding. The Toyota earnings miss and 49% profit slump underscores demand weakness in transportation and industrial sectors, directly pressuring oil consumption outlooks. Trump's tariff escalation against the EU adds fresh trade-war risk that could further dampen global industrial activity. Counterbalancing this: geopolitical tensions in producing regions (Middle East, Russia-Ukraine) continue to provide price support, and CVX's integrated model offers some refining margin buffer. However, for a growth-focused investor, the demand-side deterioration is the more consequential force\u2014geopolitical price support is episodic and unreliable compared to structural demand weakness. A material upward shift in this rating would require either a credible tariff de-escalation pathway that revives growth expectations, or CVX-specific catalysts (asset sales, buybacks, Guyana production ramp) that decouple valuation from oil macro entirely.",
+    "methodology": "assembled macro overnight developments (jobs report expectations, EU tariff threats, Toyota earnings miss) against sector-specific energy dynamics and CVX's integrated oil company profile. Evaluated demand-side recession risk as primary risk driver given growth label, with geopolitical supply risk as secondary counterbalance.",
+    "top_risks": [
+      "Global demand contraction from tariff-driven recession fears reducing oil consumption",
+      "Oil price volatility from geopolitical uncertainty creating unpredictable earnings swings",
+      "Refining margin compression if economic slowdown depresses industrial and transportation fuel demand"
+    ],
+    "watch_items": [
+      "Oil demand indicators from major consuming nations; Chinese industrial activity data",
+      "Tariff escalation or de-escalation timeline affecting global trade flows and growth"
+    ],
+    "risk_context": [
+      {
+        "macro_event": "Trump threatens EU with 'much higher' tariffs if no trade deal signed",
+        "rating_impact": "contradicts",
+        "reasoning": "Trade war escalation directly threatens global growth and oil demand, negative for CVX despite potential geopolitical risk premium support in oil prices."
+      },
+      {
+        "macro_event": "Toyota Q4 profit misses by wide margin with 49% profit slump from U.S. tariffs",
+        "rating_impact": "contradicts",
+        "reasoning": "Auto sector weakness signals broader industrial demand deterioration, confirming recession risk that pressures CVX's upstream and downstream volumes."
+      },
+      {
+        "macro_event": "April jobs report release expected Friday",
+        "rating_impact": "neutral",
+        "reasoning": "Labor market softening would deepen recession concerns but remains non-specific to energy sector; impact depends on magnitude and Fed response."
+      }
+    ],
+    "driver_cards": [
+      {
+        "id": "f1d6eb93518bca60460057c59fcb1f381fa6b1fdc955caf88700211633969738",
+        "rank": 1,
+        "title": "Earnings trajectory is improving",
+        "summary": "Earnings beats or upward guidance revisions are reducing near-term uncertainty and supporting multiple expansion.",
+        "strength": "limited",
+        "direction": "positive",
+        "theme": "earnings_risk",
+        "source_chips": [
+          "Reuters"
+        ],
+        "supporting_event_ids": [],
+        "supporting_news_ids": [],
+        "supporting_evidence": [
+          {
+            "id": "",
+            "kind": "news_item",
+            "title": "Chevron's upstream strength lifts first-quarter earnings past estimate - Reuters",
+            "summary": "Chevron's upstream strength lifts first-quarter earnings past estimate Reuters",
+            "source": "Reuters",
+            "url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+            "published_at": "Fri, 01 May 2026 16:50:13 GMT",
+            "confidence": 0.5,
+            "event_id": null,
+            "news_id": null,
+            "alert_id": null
+          }
+        ]
+      }
+    ],
+    "driver_cards_state": "ready",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "1ffe6a4e-0e74-40d8-baff-a0ef9077b37b",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "CVX",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 182.5,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "D",
+    "previous_total_score": 37.5,
+    "summary": "The dominant risk for CVX is demand destruction from recession fears, as tariff escalation threatens to slow global growth and erode oil consumption\u2014a structural headwind that outweighs near-term geopolitical supply disruption support for a growth-oriented position.",
+    "long_report": "Recession and growth concerns represent the primary risk vector for CVX as a growth-oriented holding. The Toyota earnings miss and 49% profit slump underscores demand weakness in transportation and industrial sectors, directly pressuring oil consumption outlooks. Trump's tariff escalation against the EU adds fresh trade-war risk that could further dampen global industrial activity. Counterbalancing this: geopolitical tensions in producing regions (Middle East, Russia-Ukraine) continue to provide price support, and CVX's integrated model offers some refining margin buffer. However, for a growth-focused investor, the demand-side deterioration is the more consequential force\u2014geopolitical price support is episodic and unreliable compared to structural demand weakness. A material upward shift in this rating would require either a credible tariff de-escalation pathway that revives growth expectations, or CVX-specific catalysts (asset sales, buybacks, Guyana production ramp) that decouple valuation from oil macro entirely.",
+    "top_risks": [
+      "Global demand contraction from tariff-driven recession fears reducing oil consumption",
+      "Oil price volatility from geopolitical uncertainty creating unpredictable earnings swings",
+      "Refining margin compression if economic slowdown depresses industrial and transportation fuel demand"
+    ],
+    "watch_items": [
+      "Oil demand indicators from major consuming nations; Chinese industrial activity data",
+      "Tariff escalation or de-escalation timeline affecting global trade flows and growth"
+    ],
+    "top_news": [
+      "Chevron's upstream strength lifts first-quarter earnings past estimate - Reuters",
+      "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices - Bloomberg.com"
+    ],
+    "driver_cards": [
+      {
+        "id": "f1d6eb93518bca60460057c59fcb1f381fa6b1fdc955caf88700211633969738",
+        "rank": 1,
+        "title": "Earnings trajectory is improving",
+        "summary": "Earnings beats or upward guidance revisions are reducing near-term uncertainty and supporting multiple expansion.",
+        "strength": "limited",
+        "direction": "positive",
+        "theme": "earnings_risk",
+        "source_chips": [
+          "Reuters"
+        ],
+        "supporting_event_ids": [],
+        "supporting_news_ids": [],
+        "supporting_evidence": [
+          {
+            "id": "",
+            "kind": "news_item",
+            "title": "Chevron's upstream strength lifts first-quarter earnings past estimate - Reuters",
+            "summary": "Chevron's upstream strength lifts first-quarter earnings past estimate Reuters",
+            "source": "Reuters",
+            "url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+            "published_at": "Fri, 01 May 2026 16:50:13 GMT",
+            "confidence": 0.5,
+            "event_id": null,
+            "news_id": null,
+            "alert_id": null
+          }
+        ]
+      }
+    ],
+    "driver_cards_state": "ready",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "assembled macro overnight developments (jobs report expectations, EU tariff threats, Toyota earnings miss) against sector-specific energy dynamics and CVX's integrated oil company profile. Evaluated demand-side recession risk as primary risk driver given growth label, with geopolitical supply risk as secondary counterbalance.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "d00fc348-78ac-43cc-8d93-88ac310606a5",
+      "ticker": "CVX",
+      "company_name": "Chevron Corp",
+      "asset_class": null,
+      "sector": "Energy",
+      "industry": null,
+      "exchange": "NEW YORK STOCK EXCHANGE, INC.",
+      "market_cap": 364157860596.21405,
+      "market_cap_bucket": "high",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 1810336125.0,
+      "spread_proxy": 0.001,
+      "beta": 0.50853693,
+      "volatility_proxy": 0.1271342325,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:35:31.004573+00:00",
+      "created_at": "2026-04-12T22:00:50.526134+00:00",
+      "pe_ratio": 33.1389,
+      "week_52_high": 214.71,
+      "week_52_low": 133.77,
+      "price": 182.5,
+      "price_as_of": "2026-05-08T10:35:30.995646+00:00",
+      "avg_volume": 9.91965,
+      "previous_close": 185.16,
+      "open_price": 181.58,
+      "day_high": 183.44,
+      "day_low": 179.53,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "CVX",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

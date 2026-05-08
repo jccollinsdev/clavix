@@ -1,0 +1,188 @@
+{
+  "input_count": 40,
+  "enriched_count": 18,
+  "resolved_with_body": 18,
+  "wrapper_only": 22,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "ADBE": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 3,
+        "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/healthcare-pharmaceuticals/us-fda-declines-approve-abbvies-wrinkle-treatment-2026-04-23/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1
+      }
+    },
+    "ALGN": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "ok": 2
+      }
+    },
+    "AKAM": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/insider-trading-news/allstate-coo-mario-rizzo-sells-406m-of-allstate-corp-stock-93CH-4657587'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok_proxy": 1
+      }
+    },
+    "A": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "ok_proxy": 2
+      }
+    },
+    "ALL": {
+      "input_count": 4,
+      "resolved_with_body": 2,
+      "wrapper_only": 2,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "unknown": 2
+      }
+    },
+    "ALLE": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "AMCR": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "AMD": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "ABBV": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "ARE": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "ok_proxy": 8,
+    "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/healthcare-pharmaceuticals/us-fda-declines-approve-abbvies-wrinkle-treatment-2026-04-23/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+    "ok": 8,
+    "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/insider-trading-news/allstate-coo-mario-rizzo-sells-406m-of-allstate-corp-stock-93CH-4657587'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "unknown": 22
+  },
+  "failure_reason_counts": {
+    "unknown": 22
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 22
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "ADBE",
+      "title": "AbbVie Pharmaceutical Manufacturing Campus, North Carolina, US - Pharmaceutical Technology",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "ADBE",
+      "title": "US FDA declines to approve AbbVie's wrinkle treatment due to manufacturing concerns - Reuters",
+      "status": "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/healthcare-pharmaceuticals/us-fda-declines-approve-abbvies-wrinkle-treatment-2026-04-23/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401"
+    },
+    {
+      "ticker": "ADBE",
+      "title": "Adobe: The Next Nokia? (NASDAQ:ADBE) - Seeking Alpha",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "ADBE",
+      "title": "Adobe\u2019s New Productivity Agent Redefines How People Understand, Create and Share Information - Adobe Newsroom",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "ALGN",
+      "title": "Adobe introduces productivity agent to transform PDF creation and sharing - SiliconANGLE",
+      "status": "ok_proxy"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "ALL",
+      "title": "[144] ALLSTATE CORP SEC Filing - Stock Titan",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ALL",
+      "title": "The Allstate Corporation $ALL Stock Holdings Trimmed by New York State Teachers Retirement System - MarketBeat",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ALLE",
+      "title": "Allegion PLC stock outperforms competitors on strong trading day - MarketWatch",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ALLE",
+      "title": "Allegion plc Earnings Missed Analyst Estimates: Here's What Analysts Are Forecasting Now - Yahoo Finance",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ALLE",
+      "title": "Strs Ohio Has $17.49 Million Stock Holdings in Allegion PLC $ALLE - MarketBeat",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.45,
+  "coverage_ok": true
+}

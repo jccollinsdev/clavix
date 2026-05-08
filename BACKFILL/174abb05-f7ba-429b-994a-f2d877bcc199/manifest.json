@@ -1,0 +1,20 @@
+{
+  "run_id": "174abb05-f7ba-429b-994a-f2d877bcc199",
+  "started_at": "2026-05-08T11:59:22.369185+00:00",
+  "label": "sp500_backfill_batch_7",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "AMT",
+    "BKR",
+    "APO",
+    "BAX",
+    "BKNG",
+    "CARR",
+    "ANET",
+    "APTV",
+    "BLK",
+    "CHRW"
+  ]
+}

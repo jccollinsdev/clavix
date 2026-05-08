@@ -1,0 +1,29 @@
+{
+  "sequence": 12,
+  "logged_at": "2026-05-08T11:55:47.521145+00:00",
+  "model": "MiniMax-M2.7",
+  "function_name": "chatcompletion_text",
+  "caller": {
+    "file": "/Users/sansarkarki/Documents/Clavis/backend/app/pipeline/classifier.py",
+    "function": "classify_significance_batch",
+    "line": 190
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a financial event classifier for a portfolio risk app.\n\nClassify each news item conservatively.\n\nMAJOR = earnings results or surprises, guidance raises/cuts, material corporate announcements, new product launches, strategy shifts, M&A, CEO/CFO resignations or appointments tied to change, regulatory actions, SEC/DOJ investigations, bankruptcy, financing crises, major recalls, and other events that can materially change fundamentals or valuation.\n\nMINOR = rating upgrades/downgrades, price target changes, routine economic data, conference appearances, commentary, secondary mentions, and general market chatter without a material new catalyst.\n\nRules:\n- If the company itself is announcing a material action, prefer MAJOR.\n- If it is only analysis, commentary, or a rating change, prefer MINOR.\n- When uncertain, choose MINOR.\n\nReturn exact JSON with:\n{{\n  \"significance\": \"major|minor\",\n  \"event_type\": \"earnings|macro|management|mna|regulatory|product|financing|sector|other\",\n  \"why_it_matters\": \"one sentence\",\n  \"confidence\": 0.0-1.0\n}}"
+    },
+    {
+      "role": "user",
+      "content": "[0] Title: Chevron Blows Away Estimates on War-Driven Surge in Oil Prices - Bloomberg.com\nSummary: Chevron Blows Away Estimates on War-Driven Surge in Oil Prices Bloomberg.com\nBody: Chevron Blows Away Estimates on War-Driven Surge in Oil Prices Bloomberg.com"
+    }
+  ],
+  "kwargs": {
+    "temperature": 0.1,
+    "max_tokens": 1200,
+    "timeout": 120
+  },
+  "response": "```json\n{\n  \"significance\": \"major\",\n  \"event_type\": \"earnings\",\n  \"why_it_matters\": \"Chevron reported earnings that significantly exceeded analyst estimates, driven by elevated oil prices from geopolitical conflict, signaling a material positive surprise in company fundamentals.\",\n  \"confidence\": 0.92\n}\n```",
+  "error": null,
+  "duration_ms": 8326.41
+}

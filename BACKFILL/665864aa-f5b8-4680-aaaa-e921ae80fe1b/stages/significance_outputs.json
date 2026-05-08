@@ -1,0 +1,820 @@
+{
+  "articles_classified": [
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPRjZzc2NjWS0wd1JpNlBSZ2RicmxaaEJZVHZrV0F3TDRHZGdzUXlQbXJMR1ZXUzlCV0gzVG4zUnU4SGtfQzExLWppUWhYdGZrMkF2Ym1yTS1DS04wcWlYYjVmaTMwWWEzbmNvdnV5U3RUV3o1UkoxUzZOb012MV91VkhLUmh5ZnlId3RSN0hHTHNDakh5bG9XSmJVZnY?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "2e19bce699b29171381e3a7b1bb6d381e62187c34ee10c70dca9b9c16a56c814",
+      "source_type": "company_news",
+      "source": "Seeking Alpha",
+      "source_url": "https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation",
+      "title": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06 - Seeking Alpha",
+      "summary": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06 Seeking Alpha",
+      "body": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06 Seeking Alpha",
+      "evidence_quality": "title_only",
+      "url": "https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation",
+      "published_at": "Wed, 06 May 2026 12:32:18 GMT",
+      "ticker_hints": [
+        "AIZ"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPRjZzc2NjWS0wd1JpNlBSZ2RicmxaaEJZVHZrV0F3TDRHZGdzUXlQbXJMR1ZXUzlCV0gzVG4zUnU4SGtfQzExLWppUWhYdGZrMkF2Ym1yTS1DS04wcWlYYjVmaTMwWWEzbmNvdnV5U3RUV3o1UkoxUzZOb012MV91VkhLUmh5ZnlId3RSN0hHTHNDakh5bG9XSmJVZnY?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06 - Seeking Alpha",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation",
+        "publisher_homepage_url": "https://seekingalpha.com",
+        "url": "https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation",
+        "published_at": "Wed, 06 May 2026 12:32:18 GMT",
+        "summary": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06  Seeking Alpha",
+        "ticker": "AIZ",
+        "company_name": "Assurant Inc",
+        "query": "Assurant Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "AIZ"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Assurant Q1 2026 earnings call provides critical insights for growth archetype evaluation of AIZ position.",
+        "evidence_quality": "title_only"
+      },
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOSi1QQmdYX1BBZFVwekNpZVcteVUxaW5MR3dEZnkyUDBvb05ORGtDZDd2T1J3Vjd1V1RSX1BDc0pEVGxqaTlYa3owZzBMOXZHUzBYWkdKSFlvc2ozWEZWRXZLR2lRSm5qNE8xT05XYi0tYjV1MFlnWHdFeHhnM0VfNWhkZFVtUEozckFNdDk3RklsMnFnOHNWd0RfNkhnNmhwaUE?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "b795bf5b50f7c82acb95312553e02ca3c8ba5222d48e15d200b590ce51715add",
+      "source_type": "company_news",
+      "source": "Stock Titan",
+      "source_url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html",
+      "title": "Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ) - Stock Titan",
+      "summary": "Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ) Stock Titan",
+      "body": "WASHINGTON, D.C. 20549\n\nAssurant, Inc.\n\n(Address, including zip code, and telephone number, including area code, of Registrant's Principal Executive Offices)\n\nCheck the appropriate box below if the Form 8-K filing is intended to simultaneously satisfy the filing obligation of the registrant under any of the following provisions:\n\nIndicate by check mark whether the registrant is an emerging growth company as defined in Rule 405 of the Securities Act of 1933 (\u00a7230.405 of this chapter) or Rule 12b-2 of the Securities Exchange Act of 1934 (\u00a7240.12b-2 of this chapter).\n\nIf an emerging growth company, indicate by check mark if the registrant has elected not to use the extended transition period for complying with any new or revised financial accounting standards provided pursuant to Section 13(a) of the Exchange Act.\u2610\n\nItem 2.02.Results of Operations and Financial Condition.\n\nOn May 5, 2026, Assurant, Inc. (the \u201cCompany\u201d) issued a news release announcing its financial results for the quarter ended March 31, 2026.\n\nThe text of the news release, attached hereto as Exhibit 99.1, is incorporated by reference into this Item 2.02. The news release being furnished pursuant to this Item 2.02 shall not be deemed to be \u201cfiled\u201d for purposes of Section 18 of the Securities Exchange Act of 1934, as amended (the \u201cExchange Act\u201d), or otherwise subject to the liabilities under that Section 18, and shall not be deemed to be incorporated by reference into any filing of the Company under the Securities Act of 1933, as amended, or the Exchange Act, except as may be expressly set forth by specific reference in any such filing.\n\nItem 9.01.Financial Statements and Exhibits.\n\nPursuant to the requirements of the Securities Exchange Act of 1934, the registrant has duly caused this report to be signed on its behalf by the undersigned hereunto duly authorized.\n\nExhibit 99.1\n\n!Image 1: assurantlogocolora01.jpg\n\nAssurant Increases Full Year Outlook on Record First Quarter Results\n\nStrong Start to 2026 Led by Record Earnings in Global Lifestyle\n\n2026 to Deliver Strong Underlying Growth Driven\n\nby Global Lifestyle Adjusted EBITDA Growth of Approximately 10%\n\n(Unaudited)Q1'26 Q1'25 Change\n\n$ in millions, except per share data\n\nGAAP net income 274.1 146.6 87%\n\nAdjusted EBITDA 1 441.5 282.2 56%\n\nAdjusted EBITDA, ex. reportable catastrophes 2 465.9 439.2 6%\n\nGAAP net income per diluted share 5.41 2.83 91%\n\nAdjusted earnings per diluted share 3 5.95 3.39 76%\n\nAdjusted earnings, ex. reportable catastrophes, per diluted share 4 6.33 5.79 9%\n\nNote: The metrics included within the company\u2019s outlook and certain other metrics are non-GAAP financial measures. The company believes that it cannot, without unreasonable efforts, forecast certain information needed to reconcile outlook to the GAAP measures, the probable significance of which cannot be determined. More information can be found in the Non-GAAP Financial Measures section.\n\nATLANTA, May 5, 2026 \u2014Assurant, Inc. (NYSE: AIZ), a global company that redefines the boundaries of protection \u2013 safeguarding and servicing connected devices, homes, automobiles, and commercial equipment in partnership with the world\u2019s most successful brands, today announced results for the first quarter ended March 31, 2026.\n\n\"Our first quarter performance represented Assurant\u2019s best quarter in history driven by record earnings in Global Lifestyle. Our position as a market leader continues to generate attractive cash flows and reinforces our solid, flexible capital position \u2014 enabling us to accelerate share repurchases in the first quarter. We continue to scale capabilities, deepen client partnerships, and execute against a robust pipeline of new client opportunities, supported by the durability of our earnings. We are proud of the long-term outperformance we\u2019ve driven and more excited than ever about the future, including expansion into attractive new markets where we see a clear path to market leadership,\u201d said Assurant President and CEO Keith Demmings.\n\n\u201cDriven by our strong start to the year, we are increasing our 2026 enterprise outlook. We now expect Adjusted EBITDA and Adjusted earnings per share, both excluding reportable catastrophes, to grow low single digits, or high single digits on an underlying basis. We also now expect to return $300 to $350 million in share repurchases, at the upper end of our 2026 guidance,\u201d Demmings added.\n\nFirst Quarter Consolidated Results\n\n(Unaudited)Q1'26 Q1'25 Change\n\nGAAP net income 274.1 146.6 87%\n\nGlobal Lifestyle 236.7 197.8 20%\n\nGlobal Housing 236.7 112.4 111%\n\nCorporate and Other(31.9)(28.0)(14)%\n\nAdjusted EBITDA 1 441.5 282.2 56%\n\nReportable catastrophes 24.4 157.0\n\nAdjusted EBITDA, ex. reportable catastrophes\n\nGlobal Lifestyle 2 236.7 198.1 19%\n\nGlobal Housing 2 261.1 269.1(3)%\n\nCorporate and Other(31.9)(28.0)(14)%\n\nAdjusted EBITDA, ex. reportable catastrophes 2 465.9 439.2 6%\n\nNote: Adjusted EBITDA of the Global Lifestyle, Global Housing, and Corporate and Other segments is the segment measure of profitability in our GAAP financial statements and includes reportable catastrophes. Some of the metrics throughout this press release are non-GAAP measures of performance. A full reconciliation of each non-GAAP measure to the most comparable GAAP measure can be found in the Non-GAAP Financial Measures section.\n\nFirst Quarter 2026 Consolidated Results\n\n\u2022GAAP net income increased 87 percent to $274.1 million compared to first quarter 2025 of $146.6 million, driven by lower reportable catastrophes and higher Global Lifestyle earnings.\n\n\u2022GAAP net income per diluted share increased 91 percent to $5.41 compared to first quarter 2025 of $2.83. The increase was primarily driven by the factors noted above.\n\n\u2022Adjusted EBITDA 1 increased 56 percent to $441.5 million compared to the prior year period of $282.2 million, primarily due to lower reportable catastrophes. Excluding reportable catastrophes, Adjusted EBITDA 2 increased 6 percent, or 5 percent on a constant currency basis 5,to $465.9 million, due to growth within Global Lifestyle.\n\n\u2022Adjusted earnings, excluding reportable catastrophes, per diluted share 4, increased 9 percent to $6.33 compared to the prior year period of $5.79. The increase was driven by the factors noted above and the impact of a lower effective tax rate and share repurchases, partially offset by higher depreciation expense.\n\n\u2022Net earned premiums, fees and other income from the Global Lifestyle and Global Housing segments totaled $3.28 billion compared to first quarter 2025 of $2.96 billion, up 11 percent, driven by growth in both Global Lifestyle and Global Housing.\n\n$ in millions Q1'26 Q1'25 Change\n\nAdjusted EBITDA 236.7 197.8 20%\n\nNet earned premiums, fees and other income 2,551.0 2,306.6 11%\n\n\u2022Adjusted EBITDA increased 20 percent compared to first quarter 2025, driven by double-digit earnings growth across both Connected Living and Global Automotive. Results included $13 million from a real estate joint venture gain, of which $10 million was in Global Automotive. Connected Living results benefitted from subscriber growth in mobile protection programs and trade-in performance. Global Automotive results increased from higher investment income, including the gain noted above, and improved loss experience.\n\n\u2022Net earned premiums, fees and other income increased 11 percent compared to first quarter 2025, driven primarily by Connected Living growth from higher trade-in volumes and global mobile protection programs, as well as higher contributions from extended service contract programs, including a recently launched U.S. program.\n\n$ in millions Q1'26 Q1'25 Change\n\nAdjusted EBITDA 236.7 112.4 111%\n\nReportable catastrophes 24.4 156.7\n\nAdjusted EBITDA, ex. reportable catastrophes 2 261.1 269.1(3)%\n\nNet earned premiums, fees and other income 729.1 656.8 11%\n\n\u2022Adjusted EBITDA increased 111 percent compared to first quarter 2025, mainly from $132.3 million of lower pre-tax reportable catastrophes. Excluding reportable catastrophes, Adjusted EBITDA 2 decreased 3 percent, including $8 million of lower favorable prior year reserve development (PYD)(a). Underlying results, excluding PYD, were consistent with the prior period. The quarter reflected more normalized non-catastrophe loss experience compared to a lower than typical first quarter 2025. This was offset by growth within Homeowners from higher lender-placed policies in-force and increased contributions from specialty products. Higher investment income also supported results.\n\n(a) First quarter 2026 had $18.8 million of favorable non-catastrophe PYD, compared to $26.4 million of favorable non-catastrophe PYD in first quarter 2025.\n\n\u2022Net earned premiums, fees and other income increased 11 percent compared to first quarter 2025, driven by higher policies in-force and average premiums within lender-placed, and increases across various specialty products and Renters and Other.\n\nCorporate and Other\n\n$ in millions Q1'26 Q1'25 Change\n\nAdjusted EBITDA(31.9)(28.0)(14)%\n\n\u2022Adjusted EBITDA loss increased in first quarter 2026 compared to the prior year period, driven by organic investments to support our Home Warranty business, partially offset by higher investment income from higher assets.\n\nHolding Company Liquidity Position\n\n\u2022Holding company liquidity totaled $836 million as of March 31, 2026, or $611 million above the company\u2019s minimum level of $225 million.\n\nDividends paid by the operating segments to the holding company in first quarter 2026 totaled $138 million.\n\n\u2022Share repurchases and common stock dividends totaled $169 million in first quarter 2026. During first quarter 2026, Assurant repurchased approximately 556 thousand shares of common stock for $125 million and paid $44 million in common stock dividends.\n\nFrom April 1 through May 1, 2026, the company repurchased approximately 133 thousand shares for $30 million. $620 million remains under the current repurchase authorization.\n\n2026 Company Outlook 6\n\nNote: Some of the metrics included within the company\u2019s outlook are non-GAAP financial measures and the company believes that it cannot, without unreasonable efforts, forecast certain information needed to reconcile to the GAAP measures, the probable significance of which cannot be determined. More information can be found in the Non-GAAP Financial Measures section.\n\nBased on current macroeconomic conditions, the company now expects the following:\n\n$ in millions, except per share data 2025 2026 Outlook 6 2026 Outlook ex. PYD(b)\n\nAdjusted EBITDA, ex. reportable catastrophes 2$1,734 Low single digits High single digits\n\nAdjusted earnings, ex. reportable catastrophes, per diluted share 4$22.81 Low single digits High single digits\n\n(b)Excludes the impact of $94 million of lower favorable prior year reserve development (PYD) in Global Housing. This reflects $113 million of favorable PYD in 2025 and $19 million of favorable PYD in first quarter 2026.\n\n\u2022Adjusted EBITDA, excluding reportable catastrophes 6, now expected to increase low single digits.\n\n\u25e6Global Lifestyle Adjusted EBITDA now expected to increase by approximately 10 percent with contributions from Connected Living and Global Automotive.\n\n\u25e6Global Housing Adjusted EBITDA, excluding reportable catastrophes 6, now expected to decline only modestly.\n\n\u25e6Corporate and Other Adjusted EBITDA loss to approximate $140 million, reflecting organic investments in our Home Warranty business.\n\n\u2022Adjusted earnings, excluding reportable catastrophes, per diluted share 6, now expected to increase low single digits. The company now expects depreciation expense of approximately $180 million and an effective tax rate of approximately 19 to 21 percent, and continues to expect interest expense of approximately $113 million and amortization of purchased intangible assets of approximately $70 million.\n\n\u2022Capital deployment priorities to focus on maintaining a strong, flexible financial position, supporting business growth by funding organic investments and M&A, and returning capital to shareholders through common stock dividends and share repurchases, subject to Board approval.\n\nEarnings Conference Call\n\nThe first quarter 2026 earnings conference call and webcast will be held on Wednesday, May 6, 2026 at 8:00 a.m. E.T. The slide presentation used by management during the webcast includes supplemental information and will be available on Assurant\u2019s Investor Relations website prior to the conference call. The live and archived webcast, along with supplemental information, will also be available on Assurant\u2019s Investor Relations website:\n\nhttps://ir.assurant.com/overview/default.aspx\n\nAssurant, Inc. (NYSE: AIZ) redefines the boundaries of protection \u2013 safeguarding and servicing connected devices, homes, automobiles, and commercial equipment in partnership with the world\u2019s most successful brands. As a Fortune 500 company operating in 21 countries, Assurant leads the way in leveraging insights and technology to transform customer connections that build loyalty and drive value.\n\nLearn more at assurant.com\n\nMedia Contact:\n\nVice President, Global Communications\n\njulie.strider@assurant.com\n\nInvestor Relations Contacts:\n\nrebekah.biondo@assurant.com\n\nVice President, Investor Relations\n\nsean.moshier@assurant.com\n\nSafe Harbor Statement\n\nSome of the statements in this news release, including our business and financial plans and any statements regarding our anticipated future financial performance, business prospects, growth, operating strategies, valuation and similar matters, such as performance outlook, financial objectives, business drivers, our ability to gain market share, and the strength, diversity, predictability, resiliency and durability of enterprise and segment earnings, cash flows and other results, may constitute forward-looking statements within the meaning of the U.S. Private Securities Litigation Reform Act of 1995.\n\nYou can identify forward-looking statements by the use of words such as \u201coutlook,\u201d \u201cobjective,\u201d \u201cwill,\u201d \u201cmay,\u201d \u201ccan,\u201d \u201canticipates,\u201d \u201cexpects,\u201d \u201cestimates,\u201d \u201cprojects,\u201d \u201cintends,\u201d \u201cplans,\u201d \u201cbelieves,\u201d \u201ctargets,\u201d \u201cforecasts,\u201d \u201cpotential,\u201d \u201capproximately,\u201d and the negative version of those words and other words and terms with a similar meaning. Any forward-looking statements contained in this news release or its exhibits are based upon our historical performance and on current plans, estimates and expectations. The inclusion of this forward-looking information should not be regarded as a representation by us or any other person that our future plans, estimates or expectations will be achieved. Our actual results might differ materially from those projected in the forward-looking statements. We undertake no obligation to update or review any forward-looking statement, whether as a\n\nresult of new information, future events or other developments. The following factors could cause our actual results to differ materially from those currently estimated by management, including those projected in the company outlook:\n\ni.the impact of general economic, financial market and political conditions and conditions in the markets in which we operate, including inflation, geopolitical conflict in the Middle East, tariff policies in the United States and abroad, global supply chain impacts and recessionary pressures;\n\nii.the loss of significant clients, distributors or other parties with whom we do business, or if we are unable to renew contracts with them on favorable terms, or if they disintermediate us, or if those parties face financial, reputational or regulatory issues;\n\niii.significant competitive pressures, changes in customer preferences and disruption, including the impact of artificial intelligence;\n\niv.the failure to execute our strategy, including through organic growth and the continuing service of key executives, senior leaders, highly-skilled personnel and a high-performing workforce;\n\nv.the failure to find suitable acquisitions at attractive prices, integrate acquired businesses or divest of non-strategic businesses effectively;\n\nvi.our inability to recover should we experience a business continuity event;\n\nvii.the failure to manage vendors and other third parties on whom we rely to conduct business and provide services to our clients;\n\nviii.risks related to our international operations;\n\nix.declines in the value and availability of mobile devices, and regulatory compliance or other risks in our mobile business;\n\nx.our inability to develop and maintain distribution sources or attract and retain sales representatives and executives with key client relationships;\n\nxi.risks associated with joint ventures, franchises and investments in which we share ownership and management with third parties;\n\nxii.the impact of catastrophe and non-catastrophe losses, including as a result of climate change and the current inflationary environment;\n\nxiii.negative publicity relating to our business, practices, industry or clients;\n\nxiv.the adequacy of reserves established for claims and our inability to accurately predict and price for claims and other costs;\n\nxv.a decline in financial strength ratings of our insurance subsidiaries or in our corporate senior debt ratings;\n\nxvi.fluctuations in exchange rates, including in the current environment;\n\nxvii.an impairment of goodwill or other intangible assets;\n\nxviii.the failure to maintain effective internal control over financial reporting;\n\nxix.unfavorable conditions in the capital and credit markets;\n\nxx.a decrease in the value of our investment portfolio, including due to market, credit and liquidity risks, and changes in interest rates;\n\nxxi.an impairment in the value of our deferred tax assets;\n\nxxii.the unavailability or inadequacy of reinsurance coverage and the credit risk of reinsurers, including those to whom we have sold business through reinsurance;\n\nxxiii.the credit risk of some of our agents, third-party administrators and clients;\n\nxxiv.the inability of our subsidiaries to pay sufficient dividends to the holding company and limitations on our ability to declare and pay dividends or repurchase shares;\n\nxxv.limitations in the analytical models we use to assist in our decision-making;\n\nxxvi.the failure to effectively maintain and modernize our technology systems and infrastructure, or the failure to integrate those of acquired businesses;\n\nxxvii.breaches of our technology systems or those of third parties with whom we do business, or the failure to protect the security of data in such systems, including due to cyberattacks and as a result of working remotely;\n\nxxviii.the costs of complying with, or the failure to comply with, extensive laws and regulations to which we are subject, including those related to privacy, data security, data protection and tax;\n\nxxix.the impact of litigation and regulatory actions;\n\nxxx.reductions or deferrals in the insurance premiums we charge;\n\nxxxi.changes in insurance, tax and other regulations;\n\nxxxii.volatility in our common stock price and trading volume; and\n\nxxxiii.employee misconduct.\n\nFor additional information on factors that could affect our actual results, please refer to the factors identified in the reports we file with the U.S. Securities and Exchange Commission, including the risk factors identified in our most recent Annual Report on Form 10-K and Quarterly Reports on Form 10-Q.\n\nNon-GAAP Financial Measures\n\nAssurant uses the following non-GAAP financial measures to analyze the company\u2019s operating performance. Assurant\u2019s non-GAAP financial measures should not be considered in isolation or as a substitute for GAAP financial measures. Because Assurant\u2019s calculation of these measures may differ from similar measures used by other companies, investors should be careful when comparing Assurant\u2019s non-GAAP financial measures to those of other companies.\n\n(1)Adjusted EBITDA: Assurant uses Adjusted EBITDA as an important measure of the company\u2019s operating performance. Assurant defines Adjusted EBITDA as net income, excluding net realized gains (losses) on investments and fair value changes to equity securities, interest expense, benefit (provision) for income taxes, depreciation expense, amortization of purchased intangible assets, as well as other highly variable or unusual items. The company believes this metric provides investors with an important measure of the company\u2019s operating performance because it excludes items that do not represent the ongoing operations of the company, and therefore (i) enhances management\u2019s and investors\u2019 ability to analyze the ongoing operations of its businesses and (ii) facilitates comparisons of its operating performance over multiple periods, including because the amortization expense associated with purchased intangible assets may fluctuate from period to period based on the timing, size, nature and number of acquisitions. Although the company excludes amortization of purchased intangible assets from Adjusted EBITDA, revenue generated from such intangible assets is included within the revenue in determining Adjusted EBITDA. The comparable GAAP measure is net income. See Note 2 below for a full reconciliation.\n\n(2)Adjusted EBITDA, Excluding Reportable Catastrophes: Assurant uses Adjusted EBITDA (defined above), excluding reportable catastrophes (which represents individual catastrophic events that generate losses in excess of $5.0 million, pre-tax, net of reinsurance and client profit sharing adjustments and including reinstatement and other premiums), as another important measure of the company\u2019s operating performance. The company believes this metric provides investors with an important measure of the company\u2019s operating performance for the reasons noted above, and because it excludes reportable catastrophes, which can be volatile. The comparable GAAP measure is net income.\n\n(UNAUDITED)1Q 1Q 12 Months\n\n($ in millions)2026 2025 2025\n\nGAAP net income$274.1$146.6$872.7\n\nLess:\n\nInterest expense 28.3 26.8 109.7\n\nProvision for income taxes 61.5 37.1 214.7\n\nDepreciation expense 43.3 35.1 156.4\n\nAmortization of purchased intangible assets 17.7 18.4 67.4\n\nAdjustments, pre-tax:\n\nNet realized losses on investments and fair value changes to equity securities 21.2 16.0 71.8\n\nOther adjustments(1)(4.6)2.2 43.5\n\nAdjusted EBITDA 441.5 282.2 1,536.2\n\nReportable catastrophes 24.4 157.0 198.2\n\nAdjusted EBITDA, excluding reportable catastrophes$465.9$439.2$1,734.4\n\n(1)Additional details about the components of Other adjustments and other key financial metrics throughout this press release are included in the Financial Supplement located on Assurant\u2019s Investor Relations website: https://ir.assurant.com/overview/default.aspx\n\n(UNAUDITED)1Q 2026 1Q 2025\n\nGlobal Lifestyle Global Housing Global Lifestyle Global Housing\n\nAdjusted EBITDA$236.7$236.7$197.8$112.4\n\nReportable catastrophes\u201424.4 0.3 156.7\n\nAdjusted EBITDA, excluding reportable catastrophes$236.7$261.1$198.1$269.1\n\n(3)Adjusted Earnings per Diluted Share: Assurant uses Adjusted earnings per diluted share as an important measure of the company\u2019s stockholder value. Assurant defines Adjusted earnings per diluted share as (i) net income, excluding net realized gains (losses) on investments and fair value changes to equity securities, amortization of purchased intangible assets, as well as other highly variable or unusual items, less earnings allocated to participating securities, divided by (ii) the weighted average diluted shares outstanding. The company believes this metric provides investors with an important measure of stockholder value because it excludes items that do not represent the ongoing operations of the company, and therefore (i) enhances management\u2019s and investors\u2019 ability to analyze the ongoing operations of its businesses and (ii) facilitates comparisons of its operating performance over multiple periods, including because the amortization expense associated with purchased intangible assets may fluctuate from period to period based on the timing, size, nature and number of acquisitions. Although the company excludes amortization of purchased intangible assets from Adjusted earnings, revenue generated from such intangible assets is included within the revenue in determining Adjusted earnings. The comparable GAAP measure is net income per diluted share. See Note 4 below for a full reconciliation.\n\n(4)Adjusted Earnings, Excluding Reportable Catastrophes, per Diluted Share: Assurant uses Adjusted earnings, excluding reportable catastrophes, per diluted share (each as defined above) as another important measure of the company's stockholder\n\nvalue. The company believes this metric provides investors with an important measure of stockholder value for the reasons noted above, and because it excludes reportable catastrophes, which can be volatile. The comparable GAAP measure is net income per diluted share.\n\n(UNAUDITED)1Q 1Q 12 Months\n\n($ in millions)2026 2025 2025\n\nGAAP net income$274.1$146.6$872.7\n\nAdjustments, pre-tax:\n\nNet realized losses on investments and fair value changes to equity securities 21.2 16.0 71.8\n\nAmortization of purchased intangible assets 17.7 18.4 67.4\n\nOther adjustments(4.6)2.2 43.5\n\nBenefit for income taxes(7.3)(7.7)(36.5)\n\nAdjusted earnings 301.1 175.5 1,018.9\n\nReportable catastrophes, pre-tax 24.4 157.0 198.2\n\nTax impact of reportable catastrophes(5.2)(33.0)(41.7)\n\nAdjusted earnings, excluding reportable catastrophes$320.3$299.5$1,175.4\n\n(UNAUDITED)1Q 1Q 12 Months\n\nGAAP net income per diluted share(1)$5.41$2.83$16.93\n\nAdjustments, pre-tax:\n\nNet realized losses on investments and fair value changes to equity securities 0.42 0.31 1.39\n\nAmortization of purchased intangible assets 0.35 0.36 1.31\n\nOther adjustments(0.09)0.04 0.85\n\nBenefit for income taxes(0.14)(0.15)(0.71)\n\nAdjusted earnings, per diluted share 5.95 3.39 19.77\n\nReportable catastrophes, pre-tax 0.48 3.03 3.85\n\nTax impact of reportable catastrophes(0.10)(0.63)(0.81)\n\nAdjusted earnings, excluding reportable catastrophes, per diluted share$6.33$5.79$22.81\n\n(1)Information on the share counts used in the per share calculations throughout this press release are included in the Financial Supplement located on Assurant\u2019s Investor Relations website: https://ir.assurant.com/overview/default.aspx\n\n(5)Constant Currency: Represents a non-GAAP financial measure. Excludes the impact of changes in foreign currency exchange rates used in the translation of the income statement because they can be volatile. These amounts are calculated by translating the comparable prior period results at the weighted average foreign currency exchange rates used in the current period, and it excludes the impact of foreign exchange transaction gains (losses) associated with the remeasurement of non-functional currencies. The company believes this information allows investors to identify the significance of changes in foreign currency exchange rates in period-to-period comparisons.\n\n(UNAUDITED)Constant Currency\n\nPercentage change in GAAP net income, including FX impact 87.0%\n\nPercentage change in Adjusted EBITDA, including FX impact 56.4%\n\nPercentage change in Adjusted EBITDA, excluding reportable catastrophes:\n\nIncluding FX impact 6.1%\n\nFX impact 0.9%\n\nExcluding FX impact 5.2%\n\n(6)The company outlook for each of Adjusted earnings, excluding reportable catastrophes, per diluted share and, for Assurant and Global Housing, Adjusted EBITDA, excluding reportable catastrophes, each including and excluding 2025 prior year reserve development and first quarter 2026 development, constitute forward-looking non-GAAP financial measures and the company believes that it cannot, without unreasonable efforts, forecast certain information needed to reconcile such forward-looking non-GAAP financial measures to the most comparable GAAP measure, the probable significance of which cannot be determined. The company is able to quantify a full-year estimate of depreciation expense, interest expense and amortization of purchased intangible assets, each on a pre-tax basis, and the estimated effective tax rate, which are expected to be approximately $180 million, $113 million, $70 million and 19 to 21 percent, respectively. Other GAAP components cannot be reliably quantified due to the combination of variability and volatility of such components and may, depending on the size of the components, have a significant impact on the reconciliation.\n\nAssurant, Inc.\n\nConsolidated Statement of Operations (unaudited)\n\nThree Months Ended March 31, 2026 and 2025\n\n($ in millions except number of shares and per share amounts)\n\nNet earned premiums$2,781.9$2,562.3\n\nFees and other income 499.8 402.9\n\nNet investment income 159.6 124.8\n\nNet realized losses on investments and fair value changes to equity securities(21.2)(16.0)\n\nTotal revenues 3,420.1 3,074.0\n\nBenefits, losses and expenses\n\nPolicyholder benefits 769.1 779.7\n\nUnderwriting, selling, general and administrative expenses 2,287.1 2,083.8\n\nInterest expense 28.3 26.8\n\nTotal benefits, losses and expenses 3,084.5 2,890.3\n\nIncome before provision for income taxes 335.6 183.7\n\nProvision for income taxes 61.5 37.1\n\nNet income$274.1$146.6\n\nNet income per share:\n\nBasic$5.47$2.86\n\nDiluted$5.41$2.83\n\nCommon stock dividends per share$0.88$0.80\n\nShare data:\n\nBasic weighted average shares outstanding 49,702,511 50,799,019\n\nDiluted weighted average shares outstanding 50,197,547 51,248,716\n\nAssurant, Inc.\n\nConsolidated Condensed Balance Sheets (unaudited)\n\nAt March 31, 2026 and December 31, 2025\n\nMarch 31,December 31,\n\nInvestments and cash and cash equivalents$11,813.6$11,896.1\n\nReinsurance recoverables 6,542.0 6,471.3\n\nDeferred acquisition costs 10,201.4 10,187.6\n\nGoodwill 2,654.5 2,646.3\n\nOther assets 4,557.0 4,575.9\n\nAssets held for sale\u2014512.4\n\nTotal assets$35,768.5$36,289.6\n\nPolicyholder benefits and claims payable$2,223.3$2,156.9\n\nUnearned premiums 20,902.7 20,881.4\n\nDebt 2,207.5 2,206.9\n\nAccounts payable and other liabilities 4,565.6 4,673.3\n\nLiabilities held for sale\u2014499.5\n\nTotal liabilities 29,899.1 30,418.0\n\nStockholders\u2019 equity\n\nStockholders\u2019 equity, excluding accumulated other comprehensive loss 6,498.4 6,415.8\n\nAccumulated other comprehensive loss(629.0)(544.2)\n\nTotal stockholders\u2019 equity 5,869.4 5,871.6\n\nTotal liabilities and stockholders\u2019 equity$35,768.5$36,289.6",
+      "evidence_quality": "full_body",
+      "url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html",
+      "published_at": "Tue, 05 May 2026 18:01:57 GMT",
+      "ticker_hints": [
+        "AIZ"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMiogFBVV95cUxOSi1QQmdYX1BBZFVwekNpZVcteVUxaW5MR3dEZnkyUDBvb05ORGtDZDd2T1J3Vjd1V1RSX1BDc0pEVGxqaTlYa3owZzBMOXZHUzBYWkdKSFlvc2ozWEZWRXZLR2lRSm5qNE8xT05XYi0tYjV1MFlnWHdFeHhnM0VfNWhkZFVtUEozckFNdDk3RklsMnFnOHNWd0RfNkhnNmhwaUE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ) - Stock Titan",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html",
+        "publisher_homepage_url": "https://www.stocktitan.net",
+        "url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html",
+        "published_at": "Tue, 05 May 2026 18:01:57 GMT",
+        "summary": "Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ)  Stock Titan",
+        "ticker": "AIZ",
+        "company_name": "Assurant Inc",
+        "query": "Assurant Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "AIZ"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Record Q1 performance and raised full-year outlook directly supports the growth archetype for AIZ.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.stocktitan.net/sec-filings/AIZ/8-k-assurant-inc-reports-material-event-78695a4e9e4d.html",
+      "content_source": "stocktitan.net",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 4198,
+          "title_hits": 7,
+          "resolved_host": "stocktitan.net",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOdGlIUXBKS2FFclpxdmVQZURaakg2Uzk3N1VRSHFpR2EtSlZyaS1aVVFEYi01OXJaSEZQaGUyamlIMVhLTmRiTjlWU2Y1VHpyZm9OZW0ySjRUUjY3M0pFOC1sbk1vZXhVWWplOFdSSUFQcXRONk5xWFF2VW1kWEp0b0gtZFJLblhDSG9GeGNPTU1Jd3hRcnlVS2N1Y0F6N214RUlnSTJRZ1JMMDhrNWF0UmNRRlUzWTZKX3RkZzYwZ3pqclFCczNJYlRjdm4yaGU0a0VmN0xtQzM2dng1NU5DenN3enpMTjlh?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "ea09584be8822bd486d18a69780a8dc62037682adcfc651d900874e82b003e84",
+      "source_type": "company_news",
+      "source": "StockStory",
+      "source_url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks",
+      "title": "Unpacking Q1 Earnings: Arthur J. Gallagher (NYSE:AJG) In The Context Of Other Insurance Brokers Stocks - StockStory",
+      "summary": "Unpacking Q1 Earnings: Arthur J. Gallagher (NYSE:AJG) In The Context Of Other Insurance Brokers Stocks StockStory",
+      "body": "Wrapping up Q1 earnings, we look at the numbers and key takeaways for the insurance brokers stocks, including Arthur J. Gallagher (NYSE:AJG) and its peers.\n\nThe insurance brokerage industry, while influenced by insurance pricing cycles, benefits from durable secular tailwinds as rising risk complexity (climate, data privacy), regulatory scrutiny, and insurance pricing inflation. These increase demand for professional risk-management advice. Brokers operate models that rely on commissions and fees tied to premium volumes and growing contributions from recurring advisory, benefits, and compliance services. Scale is a key advantage, enabling better carrier access, stronger data and benchmarking, and efficient deployment of technology and compliance investments, which in turn supports ongoing industry consolidation. The headwinds are labor intensity and wage inflation for producers, regulatory complexity (this cuts both ways, as you can see), and execution risk when integrating new digital tools into legacy workflows.\n\nThe 5 insurance brokers stocks we track reported a satisfactory Q1. As a group, revenues beat analysts\u2019 consensus estimates by 1.7%.\n\nAmidst this news, share prices of the companies have had a rough stretch. On average, they are down 6.4% since the latest earnings results.\n\n## Arthur J. Gallagher (NYSE:AJG)\n\nFounded in 1927 and operating in approximately 130 countries through direct operations and correspondent networks, Arthur J. Gallagher (NYSE:AJG) provides insurance brokerage, reinsurance, consulting, and third-party claims settlement services to businesses and individuals worldwide.\n\nArthur J. Gallagher reported revenues of $4.75 billion, up 27.7% year on year. This print was in line with analysts\u2019 expectations, but overall, it was a mixed quarter for the company with a narrow beat of analysts\u2019 EPS estimates but revenue in line with analysts\u2019 estimates.\n\n\"We had a terrific first quarter!\" said J. Patrick Gallagher, Jr., Chairman and CEO.\n\n!Image 1: Arthur J. Gallagher Total Revenue\n\nArthur J. Gallagher delivered the weakest performance against analyst estimates of the whole group. Unsurprisingly, the stock is down 1.3% since reporting and currently trades at $203.65.\n\nIs now the time to buy Arthur J. Gallagher? Access our full analysis of the earnings results here, it\u2019s free.\n\n## Best Q1: Ryan Specialty (NYSE:RYAN)\n\nFounded in 2010 by insurance industry veteran Patrick Ryan, Ryan Specialty (NYSE:RYAN) is a wholesale insurance broker and underwriting manager that helps retail brokers place complex or hard-to-place risks with insurance carriers.\n\nRyan Specialty reported revenues of $795.2 million, up 15.2% year on year, outperforming analysts\u2019 expectations by 2.1%. The business had a very strong quarter with a beat of analysts\u2019 EPS and revenue estimates.\n\n!Image 2: Ryan Specialty Total Revenue\n\nAlthough it had a fine quarter compared its peers, the market seems unhappy with the results as the stock is down 9.4% since reporting. It currently trades at $31.50.\n\nIs now the time to buy Ryan Specialty? Access our full analysis of the earnings results here, it\u2019s free.\n\n## Weakest Q1: Brown & Brown (NYSE:BRO)\n\nWith roots dating back to 1939 and operations spanning 44 U.S. states and 14 countries, Brown & Brown (NYSE:BRO) is an insurance brokerage and risk management firm that markets and sells insurance products across property, casualty, and employee benefits sectors.\n\nBrown & Brown reported revenues of $1.90 billion, up 35.4% year on year, in line with analysts\u2019 expectations. It was a slower quarter as it posted a significant miss of analysts\u2019 organic revenue estimates.\n\nAs expected, the stock is down 11.6% since the results and currently trades at $58.42.\n\nRead our full analysis of Brown & Brown\u2019s results here.\n\n## Baldwin Insurance Group (NASDAQ:BWIN)\n\nRebranded from BRP Group in May 2024, Baldwin Insurance Group (NASDAQ:BWIN) is an independent insurance distribution company that provides tailored insurance, risk management, and employee benefits solutions to businesses and individuals.\n\nBaldwin Insurance Group reported revenues of $532.2 million, up 28.7% year on year. This result beat analysts\u2019 expectations by 3.2%. Aside from that, it was a satisfactory quarter as it also logged an impressive beat of analysts\u2019 revenue estimates but a slight miss of analysts\u2019 organic revenue estimates.\n\nBaldwin Insurance Group delivered the biggest analyst estimates beat among its peers. The stock is down 4.5% since reporting and currently trades at $20.98.\n\nRead our full, actionable report on Baldwin Insurance Group here, it\u2019s free.\n\n## Marsh (NYSE:MRSH)\n\nWith roots dating back to 1871 and a presence in over 130 countries, Marsh (NYSE:MRSH) is a global professional services firm that helps organizations manage risk, strategy, and workforce challenges through its four specialized businesses.\n\nMarsh reported revenues of $7.60 billion, up 7.6% year on year. This print surpassed analysts\u2019 expectations by 2.9%. Overall, it was a strong quarter as it also produced an impressive beat of analysts\u2019 revenue estimates and a narrow beat of analysts\u2019 organic revenue estimates.\n\nMarsh had the slowest revenue growth among its peers. The stock is down 5.1% since reporting and currently trades at $166.05.\n\nRead our full, actionable report on Marsh here, it\u2019s free.\n\nLate in 2025 into early 2026, there was hand wringing around artificial intelligence. For software companies, the fear was that AI would erode pricing power and compress margins as new tools made it easier to replicate what once required expensive enterprise platforms. Crypto investors had their own version of the same anxiety: if AI agents could trade, allocate capital, and manage wallets autonomously, what exactly was the long-term value of today\u2019s crypto infrastructure?\n\nThese concerns triggered a noticeable rotation away from these sectors and into safer havens. But markets rarely dwell on one narrative for long. Spring 2026 came, and the focus shifted abruptly from technological disruption to geopolitical risk. The US\u2019 conflict with Iran became the dominant driver of market psychology, and when geopolitics takes center stage, the script changes quickly. Investors stop debating growth rates and start worrying about oil supply, inflation, and global stability.\n\nWant to invest in winners with rock-solid fundamentals? Check out our Top 6 Stocks and add them to your watchlist. These companies are poised for growth regardless of the political or macroeconomic climate.\n\n_StockStory\u2019s analyst team \u2014 all seasoned professional investors \u2014 uses quantitative analysis and automation to deliver market-beating insights faster and with higher quality._",
+      "evidence_quality": "full_body",
+      "url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks",
+      "published_at": "Fri, 08 May 2026 07:54:14 GMT",
+      "ticker_hints": [
+        "AJG"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxOdGlIUXBKS2FFclpxdmVQZURaakg2Uzk3N1VRSHFpR2EtSlZyaS1aVVFEYi01OXJaSEZQaGUyamlIMVhLTmRiTjlWU2Y1VHpyZm9OZW0ySjRUUjY3M0pFOC1sbk1vZXhVWWplOFdSSUFQcXRONk5xWFF2VW1kWEp0b0gtZFJLblhDSG9GeGNPTU1Jd3hRcnlVS2N1Y0F6N214RUlnSTJRZ1JMMDhrNWF0UmNRRlUzWTZKX3RkZzYwZ3pqclFCczNJYlRjdm4yaGU0a0VmN0xtQzM2dng1NU5DenN3enpMTjlh?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Unpacking Q1 Earnings: Arthur J. Gallagher (NYSE:AJG) In The Context Of Other Insurance Brokers Stocks - StockStory",
+        "source": "StockStory",
+        "source_url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks",
+        "publisher_homepage_url": "https://stockstory.org",
+        "url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks",
+        "published_at": "Fri, 08 May 2026 07:54:14 GMT",
+        "summary": "Unpacking Q1 Earnings: Arthur J. Gallagher (NYSE:AJG) In The Context Of Other Insurance Brokers Stocks  StockStory",
+        "ticker": "AJG",
+        "company_name": "Arthur J. Gallagher & Co.",
+        "query": "Arthur J. Gallagher & Co.",
+        "source_type": "company_news",
+        "decoded_google_url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "AJG"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Arthur J. Gallagher's Q1 earnings analyzed in context of insurance broker peers provides relevant performance data for the AJG growth position.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://stockstory.org/us/stocks/nyse/ajg/news/earnings/unpacking-q1-earnings-arthur-j-gallagher-nyseajg-in-the-context-of-other-insurance-brokers-stocks",
+      "content_source": "stockstory.org",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 1007,
+          "title_hits": 5,
+          "resolved_host": "stockstory.org",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPNzdzeU9jWnJnOFNsSUVxUHJsNDh2YTVqWER2U1JFOHdES0w5S1h2VDMtQ3pVRFc3Z0FGaEFNSVlxbk9vb2p3blA1V3czMTQ1MGpiRzk5SEljaFJ1bmNwaUFoRzFQdTg0aVVJcVZFM0hhTHlCZmFfYjhWaURBTHhoU3JoLU1oWkdlLW1LOVFLQ09vdmo3OWM2dGZUVFRuekVtT3RJdU9hR3gxN0ZMR3FjZDFUcnVjU0lIYXF1S29ROGNjZS1BLURmWFVLckZQSVE?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "dffc6fdb160f0fbdfaeef0b9d9b3369084fe481e5f884cf578d47fcc1651339e",
+      "source_type": "company_news",
+      "source": "MarketBeat",
+      "source_url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/",
+      "title": "ASR Vermogensbeheer N.V. Acquires 21,448 Shares of Arthur J. Gallagher & Co. $AJG - MarketBeat",
+      "summary": "ASR Vermogensbeheer N.V. Acquires 21,448 Shares of Arthur J. Gallagher & Co. $AJG MarketBeat",
+      "body": "ASR Vermogensbeheer N.V. boosted its holdings in shares of Arthur J. Gallagher & Co. ( NYSE:AJG - Free Report ) by 17.4% during the 4th quarter, according to its most recent filing with the Securities and Exchange Commission. The firm owned 145,001 shares of the financial services provider's stock after purchasing an additional 21,448 shares during the quarter. ASR Vermogensbeheer N.V. owned about 0.06% of Arthur J. Gallagher & Co. worth $37,525,000 at the end of the most recent quarter.\n\nOther institutional investors and hedge funds also recently added to or reduced their stakes in the company. Caprock Group LLC bought a new position in shares of Arthur J. Gallagher & Co. during the 3rd quarter valued at approximately $9,877,000. JPMorgan Chase & Co. increased its position in shares of Arthur J. Gallagher & Co. by 19.6% during the 3rd quarter. JPMorgan Chase & Co. now owns 20,338,533 shares of the financial services provider's stock valued at $6,299,674,000 after purchasing an additional 3,330,205 shares during the last quarter. Banco Bilbao Vizcaya Argentaria S.A. increased its position in shares of Arthur J. Gallagher & Co. by 10.2% during the 3rd quarter. Banco Bilbao Vizcaya Argentaria S.A. now owns 65,889 shares of the financial services provider's stock valued at $20,398,000 after purchasing an additional 6,090 shares during the last quarter. Cincinnati Financial Corp bought a new position in shares of Arthur J. Gallagher & Co. during the 3rd quarter valued at approximately $42,824,000. Finally, Factory Mutual Insurance Co. increased its position in shares of Arthur J. Gallagher & Co. by 241.4% during the 3rd quarter. Factory Mutual Insurance Co. now owns 49,500 shares of the financial services provider's stock valued at $15,332,000 after purchasing an additional 35,000 shares during the last quarter. Institutional investors own 85.53% of the company's stock. Get AJG alerts: Sign Up Arthur J. Gallagher & Co. Price Performance AJG opened at $201.87 on Friday. The business has a fifty day moving average of $216.40 and a 200 day moving average of $237.75. Arthur J. Gallagher & Co. has a 52-week low of $194.15 and a 52-week high of $351.23. The company has a quick ratio of 1.06, a current ratio of 1.06 and a debt-to-equity ratio of 0.51. The stock has a market cap of $51.90 billion, a P/E ratio of 32.67, a PEG ratio of 1.00 and a beta of 0.54.\n\nArthur J. Gallagher & Co. ( NYSE:AJG - Get Free Report ) last issued its earnings results on Thursday, April 30th. The financial services provider reported $4.47 earnings per share for the quarter, topping the consensus estimate of $4.43 by $0.04. Arthur J. Gallagher & Co. had a return on equity of 12.83% and a net margin of 10.76%.The business had revenue of $4.71 billion during the quarter, compared to analysts' expectations of $4.73 billion. During the same period in the prior year, the business earned $3.67 EPS. The business's revenue for the quarter was up 29.0% compared to the same quarter last year. As a group, sell-side analysts anticipate that Arthur J. Gallagher & Co. will post 13.18 EPS for the current year. Arthur J. Gallagher & Co. Announces Dividend The company also recently announced a quarterly dividend, which will be paid on Friday, June 19th. Shareholders of record on Friday, June 5th will be issued a $0.70 dividend. This represents a $2.80 annualized dividend and a dividend yield of 1.4%. The ex-dividend date is Friday, June 5th. Arthur J. Gallagher & Co.'s dividend payout ratio is currently 45.31%. Wall Street Analysts Forecast Growth Several research firms have recently weighed in on AJG. Citigroup raised Arthur J. Gallagher & Co. from a \"neutral\" rating to a \"buy\" rating and cut their target price for the company from $280.00 to $250.00 in a research report on Wednesday. Jefferies Financial Group cut their target price on Arthur J. Gallagher & Co. from $283.00 to $280.00 and set a \"hold\" rating on the stock in a research report on Monday, February 2nd. Cantor Fitzgerald restated a \"neutral\" rating on shares of Arthur J. Gallagher & Co. in a report on Friday, January 30th. Keefe, Bruyette & Woods dropped their price objective on Arthur J. Gallagher & Co. from $246.00 to $235.00 and set a \"market perform\" rating for the company in a report on Friday, May 1st. Finally, UBS Group dropped their price objective on Arthur J. Gallagher & Co. from $285.00 to $283.00 and set a \"neutral\" rating for the company in a report on Monday, February 2nd. Eleven research analysts have rated the stock with a Buy rating and eight have issued a Hold rating to the company's stock. According to MarketBeat.com, Arthur J. Gallagher & Co. currently has a consensus rating of \"Moderate Buy\" and a consensus price target of $268.00.\n\nCheck Out Our Latest Analysis on Arthur J. Gallagher & Co. Insider Buying and Selling at Arthur J. Gallagher & Co. In other Arthur J. Gallagher & Co. news, VP Christopher E. Mead sold 4,000 shares of the company's stock in a transaction on Thur",
+      "evidence_quality": "full_body",
+      "url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/",
+      "published_at": "Fri, 08 May 2026 07:14:20 GMT",
+      "ticker_hints": [
+        "AJG"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPNzdzeU9jWnJnOFNsSUVxUHJsNDh2YTVqWER2U1JFOHdES0w5S1h2VDMtQ3pVRFc3Z0FGaEFNSVlxbk9vb2p3blA1V3czMTQ1MGpiRzk5SEljaFJ1bmNwaUFoRzFQdTg0aVVJcVZFM0hhTHlCZmFfYjhWaURBTHhoU3JoLU1oWkdlLW1LOVFLQ09vdmo3OWM2dGZUVFRuekVtT3RJdU9hR3gxN0ZMR3FjZDFUcnVjU0lIYXF1S29ROGNjZS1BLURmWFVLckZQSVE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "ASR Vermogensbeheer N.V. Acquires 21,448 Shares of Arthur J. Gallagher & Co. $AJG - MarketBeat",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/",
+        "publisher_homepage_url": "https://www.marketbeat.com",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/",
+        "published_at": "Fri, 08 May 2026 07:14:20 GMT",
+        "summary": "ASR Vermogensbeheer N.V. Acquires 21,448 Shares of Arthur J. Gallagher & Co. $AJG  MarketBeat",
+        "ticker": "AJG",
+        "company_name": "Arthur J. Gallagher & Co.",
+        "query": "Arthur J. Gallagher & Co.",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "AJG"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Institutional investor acquisition of AJG shares indicates continued institutional confidence in the position.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.marketbeat.com/instant-alerts/filing-asr-vermogensbeheer-nv-acquires-21448-shares-of-arthur-j-gallagher-co-ajg-2026-05-08/",
+      "content_source": "www.marketbeat.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 841,
+          "title_hits": 7,
+          "resolved_host": "marketbeat.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "html"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNdWRNWEktM2FSVzF6LUlBTXE2ZXQxbWZvYl9pUlZwQ1NfNTIxS19IMExESDNURWhJdnktcmtZYXNMSXRsTTdVbE93dVMxYS1PWGNuUXpoN2stR2JDOUdhOG1mZ09Hcm05ZTdYc0hiTU5ZNEpvX0JjUndTWEtfdW1DcFZnU0QtX1ZLZ0ROLTc3YklMc2tNaERpQ0ZMQWtMSDA?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "57ff7bc8c4f3e7245483e715e80e29251aeb058b15bf684b74b8aff162e88af0",
+      "source_type": "company_news",
+      "source": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html",
+      "title": "A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness - Yahoo Finance",
+      "summary": "A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness Yahoo Finance",
+      "body": "Find winning stocks in any market cycle. Join 7 million investors using Simply Wall St's investing ideas for FREE.\n\nArthur J. Gallagher (AJG) has drawn attention after a period of weaker share performance, with the stock showing negative returns over the past month, past 3 months, year to date, and over the past year.\n\nAt the current share price of $196.91, the stock has faced a sharp pullback, with a 7 day share price return of 7.03% and a 1 year total shareholder return decline of 41.43%, which suggests momentum has been fading after earlier multi year gains.\n\nIf you are rethinking your exposure to insurance brokers after this weaker run, it can be helpful to broaden your watchlist with other high quality companies, including 19 top founder-led companies\n\nAfter a rough stretch for returns, Arthur J. Gallagher now trades at $196.91 with an indicated intrinsic discount of about 41%. Is this pricing in too much pessimism, or is the market already factoring in expectations for future growth?\n\nAccording to the most followed narrative, Arthur J. Gallagher's fair value of $485.74 sits far above the last close at $196.91, putting a strong spotlight on how its growth and profitability story is being modeled.\n\nArthur J. Gallagher & Co. (AJG) has been on an acquisition spree, with significant purchases including AssuredPartners, AnotherDay, Buck, and several others. These strategic moves are set to enhance Gallagher's market position and drive",
+      "evidence_quality": "full_body",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html",
+      "published_at": "Thu, 07 May 2026 11:24:47 GMT",
+      "ticker_hints": [
+        "AJG"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNdWRNWEktM2FSVzF6LUlBTXE2ZXQxbWZvYl9pUlZwQ1NfNTIxS19IMExESDNURWhJdnktcmtZYXNMSXRsTTdVbE93dVMxYS1PWGNuUXpoN2stR2JDOUdhOG1mZ09Hcm05ZTdYc0hiTU5ZNEpvX0JjUndTWEtfdW1DcFZnU0QtX1ZLZ0ROLTc3YklMc2tNaERpQ0ZMQWtMSDA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness - Yahoo Finance",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html",
+        "publisher_homepage_url": "https://finance.yahoo.com",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html",
+        "published_at": "Thu, 07 May 2026 11:24:47 GMT",
+        "summary": "A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness  Yahoo Finance",
+        "ticker": "AJG",
+        "company_name": "Arthur J. Gallagher & Co.",
+        "query": "Arthur J. Gallagher & Co.",
+        "source_type": "company_news",
+        "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "AJG"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Valuation analysis provides context for the growth archetype positioning after recent price weakness.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://finance.yahoo.com/markets/stocks/articles/look-arthur-j-gallagher-valuation-112447607.html",
+      "content_source": "finance.yahoo.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 237,
+          "title_hits": 4,
+          "resolved_host": "finance.yahoo.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "html"
+        }
+      }
+    },
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMikwFBVV95cUxORUxLYjdwczNmbzV4bkhpcElLQk5IUGVZeWFBaXNoTkJtOHU0OUVoRkhQbGU4LVRmeWRwa0k3b0ltSzBQZkFsMVYteVdqdnZQVUo1TXNJTnp0RWtsc1RyMHVXX0M3OHd4dlNqSWw1NG96WTMwV18zR09UeE5FckVneGQzdHJUX04xMXZZVHZFTFMtTDg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html",
+        "query": "Aon PLC",
+        "title": "Aon plc Q1 2026 Earnings Call Summary - Yahoo Finance",
+        "source": "Yahoo Finance",
+        "ticker": "AON",
+        "summary": "Aon plc Q1 2026 Earnings Call Summary  Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html",
+        "source_type": "company_news",
+        "company_name": "Aon PLC",
+        "published_at": "Fri, 01 May 2026 20:47:18 GMT",
+        "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html",
+        "publisher_homepage_url": "https://finance.yahoo.com"
+      },
+      "url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html",
+      "body": "Performance was driven by the 3x3 Plan, which integrates Risk Capital and Human Capital capabilities through Aon Business Services (ABS) to deliver outcome-based advice rather than transactional solutions.\n\nCommercial Risk achieved its fourth consecutive quarter of 6% or higher organic growth, fueled by double-digit growth in North America and strong demand in the construction and M&A sectors.\n\nManagement attributes revenue quality to a client mix where less than 2% of revenue is derived from SME and Personal Lines, focusing instead on large-market clients with complex, recurring needs.\n\nStrategic investments in talent and technology are improving productivity, evidenced by a 95% reduction in policy check times from 48 hours to 30 minutes.\n\nThe firm is expanding its addressable market by using AI-embedded analytics to access a $250 trillion capital pool, including private equity and sovereign wealth, beyond traditional reinsurance capital.\n\nAon Broker Copilot and Claims Copilot are being utilized to transform manual placement and advocacy processes, drawing on decades of proprietary data to improve client outcomes.\n\nReaffirmed 2026 full-year guidance for mid-single-digit or greater organic revenue growth and 70 to 80 basis points of adjusted operating margin expansion.",
+      "title": "Aon plc Q1 2026 Earnings Call Summary - Yahoo Finance",
+      "source": "Yahoo Finance",
+      "summary": "Aon plc Q1 2026 Earnings Call Summary Yahoo Finance",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Q1 2026 earnings call contains guidance updates and performance data material to AON's growth trajectory.",
+        "affected_tickers": [
+          "AON"
+        ],
+        "evidence_quality": "full_body"
+      },
+      "event_hash": "d78653233168cc3229ccca69a3c7d450cbb4364ee2fae6dc3288b65fbeee24ec",
+      "source_url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html",
+      "external_id": "https://news.google.com/rss/articles/CBMikwFBVV95cUxORUxLYjdwczNmbzV4bkhpcElLQk5IUGVZeWFBaXNoTkJtOHU0OUVoRkhQbGU4LVRmeWRwa0k3b0ltSzBQZkFsMVYteVdqdnZQVUo1TXNJTnp0RWtsc1RyMHVXX0M3OHd4dlNqSWw1NG96WTMwV18zR09UeE5FckVneGQzdHJUX04xMXZZVHZFTFMtTDg?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Fri, 01 May 2026 20:47:18 GMT",
+      "resolved_url": "https://finance.yahoo.com/markets/stocks/articles/aon-plc-q1-2026-earnings-204718359.html",
+      "ticker_hints": [
+        "AON"
+      ],
+      "scrape_status": "ok",
+      "content_source": "finance.yahoo.com",
+      "evidence_quality": "full_body",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "method": "html",
+          "accepted": true,
+          "title_hits": 2,
+          "word_count": 187,
+          "source_match": true,
+          "resolved_host": "finance.yahoo.com",
+          "failure_reason": "",
+          "acceptance_score": 5
+        }
+      },
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": ""
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNWERVeDFSVnBOOURDZGh6aGh3ZnVRX3VRV0FjMzN2TVNlbFlMMVNyNGxiczNFZ2tDM002Z0JsTFM0eHc3c0FheG5UQTI1QVlNRUlNemVDUmw4UGZua25WTGNucm9oS1c1eVpZanVXWkU4eHpqYl9uRFBLNEU3SVBsUEN5M2ZKcHgtTzFwcmhPQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "f579c468315240c1f708df509049d1fc2813533056874ceb2bb3b08e93045dc1",
+      "source_type": "company_news",
+      "source": "Reuters",
+      "source_url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+      "title": "Berkshire Hathaway profit rises despite consumer stress, cash sets record - Reuters",
+      "summary": "Berkshire Hathaway profit rises despite consumer stress, cash sets record Reuters",
+      "body": "Berkshire Hathaway profit rises despite consumer stress, cash sets record Reuters",
+      "evidence_quality": "title_only",
+      "url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+      "published_at": "Sat, 02 May 2026 15:13:29 GMT",
+      "ticker_hints": [
+        "BRK.B"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNWERVeDFSVnBOOURDZGh6aGh3ZnVRX3VRV0FjMzN2TVNlbFlMMVNyNGxiczNFZ2tDM002Z0JsTFM0eHc3c0FheG5UQTI1QVlNRUlNemVDUmw4UGZua25WTGNucm9oS1c1eVpZanVXWkU4eHpqYl9uRFBLNEU3SVBsUEN5M2ZKcHgtTzFwcmhPQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Berkshire Hathaway profit rises despite consumer stress, cash sets record - Reuters",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+        "publisher_homepage_url": "https://www.reuters.com",
+        "url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+        "published_at": "Sat, 02 May 2026 15:13:29 GMT",
+        "summary": "Berkshire Hathaway profit rises despite consumer stress, cash sets record  Reuters",
+        "ticker": "BRK.B",
+        "company_name": "Berkshire Hathaway Inc",
+        "query": "Berkshire Hathaway Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "BRK.B"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Q1 profit rise and record cash position is directly material to BRK.B valuation and investment thesis.",
+        "evidence_quality": "title_only"
+      },
+      "scrape_status": "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "resolution_debug": {
+        "error": "Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401"
+      }
+    },
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcUdOdEtvVmhvTmktRlIxX2NzTnJpNTFHODdxaE03dzViWkZzUUQ4bzRIZTc1YVF3alZhaEVJZFc4NDl2cFpVSWN3WkpITmZfRzBEbWhNM2NDeXhmb2xLWjBnMDM3TjdLWmV1cTV1YlEwMlFsV2pLaHRrUHVBYkRMZkQ1eEc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+        "query": "Berkshire Hathaway Inc",
+        "title": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter - Financial Times",
+        "source": "Financial Times",
+        "ticker": "BRK.B",
+        "summary": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter  Financial Times",
+        "source_url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+        "source_type": "company_news",
+        "company_name": "Berkshire Hathaway Inc",
+        "published_at": "Sat, 02 May 2026 12:39:44 GMT",
+        "decoded_google_url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+        "publisher_homepage_url": "https://www.ft.com"
+      },
+      "url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+      "body": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times",
+      "title": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter - Financial Times",
+      "source": "Financial Times",
+      "summary": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Substantive financial reporting on Berkshire's $380bn cash pile and 14-quarter stock selling streak informs capital allocation assessment for BRK.B.",
+        "affected_tickers": [
+          "BRK.B"
+        ],
+        "evidence_quality": "title_only"
+      },
+      "event_hash": "faa3dcb837ebc229795ecd5d9ffb1491d0c8821b3ee0e5850076712f133a2cb2",
+      "source_url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+      "external_id": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcUdOdEtvVmhvTmktRlIxX2NzTnJpNTFHODdxaE03dzViWkZzUUQ4bzRIZTc1YVF3alZhaEVJZFc4NDl2cFpVSWN3WkpITmZfRzBEbWhNM2NDeXhmb2xLWjBnMDM3TjdLWmV1cTV1YlEwMlFsV2pLaHRrUHVBYkRMZkQ1eEc?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Sat, 02 May 2026 12:39:44 GMT",
+      "ticker_hints": [
+        "BRK.B"
+      ],
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "evidence_quality": "title_only",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      },
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQazJKbThHZXhXQWxYaXBFVmNOX1J4NDViNnVYNnNTY1UxcjZHc2ZZUEJNRExiUWZpTjdRdldLLUpESGVEQzVSYy1zanIyakk3dUZFdkZ1WkJTVFliZnl5VDB0bjBNQ0VmcGwzYnVfZTV2LWYtQ3JzdFY4d2llQzZHdmtqdGRQUE1JaE1zMnJiS3dEQnpEdXVRS3d3?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "2b86f05019f733ca077df7338ba6357e2e928d6ba57b455317c8a69542b7ff38",
+      "source_type": "company_news",
+      "source": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html",
+      "title": "CF Industries Holdings, Inc. Q1 2026 Earnings Call Summary - Yahoo Finance",
+      "summary": "CF Industries Holdings, Inc. Q1 2026 Earnings Call Summary Yahoo Finance",
+      "body": "Management attributes strong performance to operational excellence, running ammonia capacity at nearly 100% while leveraging a low-cost North American manufacturing and distribution network.\n\nThe conflict with Iran and closure of the Strait of Hormuz have introduced a significant supply shock, removing a meaningful portion of low-cost global supply during peak season.\n\nA fundamental shift in the industry&#39;s risk-return framework is occurring, where low-cost feedstock is no longer sufficient without considering geopolitical stability.\n\nApproximately 50% of global first-quartile capacity is now classified by management as &#39;fragile and exposed&#39; due to extreme geopolitical risks in the Middle East and Russia.\n\nMid-cycle economics have strengthened, as higher urea prices are now required to incentivize new capacity to offset increased geopolitical risk premiums and capital costs.\n\nOperational flexibility, such as delaying a turnaround at Donaldsonville, allowed the company to produce an additional 100 thousand tons of urea to meet North American spring demand.\n\nGlobal nitrogen markets are expected to remain tight through 2026 and into 2027 due to unrecoverable production losses and the time required for trade flows to recalibrate.",
+      "evidence_quality": "full_body",
+      "url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html",
+      "published_at": "Thu, 07 May 2026 12:30:00 GMT",
+      "ticker_hints": [
+        "CF"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQazJKbThHZXhXQWxYaXBFVmNOX1J4NDViNnVYNnNTY1UxcjZHc2ZZUEJNRExiUWZpTjdRdldLLUpESGVEQzVSYy1zanIyakk3dUZFdkZ1WkJTVFliZnl5VDB0bjBNQ0VmcGwzYnVfZTV2LWYtQ3JzdFY4d2llQzZHdmtqdGRQUE1JaE1zMnJiS3dEQnpEdXVRS3d3?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "CF Industries Holdings, Inc. Q1 2026 Earnings Call Summary - Yahoo Finance",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html",
+        "publisher_homepage_url": "https://finance.yahoo.com",
+        "url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html",
+        "published_at": "Thu, 07 May 2026 12:30:00 GMT",
+        "summary": "CF Industries Holdings, Inc. Q1 2026 Earnings Call Summary  Yahoo Finance",
+        "ticker": "CF",
+        "company_name": "CF Industries Holdings Inc",
+        "query": "CF Industries Holdings Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "CF"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Earnings call summary provides insight into CF Industries' Q1 2026 performance and outlook, directly relevant to the growth position.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://finance.yahoo.com/sectors/energy/articles/cf-industries-holdings-inc-q1-123000835.html",
+      "content_source": "finance.yahoo.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 176,
+          "title_hits": 2,
+          "resolved_host": "finance.yahoo.com",
+          "source_match": true,
+          "acceptance_score": 5,
+          "method": "html"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPUGZLa05QOWFyc1R3NEgtSVNWcDdDNUlHWUZsTUpaWnBfX2xDaXFKeDN0cG9lMFdGOXZLNTh5dmptNWtDa1NrMGZ2OF9Pc21Yclc3all4b0ZXdWRnc1ltVHNhbmUwdHNIWkFDZnkwWTdrTEIxMWxMdG9fTi00UkNHOXZObmx0WU9kUTViT2RFNWs4dE1mR2F1WkRuZnl0Z0ZObjgwN0RTejFfcU9NV2NrLVJ0MS12QTVfZGxXdXRZMFE3ZWN6YTVWYlQtUXZ2SWNickF5NHE2NE42TnJnR0xB?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "19fcae6f714c7c1e0f66a4b40d75425f3ea856b58a484fad79046b49a1d4f4ae",
+      "source_type": "company_news",
+      "source": "MarketBeat",
+      "source_url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/",
+      "title": "S Bank Fund Management Ltd Buys New Holdings in Capital One Financial Corporation $COF - MarketBeat",
+      "summary": "S Bank Fund Management Ltd Buys New Holdings in Capital One Financial Corporation $COF MarketBeat",
+      "body": "S Bank Fund Management Ltd purchased a new position in Capital One Financial Corporation ( NYSE:COF - Free Report ) in the fourth quarter, according to the company in its most recent filing with the Securities and Exchange Commission (SEC). The fund purchased 40,000 shares of the financial services provider's stock, valued at approximately $9,694,000. Capital One Financial comprises about 1.3% of S Bank Fund Management Ltd's portfolio, making the stock its 20th biggest position.\n\nSeveral other institutional investors and hedge funds also recently added to or reduced their stakes in COF. Tompkins Financial Corp raised its holdings in shares of Capital One Financial by 4.3% in the 4th quarter. Tompkins Financial Corp now owns 977 shares of the financial services provider's stock valued at $237,000 after purchasing an additional 40 shares in the last quarter. Focus Financial Network Inc. lifted its position in shares of Capital One Financial by 2.8% during the 4th quarter. Focus Financial Network Inc. now owns 1,570 shares of the financial services provider's stock worth $380,000 after purchasing an additional 43 shares during the last quarter. Stephens Consulting LLC grew its stake in shares of Capital One Financial by 10.3% during the fourth quarter. Stephens Consulting LLC now owns 504 shares of the financial services provider's stock worth $122,000 after purchasing an additional 47 shares in the last quarter. Nicolet Advisory Services LLC increased its holdings in Capital One Financial by 0.7% in the third quarter. Nicolet Advisory Services LLC now owns 7,047 shares of the financial services provider's stock valued at $1,506,000 after buying an additional 48 shares during the last quarter. Finally, Pflug Koory LLC increased its holdings in Capital One Financial by 1.6% in the fourth quarter. Pflug Koory LLC now owns 3,086 shares of the financial services provider's stock valued at $748,000 after buying an additional 48 shares during the last quarter. Institutional investors and hedge funds own 89.84% of the company's stock. Get Capital One Financial alerts: Sign Up Insider Transactions at Capital One Financial In other Capital One Financial news, insider Celia Karam sold 1,749 shares of Capital One Financial stock in a transaction that occurred on Friday, May 1st. The stock was sold at an average price of $192.58, for a total transaction of $336,822.42. Following the transaction, the insider owned 61,579 shares of the company's stock, valued at $11,858,883.82. The trade was a 2.76% decrease in their ownership of the stock. The transaction was disclosed in a filing with the SEC, which is available at this hyperlink . The transaction was executed under a pre-arranged Rule 10b5-1 trading plan. Also, insider Lia Dean sold 1,692 shares of the business's stock in a transaction that occurred on Wednesday, April 1st. The shares were sold at an average price of $185.61, for a total value of $314,052.12. Following the completion of the sale, the insider owned 65,454 shares of the company's stock, valued at approximately $12,148,916.94. This represents a 2.52% decrease in their position. The SEC filing for this sale provides additional information. The transaction was executed under a pre-arranged Rule 10b5-1 trading plan. Over the last quarter, insiders have sold 46,404 shares of company stock worth $8,884,404. 0.78% of the stock is owned by corporate insiders. Capital One Financial Stock Performance Can Capital One Prove Itself in 2026? NYSE COF opened at $189.70 on Wednesday. The company has a fifty day moving average of $190.07 and a two-hundred day moving average of $213.26. The company has a market capitalization of $117.98 billion, a PE ratio of 66.56, a P/E/G ratio of 0.69 and a beta of 1.05. Capital One Financial Corporation has a 1 year low of $174.98 and a 1 year high of $259.64. The company has a debt-to-equity ratio of 0.46, a current ratio of 1.03 and a quick ratio of 1.03.\n\nCapital One Financial ( NYSE:COF - Get Free Report ) last posted its earnings results on Tuesday, April 21st. The financial services provider reported $4.42 EPS for the quarter, missing analysts' consensus estimates of $5.08 by ($0.66). Capital One Financial had a return on equity of 10.59% and a net margin of 4.29%.The firm had revenue of $15.23 billion for the quarter, compared to analyst estimates of $15.68 billion. During the same quarter last year, the firm posted $4.06 EPS. The firm's revenue for the quarter was up 52.3% on a year-over-year basis. As a group, analysts expect that Capital One Financial Corporation will post 19.17 earnings per share for the current year. Analysts Set New Price Targets Capital One Stock Weak After Earnings, Brex Deal in Focus A number of brokerages have issued reports on COF. Wells Fargo & Company decreased their price target on Capital One Financial from $280.00 to $260.00 and set an \"overweight\" rating for the company in a report on Thursday, April 9th. JPMorgan Chase & Co. increased their pric",
+      "evidence_quality": "full_body",
+      "url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/",
+      "published_at": "Wed, 06 May 2026 12:00:43 GMT",
+      "ticker_hints": [
+        "COF"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMi3wFBVV95cUxPUGZLa05QOWFyc1R3NEgtSVNWcDdDNUlHWUZsTUpaWnBfX2xDaXFKeDN0cG9lMFdGOXZLNTh5dmptNWtDa1NrMGZ2OF9Pc21Yclc3all4b0ZXdWRnc1ltVHNhbmUwdHNIWkFDZnkwWTdrTEIxMWxMdG9fTi00UkNHOXZObmx0WU9kUTViT2RFNWs4dE1mR2F1WkRuZnl0Z0ZObjgwN0RTejFfcU9NV2NrLVJ0MS12QTVfZGxXdXRZMFE3ZWN6YTVWYlQtUXZ2SWNickF5NHE2NE42TnJnR0xB?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "S Bank Fund Management Ltd Buys New Holdings in Capital One Financial Corporation $COF - MarketBeat",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/",
+        "publisher_homepage_url": "https://www.marketbeat.com",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/",
+        "published_at": "Wed, 06 May 2026 12:00:43 GMT",
+        "summary": "S Bank Fund Management Ltd Buys New Holdings in Capital One Financial Corporation $COF  MarketBeat",
+        "ticker": "COF",
+        "company_name": "Capital One Financial Corp",
+        "query": "Capital One Financial Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "COF"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Institutional investor S Bank disclosed a new position in Capital One, signaling conviction in the stock and relevant to the COF holding.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.marketbeat.com/instant-alerts/filing-s-bank-fund-management-ltd-buys-new-holdings-in-capital-one-financial-corporation-cof-2026-05-06/",
+      "content_source": "www.marketbeat.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 811,
+          "title_hits": 7,
+          "resolved_host": "marketbeat.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "html"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMi8AJBVV95cUxNSjczRkVmZEZORV93azJhYU5pdkZtQU5keVh0MlRSWUNuZmxGQVFLU1l5VHRWZ183UlIzd0ZZSlVKWm9pdVl3dWFRRHc4WndieVV1LS1IX1ZUdl9kS2RMOWEtRlE4ZGctMXQ5a1ZNV3pRWGVWcE9xYkc5UG9RWG9SNUdYVmtUMk85bnEyZWJSTncxcmwzd3ktT0cyVzFBTXA0WHgzLUcwb3dIanpRWnFSeDRTRFBtWUZOejg0WU81TW1ZN0ttb2pMVlFNVThoc0ZhZnhCNi1TRkVNQmF4OU1vX3B6cktIQklRMWl0a1owUEp3U1VaN0FKOFV1cWhuWWVfTHlBS1VBM3VHVTZPRTVuTFNMZFhRZE02Q2prc2Fpdy1qTTVlRndINVliTVRjQUxTTmtGUkpuN184d0lxR2J0UllINmVxTE9OcW12ZFlidGlMS0JuMi1sSXlsRmFQYWs2YXhNSmtpdXdWUDY1SVd5Wg?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "a425910a9c53ce6cc05134a9235b0d35feb098d240355bd6a02e1819b8e3cb2e",
+      "source_type": "company_news",
+      "source": "MSN",
+      "source_url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c",
+      "title": "Capital One completes Brex buyout, boosts digital payments strategy - MSN",
+      "summary": "Capital One completes Brex buyout, boosts digital payments strategy MSN",
+      "body": "Capital One completes Brex buyout, boosts digital payments strategy MSN",
+      "evidence_quality": "title_only",
+      "url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c",
+      "published_at": "Fri, 08 May 2026 08:46:28 GMT",
+      "ticker_hints": [
+        "COF"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMi8AJBVV95cUxNSjczRkVmZEZORV93azJhYU5pdkZtQU5keVh0MlRSWUNuZmxGQVFLU1l5VHRWZ183UlIzd0ZZSlVKWm9pdVl3dWFRRHc4WndieVV1LS1IX1ZUdl9kS2RMOWEtRlE4ZGctMXQ5a1ZNV3pRWGVWcE9xYkc5UG9RWG9SNUdYVmtUMk85bnEyZWJSTncxcmwzd3ktT0cyVzFBTXA0WHgzLUcwb3dIanpRWnFSeDRTRFBtWUZOejg0WU81TW1ZN0ttb2pMVlFNVThoc0ZhZnhCNi1TRkVNQmF4OU1vX3B6cktIQklRMWl0a1owUEp3U1VaN0FKOFV1cWhuWWVfTHlBS1VBM3VHVTZPRTVuTFNMZFhRZE02Q2prc2Fpdy1qTTVlRndINVliTVRjQUxTTmtGUkpuN184d0lxR2J0UllINmVxTE9OcW12ZFlidGlMS0JuMi1sSXlsRmFQYWs2YXhNSmtpdXdWUDY1SVd5Wg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Capital One completes Brex buyout, boosts digital payments strategy - MSN",
+        "source": "MSN",
+        "source_url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c",
+        "publisher_homepage_url": "https://www.msn.com",
+        "url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c",
+        "published_at": "Fri, 08 May 2026 08:46:28 GMT",
+        "summary": "Capital One completes Brex buyout, boosts digital payments strategy  MSN",
+        "ticker": "COF",
+        "company_name": "Capital One Financial Corp",
+        "query": "Capital One Financial Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "COF"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Capital One's completion of the Brex acquisition is a significant strategic development that could impact COF's growth trajectory and digital payments expansion.",
+        "evidence_quality": "title_only"
+      },
+      "resolved_url": "https://www.msn.com/en-us/money/companies/capital-one-completes-brex-buyout-boosts-digital-payments-strategy/ar-AA20vYPX?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1&bundles=feat-es2020-c",
+      "content_source": "www.msn.com",
+      "scrape_status": "ok",
+      "resolution_status": "weak_html",
+      "resolution_failure_reason": "empty_body",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": false,
+          "failure_reason": "empty_body",
+          "word_count": 0,
+          "title_hits": 0,
+          "resolved_host": "msn.com",
+          "method": "html"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPeUdfSm9WRlRVYWM0TDBhczRCU0RZdXN5d19FZVNJRlc1VGdlQ0Q1bU1oaUE3akdtb3M0NXhqSFI0QjBCSnVqX2JaX2R0ZTBDX2dYREpDY0hZUDA4RHJCS3diS0cyZmhEQVdMZDc1Z01QMHFYd19JQVplaGtPb0g1ZGg5M1Q0UTVvMktydGFrU1hjakVDZF9OZzZhWEtEQVpuR3AtNw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "53ea2e2a188f030811080b5a6fdf6c00fe662e52b617236e00d734dfe7d78de9",
+      "source_type": "company_news",
+      "source": "Moomoo",
+      "source_url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating",
+      "title": "Bernstein Maintains The Campbell's Co(CPB.US) With Hold Rating - Moomoo",
+      "summary": "Bernstein Maintains The Campbell's Co(CPB.US) With Hold Rating Moomoo",
+      "body": "Bernstein Maintains The Campbell's Co(CPB.US) With Hold Rating Moomoo",
+      "evidence_quality": "title_only",
+      "url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating",
+      "published_at": "Fri, 01 May 2026 13:20:08 GMT",
+      "ticker_hints": [
+        "CPB"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPeUdfSm9WRlRVYWM0TDBhczRCU0RZdXN5d19FZVNJRlc1VGdlQ0Q1bU1oaUE3akdtb3M0NXhqSFI0QjBCSnVqX2JaX2R0ZTBDX2dYREpDY0hZUDA4RHJCS3diS0cyZmhEQVdMZDc1Z01QMHFYd19JQVplaGtPb0g1ZGg5M1Q0UTVvMktydGFrU1hjakVDZF9OZzZhWEtEQVpuR3AtNw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Bernstein Maintains The Campbell's Co(CPB.US) With Hold Rating - Moomoo",
+        "source": "Moomoo",
+        "source_url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating",
+        "publisher_homepage_url": "https://www.moomoo.com",
+        "url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating",
+        "published_at": "Fri, 01 May 2026 13:20:08 GMT",
+        "summary": "Bernstein Maintains The Campbell's Co(CPB.US) With Hold Rating  Moomoo",
+        "ticker": "CPB",
+        "company_name": "Campbell's Co",
+        "query": "Campbell's Co",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "CPB"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Hold rating maintained by Bernstein indicates expectations aligned with current growth archetype positioning.",
+        "evidence_quality": "title_only"
+      },
+      "resolved_url": "https://www.moomoo.com/news/post/69285689/bernstein-maintains-the-campbell-s-co-cpbus-with-hold-rating",
+      "content_source": "www.moomoo.com",
+      "scrape_status": "ok",
+      "resolution_status": "weak_html",
+      "resolution_failure_reason": "empty_body",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": false,
+          "failure_reason": "empty_body",
+          "word_count": 0,
+          "title_hits": 0,
+          "resolved_host": "moomoo.com",
+          "method": "html"
+        }
+      }
+    }
+  ],
+  "significance_cache": {
+    "f0a1211f3a0482a58b4ef719e270ac4dc7705c6a329ddcd1c0cb5d0c31d137fb": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "463804e0397d9f5f2eeca56e31f26566c01ea9f8c5590836966d3a7486104af2": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "78a192048c69c4fb88c37c558e539aa5b9249892b5df4fb457263c9ea734b79a": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "0450f6b19706d2d76509242f22f6cbffd42144d270c22838e9d20b4a817c5e70": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "f3658df6b946b3e9c7cf1d578f8d92885568b2f28fad69574e2cf7ee28936e0b": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "0b5e69db85374842b8b3dc30971466d40bcd3b3f02e7185fe170da9dc6fcb26c": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "ee7c8678958f8e251d4f3d05d82ebbb7a151605525f50da350882bdc0cec9a38": {
+      "confidence": 0.92,
+      "event_type": "earnings",
+      "significance": "major",
+      "why_it_matters": "CF Industries reported Q1 earnings of $615M with EBITDA of $983M, demonstrating strong financial results that directly affect the company's valuation."
+    },
+    "50f4ef2f2f0173eafd6437827aed1705bb53beaae34fdcad45228ab67a59d198": {
+      "confidence": 0.9,
+      "event_type": "earnings",
+      "significance": "major",
+      "why_it_matters": "CF Industries beat Q1 estimates driven by tight nitrogen supply conditions, indicating material tailwinds for the company's fundamentals and sector dynamics."
+    },
+    "19b642c83330fcefea54d19fa08dcc688ebcaab70942d48d8120ace3274a6c93": {
+      "confidence": 0.88,
+      "event_type": "mna",
+      "significance": "major",
+      "why_it_matters": "Campbell's acquired a 49% stake in La Regina (Rao's sauce maker), representing a significant strategic investment that changes the company's portfolio composition and growth trajectory."
+    },
+    "b54187be319ae832043033dbed0cba1ec23e1abb9c9c7f8d0f0e35f84abd329b": {
+      "confidence": 0.9,
+      "event_type": "earnings",
+      "significance": "major",
+      "why_it_matters": "Bio-Techne reported Q3 fiscal 2026 results showing mixed performance with GAAP EPS jumping to $0.32 while revenue declined 2% to $311.4M, reflecting operational changes from divestitures."
+    },
+    "2e19bce699b29171381e3a7b1bb6d381e62187c34ee10c70dca9b9c16a56c814": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "b795bf5b50f7c82acb95312553e02ca3c8ba5222d48e15d200b590ce51715add": {
+      "significance": "major",
+      "event_type": "earnings",
+      "why_it_matters": "Assurant reported record Q1 2026 results and raised full-year guidance, signaling stronger-than-expected financial performance.",
+      "confidence": 0.95
+    },
+    "ea09584be8822bd486d18a69780a8dc62037682adcfc651d900874e82b003e84": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "dffc6fdb160f0fbdfaeef0b9d9b3369084fe481e5f884cf578d47fcc1651339e": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "57ff7bc8c4f3e7245483e715e80e29251aeb058b15bf684b74b8aff162e88af0": {
+      "significance": "minor",
+      "event_type": "other",
+      "why_it_matters": "Analytical commentary on AJG's valuation after recent underperformance; no new company announcement or material catalyst.",
+      "confidence": 0.92
+    },
+    "d78653233168cc3229ccca69a3c7d450cbb4364ee2fae6dc3288b65fbeee24ec": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "f579c468315240c1f708df509049d1fc2813533056874ceb2bb3b08e93045dc1": {
+      "significance": "major",
+      "event_type": "earnings",
+      "why_it_matters": "Berkshire Hathaway reported profit growth and record cash pile, reflecting the company's core financial performance.",
+      "confidence": 0.97
+    },
+    "faa3dcb837ebc229795ecd5d9ffb1491d0c8821b3ee0e5850076712f133a2cb2": {
+      "significance": "major",
+      "event_type": "financing",
+      "why_it_matters": "Berkshire's cash climbed to $380 billion with a 14-quarter stock sales streak, indicating significant capital allocation activity.",
+      "confidence": 0.95
+    },
+    "2b86f05019f733ca077df7338ba6357e2e928d6ba57b455317c8a69542b7ff38": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "19fcae6f714c7c1e0f66a4b40d75425f3ea856b58a484fad79046b49a1d4f4ae": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "a425910a9c53ce6cc05134a9235b0d35feb098d240355bd6a02e1819b8e3cb2e": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "53ea2e2a188f030811080b5a6fdf6c00fe662e52b617236e00d734dfe7d78de9": {
+      "significance": "minor",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected routine minor event",
+      "confidence": 0.85,
+      "rule": "keyword"
+    }
+  }
+}

@@ -1,0 +1,651 @@
+{
+  "articles_classified": [
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMieEFVX3lxTE0wSDh0YWZ6Skx4YVU3SEJNb191Y2JBVGpaRWo5TzZOQ1hBZndVOEZHZWxyMFI4dkY2RzJGQXhMZW95QzV1aXJMQWY1aURmZEFjNVpGSkZkYWIxTThWUjM1cUc3YjdMbUwyRno4Y2dwR2tWU1AyQ0FvNNIBeEFVX3lxTE0wSDh0YWZ6Skx4YVU3SEJNb191Y2JBVGpaRWo5TzZOQ1hBZndVOEZHZWxyMFI4dkY2RzJGQXhMZW95QzV1aXJMQWY1aURmZEFjNVpGSkZkYWIxTThWUjM1cUc3YjdMbUwyRno4Y2dwR2tWU1AyQ0FvNA?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "5874560af0fc355c0efa54b56c0309ffa60dd60860caf3d5d6c71e6873e3b74d",
+      "source_type": "company_news",
+      "source": "CNBC",
+      "source_url": "https://www.cnbc.com/amp/2026/05/07/airbnb-abnb-earnings-q1-2026.html",
+      "title": "Airbnb tops revenue estimates, but Middle East cancellations rise due to Iran war - CNBC",
+      "summary": "Airbnb tops revenue estimates, but Middle East cancellations rise due to Iran war CNBC",
+      "body": "# Airbnb (ABNB) earnings Q1 2026\n\nBusiness News and Finance\n\n[](https://www.cnbc.com/)\n\nMarketsBusinessInvestingTechPoliticsSelectMake It\n\n!Image 7: menu icon\n\n# Airbnb tops revenue estimates, but Middle East cancellations rise due to Iran war\n\nPublished Thu, May 7 2026 4:09 PM EDT Updated Thu, May 7 2026 4:57 PM EDT\n\nSamantha Subin@samantha_subin\n\n* Airbnb topped Wall Street's first-quarter revenue estimates but fell short of earnings expectations.\n\n* The travel company said it experienced \"slightly elevated\" cancellations across the EMEA and Asia Pacific regions due to the Iran war.\n\n* Airbnb lifted its full-year revenue growth guidance and said it plans to host its most guests on record for an event during this summer's FIFA World Cup.\n\nAirbnb reported mixed first-quarter results after the bell on Thursday and warned of regional weakness spurred by the war in Iran.\n\nHere's how the company did versus the LSEG estimates:\n\n* **Earnings per share**: 26 cents vs. 29 cents expected\n\n* **Revenue**: $2.68 billion vs. $2.62 billion expected\n\nRevenue grew 18% during the quarter from $2.27 billion last year. Net income increased to $160 million, or 26 cents per share, from $154 million, or 24 cents per share, last year.\n\nFor the current quarter, Airbnb issued an upbeat forecast, calling for revenue between $3.54 billion and $3.60 billion. Analysts expected $3.46 billion in revenue. The company lifted revenue guidance for the year to \"low to mid teens\" growth from a 12% forecast.\n\nLike many travel and airline companies, Airbnb is feeling the pressure from the Iran war, which has spiked oil prices, cancelled flights, and fueled widespread regional uncertainty.\n\nThe company expects a 100-basis-point headwind to nights and seats booked in the second quarter, and a deceleration relative to the first quarter, due to the war.\n\n\"We remain optimistic about our continued momentum, even as we face tougher comparisons in the back half of this year against the rollout of Reserve Now, Pay Later in 2025 and current headwinds from the Middle East conflict,\" the company wrote in a letter to shareholders.\n\n## Read more CNBC tech news\n\n* OpenAI trial: Mother of Musk's children says he offered Altman a Tesla board seat\n\n* Paul Tudor Jones says U.S. is late to regulating AI: 'We should have already done it'\n\n* CoreWeave revenue more than doubles in first quarter, topping estimates\n\n* Datadog stock soars 31% on blockbuster earnings as AI winners emerge in software\n\nDuring the quarter, Airbnb said the Middle East conflict contributed to \"slightly elevated\" cancellations in Europe, the Middle East, Africa and Asia Pacific regions. However, the homestay platform said it's seeing a \"similar dynamic\" to last year's tariff threats, which led to \"softness\" between some North American regions but an uptick in travel elsewhere.\n\n\"We have millions of homes, everywhere in the world, at every price point, and that's something most travel companies can't replicate,\" Airbnb wrote. \"It's a core reason we're able to deliver consistent results, even in challenging environments.\"\n\nGross booking value, which tracks host earnings, service fees, cleaning fees and taxes, increased 19% to $29.2 billion, topping a $27.82 billion estimate from analysts.\n\nNights and seats booked grew 9% to 156.2 million, surpassing LSEG's 155.77 million estimate. Airbnb also reported its highest first-time booker growth since 2022, spurred by new expansion markets such as Brazil, Japan and India.\n\nAirbnb is also gearing up for a busy summer season, with the upcoming FIFA World Cup slated for 16 cities across Canada, Mexico, and the U.S.\n\nThe company said it plans to host the most guests it has ever hosted for an event and that over 100,000 properties have joined the platform since outreach began in October. In February, Airbnb launched a $750 incentive program for new hosts to meet demand for the tournament.\n\nAirbnb said the Milano Cortina Olympics and Paralympic Games earlier this year lured about 200,000 guests, and supply in the host market rose by nearly a third.\n\nAirbnb reported $519 million in adjusted EBITDA, which surpassed a $485 million estimate from LSEG.\n\n* 1 Move over TACO. Wall Street\u2019s new \u2018NACHO\u2019 trade bets the Hormuz crisis is here to stay\n\n* 2 Correction: Stocks making the biggest moves premarket: Cloudflare, Akamai Technologies, JFrog, Trade Desk & more\n\n* 3 A cloud computing stock is soaring more than 25%. Here\u2019s what\u2019s driving the rally\n\n* 4 Here's what to expect from Friday's release of the April jobs report\n\n* 5 Stock futures are higher as traders monitor U.S.-Iran developments; April jobs report looms\n\nView the full site\n\nData is a real time snapshot *Data is delayed at least 15 minutes. Global Business and Financial News, Stocks, Quotes, and Market Data, and Analysis.\n\nData also provided by",
+      "evidence_quality": "full_body",
+      "url": "https://www.cnbc.com/amp/2026/05/07/airbnb-abnb-earnings-q1-2026.html",
+      "published_at": "Thu, 07 May 2026 20:09:33 GMT",
+      "ticker_hints": [
+        "ABNB"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMieEFVX3lxTE0wSDh0YWZ6Skx4YVU3SEJNb191Y2JBVGpaRWo5TzZOQ1hBZndVOEZHZWxyMFI4dkY2RzJGQXhMZW95QzV1aXJMQWY1aURmZEFjNVpGSkZkYWIxTThWUjM1cUc3YjdMbUwyRno4Y2dwR2tWU1AyQ0FvNNIBeEFVX3lxTE0wSDh0YWZ6Skx4YVU3SEJNb191Y2JBVGpaRWo5TzZOQ1hBZndVOEZHZWxyMFI4dkY2RzJGQXhMZW95QzV1aXJMQWY1aURmZEFjNVpGSkZkYWIxTThWUjM1cUc3YjdMbUwyRno4Y2dwR2tWU1AyQ0FvNA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Airbnb tops revenue estimates, but Middle East cancellations rise due to Iran war - CNBC",
+        "source": "CNBC",
+        "source_url": "https://www.cnbc.com/amp/2026/05/07/airbnb-abnb-earnings-q1-2026.html",
+        "publisher_homepage_url": "https://www.cnbc.com",
+        "url": "https://www.cnbc.com/amp/2026/05/07/airbnb-abnb-earnings-q1-2026.html",
+        "published_at": "Thu, 07 May 2026 20:09:33 GMT",
+        "summary": "Airbnb tops revenue estimates, but Middle East cancellations rise due to Iran war  CNBC",
+        "ticker": "ABNB",
+        "company_name": "Airbnb Inc",
+        "query": "Airbnb Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.cnbc.com/amp/2026/05/07/airbnb-abnb-earnings-q1-2026.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "ABNB"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Airbnb revenue beat combined with Iran war-related Middle East cancellations presents material business impact data for ABNB",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.cnbc.com/amp/2026/05/07/airbnb-abnb-earnings-q1-2026.html",
+      "content_source": "cnbc.com",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 778,
+          "title_hits": 8,
+          "resolved_host": "cnbc.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE52WXdHZzNUZ3I2RTNfX0tsd1FyZ2Q0em5kRmdLSFZnbmxOTy1zY3lsTnBBRjh1enVXaXBfbk1BUzUtOE5nZktOR0d4cnlwVmwyU1FkZEFVNUpVOWlnd2lvNkw3SU16YlRz?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "5f5abaf15f8a139a31361075057b18233c9ebbab852db7739eef0369ecf5c5b9",
+      "source_type": "company_news",
+      "source": "Airbnb Newsroom",
+      "source_url": "https://news.airbnb.com/airbnb-q1-2026-financial-results/",
+      "title": "Airbnb Q1 2026 financial results - Airbnb Newsroom",
+      "summary": "Airbnb Q1 2026 financial results Airbnb Newsroom",
+      "body": "We issued our first quarter 2026 financial results. You can read the details here.\n\n## Overview of Q1 results\n\nAirbnb had a strong start to 2026. Last quarter, we talked about the deliberate path we\u2019ve been on to rebuild our foundation and innovate faster. In Q1, that work continued to pay off. Revenue grew 18 percent year-over-year to $2.7 billion, exceeding the high end of our guidance. Guests spent nearly $30 billion on Airbnb in Q1. Gross Booking Value grew 19 percent year-over-year, driven by strong demand and continued pricing strength, aided by an FX tailwind. Nights and Seats Booked grew 9 percent, reflecting healthy underlying demand. Finally, our net income was $160 million and Adjusted EBITDA was $519 million, up 24 percent year-over-year.\n\nWe\u2019re seeing momentum across the business. Nights booked on our app accelerated during Q1, growing 22 percent year-over-year and accounted for 63 percent of total nights booked, up from 58 percent a year ago. First-time booker growth also accelerated to 10 percent\u2014the highest growth since early 2022\u2014with particularly strong acceleration in Brazil, Japan, and India, three of our key expansion markets. And origin net nights booked in our expansion markets grew at roughly twice the rate of our core markets. In India, origin nights booked grew approximately 50 percent year-over-year and in Brazil, origin nights grew over 20 percent for the third consecutive quarter. The innovation blueprint we highlighted last quarter is continuing to help deliver results across product improvements, guest acquisition, and international expansion.\n\nAt the same time, we\u2019re navigating a period of macroeconomic and geopolitical uncertainty. We saw that show up in slightly elevated cancellations this quarter in EMEA and Asia Pacific, primarily driven by the conflict in the Middle East. But this is exactly where our model demonstrates its resilience. When travel patterns shift, Airbnb adapts with them. When tariff uncertainty resulted in fewer people traveling to the U.S. last year, they still came to Airbnb and found somewhere else to go. We\u2019re seeing a similar dynamic now. We have millions of homes, everywhere in the world, at every price point, and that\u2019s something most travel companies can\u2019t replicate. It\u2019s a core reason we\u2019re able to deliver consistent results, even in challenging environments.\n\nHere are some additional highlights from the quarter:\n\n## Making Airbnb better for hosts and guests\n\nWe\u2019re giving guests more flexibility in how they pay with Reserve Now, Pay Later. And in Q1, roughly 20 percent of global GBV came from Reserve Now, Pay Later bookings. It\u2019s one of the clearest examples of a change that is good for guests and good for the business: guests tend to book more when they have the flexibility to pay later.\n\nOn the supply side, we\u2019re addressing things hosts ask about most, including better pricing tools and a simpler way to get started on our platform. We\u2019re improving our pricing tools to make it easier for hosts to dynamically price based on demand and seasonality, and we redesigned the host sign-up flow to make it easier to list your home.\n\n## Expanding what Airbnb offers\n\nIn Q1, we continued piloting new categories of services and experiences in select cities, and we plan to expand both offerings this summer. Early results show they\u2019re proving to be a demand flywheel. Nearly a quarter of guests who are new to Airbnb and book an experience go on to book a stay or a service\u2014and roughly one in three experience bookers book a stay within 90 days. Services and experiences are more than just standalone products. They\u2019re entry points that we believe will drive future demand across the platform. We\u2019re also expanding our partnership with Delta Air Lines to allow travelers to earn Delta miles on qualifying Airbnb Experiences and Services, in addition to homes.\n\nAnd we\u2019re scaling our boutique and independent hotel pilot to more markets around the world. Early results are encouraging, particularly in cities where supply is constrained by high demand or regulation. Bringing more hotels onto the platform helps us capture trips where a hotel may be the right choice, introduce new guests to Airbnb, and drive repeat bookings across both hotels and homes. In fact, approximately 55 percent of guests who book a hotel on Airbnb come back to book a home.1\n\nAt our May 20 Summer Release, you\u2019ll hear more on how we\u2019re expanding services, experiences, and hotels on Airbnb.\n\n## Major events as a growth engine\n\nOur events partnership strategy is driving supply, demand, and brand awareness. Beyond the numbers, big events strengthen our relationships with cities and governments that need flexible, distributed ways to host millions of visitors. They help us bring on thousands of new hosts at scale, and many who start hosting for an event continue hosting long after the crowds leave. And big events give Airbnb a global stage to demonstrate what we do best: bring people together, anywhere in the world.\n\nThe Olympic and Paralympic Winter Games Milano Cortina 2026 (\u201cthe Olympic Games\u201d) showed this playbook in action. As an official Olympics and Paralympics partner, nearly 200,000 guests stayed with Airbnb, and supply in host markets grew approximately 30 percent. Our integrated global and local marketing campaigns generated around 1 billion impressions. And more than 40 engagements with government and community leaders during the Games strengthened our relationships across Italy.\n\nThis summer\u2019s FIFA World Cup 2026\u2122 (\u201cWorld Cup\u201d) is the next chapter of our events strategy, and we expect to host more guests than at any event in Airbnb\u2019s history. Since beginning our outreach in October, over 100,000 homes across the 16 World Cup host cities have listed on Airbnb for the first time, ready to welcome guests from across the globe.\n\n## Leveraging AI to drive innovation and operational efficiency\n\nAI is changing how we build and innovate. Nearly 60 percent of the code our engineers produce is now coauthored with AI\u2014roughly twice the industry average, by our estimate. This isn\u2019t just an efficiency story. It means our teams are shipping faster, iterating more quickly, and delivering more improvements to guests and hosts than we could before. We\u2019re converting AI adoption into real product wins, and we\u2019re just getting started.\n\nThe clearest example is customer support. For guests who contact support through our AI Assistant, over 40 percent of issues are now resolved without a human agent\u2014up from roughly a third in Q4 2025\u2014with significantly faster resolution times. We saw our cost-per-booking decrease about 10 percent year-over-year in Q1\u2014a meaningful trajectory we expect to continue as we further improve AI customer support this year.\n\nWe started the year off strong, with outperformance across key metrics relative to our expectations. For the remainder of 2026, we\u2019re focused on building upon this momentum and are excited by the pace of innovation and inflection we are seeing across our top line.\n\nOur 2026 outlook is underpinned by continued momentum in our core business\u2014particularly strong nights booked growth in North America and Latin America, our fastest-growing region\u2014and sustained ADR growth.\n\nThe upward revision to our revenue outlook reflects meaningful progress across our growth initiatives and improvements to monetization through a simplified fee structure and our insurance programs, which are expected to lift our full-year take rate. We remain optimistic about our continued momentum, even as we face tougher comparisons in the back half of this year against the rollout of Reserve Now, Pay Later in 2025 and current headwinds from the Middle East conflict.\n\n**Q2 2026:**\n\n* We expect to generate revenue of $3.54 billion to $3.60 billion, representing year-over-year growth of 14 percent to 16 percent, inclusive of an approximate 3 percent FX tailwind after factoring in our hedging program. We expect our implied take rate in Q2 2026 to be up slightly year-over-year.\n\n* In Q2 2026, we expect GBV to increase in the low double digits year-over-year, driven by growth in Nights and Seats Booked and a moderate increase in ADR. We expect the FX tailwind to ADR to be significantly lower in Q2 2026 than in Q1.\n\n* In Q2 2026, we expect Nights and Seats booked growth to slightly decelerate, relative to Q1 2026, assuming an estimated roughly 100bps headwind related to the conflict in the Middle East.\n\n* We expect Adjusted EBITDA and Adjusted EBITDA Margin to be up year-over-year in Q2 2026.\n\n**Full-Year 2026**\n\n* For 2026, we are raising our guidance and now expect year-over-year revenue growth to accelerate to low to mid teens.\n\n* For 2026, we now expect our Adjusted EBITDA Margin to be at least 35 percent. We will continue to prioritize reinvestment to support growth across the business, specifically on efficient marketing spend, international expansion, and AI initiatives.",
+      "evidence_quality": "full_body",
+      "url": "https://news.airbnb.com/airbnb-q1-2026-financial-results/",
+      "published_at": "Thu, 07 May 2026 20:08:00 GMT",
+      "ticker_hints": [
+        "ABNB"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE52WXdHZzNUZ3I2RTNfX0tsd1FyZ2Q0em5kRmdLSFZnbmxOTy1zY3lsTnBBRjh1enVXaXBfbk1BUzUtOE5nZktOR0d4cnlwVmwyU1FkZEFVNUpVOWlnd2lvNkw3SU16YlRz?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Airbnb Q1 2026 financial results - Airbnb Newsroom",
+        "source": "Airbnb Newsroom",
+        "source_url": "https://news.airbnb.com/airbnb-q1-2026-financial-results/",
+        "publisher_homepage_url": "https://news.airbnb.com",
+        "url": "https://news.airbnb.com/airbnb-q1-2026-financial-results/",
+        "published_at": "Thu, 07 May 2026 20:08:00 GMT",
+        "summary": "Airbnb Q1 2026 financial results  Airbnb Newsroom",
+        "ticker": "ABNB",
+        "company_name": "Airbnb Inc",
+        "query": "Airbnb Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://news.airbnb.com/airbnb-q1-2026-financial-results/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "ABNB"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Official financial results from Airbnb Newsroom provide direct operational and financial data for the held ABNB position",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://news.airbnb.com/airbnb-q1-2026-financial-results/",
+      "content_source": "news.airbnb.com",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 1442,
+          "title_hits": 5,
+          "resolved_host": "news.airbnb.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOVU5YSG1fV3lrbEtVcTg4anV5X0pvSFVOekZXejZKVXhSZURXSUpubThadEFabVFkQ3ctWTFmYTJMemtFdE1jcUxWa3p3TFQxSGR2VTN4NWhUMmgwUF9BdVVBaUdKNUtDMU5LYW5vMW9Gai1UY2JraExiZmN0aE1URUFUUjl0U1RPbXUxNkNnM2RTaE94NWRiYjJxdVpGeUJH?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "e9acba411dd1c257f93c57cc2bfe12eb45546bf5c5368447b80d8977e7c7c803",
+      "source_type": "company_news",
+      "source": "PR Newswire",
+      "source_url": "https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html",
+      "title": "Airbnb Announces First Quarter 2026 Results - PR Newswire",
+      "summary": "Airbnb Announces First Quarter 2026 Results PR Newswire",
+      "body": "# Airbnb Announces First Quarter 2026 Results\n\n[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-panel-default)\n\n* [](https://twitter.com/PRNewswire)[](https://www.facebook.com/pages/PR-Newswire/26247320522)[](https://www.linkedin.com/company/pr-newswire/)\n\n[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-panel-news)\n\n* _3_[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-1)News in Focus\n\n* _5_[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-2)Business & Money\n\n* _5_[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-3)Science & Tech\n\n* _5_[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-4)Lifestyle & Health\n\n* _0_[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-5)Policy & Public Interest\n\n* _1_[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-6)People & Culture\n\n* [](https://twitter.com/PRNewswire)[](https://www.facebook.com/pages/PR-Newswire/26247320522)[](https://www.linkedin.com/company/pr-newswire/)\n\n[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-panel-products)\n\n* Explore Our Platform\n\n* Distribute Press Releases\n\n* [](https://twitter.com/PRNewswire)[](https://www.facebook.com/pages/PR-Newswire/26247320522)[](https://www.linkedin.com/company/pr-newswire/)\n\n[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-panel-contact)\n\n* General Inquiries\n\n* Editorial Bureaus\n\n* Worldwide Offices\n\n* [](https://twitter.com/PRNewswire)[](https://www.facebook.com/pages/PR-Newswire/26247320522)[](https://www.linkedin.com/company/pr-newswire/)\n\n[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-1)\n\nClose submenu (News in Focus)News in Focus\n\n* Multimedia Gallery\n\n[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-2)\n\nClose submenu (Business & Money)Business & Money\n\n* Auto & Transportation\n\n* Business Technology\n\n* Entertain\u00adment & Media\n\n* Financial Services & Investing\n\n* General Business\n\n[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-3)\n\nClose submenu (Science & Tech)Science & Tech\n\n* Consumer Technology\n\n* Energy & Natural Resources\n\n* Heavy Industry & Manufacturing\n\n* Telecomm\u00adunications\n\n[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-4)\n\nClose submenu (Lifestyle & Health)Lifestyle & Health\n\n* Consumer Products & Retail\n\n* Entertain\u00adment & Media\n\n[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-5)\n\nClose submenu (Policy & Public Interest)Policy & Public Interest\n\n[](https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html#mm-6)\n\nClose submenu (People & Culture)People & Culture\n\n* People & Culture\n\nAccessibility StatementSkip Navigation\n\n* Investor Relations\n\nWhen typing in this field, a list of search results will appear and be automatically updated as you type.\n\nSearching for your content...\n\n**No results found. Please change your search terms and try again.**\n\n* ## Browse News Releases\n\n* All News Releases\n\n* All Public Company\n\n* ## News Releases Overview\n\n* ## Multimedia Gallery\n\n* ## Multimedia Gallery Overview\n\n* ## Trending Topics\n\n* All Trending Topics\n\n* Business & Money\n\n* * ## Auto & Transportation\n\n* All Automotive & Transportation\n\n* Aerospace, Defense\n\n* Airlines & Aviation\n\n* Maritime & Shipbuilding\n\n* Railroads and Intermodal Transportation\n\n* Supply Chain/Logistics\n\n* Transportation, Trucking & Railroad\n\n* Trucking and Road Transportation\n\n* ## Auto & Transportation Overview\n\n* ## View All Auto & Transportation\n\n* ## Business Technology\n\n* All Business Technology\n\n* Computer & Electronics\n\n* Computer Hardware\n\n* Computer Software\n\n* Electronic Commerce\n\n* Electronic Components\n\n* Electronic Design Automation\n\n* Financial Technology\n\n* High Tech Security\n\n* Internet Technology\n\n* ## Business Technology Overview\n\n* ## View All Business Technology\n\n* ## Entertain\u00adment & Media\n\n* All Entertain\u00adment & Media\n\n* Film and Motion Picture\n\n* Publishing & Information Services\n\n* ## Entertain\u00adment & Media Overview\n\n* ## View All Entertain\u00adment & Media\n\n* ## Financial Services & Investing\n\n* All Financial Services & Investing\n\n* Accounting News & Issues\n\n* Acquisitions, Mergers and Takeovers\n\n* Banking & Financial Services\n\n* Bond & Stock Ratings\n\n* Conference Call Announcements\n\n* Earnings Forecasts & Projections\n\n* Financing Agreements\n\n* Investments Opinions\n\n* Private Placement\n\n* Restructuring & Recapitalization\n\n* Shareholder Activism\n\n* Shareholder Meetings\n\n* ## Financial Services & Investing Overview\n\n* ## View All Financial Services & Investing\n\n* ## General Business\n\n* All General Business\n\n* Commercial Real Estate\n\n* Corporate Expansion\n\n* Environmental, Social and Governance (ESG)\n\n* Human Resource & Workforce Management\n\n* New Products & Services\n\n* Outsourcing Businesses\n\n* Overseas Real Estate (non-US)\n\n* Personnel Announcements\n\n* Real Estate Transactions\n\n* Residential Real Estate\n\n* Small Business Services\n\n* Socially Responsible Investing\n\n* Surveys, Polls and Research\n\n* ## General Business Overview\n\n* ## View All General Business\n\n* * ## Consumer Technology\n\n* All Consumer Technology\n\n* Artificial Intelligence\n\n* Cloud Computing/Internet of Things\n\n* Computer Electronics\n\n* Computer Hardware\n\n* Computer Software\n\n* Consumer Electronics\n\n* Electronic Commerce\n\n* Electronic Gaming\n\n* Financial Technology\n\n* Mobile Entertainment\n\n* Multimedia & Internet\n\n* STEM (Science, Tech, Engineering, Math)\n\n* Supply Chain/Logistics\n\n* Wireless Communications\n\n* ## Consumer Technology Overview\n\n* ## View All Consumer Technology\n\n* ## Energy & Natural Resources\n\n* Alternative Energies\n\n* Electrical Utilities\n\n* General Manufacturing\n\n* Oil and Gas Discoveries\n\n* ## Energy & Natural Resources Overview\n\n* ## View All Energy & Natural Resources\n\n* All Environ\u00adment\n\n* Conservation & Recycling\n\n* Environmental Issues\n\n* Environmental Policy\n\n* Environmental Products & Services\n\n* Green Technology\n\n* Natural Disasters\n\n* ## Environ\u00adment Overview\n\n* ## View All Environ\u00adment\n\n* ## Heavy Industry & Manufacturing\n\n* All Heavy Industry & Manufacturing\n\n* Aerospace & Defense\n\n* Construction & Building\n\n* General Manufacturing\n\n* HVAC (Heating, Ventilation and Air-Conditioning)\n\n* Machine Tools, Metalworking and Metallurgy\n\n* Paper, Forest Products & Containers\n\n* ## Heavy Industry & Manufacturing Overview\n\n* ## View All Heavy Industry & Manufacturing\n\n* ## Telecomm\u00adunications\n\n* All Telecomm\u00adunications\n\n* Carriers and Services\n\n* Mobile Entertainment\n\n* Telecommunications Equipment\n\n* Telecommunications Industry\n\n* VoIP (Voice over Internet Protocol)\n\n* Wireless Communications\n\n* ## Telecomm\u00adunications Overview\n\n* ## View All Telecomm\u00adunications\n\n* Lifestyle & Health\n\n* * ## Consumer Products & Retail\n\n* All Consumer Products & Retail\n\n* Beers, Wines and Spirits\n\n* Cosmetics and Personal Care\n\n* Food & Beverages\n\n* Furniture and Furnishings\n\n* Home Improvement\n\n* Household, Consumer & Cosmetics\n\n* Household Products\n\n* Non-Alcoholic Beverages\n\n* ## Consumer Products & Retail Overview\n\n* ## View All Consumer Products & Retail\n\n* ## Entertain\u00adment & Media\n\n* All Entertain\u00adment & Media\n\n* Film and Motion Picture\n\n* Publishing & Information Services\n\n* ## Entertain\u00adment & Media Overview\n\n* ## View All Entertain\u00adment & Media\n\n* Clinical Trials & Medical Discoveries\n\n* Fitness/Wellness\n\n* Health Care & Hospitals\n\n* Health Insurance\n\n* Infection Control\n\n* International Medical Approval\n\n* Medical Equipment\n\n* Medical Pharmaceuticals\n\n* Supplementary Medicine\n\n* ## Health Overview\n\n* ## View All Health\n\n* Outdoors, Camping & Hiking\n\n* Sports Equipment & Accessories\n\n* ## Sports Overview\n\n* ## View All Sports\n\n* Amusement Parks and Tourist Attractions\n\n* Gambling & Casinos\n\n* Hotels and Resorts\n\n* Leisure & Tourism\n\n* Outdoors, Camping & Hiking\n\n* Passenger Aviation\n\n* ## Travel Overview\n\n* ## View All Travel\n\n* Policy & Public Interest\n\n* * ## Policy & Public Interest\n\n* All Policy & Public Interest\n\n* Advocacy Group Opinion\n\n* Congressional & Presidential Campaigns\n\n* Corporate Social Responsibility\n\n* Economic News, Trends, Analysis\n\n* European Government\n\n* Federal and State Legislation\n\n* Federal Executive Branch & Agency\n\n* Foreign Policy & International Affairs\n\n* Homeland Security\n\n* Natural Disasters\n\n* U.S. State Policy\n\n* ## Policy & Public Interest Overview\n\n* ## View All Policy & Public Interest\n\n* People & Culture\n\n* ## People & Culture\n\n* All People & Culture\n\n* Aboriginal, First Nations & Native American\n\n* African American\n\n* Diversity, Equity & Inclusion\n\n* Lesbian, Gay & Bisexual\n\n* People with Disabilities\n\n* ## People & Culture Overview\n\n* ## View All People & Culture\n\n* In-Language News\n\n* Explore Our Platform\n\n* Distribute Press Releases\n\n* General Inquiries\n\n* Editorial Bureaus\n\n* Worldwide Offices\n\n* [](https://www.prnewswire.com/contact-us/)\n\n* [](http://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html)\n\n* ALL CONTACT INFO\n\n* Contact Us 888-776-0942\n\nfrom 8 AM - 10 PM ET\n\n* [](http://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html)\n\n# Airbnb Announces First Quarter 2026 Results\n\n## News provided by\n\n**Airbnb, Inc.**\n\nMay 07, 2026, 16:03 ET\n\n## Share this article\n\n[](javascript:;)[](javascript:;)[](javascript:;)[](javascript:;)[](javascript:;)[](javascript:;)\n\n[](http://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html)\n\nShare this article\n\n[](javascript:;)[](javascript:;)[](javascript:;)[](javascript:;)[](javascript:;)\n\nSAN FRANCISCO, May 7, 2026 /PRNewswire/ -- Airbnb, Inc. (NASDAQ: ABNB) has posted a shareholder letter containing its first quarter 2026 financial results on its Investor Relations website at **https://investors.airbnb.com**.\n\nAirbnb will host an audio webcast to discuss its results at 2:00 p.m. PT / 5:00 p.m. ET today. The link to the webcast will be made available on the Investor Relations website at **https://investors.airbnb.com**.\n\nInterested parties can register for the call in advance by visiting **https://registrations.events/direct/Q4I663652**. After registering, instructions will be shared on how to join the call.\n\nAirbnb was born in 2007 when two hosts welcomed three guests to their San Francisco home, and has since grown to over 5.5 million hosts who have welcomed over 2.5 billion guest arrivals in almost every country across the globe. Every day, hosts offer unique stays, experiences, and services that make it possible for guests to connect with communities in a more authentic way.\n\nSOURCE Airbnb, Inc.\n\n## Also from this source\n\n### Airbnb to Announce First Quarter 2026 Results Airbnb, Inc. (NASDAQ: ABNB) today announced that the company's first quarter 2026 financial results will be released after market close on May 7,...\n\n### Airbnb Announces Fourth Quarter and Full Year 2025 Results Airbnb, Inc. (NASDAQ: ABNB) has posted a shareholder letter containing its fourth quarter and full year 2025 financial results on its Investor...\n\nMore Releases From This Source\n\nElectronic Commerce\n\nComputer & Electronics\n\nNews Releases in Similar Topics\n\n## Contact PR Newswire\n\n* Call PR Newswire at 888-776-0942\n\nfrom 8 AM - 9 PM ET\n\n* Chat with an Expert\n\n* General Inquiries\n\n* Editorial Bureaus\n\n* Worldwide Offices\n\n[](https://twitter.com/PRNewswire \"Twitter\")[](https://www.facebook.com/PR-Newswire-26247320522/ \"Facebook\")[](https://www.linkedin.com/company/pr-newswire/ \"LinkedIn\")\n\n* For Public Relations\n\n* For IR & Compliance\n\n* About PR Newswire\n\n* Become a Publishing Partner\n\n* Become a Channel Partner\n\n* Accessibility Statement\n\n* APAC - Simplified Chinese\n\n* APAC - Traditional Chinese\n\n* Middle East - Arabic\n\n* All New Releases\n\nDo not sell or share my personal information:\n\n* Submit via privacy@cision.com\n\n* Call Privacy toll-free: 877-297-8921\n\n## Contact PR Newswire\n\n* All News Releases\n\nCall PR Newswire at 888-776-0942\n\n* Information Security Policy\n\nCopyright \u00a9 2026CisionUS Inc.\n\n[](javascript://Chat)\n\n## We value your privacy",
+      "evidence_quality": "full_body",
+      "url": "https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html",
+      "published_at": "Thu, 07 May 2026 20:03:00 GMT",
+      "ticker_hints": [
+        "ABNB"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOVU5YSG1fV3lrbEtVcTg4anV5X0pvSFVOekZXejZKVXhSZURXSUpubThadEFabVFkQ3ctWTFmYTJMemtFdE1jcUxWa3p3TFQxSGR2VTN4NWhUMmgwUF9BdVVBaUdKNUtDMU5LYW5vMW9Gai1UY2JraExiZmN0aE1URUFUUjl0U1RPbXUxNkNnM2RTaE94NWRiYjJxdVpGeUJH?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Airbnb Announces First Quarter 2026 Results - PR Newswire",
+        "source": "PR Newswire",
+        "source_url": "https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html",
+        "publisher_homepage_url": "https://www.prnewswire.com",
+        "url": "https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html",
+        "published_at": "Thu, 07 May 2026 20:03:00 GMT",
+        "summary": "Airbnb Announces First Quarter 2026 Results  PR Newswire",
+        "ticker": "ABNB",
+        "company_name": "Airbnb Inc",
+        "query": "Airbnb Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "ABNB"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Q1 2026 earnings announcement directly affects the ABNB position held in the portfolio",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.prnewswire.com/news-releases/airbnb-announces-first-quarter-2026-results-302759162.html",
+      "content_source": "prnewswire.com",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 1510,
+          "title_hits": 7,
+          "resolved_host": "prnewswire.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMingFBVV95cUxOVXpXUkcybXB5aDRtZVdzYTg4Nk40d3J2N1M1bDNBRzZFeGlMNEp3WHozWkp0bGFoTWdpX3VsY3hhdVdwZ3kxMHRSRmNnZHJQLXJndWdDeVBVaVYyTWcwcU9fSndYcmw0YVNfMFJwcEpVZmg3T2pReDdpMUEybndLdUgxWFo4WEdlT0lIRW94N09WSGJTc3Q5MXFZOElpQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://www.tikr.com/blog/abbott-laboratories-q1-2026-earnings-2b-cgm-quarter-65-upside-priced-in",
+        "query": "Abbott Laboratories",
+        "title": "Abbott Laboratories Q1 2026 Earnings: $2B CGM Quarter, 65% Upside Priced In - TIKR.com",
+        "source": "TIKR.com",
+        "ticker": "ABT",
+        "summary": "Abbott Laboratories Q1 2026 Earnings: $2B CGM Quarter, 65% Upside Priced In  TIKR.com",
+        "source_url": "https://www.tikr.com/blog/abbott-laboratories-q1-2026-earnings-2b-cgm-quarter-65-upside-priced-in",
+        "source_type": "company_news",
+        "company_name": "Abbott Laboratories",
+        "published_at": "Sat, 02 May 2026 07:00:00 GMT",
+        "decoded_google_url": "https://www.tikr.com/blog/abbott-laboratories-q1-2026-earnings-2b-cgm-quarter-65-upside-priced-in",
+        "publisher_homepage_url": "https://www.tikr.com"
+      },
+      "url": "https://www.tikr.com/blog/abbott-laboratories-q1-2026-earnings-2b-cgm-quarter-65-upside-priced-in",
+      "body": "* **Current Price:**~$91\n\n* **Q1 2026 Revenue:**$11.16B (+7.8% YoY)\n\n* **Q1 2026 Adjusted EPS:**$1.15 (+6% YoY)\n\n* **Q2 2026 Adjusted EPS Guidance:**$1.25 to $1.31\n\n* **Full-Year 2026 Comparable Sales Growth Guidance:**6.5% to 7.5%\n\n* **Full-Year 2026 Adjusted EPS Guidance Midpoint:**$5.48\n\n* **TIKR Model Price Target:**$150\n\n* **Implied Upside Over ~5 Years:**~65%\n\n**_Abbott\u2019s second-half growth thesis is either the setup or the risk. Check the TIKR model for Abbott Laboratories stock, for free \u2192_**\n\n## **What Happened?**\n\n!Image 1: abbott laboratories stock q1 2026 earnings\n\nABT Stock Q1 2026 Earnings**(TIKR)**\n\nAbbott Laboratories stock (ABT) posted Q1 2026adjusted EPS of $1.15, up 6% from $1.09 in the prior-year quarter, meeting guidance despite absorbing earlier-than-expected financing costs tied to the Exact Sciences acquisition and a weaker-than-expected respiratory season.\n\nRevenue came in at $11.16B, up 7.8% from $10.36B in Q1 2025.\n\nMedical Devices led segment performance, with sales growing 8.5% in the quarter.\n\nRhythm Management grew 13%, marking the third consecutive quarter of double-digit growth, according to Chairman and CEO Robert Ford on the Q1 2026 earnings call.\n\nContinuous glucose monitoring sales reached $2B, growing 7.5%, with the slowdown attributed to an international tender renewal delay and tough comparisons from shelf restocking dynamics in the first half of 2025.\n\nManagement guided CGM back to double-digit growth in Q2, citing a global patient opportunity of 70 to 80 million addressable users against a current installed base of roughly 10 to 12 million.\n\nCancer Diagnostics grew 13% on a comparable basis, driven by mid-teens Cologuard growth and high-teens growth in international markets.\n\nThe Exact Sciences acquisition, which closed March 23, is expected to add approximately $3B in incremental comparable sales in 2026, according to CFO Phil Boudreau on the Q1 2026 earnings call.\n\nDiagnostics overall grew 2% on a comparable basis, with Core Lab up 3% but Rapid and Molecular Diagnostics down 10% on weak respiratory testing demand.\n\nEstablished Pharmaceuticals grew 9%, with double-digit growth across several Latin America and Asia Pacific markets.\n\nNutrition finished slightly ahead of expectations, with management describing early positive volume response to Q4 2025 price reductions on products including Ensure, though the transition remains incomplete.\n\nFull-year 2026 comparable sales growth guidance is 6.5% to 7.5%, with the full-year adjusted EPS guidance midpoint set at $5.48, reflecting $0.20 of acquisition-related dilution, consistent with assumptions at the time of the deal announcement.\n\nQ2 2026 adjusted EPS guidance is $1.25 to $1.31.\n\n**_Abbott met EPS guidance and kept full-year guidance intact. Run the valuation model on ABT stock yourself, free on TIKR \u2192_**\n\n## Abbott Laboratories Stock: Financials\n\nThe Q1 2026 income statement shows a company managing SG&A step-up pressure from the Exact Sciences integration while holding gross margin stable within a narrow multi-quarter band.\n\n!Image 2: abbott laboratories stock financials\n\nABT Stock Financials **(TIKR)**\n\nGross margin came in at 56.3% in Q1 2026, compared to 57.1% in Q1 2025.\n\nThe 56.3% reading is consistent with where Abbott Laboratories stock has generally tracked: gross margin ranged from 55.4% to 57.1% across the prior four quarters, indicating no structural deterioration.\n\nOperating income was $1.84B in Q1 2026, up 5.5% from $1.75B in Q1 2025.\n\nOperating margin contracted to 16.5% from 16.9% in the prior-year quarter, with SG&A rising to $3.26B from $3.05B in Q1 2025, a step-up consistent with Exact Sciences onboarding costs.\n\nThe Q4 2025 operating margin of 21.6% is not a meaningful run-rate benchmark: Q1 margins compress seasonally relative to Q4, as the Q1 2025 operating margin of 16.9% versus Q4 2024\u2019s 19.8% confirms.\n\nManagement confirmed on the call that adjusted gross margin for Q1 2026 was 56.3%, adjusted R&D was 6.7% of sales, and adjusted SG&A was 29.3% of sales.\n\n## Abbott Laboratories Stock: Valuation Model Take\n\nThe TIKR model prices Abbott Laboratories stock at $150.21 against a current price of ~$91, implying approximately 65% total upside, or roughly 11.2% annualized over a 4.7-year horizon to December 2030.\n\nThe mid-case model assumes a 7.8% revenue CAGR and a 20.6% net income margin, both within reach given Abbott\u2019s 1-year historical revenue growth of 5.7% and the Exact Sciences addition accelerating the top-line trajectory.\n\nThe Q1 2026 results are broadly consistent with these assumptions: EPS grew 6%, revenue grew 7.8%, and Exact Sciences integration is proceeding without disclosed disruption.\n\nThe $0.20 EPS dilution was a known quantity, and it does not alter the mid-case path if Exact Sciences reaches its projected $3B comparable contribution in 2026.\n\nAbbott Laboratories stock trades at a meaningful discount to the TIKR model\u2019s mid-case fair value, and this report does not weaken that case: execution is on track, the medical device pipeline is advancing, and the second-half acceleration drivers are clearly identified.\n\nABT Stock Valuation Model Results **(TIKR)**\n\n**The investment argument for Abbott Laboratories stock hinges on whether the second-half growth acceleration across Nutrition, Core Lab Diagnostics, and Electrophysiology actually materializes, or whether the softer first half marks a more persistent reset.**\n\n**What Has to Go Right**\n\n* Nutrition volume recovery accelerates through 2026: early data from Q4 2025 price reductions shows volume growth beginning to follow, tracked weekly by management on a 2025 H1 baseline, with new product launches providing additional distribution gains\n\n* Electrophysiology exits 2026 growing above the mid-to-high teens market rate, supported by broadening Volt U.S. and TactiFlex Duo Europe launches with consistently strong early physician feedback on speed, lesion durability, and conscious sedation capability\n\n* CGM returns to double-digit growth in Q2 as the international tender delay resolves and restocking comparisons roll off, with Type 2 non-insulin reimbursement representing an unmodeled upside catalyst covering nearly 10 million currently uncovered patients\n\n* Exact Sciences delivers on the $3B 2026 comparable sales projection, with Cologuard\u2019s 25% rescreen contribution growing as the 3-year cohort builds and international expansion begins\n\n**What Could Still Go Wrong**\n\n* China Core Lab stabilization stalls: Q1 sales were flat vs. declines of 15% to 30% across each quarter of 2025, but management models China at a single-digit decline for the full year and new VBP categories in fertility and cancer diagnostics represent incremental headwind\n\n* Respiratory testing revenue does not recover in Q4: management explicitly excluded a stronger-than-average flu season from the full-year guidance, meaning the upside is optionality rather than modeled, and a repeat weak season removes a meaningful block of Diagnostics revenue\n\n* SG&A expansion from Exact Sciences integration outpaces near-term revenue synergies, keeping operating margin below the 19% to 20% range that sustained Q2 through Q4 2025 performance\n\n* CGM competition and international tender delays persist beyond Q2, preventing a return to the double-digit growth that both management guidance and the TIKR model assume\n\n**_Abbott Laboratories stock sits ~65% below TIKR\u2019s model fair value. See the assumptions behind that number and stress-test them yourself, for free \u2192_**\n\n## **Should You Invest in Abbott Laboratories?**\n\nThe only way to really know is to look at the numbers yourself. TIKR gives you free access to the same institutional-quality financial data that professional analysts use to answer exactly that question.\n\nPull up ABT stock and you\u2019ll see years of historical financials, what Wall Street analysts expect for revenue and earnings in the quarters ahead, how valuation multiples have moved over time, and whether price targets are trending up or down.\n\nYou can build a free watchlist to track Abbott Laboratories alongside every other stock on your radar. No credit card required. Just the data you need to decide for yourself.\n\n**_Access Professional Tools to Analyze ABT stock on TIKR for Free \u2192_**",
+      "title": "Abbott Laboratories Q1 2026 Earnings: $2B CGM Quarter, 65% Upside Priced In - TIKR.com",
+      "source": "TIKR.com",
+      "summary": "Abbott Laboratories Q1 2026 Earnings: $2B CGM Quarter, 65% Upside Priced In TIKR.com",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Abbott's strong Q1 CGM performance validates growth archetype thesis for the position.",
+        "affected_tickers": [
+          "ABT"
+        ],
+        "evidence_quality": "full_body"
+      },
+      "event_hash": "c04e8b1caa8b90e5e4946c7ccbdbefc0de40df031dc05ddc8fc2d626cca4b866",
+      "source_url": "https://www.tikr.com/blog/abbott-laboratories-q1-2026-earnings-2b-cgm-quarter-65-upside-priced-in",
+      "external_id": "https://news.google.com/rss/articles/CBMingFBVV95cUxOVXpXUkcybXB5aDRtZVdzYTg4Nk40d3J2N1M1bDNBRzZFeGlMNEp3WHozWkp0bGFoTWdpX3VsY3hhdVdwZ3kxMHRSRmNnZHJQLXJndWdDeVBVaVYyTWcwcU9fSndYcmw0YVNfMFJwcEpVZmg3T2pReDdpMUEybndLdUgxWFo4WEdlT0lIRW94N09WSGJTc3Q5MXFZOElpQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Sat, 02 May 2026 07:00:00 GMT",
+      "resolved_url": "https://www.tikr.com/blog/abbott-laboratories-q1-2026-earnings-2b-cgm-quarter-65-upside-priced-in",
+      "ticker_hints": [
+        "ABT"
+      ],
+      "scrape_status": "ok_proxy",
+      "content_source": "tikr.com",
+      "evidence_quality": "full_body",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "method": "proxy",
+          "accepted": true,
+          "title_hits": 7,
+          "word_count": 1240,
+          "source_match": true,
+          "resolved_host": "tikr.com",
+          "failure_reason": "",
+          "acceptance_score": 6
+        }
+      },
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": ""
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNV0xDRFIxdjEwek9GUUk0YVVzV3h6NGRWSVp6cUR6V3FTT0hGUVN3Wk9WY2pkMEd5WGV2SGNaeDlwcUxzR3E0SHRvU3hVSXNLb2JMZUh3OGdCbzVqNlludE5DQnNEZVM3UndFbmpyZE4wRjd3cGtlTm9zRE95R3pqVVliTnV4MlNOakplcm5hSlVySkVWbFlIclRZMGl4UTZycW9JOXZONXVPNC1HV19aNy1VcFMwMjluTWhlSy10czhrdW9RTHphc05xUWJYRTRkMHd3Sll1N3N1RGxjN0E?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "22377bd2f34fcb0f0252b6bf8d36b8574ced2658678c8f27c2be5ab57816ef33",
+      "source_type": "company_news",
+      "source": "TradingView",
+      "source_url": "https://www.tradingview.com/news/reuters.com,2026:newsml_L8N41I3LE:0-ameren-corp-reports-results-for-the-quarter-ended-march-31-earnings-summary/",
+      "title": "Ameren Corp reports results for the quarter ended March 31 - Earnings Summary - TradingView",
+      "summary": "Ameren Corp reports results for the quarter ended March 31 - Earnings Summary TradingView",
+      "body": "# Ameren Corp reports results for the quarter ended March 31 - Earnings Summary \u2014 TradingView News\n\nSkip to main content\n\n[](http://www.tradingview.com/)\n\n* /Ameren Corp reports results for the quarter ended March 31 - Earnings Summary\n\n!Image 9: Reuters!Image 10: Reuters\n\n# Ameren Corp reports results for the quarter ended March 31 - Earnings Summary\n\nRefinitiv 1 min read\n\n\u00a9 Copyright Thomson Reuters 2026. Click For Restrictions - https://agency.reuters.com/en/copyright.html\n\nLogin or create a forever free account to read this news\n\nAnalyze on Supercharts\n\ndpa-AFX Euro Rises Against Majors\n\n## More news from Reuters\n\n* Dec 22, 2025 Reuters KALENDER-Termine Politik/Vermischtes bis 28. Dezember* Dec 22, 2025 Reuters Malaysia's ex-PM Najib to face two key court rulings in 1MDB sagaDec 21, 2025 Reuters Austrian painter Arnulf Rainer dies at 96\n\n[](http://www.tradingview.com/)\n\n[](https://x.com/tradingview/)[](https://www.facebook.com/tradingview/)[](https://www.youtube.com/@TradingView)[](https://www.instagram.com/tradingview/)[](https://www.linkedin.com/company/tradingview/)[](https://t.me/tradingview/)[](https://www.tiktok.com/@tradingview/)[](https://www.reddit.com/r/TradingView/)\n\nMore than a product\n\n* Indicators & strategies\n\nTools & subscriptions\n\n* Brokers comparison\n\n* CME Group futures\n\n* US stocks bundle\n\n* TradingView store\n\n* Tarot cards for traders\n\n* The C63 TradeTime\n\nPolicies & security\n\n* Accessibility Statement\n\n* Bug Bounty program\n\nBusiness solutions\n\n* Charting libraries\n\n* Lightweight Charts\u2122\n\n* Trading Platform\n\nGrowth opportunities\n\n* Brokerage integration\n\n* Education program\n\n* Indicators & strategies\n\nBusiness solutions\n\n* Charting libraries\n\n* Lightweight Charts\u2122\n\n* Trading Platform\n\nGrowth opportunities\n\n* Brokerage integration\n\n* Education program\n\n!Image 35: Look First!Image 36: Look First",
+      "evidence_quality": "full_body",
+      "url": "https://www.tradingview.com/news/reuters.com,2026:newsml_L8N41I3LE:0-ameren-corp-reports-results-for-the-quarter-ended-march-31-earnings-summary/",
+      "published_at": "Tue, 05 May 2026 21:43:56 GMT",
+      "ticker_hints": [
+        "AEE"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxNV0xDRFIxdjEwek9GUUk0YVVzV3h6NGRWSVp6cUR6V3FTT0hGUVN3Wk9WY2pkMEd5WGV2SGNaeDlwcUxzR3E0SHRvU3hVSXNLb2JMZUh3OGdCbzVqNlludE5DQnNEZVM3UndFbmpyZE4wRjd3cGtlTm9zRE95R3pqVVliTnV4MlNOakplcm5hSlVySkVWbFlIclRZMGl4UTZycW9JOXZONXVPNC1HV19aNy1VcFMwMjluTWhlSy10czhrdW9RTHphc05xUWJYRTRkMHd3Sll1N3N1RGxjN0E?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Ameren Corp reports results for the quarter ended March 31 - Earnings Summary - TradingView",
+        "source": "TradingView",
+        "source_url": "https://www.tradingview.com/news/reuters.com,2026:newsml_L8N41I3LE:0-ameren-corp-reports-results-for-the-quarter-ended-march-31-earnings-summary/",
+        "publisher_homepage_url": "https://www.tradingview.com",
+        "url": "https://www.tradingview.com/news/reuters.com,2026:newsml_L8N41I3LE:0-ameren-corp-reports-results-for-the-quarter-ended-march-31-earnings-summary/",
+        "published_at": "Tue, 05 May 2026 21:43:56 GMT",
+        "summary": "Ameren Corp reports results for the quarter ended March 31 - Earnings Summary  TradingView",
+        "ticker": "AEE",
+        "company_name": "Ameren Corp",
+        "query": "Ameren Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.tradingview.com/news/reuters.com,2026:newsml_L8N41I3LE:0-ameren-corp-reports-results-for-the-quarter-ended-march-31-earnings-summary/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "AEE"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Q1 earnings results for Ameren (AEE) are directly relevant to the held utility position",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.tradingview.com/news/reuters.com,2026:newsml_L8N41I3LE:0-ameren-corp-reports-results-for-the-quarter-ended-march-31-earnings-summary/",
+      "content_source": "tradingview.com",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 224,
+          "title_hits": 8,
+          "resolved_host": "tradingview.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPdEJSTXd4VFhmQ2hHQm5zYjZFQ1dDVXdFcUVCdFJwZkpFQlBLLU5NM0szWEQwZEdyaHFvMTVBVnBJT29aWGpqbjZvaTdyZjRxYzVYQzZCcUpfZjZNX0d6aXlUU3ZWNHNYbnZTbWxSaFpaeS0wLXhCbzRSaXNBdWRjWTJEaFFaXzNqcGZ6Sm05UUQ3NUhlVzJxRzVRd3RkbGJqZTU4c3NSU3plN3prMlpMc2haWXdieEtFUUR6NDJONA?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "fe99ffcf4ee32e159310d547635e855139c122cfd69b8b3c4baedf5473d67d0e",
+      "source_type": "company_news",
+      "source": "ChartMill",
+      "source_url": "https://www.chartmill.com/news/ALB/Chartmill-47392-ALBEMARLE-CORP-NYSEALB-Shares-Surge-After-Massive-Q1-2026-Earnings-Beat",
+      "title": "ALBEMARLE CORP (NYSE:ALB) Shares Surge After Massive Q1 2026 Earnings Beat - ChartMill",
+      "summary": "ALBEMARLE CORP (NYSE:ALB) Shares Surge After Massive Q1 2026 Earnings Beat ChartMill",
+      "body": "Albemarle (NYSE:ALB) crushed analyst expectations in its first-quarter 2026 earnings report, sending shares sharply higher in after-hours trading. The company posted non-GAAP earnings per share of $2.95 on revenue of $1.43 billion, compared to analyst estimates calling for EPS of just $1.07 and revenue of $1.33 billion. The beat was substantial on both the top and bottom lines, and the market reacted swiftly, with the stock surging nearly 8% in after-market action.\n\n**Revenue and EPS vs. Estimates**\n\nThe numbers tell a clear story of operational strength:\n\n* **Non-GAAP EPS:** $2.95 vs. $1.07 estimated (a beat of approximately 175%)\n\n* **Revenue:** $1.43 billion vs. $1.33 billion estimated (a beat of roughly 7.5%)\n\nThis marks one of the most significant earnings surprises for Albemarle in recent quarters, particularly on the earnings per share side. The company\u2019s ability to generate nearly three times the expected profit on revenue that came in only modestly above consensus suggests strong margin performance across its business segments.\n\n**Market Reaction and Recent Price Action**\n\nThe after-market jump of 7.99% reflects investor enthusiasm for the results. Over the past month, the stock had already gained 12.3%, though it had slipped 1.8% over the prior two weeks. The earnings release appears to have arrested any short-term weakness and reignited bullish momentum.\n\n**Key Elements from the Press Release**\n\nAlbemarle\u2019s first-quarter report highlighted the company\u2019s role as a global leader in providing essential elements for mobility, energy, connectivity, and health. While the press release itself was brief, the magnitude of the earnings beat indicates strong demand for lithium and specialty chemicals, likely driven by continued growth in electric vehicle battery production and energy storage applications.\n\nThe company\u2019s Energy Storage and Specialties segments appear to have outperformed, though specific segment-level details were not provided in the announcement summary. The result also suggests that cost controls and operational efficiencies are bearing fruit.\n\n**Analyst Estimates and Outlook**\n\nLooking ahead, analysts have set the following expectations for Albemarle:\n\n* **Q2 2026 Revenue Estimate:** $1.42 billion\n\n* **Full Year 2026 Revenue Estimate:** $5.77 billion\n\n* **Full Year 2026 EPS Estimate:** $7.63\n\nThese projections imply that analysts expect Albemarle to maintain operational momentum through the remainder of the year. The strong Q1 beat could cause upward revisions to these figures as more analysts update their models in response to the news. However, no explicit forward guidance or outlook was provided in the earnings release, so it is unclear whether management's internal expectations align with these analyst estimates.\n\nWith such a significant beat, it is likely that analysts covering the stock will raise their price targets and earnings estimates in the coming days. Historically, earnings surprises of this magnitude tend to lead to positive rating revisions. Investors should monitor updated analyst notes for specific commentary on margin sustainability and demand trends across Albemarle\u2019s key end markets.\n\nTo view more historical earnings data and future projections, visit the earnings page and the analyst ratings page.\n\n**Disclaimer:** This article is for informational purposes only and does not constitute investment advice. Always conduct your own research or consult with a financial professional before making investment decisions.",
+      "evidence_quality": "full_body",
+      "url": "https://www.chartmill.com/news/ALB/Chartmill-47392-ALBEMARLE-CORP-NYSEALB-Shares-Surge-After-Massive-Q1-2026-Earnings-Beat",
+      "published_at": "Wed, 06 May 2026 20:48:59 GMT",
+      "ticker_hints": [
+        "ALB"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPdEJSTXd4VFhmQ2hHQm5zYjZFQ1dDVXdFcUVCdFJwZkpFQlBLLU5NM0szWEQwZEdyaHFvMTVBVnBJT29aWGpqbjZvaTdyZjRxYzVYQzZCcUpfZjZNX0d6aXlUU3ZWNHNYbnZTbWxSaFpaeS0wLXhCbzRSaXNBdWRjWTJEaFFaXzNqcGZ6Sm05UUQ3NUhlVzJxRzVRd3RkbGJqZTU4c3NSU3plN3prMlpMc2haWXdieEtFUUR6NDJONA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "ALBEMARLE CORP (NYSE:ALB) Shares Surge After Massive Q1 2026 Earnings Beat - ChartMill",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/news/ALB/Chartmill-47392-ALBEMARLE-CORP-NYSEALB-Shares-Surge-After-Massive-Q1-2026-Earnings-Beat",
+        "publisher_homepage_url": "https://www.chartmill.com",
+        "url": "https://www.chartmill.com/news/ALB/Chartmill-47392-ALBEMARLE-CORP-NYSEALB-Shares-Surge-After-Massive-Q1-2026-Earnings-Beat",
+        "published_at": "Wed, 06 May 2026 20:48:59 GMT",
+        "summary": "ALBEMARLE CORP (NYSE:ALB) Shares Surge After Massive Q1 2026 Earnings Beat  ChartMill",
+        "ticker": "ALB",
+        "company_name": "Albemarle Corp",
+        "query": "Albemarle Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.chartmill.com/news/ALB/Chartmill-47392-ALBEMARLE-CORP-NYSEALB-Shares-Surge-After-Massive-Q1-2026-Earnings-Beat"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "ALB"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Massive Q1 2026 earnings beat is a significant positive catalyst for ALB's growth archetype position.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.chartmill.com/news/ALB/Chartmill-47392-ALBEMARLE-CORP-NYSEALB-Shares-Surge-After-Massive-Q1-2026-Earnings-Beat",
+      "content_source": "chartmill.com",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 514,
+          "title_hits": 5,
+          "resolved_host": "chartmill.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNVS05bENNenhLRW1RcWFzNGs0RWZ4dkJYeVpkVUtTdGpGTWlFSVZWS0Z5M2FfOWdmVWRhNUlwdkNvMWJVeDgwQ2pQdUNLYjdIZUhTTlhRRjJWYUlZVEVnTk1lLVVFTWxrdGk1NEx0N0lpRzJzY2lzUTk5M2MyRVBqU0tmaVF4ODlVQmMtLUpmQ3NtMTltNXc2UGI5cDF5ZGpKQkp6T2QyZXlBZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "89c97dee371ebfd546e6162f194671c973b01a546031afd0920f57c4ab1e9cc2",
+      "source_type": "company_news",
+      "source": "Insider Monkey",
+      "source_url": "https://www.insidermonkey.com/blog/a-o-smith-corporation-nyseaos-q1-2026-earnings-call-transcript-1752171/",
+      "title": "A. O. Smith Corporation (NYSE:AOS) Q1 2026 Earnings Call Transcript - Insider Monkey",
+      "summary": "A. O. Smith Corporation (NYSE:AOS) Q1 2026 Earnings Call Transcript Insider Monkey",
+      "body": "')}.icon-sharing-widget-x{background-image:url('data:image/svg+xml, twitter (1) ')}.icon-sharing-widget-linkedin{background-image:url('data:image/svg+xml, linkedin ')}.icon-sharing-widget-mail{background-image:url('data:image/svg+xml, email (2) ')}.icon-ai{background-image:url('data:image/svg+xml, ai ')}#shadow{zoom:1;-webkit-opacity:.85;-moz-opacity:.85;opacity:.85;opacity:.85;background:#121212;position:fixed;left:0;top:0;width:100%;height:100%;z-index:1000;display:none}#shadow.search-shadow{top:70px}@media (max-width:1024px){#shadow.search-shadow{top:64px}}.overlay{position:fixed;width:500px;border:1px solid #dadada;background:#fff;top:80px;left:50%;margin-left:-250px;padding:24px;display:none;-webkit-box-shadow:3px 3px 3px #777;-moz-box-shadow:3px 3px 3px #777;box-shadow:3px 3px 3px #777;z-index:1100}@media screen and (max-width:768px){.overlay{width:100%;margin-left:0;top:0;left:0;height:100%}}.overlay .overlay-close{position:absolute;top:14px;right:14px;cursor:pointer}.overlay .overlay-level-2 .menu-header-container{padding:0 0 10px;margin:0 0 18px;border-bottom:1px solid #e4e4e4}.overlay .overlay-level-2 .menu-header-container .overlay-label{color:#555;font-size:20px;font-weight:700;margin-right:8px;margin-top:0;margin-bottom:0;display:block}.overlay .overlay-level-2 .menu-header-container p{font-size:14px;position:relative;top:6px}.overlay .overlay-level-3 .instruction{font-size:14px;font-weight:700;margin-bottom:10px;line-height:1.4em}.overlay .messages .message{background-color:#fcf6f2;border:solid 1px #dadada;padding:8px;padding-bottom:0;margin-bottom:10px}.overlay .messages .message p{font-size:14px;margin-top:0;line-height:1.5em}.overlay .messages .message p a{font-weight:700}.overlay .submit-row{margin-top:12px}.overlay .validated-form{margin-bottom:0}.overlay .validated-form .input-container .validated-input input{width:300px}.overlay .validated-form .checkboxes-row{width:300px}.overlay .validated-form .button-container{margin-bottom:24px}.overlay .validated-form .input-container.privacy-policy-row{margin-bottom:0}#apply-coupon-screen{width:320px;margin-left:-160px}#login-screen{width:380px;height:auto;margin-left:-190px}#login-screen .social-login-section #google-signin-button{width:100%}#login-screen .validated-form .checkboxes-row{width:100%}#login-screen .validated-form .input-container .validated-input input{width:100%;margin-right:0}#signup-screen{width:380px;height:auto;margin-left:-190px}#signup-screen .social-login-section #google-signin-button{width:100%}#signup-screen .validated-form .checkboxes-row{width:100%}#signup-screen .validated-form .input-container .validated-input input{width:100%;margin-right:0}.transaction-listing{width:100%;border-collapse:collapse;empty-cells:show;white-space:normal}.transaction-listing .explanation{width:35%}.transaction-listing .prev-rank{color:#aaa;margin-bottom:1px;margin-top:-4px;font-size:14px}.transaction-listing .date-col{width:15%}.transaction-listing .remaning-holdings-col{width:17%}.transaction-listing .company-col{width:15%}.transaction-listing .relationship-col{width:14%}.transaction-listing .inline-icon{vertical-align:initial}.transaction-listing th{color:#fff;text-align:right;font-weight:700;font-size:14px;border:solid 1px #dadada;font-weight:500;padding:8px;line-height:1.5em;height:auto!important;background:#d82600;background-image:url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMSAxIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48bGluZWFyR3JhZGllbnQgaWQ9Imxlc3NoYXQtZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNkODI2MDAiIHN0b3Atb3BhY2l0eT0iMSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2I3MjAwMCIgc3RvcC1vcGFjaXR5PSIxIi8+PC9saW5lYXJHcmFkaWVudD48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2xlc3NoYXQtZ2VuZXJhdGVkKSIgLz48L3N2Zz4=);background-image:-webkit-linear-gradient(top,#d82600 0,#b72000 100%);background-image:-moz-linear-gradient(top,#d82600 0,#b72000 100%);background-image:-o-linear-gradient(top,#d82600 0,#b72000 100%);background-image:linear-gradient(to bottom,#d82600 0,#b72000 100%)}.transaction-listing th.left-aligned{text-align:left!important}.transaction-listing thead tr{height:40px}.transaction-listing tr{text-align:left;color:#232323;margin-bottom:3px;vertical-align:top}.transaction-listing tr.odd{background-color:#fafafc}@media (min-width:1026px){.transaction-listing tr:hover{background-color:rgba(252,246,242,.6)}}.transaction-listing tr td{height:54px;line-height:28px;font-size:15px;border:solid 1px #dadada;font-weight:400;padding:12px 8px;position:relative;text-align:right}@media (min-width:992px) and (max-width:1260px){.transaction-listing tr td{font-size:14px}}.transaction-listing tr td .inline-icon{position:relative;top:1px}.transaction-listing tr td .icon-history{top:3px}.transaction-listing tr",
+      "evidence_quality": "full_body",
+      "url": "https://www.insidermonkey.com/blog/a-o-smith-corporation-nyseaos-q1-2026-earnings-call-transcript-1752171/",
+      "published_at": "Fri, 01 May 2026 12:24:04 GMT",
+      "ticker_hints": [
+        "AOS"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNVS05bENNenhLRW1RcWFzNGs0RWZ4dkJYeVpkVUtTdGpGTWlFSVZWS0Z5M2FfOWdmVWRhNUlwdkNvMWJVeDgwQ2pQdUNLYjdIZUhTTlhRRjJWYUlZVEVnTk1lLVVFTWxrdGk1NEx0N0lpRzJzY2lzUTk5M2MyRVBqU0tmaVF4ODlVQmMtLUpmQ3NtMTltNXc2UGI5cDF5ZGpKQkp6T2QyZXlBZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "A. O. Smith Corporation (NYSE:AOS) Q1 2026 Earnings Call Transcript - Insider Monkey",
+        "source": "Insider Monkey",
+        "source_url": "https://www.insidermonkey.com/blog/a-o-smith-corporation-nyseaos-q1-2026-earnings-call-transcript-1752171/",
+        "publisher_homepage_url": "https://www.insidermonkey.com",
+        "url": "https://www.insidermonkey.com/blog/a-o-smith-corporation-nyseaos-q1-2026-earnings-call-transcript-1752171/",
+        "published_at": "Fri, 01 May 2026 12:24:04 GMT",
+        "summary": "A. O. Smith Corporation (NYSE:AOS) Q1 2026 Earnings Call Transcript  Insider Monkey",
+        "ticker": "AOS",
+        "company_name": "A O Smith Corp",
+        "query": "A O Smith Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.insidermonkey.com/blog/a-o-smith-corporation-nyseaos-q1-2026-earnings-call-transcript-1752171/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "AOS"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Q1 2026 earnings call transcripts contain detailed performance discussion and guidance relevant to assessing the growth archetype position.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.insidermonkey.com/blog/a-o-smith-corporation-nyseaos-q1-2026-earnings-call-transcript-1752171/",
+      "content_source": "www.insidermonkey.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 125,
+          "title_hits": 0,
+          "resolved_host": "insidermonkey.com",
+          "source_match": true,
+          "acceptance_score": 4,
+          "method": "html"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQbzdPMU5RWXEyQmM3dUYwVXdNNWVVRFh3MDZsYzhtX0RrbUlUbEtZdE50Q3dtRlB0Vk1MdHZ2ZmdVcXVUVVlHMkxxOFlkNGRqbXEwRmdTYkhTS1gxbnRFeWNZTnM1VGJTTDR6ZlUzLVZlcDUycXJpUHA1ZXAtaVFvQkNvaW8xQnByUmRTU2Ftc2oySVpremhLWTlXUzh6TUJCbjlLdm12U3VMeGhvNjlwNDBkV3A?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "98b9aa61cb7dcb0b296ac656ac4f7023c2905f37db42b17ec09b51dc37ae62d5",
+      "source_type": "company_news",
+      "source": "Moomoo",
+      "source_url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises",
+      "title": "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245 - Moomoo",
+      "summary": "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245 Moomoo",
+      "body": "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245 Moomoo",
+      "evidence_quality": "title_only",
+      "url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises",
+      "published_at": "Tue, 05 May 2026 13:29:11 GMT",
+      "ticker_hints": [
+        "SBAC"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQbzdPMU5RWXEyQmM3dUYwVXdNNWVVRFh3MDZsYzhtX0RrbUlUbEtZdE50Q3dtRlB0Vk1MdHZ2ZmdVcXVUVVlHMkxxOFlkNGRqbXEwRmdTYkhTS1gxbnRFeWNZTnM1VGJTTDR6ZlUzLVZlcDUycXJpUHA1ZXAtaVFvQkNvaW8xQnByUmRTU2Ftc2oySVpremhLWTlXUzh6TUJCbjlLdm12U3VMeGhvNjlwNDBkV3A?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245 - Moomoo",
+        "source": "Moomoo",
+        "source_url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises",
+        "publisher_homepage_url": "https://www.moomoo.com",
+        "url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises",
+        "published_at": "Tue, 05 May 2026 13:29:11 GMT",
+        "summary": "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245  Moomoo",
+        "ticker": "SBAC",
+        "company_name": "SBA Communications Corp",
+        "query": "SBA Communications Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "SBAC"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Barclays analyst maintains Buy rating and raises price target to $245, providing updated institutional sentiment on the held position.",
+        "evidence_quality": "title_only"
+      },
+      "resolved_url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises",
+      "content_source": "www.moomoo.com",
+      "scrape_status": "ok",
+      "resolution_status": "weak_html",
+      "resolution_failure_reason": "empty_body",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": false,
+          "failure_reason": "empty_body",
+          "word_count": 0,
+          "title_hits": 0,
+          "resolved_host": "moomoo.com",
+          "method": "html"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOYktHV3BMRWlXUTFCX3dTQWY0ckVDX250d0VLRUw4elNOOEdYeWVlbVpaUjVqVGpsT3JnSWQwN0EyWGhRZE00WTZQVF94Zk5wZWlMTkNoM2lkQW5hTWp6UzRmSkNMaVV4a0VGRkNuSy1GTTNzeVdXUDJHd3BjVDhiMnA1S1h5Tm9QYVMzRWhUZVpucGR2b0dVbVJQV3ZFOWVF?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "bd3b135674a7d93e76f9ca35f0c79cdbc0a6a791da6500e9ee978c91d765682f",
+      "source_type": "company_news",
+      "source": "Stock Titan",
+      "source_url": "https://www.stocktitan.net/sec-filings/SNA/8-k-snap-on-inc-reports-material-event-6035c7a906d7.html",
+      "title": "Snap-on (SNA) investors reelect full board and back 2026 pay plan - Stock Titan",
+      "summary": "Snap-on (SNA) investors reelect full board and back 2026 pay plan Stock Titan",
+      "body": "## Snap-on (SNA) investors reelect full board and back 2026 pay plan\n\n**Snap-on Incorporated** reported results from its 2026 Annual Meeting of Shareholders held on April 30, 2026. Shareholders elected 10 directors to one-year terms ending at the 2027 Annual Meeting, with each nominee receiving significantly more votes for than against.\n\nShareholders also ratified Deloitte & Touche LLP as independent registered public accounting firm for fiscal 2026 and approved, on an advisory basis, the compensation of the company\u2019s named executive officers. There were 52,057,343 common shares outstanding and eligible to vote as of March 2, 2026.\n\n* None.\n\nResults of a shareholder vote on proposals at an annual or special meeting.\n\nShares eligible to vote 52,057,343 shares Common stock outstanding as of March 2, 2026 record date\n\nSay-on-pay approval votes 41,158,810 votes for Advisory vote on named executive officer compensation\n\nSay-on-pay opposition 1,539,256 votes against Advisory vote on executive compensation\n\nAuditor ratification votes for 40,495,061 votes for Ratification of Deloitte & Touche LLP for fiscal 2026\n\nAuditor ratification votes against 5,824,022 votes against Ratification of Deloitte & Touche LLP for fiscal 2026\n\nHighest director support 40,808,720 votes for Election of director Donald J. Stebbins\n\nbroker non-votes financial\n\n\"as well as abstentions and broker non-votes with respect to, each individual\"\n\nBroker non-votes occur when a brokerage firm is unable to vote on a shareholder\u2019s behalf during a company election or decision because the shareholder has not given specific voting instructions, and the broker is not allowed or chooses not to vote on certain matters. They are important because they can affect the outcome of votes, especially when the results are close, by effectively reducing the total number of votes cast.\n\nindependent registered public accounting firm financial\n\n\"selection of Deloitte & Touche LLP as the Company\u2019s independent registered public accounting firm for fiscal 2026\"\n\nAn independent registered public accounting firm is an outside accounting company officially registered with the government regulator to examine and report on a public company's financial records and controls. Investors treat its reports like an impartial inspector\u2019s certificate \u2014 they add credibility to financial statements, help spot errors or misleading claims, and reduce the risk that shareholders are relying on unchecked or biased numbers.\n\nadvisory basis financial\n\n\"approved, on an advisory basis, the compensation of the Company\u2019s named executive officers\"\n\nnamed executive officers financial\n\n\"compensation of the Company\u2019s named executive officers, as disclosed in the proxy statement\"\n\nNamed executive officers are the senior company leaders whose names, roles and compensation are singled out in required regulatory filings; this typically includes the chief executive, chief financial officer and the next highest\u2011paid senior officers. Investors treat this list like a team roster \u2014 it shows who makes key decisions, how they are paid and whether incentives align with shareholder interests, so changes or pay patterns can signal governance quality, risk or strategic shifts.\n\nrecord date financial\n\n\"eligible to vote as of the close of business on March 2, 2026, the record date for the 2026 Annual Meeting\"\n\nThe record date is the specific day when a company determines which shareholders are eligible to receive a dividend or participate in an upcoming vote. It\u2019s like a cutoff date; if you own the stock on that day, you get the benefits or voting rights. This date matters because it decides who qualifies for certain company benefits.\n\n05/01/2026 - 08:34 PM\n\nSECURITIES AND EXCHANGE COMMISSION\n\nWASHINGTON, DC 20549\n\nPursuant to Section 13 or 15(d) of the\n\nSecurities Exchange Act of 1934\n\nDate of Report (Date of earliest event reported):April 30, 2026\n\nSnap-on Inc orporated\n\n(Exact name of registrant as specified in its charter)\n\nDelaware 001-07724 39-0622040\n\n(State or Other Jurisdiction\n\nof Incorporation)(Commission\n\nFile Number)(IRS Employer\n\nIdentification No.)\n\n2801 80th Street,Kenosha,Wisconsin 53143-5656\n\n(Address of Principal Executive Offices, and Zip Code)\n\n(Registrant\u2019s telephone number, including area code)\n\nCheck the appropriate box below if the Form 8-K filing is intended to simultaneously satisfy the filing obligation of the registrant under any of the following provisions:\n\n\u2610 Written communication pursuant to Rule 425 under the Securities Act (17 CFR 230.425)\n\n\u2610 Soliciting material pursuant to Rule 14a-12 under the Exchange Act (17 CFR 240.14a-12)\n\n\u2610 Pre-commencement communication pursuant to Rule 14d-2(b) under the Exchange Act (17 CFR 240.14d-2(b))\n\n\u2610 Pre-commencement communication pursuant to Rule 13e-4(c) under the Exchange Act (17 CFR 240.13e-4(c))\n\nSecurities registered pursuant to Section 12(b) of the Act:\n\nTitle of each class Trading Symbol(s)Name of each exchange on which registered\n\nCommon Stock, $1.00 par value SNA New York Stock Exchange\n\nIndicate by check mark whether the registrant is an emerging growth company as defined in Rule 405 of the Securities Act of 1933 (17 CFR \u00a7230.405 of this chapter) or Rule 12b-2 of the Securities Exchange Act of 1934 (17 CFR \u00a7240.12b-2 of this chapter).\n\nEmerging growth company \u2610\n\nIf an emerging growth company, indicate by check mark if the registrant has elected not to use the extended transition period for complying with any new or revised financial accounting standards provided pursuant to Section 13(a) of the Exchange Act.\u2610\n\nItem 5.07 Submission of Matters to a Vote of Security Holders.\n\nSnap-on Incorporated (the \u201cCompany\u201d) held its 2026 Annual Meeting of Shareholders on April 30, 2026 (the \u201c2026 Annual Meeting\u201d). At the 2026 Annual Meeting, the Company\u2019s shareholders: (i)elected 10 members of the Company\u2019s Board of Directors to each serve a one-year term ending at the Annual Meeting of Shareholders to be held in 2027 (the \u201c2027 Annual Meeting\u201d); (ii)ratified the Audit Committee\u2019s selection of Deloitte& Touche LLP (\u201cDeloitte\u201d) as the Company\u2019s independent registered public accounting firm for fiscal 2026; and (iii)approved, on an advisory basis, the compensation of the Company\u2019s named executive officers, as disclosed in the proxy statement for the 2026 Annual Meeting (the \u201cProxy Statement\u201d). There were 52,057,343 shares of the Company\u2019s common stock outstanding and eligible to vote as of the close of business on March 2, 2026, the record date for the 2026 Annual Meeting.\n\nThe directors elected to the Company\u2019s Board of Directors for terms expiring at the 2027 Annual Meeting, and the number of votes cast for and against, as well as abstentions and broker non-votes with respect to, each individual, are set forth below:\n\nDirector For Against Abstentions Broker Non-Votes\n\nDavid C. Adams 32,254,281 10,533,718 102,531 3,473,896\n\nKaren L. Daniel 37,747,915 5,104,824 37,791 3,473,896\n\nRuth Ann M. Gillis 40,904,091 1,948,970 37,468 3,473,896\n\nJames P. Holden 35,740,568 7,091,526 58,436 3,473,896\n\nNathan J. Jones 38,581,847 4,250,943 57,739 3,473,896\n\nHenry W. Knueppel 38,559,921 4,273,424 57,185 3,473,896\n\nW. Dudley Lehman 37,390,796 5,442,744 56,989 3,473,896\n\nNicholas T. Pinchuk 38,000,643 4,833,812 56,074 3,473,896\n\nGregg M. Sherrill 40,056,459 2,779,922 54,149 3,473,896\n\nDonald J. Stebbins 40,808,720 2,026,622 55,187 3,473,896\n\nThe proposal to ratify the Audit Committee\u2019s selection of Deloitte as the Company\u2019s independent registered public accounting firm for fiscal 2026 received the following votes:\n\nVotes for approval:40,495,061 Votes against:5,824,022 Abstentions:45,342\n\nBroker non-votes:0\n\nThe advisory vote to approve the compensation of the Company\u2019s named executive officers, as disclosed in \u201cCompensation Discussion and Analysis\u201d and \u201cExecutive Compensation Information\u201d in the Proxy Statement, received the following votes:\n\nVotes for approval:41,158,810 Votes against:1,539,256 Abstentions:192,464\n\nBroker non-votes:3,473,896\n\nPursuant to the requirements of the Securities Exchange Act of 1934, Snap-on Incorporated has duly caused this report to be signed on its behalf by the undersigned hereunto duly authorized.\n\nSNAP-ON INCORPORATED\n\nDate: May 1, 2026 By:/s/ Richard T. Miller\n\nRichard T. Miller\n\nVice President, General Counsel and Secretary\n\n### What were the 2026 auditor ratification results for Snap-on (SNA)?\n\nShareholders ratified Deloitte & Touche LLP as Snap-on\u2019s independent registered public accounting firm for fiscal 2026, with 40,495,061 votes for approval, 5,824,022 votes against, and 45,342 abstentions, and no broker non-votes recorded on the auditor ratification proposal.\n\n### Did all Snap-on (SNA) director nominees get elected at the 2026 meeting?\n\nAll 10 director nominees were elected to the board for terms ending at the 2027 Annual Meeting. Each nominee, including Nicholas T. Pinchuk and Donald J. Stebbins, received more votes for than against, along with a limited number of abstentions and broker non-votes.\n\n#### Other Documents\n\n* EX-101 XBRL TAXONOMY EXTENSION SCHEMA DOCUMENT 1.7 KB\n\n* EX-101 XBRL TAXONOMY EXTENSION LABEL LINKBASE DOCUMENT 21.1 KB\n\n* EX-101 XBRL TAXONOMY EXTENSION PRESENTATION LINKBASE DOCUMENT 12.2 KB",
+      "evidence_quality": "full_body",
+      "url": "https://www.stocktitan.net/sec-filings/SNA/8-k-snap-on-inc-reports-material-event-6035c7a906d7.html",
+      "published_at": "Fri, 01 May 2026 20:34:27 GMT",
+      "ticker_hints": [
+        "SNA"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOYktHV3BMRWlXUTFCX3dTQWY0ckVDX250d0VLRUw4elNOOEdYeWVlbVpaUjVqVGpsT3JnSWQwN0EyWGhRZE00WTZQVF94Zk5wZWlMTkNoM2lkQW5hTWp6UzRmSkNMaVV4a0VGRkNuSy1GTTNzeVdXUDJHd3BjVDhiMnA1S1h5Tm9QYVMzRWhUZVpucGR2b0dVbVJQV3ZFOWVF?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Snap-on (SNA) investors reelect full board and back 2026 pay plan - Stock Titan",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/SNA/8-k-snap-on-inc-reports-material-event-6035c7a906d7.html",
+        "publisher_homepage_url": "https://www.stocktitan.net",
+        "url": "https://www.stocktitan.net/sec-filings/SNA/8-k-snap-on-inc-reports-material-event-6035c7a906d7.html",
+        "published_at": "Fri, 01 May 2026 20:34:27 GMT",
+        "summary": "Snap-on (SNA) investors reelect full board and back 2026 pay plan  Stock Titan",
+        "ticker": "SNA",
+        "company_name": "Snap-On Inc",
+        "query": "Snap-On Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.stocktitan.net/sec-filings/SNA/8-k-snap-on-inc-reports-material-event-6035c7a906d7.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "SNA"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "The article explicitly covers Snap-on (SNA), which is a held position, reporting on a shareholder vote outcome for the board and executive compensation.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.stocktitan.net/sec-filings/SNA/8-k-snap-on-inc-reports-material-event-6035c7a906d7.html",
+      "content_source": "stocktitan.net",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 1362,
+          "title_hits": 8,
+          "resolved_host": "stocktitan.net",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    }
+  ],
+  "significance_cache": {
+    "cba296a2b58f638dc5fb2a370d36dfab707869a0014c9827ba3730c167e357b0": {
+      "confidence": 0.92,
+      "event_type": "regulatory",
+      "significance": "major",
+      "why_it_matters": "Abbott Laboratories faces a court-upheld $495 million verdict and over 1,700 similar lawsuits over its preterm infant formula, creating substantial financial and legal exposure."
+    },
+    "e2ddce128bba9501bb6497e38ea1c8e860ddef9b69477c8b181e88507660ec68": {
+      "confidence": 0.8,
+      "event_type": "product",
+      "significance": "minor",
+      "why_it_matters": "ServiceNow-Accenture AI program is a commercial partnership announcement without material impact on either company's fundamentals."
+    },
+    "89d3eef8d934e0108ed38b0e3c47949961d29f0c5004db0e1fec6c9f1807a945": {
+      "confidence": 0.82,
+      "event_type": "financing",
+      "significance": "major",
+      "why_it_matters": "American Electric Power's decision to raise its capital plan to $78 billion represents a major strategic investment commitment driven by surging data center power demand, signaling significant operational scale-up."
+    },
+    "1a47e5a250259de1d694a903fc15ba4640ec9602ec825f1c99e9968a51e7b841": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "b523317f44bf7ab52fdf8250e455a637d7b1c4b67d91f356af99659a93ccf5d5": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "23136a9ef3982d8a3dc8efa13c7fd886ebcb23533df49aa0077c7e6d13ebc932": {
+      "confidence": 0.95,
+      "event_type": "earnings",
+      "significance": "major",
+      "why_it_matters": "Albemarle's Q1 2026 results showing 33% revenue growth and 148% EBITDA increase represent material earnings results that signal significant business momentum."
+    },
+    "d432ccc4435d604fc048f878f835b052174d60220a394e78334a0c8d0e2848d5": {
+      "confidence": 0.88,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Barron's analysis piece citing J.P. Morgan's view on Alphabet is analyst commentary rather than a material corporate announcement."
+    },
+    "918b0804366ae1088dd967b57d83c456314a19b49cfb6df1a0cc5c34e1882363": {
+      "confidence": 0.85,
+      "event_type": "product",
+      "significance": "minor",
+      "why_it_matters": "Snap-on's launch of the Apollo Gen 4 scan tool is a routine product refresh rather than a new product category or major strategic shift materially affecting fundamentals."
+    },
+    "f69fdc695d4808698834965fce631388602c1b21cb457114743a7bf259fe3bdf": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "5874560af0fc355c0efa54b56c0309ffa60dd60860caf3d5d6c71e6873e3b74d": {
+      "significance": "minor",
+      "event_type": "other",
+      "why_it_matters": "Classification parse failed.",
+      "confidence": 0.3
+    },
+    "5f5abaf15f8a139a31361075057b18233c9ebbab852db7739eef0369ecf5c5b9": {
+      "significance": "minor",
+      "event_type": "other",
+      "why_it_matters": "Classification parse failed.",
+      "confidence": 0.3
+    },
+    "e9acba411dd1c257f93c57cc2bfe12eb45546bf5c5368447b80d8977e7c7c803": {
+      "significance": "minor",
+      "event_type": "other",
+      "why_it_matters": "Classification parse failed.",
+      "confidence": 0.3
+    },
+    "c04e8b1caa8b90e5e4946c7ccbdbefc0de40df031dc05ddc8fc2d626cca4b866": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "22377bd2f34fcb0f0252b6bf8d36b8574ced2658678c8f27c2be5ab57816ef33": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "fe99ffcf4ee32e159310d547635e855139c122cfd69b8b3c4baedf5473d67d0e": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "89c97dee371ebfd546e6162f194671c973b01a546031afd0920f57c4ab1e9cc2": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "98b9aa61cb7dcb0b296ac656ac4f7023c2905f37db42b17ec09b51dc37ae62d5": {
+      "significance": "minor",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected routine minor event",
+      "confidence": 0.85,
+      "rule": "keyword"
+    },
+    "bd3b135674a7d93e76f9ca35f0c79cdbc0a6a791da6500e9ee978c91d765682f": {
+      "significance": "minor",
+      "event_type": "other",
+      "why_it_matters": "Classification parse failed.",
+      "confidence": 0.3
+    }
+  }
+}

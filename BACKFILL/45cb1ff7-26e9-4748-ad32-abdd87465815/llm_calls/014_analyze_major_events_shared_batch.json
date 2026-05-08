@@ -1,0 +1,29 @@
+{
+  "sequence": 14,
+  "logged_at": "2026-05-08T11:56:55.231930+00:00",
+  "model": "MiniMax-M2.7",
+  "function_name": "chatcompletion_text",
+  "caller": {
+    "file": "/Users/sansarkarki/Documents/Clavis/backend/app/pipeline/major_event_analyzer.py",
+    "function": "analyze_major_events_shared_batch",
+    "line": 194
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a senior equity risk rater evaluating a significant market event.\n\nYour job is to state the primary risk implication \u2014 not just describe what happened, but explain what it means for a holder of this position. If the event has both positive and negative angles, resolve which effect is primary and why.\n\nReturn strict JSON:\n{\n  \"analysis_text\": \"3-6 sentence analysis that leads with the primary implication, resolves competing forces, and states what would confirm or negate the risk\",\n  \"impact_horizon\": \"immediate|near_term|long_term\",\n  \"risk_direction\": \"improving|neutral|worsening\",\n  \"confidence\": 0.0-1.0,\n  \"scenario_summary\": \"one sentence stating the primary risk implication\",\n  \"key_implications\": [\"...\", \"...\"],\n  \"followup_notes\": [\"...\", \"...\"]\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "For each event below, analyze the primary risk implication for a holder \u2014 not just what happened, but what it means. If an event has competing positive and negative angles, resolve which is primary.\n\nIf evidence quality is title_only or headline_summary, do not act as if you read a full article. Lower confidence and describe the rating as limited by available data.\n\nEvents:\n[0] Evidence quality: full_body\n    Title: Avery Dennison Corporation (NYSE:AVY) Given Consensus Recommendation of \"Moderate Buy\" by Brokerages - MarketBeat\n    Summary: Avery Dennison Corporation (NYSE:AVY) Given Consensus Recommendation of \"Moderate Buy\" by Brokerages MarketBeat\n    Body: Shares of Avery Dennison Corporation ( NYSE:AVY - Get Free Report ) have been assigned an average rating of \"Moderate Buy\" from the ten research firms that are currently covering the company, MarketBeat Ratings reports. Two equities research analysts have rated the stock with a hold rating and eight have assigned a buy rating to the company. The average twelve-month price target among brokers that have covered the stock in the last year is $204.1111.\n\nAVY has been the topic of several recent research reports. Citigroup lowered their target price on shares of Avery Dennison from $190.00 to $185.00 and set a \"neutral\" rating on the stock in a report on Thursday, April 30th. Weiss Ratings reissued a \"hold (c)\" rating on shares of Avery Dennison in a research report on Friday, March 27th. Deutsche Bank Aktiengesellschaft started coverage on Avery Dennison in a research note on Wednesday, Apr\n\nReturn a JSON array with one object per event in order.\nEach object has: analysis_text, impact_horizon, risk_direction, confidence, scenario_summary, key_implications, followup_notes."
+    }
+  ],
+  "kwargs": {
+    "temperature": 0.2,
+    "max_tokens": 2600,
+    "timeout": 120
+  },
+  "response": "```json\n[\n  {\n    \"analysis_text\": \"Avery Dennison maintains a 'Moderate Buy' consensus with 8 of 10 analysts bullish, suggesting institutional support for the position. However, Citigroup's recent target reduction from $190 to $185 and 'Neutral' rating introduces a cautionary note\u2014for a holder, this indicates that near-term upside may be more limited than previously expected or that macro pressures are dampening sentiment at major institutions. The $204 average price target still implies meaningful upside from current levels, but the divergence between consensus optimism and the Citigroup cut suggests the stock may lack near-term momentum. A holder should monitor whether additional analysts revise targets downward, as the Citigroup move could be an early signal of broader caution. Confirmation of risk would come from more target reductions; negation would require resumed upward revisions and price recovery toward targets.\",\n    \"impact_horizon\": \"near_term\",\n    \"risk_direction\": \"neutral\",\n    \"confidence\": 0.65,\n    \"scenario_summary\": \"Analyst consensus remains constructively bullish on AVY but Citigroup's target cut signals limited near-term upside momentum, making the position supportive but lacking near-term catalyst for outperformance.\",\n    \"key_implications\": [\n      \"80% buy ratings provide institutional support, reducing downside pressure near-term\",\n      \"Citigroup's target reduction from $190 to $185 suggests professional skepticism about current valuation or near-term catalysts\",\n      \"~$204 average target implies ~20% upside but requires sustained business momentum to achieve\"\n    ],\n    \"followup_notes\": [\n      \"Monitor for additional target reductions from other bulge-bracket banks\",\n      \"Watch for earnings guidance that either validates or challenges the constructive analyst consensus\",\n      \"This is sentiment data, not fundamental risk\u2014a holder should seek actual business performance confirmation\"\n    ]\n  }\n]\n```",
+  "error": null,
+  "duration_ms": 26832.2
+}

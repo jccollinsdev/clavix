@@ -1,0 +1,58 @@
+{
+  "overnight_macro": {
+    "headlines": [
+      "Trump threatens EU with 'much higher' tariffs if no trade deal signed by July 4 deadline",
+      "U.S. and Iran trade fire in Strait of Hormuz amid fraying ceasefire",
+      "April jobs report preview shows labor market cooling but remaining resilient ahead of Friday release",
+      "CoreWeave sinks 10% on weak revenue guidance and increased spending forecast"
+    ],
+    "themes": [
+      "geopolitics",
+      "rate_policy",
+      "growth_recession"
+    ],
+    "brief": "Trade tensions escalated as President Trump issued a July 4 deadline for the EU to sign a trade deal or face 'much higher' tariffs, while U.S. and Iranian forces exchanged fire in the Strait of Hormuz, adding to geopolitical uncertainty. Meanwhile, Friday's April jobs report is expected to show a cooling but resilient labor market, and AI infrastructure names like CoreWeave are under pressure as elevated spending forecasts spook investors."
+  },
+  "position_impacts": [
+    {
+      "ticker": "AMD",
+      "macro_relevance": "contradicts",
+      "impact_summary": "Tariff uncertainty and geopolitical tensions (EU deadline, Strait of Hormuz) weigh on semiconductor demand expectations, while growth-oriented tech names face headwinds from labor market cooling signals."
+    },
+    {
+      "ticker": "HOOD",
+      "macro_relevance": "neutral",
+      "impact_summary": "No significant overnight macro change that directly impacts fintech positioning; Robinhood's business is more sensitive to retail trading activity than macro headlines."
+    },
+    {
+      "ticker": "SMCI",
+      "macro_relevance": "supports",
+      "impact_summary": "Continued AI infrastructure deal flow (IREN-Nvidia partnership) underscores sustained AI data center demand tailwinds benefiting AI server suppliers like SMCI."
+    }
+  ],
+  "what_matters_today": [
+    {
+      "catalyst": "April Jobs Report release (Friday)",
+      "impacted_positions": [
+        "AMD",
+        "HOOD",
+        "SMCI"
+      ],
+      "urgency": "high"
+    },
+    {
+      "catalyst": "Ongoing tariff policy developments and EU trade negotiations",
+      "impacted_positions": [
+        "AMD"
+      ],
+      "urgency": "medium"
+    },
+    {
+      "catalyst": "AI infrastructure spending trends and data center buildout momentum",
+      "impacted_positions": [
+        "SMCI"
+      ],
+      "urgency": "medium"
+    }
+  ]
+}

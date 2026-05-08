@@ -1,0 +1,198 @@
+{
+  "input_count": 40,
+  "enriched_count": 22,
+  "resolved_with_body": 22,
+  "wrapper_only": 18,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "APA": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "ok_proxy": 2
+      }
+    },
+    "CCL": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 1,
+        "ok": 2,
+        "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/legal/transactional/big-pharma-ma-set-mega-year-patent-expiries-drive-deal-urgency-2026-05-01/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1
+      }
+    },
+    "BR": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 1,
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4900867-bxp-inc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/transcripts/earnings-call-transcript-bxp-inc-exceeds-q1-2026-expectations-stock-dips-slightly-93CH-4653953'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok": 1
+      }
+    },
+    "CAH": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "ok": 1,
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4897816-cardinal-health-among-9-companies-announce-dividend-increases-first-half-may'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1
+      }
+    },
+    "BXP": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 3,
+        "error:Client error '403 Forbidden' for url 'https://www.seatrade-cruise.com/people-opinions/carnival-corp-breaks-ground-on-new-global-headquarters'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1
+      }
+    },
+    "BAC": {
+      "input_count": 4,
+      "resolved_with_body": 2,
+      "wrapper_only": 2,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4588935-block-stock-climbs-after-2026-guidance-boost-following-hefty-q1-earnings-beat'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/transcripts/earnings-call-transcript-block-inc-raises-2026-guidance-after-strong-q1-93CH-4670955'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "unknown": 2
+      }
+    },
+    "XYZ": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "BMY": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CBRE": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CNP": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "ok": 6,
+    "ok_proxy": 9,
+    "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/legal/transactional/big-pharma-ma-set-mega-year-patent-expiries-drive-deal-urgency-2026-05-01/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4900867-bxp-inc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/transcripts/earnings-call-transcript-bxp-inc-exceeds-q1-2026-expectations-stock-dips-slightly-93CH-4653953'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4897816-cardinal-health-among-9-companies-announce-dividend-increases-first-half-may'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://www.seatrade-cruise.com/people-opinions/carnival-corp-breaks-ground-on-new-global-headquarters'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4588935-block-stock-climbs-after-2026-guidance-boost-following-hefty-q1-earnings-beat'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/transcripts/earnings-call-transcript-block-inc-raises-2026-guidance-after-strong-q1-93CH-4670955'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "unknown": 18
+  },
+  "failure_reason_counts": {
+    "unknown": 18
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 18
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "APA",
+      "title": "BofA Lifts APA PT to $30 amid Updated U.S. Energy Sector Outlook - Yahoo Finance",
+      "status": "ok"
+    },
+    {
+      "ticker": "APA",
+      "title": "APA Corporation Q1 Earnings on Deck: Here's How It Will Fare - TradingView",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "APA",
+      "title": "APA Corporation (NASDAQ:APA) Reports Bullish Q1 CY2026 - StockStory",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "APA",
+      "title": "Bank of America Corporation (BAC) Falls as Rate Uncertainty Weighs on Financials - Yahoo Finance",
+      "status": "ok"
+    },
+    {
+      "ticker": "CCL",
+      "title": "[Form 4/A] BANK OF AMERICA CORP /DE/ Amended Insider Trading Activity - Stock Titan",
+      "status": "ok_proxy"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "BAC",
+      "title": "Indivisible Partners Makes New $5.72 Million Investment in Bank of America Corporation $BAC - MarketBeat",
+      "status": "unknown"
+    },
+    {
+      "ticker": "BAC",
+      "title": "[Form 4/A] BANK OF AMERICA CORP /DE/ Amended Insider Trading Activity - Stock Titan",
+      "status": "unknown"
+    },
+    {
+      "ticker": "XYZ",
+      "title": "ANTPOOL, Block Inc, F2Pool, Foundry, Spiderpool, MARA Foundation & DMND Join Stratum v2 Working Group - Bitcoin Magazine",
+      "status": "unknown"
+    },
+    {
+      "ticker": "XYZ",
+      "title": "Did Block, Inc. Insiders Breach their Fiduciary Duties to Shareholders? - PR Newswire",
+      "status": "unknown"
+    },
+    {
+      "ticker": "XYZ",
+      "title": "Block stock climbs after 2026 guidance boost following hefty Q1 earnings beat (XYZ:NYSE) - Seeking Alpha",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.55,
+  "coverage_ok": true
+}

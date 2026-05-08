@@ -1,0 +1,191 @@
+{
+  "input_count": 40,
+  "enriched_count": 22,
+  "resolved_with_body": 22,
+  "wrapper_only": 18,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "BX": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok_proxy": 3
+      }
+    },
+    "EBAY": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 3,
+        "ok": 1
+      }
+    },
+    "CSCO": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 1,
+        "ok_proxy": 3
+      }
+    },
+    "ETR": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899232-digital-realty-trust-preferred-equity-presents-a-more-attractive-risk-adjusted-opportunity'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok": 1
+      }
+    },
+    "DOW": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "error:Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok_proxy": 3
+      }
+    },
+    "DLR": {
+      "input_count": 4,
+      "resolved_with_body": 2,
+      "wrapper_only": 2,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 1,
+        "ok_proxy": 1,
+        "unknown": 2
+      }
+    },
+    "CTAS": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "COST": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CCI": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CSX": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "ok_proxy": 15,
+    "ok": 4,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899232-digital-realty-trust-preferred-equity-presents-a-more-attractive-risk-adjusted-opportunity'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "unknown": 18
+  },
+  "failure_reason_counts": {
+    "unknown": 18
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 18
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "BX",
+      "title": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending) - Seeking Alpha",
+      "status": "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    },
+    {
+      "ticker": "BX",
+      "title": "Building a new enterprise AI services company with Blackstone, Hellman & Friedman, and Goldman Sachs - Anthropic",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "BX",
+      "title": "Blackstone Group to Buy Majority Stake in Service King - Body Shop Business",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "BX",
+      "title": "Crown Castle completes $8.5 billion sale of fiber and small cell assets, emerges as pure-play tower company - Wireless Estimator",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "EBAY",
+      "title": "Crown Castle Announces Closing of Sale of Fiber and Small Cell Businesses and Updates Full Year 2026 Outlook - Crown Castle",
+      "status": "ok_proxy"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "DLR",
+      "title": "Digital Realty (DLR) grows Q1 2026 profit while funding big data center expansion - Stock Titan",
+      "status": "unknown"
+    },
+    {
+      "ticker": "DLR",
+      "title": "Digital Realty Trust Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+      "status": "unknown"
+    },
+    {
+      "ticker": "CTAS",
+      "title": "[EFFECT] CINTAS CORP SEC Filing - Stock Titan",
+      "status": "unknown"
+    },
+    {
+      "ticker": "CTAS",
+      "title": "Cintas Corp. stock underperforms Friday when compared to competitors - MarketWatch",
+      "status": "unknown"
+    },
+    {
+      "ticker": "CTAS",
+      "title": "M&T Bank Corp Has $5.93 Million Stake in Cintas Corporation $CTAS - MarketBeat",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.55,
+  "coverage_ok": true
+}

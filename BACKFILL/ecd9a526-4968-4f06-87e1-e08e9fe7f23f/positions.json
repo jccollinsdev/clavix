@@ -1,0 +1,58 @@
+{
+  "positions": [
+    {
+      "id": "58bd0f7a-6d49-4221-a6e0-dd0fd1b67f72",
+      "user_id": "00000000-0000-0000-0000-000000000001",
+      "ticker": "AMD",
+      "shares": 0.0,
+      "purchase_price": 0.0,
+      "archetype": "growth",
+      "created_at": "2026-04-13T00:47:15.797313+00:00",
+      "updated_at": "2026-04-13T00:47:15.797313+00:00",
+      "current_price": 355.26,
+      "analysis_started_at": null,
+      "synced_from_brokerage": false,
+      "brokerage_authorization_id": null,
+      "brokerage_account_id": null,
+      "brokerage_last_synced_at": null
+    },
+    {
+      "id": "5d51d520-5b72-4aad-816b-29eb1bda175b",
+      "user_id": "00000000-0000-0000-0000-000000000001",
+      "ticker": "HOOD",
+      "shares": 0.0,
+      "purchase_price": 0.0,
+      "archetype": "growth",
+      "created_at": "2026-04-13T00:47:16.220434+00:00",
+      "updated_at": "2026-04-13T00:47:16.220434+00:00",
+      "current_price": 78.09,
+      "analysis_started_at": null,
+      "synced_from_brokerage": false,
+      "brokerage_authorization_id": null,
+      "brokerage_account_id": null,
+      "brokerage_last_synced_at": null
+    },
+    {
+      "id": "3ab82cfd-c7dd-4a20-b42c-54c420a400ed",
+      "user_id": "00000000-0000-0000-0000-000000000001",
+      "ticker": "SMCI",
+      "shares": 0.0,
+      "purchase_price": 0.0,
+      "archetype": "growth",
+      "created_at": "2026-04-13T00:47:16.335029+00:00",
+      "updated_at": "2026-04-13T00:47:16.335029+00:00",
+      "current_price": 32.31,
+      "analysis_started_at": null,
+      "synced_from_brokerage": false,
+      "brokerage_authorization_id": null,
+      "brokerage_account_id": null,
+      "brokerage_last_synced_at": null
+    }
+  ],
+  "target_position_id": null,
+  "target_tickers": [
+    "AMD",
+    "HOOD",
+    "SMCI"
+  ]
+}

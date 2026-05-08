@@ -1,0 +1,192 @@
+{
+  "input_count": 40,
+  "enriched_count": 19,
+  "resolved_with_body": 19,
+  "wrapper_only": 21,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "AMT": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 3,
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4898853-arista-networks-stock-look-elsewhere-for-ai-winners'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1
+      }
+    },
+    "BKR": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "ok_proxy": 1,
+        "error:Client error '401 HTTP Forbidden' for url 'https://www.wsj.com/business/earnings/apollo-global-management-swings-to-loss-f9db3cb7'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1
+      }
+    },
+    "APO": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 1,
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4898596-aptiv-plc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok": 2
+      }
+    },
+    "BAX": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok_proxy": 3
+      }
+    },
+    "BKNG": {
+      "input_count": 4,
+      "resolved_with_body": 3,
+      "wrapper_only": 1,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "ok": 1,
+        "unknown": 1
+      }
+    },
+    "CARR": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "ANET": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "APTV": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "BLK": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CHRW": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "ok": 8,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4898853-arista-networks-stock-look-elsewhere-for-ai-winners'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "ok_proxy": 7,
+    "error:Client error '401 HTTP Forbidden' for url 'https://www.wsj.com/business/earnings/apollo-global-management-swings-to-loss-f9db3cb7'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4898596-aptiv-plc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "unknown": 21
+  },
+  "failure_reason_counts": {
+    "unknown": 21
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 21
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "AMT",
+      "title": "Analysts Boost American Tower (AMT) Price Target After Better-Than-Expected Q1 Results - Yahoo Finance",
+      "status": "ok"
+    },
+    {
+      "ticker": "AMT",
+      "title": "American Tower Corporation $AMT Holdings Raised by Danske Bank A S - MarketBeat",
+      "status": "ok"
+    },
+    {
+      "ticker": "AMT",
+      "title": "American Tower Corp - Amends $6 Billion Multicurrency Revolving Credit Facility, $4 Billion Credit Facility, $1 Billion Term Loan - SEC Filing - TradingView",
+      "status": "ok"
+    },
+    {
+      "ticker": "AMT",
+      "title": "Arista Networks Stock: Look Elsewhere For AI Winners (NYSE:ANET) - Seeking Alpha",
+      "status": "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4898853-arista-networks-stock-look-elsewhere-for-ai-winners'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    },
+    {
+      "ticker": "BKR",
+      "title": "Why Arista Networks Stock Is Trading Lower After Q1 Financial Results - Benzinga",
+      "status": "ok"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "BKNG",
+      "title": "Booking Holdings Inc. stock outperforms competitors on strong trading day - MarketWatch",
+      "status": "unknown"
+    },
+    {
+      "ticker": "CARR",
+      "title": "Carrier Global Corp. stock underperforms Tuesday when compared to competitors - MarketWatch",
+      "status": "unknown"
+    },
+    {
+      "ticker": "CARR",
+      "title": "Carrier Global (NYSE: CARR) president nets shares after 50,616 RSUs vest - Stock Titan",
+      "status": "unknown"
+    },
+    {
+      "ticker": "CARR",
+      "title": "Carrier Global stock price target raised to $75 by Argus on valuation - Investing.com",
+      "status": "unknown"
+    },
+    {
+      "ticker": "CARR",
+      "title": "Carrier Global Analysts Boost Their Forecasts Following Upbeat Q1 Earnings - Benzinga",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.475,
+  "coverage_ok": true
+}

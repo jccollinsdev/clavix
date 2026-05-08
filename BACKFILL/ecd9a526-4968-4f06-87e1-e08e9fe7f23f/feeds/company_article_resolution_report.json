@@ -1,0 +1,114 @@
+{
+  "input_count": 12,
+  "enriched_count": 7,
+  "resolved_with_body": 7,
+  "wrapper_only": 5,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "AMD": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "ok": 2
+      }
+    },
+    "HOOD": {
+      "input_count": 4,
+      "resolved_with_body": 3,
+      "wrapper_only": 1,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "error:Client error '401 HTTP Forbidden' for url 'https://www.barrons.com/articles/super-micro-computer-earnings-stock-price-80b7ee0b'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+        "unknown": 1
+      }
+    },
+    "SMCI": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "ok_proxy": 2,
+    "ok": 4,
+    "error:Client error '401 HTTP Forbidden' for url 'https://www.barrons.com/articles/super-micro-computer-earnings-stock-price-80b7ee0b'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+    "unknown": 5
+  },
+  "failure_reason_counts": {
+    "unknown": 5
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 5
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "AMD",
+      "title": "AMD's stock soars 16% as data center growth pushes revenue and guidance past estimates - CNBC",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "AMD",
+      "title": "Advanced Micro Devices, Inc. 2026 Q1 - Results - Earnings Call Presentation (NASDAQ:AMD) 2026-05-05 - Seeking Alpha",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "AMD",
+      "title": "Advanced Micro Devices, Inc. (AMD): Gap with NVIDIA Widening? - Yahoo Finance",
+      "status": "ok"
+    },
+    {
+      "ticker": "AMD",
+      "title": "Robinhood Markets, Inc. (HOOD) is a trending stock: Facts to know before betting on it - MSN",
+      "status": "ok"
+    },
+    {
+      "ticker": "HOOD",
+      "title": "Super Micro Computer: Get Out Before Earnings (NASDAQ:SMCI) - Seeking Alpha",
+      "status": "ok"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "HOOD",
+      "title": "Stevens Capital Management LP Sells 281,109 Shares of Robinhood Markets, Inc. $HOOD - MarketBeat",
+      "status": "unknown"
+    },
+    {
+      "ticker": "SMCI",
+      "title": "Should You Hold or Fold Super Micro Computer Stock Before Q3 Earnings? - Yahoo Finance",
+      "status": "unknown"
+    },
+    {
+      "ticker": "SMCI",
+      "title": "Super Micro Stock Surges After Earnings. Why It's Shrugging Off a Chip Smuggling Scandal - Barron's",
+      "status": "unknown"
+    },
+    {
+      "ticker": "SMCI",
+      "title": "Super Micro Computer: Get Out Before Earnings (NASDAQ:SMCI) - Seeking Alpha",
+      "status": "unknown"
+    },
+    {
+      "ticker": "SMCI",
+      "title": "A $10.2B quarter, but Supermicro used $6.6B in operating cash - Stock Titan",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.583,
+  "coverage_ok": true
+}

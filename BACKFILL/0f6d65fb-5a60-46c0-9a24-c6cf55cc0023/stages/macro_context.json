@@ -1,0 +1,68 @@
+{
+  "overnight_macro": {
+    "headlines": [
+      "Here's what to expect from Friday's release of the April jobs report",
+      "Trump threatens EU with \u2018much higher\u2019 tariffs if no trade deal signed by new deadline",
+      "Toyota fourth-quarter profit misses by wide margin as U.S. tariffs drive 49% slump",
+      "A cloud computing stock is soaring more than 25%. Here\u2019s what\u2019s driving the rally"
+    ],
+    "themes": [
+      "growth_recession",
+      "geopolitics"
+    ],
+    "brief": "Overnight headlines centered on Here's what to expect from Friday's release of the April jobs report; Trump threatens EU with \u2018much higher\u2019 tariffs if no trade deal signed by new deadline; Toyota fourth-quarter profit misses by wide margin as U.S. tariffs drive 49% slump. The main themes were growth and recession, geopolitics."
+  },
+  "position_impacts": [
+    {
+      "ticker": "APA",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "BAC",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "BMY",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "BR",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "BXP",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "CAH",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "CBRE",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "CCL",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "CNP",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "XYZ",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  ],
+  "what_matters_today": []
+}

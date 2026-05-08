@@ -1,0 +1,20 @@
+{
+  "run_id": "8c6adb2a-6af3-48f8-997b-66562a93574d",
+  "started_at": "2026-05-08T12:07:08.352415+00:00",
+  "label": "sp500_backfill_batch_10",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "BX",
+    "EBAY",
+    "CSCO",
+    "ETR",
+    "DOW",
+    "DLR",
+    "CTAS",
+    "COST",
+    "CCI",
+    "CSX"
+  ]
+}

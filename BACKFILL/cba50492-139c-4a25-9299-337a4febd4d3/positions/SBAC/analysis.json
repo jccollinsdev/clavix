@@ -1,0 +1,194 @@
+{
+  "position": {
+    "id": "dec21d8e-261e-4a6e-aa50-0c58a5055521",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "SBAC",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:16.335029+00:00",
+    "updated_at": "2026-04-13T00:47:16.335029+00:00",
+    "current_price": 217.38,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQbzdPMU5RWXEyQmM3dUYwVXdNNWVVRFh3MDZsYzhtX0RrbUlUbEtZdE50Q3dtRlB0Vk1MdHZ2ZmdVcXVUVVlHMkxxOFlkNGRqbXEwRmdTYkhTS1gxbnRFeWNZTnM1VGJTTDR6ZlUzLVZlcDUycXJpUHA1ZXAtaVFvQkNvaW8xQnByUmRTU2Ftc2oySVpremhLWTlXUzh6TUJCbjlLdm12U3VMeGhvNjlwNDBkV3A?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "98b9aa61cb7dcb0b296ac656ac4f7023c2905f37db42b17ec09b51dc37ae62d5",
+      "source_type": "company_news",
+      "source": "Moomoo",
+      "source_url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises",
+      "title": "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245 - Moomoo",
+      "summary": "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245 Moomoo",
+      "body": "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245 Moomoo",
+      "evidence_quality": "title_only",
+      "url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises",
+      "published_at": "Tue, 05 May 2026 13:29:11 GMT",
+      "ticker_hints": [
+        "SBAC"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQbzdPMU5RWXEyQmM3dUYwVXdNNWVVRFh3MDZsYzhtX0RrbUlUbEtZdE50Q3dtRlB0Vk1MdHZ2ZmdVcXVUVVlHMkxxOFlkNGRqbXEwRmdTYkhTS1gxbnRFeWNZTnM1VGJTTDR6ZlUzLVZlcDUycXJpUHA1ZXAtaVFvQkNvaW8xQnByUmRTU2Ftc2oySVpremhLWTlXUzh6TUJCbjlLdm12U3VMeGhvNjlwNDBkV3A?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245 - Moomoo",
+        "source": "Moomoo",
+        "source_url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises",
+        "publisher_homepage_url": "https://www.moomoo.com",
+        "url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises",
+        "published_at": "Tue, 05 May 2026 13:29:11 GMT",
+        "summary": "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245  Moomoo",
+        "ticker": "SBAC",
+        "company_name": "SBA Communications Corp",
+        "query": "SBA Communications Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "SBAC"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Barclays analyst maintains Buy rating and raises price target to $245, providing updated institutional sentiment on the held position.",
+        "evidence_quality": "title_only"
+      },
+      "resolved_url": "https://www.moomoo.com/news/post/69375373/barclays-maintains-sba-communications-corp-sbacus-with-buy-rating-raises",
+      "content_source": "www.moomoo.com",
+      "scrape_status": "ok",
+      "resolution_status": "weak_html",
+      "resolution_failure_reason": "empty_body",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": false,
+          "failure_reason": "empty_body",
+          "word_count": 0,
+          "title_hits": 0,
+          "resolved_host": "moomoo.com",
+          "method": "html"
+        }
+      }
+    }
+  ],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "SBAC faces a tension between structural 5G-driven lease-up tailwinds and near-term carrier capex caution amid macro uncertainty; the growth label is justified by long-duration escalators and new tenant additions, but macro pressure on wireless carriers could delay revenue accretion from 5G densification, shifting the risk-reward to a cautious stance absent clear visibility into carrier network spending plans.",
+    "long_report": "SBAC's core risk is tenant concentration and carrier capex cycles, not interest rate sensitivity per se\u2014the company's lease structures with embedded escalators provide revenue visibility that partially insulates it from refinancing risk. The growth label reflects genuine structural drivers: 5G densification requirements create multi-year lease-up opportunities as carriers add small cells and new spectrum tenants to towers. However, the macro environment\u2014particularly recession concerns\u2014creates risk that major carriers (AT&T, Verizon, T-Mobile) may slow network investment, compressing lease-up timelines and potentially leaving SBAC with excess tower capacity. The T-Mobile/Sprint consolidation aftermath continues to create uncertainty about tenant rationalization on overlapping towers. Rate sensitivity is secondary but real: while SBAC's long-dated leases provide cash flow stability, higher rates increase cap rates and compress REIT valuations. The key near-term catalyst that would shift this rating is clear visibility into carrier 5G spending commitments\u2014if carriers signal accelerated deployment, the structural case strengthens materially; if guidance shows capex cuts, the growth premium becomes difficult to justify.",
+    "methodology": "Risk assessment synthesizes SBAC's tower REIT business model fundamentals, carrier concentration dynamics, 5G deployment timeline uncertainty, and rate sensitivity, weighed against structural lease protections and balance sheet factors. Macro context assessed for indirect transmission through carrier capex decisions.",
+    "top_risks": [
+      "Carrier capex reduction delaying 5G lease-up on SBAC towers",
+      "Tenant churn or consolidation reducing subtenant revenue",
+      "Rate-driven valuation compression if cap rates expand further"
+    ],
+    "watch_items": [
+      "Major carrier 5G network spending guidance and capex announcements",
+      "Wireless carrier credit quality and balance sheet trends",
+      "Rate environment and REIT sector capital access"
+    ],
+    "risk_context": [
+      {
+        "macro_event": "Overnight macro themes centered on growth/recession concerns with negative signal from Toyota's profit miss driven by US tariff impacts",
+        "rating_impact": "contradicts",
+        "reasoning": "Recession signals increase probability of carrier capex cuts, directly threatening SBAC's lease-up pipeline and growth assumptions"
+      },
+      {
+        "macro_event": "US tariff escalation threatening global growth",
+        "rating_impact": "neutral",
+        "reasoning": "SBAC's US-centric revenue provides insulation, but tariff-driven inflation could pressure carrier margins and indirectly reduce network investment"
+      }
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "dec21d8e-261e-4a6e-aa50-0c58a5055521",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "SBAC",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:16.335029+00:00",
+    "updated_at": "2026-04-13T00:47:16.335029+00:00",
+    "current_price": 218.62,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "C",
+    "previous_total_score": 60.0,
+    "summary": "SBAC faces a tension between structural 5G-driven lease-up tailwinds and near-term carrier capex caution amid macro uncertainty; the growth label is justified by long-duration escalators and new tenant additions, but macro pressure on wireless carriers could delay revenue accretion from 5G densification, shifting the risk-reward to a cautious stance absent clear visibility into carrier network spending plans.",
+    "long_report": "SBAC's core risk is tenant concentration and carrier capex cycles, not interest rate sensitivity per se\u2014the company's lease structures with embedded escalators provide revenue visibility that partially insulates it from refinancing risk. The growth label reflects genuine structural drivers: 5G densification requirements create multi-year lease-up opportunities as carriers add small cells and new spectrum tenants to towers. However, the macro environment\u2014particularly recession concerns\u2014creates risk that major carriers (AT&T, Verizon, T-Mobile) may slow network investment, compressing lease-up timelines and potentially leaving SBAC with excess tower capacity. The T-Mobile/Sprint consolidation aftermath continues to create uncertainty about tenant rationalization on overlapping towers. Rate sensitivity is secondary but real: while SBAC's long-dated leases provide cash flow stability, higher rates increase cap rates and compress REIT valuations. The key near-term catalyst that would shift this rating is clear visibility into carrier 5G spending commitments\u2014if carriers signal accelerated deployment, the structural case strengthens materially; if guidance shows capex cuts, the growth premium becomes difficult to justify.",
+    "top_risks": [
+      "Carrier capex reduction delaying 5G lease-up on SBAC towers",
+      "Tenant churn or consolidation reducing subtenant revenue",
+      "Rate-driven valuation compression if cap rates expand further"
+    ],
+    "watch_items": [
+      "Major carrier 5G network spending guidance and capex announcements",
+      "Wireless carrier credit quality and balance sheet trends",
+      "Rate environment and REIT sector capital access"
+    ],
+    "top_news": [
+      "Barclays Maintains SBA Communications Corp(SBAC.US) With Buy Rating, Raises Target Price to $245 - Moomoo"
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Risk assessment synthesizes SBAC's tower REIT business model fundamentals, carrier concentration dynamics, 5G deployment timeline uncertainty, and rate sensitivity, weighed against structural lease protections and balance sheet factors. Macro context assessed for indirect transmission through carrier capex decisions.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "d9574988-972d-453f-b3cb-9c54d290ec6d",
+      "ticker": "SBAC",
+      "company_name": "SBA Communications Corp",
+      "asset_class": null,
+      "sector": "Real Estate",
+      "industry": null,
+      "exchange": "NASDAQ NMS - GLOBAL MARKET",
+      "market_cap": 23187497428.59687,
+      "market_cap_bucket": "moderate_high",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 197037833.6,
+      "spread_proxy": 0.001,
+      "beta": 1.0211298,
+      "volatility_proxy": 0.25528245,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:49:08.61198+00:00",
+      "created_at": "2026-04-12T22:08:48.351614+00:00",
+      "pe_ratio": 22.0072,
+      "week_52_high": 244.1883,
+      "week_52_low": 162.41,
+      "price": 218.62,
+      "price_as_of": "2026-05-08T10:49:08.602973+00:00",
+      "avg_volume": 0.90128,
+      "previous_close": 218.44,
+      "open_price": 218.29,
+      "day_high": 219.85,
+      "day_low": 216.34,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "SBAC",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "position": {
+    "id": "90a473d1-e61f-4cfc-9cb3-4ed66b7eff8f",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "ALL",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 218.51,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNRVE5bzhYNENzMmE0N3VzazBmZnptQjlxLUVfU0RVdkppc0loS2Z2SXlwTVZGVk1OY0FOUlAwZkhFbVNuZXg2T083UGxmZ19rOTBZdEd2YkFPcThodlZ5MTFsNEpfZUkwcXYxckpVRVo2Q3VzWU55OWd3OThwU3V5elJwbGJwVVp5UU14UHJ2bUF5V0ExbnVSVEJ0eUQtdjBfdXZQWXZManpENnFQcHFRdXhldUxhS2hEdFQ3Q2JDdTA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://www.investing.com/news/insider-trading-news/allstate-coo-mario-rizzo-sells-406m-of-allstate-corp-stock-93CH-4657587",
+        "query": "Allstate Corp",
+        "title": "Allstate COO Mario Rizzo sells $4.06m of Allstate Corp stock - Investing.com",
+        "source": "Investing.com",
+        "ticker": "ALL",
+        "summary": "Allstate COO Mario Rizzo sells $4.06m of Allstate Corp stock  Investing.com",
+        "source_url": "https://www.investing.com/news/insider-trading-news/allstate-coo-mario-rizzo-sells-406m-of-allstate-corp-stock-93CH-4657587",
+        "source_type": "company_news",
+        "company_name": "Allstate Corp",
+        "published_at": "Mon, 04 May 2026 22:31:02 GMT",
+        "decoded_google_url": "https://www.investing.com/news/insider-trading-news/allstate-coo-mario-rizzo-sells-406m-of-allstate-corp-stock-93CH-4657587",
+        "publisher_homepage_url": "https://www.investing.com"
+      },
+      "url": "https://www.investing.com/news/insider-trading-news/allstate-coo-mario-rizzo-sells-406m-of-allstate-corp-stock-93CH-4657587",
+      "body": "Allstate COO Mario Rizzo sells $4.06m of Allstate Corp stock Investing.com",
+      "title": "Allstate COO Mario Rizzo sells $4.06m of Allstate Corp stock - Investing.com",
+      "source": "Investing.com",
+      "summary": "Allstate COO Mario Rizzo sells $4.06m of Allstate Corp stock Investing.com",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Allstate's COO selling shares indicates insider sentiment for the ALL position.",
+        "affected_tickers": [
+          "ALL"
+        ],
+        "evidence_quality": "title_only"
+      },
+      "event_hash": "7fe7309db5ab9efbfd8c21d4f87a6b8ee662de7a9959b27fcd734c91093bcdf2",
+      "source_url": "https://www.investing.com/news/insider-trading-news/allstate-coo-mario-rizzo-sells-406m-of-allstate-corp-stock-93CH-4657587",
+      "external_id": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxNRVE5bzhYNENzMmE0N3VzazBmZnptQjlxLUVfU0RVdkppc0loS2Z2SXlwTVZGVk1OY0FOUlAwZkhFbVNuZXg2T083UGxmZ19rOTBZdEd2YkFPcThodlZ5MTFsNEpfZUkwcXYxckpVRVo2Q3VzWU55OWd3OThwU3V5elJwbGJwVVp5UU14UHJ2bUF5V0ExbnVSVEJ0eUQtdjBfdXZQWXZManpENnFQcHFRdXhldUxhS2hEdFQ3Q2JDdTA?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Mon, 04 May 2026 22:31:02 GMT",
+      "ticker_hints": [
+        "ALL"
+      ],
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/insider-trading-news/allstate-coo-mario-rizzo-sells-406m-of-allstate-corp-stock-93CH-4657587'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "evidence_quality": "title_only",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://www.investing.com/news/insider-trading-news/allstate-coo-mario-rizzo-sells-406m-of-allstate-corp-stock-93CH-4657587'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      },
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://www.investing.com/news/insider-trading-news/allstate-coo-mario-rizzo-sells-406m-of-allstate-corp-stock-93CH-4657587'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    }
+  ],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "Recession risk is the dominant force for Allstate, as economic deterioration compresses premium growth and elevates loss ratios across auto and homeowners lines; while strong P&C pricing power and recent reserve releases provide countervailing support, a prolonged growth slowdown would overwhelm these offsets and materially worsen the risk profile.",
+    "long_report": "Allstate's growth orientation faces its most significant headwind from macro slowdown signals\u2014the April jobs report and tariff-driven profit misses (Toyota's 49% earnings slump) reinforce recessionary undertones that directly pressure both premium expansion and claims frequency in auto and property insurance. The auto insurance segment faces a particularly acute squeeze: deteriorating affordability for consumers combined with used car values that remain suppressed elevate loss severity risk. However, the P&C insurance industry retains structural pricing power, and Allstate's recent reserve releases suggest actuarial discipline that limits near-term tail risk from prior accident year development. Investment portfolio quality matters here: a risk-off environment pressures fixed income unrealized gains and could force mark-to-market losses, compounding operating underperformance. The geopolitical tariff escalation creates indirect pressure through supply chain repair costs and potential inflation re-acceleration, which would crimp the Federal Reserve's flexibility to ease\u2014bad for both Allstate's investment book and its pricing environment. What shifts this rating materially: a sustained rise in combined ratio above 97%, a large catastrophe event, or evidence that reserve releases are masking deterioration rather than reflecting true improvement.",
+    "methodology": "Assessed macro context for growth/recession and geopolitical themes against insurance sector dynamics; no company-specific event analyses were available, so the assessment relies on sector fundamentals, macro risk factors, and typical insurance company sensitivities to economic cycles.",
+    "top_risks": [
+      "Economic slowdown compressing premium growth and elevating claims frequency",
+      "Catastrophic loss exposure (CAT events) exceeding actuarial expectations",
+      "Investment portfolio mark-to-market deterioration in risk-off environment"
+    ],
+    "watch_items": [
+      "Combined ratio trajectory relative to 96-97% breakeven range",
+      "Claims frequency trends in auto and homeowners segments as economic data softens"
+    ],
+    "risk_context": [
+      {
+        "macro_event": "April jobs report release and recession signal concerns",
+        "rating_impact": "supports",
+        "reasoning": "Weaker employment data validates recession risk risk assessment that pressures insurance premium growth and elevates loss ratios"
+      },
+      {
+        "macro_event": "Trump tariff threats against EU and Toyota's 49% profit slump",
+        "rating_impact": "supports",
+        "reasoning": "Broad tariff escalation and corporate earnings deterioration signal demand destruction that reduces insurance demand and increases supply-side repair costs"
+      },
+      {
+        "macro_event": "Federal Reserve policy uncertainty from tariff-driven inflation",
+        "rating_impact": "neutral",
+        "reasoning": "Elevated rate volatility creates offsetting forces\u2014higher rates support investment income but risk-off conditions pressure bond portfolios"
+      }
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "90a473d1-e61f-4cfc-9cb3-4ed66b7eff8f",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "ALL",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 213.67,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "B",
+    "previous_total_score": 69.5,
+    "summary": "Recession risk is the dominant force for Allstate, as economic deterioration compresses premium growth and elevates loss ratios across auto and homeowners lines; while strong P&C pricing power and recent reserve releases provide countervailing support, a prolonged growth slowdown would overwhelm these offsets and materially worsen the risk profile.",
+    "long_report": "Allstate's growth orientation faces its most significant headwind from macro slowdown signals\u2014the April jobs report and tariff-driven profit misses (Toyota's 49% earnings slump) reinforce recessionary undertones that directly pressure both premium expansion and claims frequency in auto and property insurance. The auto insurance segment faces a particularly acute squeeze: deteriorating affordability for consumers combined with used car values that remain suppressed elevate loss severity risk. However, the P&C insurance industry retains structural pricing power, and Allstate's recent reserve releases suggest actuarial discipline that limits near-term tail risk from prior accident year development. Investment portfolio quality matters here: a risk-off environment pressures fixed income unrealized gains and could force mark-to-market losses, compounding operating underperformance. The geopolitical tariff escalation creates indirect pressure through supply chain repair costs and potential inflation re-acceleration, which would crimp the Federal Reserve's flexibility to ease\u2014bad for both Allstate's investment book and its pricing environment. What shifts this rating materially: a sustained rise in combined ratio above 97%, a large catastrophe event, or evidence that reserve releases are masking deterioration rather than reflecting true improvement.",
+    "top_risks": [
+      "Economic slowdown compressing premium growth and elevating claims frequency",
+      "Catastrophic loss exposure (CAT events) exceeding actuarial expectations",
+      "Investment portfolio mark-to-market deterioration in risk-off environment"
+    ],
+    "watch_items": [
+      "Combined ratio trajectory relative to 96-97% breakeven range",
+      "Claims frequency trends in auto and homeowners segments as economic data softens"
+    ],
+    "top_news": [
+      "Allstate COO Mario Rizzo sells $4.06m of Allstate Corp stock - Investing.com"
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Assessed macro context for growth/recession and geopolitical themes against insurance sector dynamics; no company-specific event analyses were available, so the assessment relies on sector fundamentals, macro risk factors, and typical insurance company sensitivities to economic cycles.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "59065cf3-92d4-497f-b378-b22320229528",
+      "ticker": "ALL",
+      "company_name": "Allstate Corp",
+      "asset_class": null,
+      "sector": "Insurance",
+      "industry": null,
+      "exchange": "NEW YORK STOCK EXCHANGE, INC.",
+      "market_cap": 55003129428.1245,
+      "market_cap_bucket": "high",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 356046867.79999995,
+      "spread_proxy": 0.001,
+      "beta": 0.21979953,
+      "volatility_proxy": 0.0549498825,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:30:21.667984+00:00",
+      "created_at": "2026-04-12T21:58:32.665529+00:00",
+      "pe_ratio": 5.3419,
+      "week_52_high": 222.225,
+      "week_52_low": 188.08,
+      "price": 213.67,
+      "price_as_of": "2026-05-08T10:30:21.656124+00:00",
+      "avg_volume": 1.66634,
+      "previous_close": 217.92,
+      "open_price": 213.01,
+      "day_high": 214.53,
+      "day_low": 209.655,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "ALL",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

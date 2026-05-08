@@ -1,0 +1,20 @@
+{
+  "run_id": "0f6d65fb-5a60-46c0-9a24-c6cf55cc0023",
+  "started_at": "2026-05-08T12:07:08.402984+00:00",
+  "label": "sp500_backfill_batch_9",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "APA",
+    "CCL",
+    "BR",
+    "CAH",
+    "BXP",
+    "BAC",
+    "XYZ",
+    "BMY",
+    "CBRE",
+    "CNP"
+  ]
+}

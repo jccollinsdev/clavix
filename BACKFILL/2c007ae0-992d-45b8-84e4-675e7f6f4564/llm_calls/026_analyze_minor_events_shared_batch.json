@@ -1,0 +1,25 @@
+{
+  "sequence": 26,
+  "logged_at": "2026-05-08T11:45:02.551070+00:00",
+  "model": "MiniMax-M2.7",
+  "function_name": "chatcompletion_text",
+  "caller": {
+    "file": "/Users/sansarkarki/Documents/Clavis/backend/app/pipeline/agentic_scan.py",
+    "function": "analyze_minor_events_shared_batch",
+    "line": 266
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are a portfolio risk rater.\n\nGiven multiple news items, produce a reusable base analysis for each event without assuming a specific holder. For each event, state the primary risk implication \u2014 what it means for the company's risk profile, not just what happened.\n\nNews items to analyze:\n[0] Evidence quality: full_body\n    Title: AbbVie Pharmaceutical Manufacturing Campus, North Carolina, US - Pharmaceutical Technology\n    Summary: AbbVie Pharmaceutical Manufacturing Campus, North Carolina, US Pharmaceutical Technology\n    Body: # AbbVie Pharmaceutical Manufacturing Campus, North Carolina, US\n\nSkip to site menuSkip to page content\n\n* Comment & Opinion\n\n* Drug Manufacturers\n\n* Therapy Area- [x]\n\n* Central Nervous System\n\n* Infectious Disease\n\n* Pricing and Market Access\n\n* Artificial Intelligence\n\n* Corporate Governance\n\n* Environmental Sustainability\n\n* Internet of Things\n\n* Social Responsibility\n\n* Company Categories\n\n* Products & Services\n\n* Company Releases\n\n* Webinar & Events- [x]\n\n* Webinar & Events\n\n* All Webinars & Events\n\n* On-Demand Webinars\n\n* Excellence Awards\n\n* Innovation Rankings\n\n* Advertise With Us\n\n* Our Marketing Solutions\n\n* GlobalData Reports\n\n* Visit GlobalData\n\n## From Our Partners\n\n* Biopharma\n\nFor each news item above, return a JSON object with:\n- \"analysis_text\": \"2-4 sentence analysis stating the primary implication\"\n- \"impact_horizon\": \"immediate|near_term|long_term\"\n- \"risk_direction\": \"improving|neutral|worsening\"\n- \"confidence\": 0.0-1.0\n- \"scenario_summary\": \"one sentence stating the primary implication\"\n- \"key_implications\": [\"...\", \"...\"]\n- \"followup_notes\": [\"...\", \"...\"]\n\nReturn a JSON array with one object per news item in order."
+    }
+  ],
+  "kwargs": {
+    "temperature": 0.2,
+    "max_tokens": 2400,
+    "timeout": 120
+  },
+  "response": "```json\n[\n  {\n    \"analysis_text\": \"AbbVie\u2019s decision to build a new pharmaceutical manufacturing campus in North Carolina represents a significant capital commitment that raises its execution and financial risk profile. The project introduces construction, regulatory, and integration challenges that could lead to cost overruns and delayed capacity ramp\u2011up. In the longer term, the new site may mitigate geographic concentration risk, but only if demand aligns with added capacity. Overall, the net effect on the company\u2019s risk posture is mixed, with near\u2011term risks outweighing potential benefits unless the investment is managed tightly.\",\n    \"impact_horizon\": \"near_term\",\n    \"risk_direction\": \"neutral\",\n    \"confidence\": 0.55,\n    \"scenario_summary\": \"AbbVie\u2019s new North Carolina campus adds execution and capital\u2011deployment risk, elevating near\u2011term operational and financial risk while offering long\u2011term supply\u2011diversification upside.\",\n    \"key_implications\": [\n      \"Large capital outlay increases liquidity and leverage risk.\",\n      \"Construction and regulatory approvals introduce execution risk that could cause cost overruns or delays.\",\n      \"Geographic diversification reduces concentration risk but adds supply\u2011chain complexity.\",\n      \"Potential for overcapacity if product demand does not match the new capacity.\"\n    ],\n    \"followup_notes\": [\n      \"Monitor construction timeline, permitting\u8fdb\u5ea6, and any cost\u2011overrun disclosures.\",\n      \"Track capacity utilization forecasts and any impact on credit ratings or financial guidance.\",\n      \"Assess how the new site aligns with AbbVie\u2019s product portfolio and demand outlook.\"\n    ]\n  }\n]\n```",
+  "error": null,
+  "duration_ms": 43613.73
+}

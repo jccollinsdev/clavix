@@ -1,0 +1,29 @@
+{
+  "sequence": 8,
+  "logged_at": "2026-05-08T12:03:26.273746+00:00",
+  "model": "MiniMax-M2.7",
+  "function_name": "chatcompletion_text",
+  "caller": {
+    "file": "/Users/sansarkarki/Documents/Clavis/backend/app/pipeline/classifier.py",
+    "function": "classify_significance_batch",
+    "line": 190
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a financial event classifier for a portfolio risk app.\n\nClassify each news item conservatively.\n\nMAJOR = earnings results or surprises, guidance raises/cuts, material corporate announcements, new product launches, strategy shifts, M&A, CEO/CFO resignations or appointments tied to change, regulatory actions, SEC/DOJ investigations, bankruptcy, financing crises, major recalls, and other events that can materially change fundamentals or valuation.\n\nMINOR = rating upgrades/downgrades, price target changes, routine economic data, conference appearances, commentary, secondary mentions, and general market chatter without a material new catalyst.\n\nRules:\n- If the company itself is announcing a material action, prefer MAJOR.\n- If it is only analysis, commentary, or a rating change, prefer MINOR.\n- When uncertain, choose MINOR.\n\nReturn exact JSON with:\n{{\n  \"significance\": \"major|minor\",\n  \"event_type\": \"earnings|macro|management|mna|regulatory|product|financing|sector|other\",\n  \"why_it_matters\": \"one sentence\",\n  \"confidence\": 0.0-1.0\n}}"
+    },
+    {
+      "role": "user",
+      "content": "[0] Title: Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ) - Stock Titan\nSummary: Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ) Stock Titan\nBody: WASHINGTON, D.C. 20549\n\nAssurant, Inc.\n\n(Address, including zip code, and telephone number, including area code, of Registrant's Principal Executive Offices)\n\nCheck the appropriate box below if the Form 8-K filing is intended to simultaneously satisfy the filing obligation of the registrant under any of the following provisions:\n\nIndicate by check mark whether the registrant is an emerging growth company as defined in Rule 405 of the Securities Act of 1933 (\u00a7230.405 of this chapter) or Rule 12b-2 of the Securities Exchange Act of 1934 (\u00a7240.12b-2 of this chapter).\n\nIf an emerging growth company, indicate by check mark if the registrant has elected not to use the extended transition period for complying with any new or revised financial accounting standards provided pursuant to Section 13(a) of the Exchange Act.\u2610\n\nItem 2.02.Results of Operations and Financial Condition.\n\nOn May 5, 2026, Assurant, Inc. (the \u201cCompany\u201d) issued a news release announcing its financial results for the quarter\n\n[1] Title: A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness - Yahoo Finance\nSummary: A Look At Arthur J. Gallagher\u2019s Valuation After Recent Share Price Weakness Yahoo Finance\nBody: Find winning stocks in any market cycle. Join 7 million investors using Simply Wall St's investing ideas for FREE.\n\nArthur J. Gallagher (AJG) has drawn attention after a period of weaker share performance, with the stock showing negative returns over the past month, past 3 months, year to date, and over the past year.\n\nAt the current share price of $196.91, the stock has faced a sharp pullback, with a 7 day share price return of 7.03% and a 1 year total shareholder return decline of 41.43%, which suggests momentum has been fading after earlier multi year gains.\n\nIf you are rethinking your exposure to insurance brokers after this weaker run, it can be helpful to broaden your watchlist with other high quality companies, including 19 top founder-led companies\n\nAfter a rough stretch for returns, Arthur J. Gallagher now trades at $196.91 with an indicated intrinsic discount of about 41%. Is this pricing in too much pessimism, or is the market already factoring in expectations for future gro\n\n[2] Title: Berkshire Hathaway profit rises despite consumer stress, cash sets record - Reuters\nSummary: Berkshire Hathaway profit rises despite consumer stress, cash sets record Reuters\nBody: Berkshire Hathaway profit rises despite consumer stress, cash sets record Reuters\n\n[3] Title: Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter - Financial Times\nSummary: Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times\nBody: Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times"
+    }
+  ],
+  "kwargs": {
+    "temperature": 0.1,
+    "max_tokens": 1200,
+    "timeout": 120
+  },
+  "response": "```json\n[\n  {\n    \"significance\": \"major\",\n    \"event_type\": \"earnings\",\n    \"why_it_matters\": \"Assurant reported record Q1 2026 results and raised full-year guidance, signaling stronger-than-expected financial performance.\",\n    \"confidence\": 0.95\n  },\n  {\n    \"significance\": \"minor\",\n    \"event_type\": \"other\",\n    \"why_it_matters\": \"Analytical commentary on AJG's valuation after recent underperformance; no new company announcement or material catalyst.\",\n    \"confidence\": 0.92\n  },\n  {\n    \"significance\": \"major\",\n    \"event_type\": \"earnings\",\n    \"why_it_matters\": \"Berkshire Hathaway reported profit growth and record cash pile, reflecting the company's core financial performance.\",\n    \"confidence\": 0.97\n  },\n  {\n    \"significance\": \"major\",\n    \"event_type\": \"financing\",\n    \"why_it_matters\": \"Berkshire's cash climbed to $380 billion with a 14-quarter stock sales streak, indicating significant capital allocation activity.\",\n    \"confidence\": 0.95\n  }\n]\n```",
+  "error": null,
+  "duration_ms": 14911.01
+}

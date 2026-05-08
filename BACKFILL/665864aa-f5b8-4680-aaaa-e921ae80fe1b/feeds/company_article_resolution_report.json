@@ -1,0 +1,196 @@
+{
+  "input_count": 40,
+  "enriched_count": 22,
+  "resolved_with_body": 22,
+  "wrapper_only": 18,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "CF": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok_proxy": 2,
+        "ok": 1
+      }
+    },
+    "COF": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 3,
+        "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/transcripts/earnings-call-transcript-aon-plc-q1-2026-beats-estimates-stock-rises-357-93CH-4653323'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1
+      }
+    },
+    "AJG": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "ok_proxy": 1,
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584446-berkshire-hathaway-ceo-abel-stresses-technology-opportunity-at-annual-meeting'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1
+      }
+    },
+    "CPB": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+        "error:Client error '403 Forbidden' for url 'https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok": 1,
+        "ok_proxy": 1
+      }
+    },
+    "TECH": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4587655-cf-industries-tops-q1-estimates-as-tight-nitrogen-supply-lifts-results'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok": 3
+      }
+    },
+    "AON": {
+      "input_count": 4,
+      "resolved_with_body": 2,
+      "wrapper_only": 2,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "unknown": 2
+      }
+    },
+    "BK": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "BRK.B": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "AIZ": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "BIIB": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "ok_proxy": 6,
+    "ok": 10,
+    "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/transcripts/earnings-call-transcript-aon-plc-q1-2026-beats-estimates-stock-rises-357-93CH-4653323'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584446-berkshire-hathaway-ceo-abel-stresses-technology-opportunity-at-annual-meeting'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+    "error:Client error '403 Forbidden' for url 'https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4587655-cf-industries-tops-q1-estimates-as-tight-nitrogen-supply-lifts-results'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "unknown": 18
+  },
+  "failure_reason_counts": {
+    "unknown": 18
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 18
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "CF",
+      "title": "Assurant, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:AIZ) 2026-05-06 - Seeking Alpha",
+      "status": "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899222-assurant-inc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    },
+    {
+      "ticker": "CF",
+      "title": "Record Q1 2026 lifts full-year outlook at Assurant (NYSE: AIZ) - Stock Titan",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "CF",
+      "title": "PFA Pension Forsikringsaktieselskab Takes $36.20 Million Position in Assurant, Inc. $AIZ - MarketBeat",
+      "status": "ok"
+    },
+    {
+      "ticker": "CF",
+      "title": "Unpacking Q1 Earnings: Arthur J. Gallagher (NYSE:AJG) In The Context Of Other Insurance Brokers Stocks - StockStory",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "COF",
+      "title": "ASR Vermogensbeheer N.V. Acquires 21,448 Shares of Arthur J. Gallagher & Co. $AJG - MarketBeat",
+      "status": "ok"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "AON",
+      "title": "Earnings call transcript: Aon PLC Q1 2026 beats estimates, stock rises 3.57% - Investing.com",
+      "status": "unknown"
+    },
+    {
+      "ticker": "AON",
+      "title": "Aon (NYSE: AON) boosts Q1 2026 EPS, margins and cash flow on 5% organic growth - Stock Titan",
+      "status": "unknown"
+    },
+    {
+      "ticker": "BK",
+      "title": "Earnings Breadth Still Improving - BNY",
+      "status": "unknown"
+    },
+    {
+      "ticker": "BK",
+      "title": "BNY Mellon (NYSE: BK) reports $543.9B in 13F holdings across 33,728 entries - Stock Titan",
+      "status": "unknown"
+    },
+    {
+      "ticker": "BK",
+      "title": "Fund Update: New $1.6B $BKMI stock position opened by Bank of New York Mellon Corp - Quiver Quantitative",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.55,
+  "coverage_ok": true
+}

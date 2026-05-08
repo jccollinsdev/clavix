@@ -1,0 +1,184 @@
+{
+  "position": {
+    "id": "6f7e2d9a-7608-4921-9280-0da8ae6781d5",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "BLDR",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 74.56,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQb3dNUzZNUWd0U2pKV05GSV9iRWtJa0Q3SFV2VTlyV3Q1UW1xaGpsQTI3YVBqLUxjalZuTEVzZ29fUGVLcmxfZ3FBSjRkdVRPTk1LaWJtYXJKRE1mV0hhR3MtV0t6eWhUWmVGS3pZQ1ZRUTZkaVhWVnEzdHI2QVBpUEluT19uR1pFcU5xbDdNWmpRSHliaWJmSm9BdVhLSUdEeUhGRA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://seekingalpha.com/article/4899315-builders-firstsource-still-not-the-time-to-upgrade-to-buy-yet",
+        "query": "Builders FirstSource Inc",
+        "title": "Builders FirstSource: Still Not The Time To Upgrade To Buy Yet (NYSE:BLDR) - Seeking Alpha",
+        "source": "Seeking Alpha",
+        "ticker": "BLDR",
+        "summary": "Builders FirstSource: Still Not The Time To Upgrade To Buy Yet (NYSE:BLDR)  Seeking Alpha",
+        "source_url": "https://seekingalpha.com/article/4899315-builders-firstsource-still-not-the-time-to-upgrade-to-buy-yet",
+        "source_type": "company_news",
+        "company_name": "Builders FirstSource Inc",
+        "published_at": "Wed, 06 May 2026 15:07:34 GMT",
+        "decoded_google_url": "https://seekingalpha.com/article/4899315-builders-firstsource-still-not-the-time-to-upgrade-to-buy-yet",
+        "publisher_homepage_url": "https://seekingalpha.com"
+      },
+      "url": "https://seekingalpha.com/article/4899315-builders-firstsource-still-not-the-time-to-upgrade-to-buy-yet",
+      "body": "Builders FirstSource: Still Not The Time To Upgrade To Buy Yet (NYSE:BLDR) Seeking Alpha",
+      "title": "Builders FirstSource: Still Not The Time To Upgrade To Buy Yet (NYSE:BLDR) - Seeking Alpha",
+      "source": "Seeking Alpha",
+      "summary": "Builders FirstSource: Still Not The Time To Upgrade To Buy Yet (NYSE:BLDR) Seeking Alpha",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Despite being a cautious upgrade article, it provides meaningful investment analysis on BLDR's valuation and fundamental outlook relevant to the growth archetype.",
+        "affected_tickers": [
+          "BLDR"
+        ],
+        "evidence_quality": "title_only"
+      },
+      "event_hash": "2d91467bbb886df5d548ca49496f56425415cd91ae96c74225b18efa5cbc0807",
+      "source_url": "https://seekingalpha.com/article/4899315-builders-firstsource-still-not-the-time-to-upgrade-to-buy-yet",
+      "external_id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQb3dNUzZNUWd0U2pKV05GSV9iRWtJa0Q3SFV2VTlyV3Q1UW1xaGpsQTI3YVBqLUxjalZuTEVzZ29fUGVLcmxfZ3FBSjRkdVRPTk1LaWJtYXJKRE1mV0hhR3MtV0t6eWhUWmVGS3pZQ1ZRUTZkaVhWVnEzdHI2QVBpUEluT19uR1pFcU5xbDdNWmpRSHliaWJmSm9BdVhLSUdEeUhGRA?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Wed, 06 May 2026 15:07:34 GMT",
+      "ticker_hints": [
+        "BLDR"
+      ],
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899315-builders-firstsource-still-not-the-time-to-upgrade-to-buy-yet'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "evidence_quality": "title_only",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899315-builders-firstsource-still-not-the-time-to-upgrade-to-buy-yet'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      },
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899315-builders-firstsource-still-not-the-time-to-upgrade-to-buy-yet'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    }
+  ],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "BLDR faces dominant risk from housing market vulnerability amid recession concerns, as elevated mortgage rates and economic uncertainty dampen new construction demand\u2014the company's core growth engine. Counter-evidence: strong recent quarters and market share gains provide near-term support, but structural demand weakness can override operational outperformance. A sustained drop in housing starts or clear margin compression from tariffs would materially worsen the risk profile.",
+    "long_report": "Builders FirstSource operates at the intersection of residential construction and economic sensitivity, making it highly exposed when growth/recession narratives dominate markets. The tariff environment creates a dual headwind: directly through input cost inflation on imported building materials and indirectly through economic uncertainty that dampens builder confidence and new project starts. While BLDR's scale and market position have driven operational strength, the building materials sector historically underperforms during economic slowdowns precisely because demand is interest-rate elastic and highly cyclical. The absence of clear overnight macro catalysts does not reduce the structural vulnerability\u2014it means company-specific developments (quarterly results, guidance, tariff announcements) will drive near-term risk, but the macro backdrop of growth anxiety and tariff escalation creates a persistently unfavorable backdrop. What could shift this rating is concrete evidence of either sustained housing demand resilience or confirmed margin pressure that proves operational strength insufficient to offset sector headwinds.",
+    "methodology": "Assessment integrates macro backdrop (growth/recession themes, tariff escalation) with sector-specific dynamics (housing cycle, interest rate sensitivity, building materials tariff exposure). Company-specific fundamentals noted but considered secondary to macro structural forces given current environment.",
+    "top_risks": [
+      "Housing demand deterioration driven by recession fears and elevated mortgage rates",
+      "Tariff-driven margin compression on imported building materials",
+      "Cyclical sector exposure amplifying any economic slowdown"
+    ],
+    "watch_items": [
+      "Monthly housing starts data as a demand proxy",
+      "BLDR quarterly results for evidence of margin pressure or guidance weakness",
+      "Any new tariff announcements covering building materials imports"
+    ],
+    "risk_context": [
+      {
+        "macro_event": "Trump threatens EU with higher tariffs; Toyota reports 49% profit slump from US tariffs",
+        "rating_impact": "contradicts",
+        "reasoning": "Tariff narrative is intensifying, but the immediate impact appears concentrated in automotive/industrial sectors rather than building materials, leaving BLDR exposed but not yet directly hit\u2014positive signaling for near-term operational independence but rising tail risk"
+      },
+      {
+        "macro_event": "Friday jobs report release with growth/recession focus",
+        "rating_impact": "supports",
+        "reasoning": "Weak employment data would confirm recession fears and directly pressure housing demand and construction activity, BLDR's primary revenue driver"
+      }
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "6f7e2d9a-7608-4921-9280-0da8ae6781d5",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "BLDR",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 79.41,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "D",
+    "previous_total_score": 36.5,
+    "summary": "BLDR faces dominant risk from housing market vulnerability amid recession concerns, as elevated mortgage rates and economic uncertainty dampen new construction demand\u2014the company's core growth engine. Counter-evidence: strong recent quarters and market share gains provide near-term support, but structural demand weakness can override operational outperformance. A sustained drop in housing starts or clear margin compression from tariffs would materially worsen the risk profile.",
+    "long_report": "Builders FirstSource operates at the intersection of residential construction and economic sensitivity, making it highly exposed when growth/recession narratives dominate markets. The tariff environment creates a dual headwind: directly through input cost inflation on imported building materials and indirectly through economic uncertainty that dampens builder confidence and new project starts. While BLDR's scale and market position have driven operational strength, the building materials sector historically underperforms during economic slowdowns precisely because demand is interest-rate elastic and highly cyclical. The absence of clear overnight macro catalysts does not reduce the structural vulnerability\u2014it means company-specific developments (quarterly results, guidance, tariff announcements) will drive near-term risk, but the macro backdrop of growth anxiety and tariff escalation creates a persistently unfavorable backdrop. What could shift this rating is concrete evidence of either sustained housing demand resilience or confirmed margin pressure that proves operational strength insufficient to offset sector headwinds.",
+    "top_risks": [
+      "Housing demand deterioration driven by recession fears and elevated mortgage rates",
+      "Tariff-driven margin compression on imported building materials",
+      "Cyclical sector exposure amplifying any economic slowdown"
+    ],
+    "watch_items": [
+      "Monthly housing starts data as a demand proxy",
+      "BLDR quarterly results for evidence of margin pressure or guidance weakness",
+      "Any new tariff announcements covering building materials imports"
+    ],
+    "top_news": [
+      "Builders FirstSource: Still Not The Time To Upgrade To Buy Yet (NYSE:BLDR) - Seeking Alpha"
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Assessment integrates macro backdrop (growth/recession themes, tariff escalation) with sector-specific dynamics (housing cycle, interest rate sensitivity, building materials tariff exposure). Company-specific fundamentals noted but considered secondary to macro structural forces given current environment.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "6f498deb-57fb-4695-8be3-7a581618056b",
+      "ticker": "BLDR",
+      "company_name": "Builders FirstSource Inc",
+      "asset_class": null,
+      "sector": "Building",
+      "industry": null,
+      "exchange": "NEW YORK STOCK EXCHANGE, INC.",
+      "market_cap": 8541329582.214668,
+      "market_cap_bucket": "moderate",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 262647780.89999998,
+      "spread_proxy": 0.001,
+      "beta": 1.5026957,
+      "volatility_proxy": 0.375673925,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:32:47.042376+00:00",
+      "created_at": "2026-04-12T22:00:14.796168+00:00",
+      "pe_ratio": 29.6612,
+      "week_52_high": 151.03,
+      "week_52_low": 73.4,
+      "price": 79.41,
+      "price_as_of": "2026-05-08T10:32:47.032598+00:00",
+      "avg_volume": 3.30749,
+      "previous_close": 80.03,
+      "open_price": 81.29,
+      "day_high": 83.2299,
+      "day_low": 79.25,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "BLDR",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

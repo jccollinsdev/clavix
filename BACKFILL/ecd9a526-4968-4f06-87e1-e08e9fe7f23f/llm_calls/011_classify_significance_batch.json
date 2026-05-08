@@ -1,0 +1,29 @@
+{
+  "sequence": 11,
+  "logged_at": "2026-05-08T11:03:52.376642+00:00",
+  "model": "MiniMax-M2.7",
+  "function_name": "chatcompletion_text",
+  "caller": {
+    "file": "/Users/sansarkarki/Documents/Clavis/backend/app/pipeline/classifier.py",
+    "function": "classify_significance_batch",
+    "line": 191
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a financial event classifier for a portfolio risk app.\n\nClassify each news item conservatively.\n\nMAJOR = earnings results or surprises, guidance raises/cuts, material corporate announcements, new product launches, strategy shifts, M&A, CEO/CFO resignations or appointments tied to change, regulatory actions, SEC/DOJ investigations, bankruptcy, financing crises, major recalls, and other events that can materially change fundamentals or valuation.\n\nMINOR = rating upgrades/downgrades, price target changes, routine economic data, conference appearances, commentary, secondary mentions, and general market chatter without a material new catalyst.\n\nRules:\n- If the company itself is announcing a material action, prefer MAJOR.\n- If it is only analysis, commentary, or a rating change, prefer MINOR.\n- When uncertain, choose MINOR.\n\nReturn exact JSON with:\n{{\n  \"significance\": \"major|minor\",\n  \"event_type\": \"earnings|macro|management|mna|regulatory|product|financing|sector|other\",\n  \"why_it_matters\": \"one sentence\",\n  \"confidence\": 0.0-1.0\n}}"
+    },
+    {
+      "role": "user",
+      "content": "[0] Title: Advanced Micro Devices, Inc. (AMD): Gap with NVIDIA Widening? - Yahoo Finance\nSummary: Advanced Micro Devices, Inc. (AMD): Gap with NVIDIA Widening? Yahoo Finance\nBody: We just covered Sell These 4 Stocks and Go All In on These 3 Stocks Before May 9th for 100x Returns? and Advanced Micro Devices, Inc. (NASDAQ:AMD) ranks 6th on this list.\n\nAdvanced Micro Devices, Inc. (NASDAQ:AMD) is the biggest competitor of NVIDIA in the AI and GPU universe. However, Instagram influencers have highlighted the absolute gap between AMD and NVIDIA that is actually widening in dollar terms. The data center revenue for the latter reached nearly $194 billion in FY2026, while the Instinct GPU revenue of the former is estimated at $7\u2013$8 billion. Finance influencers argue that while AMD is winning the right to exist, it is not yet winning the war, as NVIDIA grows by tens of billions per quarter while AMD grows by single billions. The ROCm software ecosystem of AMD is still playing catch-up to NVIDIA CUDA. Tiktokers have pointed out that AMD MI300X chips often deliver only 45% of their theoretical peak performance in real-world settings due to software maturity issues, compare"
+    }
+  ],
+  "kwargs": {
+    "temperature": 0.1,
+    "max_tokens": 1200,
+    "timeout": 120
+  },
+  "response": "```json\n{\n  \"significance\": \"minor\",\n  \"event_type\": \"sector\",\n  \"why_it_matters\": \"This is commentary-driven analysis comparing AMD and NVIDIA using social media influencer commentary, not a material corporate announcement or new data point.\",\n  \"confidence\": 0.95\n}\n```",
+  "error": null,
+  "duration_ms": 8531.77
+}

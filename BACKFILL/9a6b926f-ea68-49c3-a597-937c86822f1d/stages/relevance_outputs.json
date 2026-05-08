@@ -1,0 +1,1358 @@
+{
+  "cached_count": 270,
+  "uncached_count": 35,
+  "results": [
+    {
+      "article_index": 0,
+      "relevant": true,
+      "affected_tickers": [
+        "CHTR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Spectrum is Charter's subsidiary, so personnel changes in the connectivity products division are company-specific news for the held position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPeEN5R0JhOWlDUTJIZm5BMG95aDJJQWFrQzBHbC1obWFGSTg2MlFfa25JM2lrVmN6UkNoSmhNcVJnY29ERE5LRERFSnRuNC1XODdMdTREV1dvMUdSejZIdlNKOXJOUjYwbVdVTlBNemxVNm0zUmtGLWRoN1pBRHYzQUFzMzVVQUJuNUpWcGFNQTdUWEpodXhBWEtybGg5NXM?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "a0768f62056a3fd98dafdb35928e43aaf89d02262baea740e9f777ed5ff5990a",
+        "source_type": "company_news",
+        "source": "Charter Communications",
+        "source_url": "https://corporate.charter.com/newsroom/spectrum-promotes-dave-rodrian-to-svp-connectivity-products",
+        "title": "Spectrum Promotes Dave Rodrian to Senior Vice President, Connectivity Products - Charter Communications",
+        "summary": "Spectrum Promotes Dave Rodrian to Senior Vice President, Connectivity Products Charter Communications",
+        "body": "Spectrum Promotes Dave Rodrian to Senior Vice President, Connectivity Products Charter Communications",
+        "evidence_quality": "title_only",
+        "url": "https://corporate.charter.com/newsroom/spectrum-promotes-dave-rodrian-to-svp-connectivity-products",
+        "published_at": "Mon, 04 May 2026 15:22:45 GMT",
+        "ticker_hints": [
+          "CHTR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPeEN5R0JhOWlDUTJIZm5BMG95aDJJQWFrQzBHbC1obWFGSTg2MlFfa25JM2lrVmN6UkNoSmhNcVJnY29ERE5LRERFSnRuNC1XODdMdTREV1dvMUdSejZIdlNKOXJOUjYwbVdVTlBNemxVNm0zUmtGLWRoN1pBRHYzQUFzMzVVQUJuNUpWcGFNQTdUWEpodXhBWEtybGg5NXM?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Spectrum Promotes Dave Rodrian to Senior Vice President, Connectivity Products - Charter Communications",
+          "source": "Charter Communications",
+          "source_url": "https://corporate.charter.com/newsroom/spectrum-promotes-dave-rodrian-to-svp-connectivity-products",
+          "publisher_homepage_url": "https://corporate.charter.com",
+          "url": "https://corporate.charter.com/newsroom/spectrum-promotes-dave-rodrian-to-svp-connectivity-products",
+          "published_at": "Mon, 04 May 2026 15:22:45 GMT",
+          "summary": "Spectrum Promotes Dave Rodrian to Senior Vice President, Connectivity Products  Charter Communications",
+          "ticker": "CHTR",
+          "company_name": "Charter Communications Inc",
+          "query": "Charter Communications Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://corporate.charter.com/newsroom/spectrum-promotes-dave-rodrian-to-svp-connectivity-products"
+        }
+      }
+    },
+    {
+      "article_index": 1,
+      "relevant": true,
+      "affected_tickers": [
+        "CHTR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Conference participation by Charter Communications is minor company-specific information relevant to the held position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPS0g2UVM5X1Ewa0Vkb0JKTHJOZ216QTJVNzNucU8zTktlelRwSVpkVTlWaFU5ekVqNklXODB6MEctMDVzQTNsTGN4VlBhQThOTXVzYTNCVkdqMG1wTFo3MUY2VnNKMDJTOU1SOFh0NGpqcjN4S2trZkQ4VGhlMDNzTWZhN0g2TGZZX0JwcmhpWUtYS2ZocF9sTENlMEtJeklrcktyaWg5LU11c1IxOVFpOWJ1LVF3WlpzVlI2aVpjc3hLZHJQcHJwYUFTX3EyTlhpVXpBNHFqNA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "bf7b4d35900beb1782f33f2b468ea29379105efee6020d15dad247bcb423050b",
+        "source_type": "company_news",
+        "source": "PR Newswire",
+        "source_url": "https://www.prnewswire.com/news-releases/charter-to-participate-in-moffettnathanson-media-internet--communications-conference-302765702.html",
+        "title": "Charter to Participate in MoffettNathanson Media, Internet & Communications Conference - PR Newswire",
+        "summary": "Charter to Participate in MoffettNathanson Media, Internet & Communications Conference PR Newswire",
+        "body": "Charter to Participate in MoffettNathanson Media, Internet & Communications Conference PR Newswire",
+        "evidence_quality": "title_only",
+        "url": "https://www.prnewswire.com/news-releases/charter-to-participate-in-moffettnathanson-media-internet--communications-conference-302765702.html",
+        "published_at": "Thu, 07 May 2026 13:45:00 GMT",
+        "ticker_hints": [
+          "CHTR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPS0g2UVM5X1Ewa0Vkb0JKTHJOZ216QTJVNzNucU8zTktlelRwSVpkVTlWaFU5ekVqNklXODB6MEctMDVzQTNsTGN4VlBhQThOTXVzYTNCVkdqMG1wTFo3MUY2VnNKMDJTOU1SOFh0NGpqcjN4S2trZkQ4VGhlMDNzTWZhN0g2TGZZX0JwcmhpWUtYS2ZocF9sTENlMEtJeklrcktyaWg5LU11c1IxOVFpOWJ1LVF3WlpzVlI2aVpjc3hLZHJQcHJwYUFTX3EyTlhpVXpBNHFqNA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Charter to Participate in MoffettNathanson Media, Internet & Communications Conference - PR Newswire",
+          "source": "PR Newswire",
+          "source_url": "https://www.prnewswire.com/news-releases/charter-to-participate-in-moffettnathanson-media-internet--communications-conference-302765702.html",
+          "publisher_homepage_url": "https://www.prnewswire.com",
+          "url": "https://www.prnewswire.com/news-releases/charter-to-participate-in-moffettnathanson-media-internet--communications-conference-302765702.html",
+          "published_at": "Thu, 07 May 2026 13:45:00 GMT",
+          "summary": "Charter to Participate in MoffettNathanson Media, Internet & Communications Conference  PR Newswire",
+          "ticker": "CHTR",
+          "company_name": "Charter Communications Inc",
+          "query": "Charter Communications Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.prnewswire.com/news-releases/charter-to-participate-in-moffettnathanson-media-internet--communications-conference-302765702.html"
+        }
+      }
+    },
+    {
+      "article_index": 2,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOb0lTb0xXY1hydHhfT2Y4MjZRcEg4VXFnREJDRGdwdllSbFhqSy0wLTB2Z3VIeVlrSXIzM0pRVm0zYlJzT0pQeEVMMlBuRlZIUlJkRTRrZFdBSkZQY3pQZm90Qno2RzBGVkdtZUlHd2l0d1NKUS1RN0hWc3ZvMXNpQTlLRGtQY1Y5RVE0TXdudE1NaUpaYnRHRm1FWHZ5NTlkMDF3SmQtSEJtU0o1QWM4dXFfck1maGVuZ0hudFIzSVk3bVNJRUtHYS1WeXdWZ1Y0SlJldFdGMXVCU3ZrLXJKVw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "05c11bb8014dd339dbab78c99a44fc6145a105bb1a154eb38da7ed2caffd19fd",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/charter-communications-inc-cl-a-stock-underperforms-monday-when-compared-to-competitors-687dc902-4bc7fce020dd",
+        "title": "Charter Communications Inc. Cl A stock underperforms Monday when compared to competitors - MarketWatch",
+        "summary": "Charter Communications Inc. Cl A stock underperforms Monday when compared to competitors MarketWatch",
+        "body": "Charter Communications Inc. Cl A stock underperforms Monday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/charter-communications-inc-cl-a-stock-underperforms-monday-when-compared-to-competitors-687dc902-4bc7fce020dd",
+        "published_at": "Mon, 04 May 2026 21:04:00 GMT",
+        "ticker_hints": [
+          "CHTR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOb0lTb0xXY1hydHhfT2Y4MjZRcEg4VXFnREJDRGdwdllSbFhqSy0wLTB2Z3VIeVlrSXIzM0pRVm0zYlJzT0pQeEVMMlBuRlZIUlJkRTRrZFdBSkZQY3pQZm90Qno2RzBGVkdtZUlHd2l0d1NKUS1RN0hWc3ZvMXNpQTlLRGtQY1Y5RVE0TXdudE1NaUpaYnRHRm1FWHZ5NTlkMDF3SmQtSEJtU0o1QWM4dXFfck1maGVuZ0hudFIzSVk3bVNJRUtHYS1WeXdWZ1Y0SlJldFdGMXVCU3ZrLXJKVw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Charter Communications Inc. Cl A stock underperforms Monday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/charter-communications-inc-cl-a-stock-underperforms-monday-when-compared-to-competitors-687dc902-4bc7fce020dd",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/charter-communications-inc-cl-a-stock-underperforms-monday-when-compared-to-competitors-687dc902-4bc7fce020dd",
+          "published_at": "Mon, 04 May 2026 21:04:00 GMT",
+          "summary": "Charter Communications Inc. Cl A stock underperforms Monday when compared to competitors  MarketWatch",
+          "ticker": "CHTR",
+          "company_name": "Charter Communications Inc",
+          "query": "Charter Communications Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/charter-communications-inc-cl-a-stock-underperforms-monday-when-compared-to-competitors-687dc902-4bc7fce020dd"
+        }
+      }
+    },
+    {
+      "article_index": 3,
+      "relevant": true,
+      "affected_tickers": [
+        "CHTR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Q1 earnings miss causing share decline and dragging sector peers is significant company-specific news directly impacting the CHTR position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPWjZyekJ5bV95VE9JaGc3N1JSSzladUczNDJyZThZTEV4bUlJOXZQOW5yWW83a1ZwOFZjUmloSWV0bS1yell3M0JSUThHLV9fVlNGQU9NY0lOT1k2WHFLb0lZX2t5YnkyNWxrMW1NT3JMcm80Ym81QWN2WWlrT0V5QjAyS252QmkyVWhxb3ZYTzNjSHBlVV9Lc3ZzQVVhdmhjVHV1U29ncXR2VV9KazVOTHRRS2hsTmVfdFNoT3pMNDRFU0FONl9VTGNn?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "b2a777a66eccaccec7bba17d00ab606adb4b8a05213db91b4ee5b345196515d5",
+        "source_type": "company_news",
+        "source": "MSN",
+        "source_url": "https://www.msn.com/en-us/money/topstocks/charter-communications-shares-slump-on-q1-results-dragging-down-sector-peers/ar-AA21Dsj7",
+        "title": "Charter Communications shares slump on Q1 results, dragging down sector peers - MSN",
+        "summary": "Charter Communications shares slump on Q1 results, dragging down sector peers MSN",
+        "body": "Charter Communications shares slump on Q1 results, dragging down sector peers MSN",
+        "evidence_quality": "title_only",
+        "url": "https://www.msn.com/en-us/money/topstocks/charter-communications-shares-slump-on-q1-results-dragging-down-sector-peers/ar-AA21Dsj7",
+        "published_at": "Fri, 08 May 2026 07:26:59 GMT",
+        "ticker_hints": [
+          "CHTR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPWjZyekJ5bV95VE9JaGc3N1JSSzladUczNDJyZThZTEV4bUlJOXZQOW5yWW83a1ZwOFZjUmloSWV0bS1yell3M0JSUThHLV9fVlNGQU9NY0lOT1k2WHFLb0lZX2t5YnkyNWxrMW1NT3JMcm80Ym81QWN2WWlrT0V5QjAyS252QmkyVWhxb3ZYTzNjSHBlVV9Lc3ZzQVVhdmhjVHV1U29ncXR2VV9KazVOTHRRS2hsTmVfdFNoT3pMNDRFU0FONl9VTGNn?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Charter Communications shares slump on Q1 results, dragging down sector peers - MSN",
+          "source": "MSN",
+          "source_url": "https://www.msn.com/en-us/money/topstocks/charter-communications-shares-slump-on-q1-results-dragging-down-sector-peers/ar-AA21Dsj7",
+          "publisher_homepage_url": "https://www.msn.com",
+          "url": "https://www.msn.com/en-us/money/topstocks/charter-communications-shares-slump-on-q1-results-dragging-down-sector-peers/ar-AA21Dsj7",
+          "published_at": "Fri, 08 May 2026 07:26:59 GMT",
+          "summary": "Charter Communications shares slump on Q1 results, dragging down sector peers  MSN",
+          "ticker": "CHTR",
+          "company_name": "Charter Communications Inc",
+          "query": "Charter Communications Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.msn.com/en-us/money/topstocks/charter-communications-shares-slump-on-q1-results-dragging-down-sector-peers/ar-AA21Dsj7"
+        }
+      }
+    },
+    {
+      "article_index": 4,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Chart/technical analysis pages are explicitly excluded as low-information even when they mention a held ticker.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5qV01fMDlRd3ltXzZkaTFqWExzaXFJbkV1MmhuRzNXTndVdnV5MWNRd0dVSk9sei1jazRlR3FfWklONzQtUHRZYzVmbnFlMURkTWlvNTZOUWJPTVhnNWV5RjAxS09ZOEtJeXE1ag?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "786aff079ca7a617f2e041f2a39d5380459a1185710998246a42d19bbd4d76eb",
+        "source_type": "company_news",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/stock/quote/AZO/technical-analysis",
+        "title": "AZO Technical Analysis | Trend, Signals & Chart Patterns | AUTOZONE INC (NYSE:AZO) - ChartMill",
+        "summary": "AZO Technical Analysis | Trend, Signals & Chart Patterns | AUTOZONE INC (NYSE:AZO) ChartMill",
+        "body": "AZO Technical Analysis | Trend, Signals & Chart Patterns | AUTOZONE INC (NYSE:AZO) ChartMill",
+        "evidence_quality": "title_only",
+        "url": "https://www.chartmill.com/stock/quote/AZO/technical-analysis",
+        "published_at": "Wed, 06 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "AZO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMibEFVX3lxTE5qV01fMDlRd3ltXzZkaTFqWExzaXFJbkV1MmhuRzNXTndVdnV5MWNRd0dVSk9sei1jazRlR3FfWklONzQtUHRZYzVmbnFlMURkTWlvNTZOUWJPTVhnNWV5RjAxS09ZOEtJeXE1ag?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "AZO Technical Analysis | Trend, Signals & Chart Patterns | AUTOZONE INC (NYSE:AZO) - ChartMill",
+          "source": "ChartMill",
+          "source_url": "https://www.chartmill.com/stock/quote/AZO/technical-analysis",
+          "publisher_homepage_url": "https://www.chartmill.com",
+          "url": "https://www.chartmill.com/stock/quote/AZO/technical-analysis",
+          "published_at": "Wed, 06 May 2026 07:00:00 GMT",
+          "summary": "AZO Technical Analysis | Trend, Signals & Chart Patterns | AUTOZONE INC (NYSE:AZO)  ChartMill",
+          "ticker": "AZO",
+          "company_name": "Autozone Inc",
+          "query": "Autozone Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.chartmill.com/stock/quote/AZO/technical-analysis"
+        }
+      }
+    },
+    {
+      "article_index": 5,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic stock movement article (stock slides) with no substantive news, earnings, or catalyst\u2014just a quote/price page style recap.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMingFBVV95cUxNZmZEY09ySTFyeHVjaU9PZUNVNTkwRHJtbGhaX0FCNlhZY3ZHOU0xdllEejhRZ0tscXVZVXlSWUROQ3J0ajNnU2hmcVBvbkd5alVjeG1EUTBTbkFDaWJ0eXYycndwV054bUxDVko0QlJuVXNvaDNfSEVLRHhsNlJhSHhuaU01YnFqdEUwb3h3X3NFY0JRSzl2QmdQT0tfUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "b8378acb9296597a8bd0b5f240d5d8cfd40ac65ca7e9953c42cb3fb14de354d1",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/autozone-azo-stock-slides-market-215002771.html",
+        "title": "AutoZone (AZO) Stock Slides as Market Rises: Facts to Know Before You Trade - Yahoo Finance",
+        "summary": "AutoZone (AZO) Stock Slides as Market Rises: Facts to Know Before You Trade Yahoo Finance",
+        "body": "AutoZone (AZO) Stock Slides as Market Rises: Facts to Know Before You Trade Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/autozone-azo-stock-slides-market-215002771.html",
+        "published_at": "Tue, 05 May 2026 21:50:02 GMT",
+        "ticker_hints": [
+          "AZO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMingFBVV95cUxNZmZEY09ySTFyeHVjaU9PZUNVNTkwRHJtbGhaX0FCNlhZY3ZHOU0xdllEejhRZ0tscXVZVXlSWUROQ3J0ajNnU2hmcVBvbkd5alVjeG1EUTBTbkFDaWJ0eXYycndwV054bUxDVko0QlJuVXNvaDNfSEVLRHhsNlJhSHhuaU01YnFqdEUwb3h3X3NFY0JRSzl2QmdQT0tfUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "AutoZone (AZO) Stock Slides as Market Rises: Facts to Know Before You Trade - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/autozone-azo-stock-slides-market-215002771.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/autozone-azo-stock-slides-market-215002771.html",
+          "published_at": "Tue, 05 May 2026 21:50:02 GMT",
+          "summary": "AutoZone (AZO) Stock Slides as Market Rises: Facts to Know Before You Trade  Yahoo Finance",
+          "ticker": "AZO",
+          "company_name": "Autozone Inc",
+          "query": "Autozone Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/autozone-azo-stock-slides-market-215002771.html"
+        }
+      }
+    },
+    {
+      "article_index": 6,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "General watchlist article for automotive sector with no specific tickers mentioned, no earnings news, and low information content.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQLWdyeUxLRkt4NXN4QW13bXhsTzFzSVgtZXhieFZsdk9ZQjBBZVMxQUZqa2hUalZ1ZHBSZm0xcENUaVliM2ZUdUR5SjJUUG96dkVTMnlnMndxVXVpVWdvaFl4eXh0ekZvQXdMNW5DQXZxbC1EOWlBX09UVjVOUGYyZFdRalJMb01Yb0ZLcjFVRVFrWnpEbkxqQXV6SDV1X1F3VTVXWjRfOA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "7941ba817ae0b2da1d372cfc4b9bd4410c48f7c8113ea0480df8457bf2c5365f",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/automotive-stocks-to-add-to-your-watchlist-may-3rd-2026-05-03/",
+        "title": "Automotive Stocks To Add to Your Watchlist - May 3rd - MarketBeat",
+        "summary": "Automotive Stocks To Add to Your Watchlist - May 3rd MarketBeat",
+        "body": "Automotive Stocks To Add to Your Watchlist - May 3rd MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/automotive-stocks-to-add-to-your-watchlist-may-3rd-2026-05-03/",
+        "published_at": "Sun, 03 May 2026 17:06:47 GMT",
+        "ticker_hints": [
+          "AZO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQLWdyeUxLRkt4NXN4QW13bXhsTzFzSVgtZXhieFZsdk9ZQjBBZVMxQUZqa2hUalZ1ZHBSZm0xcENUaVliM2ZUdUR5SjJUUG96dkVTMnlnMndxVXVpVWdvaFl4eXh0ekZvQXdMNW5DQXZxbC1EOWlBX09UVjVOUGYyZFdRalJMb01Yb0ZLcjFVRVFrWnpEbkxqQXV6SDV1X1F3VTVXWjRfOA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Automotive Stocks To Add to Your Watchlist - May 3rd - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/automotive-stocks-to-add-to-your-watchlist-may-3rd-2026-05-03/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/automotive-stocks-to-add-to-your-watchlist-may-3rd-2026-05-03/",
+          "published_at": "Sun, 03 May 2026 17:06:47 GMT",
+          "summary": "Automotive Stocks To Add to Your Watchlist - May 3rd  MarketBeat",
+          "ticker": "AZO",
+          "company_name": "Autozone Inc",
+          "query": "Autozone Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/automotive-stocks-to-add-to-your-watchlist-may-3rd-2026-05-03/"
+        }
+      }
+    },
+    {
+      "article_index": 7,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Routine institutional stake reduction (Strs Ohio) is minor ownership flow data without clear portfolio impact signal.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNcWdEUUN1aUZZTzVVT1pDUWlaMXJyd1BtNWpoaXFZZms2b3kzYmc4QU5VNHhjdWtRZEJvMll0TlZkNFdMR1R2MFVrek13dGdqRmN5NUh0ZlhGNi1fVlpUeGN4TEhDTHk3bFh0emlzVFNjOTNQbkIwRmg0NUJ5aTNCeVowa0xkTmRhcEV6ZFg0VWRuaU8yd3lqLUhyaklhRjFkMmZZQUJOSW5mVkdiRFhmUEQ0aDZEYVh4?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "656818f0d4ca4d7dadd7b9500ca6bb3b9f0e12b7afd9e135401da28aef6e27ba",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-strs-ohio-reduces-stake-in-avalonbay-communities-inc-avb-2026-05-03/",
+        "title": "Strs Ohio Reduces Stake in AvalonBay Communities, Inc. $AVB - MarketBeat",
+        "summary": "Strs Ohio Reduces Stake in AvalonBay Communities, Inc. $AVB MarketBeat",
+        "body": "Strs Ohio Reduces Stake in AvalonBay Communities, Inc. $AVB MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-strs-ohio-reduces-stake-in-avalonbay-communities-inc-avb-2026-05-03/",
+        "published_at": "Sun, 03 May 2026 11:41:11 GMT",
+        "ticker_hints": [
+          "AVB"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNcWdEUUN1aUZZTzVVT1pDUWlaMXJyd1BtNWpoaXFZZms2b3kzYmc4QU5VNHhjdWtRZEJvMll0TlZkNFdMR1R2MFVrek13dGdqRmN5NUh0ZlhGNi1fVlpUeGN4TEhDTHk3bFh0emlzVFNjOTNQbkIwRmg0NUJ5aTNCeVowa0xkTmRhcEV6ZFg0VWRuaU8yd3lqLUhyaklhRjFkMmZZQUJOSW5mVkdiRFhmUEQ0aDZEYVh4?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Strs Ohio Reduces Stake in AvalonBay Communities, Inc. $AVB - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-strs-ohio-reduces-stake-in-avalonbay-communities-inc-avb-2026-05-03/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-strs-ohio-reduces-stake-in-avalonbay-communities-inc-avb-2026-05-03/",
+          "published_at": "Sun, 03 May 2026 11:41:11 GMT",
+          "summary": "Strs Ohio Reduces Stake in AvalonBay Communities, Inc. $AVB  MarketBeat",
+          "ticker": "AVB",
+          "company_name": "AvalonBay Communities Inc",
+          "query": "AvalonBay Communities Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-strs-ohio-reduces-stake-in-avalonbay-communities-inc-avb-2026-05-03/"
+        }
+      }
+    },
+    {
+      "article_index": 8,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxNUGpNcWg5ckdVOGJaWE12MV9MY3NHRjN3VFVXNHN6LWNzd21qQXY5S3VNbnlqYUV4OUhweURJZnl6NUVwNDdGSEhBSlNXSkswWEc1NEdadnByTVRBUmJqZUdtaGtaanRLU2g2OVlWTHRiWkt0LVY4bW1GRWxwT2ZQUzFLN1FlRVRZVm5yNzJFNTRFekxoWjZPc2pMVWFWTWpQTzZOeVZTUzhTdUM2ZUo0ZTVRbGltcTRzbW1FZU5BTURWdThqbjBwUjNOUHlmQlVXMVVjVHZVc2I2a1ZlbHc3T0JVb3FjYjdfTmpacVdjYThvSTRs?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ebfbe45f8fc13fd87ab9b0da0df20cd1fc8f11ee38774afe4629cbf3c95e3df5",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/avalonbay-communities-inc-stock-underperforms-tuesday-when-compared-to-competitors-despite-daily-gains-c1144302-e4d6e2eff832",
+        "title": "Avalonbay Communities Inc. stock underperforms Tuesday when compared to competitors despite daily gains - MarketWatch",
+        "summary": "Avalonbay Communities Inc. stock underperforms Tuesday when compared to competitors despite daily gains MarketWatch",
+        "body": "Avalonbay Communities Inc. stock underperforms Tuesday when compared to competitors despite daily gains MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/avalonbay-communities-inc-stock-underperforms-tuesday-when-compared-to-competitors-despite-daily-gains-c1144302-e4d6e2eff832",
+        "published_at": "Tue, 05 May 2026 21:02:00 GMT",
+        "ticker_hints": [
+          "AVB"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi9AFBVV95cUxNUGpNcWg5ckdVOGJaWE12MV9MY3NHRjN3VFVXNHN6LWNzd21qQXY5S3VNbnlqYUV4OUhweURJZnl6NUVwNDdGSEhBSlNXSkswWEc1NEdadnByTVRBUmJqZUdtaGtaanRLU2g2OVlWTHRiWkt0LVY4bW1GRWxwT2ZQUzFLN1FlRVRZVm5yNzJFNTRFekxoWjZPc2pMVWFWTWpQTzZOeVZTUzhTdUM2ZUo0ZTVRbGltcTRzbW1FZU5BTURWdThqbjBwUjNOUHlmQlVXMVVjVHZVc2I2a1ZlbHc3T0JVb3FjYjdfTmpacVdjYThvSTRs?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Avalonbay Communities Inc. stock underperforms Tuesday when compared to competitors despite daily gains - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/avalonbay-communities-inc-stock-underperforms-tuesday-when-compared-to-competitors-despite-daily-gains-c1144302-e4d6e2eff832",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/avalonbay-communities-inc-stock-underperforms-tuesday-when-compared-to-competitors-despite-daily-gains-c1144302-e4d6e2eff832",
+          "published_at": "Tue, 05 May 2026 21:02:00 GMT",
+          "summary": "Avalonbay Communities Inc. stock underperforms Tuesday when compared to competitors despite daily gains  MarketWatch",
+          "ticker": "AVB",
+          "company_name": "AvalonBay Communities Inc",
+          "query": "AvalonBay Communities Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/avalonbay-communities-inc-stock-underperforms-tuesday-when-compared-to-competitors-despite-daily-gains-c1144302-e4d6e2eff832"
+        }
+      }
+    },
+    {
+      "article_index": 9,
+      "relevant": true,
+      "affected_tickers": [
+        "AVB"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Q1 2026 earnings beat with profit surge and development pipeline progress\u2014directly relevant to AVB growth archetype position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQcGVqSFY2WjUxUXNsdWpfdENnZldaQVZhVHZRXzFFR2NORU9NTzlzM0VnOHVJMVZhWC1qWHc3UUhsRzdJcHNxY191VnFqUkRDQ3dGaVlPZ2hrYkNFUnVzb1lLMUVNV0dXTjZBT2VTeHFWMk9fLUszQ001YVFkTHhPR0NfOEZUem5md3laTHpkenpCS1JJQU5RY0V1MFU0Y214RFE1RmxvdFQwMnFKcVZmZW9fY0wzdmNr?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "a57590610b2b514366490d0386e8a892cb41a8cae6397214de7a55e02c2ed79e",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/AVB/10-q-avalonbay-communities-inc-quarterly-earnings-report-d1f7cbb20d96.html",
+        "title": "AvalonBay Communities (NYSE: AVB) Q1 2026 profit surges on property sales and development pipeline - Stock Titan",
+        "summary": "AvalonBay Communities (NYSE: AVB) Q1 2026 profit surges on property sales and development pipeline Stock Titan",
+        "body": "AvalonBay Communities (NYSE: AVB) Q1 2026 profit surges on property sales and development pipeline Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/AVB/10-q-avalonbay-communities-inc-quarterly-earnings-report-d1f7cbb20d96.html",
+        "published_at": "Thu, 07 May 2026 16:29:11 GMT",
+        "ticker_hints": [
+          "AVB"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQcGVqSFY2WjUxUXNsdWpfdENnZldaQVZhVHZRXzFFR2NORU9NTzlzM0VnOHVJMVZhWC1qWHc3UUhsRzdJcHNxY191VnFqUkRDQ3dGaVlPZ2hrYkNFUnVzb1lLMUVNV0dXTjZBT2VTeHFWMk9fLUszQ001YVFkTHhPR0NfOEZUem5md3laTHpkenpCS1JJQU5RY0V1MFU0Y214RFE1RmxvdFQwMnFKcVZmZW9fY0wzdmNr?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "AvalonBay Communities (NYSE: AVB) Q1 2026 profit surges on property sales and development pipeline - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/AVB/10-q-avalonbay-communities-inc-quarterly-earnings-report-d1f7cbb20d96.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/AVB/10-q-avalonbay-communities-inc-quarterly-earnings-report-d1f7cbb20d96.html",
+          "published_at": "Thu, 07 May 2026 16:29:11 GMT",
+          "summary": "AvalonBay Communities (NYSE: AVB) Q1 2026 profit surges on property sales and development pipeline  Stock Titan",
+          "ticker": "AVB",
+          "company_name": "AvalonBay Communities Inc",
+          "query": "AvalonBay Communities Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/AVB/10-q-avalonbay-communities-inc-quarterly-earnings-report-d1f7cbb20d96.html"
+        }
+      }
+    },
+    {
+      "article_index": 10,
+      "relevant": true,
+      "affected_tickers": [
+        "AVB"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Strong Q1 results, raised EPS guidance, and buyback announcements are directly relevant to AVB position performance and justify continued holding.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPRmdGZktRSTM1eFlxcHlOZ3BCdWlHQ0hNbDA2c1hOUFk1SldYai1TTDZnM1B2bHFUOEJHbDZYREdFZUMzcjAzakVSUHJTcFpxb1ZSSmZZR0U0VWRJQU9STFNDN2E4MG9YWVljTTJldk91TEtZRG1Qak9iLXMwUGVFUVp5TEUxbUVLdUl5LTVucmp1clhtdHNUMDV4RVFBZlczNDUwOXVFQkJfbEFaSUJIN2wxem9ZMjA5ZWVCbGZuVC1XNy1DQWRLa3hWVXVkRlpwSTctM1RMNNIB3AFBVV95cUxPZTVmWlNFNUxLQmVlUjdTd29hc2xBdmZWZVFxa19FR3VraVMwY21jai1zR2ZPY3pCZFhHM1RPZUg5UFdGaTIwMFJ4VWJjeWNqcTE3UkZVSmZsUWZfRlNjV1BJNGJHT3VMQmdYSnROV1YxUzlrQVMyRG5BQ2ZBNnM5TGVEaGdlZ2dWaHpTUHdsM29yRVl5Znhfb1NHSnZBbVBaZTZfNWpGaHpKcXFLUl9XYndtcTVmdnVvSHdQUTVGaW8xQXI4Y0lMTDJUamsycTlxSTlMT1daUnlVU2Jo?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "eba4c58b9c4976527a0cff92c54528accba015d259412436ac562412c9a26762",
+        "source_type": "company_news",
+        "source": "simplywall.st",
+        "source_url": "https://simplywall.st/stocks/us/real-estate/nyse-avb/avalonbay-communities/news/what-avalonbay-communities-avbs-strong-q1-results-eps-guidan",
+        "title": "What AvalonBay Communities (AVB)'s Strong Q1 Results, EPS Guidance and Buybacks Mean For Shareholders - simplywall.st",
+        "summary": "What AvalonBay Communities (AVB)'s Strong Q1 Results, EPS Guidance and Buybacks Mean For Shareholders simplywall.st",
+        "body": "What AvalonBay Communities (AVB)'s Strong Q1 Results, EPS Guidance and Buybacks Mean For Shareholders simplywall.st",
+        "evidence_quality": "title_only",
+        "url": "https://simplywall.st/stocks/us/real-estate/nyse-avb/avalonbay-communities/news/what-avalonbay-communities-avbs-strong-q1-results-eps-guidan",
+        "published_at": "Wed, 06 May 2026 02:57:52 GMT",
+        "ticker_hints": [
+          "AVB"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPRmdGZktRSTM1eFlxcHlOZ3BCdWlHQ0hNbDA2c1hOUFk1SldYai1TTDZnM1B2bHFUOEJHbDZYREdFZUMzcjAzakVSUHJTcFpxb1ZSSmZZR0U0VWRJQU9STFNDN2E4MG9YWVljTTJldk91TEtZRG1Qak9iLXMwUGVFUVp5TEUxbUVLdUl5LTVucmp1clhtdHNUMDV4RVFBZlczNDUwOXVFQkJfbEFaSUJIN2wxem9ZMjA5ZWVCbGZuVC1XNy1DQWRLa3hWVXVkRlpwSTctM1RMNNIB3AFBVV95cUxPZTVmWlNFNUxLQmVlUjdTd29hc2xBdmZWZVFxa19FR3VraVMwY21jai1zR2ZPY3pCZFhHM1RPZUg5UFdGaTIwMFJ4VWJjeWNqcTE3UkZVSmZsUWZfRlNjV1BJNGJHT3VMQmdYSnROV1YxUzlrQVMyRG5BQ2ZBNnM5TGVEaGdlZ2dWaHpTUHdsM29yRVl5Znhfb1NHSnZBbVBaZTZfNWpGaHpKcXFLUl9XYndtcTVmdnVvSHdQUTVGaW8xQXI4Y0lMTDJUamsycTlxSTlMT1daUnlVU2Jo?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "What AvalonBay Communities (AVB)'s Strong Q1 Results, EPS Guidance and Buybacks Mean For Shareholders - simplywall.st",
+          "source": "simplywall.st",
+          "source_url": "https://simplywall.st/stocks/us/real-estate/nyse-avb/avalonbay-communities/news/what-avalonbay-communities-avbs-strong-q1-results-eps-guidan",
+          "publisher_homepage_url": "https://simplywall.st",
+          "url": "https://simplywall.st/stocks/us/real-estate/nyse-avb/avalonbay-communities/news/what-avalonbay-communities-avbs-strong-q1-results-eps-guidan",
+          "published_at": "Wed, 06 May 2026 02:57:52 GMT",
+          "summary": "What AvalonBay Communities (AVB)'s Strong Q1 Results, EPS Guidance and Buybacks Mean For Shareholders  simplywall.st",
+          "ticker": "AVB",
+          "company_name": "AvalonBay Communities Inc",
+          "query": "AvalonBay Communities Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://simplywall.st/stocks/us/real-estate/nyse-avb/avalonbay-communities/news/what-avalonbay-communities-avbs-strong-q1-results-eps-guidan"
+        }
+      }
+    },
+    {
+      "article_index": 11,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQdHJRcU1uRWNVOF9qMFE4dEhLbUFTU2tsN3Q5LXAzVDJpOW83bjFKaG8zV1VtNGZfaDRRdDhyVjBMQjQ1T3RhcnhNUGRucG03Wk8tdWRIS1kycDZKMnZyQXNwWHNXNGJ6VFMxNTVBaVUtcWdhczJaNTlGWlJnUkt6U1lLZzFZLWNSNDA1Zi10X1dsVFdoRFBFVURCR3l4Y0ptODdmaGZCX1MwTUVuT21FSFlWYzdvdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "25307a63cd5c22d9890ed83330b2fb05c7ab5fe71c7007d52d5b46a0c82c62d4",
+        "source_type": "company_news",
+        "source": "thestreet.com",
+        "source_url": "https://www.thestreet.com/investing/stocks/morgan-stanley-adjusts-applied-materials-stock-price-target-pre-earnings",
+        "title": "Morgan Stanley adjusts Applied Materials stock price target pre-earnings - thestreet.com",
+        "summary": "Morgan Stanley adjusts Applied Materials stock price target pre-earnings thestreet.com",
+        "body": "Morgan Stanley adjusts Applied Materials stock price target pre-earnings thestreet.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.thestreet.com/investing/stocks/morgan-stanley-adjusts-applied-materials-stock-price-target-pre-earnings",
+        "published_at": "Wed, 06 May 2026 22:03:00 GMT",
+        "ticker_hints": [
+          "AMAT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQdHJRcU1uRWNVOF9qMFE4dEhLbUFTU2tsN3Q5LXAzVDJpOW83bjFKaG8zV1VtNGZfaDRRdDhyVjBMQjQ1T3RhcnhNUGRucG03Wk8tdWRIS1kycDZKMnZyQXNwWHNXNGJ6VFMxNTVBaVUtcWdhczJaNTlGWlJnUkt6U1lLZzFZLWNSNDA1Zi10X1dsVFdoRFBFVURCR3l4Y0ptODdmaGZCX1MwTUVuT21FSFlWYzdvdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Morgan Stanley adjusts Applied Materials stock price target pre-earnings - thestreet.com",
+          "source": "thestreet.com",
+          "source_url": "https://www.thestreet.com/investing/stocks/morgan-stanley-adjusts-applied-materials-stock-price-target-pre-earnings",
+          "publisher_homepage_url": "https://www.thestreet.com",
+          "url": "https://www.thestreet.com/investing/stocks/morgan-stanley-adjusts-applied-materials-stock-price-target-pre-earnings",
+          "published_at": "Wed, 06 May 2026 22:03:00 GMT",
+          "summary": "Morgan Stanley adjusts Applied Materials stock price target pre-earnings  thestreet.com",
+          "ticker": "AMAT",
+          "company_name": "Applied Materials Inc",
+          "query": "Applied Materials Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.thestreet.com/investing/stocks/morgan-stanley-adjusts-applied-materials-stock-price-target-pre-earnings"
+        }
+      }
+    },
+    {
+      "article_index": 12,
+      "relevant": true,
+      "affected_tickers": [
+        "AMAT"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "New analyst initiation with Buy rating provides external validation of AMAT's growth prospects and potential price target.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOaHdTTmJpMkRxZ1dmZmlSOXFsT0J0UjlUUzA3R1dUU3NmbFlFeWE3aTh5alRzNUpyZW5lT1MtVW04bG5SakUyNEhBR1lXS3N3RVA2SVZwMDQzMHJUMDNkUkJaaURrMEtxOUVXOU9KMDJOdDhkYnktNExhUFYtV1Rfc3BLZ1JXcm0tSzRFdUdlTGlnZlBSUUJ5ZTRKQnNGdlk2Skk3ZlRXcU5PUHhk?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "e15e7b61e83ef34f5c5bee98b99e73f3231bcdc943bb4d9abd36f355cc4db87d",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/seaport-research-initiates-coverage-applied-131218211.html",
+        "title": "Seaport Research Initiates Coverage of Applied Materials (AMAT) with Buy - Yahoo Finance",
+        "summary": "Seaport Research Initiates Coverage of Applied Materials (AMAT) with Buy Yahoo Finance",
+        "body": "Seaport Research Initiates Coverage of Applied Materials (AMAT) with Buy Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/seaport-research-initiates-coverage-applied-131218211.html",
+        "published_at": "Thu, 07 May 2026 13:12:18 GMT",
+        "ticker_hints": [
+          "AMAT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOaHdTTmJpMkRxZ1dmZmlSOXFsT0J0UjlUUzA3R1dUU3NmbFlFeWE3aTh5alRzNUpyZW5lT1MtVW04bG5SakUyNEhBR1lXS3N3RVA2SVZwMDQzMHJUMDNkUkJaaURrMEtxOUVXOU9KMDJOdDhkYnktNExhUFYtV1Rfc3BLZ1JXcm0tSzRFdUdlTGlnZlBSUUJ5ZTRKQnNGdlk2Skk3ZlRXcU5PUHhk?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Seaport Research Initiates Coverage of Applied Materials (AMAT) with Buy - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/seaport-research-initiates-coverage-applied-131218211.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/seaport-research-initiates-coverage-applied-131218211.html",
+          "published_at": "Thu, 07 May 2026 13:12:18 GMT",
+          "summary": "Seaport Research Initiates Coverage of Applied Materials (AMAT) with Buy  Yahoo Finance",
+          "ticker": "AMAT",
+          "company_name": "Applied Materials Inc",
+          "query": "Applied Materials Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/seaport-research-initiates-coverage-applied-131218211.html"
+        }
+      }
+    },
+    {
+      "article_index": 13,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPdHhJRHQ0ZDdhazY4a3E5cVhqQklqVUN2ME1FUzRsTjFGeDY0UXFkR1ZVWVQ5eVRhcVpPX3UxME80c0NRNnZzdUc4RlIwdWNaSjQ2Rl83Vl9wWl9hdml2VVU1NXlOd19fWGdUMkZ4czkzZTFTX1lkSC1kLW5HVDFCdnlwZ1ViWWVnam1ndjJhem94WGlRb28tdzJnMzZoLWRjeVRKRTZ4VVlFRTE3Q2dKVlRRQ3VEbmNJb0xHa1NES2EwcVZHY2RBdVRqSjJGMFN3RWJUVjEzZHJaVEdmTU1tbDVR?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "6bfe13bc13ead495787b07aeb72d0d8a0007a8fdef7e0bb024658c2bb80b8319",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/automatic-data-processing-inc-stock-underperforms-wednesday-when-compared-to-competitors-3325c4a7-c21ec8bff652",
+        "title": "Automatic Data Processing Inc. stock underperforms Wednesday when compared to competitors - MarketWatch",
+        "summary": "Automatic Data Processing Inc. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "body": "Automatic Data Processing Inc. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/automatic-data-processing-inc-stock-underperforms-wednesday-when-compared-to-competitors-3325c4a7-c21ec8bff652",
+        "published_at": "Wed, 06 May 2026 20:41:00 GMT",
+        "ticker_hints": [
+          "ADP"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxPdHhJRHQ0ZDdhazY4a3E5cVhqQklqVUN2ME1FUzRsTjFGeDY0UXFkR1ZVWVQ5eVRhcVpPX3UxME80c0NRNnZzdUc4RlIwdWNaSjQ2Rl83Vl9wWl9hdml2VVU1NXlOd19fWGdUMkZ4czkzZTFTX1lkSC1kLW5HVDFCdnlwZ1ViWWVnam1ndjJhem94WGlRb28tdzJnMzZoLWRjeVRKRTZ4VVlFRTE3Q2dKVlRRQ3VEbmNJb0xHa1NES2EwcVZHY2RBdVRqSjJGMFN3RWJUVjEzZHJaVEdmTU1tbDVR?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Automatic Data Processing Inc. stock underperforms Wednesday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/automatic-data-processing-inc-stock-underperforms-wednesday-when-compared-to-competitors-3325c4a7-c21ec8bff652",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/automatic-data-processing-inc-stock-underperforms-wednesday-when-compared-to-competitors-3325c4a7-c21ec8bff652",
+          "published_at": "Wed, 06 May 2026 20:41:00 GMT",
+          "summary": "Automatic Data Processing Inc. stock underperforms Wednesday when compared to competitors  MarketWatch",
+          "ticker": "ADP",
+          "company_name": "Automatic Data Processing Inc",
+          "query": "Automatic Data Processing Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/automatic-data-processing-inc-stock-underperforms-wednesday-when-compared-to-competitors-3325c4a7-c21ec8bff652"
+        }
+      }
+    },
+    {
+      "article_index": 14,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic daily performance recap with no new fundamental information about BF.B\u2014just stock price movement commentary.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPTm14N1Z3bTJzQ2l3NFB1SnhYRDhGZzB6RENrN0xIeXRLd3VyVTRoZVF6dVFjaDVLcDVoM2NaTVA0ZUtlUFFNYW1yTWR0TElKRXk5Y0Y1bG5sX3hVR2JwN3pqNzFtRHhxZFVGLU56X0VVM01yY0JMZjltdVNiNWFYU0dkcEY4dExaeDV6NnAtOHJ1bGNYQlZZenZfZDRYQzRMd0VmTzdEWGJ3S252UlFJbksyS3BnWHRJSXNieFcyZW9wZXV2Z1dNdzZMU0hpa1E?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "37c3d42a8b5a5ad8093be510be769a79ce79e9bd0f403ba20341d930d361d907",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/brown-forman-corp-cl-b-stock-outperforms-competitors-on-strong-trading-day-42b00993-b659df543cf1",
+        "title": "Brown-Forman Corp. Cl B stock outperforms competitors on strong trading day - MarketWatch",
+        "summary": "Brown-Forman Corp. Cl B stock outperforms competitors on strong trading day MarketWatch",
+        "body": "Brown-Forman Corp. Cl B stock outperforms competitors on strong trading day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/brown-forman-corp-cl-b-stock-outperforms-competitors-on-strong-trading-day-42b00993-b659df543cf1",
+        "published_at": "Thu, 07 May 2026 21:14:00 GMT",
+        "ticker_hints": [
+          "BF.B"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPTm14N1Z3bTJzQ2l3NFB1SnhYRDhGZzB6RENrN0xIeXRLd3VyVTRoZVF6dVFjaDVLcDVoM2NaTVA0ZUtlUFFNYW1yTWR0TElKRXk5Y0Y1bG5sX3hVR2JwN3pqNzFtRHhxZFVGLU56X0VVM01yY0JMZjltdVNiNWFYU0dkcEY4dExaeDV6NnAtOHJ1bGNYQlZZenZfZDRYQzRMd0VmTzdEWGJ3S252UlFJbksyS3BnWHRJSXNieFcyZW9wZXV2Z1dNdzZMU0hpa1E?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Brown-Forman Corp. Cl B stock outperforms competitors on strong trading day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/brown-forman-corp-cl-b-stock-outperforms-competitors-on-strong-trading-day-42b00993-b659df543cf1",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/brown-forman-corp-cl-b-stock-outperforms-competitors-on-strong-trading-day-42b00993-b659df543cf1",
+          "published_at": "Thu, 07 May 2026 21:14:00 GMT",
+          "summary": "Brown-Forman Corp. Cl B stock outperforms competitors on strong trading day  MarketWatch",
+          "ticker": "BF.B",
+          "company_name": "Brown-Forman Corp",
+          "query": "Brown-Forman Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/brown-forman-corp-cl-b-stock-outperforms-competitors-on-strong-trading-day-42b00993-b659df543cf1"
+        }
+      }
+    },
+    {
+      "article_index": 15,
+      "relevant": true,
+      "affected_tickers": [
+        "BF.B"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "FMR LLC disclosing a 4.4% stake in Brown-Forman is material institutional ownership news.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQcTUwdms4cEJiTWdqZFV3dndHaHI2TUh4cjhkMlp0Q01xdTY2dmtRM0hWY3lBYjNLSVozTFlkWjkzNTFyZmIyYW9WN1ItVUptUk5mN2RkREdpWkVKUHlISkxyM1lQWEJhLVRQOWlfLWhnNDlpcUxheVNkSUgwLW41U0lQSUctdVZOcGp3cjlLRE96c0l2SFlBbWFjdXBpZGd0bXZIbktid0hTSlQwWUhZZF9VUjBnNFJXN24xU1d1eE5zWVB6V2tjeQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "41fadccaa9a294927767980f3051d93e20705f68753c49f907ae5fd2987998d0",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/BF/schedule-13g-a-brown-forman-corp-amended-passive-investment-disclosur-8500bf50aa5b.html",
+        "title": "FMR LLC reports 12.78M shares (4.4%) in Brown-Forman (BF) - Stock Titan",
+        "summary": "FMR LLC reports 12.78M shares (4.4%) in Brown-Forman (BF) Stock Titan",
+        "body": "FMR LLC reports 12.78M shares (4.4%) in Brown-Forman (BF) Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/BF/schedule-13g-a-brown-forman-corp-amended-passive-investment-disclosur-8500bf50aa5b.html",
+        "published_at": "Wed, 06 May 2026 15:06:14 GMT",
+        "ticker_hints": [
+          "BF.B"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQcTUwdms4cEJiTWdqZFV3dndHaHI2TUh4cjhkMlp0Q01xdTY2dmtRM0hWY3lBYjNLSVozTFlkWjkzNTFyZmIyYW9WN1ItVUptUk5mN2RkREdpWkVKUHlISkxyM1lQWEJhLVRQOWlfLWhnNDlpcUxheVNkSUgwLW41U0lQSUctdVZOcGp3cjlLRE96c0l2SFlBbWFjdXBpZGd0bXZIbktid0hTSlQwWUhZZF9VUjBnNFJXN24xU1d1eE5zWVB6V2tjeQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "FMR LLC reports 12.78M shares (4.4%) in Brown-Forman (BF) - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/BF/schedule-13g-a-brown-forman-corp-amended-passive-investment-disclosur-8500bf50aa5b.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/BF/schedule-13g-a-brown-forman-corp-amended-passive-investment-disclosur-8500bf50aa5b.html",
+          "published_at": "Wed, 06 May 2026 15:06:14 GMT",
+          "summary": "FMR LLC reports 12.78M shares (4.4%) in Brown-Forman (BF)  Stock Titan",
+          "ticker": "BF.B",
+          "company_name": "Brown-Forman Corp",
+          "query": "Brown-Forman Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/BF/schedule-13g-a-brown-forman-corp-amended-passive-investment-disclosur-8500bf50aa5b.html"
+        }
+      }
+    },
+    {
+      "article_index": 16,
+      "relevant": true,
+      "affected_tickers": [
+        "BF.B"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "The end of merger discussions involving Jack Daniel's maker (Brown-Forman) affects BF.B's strategic outlook.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPZzBIdUpMWEpMT2V0eVJuY25MSlB4Q0VFYzN5VnY0NVRCTWpjSkszVUVrOFBVM2lxSm50MVFQSkR6bEt3TVFBcDdIbDBZNGg0VU5vNkg4aUs2OVZJMURYclNPVlAydXJjWEp2bnNCT2w2STFiVkx3Zk5VNF9tWTc3bWo4UjlXeUl5UDBQQ0dUbFl3QWZsVkRQTHo5UzZhR1p5eXZ6VkQ2VmlrM1U1aWlpOU0zd2hOVEVhbzc5b09HZDNOLTFBYUNsaEk1a29xbG16cFM2VUlWSjU5QWU4?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "46e6adbbd10d9a55ace5af878fc140074034f04fa04981aba2b0ba72de957e26",
+        "source_type": "company_news",
+        "source": "MSN",
+        "source_url": "https://www.msn.com/en-us/money/mergers-and-acquisitions/brown-forman-and-pernod-ricard-terminate-merger-discussions/ar-AA21WMTn?ocid=TobArticle",
+        "title": "Pernod Ricard and Jack Daniel\u2019s maker end merger discussions - MSN",
+        "summary": "Pernod Ricard and Jack Daniel\u2019s maker end merger discussions MSN",
+        "body": "Pernod Ricard and Jack Daniel\u2019s maker end merger discussions MSN",
+        "evidence_quality": "title_only",
+        "url": "https://www.msn.com/en-us/money/mergers-and-acquisitions/brown-forman-and-pernod-ricard-terminate-merger-discussions/ar-AA21WMTn?ocid=TobArticle",
+        "published_at": "Fri, 01 May 2026 17:50:50 GMT",
+        "ticker_hints": [
+          "BF.B"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPZzBIdUpMWEpMT2V0eVJuY25MSlB4Q0VFYzN5VnY0NVRCTWpjSkszVUVrOFBVM2lxSm50MVFQSkR6bEt3TVFBcDdIbDBZNGg0VU5vNkg4aUs2OVZJMURYclNPVlAydXJjWEp2bnNCT2w2STFiVkx3Zk5VNF9tWTc3bWo4UjlXeUl5UDBQQ0dUbFl3QWZsVkRQTHo5UzZhR1p5eXZ6VkQ2VmlrM1U1aWlpOU0zd2hOVEVhbzc5b09HZDNOLTFBYUNsaEk1a29xbG16cFM2VUlWSjU5QWU4?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Pernod Ricard and Jack Daniel\u2019s maker end merger discussions - MSN",
+          "source": "MSN",
+          "source_url": "https://www.msn.com/en-us/money/mergers-and-acquisitions/brown-forman-and-pernod-ricard-terminate-merger-discussions/ar-AA21WMTn?ocid=TobArticle",
+          "publisher_homepage_url": "https://www.msn.com",
+          "url": "https://www.msn.com/en-us/money/mergers-and-acquisitions/brown-forman-and-pernod-ricard-terminate-merger-discussions/ar-AA21WMTn?ocid=TobArticle",
+          "published_at": "Fri, 01 May 2026 17:50:50 GMT",
+          "summary": "Pernod Ricard and Jack Daniel\u2019s maker end merger discussions  MSN",
+          "ticker": "BF.B",
+          "company_name": "Brown-Forman Corp",
+          "query": "Brown-Forman Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.msn.com/en-us/money/mergers-and-acquisitions/brown-forman-and-pernod-ricard-terminate-merger-discussions/ar-AA21WMTn?ocid=TobArticle"
+        }
+      }
+    },
+    {
+      "article_index": 17,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic daily stock performance recaps without fundamental news are irrelevant to portfolio risk.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNVVB3SGRtOGxNMDN6bmI2Z0xsTTg1STJ1TzJueDNXQ0J6OEtHZThHSUJJTG0xWnpsLW1uUUpteHBBWDQtTURJSW1rUV9wUmR3eVpMWGpFaHB5dW42RDVYUFJ2SS1zMk8tcWdpMklTSlpqY0JpdFJOZXVzVV8zbWhXYzhkcXdWMy1vNTNJUzhsc21LWldFMU5zWmQwaFowRlNablRNUVBkSWJ4dXB5Zy1CcFBmTG10LXNJVE42bE1mYTBCbHJCLUNhbW43bw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "f03cf5f9a63de03249cea434906fd839fbc50bf8e9028f57e45b3b0adc36b349",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/axon-enterprise-inc-stock-outperforms-competitors-on-strong-trading-day-33bb45b3-32d06f2cd3c2",
+        "title": "Axon Enterprise Inc. stock outperforms competitors on strong trading day - MarketWatch",
+        "summary": "Axon Enterprise Inc. stock outperforms competitors on strong trading day MarketWatch",
+        "body": "Axon Enterprise Inc. stock outperforms competitors on strong trading day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/axon-enterprise-inc-stock-outperforms-competitors-on-strong-trading-day-33bb45b3-32d06f2cd3c2",
+        "published_at": "Thu, 07 May 2026 20:30:00 GMT",
+        "ticker_hints": [
+          "AXON"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiywFBVV95cUxNVVB3SGRtOGxNMDN6bmI2Z0xsTTg1STJ1TzJueDNXQ0J6OEtHZThHSUJJTG0xWnpsLW1uUUpteHBBWDQtTURJSW1rUV9wUmR3eVpMWGpFaHB5dW42RDVYUFJ2SS1zMk8tcWdpMklTSlpqY0JpdFJOZXVzVV8zbWhXYzhkcXdWMy1vNTNJUzhsc21LWldFMU5zWmQwaFowRlNablRNUVBkSWJ4dXB5Zy1CcFBmTG10LXNJVE42bE1mYTBCbHJCLUNhbW43bw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Axon Enterprise Inc. stock outperforms competitors on strong trading day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/axon-enterprise-inc-stock-outperforms-competitors-on-strong-trading-day-33bb45b3-32d06f2cd3c2",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/axon-enterprise-inc-stock-outperforms-competitors-on-strong-trading-day-33bb45b3-32d06f2cd3c2",
+          "published_at": "Thu, 07 May 2026 20:30:00 GMT",
+          "summary": "Axon Enterprise Inc. stock outperforms competitors on strong trading day  MarketWatch",
+          "ticker": "AXON",
+          "company_name": "Axon Enterprise Inc",
+          "query": "Axon Enterprise Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/axon-enterprise-inc-stock-outperforms-competitors-on-strong-trading-day-33bb45b3-32d06f2cd3c2"
+        }
+      }
+    },
+    {
+      "article_index": 18,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Consumer card product rankings contain no investment-relevant information for AXP.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9zVHg3SXRfZ2U4SWZOS0dyTHZpRElaR0VkdXhlSWNRSGZOMTN0VE1UZk9ZdWFJaHhJVFg3YTcyVVhlUDlZbkpJaUc1SF9xU2pDenpoOXF6eTZXM1lmdjlKVHRYNFVrNGR2d0NZSW9JWmnSAXZBVV95cUxNTDJiRUxZUG43eXhJbjYzcG9XeTBHNDg1aFFvQ3NhUUlqNU1DWm9uWmIxdkNNN0ttekZTbXp3Z3JTc3pFcXhmdWdUQjNNbnFtOUhCajdSMjFMMnU2a3dVQmZLdUJBeHpuQWVnWTRMT3QzMlpZUnZB?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "87b9e147f8cad9838570ee0a912be55c1c08986e15c199a3cb3275b21e3b6ebc",
+        "source_type": "company_news",
+        "source": "CNBC",
+        "source_url": "https://www.cnbc.com/select/best-american-express-credit-cards/",
+        "title": "8 best American Express cards of May 2026 - CNBC",
+        "summary": "8 best American Express cards of May 2026 CNBC",
+        "body": "8 best American Express cards of May 2026 CNBC",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/select/best-american-express-credit-cards/",
+        "published_at": "Sun, 03 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "AXP"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9zVHg3SXRfZ2U4SWZOS0dyTHZpRElaR0VkdXhlSWNRSGZOMTN0VE1UZk9ZdWFJaHhJVFg3YTcyVVhlUDlZbkpJaUc1SF9xU2pDenpoOXF6eTZXM1lmdjlKVHRYNFVrNGR2d0NZSW9JWmnSAXZBVV95cUxNTDJiRUxZUG43eXhJbjYzcG9XeTBHNDg1aFFvQ3NhUUlqNU1DWm9uWmIxdkNNN0ttekZTbXp3Z3JTc3pFcXhmdWdUQjNNbnFtOUhCajdSMjFMMnU2a3dVQmZLdUJBeHpuQWVnWTRMT3QzMlpZUnZB?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "8 best American Express cards of May 2026 - CNBC",
+          "source": "CNBC",
+          "source_url": "https://www.cnbc.com/select/best-american-express-credit-cards/",
+          "publisher_homepage_url": "https://www.cnbc.com",
+          "url": "https://www.cnbc.com/select/best-american-express-credit-cards/",
+          "published_at": "Sun, 03 May 2026 07:00:00 GMT",
+          "summary": "8 best American Express cards of May 2026  CNBC",
+          "ticker": "AXP",
+          "company_name": "American Express Co",
+          "query": "American Express Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.cnbc.com/select/best-american-express-credit-cards/"
+        }
+      }
+    },
+    {
+      "article_index": 19,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBGbU43QXNtTUNnWFdRSnhNbGxhbC1GMW50aE9FcElOWTJ4OHdvc2J2MTBkZy12b2pTS3hrZlZmeGRHVXdoVkNfR3dxT1NwcS1QczhQN01CREhqcHFrUlE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "fac53a6f8a1f0b72faf89301d852f897de5a36ece0bcea8480f38e4783481a39",
+        "source_type": "company_news",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/stock/quote/AXP/profile",
+        "title": "AXP Stock Price, Quote & Chart | AMERICAN EXPRESS CO (NYSE:AXP) - ChartMill",
+        "summary": "AXP Stock Price, Quote & Chart | AMERICAN EXPRESS CO (NYSE:AXP) ChartMill",
+        "body": "AXP Stock Price, Quote & Chart | AMERICAN EXPRESS CO (NYSE:AXP) ChartMill",
+        "evidence_quality": "title_only",
+        "url": "https://www.chartmill.com/stock/quote/AXP/profile",
+        "published_at": "Tue, 05 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "AXP"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiXkFVX3lxTFBGbU43QXNtTUNnWFdRSnhNbGxhbC1GMW50aE9FcElOWTJ4OHdvc2J2MTBkZy12b2pTS3hrZlZmeGRHVXdoVkNfR3dxT1NwcS1QczhQN01CREhqcHFrUlE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "AXP Stock Price, Quote & Chart | AMERICAN EXPRESS CO (NYSE:AXP) - ChartMill",
+          "source": "ChartMill",
+          "source_url": "https://www.chartmill.com/stock/quote/AXP/profile",
+          "publisher_homepage_url": "https://www.chartmill.com",
+          "url": "https://www.chartmill.com/stock/quote/AXP/profile",
+          "published_at": "Tue, 05 May 2026 07:00:00 GMT",
+          "summary": "AXP Stock Price, Quote & Chart | AMERICAN EXPRESS CO (NYSE:AXP)  ChartMill",
+          "ticker": "AXP",
+          "company_name": "American Express Co",
+          "query": "American Express Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.chartmill.com/stock/quote/AXP/profile"
+        }
+      }
+    },
+    {
+      "article_index": 20,
+      "relevant": true,
+      "affected_tickers": [
+        "BDX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Earnings snapshots contain actual financial results and metrics that can impact a growth position thesis.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOcXJUWmNSUXFWZXR3bnhYQ003cmcxUnNVWC0xZ0l4b08xeFNrb2wyWWxvU0kzcFJQUHhEMndMQ3o4cktHYXp2c3JUNWJPX3plZW05SGxuMVlIU3NLaGVVdDVPUm42STlka1ZKUW5VTG5lUFlsNHNzMDJ3aGJUcDQtckZ3OXlqcnhYaTVWUEhTdGc0OXBIUVNZYm5CNUJOWkk5S2t3QUpqaV9ZX2dHcU4zLUFtSUJaS0JjQklScUpqbmFXMGdacXVxSTBBNXZEMEhCX05mZ19kNEhhRHFD?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "b47007a44cf4ff64d84448472d812e27eefb9310b89e9ef5c5412297763bdf14",
+        "source_type": "company_news",
+        "source": "kare11.com",
+        "source_url": "https://www.kare11.com/article/syndication/associatedpress/becton-dickinson-fiscal-q2-earnings-snapshot/616-3e2d2657-d93b-445b-bdce-525f3a957965",
+        "title": "Becton Dickinson: Fiscal Q2 Earnings Snapshot - kare11.com",
+        "summary": "Becton Dickinson: Fiscal Q2 Earnings Snapshot kare11.com",
+        "body": "Becton Dickinson: Fiscal Q2 Earnings Snapshot kare11.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.kare11.com/article/syndication/associatedpress/becton-dickinson-fiscal-q2-earnings-snapshot/616-3e2d2657-d93b-445b-bdce-525f3a957965",
+        "published_at": "Thu, 07 May 2026 10:42:00 GMT",
+        "ticker_hints": [
+          "BDX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxOcXJUWmNSUXFWZXR3bnhYQ003cmcxUnNVWC0xZ0l4b08xeFNrb2wyWWxvU0kzcFJQUHhEMndMQ3o4cktHYXp2c3JUNWJPX3plZW05SGxuMVlIU3NLaGVVdDVPUm42STlka1ZKUW5VTG5lUFlsNHNzMDJ3aGJUcDQtckZ3OXlqcnhYaTVWUEhTdGc0OXBIUVNZYm5CNUJOWkk5S2t3QUpqaV9ZX2dHcU4zLUFtSUJaS0JjQklScUpqbmFXMGdacXVxSTBBNXZEMEhCX05mZ19kNEhhRHFD?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Becton Dickinson: Fiscal Q2 Earnings Snapshot - kare11.com",
+          "source": "kare11.com",
+          "source_url": "https://www.kare11.com/article/syndication/associatedpress/becton-dickinson-fiscal-q2-earnings-snapshot/616-3e2d2657-d93b-445b-bdce-525f3a957965",
+          "publisher_homepage_url": "https://www.kare11.com",
+          "url": "https://www.kare11.com/article/syndication/associatedpress/becton-dickinson-fiscal-q2-earnings-snapshot/616-3e2d2657-d93b-445b-bdce-525f3a957965",
+          "published_at": "Thu, 07 May 2026 10:42:00 GMT",
+          "summary": "Becton Dickinson: Fiscal Q2 Earnings Snapshot  kare11.com",
+          "ticker": "BDX",
+          "company_name": "Becton Dickinson and Co",
+          "query": "Becton Dickinson and Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.kare11.com/article/syndication/associatedpress/becton-dickinson-fiscal-q2-earnings-snapshot/616-3e2d2657-d93b-445b-bdce-525f3a957965"
+        }
+      }
+    },
+    {
+      "article_index": 21,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOcVRIby1vdkpfYUI2MU45YW9NaHJwOGtGWTR4clp0UHk5N0JmV2NMUlVBb1VCRWNlcmdpU0xOOGtEeWdYVE9VdTRVb0JqYjFkYmFDS2VNdDk3M253Uk1ENEhPai1ZOTluZ3J1eDBSZHBqQmVleGxoZWJlUHlCVWx6bno0U0FHMlpHWk15S2U4d01VRmJXREhEQ1daVldZTlZSQUlud0x6WUs2ZHNQWXRicjFlazJXbWlzTUpmZ2xLSlVlQzc3QUxCX3VaTXVtZzhM?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "db74d3de142ef976188af0b55e6945ac9fc4c225921346823466515a2c28f77b",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/becton-dickinson-co-stock-underperforms-monday-when-compared-to-competitors-c7ba0f4f-afe266f986bb",
+        "title": "Becton Dickinson & Co. stock underperforms Monday when compared to competitors - MarketWatch",
+        "summary": "Becton Dickinson & Co. stock underperforms Monday when compared to competitors MarketWatch",
+        "body": "Becton Dickinson & Co. stock underperforms Monday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/becton-dickinson-co-stock-underperforms-monday-when-compared-to-competitors-c7ba0f4f-afe266f986bb",
+        "published_at": "Mon, 04 May 2026 20:52:00 GMT",
+        "ticker_hints": [
+          "BDX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOcVRIby1vdkpfYUI2MU45YW9NaHJwOGtGWTR4clp0UHk5N0JmV2NMUlVBb1VCRWNlcmdpU0xOOGtEeWdYVE9VdTRVb0JqYjFkYmFDS2VNdDk3M253Uk1ENEhPai1ZOTluZ3J1eDBSZHBqQmVleGxoZWJlUHlCVWx6bno0U0FHMlpHWk15S2U4d01VRmJXREhEQ1daVldZTlZSQUlud0x6WUs2ZHNQWXRicjFlazJXbWlzTUpmZ2xLSlVlQzc3QUxCX3VaTXVtZzhM?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Becton Dickinson & Co. stock underperforms Monday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/becton-dickinson-co-stock-underperforms-monday-when-compared-to-competitors-c7ba0f4f-afe266f986bb",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/becton-dickinson-co-stock-underperforms-monday-when-compared-to-competitors-c7ba0f4f-afe266f986bb",
+          "published_at": "Mon, 04 May 2026 20:52:00 GMT",
+          "summary": "Becton Dickinson & Co. stock underperforms Monday when compared to competitors  MarketWatch",
+          "ticker": "BDX",
+          "company_name": "Becton Dickinson and Co",
+          "query": "Becton Dickinson and Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/becton-dickinson-co-stock-underperforms-monday-when-compared-to-competitors-c7ba0f4f-afe266f986bb"
+        }
+      }
+    },
+    {
+      "article_index": 22,
+      "relevant": true,
+      "affected_tickers": [
+        "BDX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Strategic AI partnership in connected devices directly tests BDX's growth thesis in healthcare technology.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNU2tSeEhlX2VVTXBzdnAzdGtfQVJfT1Jzd1hNZkFHZzd6ZWVlWnd5akJ6UnJVN0hWYTM4VGVNRzl2aEU0V2NhNHhzVlpJSFNRVHdhT3Q3TUwzT0JxYWdWc0ZWQzB2X2JlNXg1LWtoa0FtZVpZQUdrbjlFaHZkbkloOWxiZ3lvYUxzSkt0MWx3VUpXelZ5Mm51eHk2ZndrdmljLXlhSUIxZXNYWVFNalE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "65ca35353ade0d22fe1c4774f3b004e1196ca85555fbff6700510e8b1e681858",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/sectors/healthcare/articles/becton-dickinson-ai-partnership-wellstar-192031968.html",
+        "title": "Becton Dickinson AI Partnership With Wellstar Tests Connected Devices Thesis - Yahoo Finance",
+        "summary": "Becton Dickinson AI Partnership With Wellstar Tests Connected Devices Thesis Yahoo Finance",
+        "body": "Becton Dickinson AI Partnership With Wellstar Tests Connected Devices Thesis Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/sectors/healthcare/articles/becton-dickinson-ai-partnership-wellstar-192031968.html",
+        "published_at": "Tue, 05 May 2026 19:20:31 GMT",
+        "ticker_hints": [
+          "BDX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNU2tSeEhlX2VVTXBzdnAzdGtfQVJfT1Jzd1hNZkFHZzd6ZWVlWnd5akJ6UnJVN0hWYTM4VGVNRzl2aEU0V2NhNHhzVlpJSFNRVHdhT3Q3TUwzT0JxYWdWc0ZWQzB2X2JlNXg1LWtoa0FtZVpZQUdrbjlFaHZkbkloOWxiZ3lvYUxzSkt0MWx3VUpXelZ5Mm51eHk2ZndrdmljLXlhSUIxZXNYWVFNalE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Becton Dickinson AI Partnership With Wellstar Tests Connected Devices Thesis - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/sectors/healthcare/articles/becton-dickinson-ai-partnership-wellstar-192031968.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/sectors/healthcare/articles/becton-dickinson-ai-partnership-wellstar-192031968.html",
+          "published_at": "Tue, 05 May 2026 19:20:31 GMT",
+          "summary": "Becton Dickinson AI Partnership With Wellstar Tests Connected Devices Thesis  Yahoo Finance",
+          "ticker": "BDX",
+          "company_name": "Becton Dickinson and Co",
+          "query": "Becton Dickinson and Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/sectors/healthcare/articles/becton-dickinson-ai-partnership-wellstar-192031968.html"
+        }
+      }
+    },
+    {
+      "article_index": 23,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic stock movement explanation without substantive new information beyond price action.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOX2xUNVBzNDBaNHg1NDdkSEtXei10YUg0djAxcG9NQ2dCZmVvQTRzTXdRUTZMRnRMQkUzSVIxWU9od2tfRDdDbWxSUTVvcmdCb3ZNQ1ZLQnZQamM5WFF1TURNbHRoNXI5cFJhR04wb1VKdFJISGJHNTBJQlNlR01HU0d4TnE2Wm00aldPdE5MOEVwb1J3MnRiR2tNWEZmdWxydWVaOHZJOA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "55ca9cce6c81b7959bda90d2bd601dd950633016156210d842aa4043855633b6",
+        "source_type": "company_news",
+        "source": "Benzinga",
+        "source_url": "https://www.benzinga.com/markets/earnings/26/05/52382900/becton-dickinson-hikes-profit-outlook-names-cfo",
+        "title": "Why Is Becton Dickinson Stock Gaining Thursday? - Becton Dickinson (NYSE:BDX) - Benzinga",
+        "summary": "Why Is Becton Dickinson Stock Gaining Thursday? - Becton Dickinson (NYSE:BDX) Benzinga",
+        "body": "Why Is Becton Dickinson Stock Gaining Thursday? - Becton Dickinson (NYSE:BDX) Benzinga",
+        "evidence_quality": "title_only",
+        "url": "https://www.benzinga.com/markets/earnings/26/05/52382900/becton-dickinson-hikes-profit-outlook-names-cfo",
+        "published_at": "Thu, 07 May 2026 18:29:52 GMT",
+        "ticker_hints": [
+          "BDX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOX2xUNVBzNDBaNHg1NDdkSEtXei10YUg0djAxcG9NQ2dCZmVvQTRzTXdRUTZMRnRMQkUzSVIxWU9od2tfRDdDbWxSUTVvcmdCb3ZNQ1ZLQnZQamM5WFF1TURNbHRoNXI5cFJhR04wb1VKdFJISGJHNTBJQlNlR01HU0d4TnE2Wm00aldPdE5MOEVwb1J3MnRiR2tNWEZmdWxydWVaOHZJOA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Why Is Becton Dickinson Stock Gaining Thursday? - Becton Dickinson (NYSE:BDX) - Benzinga",
+          "source": "Benzinga",
+          "source_url": "https://www.benzinga.com/markets/earnings/26/05/52382900/becton-dickinson-hikes-profit-outlook-names-cfo",
+          "publisher_homepage_url": "https://www.benzinga.com",
+          "url": "https://www.benzinga.com/markets/earnings/26/05/52382900/becton-dickinson-hikes-profit-outlook-names-cfo",
+          "published_at": "Thu, 07 May 2026 18:29:52 GMT",
+          "summary": "Why Is Becton Dickinson Stock Gaining Thursday? - Becton Dickinson (NYSE:BDX)  Benzinga",
+          "ticker": "BDX",
+          "company_name": "Becton Dickinson and Co",
+          "query": "Becton Dickinson and Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.benzinga.com/markets/earnings/26/05/52382900/becton-dickinson-hikes-profit-outlook-names-cfo"
+        }
+      }
+    },
+    {
+      "article_index": 24,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Registration announcement for innovation challenge is routine corporate communication without concrete implications for CAT's growth trajectory.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQZllnbjl0V0pld3Rrcll3MUxPTnJ5V3VtWHZpdjZlS0hWb2ZQU0RtazYtVm5BNTJiV1hnRjlvZTNnOTNKR2JXOEVSajZHSjhzN1duTWxTblgtWW1SOGFsM0lXY1V4aVF5cEhsR3ZBdFRsNEc2MVdMbTNUSzFYSS04RFQwMVJvTmRNa0Y5dnNyZXhqVkJkYnlTMEJUZFN3S3AtdFVRLUx5eExoVTRxNGFMSy1ITVNUMUJFaFNkRFpVMEV5NHduX2hDbm1yVW0?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "a52ca2084ca1f17d6e5c4d52f641266a9dce12a85781b11fd5844507777291d8",
+        "source_type": "company_news",
+        "source": "Caterpillar investor",
+        "source_url": "https://investors.caterpillar.com/news/news-details/2026/Caterpillar-Opens-Registration-for-Global-Innovation-Challenge/default.aspx",
+        "title": "Caterpillar Opens Registration for Global Innovation Challenge - Caterpillar investor",
+        "summary": "Caterpillar Opens Registration for Global Innovation Challenge Caterpillar investor",
+        "body": "Caterpillar Opens Registration for Global Innovation Challenge Caterpillar investor",
+        "evidence_quality": "title_only",
+        "url": "https://investors.caterpillar.com/news/news-details/2026/Caterpillar-Opens-Registration-for-Global-Innovation-Challenge/default.aspx",
+        "published_at": "Thu, 07 May 2026 13:02:58 GMT",
+        "ticker_hints": [
+          "CAT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQZllnbjl0V0pld3Rrcll3MUxPTnJ5V3VtWHZpdjZlS0hWb2ZQU0RtazYtVm5BNTJiV1hnRjlvZTNnOTNKR2JXOEVSajZHSjhzN1duTWxTblgtWW1SOGFsM0lXY1V4aVF5cEhsR3ZBdFRsNEc2MVdMbTNUSzFYSS04RFQwMVJvTmRNa0Y5dnNyZXhqVkJkYnlTMEJUZFN3S3AtdFVRLUx5eExoVTRxNGFMSy1ITVNUMUJFaFNkRFpVMEV5NHduX2hDbm1yVW0?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Caterpillar Opens Registration for Global Innovation Challenge - Caterpillar investor",
+          "source": "Caterpillar investor",
+          "source_url": "https://investors.caterpillar.com/news/news-details/2026/Caterpillar-Opens-Registration-for-Global-Innovation-Challenge/default.aspx",
+          "publisher_homepage_url": "https://investors.caterpillar.com",
+          "url": "https://investors.caterpillar.com/news/news-details/2026/Caterpillar-Opens-Registration-for-Global-Innovation-Challenge/default.aspx",
+          "published_at": "Thu, 07 May 2026 13:02:58 GMT",
+          "summary": "Caterpillar Opens Registration for Global Innovation Challenge  Caterpillar investor",
+          "ticker": "CAT",
+          "company_name": "Caterpillar Inc",
+          "query": "Caterpillar Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://investors.caterpillar.com/news/news-details/2026/Caterpillar-Opens-Registration-for-Global-Innovation-Challenge/default.aspx"
+        }
+      }
+    },
+    {
+      "article_index": 25,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Corporate registration announcement contains no material market information affecting CAT's growth prospects.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNUFUzUlNCQTJoNUVBS2w5RWNHWGNwUldzWWxjU3hCcWtUaU9hZmoxWTI1a2w1S0dSVmktdkRkenF6UzlfRGI0Tm54Z05tMWxGa1RKSVotRWplZWZMckx0SWZqR2dkYWlCZE9hT3pLQ2N6b202blR4bHBNeXZoYmlNZmtYWTBVMnV6UzFTeXVQUmVuWHRjSU1fR1JPX05HdEM5Y1g2aTdTUmlKczNRSTZMYzVPNUlWeXhpdHc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "1fe582d87b451c3342d0286c10e889c3d2ac58369abecfd757271a65e1365818",
+        "source_type": "company_news",
+        "source": "PR Newswire",
+        "source_url": "https://www.prnewswire.com/news-releases/caterpillar-opens-registration-for-global-innovation-challenge-302764881.html",
+        "title": "Caterpillar Opens Registration for Global Innovation Challenge - PR Newswire",
+        "summary": "Caterpillar Opens Registration for Global Innovation Challenge PR Newswire",
+        "body": "Caterpillar Opens Registration for Global Innovation Challenge PR Newswire",
+        "evidence_quality": "title_only",
+        "url": "https://www.prnewswire.com/news-releases/caterpillar-opens-registration-for-global-innovation-challenge-302764881.html",
+        "published_at": "Thu, 07 May 2026 13:00:00 GMT",
+        "ticker_hints": [
+          "CAT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNUFUzUlNCQTJoNUVBS2w5RWNHWGNwUldzWWxjU3hCcWtUaU9hZmoxWTI1a2w1S0dSVmktdkRkenF6UzlfRGI0Tm54Z05tMWxGa1RKSVotRWplZWZMckx0SWZqR2dkYWlCZE9hT3pLQ2N6b202blR4bHBNeXZoYmlNZmtYWTBVMnV6UzFTeXVQUmVuWHRjSU1fR1JPX05HdEM5Y1g2aTdTUmlKczNRSTZMYzVPNUlWeXhpdHc?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Caterpillar Opens Registration for Global Innovation Challenge - PR Newswire",
+          "source": "PR Newswire",
+          "source_url": "https://www.prnewswire.com/news-releases/caterpillar-opens-registration-for-global-innovation-challenge-302764881.html",
+          "publisher_homepage_url": "https://www.prnewswire.com",
+          "url": "https://www.prnewswire.com/news-releases/caterpillar-opens-registration-for-global-innovation-challenge-302764881.html",
+          "published_at": "Thu, 07 May 2026 13:00:00 GMT",
+          "summary": "Caterpillar Opens Registration for Global Innovation Challenge  PR Newswire",
+          "ticker": "CAT",
+          "company_name": "Caterpillar Inc",
+          "query": "Caterpillar Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.prnewswire.com/news-releases/caterpillar-opens-registration-for-global-innovation-challenge-302764881.html"
+        }
+      }
+    },
+    {
+      "article_index": 26,
+      "relevant": true,
+      "affected_tickers": [
+        "CAT"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "A major bear abandoning their bearish stance on Caterpillar signals growing confidence in CAT's growth trajectory tied to AI power demand.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPX1ZEWnZhTTJmd3ZCZUZnb0ZiNzAzNXpvWDU4a3NzV0g5cndkMmVkUElUSHlrTjhaSHJlaE4zS1hGc3gzZlJOWHliN2hDc2dOOHZmWE5JQjhlaTMwTU1JbVUtaXByTmtUakh6Sk9iajR1SnphWEJ5MWFKOTFiZ01JT29vSVllbzEzbklMMHNSNS1fcjJzX1pJd3kzWFJwR3ZkX2QxSjUtV0RXS0E0?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "50f62586366e073a44f0d2e0fd3459c6414b541acc68be4476f62dd8adb6722b",
+        "source_type": "company_news",
+        "source": "Bloomberg.com",
+        "source_url": "https://www.bloomberg.com/news/articles/2026-05-01/caterpillar-s-biggest-bear-folds-as-ai-power-demand-soars",
+        "title": "Caterpillar\u2019s Biggest Bear Folds as AI Power Demand Soars - Bloomberg.com",
+        "summary": "Caterpillar\u2019s Biggest Bear Folds as AI Power Demand Soars Bloomberg.com",
+        "body": "Caterpillar\u2019s Biggest Bear Folds as AI Power Demand Soars Bloomberg.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.bloomberg.com/news/articles/2026-05-01/caterpillar-s-biggest-bear-folds-as-ai-power-demand-soars",
+        "published_at": "Fri, 01 May 2026 13:48:44 GMT",
+        "ticker_hints": [
+          "CAT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPX1ZEWnZhTTJmd3ZCZUZnb0ZiNzAzNXpvWDU4a3NzV0g5cndkMmVkUElUSHlrTjhaSHJlaE4zS1hGc3gzZlJOWHliN2hDc2dOOHZmWE5JQjhlaTMwTU1JbVUtaXByTmtUakh6Sk9iajR1SnphWEJ5MWFKOTFiZ01JT29vSVllbzEzbklMMHNSNS1fcjJzX1pJd3kzWFJwR3ZkX2QxSjUtV0RXS0E0?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Caterpillar\u2019s Biggest Bear Folds as AI Power Demand Soars - Bloomberg.com",
+          "source": "Bloomberg.com",
+          "source_url": "https://www.bloomberg.com/news/articles/2026-05-01/caterpillar-s-biggest-bear-folds-as-ai-power-demand-soars",
+          "publisher_homepage_url": "https://www.bloomberg.com",
+          "url": "https://www.bloomberg.com/news/articles/2026-05-01/caterpillar-s-biggest-bear-folds-as-ai-power-demand-soars",
+          "published_at": "Fri, 01 May 2026 13:48:44 GMT",
+          "summary": "Caterpillar\u2019s Biggest Bear Folds as AI Power Demand Soars  Bloomberg.com",
+          "ticker": "CAT",
+          "company_name": "Caterpillar Inc",
+          "query": "Caterpillar Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.bloomberg.com/news/articles/2026-05-01/caterpillar-s-biggest-bear-folds-as-ai-power-demand-soars"
+        }
+      }
+    },
+    {
+      "article_index": 27,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Akamai cloud growth news has no connection to CAT's construction/industrial business.",
+      "article": {
+        "external_id": "108304171",
+        "event_hash": "88ce335c5c5590e6161a1ad5919c5fbb67ce10b4d3da48bc721b7cc0183f8e5f",
+        "source_type": "cnbc_sector_rss",
+        "source": "US Top News and Analysis",
+        "source_url": "",
+        "title": "A cloud computing stock is soaring more than 25%. Here\u2019s what\u2019s driving the rally",
+        "summary": "Cybersecurity and cloud computing firm Akamai reported first-quarter earnings on Thursday and saw its cloud infrastructure business grow 40% year-on-year.",
+        "body": "Cybersecurity and cloud computing firm Akamai reported first-quarter earnings on Thursday and saw its cloud infrastructure business grow 40% year-on-year.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/08/akamai-stock-ai-cloud-infrastructure-deal.html",
+        "published_at": "2026-05-08T11:26:26+00:00",
+        "ticker_hints": [],
+        "sector_hint": "commercialservicessupplies",
+        "raw": {
+          "id": "108304171",
+          "title": "A cloud computing stock is soaring more than 25%. Here\u2019s what\u2019s driving the rally",
+          "source": "US Top News and Analysis",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/08/akamai-stock-ai-cloud-infrastructure-deal.html",
+          "published_at": "2026-05-08T11:26:26+00:00",
+          "summary": "Cybersecurity and cloud computing firm Akamai reported first-quarter earnings on Thursday and saw its cloud infrastructure business grow 40% year-on-year.",
+          "sector": "commercialservicessupplies",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 28,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Housing market commentary lacks direct relevance to CAT despite indirect construction ties, as the article doesn't discuss equipment demand.",
+      "article": {
+        "external_id": "108304051",
+        "event_hash": "4ee5b10cb949397c77baca1b455239f804542ac8ff19baac9ca38ac3cd4e09a9",
+        "source_type": "cnbc_sector_rss",
+        "source": "Real Estate",
+        "source_url": "",
+        "title": "Home sales stuck at same levels from last year, says Zillow chief economist",
+        "summary": "Orphe Divounguy, Zillow chief economist, joins 'Closing Bell Overtime' to talk the health of the housing market.",
+        "body": "Orphe Divounguy, Zillow chief economist, joins 'Closing Bell Overtime' to talk the health of the housing market.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/video/2026/05/07/home-sales-stuck-at-same-levels-from-last-year-says-zillow-chief-economist.html",
+        "published_at": "2026-05-07T22:14:53+00:00",
+        "ticker_hints": [],
+        "sector_hint": "realestate",
+        "raw": {
+          "id": "108304051",
+          "title": "Home sales stuck at same levels from last year, says Zillow chief economist",
+          "source": "Real Estate",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/video/2026/05/07/home-sales-stuck-at-same-levels-from-last-year-says-zillow-chief-economist.html",
+          "published_at": "2026-05-07T22:14:53+00:00",
+          "summary": "Orphe Divounguy, Zillow chief economist, joins 'Closing Bell Overtime'\u00a0 to talk the health of the housing market.",
+          "sector": "realestate",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 29,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic tech stock valuation commentary with no specific ticker mentions and no connection to CAT's industrial growth themes.",
+      "article": {
+        "external_id": "108303481",
+        "event_hash": "186f623f611966e2e2247e433edafd5290f64b483d0f7d8211be92954f055afe",
+        "source_type": "cnbc_sector_rss",
+        "source": "Tech",
+        "source_url": "",
+        "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+        "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "body": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+        "published_at": "2026-05-08T07:34:09+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "108303481",
+          "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+          "source": "Tech",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+          "published_at": "2026-05-08T07:34:09+00:00",
+          "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+          "sector": "technology",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 30,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+        "event_hash": "19a94d122eb7bd70af2c33c7cd24315522f743ca92601cb72fb84ee833a16a92",
+        "source_type": "cnbc_sector_rss",
+        "source": "TradingView",
+        "source_url": "https://www.tradingview.com",
+        "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+        "summary": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "body": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+        "published_at": "2026-04-12T07:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "logisticstransportation",
+        "raw": {
+          "id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+          "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+          "source": "TradingView",
+          "source_url": "https://www.tradingview.com",
+          "publisher_homepage_url": "https://www.tradingview.com",
+          "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+          "published_at": "2026-04-12T07:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5\" target=\"_blank\">JTC Stock Price and Chart \u2014 KSE:JTC</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">TradingView</font>",
+          "sector": "logisticstransportation",
+          "source_type": "google_sector_rss",
+          "query": "logisticstransportation stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 31,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+        "event_hash": "9035f9df36440ab60206c92d8645173fd1048cfb5d04a1d7ac0ac7d298352c54",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com",
+        "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+        "summary": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "body": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+        "published_at": "2026-05-07T15:52:40+00:00",
+        "ticker_hints": [],
+        "sector_hint": "airlines",
+        "raw": {
+          "id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+          "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+          "published_at": "2026-05-07T15:52:40+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5\" target=\"_blank\">UBS raises Delta Air Lines stock price target on margin expansion path</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investing.com</font>",
+          "sector": "airlines",
+          "source_type": "google_sector_rss",
+          "query": "airlines stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 32,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+        "event_hash": "7781e95f875227fa69d82f20e4e003cb6ecab937f7d2e893b2a4726e74c9e5fd",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com",
+        "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+        "summary": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "body": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+        "published_at": "2026-05-07T23:12:41+00:00",
+        "ticker_hints": [],
+        "sector_hint": "energy",
+        "raw": {
+          "id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+          "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+          "published_at": "2026-05-07T23:12:41+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5\" target=\"_blank\">Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketBeat</font>",
+          "sector": "energy",
+          "source_type": "google_sector_rss",
+          "query": "energy stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 33,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+        "event_hash": "9dec2ef7a51804cfd1809a68859a9bc47e4042623ad126cfb5cd0d857f04debb",
+        "source_type": "cnbc_sector_rss",
+        "source": "Frontiers",
+        "source_url": "https://www.frontiersin.org",
+        "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+        "summary": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "body": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+        "published_at": "2025-12-15T16:18:58+00:00",
+        "ticker_hints": [],
+        "sector_hint": "machinery",
+        "raw": {
+          "id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+          "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+          "source": "Frontiers",
+          "source_url": "https://www.frontiersin.org",
+          "publisher_homepage_url": "https://www.frontiersin.org",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+          "published_at": "2025-12-15T16:18:58+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5\" target=\"_blank\">Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Frontiers</font>",
+          "sector": "machinery",
+          "source_type": "google_sector_rss",
+          "query": "machinery stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 34,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+        "event_hash": "c268de142bba78da5290b86120bd17a1423dbdf9bce07676bae9afc9f41e2536",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com",
+        "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+        "summary": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "body": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+        "published_at": "2026-05-07T21:14:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+          "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+          "published_at": "2026-05-07T21:14:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5\" target=\"_blank\">Align Technology Inc. stock underperforms Thursday when compared to competitors</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketWatch</font>",
+          "sector": "technology",
+          "source_type": "google_sector_rss",
+          "query": "technology stock market news"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "run_id": "cba50492-139c-4a25-9299-337a4febd4d3",
+  "started_at": "2026-05-08T11:36:35.677720+00:00",
+  "label": "sp500_backfill_batch_1",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "ALB",
+    "AEP",
+    "ABT",
+    "ACN",
+    "ABNB",
+    "AEE",
+    "AOS",
+    "SBAC",
+    "GOOG",
+    "SNA"
+  ]
+}

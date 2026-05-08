@@ -1,0 +1,181 @@
+{
+  "input_count": 36,
+  "enriched_count": 18,
+  "resolved_with_body": 18,
+  "wrapper_only": 18,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "AFL": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "ok_proxy": 2
+      }
+    },
+    "LNT": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 1,
+        "ok_proxy": 2,
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584290-air-products-raised-at-bmo-citing-strong-environment-and-execution'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1
+      }
+    },
+    "AMZN": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 1,
+        "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/energy/atmos-energy-raises-annual-profit-forecast-strong-natural-gas-demand-2026-05-06/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+        "error:Client error '403 Forbidden' for url 'https://www.gurufocus.com/news/8838846/alliant-energy-corp-lnt-q1-2026-earnings-call-highlights-strong-earnings-amid-mild-temperatures-and-strategic-growth-initiatives?mobile=true'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok_proxy": 1
+      }
+    },
+    "APD": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "ok_proxy": 2
+      }
+    },
+    "AES": {
+      "input_count": 4,
+      "resolved_with_body": 2,
+      "wrapper_only": 2,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "unknown": 2
+      }
+    },
+    "ATO": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "MMM": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "MO": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "NI": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "ok": 6,
+    "ok_proxy": 9,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584290-air-products-raised-at-bmo-citing-strong-environment-and-execution'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/energy/atmos-energy-raises-annual-profit-forecast-strong-natural-gas-demand-2026-05-06/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+    "error:Client error '403 Forbidden' for url 'https://www.gurufocus.com/news/8838846/alliant-energy-corp-lnt-q1-2026-earnings-call-highlights-strong-earnings-amid-mild-temperatures-and-strategic-growth-initiatives?mobile=true'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "unknown": 18
+  },
+  "failure_reason_counts": {
+    "unknown": 18
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 18
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "AFL",
+      "title": "Is Wall Street Bullish or Bearish on AES Corporation Stock? - Barchart.com",
+      "status": "ok"
+    },
+    {
+      "ticker": "AFL",
+      "title": "The AES Corporation $AES Shares Sold by Mitsubishi UFJ Trust & Banking Corp - MarketBeat",
+      "status": "ok"
+    },
+    {
+      "ticker": "AFL",
+      "title": "AFLAC INC 1Q 2026: Revenue $4.35B, Net income $1.02B, EPS $1.98\u2014 10-Q Summary - TradingView",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "AFL",
+      "title": "Aflac opens South Portland office to handle paid leave claims - Mainebiz",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "LNT",
+      "title": "Amazon.com, Inc. (AMZN): Billionaire Tom Steyer Is Bullish on This Stock - Yahoo Finance",
+      "status": "ok"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "AES",
+      "title": "Is Wall Street Bullish or Bearish on AES Corporation Stock? - Barchart.com",
+      "status": "unknown"
+    },
+    {
+      "ticker": "AES",
+      "title": "The AES Corporation $AES Shares Sold by Mitsubishi UFJ Trust & Banking Corp - MarketBeat",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ATO",
+      "title": "Atmos Energy Corp expected to post earnings of $3.40 a share - Earnings Preview - TradingView",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ATO",
+      "title": "Atmos Energy raises annual profit forecast on strong natural gas demand - Reuters",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ATO",
+      "title": "Atmos Energy Corp. stock underperforms Thursday when compared to competitors - MarketWatch",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.5,
+  "coverage_ok": true
+}

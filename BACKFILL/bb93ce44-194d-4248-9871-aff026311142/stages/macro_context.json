@@ -1,0 +1,68 @@
+{
+  "overnight_macro": {
+    "headlines": [
+      "Here's what to expect from Friday's release of the April jobs report",
+      "Trump threatens EU with \u2018much higher\u2019 tariffs if no trade deal signed by new deadline",
+      "Toyota fourth-quarter profit misses by wide margin as U.S. tariffs drive 49% slump",
+      "A cloud computing stock is soaring more than 25%. Here\u2019s what\u2019s driving the rally"
+    ],
+    "themes": [
+      "growth_recession",
+      "geopolitics"
+    ],
+    "brief": "Overnight headlines centered on Here's what to expect from Friday's release of the April jobs report; Trump threatens EU with \u2018much higher\u2019 tariffs if no trade deal signed by new deadline; Toyota fourth-quarter profit misses by wide margin as U.S. tariffs drive 49% slump. The main themes were growth and recession, geopolitics."
+  },
+  "position_impacts": [
+    {
+      "ticker": "AES",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "AFL",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "AMZN",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "APD",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "ATO",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "GOOGL",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "LNT",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "MMM",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "MO",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    },
+    {
+      "ticker": "NI",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  ],
+  "what_matters_today": []
+}

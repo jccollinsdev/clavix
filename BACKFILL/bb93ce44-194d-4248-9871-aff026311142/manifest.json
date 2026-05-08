@@ -1,0 +1,20 @@
+{
+  "run_id": "bb93ce44-194d-4248-9871-aff026311142",
+  "started_at": "2026-05-08T11:42:08.587282+00:00",
+  "label": "sp500_backfill_batch_3",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "AFL",
+    "LNT",
+    "AMZN",
+    "APD",
+    "AES",
+    "ATO",
+    "GOOGL",
+    "MMM",
+    "MO",
+    "NI"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "run_id": "50e66ebf-cad2-46af-a2ff-f1c1909ce903",
+  "started_at": "2026-05-08T11:51:00.595538+00:00",
+  "label": "sp500_backfill_batch_5",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "T",
+    "ADSK",
+    "BA",
+    "CVX",
+    "BLDR",
+    "BSX",
+    "CPT",
+    "AME",
+    "BG",
+    "COR"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "run_id": "665864aa-f5b8-4680-aaaa-e921ae80fe1b",
+  "started_at": "2026-05-08T11:59:22.354621+00:00",
+  "label": "sp500_backfill_batch_8",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "CF",
+    "COF",
+    "AJG",
+    "CPB",
+    "TECH",
+    "AON",
+    "BK",
+    "BRK.B",
+    "AIZ",
+    "BIIB"
+  ]
+}

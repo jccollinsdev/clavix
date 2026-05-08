@@ -1,0 +1,259 @@
+{
+  "position": {
+    "id": "1530b58c-2d3e-43b6-98f9-2ef97767bb9c",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "ARE",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 43.8,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPdG8wQjhtQ2M2bENxNmVaakJqUUNfVi1vaVlheVRKRlVDRmpoZm82VEhXTTM0VERBQVVJMHBKZFBMVUgwSDFmbjB1VlQ0eWpYOUFJVG4yeGkzQ3dWYmdKRmprQnBFcDJDVjJHVmh6V0g2RmhOSThILTEycm5XaUtCYTUySk5MdUdHc0VueEFreU5sUW5PUXVtRVN3N3VBd0g4VlJjY1FwcUJqS0dCVzBwODJqN1ZwdUJpLVFrS2ozOVM1Ung2WVhuU1hNM3QzamRBTTdlV1k1WmVnYVk?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "10e700db7234a465f165d52eb2cc6524e8b13dec79bdbbe2d9abb611639d40c9",
+      "source_type": "company_news",
+      "source": "MSN",
+      "source_url": "https://www.msn.com/en-us/money/economy/alexandria-real-estate-equities-trades-lower-as-potential-tenant-wind-downs-hit-q1-earnings/ar-AA21RxOq",
+      "title": "Alexandria Real Estate Equities trades lower as potential tenant wind-downs hit Q1 earnings - MSN",
+      "summary": "Alexandria Real Estate Equities trades lower as potential tenant wind-downs hit Q1 earnings MSN",
+      "body": "Alexandria Real Estate Equities trades lower as potential tenant wind-downs hit Q1 earnings MSN",
+      "evidence_quality": "title_only",
+      "url": "https://www.msn.com/en-us/money/economy/alexandria-real-estate-equities-trades-lower-as-potential-tenant-wind-downs-hit-q1-earnings/ar-AA21RxOq",
+      "published_at": "Fri, 08 May 2026 05:27:22 GMT",
+      "ticker_hints": [
+        "ARE"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxPdG8wQjhtQ2M2bENxNmVaakJqUUNfVi1vaVlheVRKRlVDRmpoZm82VEhXTTM0VERBQVVJMHBKZFBMVUgwSDFmbjB1VlQ0eWpYOUFJVG4yeGkzQ3dWYmdKRmprQnBFcDJDVjJHVmh6V0g2RmhOSThILTEycm5XaUtCYTUySk5MdUdHc0VueEFreU5sUW5PUXVtRVN3N3VBd0g4VlJjY1FwcUJqS0dCVzBwODJqN1ZwdUJpLVFrS2ozOVM1Ung2WVhuU1hNM3QzamRBTTdlV1k1WmVnYVk?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Alexandria Real Estate Equities trades lower as potential tenant wind-downs hit Q1 earnings - MSN",
+        "source": "MSN",
+        "source_url": "https://www.msn.com/en-us/money/economy/alexandria-real-estate-equities-trades-lower-as-potential-tenant-wind-downs-hit-q1-earnings/ar-AA21RxOq",
+        "publisher_homepage_url": "https://www.msn.com",
+        "url": "https://www.msn.com/en-us/money/economy/alexandria-real-estate-equities-trades-lower-as-potential-tenant-wind-downs-hit-q1-earnings/ar-AA21RxOq",
+        "published_at": "Fri, 08 May 2026 05:27:22 GMT",
+        "summary": "Alexandria Real Estate Equities trades lower as potential tenant wind-downs hit Q1 earnings  MSN",
+        "ticker": "ARE",
+        "company_name": "Alexandria Real Estate Equities, Inc",
+        "query": "Alexandria Real Estate Equities, Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.msn.com/en-us/money/economy/alexandria-real-estate-equities-trades-lower-as-potential-tenant-wind-downs-hit-q1-earnings/ar-AA21RxOq"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "ARE"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "ARE's Q1 earnings were negatively impacted by tenant wind-downs, directly affecting the held position and real estate sector exposure.",
+        "evidence_quality": "title_only"
+      },
+      "resolved_url": "https://www.msn.com/en-us/money/economy/alexandria-real-estate-equities-trades-lower-as-potential-tenant-wind-downs-hit-q1-earnings/ar-AA21RxOq",
+      "content_source": "www.msn.com",
+      "scrape_status": "ok",
+      "resolution_status": "weak_html",
+      "resolution_failure_reason": "empty_body",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": false,
+          "failure_reason": "empty_body",
+          "word_count": 0,
+          "title_hits": 0,
+          "resolved_host": "msn.com",
+          "method": "html"
+        }
+      }
+    }
+  ],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "The dominant risk for ARE is tenant credit deterioration within the biotech/pharma sector that occupies its life science portfolio\u2014stretched venture funding and public market weakness threaten lease renewals and occupancy. Long-dated, triple-net lease structures provide partial cushion, but valuation remains rate-sensitive and macro-driven. A meaningful improvement in biotech financing conditions or a Fed rate pivot would reduce the discount applied to this holding.",
+    "long_report": "ARE's life science REIT positioning creates concentrated exposure to biotech tenant health, a sector currently experiencing venture funding constraints and public market pressure that could translate into slower leasing velocity and weaker renewal spreads over the next 12-18 months. Occupancy levels and tenant retention rates are the critical variables to track, as early-stage biotech tenants face higher default risk when capital markets are inhospitable. The counterbalancing force is ARE's defensive sector classification\u2014laboratory space is specialized and mission-critical for life sciences tenants, creating contractual stickiness through triple-net, multi-year leases that generate visible near-term cash flows. However, REIT valuation approach compresses these cash flow benefits when interest rates are elevated, and the risk-free rate environment continues to impose a discount on longer-duration real estate assets. Geopolitical uncertainty and macro growth concerns create a secondary risk channel through potential tenant expansion delays in Asia-Pacific markets where ARE maintains selective exposure.",
+    "methodology": "Rating assembled from sector-specific risk factors for life science REITs, assessing tenant credit conditions in biotech/pharma as the primary driver, with interest rate sensitivity and macro growth concerns as secondary influences. Macro context considered neutral given absence of direct overnight read-through.",
+    "top_risks": [
+      "Tenant credit deterioration in biotech/pharma sector leading to lease defaults or non-renewals",
+      "Interest rate sensitivity compressing REIT valuation multiples and increasing cost of capital",
+      "Occupancy and leasing velocity pressure from weakened venture funding environment"
+    ],
+    "watch_items": [
+      "Biotech venture funding trends and public market performance as leading indicator for tenant demand",
+      "ARE quarterly occupancy metrics and lease renewal spreads relative to prior periods",
+      "Fed policy trajectory affecting discount rates applied to real estate valuations"
+    ],
+    "risk_context": [
+      {
+        "macro_event": "April jobs report release expected Friday with focus on labor market strength",
+        "rating_impact": "neutral",
+        "reasoning": "Labor market data does not directly translate to life science REIT demand; tenant hiring patterns are sector-specific rather than macro-driven"
+      },
+      {
+        "macro_event": "Trump threatens EU with higher tariffs if no trade deal by new deadline",
+        "rating_impact": "neutral",
+        "reasoning": "Trade policy uncertainty creates general market headwinds but has no direct bearing on laboratory space demand or biotech tenant health"
+      },
+      {
+        "macro_event": "Toyota Q4 profit misses by 49% driven by U.S. tariff impacts",
+        "rating_impact": "neutral",
+        "reasoning": "Manufacturing sector tariff exposure is unrelated to life science real estate demand dynamics"
+      }
+    ],
+    "driver_cards": [
+      {
+        "id": "10e700db7234a465f165d52eb2cc6524e8b13dec79bdbbe2d9abb611639d40c9",
+        "rank": 1,
+        "title": "Earnings trajectory is uncertain",
+        "summary": "Earnings are roughly in line with expectations, providing little catalyst in either direction.",
+        "strength": "limited",
+        "direction": "neutral",
+        "theme": "earnings_risk",
+        "source_chips": [
+          "MSN"
+        ],
+        "supporting_event_ids": [],
+        "supporting_news_ids": [],
+        "supporting_evidence": [
+          {
+            "id": "",
+            "kind": "news_item",
+            "title": "Alexandria Real Estate Equities trades lower as potential tenant wind-downs hit Q1 earnings - MSN",
+            "summary": "Alexandria Real Estate Equities trades lower as potential tenant wind-downs hit Q1 earnings MSN",
+            "source": "MSN",
+            "url": "https://www.msn.com/en-us/money/economy/alexandria-real-estate-equities-trades-lower-as-potential-tenant-wind-downs-hit-q1-earnings/ar-AA21RxOq",
+            "published_at": "Fri, 08 May 2026 05:27:22 GMT",
+            "confidence": 0.5,
+            "event_id": null,
+            "news_id": null,
+            "alert_id": null
+          }
+        ]
+      }
+    ],
+    "driver_cards_state": "ready",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "1530b58c-2d3e-43b6-98f9-2ef97767bb9c",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "ARE",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 45.58,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "C",
+    "previous_total_score": 64.0,
+    "summary": "The dominant risk for ARE is tenant credit deterioration within the biotech/pharma sector that occupies its life science portfolio\u2014stretched venture funding and public market weakness threaten lease renewals and occupancy. Long-dated, triple-net lease structures provide partial cushion, but valuation remains rate-sensitive and macro-driven. A meaningful improvement in biotech financing conditions or a Fed rate pivot would reduce the discount applied to this holding.",
+    "long_report": "ARE's life science REIT positioning creates concentrated exposure to biotech tenant health, a sector currently experiencing venture funding constraints and public market pressure that could translate into slower leasing velocity and weaker renewal spreads over the next 12-18 months. Occupancy levels and tenant retention rates are the critical variables to track, as early-stage biotech tenants face higher default risk when capital markets are inhospitable. The counterbalancing force is ARE's defensive sector classification\u2014laboratory space is specialized and mission-critical for life sciences tenants, creating contractual stickiness through triple-net, multi-year leases that generate visible near-term cash flows. However, REIT valuation approach compresses these cash flow benefits when interest rates are elevated, and the risk-free rate environment continues to impose a discount on longer-duration real estate assets. Geopolitical uncertainty and macro growth concerns create a secondary risk channel through potential tenant expansion delays in Asia-Pacific markets where ARE maintains selective exposure.",
+    "top_risks": [
+      "Tenant credit deterioration in biotech/pharma sector leading to lease defaults or non-renewals",
+      "Interest rate sensitivity compressing REIT valuation multiples and increasing cost of capital",
+      "Occupancy and leasing velocity pressure from weakened venture funding environment"
+    ],
+    "watch_items": [
+      "Biotech venture funding trends and public market performance as leading indicator for tenant demand",
+      "ARE quarterly occupancy metrics and lease renewal spreads relative to prior periods",
+      "Fed policy trajectory affecting discount rates applied to real estate valuations"
+    ],
+    "top_news": [
+      "Alexandria Real Estate Equities trades lower as potential tenant wind-downs hit Q1 earnings - MSN"
+    ],
+    "driver_cards": [
+      {
+        "id": "10e700db7234a465f165d52eb2cc6524e8b13dec79bdbbe2d9abb611639d40c9",
+        "rank": 1,
+        "title": "Earnings trajectory is uncertain",
+        "summary": "Earnings are roughly in line with expectations, providing little catalyst in either direction.",
+        "strength": "limited",
+        "direction": "neutral",
+        "theme": "earnings_risk",
+        "source_chips": [
+          "MSN"
+        ],
+        "supporting_event_ids": [],
+        "supporting_news_ids": [],
+        "supporting_evidence": [
+          {
+            "id": "",
+            "kind": "news_item",
+            "title": "Alexandria Real Estate Equities trades lower as potential tenant wind-downs hit Q1 earnings - MSN",
+            "summary": "Alexandria Real Estate Equities trades lower as potential tenant wind-downs hit Q1 earnings MSN",
+            "source": "MSN",
+            "url": "https://www.msn.com/en-us/money/economy/alexandria-real-estate-equities-trades-lower-as-potential-tenant-wind-downs-hit-q1-earnings/ar-AA21RxOq",
+            "published_at": "Fri, 08 May 2026 05:27:22 GMT",
+            "confidence": 0.5,
+            "event_id": null,
+            "news_id": null,
+            "alert_id": null
+          }
+        ]
+      }
+    ],
+    "driver_cards_state": "ready",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Rating assembled from sector-specific risk factors for life science REITs, assessing tenant credit conditions in biotech/pharma as the primary driver, with interest rate sensitivity and macro growth concerns as secondary influences. Macro context considered neutral given absence of direct overnight read-through.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "07ff5840-66df-4098-b309-0d95b0c1fa63",
+      "ticker": "ARE",
+      "company_name": "Alexandria Real Estate Equities, Inc",
+      "asset_class": null,
+      "sector": "Real Estate",
+      "industry": null,
+      "exchange": "NEW YORK STOCK EXCHANGE, INC.",
+      "market_cap": 7943203464.892866,
+      "market_cap_bucket": "moderate",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 139874080.79999998,
+      "spread_proxy": 0.001,
+      "beta": 1.1558291,
+      "volatility_proxy": 0.288957275,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:31:12.518579+00:00",
+      "created_at": "2026-04-12T21:58:26.189835+00:00",
+      "pe_ratio": null,
+      "week_52_high": 88.236,
+      "week_52_low": 39.41,
+      "price": 45.58,
+      "price_as_of": "2026-05-08T10:31:12.509107+00:00",
+      "avg_volume": 3.06876,
+      "previous_close": 45.83,
+      "open_price": 46.11,
+      "day_high": 46.95,
+      "day_low": 45.43,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "ARE",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "position": {
+    "id": "8642d7ea-95dc-4fa8-ad73-39d610b9f5fa",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "GOOGL",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 388.43,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "There is not enough recent news to form a confident risk rating for GOOGL. The current rating relies on existing position context and structural factors.",
+    "long_report": "Data for GOOGL is thin in this cycle, so the dominant risk rating defaults to structural and sector factors rather than company-specific catalysts. This is a limited-data rating \u2014 any new company-specific development (earnings, guidance, regulatory action) could shift the picture meaningfully. Treat this as limited-data until fuller data arrives.",
+    "methodology": "Limited-data rating based on position metadata and structural context. No usable event data for this cycle.",
+    "top_risks": [
+      "No confirmed company-specific catalyst in this cycle."
+    ],
+    "watch_items": [
+      "Recheck for resolved company or sector data before treating the current rating as settled."
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "8642d7ea-95dc-4fa8-ad73-39d610b9f5fa",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "GOOGL",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 397.99,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "C",
+    "previous_total_score": 64.0,
+    "summary": "There is not enough recent news to form a confident risk rating for GOOGL. The current rating relies on existing position context and structural factors.",
+    "long_report": "Data for GOOGL is thin in this cycle, so the dominant risk rating defaults to structural and sector factors rather than company-specific catalysts. This is a limited-data rating \u2014 any new company-specific development (earnings, guidance, regulatory action) could shift the picture meaningfully. Treat this as limited-data until fuller data arrives.",
+    "top_risks": [
+      "No confirmed company-specific catalyst in this cycle."
+    ],
+    "watch_items": [
+      "Recheck for resolved company or sector data before treating the current rating as settled."
+    ],
+    "top_news": [],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Limited-data rating based on position metadata and structural context. No usable event data for this cycle.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "f4d5908d-1369-4ba5-81d2-c2abe6844f32",
+      "ticker": "GOOGL",
+      "company_name": "Alphabet Inc",
+      "asset_class": null,
+      "sector": "Media",
+      "industry": null,
+      "exchange": "NASDAQ NMS - GLOBAL MARKET",
+      "market_cap": 4806138624878.702,
+      "market_cap_bucket": "very_high",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 12985128192.300001,
+      "spread_proxy": 0.001,
+      "beta": 1.2768689,
+      "volatility_proxy": 0.319217225,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:39:46.988105+00:00",
+      "created_at": "2026-04-12T21:58:34.222413+00:00",
+      "pe_ratio": 29.9994,
+      "week_52_high": 400.1,
+      "week_52_low": 147.84,
+      "price": 397.99,
+      "price_as_of": "2026-05-08T10:39:46.978504+00:00",
+      "avg_volume": 32.62677,
+      "previous_close": 398.04,
+      "open_price": 399.92,
+      "day_high": 400.1,
+      "day_low": 392.68,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "GOOGL",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

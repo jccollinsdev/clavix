@@ -1,0 +1,13 @@
+{
+  "run_id": "ecd9a526-4968-4f06-87e1-e08e9fe7f23f",
+  "started_at": "2026-05-08T11:00:32.148372+00:00",
+  "label": "sp500_daily_batch_1",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "AMD",
+    "HOOD",
+    "SMCI"
+  ]
+}

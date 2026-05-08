@@ -1,0 +1,187 @@
+{
+  "input_count": 40,
+  "enriched_count": 17,
+  "resolved_with_body": 17,
+  "wrapper_only": 23,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "CHTR": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 3,
+        "ok": 1
+      }
+    },
+    "AZO": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 4
+      }
+    },
+    "AVB": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 3,
+        "error:Client error '403 Forbidden' for url 'https://www.businesswire.com/news/home/20260505296818/en/Brown-Forman-Fourth-Quarter-Earnings-Release-and-Conference-Call-Scheduled-for-June-4-2026'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1
+      }
+    },
+    "AMAT": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "error:Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-01/caterpillar-s-biggest-bear-folds-as-ai-power-demand-soars'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "ok": 1
+      }
+    },
+    "ADP": {
+      "input_count": 4,
+      "resolved_with_body": 1,
+      "wrapper_only": 3,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 1,
+        "unknown": 3
+      }
+    },
+    "BF.B": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "AXON": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "AXP": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "BDX": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CAT": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "ok_proxy": 6,
+    "ok": 9,
+    "error:Client error '403 Forbidden' for url 'https://www.businesswire.com/news/home/20260505296818/en/Brown-Forman-Fourth-Quarter-Earnings-Release-and-Conference-Call-Scheduled-for-June-4-2026'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-01/caterpillar-s-biggest-bear-folds-as-ai-power-demand-soars'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "unknown": 23
+  },
+  "failure_reason_counts": {
+    "unknown": 23
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 23
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "CHTR",
+      "title": "Analysts Are Updating Their Automatic Data Processing, Inc. (NASDAQ:ADP) Estimates After Its Third-Quarter Results - simplywall.st",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "CHTR",
+      "title": "ADP Announces Pricing of its Senior Notes Due 2036 - PR Newswire",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "CHTR",
+      "title": "Seaport Research Initiates Coverage of Applied Materials (AMAT) with Buy - Yahoo Finance",
+      "status": "ok"
+    },
+    {
+      "ticker": "CHTR",
+      "title": "Applied Materials strikes NEXX deal as AI chip packages shift to larger panels - Stock Titan",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "AZO",
+      "title": "What AvalonBay Communities (AVB)'s Strong Q1 Results, EPS Guidance and Buybacks Mean For Shareholders - simplywall.st",
+      "status": "ok"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "ADP",
+      "title": "Analysts Are Updating Their Automatic Data Processing, Inc. (NASDAQ:ADP) Estimates After Its Third-Quarter Results - simplywall.st",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ADP",
+      "title": "Automatic Data Processing Inc. stock underperforms Wednesday when compared to competitors - MarketWatch",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ADP",
+      "title": "ADP Announces Pricing of its Senior Notes Due 2036 - PR Newswire",
+      "status": "unknown"
+    },
+    {
+      "ticker": "BF.B",
+      "title": "Brown-Forman Corp. Cl B stock outperforms competitors on strong trading day - MarketWatch",
+      "status": "unknown"
+    },
+    {
+      "ticker": "BF.B",
+      "title": "FMR LLC reports 12.78M shares (4.4%) in Brown-Forman (BF) - Stock Titan",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.425,
+  "coverage_ok": true
+}

@@ -1,0 +1,199 @@
+{
+  "position": {
+    "id": "5d51d520-5b72-4aad-816b-29eb1bda175b",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "HOOD",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:16.220434+00:00",
+    "updated_at": "2026-04-13T00:47:16.220434+00:00",
+    "current_price": 78.09,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMi5gJBVV95cUxNMXhlNlJEelhKM3I0blpIcEFLVll3am5sQ1hjZnpkRGI0MHFhblBHelAtNGZNU283bVgweGwySnp5QzktTWZmN2FQUE9oM0NLdGp6eERwYVBsekJ5SGE1X0x2YW8tV19WYlVSQnNxXzJLYjFnc04yQS1HQTZuWjZ5RUhQN2t5eS1NWWVLSmFES05ZeW5Sa3ByYU9KWTl2V3Y3bml2cWVqeDBmNDNySUYtZy1Ua3l2S3ZEWTRxWHZvVlM5dXJMZW0zSzY3bFZYT01mSEhkNjBVZFdObDBJZ0pMR2VXZEtjLWlrVWNhMENIcXhWLWVMWGp3a3FsT0lnN2FqdmRfRlVQOXlHRTM1c1BlbVpQSEp6ekdZQ0sxZXFqQXBwMTBlTVUtMW9yMXFWajRWXzdlRHQ5VVlDa2FRZU9TRzNaWEhNcGdRSkYzQ2VQYVpDZ3dscDlKdHd6VWlvdVQzV2ZwYW1B?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "http://www.msn.com/en-us/money/topstocks/robinhood-markets-inc-hood-is-a-trending-stock-facts-to-know-before-betting-on-it/ar-AA22rsfq?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1",
+        "query": "Robinhood Markets Inc",
+        "title": "Robinhood Markets, Inc. (HOOD) is a trending stock: Facts to know before betting on it - MSN",
+        "source": "MSN",
+        "ticker": "HOOD",
+        "summary": "Robinhood Markets, Inc. (HOOD) is a trending stock: Facts to know before betting on it  MSN",
+        "source_url": "http://www.msn.com/en-us/money/topstocks/robinhood-markets-inc-hood-is-a-trending-stock-facts-to-know-before-betting-on-it/ar-AA22rsfq?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1",
+        "source_type": "company_news",
+        "company_name": "Robinhood Markets Inc",
+        "published_at": "Tue, 05 May 2026 16:55:13 GMT",
+        "decoded_google_url": "http://www.msn.com/en-us/money/topstocks/robinhood-markets-inc-hood-is-a-trending-stock-facts-to-know-before-betting-on-it/ar-AA22rsfq?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1",
+        "publisher_homepage_url": "http://www.msn.com"
+      },
+      "url": "http://www.msn.com/en-us/money/topstocks/robinhood-markets-inc-hood-is-a-trending-stock-facts-to-know-before-betting-on-it/ar-AA22rsfq?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1",
+      "body": "Robinhood Markets, Inc. (HOOD) is a trending stock: Facts to know before betting on it MSN",
+      "title": "Robinhood Markets, Inc. (HOOD) is a trending stock: Facts to know before betting on it - MSN",
+      "source": "MSN",
+      "summary": "Robinhood Markets, Inc. (HOOD) is a trending stock: Facts to know before betting on it MSN",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Article directly discusses Robinhood Markets (HOOD), providing company-specific analysis that could impact the growth-positioned holding.",
+        "affected_tickers": [
+          "HOOD"
+        ],
+        "evidence_quality": "title_only"
+      },
+      "event_hash": "24ae4827a3c25ad895898487eb057b485956156dd8da942fb4cfda8c2f654816",
+      "source_url": "http://www.msn.com/en-us/money/topstocks/robinhood-markets-inc-hood-is-a-trending-stock-facts-to-know-before-betting-on-it/ar-AA22rsfq?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1",
+      "external_id": "https://news.google.com/rss/articles/CBMi5gJBVV95cUxNMXhlNlJEelhKM3I0blpIcEFLVll3am5sQ1hjZnpkRGI0MHFhblBHelAtNGZNU283bVgweGwySnp5QzktTWZmN2FQUE9oM0NLdGp6eERwYVBsekJ5SGE1X0x2YW8tV19WYlVSQnNxXzJLYjFnc04yQS1HQTZuWjZ5RUhQN2t5eS1NWWVLSmFES05ZeW5Sa3ByYU9KWTl2V3Y3bml2cWVqeDBmNDNySUYtZy1Ua3l2S3ZEWTRxWHZvVlM5dXJMZW0zSzY3bFZYT01mSEhkNjBVZFdObDBJZ0pMR2VXZEtjLWlrVWNhMENIcXhWLWVMWGp3a3FsT0lnN2FqdmRfRlVQOXlHRTM1c1BlbVpQSEp6ekdZQ0sxZXFqQXBwMTBlTVUtMW9yMXFWajRWXzdlRHQ5VVlDa2FRZU9TRzNaWEhNcGdRSkYzQ2VQYVpDZ3dscDlKdHd6VWlvdVQzV2ZwYW1B?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Tue, 05 May 2026 16:55:13 GMT",
+      "resolved_url": "https://www.msn.com/en-us/money/topstocks/robinhood-markets-inc-hood-is-a-trending-stock-facts-to-know-before-betting-on-it/ar-AA22rsfq?apiversion=v2&domshim=1&noservercache=1&noservertelemetry=1&batchservertelemetry=1&renderwebcomponents=1&wcseo=1",
+      "ticker_hints": [
+        "HOOD"
+      ],
+      "scrape_status": "ok",
+      "content_source": "www.msn.com",
+      "evidence_quality": "title_only",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "method": "html",
+          "accepted": false,
+          "title_hits": 0,
+          "word_count": 0,
+          "resolved_host": "msn.com",
+          "failure_reason": "empty_body"
+        }
+      },
+      "resolution_status": "weak_html",
+      "resolution_failure_reason": "empty_body"
+    }
+  ],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "HOOD's dominant risk is revenue concentration in retail trading volumes\u2014when retail participation wanes, transaction-based revenue follows, making the stock a leveraged play on retail news signal rather than a diversified financial services comp; elevated volatility could provide near-term support but structural volume normalization would undercut growth assumptions.",
+    "long_report": "Robinhood's business model creates a binary risk profile where transaction revenue\u2014options and equities trading fees\u2014comprises the majority of top-line, making the company exquisitely sensitive to retail trading activity cycles rather than traditional financial sector tailwinds. During meme-stock frenzies and high-volatility periods, HOOD outperforms; during prolonged calm or sustained drawdowns, retail participation contracts sharply and revenue follows. Net interest revenue from margin lending and cash sweep programs provides some cushion, but this stream remains tied to rate levels and active accounts with balances. The growth label is warranted given Robinhood's monetization expansion (subscriptions, credit products), yet each new revenue vertical faces its own adoption curve and competitive friction. Regulatory risk persists as an overhang\u2014not transformative under current leadership but capable of imposing compliance costs or product restrictions that constrain expansion. What would shift this rating materially: sustained re-acceleration in retail trading volumes (measured by industry metrics like daily average revenue trades), meaningful penetration in new products like IRAs or crypto staking, or a macro catalyst that draws retail back into markets after a prolonged absence.",
+    "methodology": "Assessment draws on HOOD's earnings patterns, revenue mix decomposition, retail trading volume correlations, and known competitive/regulatory dynamics; macro context treated as neutral given HOOD's idiosyncratic retail-news signal dependency rather than direct rate or credit cycle exposure.",
+    "top_risks": [
+      "Retail trading volume contraction during sustained market calm or correction",
+      "Regulatory enforcement actions constraining product expansion or imposing compliance costs",
+      "Net interest revenue compression if rate cuts accelerate beyond current expectations"
+    ],
+    "watch_items": [
+      "Daily average revenue trades (DARTs) as proxy for retail engagement strength",
+      "Interest rate trajectory and impact on cash sweep program yields",
+      "New product adoption rates (credit, IRAs, crypto staking) as diversification proof points"
+    ],
+    "risk_context": [
+      {
+        "macro_event": "Escalating trade tensions and geopolitical uncertainty (EU tariffs, Iran/Strait of Hormuz)",
+        "rating_impact": "neutral",
+        "reasoning": "Short-term volatility from geopolitical shocks may boost options trading volume, but sustained uncertainty suppresses risk-taking and retail participation\u2014net effect roughly offsets."
+      },
+      {
+        "macro_event": "Cooling but resilient April jobs report expectations",
+        "rating_impact": "neutral",
+        "reasoning": "Labor market resilience supports consumer spending and potentially brokerage account funding, but the Fed policy trajectory implied by this data matters more to HOOD's interest revenue than the employment figure itself."
+      },
+      {
+        "macro_event": "AI infrastructure spending pressure and elevated cost concerns",
+        "rating_impact": "supports",
+        "reasoning": "Broader tech sector valuation compression raises investor awareness of growth-at-any-price risk, but Robinhood's leaner cost structure and retail-facing model differentiate it from capital-intensive AI plays\u2014potentially drawing defensive rotation interest."
+      }
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "5d51d520-5b72-4aad-816b-29eb1bda175b",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "HOOD",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:16.220434+00:00",
+    "updated_at": "2026-04-13T00:47:16.220434+00:00",
+    "current_price": 76.28,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "BB",
+    "previous_total_score": 57.0,
+    "summary": "HOOD's dominant risk is revenue concentration in retail trading volumes\u2014when retail participation wanes, transaction-based revenue follows, making the stock a leveraged play on retail news signal rather than a diversified financial services comp; elevated volatility could provide near-term support but structural volume normalization would undercut growth assumptions.",
+    "long_report": "Robinhood's business model creates a binary risk profile where transaction revenue\u2014options and equities trading fees\u2014comprises the majority of top-line, making the company exquisitely sensitive to retail trading activity cycles rather than traditional financial sector tailwinds. During meme-stock frenzies and high-volatility periods, HOOD outperforms; during prolonged calm or sustained drawdowns, retail participation contracts sharply and revenue follows. Net interest revenue from margin lending and cash sweep programs provides some cushion, but this stream remains tied to rate levels and active accounts with balances. The growth label is warranted given Robinhood's monetization expansion (subscriptions, credit products), yet each new revenue vertical faces its own adoption curve and competitive friction. Regulatory risk persists as an overhang\u2014not transformative under current leadership but capable of imposing compliance costs or product restrictions that constrain expansion. What would shift this rating materially: sustained re-acceleration in retail trading volumes (measured by industry metrics like daily average revenue trades), meaningful penetration in new products like IRAs or crypto staking, or a macro catalyst that draws retail back into markets after a prolonged absence.",
+    "top_risks": [
+      "Retail trading volume contraction during sustained market calm or correction",
+      "Regulatory enforcement actions constraining product expansion or imposing compliance costs",
+      "Net interest revenue compression if rate cuts accelerate beyond current expectations"
+    ],
+    "watch_items": [
+      "Daily average revenue trades (DARTs) as proxy for retail engagement strength",
+      "Interest rate trajectory and impact on cash sweep program yields",
+      "New product adoption rates (credit, IRAs, crypto staking) as diversification proof points"
+    ],
+    "top_news": [
+      "Robinhood Markets, Inc. (HOOD) is a trending stock: Facts to know before betting on it - MSN"
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Assessment draws on HOOD's earnings patterns, revenue mix decomposition, retail trading volume correlations, and known competitive/regulatory dynamics; macro context treated as neutral given HOOD's idiosyncratic retail-news signal dependency rather than direct rate or credit cycle exposure.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "d0c18903-d2ea-4374-93a1-6dfbc86f8020",
+      "ticker": "HOOD",
+      "company_name": "Robinhood Markets Inc",
+      "asset_class": null,
+      "sector": "Financial Services",
+      "industry": null,
+      "exchange": "NASDAQ NMS - GLOBAL MARKET",
+      "market_cap": 68751571882.33168,
+      "market_cap_bucket": "high",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 2358698122.4,
+      "spread_proxy": 0.001,
+      "beta": 2.2850978,
+      "volatility_proxy": 0.57127445,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:54:20.939077+00:00",
+      "created_at": "2026-04-10T19:55:07.717746+00:00",
+      "pe_ratio": 36.5117,
+      "week_52_high": 153.8599,
+      "week_52_low": 48.3201,
+      "price": 76.28,
+      "price_as_of": "2026-05-08T10:54:20.932793+00:00",
+      "avg_volume": 30.92158,
+      "previous_close": 79.05,
+      "open_price": 78.955,
+      "day_high": 79.23,
+      "day_low": 75.46,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "HOOD",
+      "macro_relevance": "neutral",
+      "impact_summary": "No significant overnight macro change that directly impacts fintech positioning; Robinhood's business is more sensitive to retail trading activity than macro headlines."
+    }
+  }
+}

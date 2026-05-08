@@ -1,0 +1,1852 @@
+{
+  "cached_count": 256,
+  "uncached_count": 49,
+  "results": [
+    {
+      "article_index": 0,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Obituary of foreign political leader has no connection to telecom or growth positions.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVVk3WUhfSkEtM2VuTENvYk5zWDNSaW9OeFBubFZVQ0kzNF9ScFNHM2VVRVpPbi1zZWs5aHhYOXBJaGJyZUYxN1dKN0FvQVd4Mk9PYkdfTDJyMUQzbEg3cW4yT3dCSl9xSVZxeFJDYnBXTW9ZLThmSzV6cXBMVmhBQ3lmcm91T1dSelZXc1JWczFmV0hXTnRORUZCaEFaU0ZPUmU2Z29BUmFYQklwbFE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ec59b15690bc49b45171a730969fe632a3598a65bd2b49387c0c6eee1045b2b4",
+        "source_type": "company_news",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/world/africa/botswanas-former-president-festus-mogae-dies-government-says-2026-05-08/",
+        "title": "Botswana's former president Festus Mogae dies at 86 - Reuters",
+        "summary": "Botswana's former president Festus Mogae dies at 86 Reuters",
+        "body": "Botswana's former president Festus Mogae dies at 86 Reuters",
+        "evidence_quality": "title_only",
+        "url": "https://www.reuters.com/world/africa/botswanas-former-president-festus-mogae-dies-government-says-2026-05-08/",
+        "published_at": "Fri, 08 May 2026 10:38:06 GMT",
+        "ticker_hints": [
+          "T"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVVk3WUhfSkEtM2VuTENvYk5zWDNSaW9OeFBubFZVQ0kzNF9ScFNHM2VVRVpPbi1zZWs5aHhYOXBJaGJyZUYxN1dKN0FvQVd4Mk9PYkdfTDJyMUQzbEg3cW4yT3dCSl9xSVZxeFJDYnBXTW9ZLThmSzV6cXBMVmhBQ3lmcm91T1dSelZXc1JWczFmV0hXTnRORUZCaEFaU0ZPUmU2Z29BUmFYQklwbFE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Botswana's former president Festus Mogae dies at 86 - Reuters",
+          "source": "Reuters",
+          "source_url": "https://www.reuters.com/world/africa/botswanas-former-president-festus-mogae-dies-government-says-2026-05-08/",
+          "publisher_homepage_url": "https://www.reuters.com",
+          "url": "https://www.reuters.com/world/africa/botswanas-former-president-festus-mogae-dies-government-says-2026-05-08/",
+          "published_at": "Fri, 08 May 2026 10:38:06 GMT",
+          "summary": "Botswana's former president Festus Mogae dies at 86  Reuters",
+          "ticker": "T",
+          "company_name": "AT&T Inc",
+          "query": "AT&T Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.reuters.com/world/africa/botswanas-former-president-festus-mogae-dies-government-says-2026-05-08/"
+        }
+      }
+    },
+    {
+      "article_index": 1,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Trump's personal World Cup opinion is irrelevant to portfolio positions.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQZ3hrMFFMZnZOc0l1ZWVTT2R5WlFsdmhNUE9OSzd6c1hVQXhzM1FtQUFaUzkxQnlsX08wazZTaEZzUUZLSUFnYVRLbzdOSnl4T1k3RURrTlBYY05GZzl4Q2Q5MVZFQnE2bHcwT2ZsWEZHc2UzMG5EQ1gzWkZwNk1SYmtnWUpMdDIzTlg5OWZRazh1OXM1Vll1eVlQYUZkX2ta0gGmAUFVX3lxTE5sM0VuZDdYaVo1Rk9aLUFSTlN1T1JhNVZPS2J5S1JqVlkzVlRUNXVteUk2VEZLaDFnc3FaUG9BczlfbzZWa3NTeFhlWXg3LUlubnc1VkpKdkpyNXJJSVVyMEh0N0JLQ3NwY0s2WkpQX2pkRHhyMThCZ3NOZ2xUeU9HeXlwbnNadXVzVGd4ZW1IUlYwa1lFb1hCSTFYU0daUEFqcmFISlE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "5a366b56c59f67ade19c67d984ea854d12da30fc93be1ce3df2165c0a64518c3",
+        "source_type": "company_news",
+        "source": "Al Jazeera",
+        "source_url": "https://www.aljazeera.com/sports/2026/5/8/trump-says-he-would-not-pay-1000-to-watch-us-at-world-cup",
+        "title": "Trump says he would not pay $1,000 to watch US at World Cup - Al Jazeera",
+        "summary": "Trump says he would not pay $1,000 to watch US at World Cup Al Jazeera",
+        "body": "Trump says he would not pay $1,000 to watch US at World Cup Al Jazeera",
+        "evidence_quality": "title_only",
+        "url": "https://www.aljazeera.com/sports/2026/5/8/trump-says-he-would-not-pay-1000-to-watch-us-at-world-cup",
+        "published_at": "Fri, 08 May 2026 11:15:00 GMT",
+        "ticker_hints": [
+          "T"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMioAFBVV95cUxQZ3hrMFFMZnZOc0l1ZWVTT2R5WlFsdmhNUE9OSzd6c1hVQXhzM1FtQUFaUzkxQnlsX08wazZTaEZzUUZLSUFnYVRLbzdOSnl4T1k3RURrTlBYY05GZzl4Q2Q5MVZFQnE2bHcwT2ZsWEZHc2UzMG5EQ1gzWkZwNk1SYmtnWUpMdDIzTlg5OWZRazh1OXM1Vll1eVlQYUZkX2ta0gGmAUFVX3lxTE5sM0VuZDdYaVo1Rk9aLUFSTlN1T1JhNVZPS2J5S1JqVlkzVlRUNXVteUk2VEZLaDFnc3FaUG9BczlfbzZWa3NTeFhlWXg3LUlubnc1VkpKdkpyNXJJSVVyMEh0N0JLQ3NwY0s2WkpQX2pkRHhyMThCZ3NOZ2xUeU9HeXlwbnNadXVzVGd4ZW1IUlYwa1lFb1hCSTFYU0daUEFqcmFISlE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Trump says he would not pay $1,000 to watch US at World Cup - Al Jazeera",
+          "source": "Al Jazeera",
+          "source_url": "https://www.aljazeera.com/sports/2026/5/8/trump-says-he-would-not-pay-1000-to-watch-us-at-world-cup",
+          "publisher_homepage_url": "https://www.aljazeera.com",
+          "url": "https://www.aljazeera.com/sports/2026/5/8/trump-says-he-would-not-pay-1000-to-watch-us-at-world-cup",
+          "published_at": "Fri, 08 May 2026 11:15:00 GMT",
+          "summary": "Trump says he would not pay $1,000 to watch US at World Cup  Al Jazeera",
+          "ticker": "T",
+          "company_name": "AT&T Inc",
+          "query": "AT&T Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.aljazeera.com/sports/2026/5/8/trump-says-he-would-not-pay-1000-to-watch-us-at-world-cup"
+        }
+      }
+    },
+    {
+      "article_index": 2,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "FIFA ticket pricing news has no relevance to stock positions.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQZVE3UVRkLUpncnc4X3JCblVLa0FPSnllZW9nYVJ0R2lKZUxSZFd6cUVGdXQyRXc2eGNIcF9HRU1NWTZ3eDV2Z3pORXVqTE9wRDlKeUNxOFJiX3hUaUFnRGNoYTB2bEFaZ3hCMk8tZDBHSnpjWDJSR1FsZEJqZkZyQ2cxVEI0NWp6d1VFZmNvbnJZZ1hTa1VwSlcxb1VuQjlwWmo1OA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "7f8b5d73ca50d279072aed523a912bba66ac04de9b74ad859539921a2aa863e9",
+        "source_type": "company_news",
+        "source": "ESPN",
+        "source_url": "https://www.espn.com/soccer/story/_/id/48707727/fifa-triples-best-available-world-cup-final-ticket-33k",
+        "title": "FIFA triples best available World Cup final ticket to $33K - ESPN",
+        "summary": "FIFA triples best available World Cup final ticket to $33K ESPN",
+        "body": "FIFA triples best available World Cup final ticket to $33K ESPN",
+        "evidence_quality": "title_only",
+        "url": "https://www.espn.com/soccer/story/_/id/48707727/fifa-triples-best-available-world-cup-final-ticket-33k",
+        "published_at": "Fri, 08 May 2026 02:14:00 GMT",
+        "ticker_hints": [
+          "T"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQZVE3UVRkLUpncnc4X3JCblVLa0FPSnllZW9nYVJ0R2lKZUxSZFd6cUVGdXQyRXc2eGNIcF9HRU1NWTZ3eDV2Z3pORXVqTE9wRDlKeUNxOFJiX3hUaUFnRGNoYTB2bEFaZ3hCMk8tZDBHSnpjWDJSR1FsZEJqZkZyQ2cxVEI0NWp6d1VFZmNvbnJZZ1hTa1VwSlcxb1VuQjlwWmo1OA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "FIFA triples best available World Cup final ticket to $33K - ESPN",
+          "source": "ESPN",
+          "source_url": "https://www.espn.com/soccer/story/_/id/48707727/fifa-triples-best-available-world-cup-final-ticket-33k",
+          "publisher_homepage_url": "https://www.espn.com",
+          "url": "https://www.espn.com/soccer/story/_/id/48707727/fifa-triples-best-available-world-cup-final-ticket-33k",
+          "published_at": "Fri, 08 May 2026 02:14:00 GMT",
+          "summary": "FIFA triples best available World Cup final ticket to $33K  ESPN",
+          "ticker": "T",
+          "company_name": "AT&T Inc",
+          "query": "AT&T Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.espn.com/soccer/story/_/id/48707727/fifa-triples-best-available-world-cup-final-ticket-33k"
+        }
+      }
+    },
+    {
+      "article_index": 3,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Author obituary has no connection to portfolio holdings.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMickFVX3lxTE1oc3A3aVdlMVhrUnczb3AzVUR2cGhKSHIxTjAxcWtRTmhONXNZYmdxWHNhS3Bkdlh2NjdTVGh1SHRmNlhJYWxvRmVoSzR3V1R4dDNzRlpuRHF5TnE4bkdJV2o4c0lXbV9GVDdVWUlHR0lRUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "895a5bd61d7ff6c3ac925d6eead4e59b40a12e6f40665c9ee0aa60fb8fd3a4fa",
+        "source_type": "company_news",
+        "source": "nytimes.com",
+        "source_url": "https://www.nytimes.com/2026/05/08/books/philip-caputo-dead.html",
+        "title": "Philip Caputo, Who Wrote Blistering Vietnam War Memoir, Dies at 84 - nytimes.com",
+        "summary": "Philip Caputo, Who Wrote Blistering Vietnam War Memoir, Dies at 84 nytimes.com",
+        "body": "Philip Caputo, Who Wrote Blistering Vietnam War Memoir, Dies at 84 nytimes.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.nytimes.com/2026/05/08/books/philip-caputo-dead.html",
+        "published_at": "Fri, 08 May 2026 06:01:38 GMT",
+        "ticker_hints": [
+          "T"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMickFVX3lxTE1oc3A3aVdlMVhrUnczb3AzVUR2cGhKSHIxTjAxcWtRTmhONXNZYmdxWHNhS3Bkdlh2NjdTVGh1SHRmNlhJYWxvRmVoSzR3V1R4dDNzRlpuRHF5TnE4bkdJV2o4c0lXbV9GVDdVWUlHR0lRUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Philip Caputo, Who Wrote Blistering Vietnam War Memoir, Dies at 84 - nytimes.com",
+          "source": "nytimes.com",
+          "source_url": "https://www.nytimes.com/2026/05/08/books/philip-caputo-dead.html",
+          "publisher_homepage_url": "https://www.nytimes.com",
+          "url": "https://www.nytimes.com/2026/05/08/books/philip-caputo-dead.html",
+          "published_at": "Fri, 08 May 2026 06:01:38 GMT",
+          "summary": "Philip Caputo, Who Wrote Blistering Vietnam War Memoir, Dies at 84  nytimes.com",
+          "ticker": "T",
+          "company_name": "AT&T Inc",
+          "query": "AT&T Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.nytimes.com/2026/05/08/books/philip-caputo-dead.html"
+        }
+      }
+    },
+    {
+      "article_index": 4,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPWHRmZHNnTUxKM2VlNDFLS3RuRlZLY3d4Z0l2ZlhhSzRpSzBIaVdObnE0aUNGUWN1WVJMdXUxQmxzbkVFX1J4eHdkYnc5dmprTV80RmxHZ1RpcVhpVGdkY05xQVdFOE5fVUFfcVFURW1mU2NYYUJWTjgxdVE3dVFlLXk0N2RIOHMtNnE4a3VCb1ptU0V1RG5ydVIxRlNGZWlnajNuUHZac0daVjhXdnNDYTNJeEliUXRpTU02S0sxZ09lSTBzRk1NZW9KUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ceaf27b98dab1870d87ec5226c97c6d4c61c531c7d7b4649c624f8af88b03023",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/autodesk-inc-stock-underperforms-wednesday-when-compared-to-competitors-1279225b-9f8f544d0043",
+        "title": "Autodesk Inc. stock underperforms Wednesday when compared to competitors - MarketWatch",
+        "summary": "Autodesk Inc. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "body": "Autodesk Inc. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/autodesk-inc-stock-underperforms-wednesday-when-compared-to-competitors-1279225b-9f8f544d0043",
+        "published_at": "Wed, 06 May 2026 20:49:00 GMT",
+        "ticker_hints": [
+          "ADSK"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPWHRmZHNnTUxKM2VlNDFLS3RuRlZLY3d4Z0l2ZlhhSzRpSzBIaVdObnE0aUNGUWN1WVJMdXUxQmxzbkVFX1J4eHdkYnc5dmprTV80RmxHZ1RpcVhpVGdkY05xQVdFOE5fVUFfcVFURW1mU2NYYUJWTjgxdVE3dVFlLXk0N2RIOHMtNnE4a3VCb1ptU0V1RG5ydVIxRlNGZWlnajNuUHZac0daVjhXdnNDYTNJeEliUXRpTU02S0sxZ09lSTBzRk1NZW9KUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Autodesk Inc. stock underperforms Wednesday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/autodesk-inc-stock-underperforms-wednesday-when-compared-to-competitors-1279225b-9f8f544d0043",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/autodesk-inc-stock-underperforms-wednesday-when-compared-to-competitors-1279225b-9f8f544d0043",
+          "published_at": "Wed, 06 May 2026 20:49:00 GMT",
+          "summary": "Autodesk Inc. stock underperforms Wednesday when compared to competitors  MarketWatch",
+          "ticker": "ADSK",
+          "company_name": "Autodesk Inc",
+          "query": "Autodesk Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/autodesk-inc-stock-underperforms-wednesday-when-compared-to-competitors-1279225b-9f8f544d0043"
+        }
+      }
+    },
+    {
+      "article_index": 5,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "SEC filings are routine regulatory documents with no actionable information or news impact for the position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOWVNSMlVKZWs0Mkh6Q2NaZFlHc1B1d3dLMzVQVUx5NnJiLVpFWmxVSHNqRVByWXZfRk1ybTVkREJSQk11S1ZjcGlFYnB0dUxWMU04VHFpQk1ybU9KUGExWXpPSWwycnNPNXlzekxIQ1h6UVg1ZE5JN3JEcW0xTVN5ME5CWFhOQ0l2d0NFVHctU0cwNUk?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ffe0d6a2536091ac704bd2de12c3781e111acce087f656200f57800a75e7aae2",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/ADSK/ars-autodesk-inc-sec-filing-dbe5a2cabbd0.html",
+        "title": "[ARS] Autodesk, Inc. SEC Filing - Stock Titan",
+        "summary": "[ARS] Autodesk, Inc. SEC Filing Stock Titan",
+        "body": "[ARS] Autodesk, Inc. SEC Filing Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/ADSK/ars-autodesk-inc-sec-filing-dbe5a2cabbd0.html",
+        "published_at": "Wed, 06 May 2026 16:03:49 GMT",
+        "ticker_hints": [
+          "ADSK"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOWVNSMlVKZWs0Mkh6Q2NaZFlHc1B1d3dLMzVQVUx5NnJiLVpFWmxVSHNqRVByWXZfRk1ybTVkREJSQk11S1ZjcGlFYnB0dUxWMU04VHFpQk1ybU9KUGExWXpPSWwycnNPNXlzekxIQ1h6UVg1ZE5JN3JEcW0xTVN5ME5CWFhOQ0l2d0NFVHctU0cwNUk?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "[ARS] Autodesk, Inc. SEC Filing - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/ADSK/ars-autodesk-inc-sec-filing-dbe5a2cabbd0.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/ADSK/ars-autodesk-inc-sec-filing-dbe5a2cabbd0.html",
+          "published_at": "Wed, 06 May 2026 16:03:49 GMT",
+          "summary": "[ARS] Autodesk, Inc. SEC Filing  Stock Titan",
+          "ticker": "ADSK",
+          "company_name": "Autodesk Inc",
+          "query": "Autodesk Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/ADSK/ars-autodesk-inc-sec-filing-dbe5a2cabbd0.html"
+        }
+      }
+    },
+    {
+      "article_index": 6,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Promotional content about Boeing's virtual training programs with no financial or earnings implications.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPZHdZVHpXR2hvVEwyRXhkODBrNEhfWFFJOWduTDFFNmVYUUZOTGtJall1NTJ4aV8xS2FjODJJdXNod2dHUTZfcU02VVdfcG1ib01GX3lWWlFDTGg1Mngxb2xqajBDN2pBMnFwYjRuRUxRYndIVXhUN0ZyMGw2cEprR1BTZmxFMnZyRHk1Mi1yalpaa3pDY241OXpHUi1Kdkk3ZUtVcVJqdmFLeGtuTXM4?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "10399d91b28783408095c08ce7bb07ea9f65e48493aaf4584d169d1c4944e483",
+        "source_type": "company_news",
+        "source": "Boeing",
+        "source_url": "https://www.boeing.com/features/2026/05/boeing-instructor-pilot-why-virtual-practice-is-the-future-of-training",
+        "title": "Boeing instructor pilot: Why virtual practice is the future of training - Boeing",
+        "summary": "Boeing instructor pilot: Why virtual practice is the future of training Boeing",
+        "body": "Boeing instructor pilot: Why virtual practice is the future of training Boeing",
+        "evidence_quality": "title_only",
+        "url": "https://www.boeing.com/features/2026/05/boeing-instructor-pilot-why-virtual-practice-is-the-future-of-training",
+        "published_at": "Mon, 04 May 2026 21:18:39 GMT",
+        "ticker_hints": [
+          "BA"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPZHdZVHpXR2hvVEwyRXhkODBrNEhfWFFJOWduTDFFNmVYUUZOTGtJall1NTJ4aV8xS2FjODJJdXNod2dHUTZfcU02VVdfcG1ib01GX3lWWlFDTGg1Mngxb2xqajBDN2pBMnFwYjRuRUxRYndIVXhUN0ZyMGw2cEprR1BTZmxFMnZyRHk1Mi1yalpaa3pDY241OXpHUi1Kdkk3ZUtVcVJqdmFLeGtuTXM4?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Boeing instructor pilot: Why virtual practice is the future of training - Boeing",
+          "source": "Boeing",
+          "source_url": "https://www.boeing.com/features/2026/05/boeing-instructor-pilot-why-virtual-practice-is-the-future-of-training",
+          "publisher_homepage_url": "https://www.boeing.com",
+          "url": "https://www.boeing.com/features/2026/05/boeing-instructor-pilot-why-virtual-practice-is-the-future-of-training",
+          "published_at": "Mon, 04 May 2026 21:18:39 GMT",
+          "summary": "Boeing instructor pilot: Why virtual practice is the future of training  Boeing",
+          "ticker": "BA",
+          "company_name": "Boeing Co",
+          "query": "Boeing Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.boeing.com/features/2026/05/boeing-instructor-pilot-why-virtual-practice-is-the-future-of-training"
+        }
+      }
+    },
+    {
+      "article_index": 7,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Defense procurement technical milestone with no clear near-term financial impact on Boeing's earnings or growth trajectory.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNLXBsTTc0WHg4VXd5NjV2Z0xBY2p6VFEyOVo1Y2xXUUdsRnRtXzQxWnJNWDJwdGc5VUh3eVFtQ0VvWHd4Wm1xeG85V2NrZ3laaWZ6TmxYVm44X0ZrTUVVWFhBdzdiWG5nYWg1cHNndUszVDhiQnprbUxkUEhBNS0yX3g5N1F5LUpJd1VyU2pGRzAtSmpaNmI1VEV4NDVwS29LNXdacEZ2TWVwV29URGhwMjFFT3czcTNtY3RNUTc4Nng2eVdXNHc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "995e747b23d31373b4e0c23e3f4c8c611042cbf97da96eeb3d480a7a7e23cbf2",
+        "source_type": "company_news",
+        "source": "aflcmc.af.mil",
+        "source_url": "https://www.aflcmc.af.mil/NEWS/Article/4476320/b-52-engine-replacement-program-holds-critical-design-review-paves-way-for-b-52/",
+        "title": "B-52 Engine Replacement Program Holds Critical Design Review, Paves Way for B-52J Upgrade - aflcmc.af.mil",
+        "summary": "B-52 Engine Replacement Program Holds Critical Design Review, Paves Way for B-52J Upgrade aflcmc.af.mil",
+        "body": "B-52 Engine Replacement Program Holds Critical Design Review, Paves Way for B-52J Upgrade aflcmc.af.mil",
+        "evidence_quality": "title_only",
+        "url": "https://www.aflcmc.af.mil/NEWS/Article/4476320/b-52-engine-replacement-program-holds-critical-design-review-paves-way-for-b-52/",
+        "published_at": "Mon, 04 May 2026 12:25:25 GMT",
+        "ticker_hints": [
+          "BA"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNLXBsTTc0WHg4VXd5NjV2Z0xBY2p6VFEyOVo1Y2xXUUdsRnRtXzQxWnJNWDJwdGc5VUh3eVFtQ0VvWHd4Wm1xeG85V2NrZ3laaWZ6TmxYVm44X0ZrTUVVWFhBdzdiWG5nYWg1cHNndUszVDhiQnprbUxkUEhBNS0yX3g5N1F5LUpJd1VyU2pGRzAtSmpaNmI1VEV4NDVwS29LNXdacEZ2TWVwV29URGhwMjFFT3czcTNtY3RNUTc4Nng2eVdXNHc?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "B-52 Engine Replacement Program Holds Critical Design Review, Paves Way for B-52J Upgrade - aflcmc.af.mil",
+          "source": "aflcmc.af.mil",
+          "source_url": "https://www.aflcmc.af.mil/NEWS/Article/4476320/b-52-engine-replacement-program-holds-critical-design-review-paves-way-for-b-52/",
+          "publisher_homepage_url": "https://www.aflcmc.af.mil",
+          "url": "https://www.aflcmc.af.mil/NEWS/Article/4476320/b-52-engine-replacement-program-holds-critical-design-review-paves-way-for-b-52/",
+          "published_at": "Mon, 04 May 2026 12:25:25 GMT",
+          "summary": "B-52 Engine Replacement Program Holds Critical Design Review, Paves Way for B-52J Upgrade  aflcmc.af.mil",
+          "ticker": "BA",
+          "company_name": "Boeing Co",
+          "query": "Boeing Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.aflcmc.af.mil/NEWS/Article/4476320/b-52-engine-replacement-program-holds-critical-design-review-paves-way-for-b-52/"
+        }
+      }
+    },
+    {
+      "article_index": 8,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Program execution update showing technical progress but no quantifiable impact on Boeing's financial performance or position thesis.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOM2xWYjBDY0dwWF83QWhDdVlyckNlTDZGb3NfVWdrUlUtWHFOUmZEOVFJcEVJUFM5LWJqdDFvUU10ZnhGYVRzZFlDSFB1YkphOC1tWVBFenA1NFhFZE5NRDdyRlBCV3FtN2NNUHlxY2RJY0V2Y3ZWa2E5elBXZWprS2RjakYtQXV1cGduSUdFYUFmdG8?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "25211613b19ef8a18d15084d9fd2452c19701c1681e8e64a290267e34ff684e9",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/boeing-company-ba-u-navy-143641887.html",
+        "title": "The Boeing Company (BA), U.S. Navy Complete First Test Flight of MQ-25A Stingray - Yahoo Finance",
+        "summary": "The Boeing Company (BA), U.S. Navy Complete First Test Flight of MQ-25A Stingray Yahoo Finance",
+        "body": "The Boeing Company (BA), U.S. Navy Complete First Test Flight of MQ-25A Stingray Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/boeing-company-ba-u-navy-143641887.html",
+        "published_at": "Wed, 06 May 2026 14:36:41 GMT",
+        "ticker_hints": [
+          "BA"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMikwFBVV95cUxOM2xWYjBDY0dwWF83QWhDdVlyckNlTDZGb3NfVWdrUlUtWHFOUmZEOVFJcEVJUFM5LWJqdDFvUU10ZnhGYVRzZFlDSFB1YkphOC1tWVBFenA1NFhFZE5NRDdyRlBCV3FtN2NNUHlxY2RJY0V2Y3ZWa2E5elBXZWprS2RjakYtQXV1cGduSUdFYUFmdG8?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "The Boeing Company (BA), U.S. Navy Complete First Test Flight of MQ-25A Stingray - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/boeing-company-ba-u-navy-143641887.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/boeing-company-ba-u-navy-143641887.html",
+          "published_at": "Wed, 06 May 2026 14:36:41 GMT",
+          "summary": "The Boeing Company (BA), U.S. Navy Complete First Test Flight of MQ-25A Stingray  Yahoo Finance",
+          "ticker": "BA",
+          "company_name": "Boeing Co",
+          "query": "Boeing Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/boeing-company-ba-u-navy-143641887.html"
+        }
+      }
+    },
+    {
+      "article_index": 9,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Geopolitical travel announcement without specific commercial impact details; China trade relations are macro-level factors beyond individual position focus.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBPU2ozY05jTzZlbjZSSTJlS08xYVpnRjdyeXlKM1hnemxLVnZNY01mUkJVVHhodjl4OVJFUWFhTlNWR1FUVkF3aEstSFMtV3JlcnpRZlJUb19YQXdEaXFMcnFnNVlLWktUalhtQXlER1hPeUdwWVg3TWl0eTlQUdIBfkFVX3lxTFBPU2ozY05jTzZlbjZSSTJlS08xYVpnRjdyeXlKM1hnemxLVnZNY01mUkJVVHhodjl4OVJFUWFhTlNWR1FUVkF3aEstSFMtV3JlcnpRZlJUb19YQXdEaXFMcnFnNVlLWktUalhtQXlER1hPeUdwWVg3TWl0eTlQUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "22a2b915e1c1020171c0a2881e6cf204b2058fc0a0e36ae23a7573c84c1ea2b6",
+        "source_type": "company_news",
+        "source": "CNBC",
+        "source_url": "https://www.cnbc.com/amp/2026/05/07/trump-china-boeing-kelly-ortberg.html",
+        "title": "Boeing CEO Kelly Ortberg set to join Trump on China visit next week - CNBC",
+        "summary": "Boeing CEO Kelly Ortberg set to join Trump on China visit next week CNBC",
+        "body": "Boeing CEO Kelly Ortberg set to join Trump on China visit next week CNBC",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/amp/2026/05/07/trump-china-boeing-kelly-ortberg.html",
+        "published_at": "Thu, 07 May 2026 15:07:50 GMT",
+        "ticker_hints": [
+          "BA"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMifkFVX3lxTFBPU2ozY05jTzZlbjZSSTJlS08xYVpnRjdyeXlKM1hnemxLVnZNY01mUkJVVHhodjl4OVJFUWFhTlNWR1FUVkF3aEstSFMtV3JlcnpRZlJUb19YQXdEaXFMcnFnNVlLWktUalhtQXlER1hPeUdwWVg3TWl0eTlQUdIBfkFVX3lxTFBPU2ozY05jTzZlbjZSSTJlS08xYVpnRjdyeXlKM1hnemxLVnZNY01mUkJVVHhodjl4OVJFUWFhTlNWR1FUVkF3aEstSFMtV3JlcnpRZlJUb19YQXdEaXFMcnFnNVlLWktUalhtQXlER1hPeUdwWVg3TWl0eTlQUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Boeing CEO Kelly Ortberg set to join Trump on China visit next week - CNBC",
+          "source": "CNBC",
+          "source_url": "https://www.cnbc.com/amp/2026/05/07/trump-china-boeing-kelly-ortberg.html",
+          "publisher_homepage_url": "https://www.cnbc.com",
+          "url": "https://www.cnbc.com/amp/2026/05/07/trump-china-boeing-kelly-ortberg.html",
+          "published_at": "Thu, 07 May 2026 15:07:50 GMT",
+          "summary": "Boeing CEO Kelly Ortberg set to join Trump on China visit next week  CNBC",
+          "ticker": "BA",
+          "company_name": "Boeing Co",
+          "query": "Boeing Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.cnbc.com/amp/2026/05/07/trump-china-boeing-kelly-ortberg.html"
+        }
+      }
+    },
+    {
+      "article_index": 10,
+      "relevant": true,
+      "affected_tickers": [
+        "CVX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Chevron beats earnings estimates due to upstream strength, confirming the growth archetype thesis for the position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQMjFhbXhuZlRqOFVTTTZLMk02ZHFabHdpV3ZVX3lkeEZ1VjRnOWJqVllVYmkwWWJmbUFJUjJtTU1KR2hBd1o0Mmt5SkpqS1RISTRyVDVZNUpfbEpyMmNISDVobEdiVVBFakdud2xPenVlQVlsVi1PZGtXNTNRQ3NaV1hCSDRWZDNNY21lTlJ4N1dPM3NmLUh1UUxsOXpoZ1NwZTNWNGRicGdPemhKQ0dhTnIza1prQnd0MGdKX3hR?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "f1d6eb93518bca60460057c59fcb1f381fa6b1fdc955caf88700211633969738",
+        "source_type": "company_news",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+        "title": "Chevron's upstream strength lifts first-quarter earnings past estimate - Reuters",
+        "summary": "Chevron's upstream strength lifts first-quarter earnings past estimate Reuters",
+        "body": "Chevron's upstream strength lifts first-quarter earnings past estimate Reuters",
+        "evidence_quality": "title_only",
+        "url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+        "published_at": "Fri, 01 May 2026 16:50:13 GMT",
+        "ticker_hints": [
+          "CVX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQMjFhbXhuZlRqOFVTTTZLMk02ZHFabHdpV3ZVX3lkeEZ1VjRnOWJqVllVYmkwWWJmbUFJUjJtTU1KR2hBd1o0Mmt5SkpqS1RISTRyVDVZNUpfbEpyMmNISDVobEdiVVBFakdud2xPenVlQVlsVi1PZGtXNTNRQ3NaV1hCSDRWZDNNY21lTlJ4N1dPM3NmLUh1UUxsOXpoZ1NwZTNWNGRicGdPemhKQ0dhTnIza1prQnd0MGdKX3hR?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Chevron's upstream strength lifts first-quarter earnings past estimate - Reuters",
+          "source": "Reuters",
+          "source_url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+          "publisher_homepage_url": "https://www.reuters.com",
+          "url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+          "published_at": "Fri, 01 May 2026 16:50:13 GMT",
+          "summary": "Chevron's upstream strength lifts first-quarter earnings past estimate  Reuters",
+          "ticker": "CVX",
+          "company_name": "Chevron Corp",
+          "query": "Chevron Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/"
+        }
+      }
+    },
+    {
+      "article_index": 11,
+      "relevant": true,
+      "affected_tickers": [
+        "CVX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Strong earnings performance driven by elevated oil prices validates the growth narrative for the CVX position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPY24wWjJ1X1Z6VzZVM1ZhV0RtZW5SMTh1NWpzUE9LVWUwVzhPcVdyVzlLTHhLVFVRd25PTG1pYmNrem1rel93M0RZTTlnOG0xb3ZzVjR2WHV4djJNODB4c0ZuMGp6eEV2NlJJVG5Mc1hSUjhNbTM0T0x1UjBpTFVuR0hVT20wM2FEekhrZ011d09DTzg0Ukp2cWZBMkF5VmFlZGVmS3RZdlVkeWIzOGFVV0pscw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "7fe203d7fe5f7887b5727a44d41b7f995231f6182f46211a9bd3b5bbcb458bda",
+        "source_type": "company_news",
+        "source": "Bloomberg.com",
+        "source_url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+        "title": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices - Bloomberg.com",
+        "summary": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices Bloomberg.com",
+        "body": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices Bloomberg.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+        "published_at": "Fri, 01 May 2026 17:16:35 GMT",
+        "ticker_hints": [
+          "CVX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPY24wWjJ1X1Z6VzZVM1ZhV0RtZW5SMTh1NWpzUE9LVWUwVzhPcVdyVzlLTHhLVFVRd25PTG1pYmNrem1rel93M0RZTTlnOG0xb3ZzVjR2WHV4djJNODB4c0ZuMGp6eEV2NlJJVG5Mc1hSUjhNbTM0T0x1UjBpTFVuR0hVT20wM2FEekhrZ011d09DTzg0Ukp2cWZBMkF5VmFlZGVmS3RZdlVkeWIzOGFVV0pscw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices - Bloomberg.com",
+          "source": "Bloomberg.com",
+          "source_url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+          "publisher_homepage_url": "https://www.bloomberg.com",
+          "url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+          "published_at": "Fri, 01 May 2026 17:16:35 GMT",
+          "summary": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices  Bloomberg.com",
+          "ticker": "CVX",
+          "company_name": "Chevron Corp",
+          "query": "Chevron Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices"
+        }
+      }
+    },
+    {
+      "article_index": 12,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE8tcDhhdGFpN0Y5aGxqWVBjWmdPcVpjNWJZSS00TmJSUGZXUHNMLW9zajE2bjdJNFFaTVNldlY3X0dhMFVmaUVPY2F5RUJOT3BzWXBranNKX1RtRzU1bUE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "5d88112a3cb5d3960221c7f384fcfd6c52f8f66ec5aca76dbfe5fa77b50c5efe",
+        "source_type": "company_news",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/stock/quote/CVX/profile",
+        "title": "CVX Stock Price, Quote & Chart | CHEVRON CORP (NYSE:CVX) - ChartMill",
+        "summary": "CVX Stock Price, Quote & Chart | CHEVRON CORP (NYSE:CVX) ChartMill",
+        "body": "CVX Stock Price, Quote & Chart | CHEVRON CORP (NYSE:CVX) ChartMill",
+        "evidence_quality": "title_only",
+        "url": "https://www.chartmill.com/stock/quote/CVX/profile",
+        "published_at": "Tue, 05 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "CVX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE8tcDhhdGFpN0Y5aGxqWVBjWmdPcVpjNWJZSS00TmJSUGZXUHNMLW9zajE2bjdJNFFaTVNldlY3X0dhMFVmaUVPY2F5RUJOT3BzWXBranNKX1RtRzU1bUE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CVX Stock Price, Quote & Chart | CHEVRON CORP (NYSE:CVX) - ChartMill",
+          "source": "ChartMill",
+          "source_url": "https://www.chartmill.com/stock/quote/CVX/profile",
+          "publisher_homepage_url": "https://www.chartmill.com",
+          "url": "https://www.chartmill.com/stock/quote/CVX/profile",
+          "published_at": "Tue, 05 May 2026 07:00:00 GMT",
+          "summary": "CVX Stock Price, Quote & Chart | CHEVRON CORP (NYSE:CVX)  ChartMill",
+          "ticker": "CVX",
+          "company_name": "Chevron Corp",
+          "query": "Chevron Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.chartmill.com/stock/quote/CVX/profile"
+        }
+      }
+    },
+    {
+      "article_index": 13,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Britannica company overview page provides no actionable portfolio information and falls under low-information pages.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFAtV3huek5XemZZeDZXTUw0ODZHOEwtbHpMejVrTmNYRFBlT2lUc1FhaDJNcUFJM1U2c2ZxZWpNZUlfSTZqc1I5U183MnMzeGtPaXZpc3NVcG9hUThjdXBDb3N3?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "91d9739483aa281af3083c86a4fa349893a2eda198881e0d3dda36cf2924a633",
+        "source_type": "company_news",
+        "source": "Britannica",
+        "source_url": "https://www.britannica.com/money/Chevron-Corporation",
+        "title": "Chevron Corporation | Oil, Gas, & Energy Operations | Britannica Money - Britannica",
+        "summary": "Chevron Corporation | Oil, Gas, & Energy Operations | Britannica Money Britannica",
+        "body": "Chevron Corporation | Oil, Gas, & Energy Operations | Britannica Money Britannica",
+        "evidence_quality": "title_only",
+        "url": "https://www.britannica.com/money/Chevron-Corporation",
+        "published_at": "Fri, 01 May 2026 21:01:00 GMT",
+        "ticker_hints": [
+          "CVX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFAtV3huek5XemZZeDZXTUw0ODZHOEwtbHpMejVrTmNYRFBlT2lUc1FhaDJNcUFJM1U2c2ZxZWpNZUlfSTZqc1I5U183MnMzeGtPaXZpc3NVcG9hUThjdXBDb3N3?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Chevron Corporation | Oil, Gas, & Energy Operations | Britannica Money - Britannica",
+          "source": "Britannica",
+          "source_url": "https://www.britannica.com/money/Chevron-Corporation",
+          "publisher_homepage_url": "https://www.britannica.com",
+          "url": "https://www.britannica.com/money/Chevron-Corporation",
+          "published_at": "Fri, 01 May 2026 21:01:00 GMT",
+          "summary": "Chevron Corporation | Oil, Gas, & Energy Operations | Britannica Money  Britannica",
+          "ticker": "CVX",
+          "company_name": "Chevron Corp",
+          "query": "Chevron Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.britannica.com/money/Chevron-Corporation"
+        }
+      }
+    },
+    {
+      "article_index": 14,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxNU1RhdjI3QmlkTGF0cGhDWUhpb2U1N3VGWmR4NUhJSzhQcjNtNGJJVFdVajQtcXN6eFFZOEdyY0djNzZYNzUwcm5yTThqVUJ0bzVVanRBLUx1UERrOTc0WDFWX21hdEhYYUp4bEx0amVhTktkSkxKMGNsTFZ0cXZDWHRJcW5rZ1FKeVdFWUVvWkkxbHlPd3RBbTl3VzJ4N3ZVSzAzallXbENBdlMweDg1ckN1cUtDQk9JM1RyR01KWW04QW5qM0czc3A4UWJiVUp0RHlvZGp5b0FLb2dMSVgzSFFjQ1piVWpfamp2UHZMSVNhQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "5b6bdf9618fe6ebb59a3fdbd6bcbfa6ed9940c5c92ce05923628289dff559bae",
+        "source_type": "company_news",
+        "source": "MSN",
+        "source_url": "https://www.msn.com/en-us/money/topstocks/builders-firstsource-inc-stock-underperforms-friday-when-compared-to-competitors/ar-AA22bxBI?ocid=finance-verthp-feeds",
+        "title": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors - MSN",
+        "summary": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors MSN",
+        "body": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors MSN",
+        "evidence_quality": "title_only",
+        "url": "https://www.msn.com/en-us/money/topstocks/builders-firstsource-inc-stock-underperforms-friday-when-compared-to-competitors/ar-AA22bxBI?ocid=finance-verthp-feeds",
+        "published_at": "Fri, 01 May 2026 20:40:58 GMT",
+        "ticker_hints": [
+          "BLDR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxNU1RhdjI3QmlkTGF0cGhDWUhpb2U1N3VGWmR4NUhJSzhQcjNtNGJJVFdVajQtcXN6eFFZOEdyY0djNzZYNzUwcm5yTThqVUJ0bzVVanRBLUx1UERrOTc0WDFWX21hdEhYYUp4bEx0amVhTktkSkxKMGNsTFZ0cXZDWHRJcW5rZ1FKeVdFWUVvWkkxbHlPd3RBbTl3VzJ4N3ZVSzAzallXbENBdlMweDg1ckN1cUtDQk9JM1RyR01KWW04QW5qM0czc3A4UWJiVUp0RHlvZGp5b0FLb2dMSVgzSFFjQ1piVWpfamp2UHZMSVNhQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors - MSN",
+          "source": "MSN",
+          "source_url": "https://www.msn.com/en-us/money/topstocks/builders-firstsource-inc-stock-underperforms-friday-when-compared-to-competitors/ar-AA22bxBI?ocid=finance-verthp-feeds",
+          "publisher_homepage_url": "https://www.msn.com",
+          "url": "https://www.msn.com/en-us/money/topstocks/builders-firstsource-inc-stock-underperforms-friday-when-compared-to-competitors/ar-AA22bxBI?ocid=finance-verthp-feeds",
+          "published_at": "Fri, 01 May 2026 20:40:58 GMT",
+          "summary": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors  MSN",
+          "ticker": "BLDR",
+          "company_name": "Builders FirstSource Inc",
+          "query": "Builders FirstSource Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.msn.com/en-us/money/topstocks/builders-firstsource-inc-stock-underperforms-friday-when-compared-to-competitors/ar-AA22bxBI?ocid=finance-verthp-feeds"
+        }
+      }
+    },
+    {
+      "article_index": 15,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPVG8xNFU1RlRUX3JPS2lHRVUzZFZycXQxM0ZuT3lGbElBckNTemI0ZWlkYzdMXzZqSXFJSVlCNjlfellSbHR5dGw1S0dYd2hEY2JIaVVLYUNFN1ozdjZxQmJsTXdVYlpkc0c3MkNvblJBVXVKTW1BMUdhVUMyQ0RVbXc3bzR5aVRrSmpDRmk1dkJwX21yZkJFYTVuUFdQaTgxOHFMOVFvOWI3V25XbzAtYUszLTk4SDlSOEIzclJxc1JjVHFVQ3oxWXNkMDdNTjJDTE9kR3N1MA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "86dccc8ab992daaf3bb06a684a57f33e1b4239551a19d1b12c910ee8777c55e3",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/builders-firstsource-inc-stock-underperforms-friday-when-compared-to-competitors-5c8b8a94-415ee2f0fab1",
+        "title": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors - MarketWatch",
+        "summary": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors MarketWatch",
+        "body": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/builders-firstsource-inc-stock-underperforms-friday-when-compared-to-competitors-5c8b8a94-415ee2f0fab1",
+        "published_at": "Fri, 01 May 2026 20:30:00 GMT",
+        "ticker_hints": [
+          "BLDR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPVG8xNFU1RlRUX3JPS2lHRVUzZFZycXQxM0ZuT3lGbElBckNTemI0ZWlkYzdMXzZqSXFJSVlCNjlfellSbHR5dGw1S0dYd2hEY2JIaVVLYUNFN1ozdjZxQmJsTXdVYlpkc0c3MkNvblJBVXVKTW1BMUdhVUMyQ0RVbXc3bzR5aVRrSmpDRmk1dkJwX21yZkJFYTVuUFdQaTgxOHFMOVFvOWI3V25XbzAtYUszLTk4SDlSOEIzclJxc1JjVHFVQ3oxWXNkMDdNTjJDTE9kR3N1MA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/builders-firstsource-inc-stock-underperforms-friday-when-compared-to-competitors-5c8b8a94-415ee2f0fab1",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/builders-firstsource-inc-stock-underperforms-friday-when-compared-to-competitors-5c8b8a94-415ee2f0fab1",
+          "published_at": "Fri, 01 May 2026 20:30:00 GMT",
+          "summary": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors  MarketWatch",
+          "ticker": "BLDR",
+          "company_name": "Builders FirstSource Inc",
+          "query": "Builders FirstSource Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/builders-firstsource-inc-stock-underperforms-friday-when-compared-to-competitors-5c8b8a94-415ee2f0fab1"
+        }
+      }
+    },
+    {
+      "article_index": 16,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information trending stock overview with no material news or specific catalysts for BLDR.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPeENRUjlTYTkwZ1kzYnhaaFRGc0FJU0RGeGRzd0RWdzMyX2NPaW5IZ1BGdHRwY3VjaUtQMFZzQThtQnJndWlnbXk0c0pSeW5qQWl2WFBXbzZXSWIyNExCM2duWDE1VEp1SmJHOEt4MEZLWE9vWmdmRWotWFRaUDRsajZfLVlHVE5ldXg3RDRjUGxIVDdSeWMtZFFQcFd5S1RWRXF2cEFR?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ab74773468b009c2dda5430b146bda85b17a88be8cd0d30f98ac003fc0a6c076",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/builders-firstsource-inc-bldr-trending-130003810.html",
+        "title": "Builders FirstSource, Inc. (BLDR) Is a Trending Stock: Facts to Know Before Betting on It - Yahoo Finance",
+        "summary": "Builders FirstSource, Inc. (BLDR) Is a Trending Stock: Facts to Know Before Betting on It Yahoo Finance",
+        "body": "Builders FirstSource, Inc. (BLDR) Is a Trending Stock: Facts to Know Before Betting on It Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/builders-firstsource-inc-bldr-trending-130003810.html",
+        "published_at": "Tue, 05 May 2026 13:00:03 GMT",
+        "ticker_hints": [
+          "BLDR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPeENRUjlTYTkwZ1kzYnhaaFRGc0FJU0RGeGRzd0RWdzMyX2NPaW5IZ1BGdHRwY3VjaUtQMFZzQThtQnJndWlnbXk0c0pSeW5qQWl2WFBXbzZXSWIyNExCM2duWDE1VEp1SmJHOEt4MEZLWE9vWmdmRWotWFRaUDRsajZfLVlHVE5ldXg3RDRjUGxIVDdSeWMtZFFQcFd5S1RWRXF2cEFR?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Builders FirstSource, Inc. (BLDR) Is a Trending Stock: Facts to Know Before Betting on It - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/builders-firstsource-inc-bldr-trending-130003810.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/builders-firstsource-inc-bldr-trending-130003810.html",
+          "published_at": "Tue, 05 May 2026 13:00:03 GMT",
+          "summary": "Builders FirstSource, Inc. (BLDR) Is a Trending Stock: Facts to Know Before Betting on It  Yahoo Finance",
+          "ticker": "BLDR",
+          "company_name": "Builders FirstSource Inc",
+          "query": "Builders FirstSource Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/builders-firstsource-inc-bldr-trending-130003810.html"
+        }
+      }
+    },
+    {
+      "article_index": 17,
+      "relevant": true,
+      "affected_tickers": [
+        "BSX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "FDA recall of Boston Scientific heart devices is material regulatory news that could impact product revenue and create liability risk.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQbGk3ZmYtMVhJb1N0QmRSeV9CY0QxRndTU2dEUWRkZEFIUENFYW83TTNPbkJQYVNWS3J1NzhMM0IyRWc2NkFtUXZsVEs0MHZtOWJ4OW9hNlByOFc0aG9EQ3U5NUpVSHJBWmpldE0yLVpwbWYxWW1jclZBWFR6THFsMTNqV1hxOE9BaFowOUluM214V0lwNGp2Um1zZ192TUw2VVpaVC04aFE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "cd71b75f19fe468596e6161abaf24fb6085a6f54e0cf834e17593544f408e93b",
+        "source_type": "company_news",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/",
+        "title": "US FDA issues recall of Boston Scientific heart devices - Reuters",
+        "summary": "US FDA issues recall of Boston Scientific heart devices Reuters",
+        "body": "US FDA issues recall of Boston Scientific heart devices Reuters",
+        "evidence_quality": "title_only",
+        "url": "https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/",
+        "published_at": "Thu, 07 May 2026 21:05:45 GMT",
+        "ticker_hints": [
+          "BSX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQbGk3ZmYtMVhJb1N0QmRSeV9CY0QxRndTU2dEUWRkZEFIUENFYW83TTNPbkJQYVNWS3J1NzhMM0IyRWc2NkFtUXZsVEs0MHZtOWJ4OW9hNlByOFc0aG9EQ3U5NUpVSHJBWmpldE0yLVpwbWYxWW1jclZBWFR6THFsMTNqV1hxOE9BaFowOUluM214V0lwNGp2Um1zZ192TUw2VVpaVC04aFE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "US FDA issues recall of Boston Scientific heart devices - Reuters",
+          "source": "Reuters",
+          "source_url": "https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/",
+          "publisher_homepage_url": "https://www.reuters.com",
+          "url": "https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/",
+          "published_at": "Thu, 07 May 2026 21:05:45 GMT",
+          "summary": "US FDA issues recall of Boston Scientific heart devices  Reuters",
+          "ticker": "BSX",
+          "company_name": "Boston Scientific Corp",
+          "query": "Boston Scientific Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/"
+        }
+      }
+    },
+    {
+      "article_index": 18,
+      "relevant": true,
+      "affected_tickers": [
+        "BSX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Shareholder approval of BSX-Penumbra merger is a significant corporate development that could expand BSX's portfolio and revenue.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOdm5OdEVOai03RHBNbUVLTURDY1dsLTI1YjRpVzFVb1YtTmVqZXFCQXFNR09xOHBVa1dLWE95UzgwT3luY01DNVc4NnRmMjFyc21zSXlTaURIY212WFJ2dnQycFRFN21ia0pLZWVWR3VaVXh4b25IMWtrNmNzVzR0d3hUMnlleVI0Z09JekEtakliT194S1p2SmM5MFNfb3V1VlJNNWtCT2toX0R1TUlYNnlObjlrdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "6ee355388e62c682d94c039341f487291d408c799c10643fde2d651761da9cba",
+        "source_type": "company_news",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080",
+        "title": "Penumbra shareholders approve merger with Boston Scientific - Investing.com",
+        "summary": "Penumbra shareholders approve merger with Boston Scientific Investing.com",
+        "body": "Penumbra shareholders approve merger with Boston Scientific Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080",
+        "published_at": "Thu, 07 May 2026 13:19:39 GMT",
+        "ticker_hints": [
+          "BSX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOdm5OdEVOai03RHBNbUVLTURDY1dsLTI1YjRpVzFVb1YtTmVqZXFCQXFNR09xOHBVa1dLWE95UzgwT3luY01DNVc4NnRmMjFyc21zSXlTaURIY212WFJ2dnQycFRFN21ia0pLZWVWR3VaVXh4b25IMWtrNmNzVzR0d3hUMnlleVI0Z09JekEtakliT194S1p2SmM5MFNfb3V1VlJNNWtCT2toX0R1TUlYNnlObjlrdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Penumbra shareholders approve merger with Boston Scientific - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080",
+          "published_at": "Thu, 07 May 2026 13:19:39 GMT",
+          "summary": "Penumbra shareholders approve merger with Boston Scientific  Investing.com",
+          "ticker": "BSX",
+          "company_name": "Boston Scientific Corp",
+          "query": "Boston Scientific Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080"
+        }
+      }
+    },
+    {
+      "article_index": 19,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Technical analysis/chart pattern page with no fundamental news or specific catalysts for BSX.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1PZFoxSENNWmd0ejljWmNORkgyeGp1WDdfY2w0Sk9FT29ZLTh0TUdhczFmYU5JeE9MODhjRnNTaW5pMkk3a2owVEh2VEpXMWVxaTZNQjZtSGZxYllYLV9hWmtDZFlKSlA2NWw0aw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "a2b6edf45c2f7783549146382368442803f0ce8510f6e4d41e61a85d91bb0c0f",
+        "source_type": "company_news",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/stock/quote/BSX/technical-analysis",
+        "title": "BSX Technical Analysis | Trend, Signals & Chart Patterns | BOSTON SCIENTIFIC CORP (NYSE:BSX) - ChartMill",
+        "summary": "BSX Technical Analysis | Trend, Signals & Chart Patterns | BOSTON SCIENTIFIC CORP (NYSE:BSX) ChartMill",
+        "body": "BSX Technical Analysis | Trend, Signals & Chart Patterns | BOSTON SCIENTIFIC CORP (NYSE:BSX) ChartMill",
+        "evidence_quality": "title_only",
+        "url": "https://www.chartmill.com/stock/quote/BSX/technical-analysis",
+        "published_at": "Wed, 06 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "BSX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1PZFoxSENNWmd0ejljWmNORkgyeGp1WDdfY2w0Sk9FT29ZLTh0TUdhczFmYU5JeE9MODhjRnNTaW5pMkk3a2owVEh2VEpXMWVxaTZNQjZtSGZxYllYLV9hWmtDZFlKSlA2NWw0aw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "BSX Technical Analysis | Trend, Signals & Chart Patterns | BOSTON SCIENTIFIC CORP (NYSE:BSX) - ChartMill",
+          "source": "ChartMill",
+          "source_url": "https://www.chartmill.com/stock/quote/BSX/technical-analysis",
+          "publisher_homepage_url": "https://www.chartmill.com",
+          "url": "https://www.chartmill.com/stock/quote/BSX/technical-analysis",
+          "published_at": "Wed, 06 May 2026 07:00:00 GMT",
+          "summary": "BSX Technical Analysis | Trend, Signals & Chart Patterns | BOSTON SCIENTIFIC CORP (NYSE:BSX)  ChartMill",
+          "ticker": "BSX",
+          "company_name": "Boston Scientific Corp",
+          "query": "Boston Scientific Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.chartmill.com/stock/quote/BSX/technical-analysis"
+        }
+      }
+    },
+    {
+      "article_index": 20,
+      "relevant": true,
+      "affected_tickers": [
+        "CPT"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Earnings call highlights provide insight into CPT's operational performance and strategic outlook relevant to the growth archetype.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQQnQ1emJ6ODZaV2pkQTlhaGM1QzFjZ2J5VTRXVGR0SVBMQlRSSTJiZ3I2M05LZ0F4MlFFZUc2QzQ5My14NUF2WkNodWYxS1dsQnJKNXhCenZMVlQxck1GNjQ2YVVReFlUV0txWHVWRXdBc3BYbXRkOWdNLUl3QklFZlpYQVo5QXlpZVk0ZnR1dnJBTXIzSmNRU3k4Z0owT3owaEZhTmFn?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "47cfbe46c202b32e0329f68e2d9d7fca6c2d8c3f7df3ee94efe824c722698885",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/",
+        "title": "Camden Property Trust Q1 Earnings Call Highlights - MarketBeat",
+        "summary": "Camden Property Trust Q1 Earnings Call Highlights MarketBeat",
+        "body": "Camden Property Trust Q1 Earnings Call Highlights MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/",
+        "published_at": "Fri, 01 May 2026 18:59:24 GMT",
+        "ticker_hints": [
+          "CPT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQQnQ1emJ6ODZaV2pkQTlhaGM1QzFjZ2J5VTRXVGR0SVBMQlRSSTJiZ3I2M05LZ0F4MlFFZUc2QzQ5My14NUF2WkNodWYxS1dsQnJKNXhCenZMVlQxck1GNjQ2YVVReFlUV0txWHVWRXdBc3BYbXRkOWdNLUl3QklFZlpYQVo5QXlpZVk0ZnR1dnJBTXIzSmNRU3k4Z0owT3owaEZhTmFn?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Camden Property Trust Q1 Earnings Call Highlights - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/",
+          "published_at": "Fri, 01 May 2026 18:59:24 GMT",
+          "summary": "Camden Property Trust Q1 Earnings Call Highlights  MarketBeat",
+          "ticker": "CPT",
+          "company_name": "Camden Property Trust",
+          "query": "Camden Property Trust",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/"
+        }
+      }
+    },
+    {
+      "article_index": 21,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQXzdtTEg4bDRldlUxeFNQY2w1Qm9iRGF2VElnLWhhTExGcGE2QzBLOWVTaWQ5YUVyUVJLV1g2UUpiQjBEeVRldVJzV2dJNUtmRExkSjdsczZJWTZmbEVXdlJkRW15dDd1OHBWTnFYUS1sM0F2Q0stTEpjZlBidEJoYXZIQTFPODFLNF9yYXQ2Yk9RX2tnLUZVaW1WNHlhaDJzYU4tSmRFUmVUcWlocTFjQWNnUHZQSVhpdF9BTVdHWWtmNUFsN0FkT3F0Q0dFblV1QUdBSjBKOFl2dw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "c5eee922c495c6dc0db54b0bf1eb3f631d62075da3c4b1c3965a6c20fd350c50",
+        "source_type": "company_news",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com/news/analyst-ratings/rbc-capital-raises-camden-property-trust-stock-price-target-on-repurchase-activity-93CH-4655183",
+        "title": "RBC Capital raises Camden Property Trust stock price target on repurchase activity - Investing.com",
+        "summary": "RBC Capital raises Camden Property Trust stock price target on repurchase activity Investing.com",
+        "body": "RBC Capital raises Camden Property Trust stock price target on repurchase activity Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.investing.com/news/analyst-ratings/rbc-capital-raises-camden-property-trust-stock-price-target-on-repurchase-activity-93CH-4655183",
+        "published_at": "Mon, 04 May 2026 09:53:42 GMT",
+        "ticker_hints": [
+          "CPT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxQXzdtTEg4bDRldlUxeFNQY2w1Qm9iRGF2VElnLWhhTExGcGE2QzBLOWVTaWQ5YUVyUVJLV1g2UUpiQjBEeVRldVJzV2dJNUtmRExkSjdsczZJWTZmbEVXdlJkRW15dDd1OHBWTnFYUS1sM0F2Q0stTEpjZlBidEJoYXZIQTFPODFLNF9yYXQ2Yk9RX2tnLUZVaW1WNHlhaDJzYU4tSmRFUmVUcWlocTFjQWNnUHZQSVhpdF9BTVdHWWtmNUFsN0FkT3F0Q0dFblV1QUdBSjBKOFl2dw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "RBC Capital raises Camden Property Trust stock price target on repurchase activity - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com/news/analyst-ratings/rbc-capital-raises-camden-property-trust-stock-price-target-on-repurchase-activity-93CH-4655183",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://www.investing.com/news/analyst-ratings/rbc-capital-raises-camden-property-trust-stock-price-target-on-repurchase-activity-93CH-4655183",
+          "published_at": "Mon, 04 May 2026 09:53:42 GMT",
+          "summary": "RBC Capital raises Camden Property Trust stock price target on repurchase activity  Investing.com",
+          "ticker": "CPT",
+          "company_name": "Camden Property Trust",
+          "query": "Camden Property Trust",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.investing.com/news/analyst-ratings/rbc-capital-raises-camden-property-trust-stock-price-target-on-repurchase-activity-93CH-4655183"
+        }
+      }
+    },
+    {
+      "article_index": 22,
+      "relevant": true,
+      "affected_tickers": [
+        "CPT"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "The 10-Q filing contains detailed financial data and disclosures that inform the growth assessment of CPT.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPY0VRcWxyUEd5Z2hSLXROeHVSQkROblJ4OS1mV1otMDRHVmhzQ29aVXpXbVliWmZEczVrVzB6dGY2Vmd6QW9QdW1xOFlnc1FCNXlCZHNHbXFnaG5tYjhoWXpEWmdXVGVHeTF0WW03OHFBaXF5aWJvbTZSbS01OWpMM2lwVHM5Q1g0M3VFZkJrdXNjVVNzallMSkt6Z1VPaWwwdThwbWdsVkJnNXpEb2J6eEgtVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "f554ab3739791fb5326294881e9922fc26ae9bc3786e8dadefb1e6141a35f58f",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html",
+        "title": "[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report - Stock Titan",
+        "summary": "[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report Stock Titan",
+        "body": "[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html",
+        "published_at": "Fri, 01 May 2026 16:05:30 GMT",
+        "ticker_hints": [
+          "CPT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPY0VRcWxyUEd5Z2hSLXROeHVSQkROblJ4OS1mV1otMDRHVmhzQ29aVXpXbVliWmZEczVrVzB6dGY2Vmd6QW9QdW1xOFlnc1FCNXlCZHNHbXFnaG5tYjhoWXpEWmdXVGVHeTF0WW03OHFBaXF5aWJvbTZSbS01OWpMM2lwVHM5Q1g0M3VFZkJrdXNjVVNzallMSkt6Z1VPaWwwdThwbWdsVkJnNXpEb2J6eEgtVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html",
+          "published_at": "Fri, 01 May 2026 16:05:30 GMT",
+          "summary": "[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report  Stock Titan",
+          "ticker": "CPT",
+          "company_name": "Camden Property Trust",
+          "query": "Camden Property Trust",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html"
+        }
+      }
+    },
+    {
+      "article_index": 23,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic daily stock performance recap with no substantive information beyond relative market movement.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNbGNsTnJHWnZmT2ZHT3l1a2JuSWF5YmZjVVBuRmxMNzU4V2VvWTZ1SWNCTHREMGZUaGt2NURqbklQT3NHajAyNmxWTzdNbmFwczNGa2lpc3NUSUNJRVBweFhtc0lReXBhTGl6eERlY1ZnU0tHVk5iYWpzcm9RMUljQUYxd2xBQm5mci1kaHVYTDFZS041OWJFbTNHSUNTUlpBcVdQdl9ldTdWVG5GdEs2ZmlwX0xyQy0ybVBRTF80eXpkRk8wMzE0QWxac2IzeEV1blpMc0pxbHgzU1VR?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "d1193127055e4fb3ee8cf1812b261a97beb51c5a7d792bdc46aac5f4d7afccfe",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/ametek-inc-stock-outperforms-competitors-despite-losses-on-the-day-d041b15f-66f96a8bff72?mod=mw_quote_news",
+        "title": "Ametek Inc. stock outperforms competitors despite losses on the day - MarketWatch",
+        "summary": "Ametek Inc. stock outperforms competitors despite losses on the day MarketWatch",
+        "body": "Ametek Inc. stock outperforms competitors despite losses on the day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/ametek-inc-stock-outperforms-competitors-despite-losses-on-the-day-d041b15f-66f96a8bff72?mod=mw_quote_news",
+        "published_at": "Thu, 07 May 2026 20:49:00 GMT",
+        "ticker_hints": [
+          "AME"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxNbGNsTnJHWnZmT2ZHT3l1a2JuSWF5YmZjVVBuRmxMNzU4V2VvWTZ1SWNCTHREMGZUaGt2NURqbklQT3NHajAyNmxWTzdNbmFwczNGa2lpc3NUSUNJRVBweFhtc0lReXBhTGl6eERlY1ZnU0tHVk5iYWpzcm9RMUljQUYxd2xBQm5mci1kaHVYTDFZS041OWJFbTNHSUNTUlpBcVdQdl9ldTdWVG5GdEs2ZmlwX0xyQy0ybVBRTF80eXpkRk8wMzE0QWxac2IzeEV1blpMc0pxbHgzU1VR?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Ametek Inc. stock outperforms competitors despite losses on the day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/ametek-inc-stock-outperforms-competitors-despite-losses-on-the-day-d041b15f-66f96a8bff72?mod=mw_quote_news",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/ametek-inc-stock-outperforms-competitors-despite-losses-on-the-day-d041b15f-66f96a8bff72?mod=mw_quote_news",
+          "published_at": "Thu, 07 May 2026 20:49:00 GMT",
+          "summary": "Ametek Inc. stock outperforms competitors despite losses on the day  MarketWatch",
+          "ticker": "AME",
+          "company_name": "AMETEK Inc",
+          "query": "AMETEK Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/ametek-inc-stock-outperforms-competitors-despite-losses-on-the-day-d041b15f-66f96a8bff72?mod=mw_quote_news"
+        }
+      }
+    },
+    {
+      "article_index": 24,
+      "relevant": true,
+      "affected_tickers": [
+        "AME"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Post-Q1 analyst forecasts and price targets provide updated growth expectations for AME.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPTWh6QjUxTFdkSF8wclpIOFgxYThXaWhzX3oxX21oUTBJbVBQUEwwTjd3eGs1YjlxNXZFZFF6MEFnZHl0Ql9LNWZNeGJ4blE5Y3cwTTlLb2w2WXdxT05LOHNMTXlPVjctLWtoM3JVVWdmTnlXRHZaUEpPSVJBV3dEa3pvQTY4QWJiVF80ZUo1a2hkMDZVbVk4YWF1cElXaV8yU2xmWg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "a30d7a0980e4b8ad273221dd89ad5cf2271e1712c6a1274dbb6c4f2aa0d473e4",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html",
+        "title": "Here's What Analysts Are Forecasting For AMETEK, Inc. (NYSE:AME) After Its First-Quarter Results - Yahoo Finance",
+        "summary": "Here's What Analysts Are Forecasting For AMETEK, Inc. (NYSE:AME) After Its First-Quarter Results Yahoo Finance",
+        "body": "Here's What Analysts Are Forecasting For AMETEK, Inc. (NYSE:AME) After Its First-Quarter Results Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html",
+        "published_at": "Sat, 02 May 2026 13:55:56 GMT",
+        "ticker_hints": [
+          "AME"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPTWh6QjUxTFdkSF8wclpIOFgxYThXaWhzX3oxX21oUTBJbVBQUEwwTjd3eGs1YjlxNXZFZFF6MEFnZHl0Ql9LNWZNeGJ4blE5Y3cwTTlLb2w2WXdxT05LOHNMTXlPVjctLWtoM3JVVWdmTnlXRHZaUEpPSVJBV3dEa3pvQTY4QWJiVF80ZUo1a2hkMDZVbVk4YWF1cElXaV8yU2xmWg?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Here's What Analysts Are Forecasting For AMETEK, Inc. (NYSE:AME) After Its First-Quarter Results - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html",
+          "published_at": "Sat, 02 May 2026 13:55:56 GMT",
+          "summary": "Here's What Analysts Are Forecasting For AMETEK, Inc. (NYSE:AME) After Its First-Quarter Results  Yahoo Finance",
+          "ticker": "AME",
+          "company_name": "AMETEK Inc",
+          "query": "AMETEK Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html"
+        }
+      }
+    },
+    {
+      "article_index": 25,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a low-information M&A call slideshow presentation with no substantive analysis or new investment-relevant content.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPM1BCeDh5T1hnSmkteFFUeGRTM0FlNGlraTV6M0lPM1ZVRGhkS1hRNW05anVVYl9RYzY5NVZ2MUVWVk05dks2YjlHdUExOFl1YWdHbDZXSVdEVWdQQUNScW9BRy1BTDVZRmZrNkRWSG9iY1kySmUycTEzbC1BVWNIWXk0SDU?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "c28b44bb4144f90527f1cdc4bf4559c82adc375eeb0dc29948021c1efda874f2",
+        "source_type": "company_news",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/article/4899546-ametek-inc-ame-m-and-a-call-slideshow",
+        "title": "AMETEK, Inc. (AME) M&A Call - Slideshow (NYSE:AME) 2026-05-06 - Seeking Alpha",
+        "summary": "AMETEK, Inc. (AME) M&A Call - Slideshow (NYSE:AME) 2026-05-06 Seeking Alpha",
+        "body": "AMETEK, Inc. (AME) M&A Call - Slideshow (NYSE:AME) 2026-05-06 Seeking Alpha",
+        "evidence_quality": "title_only",
+        "url": "https://seekingalpha.com/article/4899546-ametek-inc-ame-m-and-a-call-slideshow",
+        "published_at": "Wed, 06 May 2026 17:38:09 GMT",
+        "ticker_hints": [
+          "AME"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPM1BCeDh5T1hnSmkteFFUeGRTM0FlNGlraTV6M0lPM1ZVRGhkS1hRNW05anVVYl9RYzY5NVZ2MUVWVk05dks2YjlHdUExOFl1YWdHbDZXSVdEVWdQQUNScW9BRy1BTDVZRmZrNkRWSG9iY1kySmUycTEzbC1BVWNIWXk0SDU?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "AMETEK, Inc. (AME) M&A Call - Slideshow (NYSE:AME) 2026-05-06 - Seeking Alpha",
+          "source": "Seeking Alpha",
+          "source_url": "https://seekingalpha.com/article/4899546-ametek-inc-ame-m-and-a-call-slideshow",
+          "publisher_homepage_url": "https://seekingalpha.com",
+          "url": "https://seekingalpha.com/article/4899546-ametek-inc-ame-m-and-a-call-slideshow",
+          "published_at": "Wed, 06 May 2026 17:38:09 GMT",
+          "summary": "AMETEK, Inc. (AME) M&A Call - Slideshow (NYSE:AME) 2026-05-06  Seeking Alpha",
+          "ticker": "AME",
+          "company_name": "AMETEK Inc",
+          "query": "AMETEK Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://seekingalpha.com/article/4899546-ametek-inc-ame-m-and-a-call-slideshow"
+        }
+      }
+    },
+    {
+      "article_index": 26,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOODIwZHpudVRtWjZBcDRFdGhxSWl6REFJeERPbU9JVVhWWW1fZ1Y4ZklrclVOSG11WEpieEhCQWlMdTRBdm9XRUpLOV9uUl9PckFhWk1TWUtYbVFTWndLNzZURW5EYUZ4WjZ1X3A3SnphY21WMjdUYkNwY19lOWpKMk5ndmVkS1RBM2pwaEVqUDFNSy1KbGpkQTNXM3NPTE40WVptMUdkVXU4azgzbmhCWnhVd2hrdXB6OWtTbnY5a3pkWUo2cWZQazlrblFGZjVt?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "85a494995662073be62825a0c11c16d8b32d055c01d4076dc839f145c0574223",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/bunge-global-s-a-stock-underperforms-wednesday-when-compared-to-competitors-874d9505-374b91bb670c",
+        "title": "Bunge Global S.A. stock underperforms Wednesday when compared to competitors - MarketWatch",
+        "summary": "Bunge Global S.A. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "body": "Bunge Global S.A. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/bunge-global-s-a-stock-underperforms-wednesday-when-compared-to-competitors-874d9505-374b91bb670c",
+        "published_at": "Wed, 06 May 2026 21:01:00 GMT",
+        "ticker_hints": [
+          "BG"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxOODIwZHpudVRtWjZBcDRFdGhxSWl6REFJeERPbU9JVVhWWW1fZ1Y4ZklrclVOSG11WEpieEhCQWlMdTRBdm9XRUpLOV9uUl9PckFhWk1TWUtYbVFTWndLNzZURW5EYUZ4WjZ1X3A3SnphY21WMjdUYkNwY19lOWpKMk5ndmVkS1RBM2pwaEVqUDFNSy1KbGpkQTNXM3NPTE40WVptMUdkVXU4azgzbmhCWnhVd2hrdXB6OWtTbnY5a3pkWUo2cWZQazlrblFGZjVt?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Bunge Global S.A. stock underperforms Wednesday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/bunge-global-s-a-stock-underperforms-wednesday-when-compared-to-competitors-874d9505-374b91bb670c",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/bunge-global-s-a-stock-underperforms-wednesday-when-compared-to-competitors-874d9505-374b91bb670c",
+          "published_at": "Wed, 06 May 2026 21:01:00 GMT",
+          "summary": "Bunge Global S.A. stock underperforms Wednesday when compared to competitors  MarketWatch",
+          "ticker": "BG",
+          "company_name": "Bunge Global SA",
+          "query": "Bunge Global SA",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/bunge-global-s-a-stock-underperforms-wednesday-when-compared-to-competitors-874d9505-374b91bb670c"
+        }
+      }
+    },
+    {
+      "article_index": 27,
+      "relevant": true,
+      "affected_tickers": [
+        "COR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Cencora earnings call directly affects the COR position as it provides updates on the company's financial performance and outlook.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPNDZlbGlTSS1pOHlNZXB3WXVRNVhmWC14Z3FPR25sam5zTUVGOFZNT1BiMldXR3JBSG1ETUZBLW01WmlyODdqMEV2eE81OVZyd3cxY0FWU01JXzNNN1VDY3gyVTNGc18tdldwMWJtMElxamo3S3dqOXdCMS1YSGhzYWdLQU11VWlXN1MwZmFxT0I0dU1OaV9POQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "4d4ab00bade19df32d50c60184542f0d159f613e22968089f4ebfe69b73fff13",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html",
+        "title": "Cencora, Inc. Q2 2026 Earnings Call Summary - Yahoo Finance",
+        "summary": "Cencora, Inc. Q2 2026 Earnings Call Summary Yahoo Finance",
+        "body": "Cencora, Inc. Q2 2026 Earnings Call Summary Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html",
+        "published_at": "Wed, 06 May 2026 16:48:33 GMT",
+        "ticker_hints": [
+          "COR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPNDZlbGlTSS1pOHlNZXB3WXVRNVhmWC14Z3FPR25sam5zTUVGOFZNT1BiMldXR3JBSG1ETUZBLW01WmlyODdqMEV2eE81OVZyd3cxY0FWU01JXzNNN1VDY3gyVTNGc18tdldwMWJtMElxamo3S3dqOXdCMS1YSGhzYWdLQU11VWlXN1MwZmFxT0I0dU1OaV9POQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Cencora, Inc. Q2 2026 Earnings Call Summary - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html",
+          "published_at": "Wed, 06 May 2026 16:48:33 GMT",
+          "summary": "Cencora, Inc. Q2 2026 Earnings Call Summary  Yahoo Finance",
+          "ticker": "COR",
+          "company_name": "Cencora Inc",
+          "query": "Cencora Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html"
+        }
+      }
+    },
+    {
+      "article_index": 28,
+      "relevant": true,
+      "affected_tickers": [
+        "COR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Cencora fiscal Q2 earnings snapshot directly affects the COR position by reporting financial results relevant to its growth archetype.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOLWRxZW1QU0lDbFA1NTRpU1l2b0JDRFRJdHJkZ0tSZGpKZW1FNllvQ2lvSXpsR0J3UTZCSXhUTzdxS0JCOHZjNEMxUmZZcXpycXdoMEprNjU4MUZ1QWM2YlJzb05PWG9Ea3E5UDJ4a2s4UGxFX2dBWnNDcmJ4dDlNejFzdzFTRUlQaXg2NWU1bDFycERRRm9IaXdrLThfcjRFcExJMXFKbjZVS18wYnNnT3ZHY0hGNkxEUmlNaHBPUUFDeWxOUmNlZlFlSW5Fdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "2655e001f2468327de8d3170696aef39b8621ce7c0386553f3237b83b8412831",
+        "source_type": "company_news",
+        "source": "KVUE",
+        "source_url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10",
+        "title": "Cencora: Fiscal Q2 Earnings Snapshot - KVUE",
+        "summary": "Cencora: Fiscal Q2 Earnings Snapshot KVUE",
+        "body": "Cencora: Fiscal Q2 Earnings Snapshot KVUE",
+        "evidence_quality": "title_only",
+        "url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10",
+        "published_at": "Wed, 06 May 2026 10:48:00 GMT",
+        "ticker_hints": [
+          "COR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOLWRxZW1QU0lDbFA1NTRpU1l2b0JDRFRJdHJkZ0tSZGpKZW1FNllvQ2lvSXpsR0J3UTZCSXhUTzdxS0JCOHZjNEMxUmZZcXpycXdoMEprNjU4MUZ1QWM2YlJzb05PWG9Ea3E5UDJ4a2s4UGxFX2dBWnNDcmJ4dDlNejFzdzFTRUlQaXg2NWU1bDFycERRRm9IaXdrLThfcjRFcExJMXFKbjZVS18wYnNnT3ZHY0hGNkxEUmlNaHBPUUFDeWxOUmNlZlFlSW5Fdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Cencora: Fiscal Q2 Earnings Snapshot - KVUE",
+          "source": "KVUE",
+          "source_url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10",
+          "publisher_homepage_url": "https://www.kvue.com",
+          "url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10",
+          "published_at": "Wed, 06 May 2026 10:48:00 GMT",
+          "summary": "Cencora: Fiscal Q2 Earnings Snapshot  KVUE",
+          "ticker": "COR",
+          "company_name": "Cencora Inc",
+          "query": "Cencora Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10"
+        }
+      }
+    },
+    {
+      "article_index": 29,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Disney regulatory news has no connection to the AME or COR positions in the portfolio.",
+      "article": {
+        "external_id": "108298599",
+        "event_hash": "9672702d8056ec9471c15eaf3d9bed23a472decc17f5084c525113ea93e61460",
+        "source_type": "cnbc_sector_rss",
+        "source": "Media",
+        "source_url": "",
+        "title": "FCC launches review of Disney broadcast licenses years ahead of schedule",
+        "summary": "The Federal Communications Commission has told Disney to file its broadcast license renewals early, citing concerns around its DEI policies.",
+        "body": "The Federal Communications Commission has told Disney to file its broadcast license renewals early, citing concerns around its DEI policies.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/04/28/fcc-begins-review-of-disney-broadcast-licenses-years-ahead-of-schedule.html",
+        "published_at": "2026-04-28T20:17:21+00:00",
+        "ticker_hints": [],
+        "sector_hint": "media",
+        "raw": {
+          "id": "108298599",
+          "title": "FCC launches review of Disney broadcast licenses years ahead of schedule",
+          "source": "Media",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/04/28/fcc-begins-review-of-disney-broadcast-licenses-years-ahead-of-schedule.html",
+          "published_at": "2026-04-28T20:17:21+00:00",
+          "summary": "The Federal Communications Commission has told Disney to file its broadcast license renewals early, citing concerns around its DEI policies.",
+          "sector": "media",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 30,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article discusses health insurers (medical cost lag claims), but none of the held positions (ADSK, AME, BA, BG, BLDR, BSX, COR, CPT, CVX, T) are health insurers, making it irrelevant to the portfolio.",
+      "article": {
+        "external_id": "108301528",
+        "event_hash": "57f4224b3f8b7d7fa7efb04986aa1a2879653f459af71a9f5db1fbfd168e3897",
+        "source_type": "cnbc_sector_rss",
+        "source": "Health and Science",
+        "source_url": "",
+        "title": "Major health insurers show signs of recovery \u2013 but a key test looms",
+        "summary": "Insurers have incomplete data on medical costs in the first quarter due to a lag in claims processing, which sets up the second quarter as the real test.",
+        "body": "Insurers have incomplete data on medical costs in the first quarter due to a lag in claims processing, which sets up the second quarter as the real test.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/05/unitedhealth-cigna-humana-earnings-show-insurers-are-recovering.html",
+        "published_at": "2026-05-05T11:00:01+00:00",
+        "ticker_hints": [],
+        "sector_hint": "healthcare",
+        "raw": {
+          "id": "108301528",
+          "title": "Major health insurers show signs of recovery \u2013 but a key test looms",
+          "source": "Health and Science",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/05/unitedhealth-cigna-humana-earnings-show-insurers-are-recovering.html",
+          "published_at": "2026-05-05T11:00:01+00:00",
+          "summary": "Insurers have incomplete data on medical costs in the first quarter due to a lag in claims processing, which sets up the second quarter as the real test.",
+          "sector": "healthcare",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 31,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "While ADSK is a tech stock, this is general market commentary about tech stocks with no specific ticker mentions from the held positions, making it too vague to be considered relevant.",
+      "article": {
+        "external_id": "108303481",
+        "event_hash": "186f623f611966e2e2247e433edafd5290f64b483d0f7d8211be92954f055afe",
+        "source_type": "cnbc_sector_rss",
+        "source": "Tech",
+        "source_url": "",
+        "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+        "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "body": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+        "published_at": "2026-05-08T07:34:09+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "108303481",
+          "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+          "source": "Tech",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+          "published_at": "2026-05-08T07:34:09+00:00",
+          "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+          "sector": "technology",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 32,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+        "event_hash": "19a94d122eb7bd70af2c33c7cd24315522f743ca92601cb72fb84ee833a16a92",
+        "source_type": "cnbc_sector_rss",
+        "source": "TradingView",
+        "source_url": "https://www.tradingview.com",
+        "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+        "summary": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "body": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+        "published_at": "2026-04-12T07:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "logisticstransportation",
+        "raw": {
+          "id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+          "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+          "source": "TradingView",
+          "source_url": "https://www.tradingview.com",
+          "publisher_homepage_url": "https://www.tradingview.com",
+          "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+          "published_at": "2026-04-12T07:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5\" target=\"_blank\">JTC Stock Price and Chart \u2014 KSE:JTC</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">TradingView</font>",
+          "sector": "logisticstransportation",
+          "source_type": "google_sector_rss",
+          "query": "logisticstransportation stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 33,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article is outside the recent evidence window",
+      "article": {
+        "external_id": "CBMigAFBVV95cUxOU2ZDaEVpSUlCcDdfOEZlNzk0UUdDc29ndHcwMjRFVjVpNmlUNzQtV2tyTWVDZ0FSWWFNY2JYcmFuUmN2X1VBZ01nbkZoUXVEVDNLeTV3TW5ZUVkxRmIzbThESEUxY1Z4WjVvTjhoUWZWdW1lRXFZT0YyeThpQkp4cg",
+        "event_hash": "ec9dc8c74d39de2642ead99b3b0f230f29b0604ac096dc6042009631e1503289",
+        "source_type": "cnbc_sector_rss",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com",
+        "title": "4 Utility Stocks to Buy From the Thriving Electric Power Industry - Yahoo Finance",
+        "summary": "4 Utility Stocks to Buy From the Thriving Electric Power Industry Yahoo Finance",
+        "body": "4 Utility Stocks to Buy From the Thriving Electric Power Industry Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOU2ZDaEVpSUlCcDdfOEZlNzk0UUdDc29ndHcwMjRFVjVpNmlUNzQtV2tyTWVDZ0FSWWFNY2JYcmFuUmN2X1VBZ01nbkZoUXVEVDNLeTV3TW5ZUVkxRmIzbThESEUxY1Z4WjVvTjhoUWZWdW1lRXFZT0YyeThpQkp4cg?oc=5",
+        "published_at": "2025-11-03T08:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "utilities",
+        "raw": {
+          "id": "CBMigAFBVV95cUxOU2ZDaEVpSUlCcDdfOEZlNzk0UUdDc29ndHcwMjRFVjVpNmlUNzQtV2tyTWVDZ0FSWWFNY2JYcmFuUmN2X1VBZ01nbkZoUXVEVDNLeTV3TW5ZUVkxRmIzbThESEUxY1Z4WjVvTjhoUWZWdW1lRXFZT0YyeThpQkp4cg",
+          "title": "4 Utility Stocks to Buy From the Thriving Electric Power Industry - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxOU2ZDaEVpSUlCcDdfOEZlNzk0UUdDc29ndHcwMjRFVjVpNmlUNzQtV2tyTWVDZ0FSWWFNY2JYcmFuUmN2X1VBZ01nbkZoUXVEVDNLeTV3TW5ZUVkxRmIzbThESEUxY1Z4WjVvTjhoUWZWdW1lRXFZT0YyeThpQkp4cg?oc=5",
+          "published_at": "2025-11-03T08:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMigAFBVV95cUxOU2ZDaEVpSUlCcDdfOEZlNzk0UUdDc29ndHcwMjRFVjVpNmlUNzQtV2tyTWVDZ0FSWWFNY2JYcmFuUmN2X1VBZ01nbkZoUXVEVDNLeTV3TW5ZUVkxRmIzbThESEUxY1Z4WjVvTjhoUWZWdW1lRXFZT0YyeThpQkp4cg?oc=5\" target=\"_blank\">4 Utility Stocks to Buy From the Thriving Electric Power Industry</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Yahoo Finance</font>",
+          "sector": "utilities",
+          "source_type": "google_sector_rss",
+          "query": "utilities stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 34,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Eastroc Beverage is not in the held positions, and this is a generic low-information stock recap page with no connection to portfolio holdings.",
+      "article": {
+        "external_id": "CBMizAFBVV95cUxNSlB0cGZ2MVlBaEtOQnlEVm5RM1dFUFBGdV9kUFduX2lhbWZmdDFrQXpsODg4UGpackhHYTQwVW1mRVZHZnlKaTFLQ2p3WHp2Rnl5d2pUWi1tSTNERW91WUt5em0wMGdpcmhpSkp0UEtrQ0lsMmt0bWRtczE3eXQxTVp5MnJnbEFXeWZiVlJmamg5YUJJc1dLZVJWMUx5MHk4YkdydjBNb05HMEtWNGhEZFl6WDRGX0hkTW85Tk9BbWhTYUIxZG8tQ19RTUU",
+        "event_hash": "bea3e611098880726faa427293e19c593a8fd9db5a9cfe7bde7d28fd3db99ace",
+        "source_type": "cnbc_sector_rss",
+        "source": "Markets Mojo",
+        "source_url": "https://www.marketsmojo.com",
+        "title": "Eastroc Beverage Stock Declines 27.2% Despite Strong Financial Fundamentals - Markets Mojo",
+        "summary": "Eastroc Beverage Stock Declines 27.2% Despite Strong Financial Fundamentals Markets Mojo",
+        "body": "Eastroc Beverage Stock Declines 27.2% Despite Strong Financial Fundamentals Markets Mojo",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNSlB0cGZ2MVlBaEtOQnlEVm5RM1dFUFBGdV9kUFduX2lhbWZmdDFrQXpsODg4UGpackhHYTQwVW1mRVZHZnlKaTFLQ2p3WHp2Rnl5d2pUWi1tSTNERW91WUt5em0wMGdpcmhpSkp0UEtrQ0lsMmt0bWRtczE3eXQxTVp5MnJnbEFXeWZiVlJmamg5YUJJc1dLZVJWMUx5MHk4YkdydjBNb05HMEtWNGhEZFl6WDRGX0hkTW85Tk9BbWhTYUIxZG8tQ19RTUU?oc=5",
+        "published_at": "2026-05-05T06:25:08+00:00",
+        "ticker_hints": [],
+        "sector_hint": "beverages",
+        "raw": {
+          "id": "CBMizAFBVV95cUxNSlB0cGZ2MVlBaEtOQnlEVm5RM1dFUFBGdV9kUFduX2lhbWZmdDFrQXpsODg4UGpackhHYTQwVW1mRVZHZnlKaTFLQ2p3WHp2Rnl5d2pUWi1tSTNERW91WUt5em0wMGdpcmhpSkp0UEtrQ0lsMmt0bWRtczE3eXQxTVp5MnJnbEFXeWZiVlJmamg5YUJJc1dLZVJWMUx5MHk4YkdydjBNb05HMEtWNGhEZFl6WDRGX0hkTW85Tk9BbWhTYUIxZG8tQ19RTUU",
+          "title": "Eastroc Beverage Stock Declines 27.2% Despite Strong Financial Fundamentals - Markets Mojo",
+          "source": "Markets Mojo",
+          "source_url": "https://www.marketsmojo.com",
+          "publisher_homepage_url": "https://www.marketsmojo.com",
+          "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNSlB0cGZ2MVlBaEtOQnlEVm5RM1dFUFBGdV9kUFduX2lhbWZmdDFrQXpsODg4UGpackhHYTQwVW1mRVZHZnlKaTFLQ2p3WHp2Rnl5d2pUWi1tSTNERW91WUt5em0wMGdpcmhpSkp0UEtrQ0lsMmt0bWRtczE3eXQxTVp5MnJnbEFXeWZiVlJmamg5YUJJc1dLZVJWMUx5MHk4YkdydjBNb05HMEtWNGhEZFl6WDRGX0hkTW85Tk9BbWhTYUIxZG8tQ19RTUU?oc=5",
+          "published_at": "2026-05-05T06:25:08+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMizAFBVV95cUxNSlB0cGZ2MVlBaEtOQnlEVm5RM1dFUFBGdV9kUFduX2lhbWZmdDFrQXpsODg4UGpackhHYTQwVW1mRVZHZnlKaTFLQ2p3WHp2Rnl5d2pUWi1tSTNERW91WUt5em0wMGdpcmhpSkp0UEtrQ0lsMmt0bWRtczE3eXQxTVp5MnJnbEFXeWZiVlJmamg5YUJJc1dLZVJWMUx5MHk4YkdydjBNb05HMEtWNGhEZFl6WDRGX0hkTW85Tk9BbWhTYUIxZG8tQ19RTUU?oc=5\" target=\"_blank\">Eastroc Beverage Stock Declines 27.2% Despite Strong Financial Fundamentals</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Markets Mojo</font>",
+          "sector": "beverages",
+          "source_type": "google_sector_rss",
+          "query": "beverages stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 35,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article covers Graphic Packaging, a company not held in the portfolio positions.",
+      "article": {
+        "external_id": "CBMivAFBVV95cUxOWEpHdWZ2UHR1YmV0Ui1TRDNtNm41RzlXMjU0UEtnSXNiVDE5NzVkNncxSkhobHREY281aVU5YlpCVWN1VVdJeUl1SjMtSmtSU0hXOGRGa3UtNExDTzJvZjM1XzczQU42NVRvZkJ1b0VUczBGZVlhejg5M1d1eXE3bWs5WFk4X1pVckJrYlJTN1A0ZXNWaDFXNDV0N2tCaURqYjJYYy1VNWx3Zy1wWkNGQl9oeXZfa2t0TWVTWA",
+        "event_hash": "6890c7ba192bc5a009afd8b8ac9fc339eb13f10da4ccb90afefa9c339e5c36df",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investing.com India",
+        "source_url": "https://in.investing.com",
+        "title": "Graphic Packaging stock surges 8% on earnings beat, reaffirms guidance By Investing.com - Investing.com India",
+        "summary": "Graphic Packaging stock surges 8% on earnings beat, reaffirms guidance By Investing.com Investing.com India",
+        "body": "Graphic Packaging stock surges 8% on earnings beat, reaffirms guidance By Investing.com Investing.com India",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOWEpHdWZ2UHR1YmV0Ui1TRDNtNm41RzlXMjU0UEtnSXNiVDE5NzVkNncxSkhobHREY281aVU5YlpCVWN1VVdJeUl1SjMtSmtSU0hXOGRGa3UtNExDTzJvZjM1XzczQU42NVRvZkJ1b0VUczBGZVlhejg5M1d1eXE3bWs5WFk4X1pVckJrYlJTN1A0ZXNWaDFXNDV0N2tCaURqYjJYYy1VNWx3Zy1wWkNGQl9oeXZfa2t0TWVTWA?oc=5",
+        "published_at": "2026-05-05T11:18:10+00:00",
+        "ticker_hints": [],
+        "sector_hint": "packaging",
+        "raw": {
+          "id": "CBMivAFBVV95cUxOWEpHdWZ2UHR1YmV0Ui1TRDNtNm41RzlXMjU0UEtnSXNiVDE5NzVkNncxSkhobHREY281aVU5YlpCVWN1VVdJeUl1SjMtSmtSU0hXOGRGa3UtNExDTzJvZjM1XzczQU42NVRvZkJ1b0VUczBGZVlhejg5M1d1eXE3bWs5WFk4X1pVckJrYlJTN1A0ZXNWaDFXNDV0N2tCaURqYjJYYy1VNWx3Zy1wWkNGQl9oeXZfa2t0TWVTWA",
+          "title": "Graphic Packaging stock surges 8% on earnings beat, reaffirms guidance By Investing.com - Investing.com India",
+          "source": "Investing.com India",
+          "source_url": "https://in.investing.com",
+          "publisher_homepage_url": "https://in.investing.com",
+          "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOWEpHdWZ2UHR1YmV0Ui1TRDNtNm41RzlXMjU0UEtnSXNiVDE5NzVkNncxSkhobHREY281aVU5YlpCVWN1VVdJeUl1SjMtSmtSU0hXOGRGa3UtNExDTzJvZjM1XzczQU42NVRvZkJ1b0VUczBGZVlhejg5M1d1eXE3bWs5WFk4X1pVckJrYlJTN1A0ZXNWaDFXNDV0N2tCaURqYjJYYy1VNWx3Zy1wWkNGQl9oeXZfa2t0TWVTWA?oc=5",
+          "published_at": "2026-05-05T11:18:10+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMivAFBVV95cUxOWEpHdWZ2UHR1YmV0Ui1TRDNtNm41RzlXMjU0UEtnSXNiVDE5NzVkNncxSkhobHREY281aVU5YlpCVWN1VVdJeUl1SjMtSmtSU0hXOGRGa3UtNExDTzJvZjM1XzczQU42NVRvZkJ1b0VUczBGZVlhejg5M1d1eXE3bWs5WFk4X1pVckJrYlJTN1A0ZXNWaDFXNDV0N2tCaURqYjJYYy1VNWx3Zy1wWkNGQl9oeXZfa2t0TWVTWA?oc=5\" target=\"_blank\">Graphic Packaging stock surges 8% on earnings beat, reaffirms guidance By Investing.com</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investing.com India</font>",
+          "sector": "packaging",
+          "source_type": "google_sector_rss",
+          "query": "packaging stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 36,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article covers Zoom Communications, a company not held in the portfolio positions.",
+      "article": {
+        "external_id": "CBMirwFBVV95cUxOV21ON3JpT2NZOHczMkhUSGtlRnM3VGxTUExveEpxcmQxSzFhaTRnalAtUS1jTE51eGRIRFNSek5nXzlWTmpLWXMtV1kxOVdGZ25JRnpjS3NyNUExd3Rqb0hJR0tlV2Yyd0JDOVhWYkIyYzZZR25DZ3dGZTFQN2JZd2N3akp3eTluSHBZZ1ljM281NFFsQm9NVmRrbUYtdUFEcDFEb3BrMXRaV2VOd3M4",
+        "event_hash": "8047551d83c2970a058a0821ab6f48c643fa98c44d66efa88e31b0c117614cc5",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investor's Business Daily",
+        "source_url": "https://www.investors.com",
+        "title": "Zoom Communications Stock Soars After Cup With Handle Breakout; Rating Upgraded - Investor's Business Daily",
+        "summary": "Zoom Communications Stock Soars After Cup With Handle Breakout; Rating Upgraded Investor's Business Daily",
+        "body": "Zoom Communications Stock Soars After Cup With Handle Breakout; Rating Upgraded Investor's Business Daily",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOV21ON3JpT2NZOHczMkhUSGtlRnM3VGxTUExveEpxcmQxSzFhaTRnalAtUS1jTE51eGRIRFNSek5nXzlWTmpLWXMtV1kxOVdGZ25JRnpjS3NyNUExd3Rqb0hJR0tlV2Yyd0JDOVhWYkIyYzZZR25DZ3dGZTFQN2JZd2N3akp3eTluSHBZZ1ljM281NFFsQm9NVmRrbUYtdUFEcDFEb3BrMXRaV2VOd3M4?oc=5",
+        "published_at": "2026-05-04T21:18:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "communications",
+        "raw": {
+          "id": "CBMirwFBVV95cUxOV21ON3JpT2NZOHczMkhUSGtlRnM3VGxTUExveEpxcmQxSzFhaTRnalAtUS1jTE51eGRIRFNSek5nXzlWTmpLWXMtV1kxOVdGZ25JRnpjS3NyNUExd3Rqb0hJR0tlV2Yyd0JDOVhWYkIyYzZZR25DZ3dGZTFQN2JZd2N3akp3eTluSHBZZ1ljM281NFFsQm9NVmRrbUYtdUFEcDFEb3BrMXRaV2VOd3M4",
+          "title": "Zoom Communications Stock Soars After Cup With Handle Breakout; Rating Upgraded - Investor's Business Daily",
+          "source": "Investor's Business Daily",
+          "source_url": "https://www.investors.com",
+          "publisher_homepage_url": "https://www.investors.com",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOV21ON3JpT2NZOHczMkhUSGtlRnM3VGxTUExveEpxcmQxSzFhaTRnalAtUS1jTE51eGRIRFNSek5nXzlWTmpLWXMtV1kxOVdGZ25JRnpjS3NyNUExd3Rqb0hJR0tlV2Yyd0JDOVhWYkIyYzZZR25DZ3dGZTFQN2JZd2N3akp3eTluSHBZZ1ljM281NFFsQm9NVmRrbUYtdUFEcDFEb3BrMXRaV2VOd3M4?oc=5",
+          "published_at": "2026-05-04T21:18:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMirwFBVV95cUxOV21ON3JpT2NZOHczMkhUSGtlRnM3VGxTUExveEpxcmQxSzFhaTRnalAtUS1jTE51eGRIRFNSek5nXzlWTmpLWXMtV1kxOVdGZ25JRnpjS3NyNUExd3Rqb0hJR0tlV2Yyd0JDOVhWYkIyYzZZR25DZ3dGZTFQN2JZd2N3akp3eTluSHBZZ1ljM281NFFsQm9NVmRrbUYtdUFEcDFEb3BrMXRaV2VOd3M4?oc=5\" target=\"_blank\">Zoom Communications Stock Soars After Cup With Handle Breakout; Rating Upgraded</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investor's Business Daily</font>",
+          "sector": "communications",
+          "source_type": "google_sector_rss",
+          "query": "communications stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 37,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article covers Cogent Communications, a company not held in the portfolio positions.",
+      "article": {
+        "external_id": "CBMimAFBVV95cUxNb0sxaXZUS2Fvc3A0LU4yanBzUDJ4STU3ZnFaMUhrcnhOWUFoNF9sVXUxWjJJQzg5UTNtSUlOUC1BTjl3azZsTjcwc0g3RTlhTUgzMFZrR21wRnlLX2NBb0NES3prU25EMzJDVWthZ3l3VmJudWNSNEpydU93eWltbXYxUS1QZ2xzYzl4T1Z6Nmw1WVJrOENjRg",
+        "event_hash": "0805d2c8ea20d31829bb6317e35bc32945d99e2095268ca5340d32157a9a5d71",
+        "source_type": "cnbc_sector_rss",
+        "source": "The Motley Fool",
+        "source_url": "https://www.fool.com",
+        "title": "Why Cogent Communications Stock Is Plummeting Today - The Motley Fool",
+        "summary": "Why Cogent Communications Stock Is Plummeting Today The Motley Fool",
+        "body": "Why Cogent Communications Stock Is Plummeting Today The Motley Fool",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNb0sxaXZUS2Fvc3A0LU4yanBzUDJ4STU3ZnFaMUhrcnhOWUFoNF9sVXUxWjJJQzg5UTNtSUlOUC1BTjl3azZsTjcwc0g3RTlhTUgzMFZrR21wRnlLX2NBb0NES3prU25EMzJDVWthZ3l3VmJudWNSNEpydU93eWltbXYxUS1QZ2xzYzl4T1Z6Nmw1WVJrOENjRg?oc=5",
+        "published_at": "2026-05-04T18:34:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "communications",
+        "raw": {
+          "id": "CBMimAFBVV95cUxNb0sxaXZUS2Fvc3A0LU4yanBzUDJ4STU3ZnFaMUhrcnhOWUFoNF9sVXUxWjJJQzg5UTNtSUlOUC1BTjl3azZsTjcwc0g3RTlhTUgzMFZrR21wRnlLX2NBb0NES3prU25EMzJDVWthZ3l3VmJudWNSNEpydU93eWltbXYxUS1QZ2xzYzl4T1Z6Nmw1WVJrOENjRg",
+          "title": "Why Cogent Communications Stock Is Plummeting Today - The Motley Fool",
+          "source": "The Motley Fool",
+          "source_url": "https://www.fool.com",
+          "publisher_homepage_url": "https://www.fool.com",
+          "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNb0sxaXZUS2Fvc3A0LU4yanBzUDJ4STU3ZnFaMUhrcnhOWUFoNF9sVXUxWjJJQzg5UTNtSUlOUC1BTjl3azZsTjcwc0g3RTlhTUgzMFZrR21wRnlLX2NBb0NES3prU25EMzJDVWthZ3l3VmJudWNSNEpydU93eWltbXYxUS1QZ2xzYzl4T1Z6Nmw1WVJrOENjRg?oc=5",
+          "published_at": "2026-05-04T18:34:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMimAFBVV95cUxNb0sxaXZUS2Fvc3A0LU4yanBzUDJ4STU3ZnFaMUhrcnhOWUFoNF9sVXUxWjJJQzg5UTNtSUlOUC1BTjl3azZsTjcwc0g3RTlhTUgzMFZrR21wRnlLX2NBb0NES3prU25EMzJDVWthZ3l3VmJudWNSNEpydU93eWltbXYxUS1QZ2xzYzl4T1Z6Nmw1WVJrOENjRg?oc=5\" target=\"_blank\">Why Cogent Communications Stock Is Plummeting Today</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">The Motley Fool</font>",
+          "sector": "communications",
+          "source_type": "google_sector_rss",
+          "query": "communications stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 38,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article is outside the recent evidence window",
+      "article": {
+        "external_id": "CBMinAFBVV95cUxQVGVhd2JGalQzcThoUVFOMUhfa2xVS1hGT1hHU0dOOHliSVI5VUlSN0t3VVdUMmwwNC1LTDJYX3cxUTBLYUFBODVITGFYb1Yxc2N2VGtpcUJSeFFacTZQN0JWTE45TjFGa0d2Z2Jva3F0aXMwSFFvWkhDMHBNYjJhcW1MN1BqcWlkb0h5UFVzd2EtRlRjYTBwLWtJZUg",
+        "event_hash": "ad30fc7431a65b2abae441659859ddc97200c30068c00f5dfc9081a37c559058",
+        "source_type": "cnbc_sector_rss",
+        "source": "Supply Chain Dive",
+        "source_url": "https://www.supplychaindive.com",
+        "title": "How a combined UP-NS railroad would alter market dynamics - Supply Chain Dive",
+        "summary": "How a combined UP-NS railroad would alter market dynamics Supply Chain Dive",
+        "body": "How a combined UP-NS railroad would alter market dynamics Supply Chain Dive",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQVGVhd2JGalQzcThoUVFOMUhfa2xVS1hGT1hHU0dOOHliSVI5VUlSN0t3VVdUMmwwNC1LTDJYX3cxUTBLYUFBODVITGFYb1Yxc2N2VGtpcUJSeFFacTZQN0JWTE45TjFGa0d2Z2Jva3F0aXMwSFFvWkhDMHBNYjJhcW1MN1BqcWlkb0h5UFVzd2EtRlRjYTBwLWtJZUg?oc=5",
+        "published_at": "2026-02-11T08:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "roadrail",
+        "raw": {
+          "id": "CBMinAFBVV95cUxQVGVhd2JGalQzcThoUVFOMUhfa2xVS1hGT1hHU0dOOHliSVI5VUlSN0t3VVdUMmwwNC1LTDJYX3cxUTBLYUFBODVITGFYb1Yxc2N2VGtpcUJSeFFacTZQN0JWTE45TjFGa0d2Z2Jva3F0aXMwSFFvWkhDMHBNYjJhcW1MN1BqcWlkb0h5UFVzd2EtRlRjYTBwLWtJZUg",
+          "title": "How a combined UP-NS railroad would alter market dynamics - Supply Chain Dive",
+          "source": "Supply Chain Dive",
+          "source_url": "https://www.supplychaindive.com",
+          "publisher_homepage_url": "https://www.supplychaindive.com",
+          "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQVGVhd2JGalQzcThoUVFOMUhfa2xVS1hGT1hHU0dOOHliSVI5VUlSN0t3VVdUMmwwNC1LTDJYX3cxUTBLYUFBODVITGFYb1Yxc2N2VGtpcUJSeFFacTZQN0JWTE45TjFGa0d2Z2Jva3F0aXMwSFFvWkhDMHBNYjJhcW1MN1BqcWlkb0h5UFVzd2EtRlRjYTBwLWtJZUg?oc=5",
+          "published_at": "2026-02-11T08:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMinAFBVV95cUxQVGVhd2JGalQzcThoUVFOMUhfa2xVS1hGT1hHU0dOOHliSVI5VUlSN0t3VVdUMmwwNC1LTDJYX3cxUTBLYUFBODVITGFYb1Yxc2N2VGtpcUJSeFFacTZQN0JWTE45TjFGa0d2Z2Jva3F0aXMwSFFvWkhDMHBNYjJhcW1MN1BqcWlkb0h5UFVzd2EtRlRjYTBwLWtJZUg?oc=5\" target=\"_blank\">How a combined UP-NS railroad would alter market dynamics</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Supply Chain Dive</font>",
+          "sector": "roadrail",
+          "source_type": "google_sector_rss",
+          "query": "roadrail stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 39,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article is outside the recent evidence window",
+      "article": {
+        "external_id": "CBMid0FVX3lxTE9wT1NxaEt5SVNHVDNfYVd1eG13NnNvcDFnQVpSQ3BzTk4tLVlLWkFESjR2ZGFXM2R4bHdRQ29LaTVZZ1c0UnoxNFRQSTRKZVdCTmp3cGw1aVdhTVpNN25oUWg3TENRZjZKdDI2MjR2QUhaeEZWdHBn",
+        "event_hash": "5c36a3bd279eab40b23964ad496b879af189028fbfc6e4984a18f0d5de026e76",
+        "source_type": "cnbc_sector_rss",
+        "source": "Insurance Journal",
+        "source_url": "https://www.insurancejournal.com",
+        "title": "Insurance Broker Stocks Sink as AI App Sparks Disruption Fears - Insurance Journal",
+        "summary": "Insurance Broker Stocks Sink as AI App Sparks Disruption Fears Insurance Journal",
+        "body": "Insurance Broker Stocks Sink as AI App Sparks Disruption Fears Insurance Journal",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9wT1NxaEt5SVNHVDNfYVd1eG13NnNvcDFnQVpSQ3BzTk4tLVlLWkFESjR2ZGFXM2R4bHdRQ29LaTVZZ1c0UnoxNFRQSTRKZVdCTmp3cGw1aVdhTVpNN25oUWg3TENRZjZKdDI2MjR2QUhaeEZWdHBn?oc=5",
+        "published_at": "2026-02-10T08:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "insurance",
+        "raw": {
+          "id": "CBMid0FVX3lxTE9wT1NxaEt5SVNHVDNfYVd1eG13NnNvcDFnQVpSQ3BzTk4tLVlLWkFESjR2ZGFXM2R4bHdRQ29LaTVZZ1c0UnoxNFRQSTRKZVdCTmp3cGw1aVdhTVpNN25oUWg3TENRZjZKdDI2MjR2QUhaeEZWdHBn",
+          "title": "Insurance Broker Stocks Sink as AI App Sparks Disruption Fears - Insurance Journal",
+          "source": "Insurance Journal",
+          "source_url": "https://www.insurancejournal.com",
+          "publisher_homepage_url": "https://www.insurancejournal.com",
+          "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9wT1NxaEt5SVNHVDNfYVd1eG13NnNvcDFnQVpSQ3BzTk4tLVlLWkFESjR2ZGFXM2R4bHdRQ29LaTVZZ1c0UnoxNFRQSTRKZVdCTmp3cGw1aVdhTVpNN25oUWg3TENRZjZKdDI2MjR2QUhaeEZWdHBn?oc=5",
+          "published_at": "2026-02-10T08:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTE9wT1NxaEt5SVNHVDNfYVd1eG13NnNvcDFnQVpSQ3BzTk4tLVlLWkFESjR2ZGFXM2R4bHdRQ29LaTVZZ1c0UnoxNFRQSTRKZVdCTmp3cGw1aVdhTVpNN25oUWg3TENRZjZKdDI2MjR2QUhaeEZWdHBn?oc=5\" target=\"_blank\">Insurance Broker Stocks Sink as AI App Sparks Disruption Fears</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Insurance Journal</font>",
+          "sector": "insurance",
+          "source_type": "google_sector_rss",
+          "query": "insurance stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 40,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+        "event_hash": "9035f9df36440ab60206c92d8645173fd1048cfb5d04a1d7ac0ac7d298352c54",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com",
+        "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+        "summary": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "body": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+        "published_at": "2026-05-07T15:52:40+00:00",
+        "ticker_hints": [],
+        "sector_hint": "airlines",
+        "raw": {
+          "id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+          "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+          "published_at": "2026-05-07T15:52:40+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5\" target=\"_blank\">UBS raises Delta Air Lines stock price target on margin expansion path</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investing.com</font>",
+          "sector": "airlines",
+          "source_type": "google_sector_rss",
+          "query": "airlines stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 41,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article is outside the recent evidence window",
+      "article": {
+        "external_id": "CBMitAFBVV95cUxPYmlGcXpvcDBvTjN6TFhWN2wwZ3VhWW1nZTBOQjBOaHZsMVc3endEdnBJV292NElQYjlLTVpSQS1QNE9lX2M2TTA1YXJFcUxwdWtIVFh2elY1dzVvT2QtdHBKenlZb0M2Rno1WTBtZEZabDMxQTQ3QnNrWDUwaExaOHBLWDVNdlF4THkxLWF5a2t2VFIzc19GZUVNYTRDT0thbVJHM05VYXFOM09MYnBLbjhWWEw",
+        "event_hash": "d7c431d81204c7e20d16d65de0af070f952f74adad98f9cf38ec4425f89fc689",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investopedia",
+        "source_url": "https://www.investopedia.com",
+        "title": "Traders Chased a Trump Bump in Spirit Airlines Stock. It's a Risky Move. - Investopedia",
+        "summary": "Traders Chased a Trump Bump in Spirit Airlines Stock. It's a Risky Move. Investopedia",
+        "body": "Traders Chased a Trump Bump in Spirit Airlines Stock. It's a Risky Move. Investopedia",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPYmlGcXpvcDBvTjN6TFhWN2wwZ3VhWW1nZTBOQjBOaHZsMVc3endEdnBJV292NElQYjlLTVpSQS1QNE9lX2M2TTA1YXJFcUxwdWtIVFh2elY1dzVvT2QtdHBKenlZb0M2Rno1WTBtZEZabDMxQTQ3QnNrWDUwaExaOHBLWDVNdlF4THkxLWF5a2t2VFIzc19GZUVNYTRDT0thbVJHM05VYXFOM09MYnBLbjhWWEw?oc=5",
+        "published_at": "2026-04-23T07:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "airlines",
+        "raw": {
+          "id": "CBMitAFBVV95cUxPYmlGcXpvcDBvTjN6TFhWN2wwZ3VhWW1nZTBOQjBOaHZsMVc3endEdnBJV292NElQYjlLTVpSQS1QNE9lX2M2TTA1YXJFcUxwdWtIVFh2elY1dzVvT2QtdHBKenlZb0M2Rno1WTBtZEZabDMxQTQ3QnNrWDUwaExaOHBLWDVNdlF4THkxLWF5a2t2VFIzc19GZUVNYTRDT0thbVJHM05VYXFOM09MYnBLbjhWWEw",
+          "title": "Traders Chased a Trump Bump in Spirit Airlines Stock. It's a Risky Move. - Investopedia",
+          "source": "Investopedia",
+          "source_url": "https://www.investopedia.com",
+          "publisher_homepage_url": "https://www.investopedia.com",
+          "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPYmlGcXpvcDBvTjN6TFhWN2wwZ3VhWW1nZTBOQjBOaHZsMVc3endEdnBJV292NElQYjlLTVpSQS1QNE9lX2M2TTA1YXJFcUxwdWtIVFh2elY1dzVvT2QtdHBKenlZb0M2Rno1WTBtZEZabDMxQTQ3QnNrWDUwaExaOHBLWDVNdlF4THkxLWF5a2t2VFIzc19GZUVNYTRDT0thbVJHM05VYXFOM09MYnBLbjhWWEw?oc=5",
+          "published_at": "2026-04-23T07:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMitAFBVV95cUxPYmlGcXpvcDBvTjN6TFhWN2wwZ3VhWW1nZTBOQjBOaHZsMVc3endEdnBJV292NElQYjlLTVpSQS1QNE9lX2M2TTA1YXJFcUxwdWtIVFh2elY1dzVvT2QtdHBKenlZb0M2Rno1WTBtZEZabDMxQTQ3QnNrWDUwaExaOHBLWDVNdlF4THkxLWF5a2t2VFIzc19GZUVNYTRDT0thbVJHM05VYXFOM09MYnBLbjhWWEw?oc=5\" target=\"_blank\">Traders Chased a Trump Bump in Spirit Airlines Stock. It's a Risky Move.</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investopedia</font>",
+          "sector": "airlines",
+          "source_type": "google_sector_rss",
+          "query": "airlines stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 42,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This article discusses JetBlue Airways and Spirit Airlines, neither of which are held positions in the portfolio.",
+      "article": {
+        "external_id": "CBMi8AFBVV95cUxPWXZIQ19mODI3VVBRSDdaa0FpV2JEaDZJZkpZUXhMajJkcWZBR05aNW9odTVkcG1ZNFNmV3ZrbFBaMFNuUHBQQldRRXhSdmphYmtEWjJENnlyODhTS3k5ejJTUTlPaFlWSVYybXdwWVdOSVNvcFI1VmpvUFR2eUQtYkxxQ2hMY3lxbXd2c2hLVFprdVBMRlpSQU5fR2JzUG1FQmU1YzlHazV2WlVfbzNEemktNFdTQS1wQ0pCaXVfaWh5N2lfYWxKODM2X0lIUm1BTXZNQktEY09QZmUxMC1GeHdFSFNKeTA4elR2ck9HMTg",
+        "event_hash": "32aadc97a2128352bee3b82d7a862f9337011caece92b028e2f1b238ded6859d",
+        "source_type": "cnbc_sector_rss",
+        "source": "The Motley Fool",
+        "source_url": "https://www.fool.com",
+        "title": "Stock Market Today, May 1: JetBlue Airways Rises on News That Spirit Airlines Bailout May Not Happen - The Motley Fool",
+        "summary": "Stock Market Today, May 1: JetBlue Airways Rises on News That Spirit Airlines Bailout May Not Happen The Motley Fool",
+        "body": "Stock Market Today, May 1: JetBlue Airways Rises on News That Spirit Airlines Bailout May Not Happen The Motley Fool",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxPWXZIQ19mODI3VVBRSDdaa0FpV2JEaDZJZkpZUXhMajJkcWZBR05aNW9odTVkcG1ZNFNmV3ZrbFBaMFNuUHBQQldRRXhSdmphYmtEWjJENnlyODhTS3k5ejJTUTlPaFlWSVYybXdwWVdOSVNvcFI1VmpvUFR2eUQtYkxxQ2hMY3lxbXd2c2hLVFprdVBMRlpSQU5fR2JzUG1FQmU1YzlHazV2WlVfbzNEemktNFdTQS1wQ0pCaXVfaWh5N2lfYWxKODM2X0lIUm1BTXZNQktEY09QZmUxMC1GeHdFSFNKeTA4elR2ck9HMTg?oc=5",
+        "published_at": "2026-05-01T23:03:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "airlines",
+        "raw": {
+          "id": "CBMi8AFBVV95cUxPWXZIQ19mODI3VVBRSDdaa0FpV2JEaDZJZkpZUXhMajJkcWZBR05aNW9odTVkcG1ZNFNmV3ZrbFBaMFNuUHBQQldRRXhSdmphYmtEWjJENnlyODhTS3k5ejJTUTlPaFlWSVYybXdwWVdOSVNvcFI1VmpvUFR2eUQtYkxxQ2hMY3lxbXd2c2hLVFprdVBMRlpSQU5fR2JzUG1FQmU1YzlHazV2WlVfbzNEemktNFdTQS1wQ0pCaXVfaWh5N2lfYWxKODM2X0lIUm1BTXZNQktEY09QZmUxMC1GeHdFSFNKeTA4elR2ck9HMTg",
+          "title": "Stock Market Today, May 1: JetBlue Airways Rises on News That Spirit Airlines Bailout May Not Happen - The Motley Fool",
+          "source": "The Motley Fool",
+          "source_url": "https://www.fool.com",
+          "publisher_homepage_url": "https://www.fool.com",
+          "url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxPWXZIQ19mODI3VVBRSDdaa0FpV2JEaDZJZkpZUXhMajJkcWZBR05aNW9odTVkcG1ZNFNmV3ZrbFBaMFNuUHBQQldRRXhSdmphYmtEWjJENnlyODhTS3k5ejJTUTlPaFlWSVYybXdwWVdOSVNvcFI1VmpvUFR2eUQtYkxxQ2hMY3lxbXd2c2hLVFprdVBMRlpSQU5fR2JzUG1FQmU1YzlHazV2WlVfbzNEemktNFdTQS1wQ0pCaXVfaWh5N2lfYWxKODM2X0lIUm1BTXZNQktEY09QZmUxMC1GeHdFSFNKeTA4elR2ck9HMTg?oc=5",
+          "published_at": "2026-05-01T23:03:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi8AFBVV95cUxPWXZIQ19mODI3VVBRSDdaa0FpV2JEaDZJZkpZUXhMajJkcWZBR05aNW9odTVkcG1ZNFNmV3ZrbFBaMFNuUHBQQldRRXhSdmphYmtEWjJENnlyODhTS3k5ejJTUTlPaFlWSVYybXdwWVdOSVNvcFI1VmpvUFR2eUQtYkxxQ2hMY3lxbXd2c2hLVFprdVBMRlpSQU5fR2JzUG1FQmU1YzlHazV2WlVfbzNEemktNFdTQS1wQ0pCaXVfaWh5N2lfYWxKODM2X0lIUm1BTXZNQktEY09QZmUxMC1GeHdFSFNKeTA4elR2ck9HMTg?oc=5\" target=\"_blank\">Stock Market Today, May 1: JetBlue Airways Rises on News That Spirit Airlines Bailout May Not Happen</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">The Motley Fool</font>",
+          "sector": "airlines",
+          "source_type": "google_sector_rss",
+          "query": "airlines stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 43,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+        "event_hash": "7781e95f875227fa69d82f20e4e003cb6ecab937f7d2e893b2a4726e74c9e5fd",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com",
+        "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+        "summary": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "body": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+        "published_at": "2026-05-07T23:12:41+00:00",
+        "ticker_hints": [],
+        "sector_hint": "energy",
+        "raw": {
+          "id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+          "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+          "published_at": "2026-05-07T23:12:41+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5\" target=\"_blank\">Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketBeat</font>",
+          "sector": "energy",
+          "source_type": "google_sector_rss",
+          "query": "energy stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 44,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article is outside the recent evidence window",
+      "article": {
+        "external_id": "CBMirwFBVV95cUxPSXF0U25RRURKQW5aWGQyVmNkX2g3QlhabndLbC1RRkR1Y0J5ZmpuUUlEc1JCU2gxb0N0emlydXZ6ZzRpdlF0Q1AzSXRBaXlhMzZ0b2d6QmpPR1laYUJJRVUxa2d0cUVjVmdMdTJ4ZC1aS0MxSFlfVTdDMHF4NVp3Q1k0Nl94SEVxTi1JYWpMSzJtX1JjbW82ZWRQcjk1MVlSclhDNmdINXE4Ulh1ZTlR",
+        "event_hash": "6e7c2d8ce4d0bf731036f43a4b2dc20c19bef361f2c8b5a3ac52b2471ce770aa",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com",
+        "title": "7 Media & Telecom Stocks JPMorgan Favors for 2026 - Investing.com",
+        "summary": "7 Media & Telecom Stocks JPMorgan Favors for 2026 Investing.com",
+        "body": "7 Media & Telecom Stocks JPMorgan Favors for 2026 Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPSXF0U25RRURKQW5aWGQyVmNkX2g3QlhabndLbC1RRkR1Y0J5ZmpuUUlEc1JCU2gxb0N0emlydXZ6ZzRpdlF0Q1AzSXRBaXlhMzZ0b2d6QmpPR1laYUJJRVUxa2d0cUVjVmdMdTJ4ZC1aS0MxSFlfVTdDMHF4NVp3Q1k0Nl94SEVxTi1JYWpMSzJtX1JjbW82ZWRQcjk1MVlSclhDNmdINXE4Ulh1ZTlR?oc=5",
+        "published_at": "2026-01-16T08:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "telecommunication",
+        "raw": {
+          "id": "CBMirwFBVV95cUxPSXF0U25RRURKQW5aWGQyVmNkX2g3QlhabndLbC1RRkR1Y0J5ZmpuUUlEc1JCU2gxb0N0emlydXZ6ZzRpdlF0Q1AzSXRBaXlhMzZ0b2d6QmpPR1laYUJJRVUxa2d0cUVjVmdMdTJ4ZC1aS0MxSFlfVTdDMHF4NVp3Q1k0Nl94SEVxTi1JYWpMSzJtX1JjbW82ZWRQcjk1MVlSclhDNmdINXE4Ulh1ZTlR",
+          "title": "7 Media & Telecom Stocks JPMorgan Favors for 2026 - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPSXF0U25RRURKQW5aWGQyVmNkX2g3QlhabndLbC1RRkR1Y0J5ZmpuUUlEc1JCU2gxb0N0emlydXZ6ZzRpdlF0Q1AzSXRBaXlhMzZ0b2d6QmpPR1laYUJJRVUxa2d0cUVjVmdMdTJ4ZC1aS0MxSFlfVTdDMHF4NVp3Q1k0Nl94SEVxTi1JYWpMSzJtX1JjbW82ZWRQcjk1MVlSclhDNmdINXE4Ulh1ZTlR?oc=5",
+          "published_at": "2026-01-16T08:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMirwFBVV95cUxPSXF0U25RRURKQW5aWGQyVmNkX2g3QlhabndLbC1RRkR1Y0J5ZmpuUUlEc1JCU2gxb0N0emlydXZ6ZzRpdlF0Q1AzSXRBaXlhMzZ0b2d6QmpPR1laYUJJRVUxa2d0cUVjVmdMdTJ4ZC1aS0MxSFlfVTdDMHF4NVp3Q1k0Nl94SEVxTi1JYWpMSzJtX1JjbW82ZWRQcjk1MVlSclhDNmdINXE4Ulh1ZTlR?oc=5\" target=\"_blank\">7 Media & Telecom Stocks JPMorgan Favors for 2026</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investing.com</font>",
+          "sector": "telecommunication",
+          "source_type": "google_sector_rss",
+          "query": "telecommunication stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 45,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article is outside the recent evidence window",
+      "article": {
+        "external_id": "CBMisgFBVV95cUxQT3IySHhCY1lPMW90b3p3aTNhZEdQYUVWUmt1aUVEcUdoYjcxZ09oZy1Vb1N4TjAxTU1ZN212Z0ROMVpBUlpNNDlJN1pLM0o4WkNzX2pkLURNWURweEEyY0Z5M2poZnY1ZnMwcmpKcW9fYVNvNC1Jd3ExMTg2TlVweVdvdVVfeTBvbDVOeEhEaUdsXzNIakVlMEJ4VjZESzBBSkhRcFRZWTNsMUhYcFZTaUpB",
+        "event_hash": "048421c4c2e534ae752189f3423a844b81c1bef6acef78f06d479886af3c2bb4",
+        "source_type": "cnbc_sector_rss",
+        "source": "investingLive",
+        "source_url": "https://investinglive.com",
+        "title": "Tech stumbles while telecom soars: Today's market dynamics - investingLive",
+        "summary": "Tech stumbles while telecom soars: Today's market dynamics investingLive",
+        "body": "Tech stumbles while telecom soars: Today's market dynamics investingLive",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQT3IySHhCY1lPMW90b3p3aTNhZEdQYUVWUmt1aUVEcUdoYjcxZ09oZy1Vb1N4TjAxTU1ZN212Z0ROMVpBUlpNNDlJN1pLM0o4WkNzX2pkLURNWURweEEyY0Z5M2poZnY1ZnMwcmpKcW9fYVNvNC1Jd3ExMTg2TlVweVdvdVVfeTBvbDVOeEhEaUdsXzNIakVlMEJ4VjZESzBBSkhRcFRZWTNsMUhYcFZTaUpB?oc=5",
+        "published_at": "2026-01-30T08:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "telecommunication",
+        "raw": {
+          "id": "CBMisgFBVV95cUxQT3IySHhCY1lPMW90b3p3aTNhZEdQYUVWUmt1aUVEcUdoYjcxZ09oZy1Vb1N4TjAxTU1ZN212Z0ROMVpBUlpNNDlJN1pLM0o4WkNzX2pkLURNWURweEEyY0Z5M2poZnY1ZnMwcmpKcW9fYVNvNC1Jd3ExMTg2TlVweVdvdVVfeTBvbDVOeEhEaUdsXzNIakVlMEJ4VjZESzBBSkhRcFRZWTNsMUhYcFZTaUpB",
+          "title": "Tech stumbles while telecom soars: Today's market dynamics - investingLive",
+          "source": "investingLive",
+          "source_url": "https://investinglive.com",
+          "publisher_homepage_url": "https://investinglive.com",
+          "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQT3IySHhCY1lPMW90b3p3aTNhZEdQYUVWUmt1aUVEcUdoYjcxZ09oZy1Vb1N4TjAxTU1ZN212Z0ROMVpBUlpNNDlJN1pLM0o4WkNzX2pkLURNWURweEEyY0Z5M2poZnY1ZnMwcmpKcW9fYVNvNC1Jd3ExMTg2TlVweVdvdVVfeTBvbDVOeEhEaUdsXzNIakVlMEJ4VjZESzBBSkhRcFRZWTNsMUhYcFZTaUpB?oc=5",
+          "published_at": "2026-01-30T08:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMisgFBVV95cUxQT3IySHhCY1lPMW90b3p3aTNhZEdQYUVWUmt1aUVEcUdoYjcxZ09oZy1Vb1N4TjAxTU1ZN212Z0ROMVpBUlpNNDlJN1pLM0o4WkNzX2pkLURNWURweEEyY0Z5M2poZnY1ZnMwcmpKcW9fYVNvNC1Jd3ExMTg2TlVweVdvdVVfeTBvbDVOeEhEaUdsXzNIakVlMEJ4VjZESzBBSkhRcFRZWTNsMUhYcFZTaUpB?oc=5\" target=\"_blank\">Tech stumbles while telecom soars: Today's market dynamics</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">investingLive</font>",
+          "sector": "telecommunication",
+          "source_type": "google_sector_rss",
+          "query": "telecommunication stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 46,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Article is outside the recent evidence window",
+      "article": {
+        "external_id": "CBMi7AFBVV95cUxQa3paTDFVbEJpN0cxb25qamN1NkRSMy02NXZxQm1XaUVuRWdlcDFNQXp5VnJFYVBfNE1sTVVnNDdwNXlndk5FMGVwbk1CTklPa0FhY1BxX2FMa0xQb0dyYnhIY1BiV1RVenhVMFJWX3FEUkNkZTNtU0MxMVV6WW80QVNFUWg4VXh4RHg3N1c5b043X09kLWh5U1JiaXdlRXoyNTlTUUtrcUJybjR0LW81RlFjVnZiNllIekZXTWpVcERLODFrVDBqejVSS3pQMElrSTAzQV82WFZnZG1wNVdfdWFtQnpiVGRZWmstZQ",
+        "event_hash": "f715bb8a0ffaf123c6416e73c4c44e70474b04fc72aefeb98387c16ca40e47e1",
+        "source_type": "cnbc_sector_rss",
+        "source": "StockStory",
+        "source_url": "https://stockstory.org",
+        "title": "Primoris, Corning, Plug Power, Construction Partners, and Dycom Shares Plummet, What You Need To Know - StockStory",
+        "summary": "Primoris, Corning, Plug Power, Construction Partners, and Dycom Shares Plummet, What You Need To Know StockStory",
+        "body": "Primoris, Corning, Plug Power, Construction Partners, and Dycom Shares Plummet, What You Need To Know StockStory",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQa3paTDFVbEJpN0cxb25qamN1NkRSMy02NXZxQm1XaUVuRWdlcDFNQXp5VnJFYVBfNE1sTVVnNDdwNXlndk5FMGVwbk1CTklPa0FhY1BxX2FMa0xQb0dyYnhIY1BiV1RVenhVMFJWX3FEUkNkZTNtU0MxMVV6WW80QVNFUWg4VXh4RHg3N1c5b043X09kLWh5U1JiaXdlRXoyNTlTUUtrcUJybjR0LW81RlFjVnZiNllIekZXTWpVcERLODFrVDBqejVSS3pQMElrSTAzQV82WFZnZG1wNVdfdWFtQnpiVGRZWmstZQ?oc=5",
+        "published_at": "2026-03-05T08:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "construction",
+        "raw": {
+          "id": "CBMi7AFBVV95cUxQa3paTDFVbEJpN0cxb25qamN1NkRSMy02NXZxQm1XaUVuRWdlcDFNQXp5VnJFYVBfNE1sTVVnNDdwNXlndk5FMGVwbk1CTklPa0FhY1BxX2FMa0xQb0dyYnhIY1BiV1RVenhVMFJWX3FEUkNkZTNtU0MxMVV6WW80QVNFUWg4VXh4RHg3N1c5b043X09kLWh5U1JiaXdlRXoyNTlTUUtrcUJybjR0LW81RlFjVnZiNllIekZXTWpVcERLODFrVDBqejVSS3pQMElrSTAzQV82WFZnZG1wNVdfdWFtQnpiVGRZWmstZQ",
+          "title": "Primoris, Corning, Plug Power, Construction Partners, and Dycom Shares Plummet, What You Need To Know - StockStory",
+          "source": "StockStory",
+          "source_url": "https://stockstory.org",
+          "publisher_homepage_url": "https://stockstory.org",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQa3paTDFVbEJpN0cxb25qamN1NkRSMy02NXZxQm1XaUVuRWdlcDFNQXp5VnJFYVBfNE1sTVVnNDdwNXlndk5FMGVwbk1CTklPa0FhY1BxX2FMa0xQb0dyYnhIY1BiV1RVenhVMFJWX3FEUkNkZTNtU0MxMVV6WW80QVNFUWg4VXh4RHg3N1c5b043X09kLWh5U1JiaXdlRXoyNTlTUUtrcUJybjR0LW81RlFjVnZiNllIekZXTWpVcERLODFrVDBqejVSS3pQMElrSTAzQV82WFZnZG1wNVdfdWFtQnpiVGRZWmstZQ?oc=5",
+          "published_at": "2026-03-05T08:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi7AFBVV95cUxQa3paTDFVbEJpN0cxb25qamN1NkRSMy02NXZxQm1XaUVuRWdlcDFNQXp5VnJFYVBfNE1sTVVnNDdwNXlndk5FMGVwbk1CTklPa0FhY1BxX2FMa0xQb0dyYnhIY1BiV1RVenhVMFJWX3FEUkNkZTNtU0MxMVV6WW80QVNFUWg4VXh4RHg3N1c5b043X09kLWh5U1JiaXdlRXoyNTlTUUtrcUJybjR0LW81RlFjVnZiNllIekZXTWpVcERLODFrVDBqejVSS3pQMElrSTAzQV82WFZnZG1wNVdfdWFtQnpiVGRZWmstZQ?oc=5\" target=\"_blank\">Primoris, Corning, Plug Power, Construction Partners, and Dycom Shares Plummet, What You Need To Know</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">StockStory</font>",
+          "sector": "construction",
+          "source_type": "google_sector_rss",
+          "query": "construction stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 47,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+        "event_hash": "9dec2ef7a51804cfd1809a68859a9bc47e4042623ad126cfb5cd0d857f04debb",
+        "source_type": "cnbc_sector_rss",
+        "source": "Frontiers",
+        "source_url": "https://www.frontiersin.org",
+        "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+        "summary": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "body": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+        "published_at": "2025-12-15T16:18:58+00:00",
+        "ticker_hints": [],
+        "sector_hint": "machinery",
+        "raw": {
+          "id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+          "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+          "source": "Frontiers",
+          "source_url": "https://www.frontiersin.org",
+          "publisher_homepage_url": "https://www.frontiersin.org",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+          "published_at": "2025-12-15T16:18:58+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5\" target=\"_blank\">Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Frontiers</font>",
+          "sector": "machinery",
+          "source_type": "google_sector_rss",
+          "query": "machinery stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 48,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+        "event_hash": "c268de142bba78da5290b86120bd17a1423dbdf9bce07676bae9afc9f41e2536",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com",
+        "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+        "summary": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "body": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+        "published_at": "2026-05-07T21:14:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+          "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+          "published_at": "2026-05-07T21:14:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5\" target=\"_blank\">Align Technology Inc. stock underperforms Thursday when compared to competitors</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketWatch</font>",
+          "sector": "technology",
+          "source_type": "google_sector_rss",
+          "query": "technology stock market news"
+        }
+      }
+    }
+  ]
+}

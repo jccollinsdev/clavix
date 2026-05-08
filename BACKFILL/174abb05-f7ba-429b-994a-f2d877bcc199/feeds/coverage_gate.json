@@ -1,0 +1,8 @@
+{
+  "limited_evidence": false,
+  "coverage_ok": true,
+  "coverage_rate": 0.475,
+  "threshold": 0.35,
+  "resolved_with_body": 19,
+  "input_count": 40
+}

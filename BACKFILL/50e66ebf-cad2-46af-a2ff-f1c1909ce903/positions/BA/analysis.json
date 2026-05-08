@@ -1,0 +1,114 @@
+{
+  "position": {
+    "id": "04c313d2-70d8-4a2e-9470-a273d0ba854d",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "BA",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 224.38,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "There is not enough recent news to form a confident risk rating for BA. The current rating relies on existing position context and structural factors.",
+    "long_report": "Data for BA is thin in this cycle, so the dominant risk rating defaults to structural and sector factors rather than company-specific catalysts. This is a limited-data rating \u2014 any new company-specific development (earnings, guidance, regulatory action) could shift the picture meaningfully. Treat this as limited-data until fuller data arrives.",
+    "methodology": "Limited-data rating based on position metadata and structural context. No usable event data for this cycle.",
+    "top_risks": [
+      "No confirmed company-specific catalyst in this cycle."
+    ],
+    "watch_items": [
+      "Recheck for resolved company or sector data before treating the current rating as settled."
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "04c313d2-70d8-4a2e-9470-a273d0ba854d",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "BA",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 231.03,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "B",
+    "previous_total_score": 65.5,
+    "summary": "There is not enough recent news to form a confident risk rating for BA. The current rating relies on existing position context and structural factors.",
+    "long_report": "Data for BA is thin in this cycle, so the dominant risk rating defaults to structural and sector factors rather than company-specific catalysts. This is a limited-data rating \u2014 any new company-specific development (earnings, guidance, regulatory action) could shift the picture meaningfully. Treat this as limited-data until fuller data arrives.",
+    "top_risks": [
+      "No confirmed company-specific catalyst in this cycle."
+    ],
+    "watch_items": [
+      "Recheck for resolved company or sector data before treating the current rating as settled."
+    ],
+    "top_news": [],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Limited-data rating based on position metadata and structural context. No usable event data for this cycle.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "afffdff8-87cc-400f-92cf-095868ae21c3",
+      "ticker": "BA",
+      "company_name": "Boeing Co",
+      "asset_class": null,
+      "sector": "Aerospace & Defense",
+      "industry": null,
+      "exchange": "NEW YORK STOCK EXCHANGE, INC.",
+      "market_cap": 182121476214.21786,
+      "market_cap_bucket": "high",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 1225055057.4,
+      "spread_proxy": 0.001,
+      "beta": 1.2232473,
+      "volatility_proxy": 0.305811825,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:31:20.799323+00:00",
+      "created_at": "2026-04-12T22:00:01.859005+00:00",
+      "pe_ratio": 81.4927,
+      "week_52_high": 254.3499,
+      "week_52_low": 176.77,
+      "price": 231.03,
+      "price_as_of": "2026-05-08T10:31:20.789368+00:00",
+      "avg_volume": 5.30258,
+      "previous_close": 229.93,
+      "open_price": 231.45,
+      "day_high": 236.63,
+      "day_low": 229.6,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "BA",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

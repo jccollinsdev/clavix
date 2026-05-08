@@ -1,0 +1,38 @@
+{
+  "exported_at": "2026-04-30T21:08:56.784332Z",
+  "files": {
+    "alerts.json": {
+      "rows": 3515
+    },
+    "analysis_runs.json": {
+      "rows": 1173
+    },
+    "digests.json": {
+      "rows": 140
+    },
+    "portfolio_risk_snapshots.json": {
+      "rows": 32
+    },
+    "position_analyses.json": {
+      "rows": 7648
+    },
+    "positions.json": {
+      "rows": 507
+    },
+    "risk_scores.json": {
+      "rows": 6492
+    },
+    "scheduler_jobs.json": {
+      "rows": 3
+    },
+    "ticker_news_cache.json": {
+      "rows": 1086
+    },
+    "ticker_refresh_jobs.json": {
+      "rows": 8755
+    },
+    "ticker_risk_snapshots.json": {
+      "rows": 6046
+    }
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "input_count": 40,
+  "enriched_count": 17,
+  "resolved_with_body": 17,
+  "wrapper_only": 23,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "T": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 3,
+        "ok_proxy": 1
+      }
+    },
+    "ADSK": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 1,
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899315-builders-firstsource-still-not-the-time-to-upgrade-to-buy-yet'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1
+      }
+    },
+    "BA": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "ok": 2
+      }
+    },
+    "CVX": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "ok_proxy": 1,
+        "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1
+      }
+    },
+    "BLDR": {
+      "input_count": 4,
+      "resolved_with_body": 1,
+      "wrapper_only": 3,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "error:Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "unknown": 3
+      }
+    },
+    "BSX": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CPT": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "AME": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "BG": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "COR": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "ok": 8,
+    "ok_proxy": 4,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4899315-builders-firstsource-still-not-the-time-to-upgrade-to-buy-yet'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+    "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+    "error:Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "unknown": 23
+  },
+  "failure_reason_counts": {
+    "unknown": 23
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 23
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "T",
+      "title": "Is Now An Opportune Moment To Examine Autodesk, Inc. (NASDAQ:ADSK)? - Yahoo Finance",
+      "status": "ok"
+    },
+    {
+      "ticker": "T",
+      "title": "AMETEK Announces Agreement to Acquire Indicor Instrumentation - CD&R",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "T",
+      "title": "Here's What Analysts Are Forecasting For AMETEK, Inc. (NYSE:AME) After Its First-Quarter Results - Yahoo Finance",
+      "status": "ok"
+    },
+    {
+      "ticker": "T",
+      "title": "How Investors Are Reacting To Bunge Global (BG) Earnings Beat On Sales But Margin Squeeze And Buyback - Sahm",
+      "status": "ok"
+    },
+    {
+      "ticker": "ADSK",
+      "title": "Bunge Global shares rise 2% after earnings beat and guidance upgrade - MSN",
+      "status": "ok"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "BLDR",
+      "title": "Builders FirstSource Inc. stock underperforms Friday when compared to competitors - MarketWatch",
+      "status": "unknown"
+    },
+    {
+      "ticker": "BLDR",
+      "title": "Builders FirstSource, Inc. (BLDR) Is a Trending Stock: Facts to Know Before Betting on It - Yahoo Finance",
+      "status": "unknown"
+    },
+    {
+      "ticker": "BLDR",
+      "title": "Builders FirstSource: Still Not The Time To Upgrade To Buy Yet (NYSE:BLDR) - Seeking Alpha",
+      "status": "unknown"
+    },
+    {
+      "ticker": "BSX",
+      "title": "US FDA issues recall of Boston Scientific heart devices - Reuters",
+      "status": "unknown"
+    },
+    {
+      "ticker": "BSX",
+      "title": "Penumbra shareholders approve merger with Boston Scientific - Investing.com",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.425,
+  "coverage_ok": true
+}

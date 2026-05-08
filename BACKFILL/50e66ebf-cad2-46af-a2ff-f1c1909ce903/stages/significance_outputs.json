@@ -1,0 +1,606 @@
+{
+  "articles_classified": [
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPTWh6QjUxTFdkSF8wclpIOFgxYThXaWhzX3oxX21oUTBJbVBQUEwwTjd3eGs1YjlxNXZFZFF6MEFnZHl0Ql9LNWZNeGJ4blE5Y3cwTTlLb2w2WXdxT05LOHNMTXlPVjctLWtoM3JVVWdmTnlXRHZaUEpPSVJBV3dEa3pvQTY4QWJiVF80ZUo1a2hkMDZVbVk4YWF1cElXaV8yU2xmWg?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "a30d7a0980e4b8ad273221dd89ad5cf2271e1712c6a1274dbb6c4f2aa0d473e4",
+      "source_type": "company_news",
+      "source": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html",
+      "title": "Here's What Analysts Are Forecasting For AMETEK, Inc. (NYSE:AME) After Its First-Quarter Results - Yahoo Finance",
+      "summary": "Here's What Analysts Are Forecasting For AMETEK, Inc. (NYSE:AME) After Its First-Quarter Results Yahoo Finance",
+      "body": "AMETEK, Inc. ( NYSE:AME ) came out with its quarterly results last week, and we wanted to see how the business is performing and what industry forecasters think of the company following this report. The result was positive overall - although revenues of US$1.9b were in line with what the analysts predicted, AMETEK surprised by delivering a statutory profit of US$1.74 per share, modestly greater than expected. The analysts typically update their forecasts at each earnings report, and we can judge from their estimates whether their view of the company has changed or if there are any new concerns to be aware of. With this in mind, we&#39;ve gathered the latest statutory forecasts to see what the analysts are expecting for next year.\n\nTrump has pledged to &quot;unleash&quot; American oil and gas and these 15 US stocks have developments that are poised to benefit.\n\nAfter the latest results, the 15 analysts covering AMETEK are now predicting revenues of US$8.00b in 2026. If met, this would reflect a modest 5.3% improvement in revenue compared to the last 12 months. Per-share earnings are expected to accumulate 8.2% to US$7.22. Yet prior to the latest earnings, the analysts had been anticipated revenues of US$7.97b and earnings per share (EPS) of US$7.19 in 2026. The consensus analysts don&#39;t seem to have seen anything in these results that would have changed their view on the business, given there&#39;s been no ma",
+      "evidence_quality": "full_body",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html",
+      "published_at": "Sat, 02 May 2026 13:55:56 GMT",
+      "ticker_hints": [
+        "AME"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPTWh6QjUxTFdkSF8wclpIOFgxYThXaWhzX3oxX21oUTBJbVBQUEwwTjd3eGs1YjlxNXZFZFF6MEFnZHl0Ql9LNWZNeGJ4blE5Y3cwTTlLb2w2WXdxT05LOHNMTXlPVjctLWtoM3JVVWdmTnlXRHZaUEpPSVJBV3dEa3pvQTY4QWJiVF80ZUo1a2hkMDZVbVk4YWF1cElXaV8yU2xmWg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Here's What Analysts Are Forecasting For AMETEK, Inc. (NYSE:AME) After Its First-Quarter Results - Yahoo Finance",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html",
+        "publisher_homepage_url": "https://finance.yahoo.com",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html",
+        "published_at": "Sat, 02 May 2026 13:55:56 GMT",
+        "summary": "Here's What Analysts Are Forecasting For AMETEK, Inc. (NYSE:AME) After Its First-Quarter Results  Yahoo Finance",
+        "ticker": "AME",
+        "company_name": "AMETEK Inc",
+        "query": "AMETEK Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "AME"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Post-Q1 analyst forecasts and price targets provide updated growth expectations for AME.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://finance.yahoo.com/markets/stocks/articles/heres-analysts-forecasting-ametek-inc-135556834.html",
+      "content_source": "finance.yahoo.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 236,
+          "title_hits": 7,
+          "resolved_host": "finance.yahoo.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "html"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOdm5OdEVOai03RHBNbUVLTURDY1dsLTI1YjRpVzFVb1YtTmVqZXFCQXFNR09xOHBVa1dLWE95UzgwT3luY01DNVc4NnRmMjFyc21zSXlTaURIY212WFJ2dnQycFRFN21ia0pLZWVWR3VaVXh4b25IMWtrNmNzVzR0d3hUMnlleVI0Z09JekEtakliT194S1p2SmM5MFNfb3V1VlJNNWtCT2toX0R1TUlYNnlObjlrdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "6ee355388e62c682d94c039341f487291d408c799c10643fde2d651761da9cba",
+      "source_type": "company_news",
+      "source": "Investing.com",
+      "source_url": "https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080",
+      "title": "Penumbra shareholders approve merger with Boston Scientific - Investing.com",
+      "summary": "Penumbra shareholders approve merger with Boston Scientific Investing.com",
+      "body": "Penumbra shareholders approve merger with Boston Scientific Investing.com",
+      "evidence_quality": "title_only",
+      "url": "https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080",
+      "published_at": "Thu, 07 May 2026 13:19:39 GMT",
+      "ticker_hints": [
+        "BSX"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOdm5OdEVOai03RHBNbUVLTURDY1dsLTI1YjRpVzFVb1YtTmVqZXFCQXFNR09xOHBVa1dLWE95UzgwT3luY01DNVc4NnRmMjFyc21zSXlTaURIY212WFJ2dnQycFRFN21ia0pLZWVWR3VaVXh4b25IMWtrNmNzVzR0d3hUMnlleVI0Z09JekEtakliT194S1p2SmM5MFNfb3V1VlJNNWtCT2toX0R1TUlYNnlObjlrdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Penumbra shareholders approve merger with Boston Scientific - Investing.com",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080",
+        "publisher_homepage_url": "https://www.investing.com",
+        "url": "https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080",
+        "published_at": "Thu, 07 May 2026 13:19:39 GMT",
+        "summary": "Penumbra shareholders approve merger with Boston Scientific  Investing.com",
+        "ticker": "BSX",
+        "company_name": "Boston Scientific Corp",
+        "query": "Boston Scientific Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "BSX"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Shareholder approval of BSX-Penumbra merger is a significant corporate development that could expand BSX's portfolio and revenue.",
+        "evidence_quality": "title_only"
+      },
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://www.investing.com/news/sec-filings/penumbra-shareholders-approve-merger-with-boston-scientific-93CH-4668080'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQbGk3ZmYtMVhJb1N0QmRSeV9CY0QxRndTU2dEUWRkZEFIUENFYW83TTNPbkJQYVNWS3J1NzhMM0IyRWc2NkFtUXZsVEs0MHZtOWJ4OW9hNlByOFc0aG9EQ3U5NUpVSHJBWmpldE0yLVpwbWYxWW1jclZBWFR6THFsMTNqV1hxOE9BaFowOUluM214V0lwNGp2Um1zZ192TUw2VVpaVC04aFE?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "cd71b75f19fe468596e6161abaf24fb6085a6f54e0cf834e17593544f408e93b",
+      "source_type": "company_news",
+      "source": "Reuters",
+      "source_url": "https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/",
+      "title": "US FDA issues recall of Boston Scientific heart devices - Reuters",
+      "summary": "US FDA issues recall of Boston Scientific heart devices Reuters",
+      "body": "US FDA issues recall of Boston Scientific heart devices Reuters",
+      "evidence_quality": "title_only",
+      "url": "https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/",
+      "published_at": "Thu, 07 May 2026 21:05:45 GMT",
+      "ticker_hints": [
+        "BSX"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQbGk3ZmYtMVhJb1N0QmRSeV9CY0QxRndTU2dEUWRkZEFIUENFYW83TTNPbkJQYVNWS3J1NzhMM0IyRWc2NkFtUXZsVEs0MHZtOWJ4OW9hNlByOFc0aG9EQ3U5NUpVSHJBWmpldE0yLVpwbWYxWW1jclZBWFR6THFsMTNqV1hxOE9BaFowOUluM214V0lwNGp2Um1zZ192TUw2VVpaVC04aFE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "US FDA issues recall of Boston Scientific heart devices - Reuters",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/",
+        "publisher_homepage_url": "https://www.reuters.com",
+        "url": "https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/",
+        "published_at": "Thu, 07 May 2026 21:05:45 GMT",
+        "summary": "US FDA issues recall of Boston Scientific heart devices  Reuters",
+        "ticker": "BSX",
+        "company_name": "Boston Scientific Corp",
+        "query": "Boston Scientific Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "BSX"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "FDA recall of Boston Scientific heart devices is material regulatory news that could impact product revenue and create liability risk.",
+        "evidence_quality": "title_only"
+      },
+      "scrape_status": "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "resolution_debug": {
+        "error": "Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/legal/litigation/us-fda-issues-recall-boston-scientific-heart-devices-2026-05-07/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401"
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPNDZlbGlTSS1pOHlNZXB3WXVRNVhmWC14Z3FPR25sam5zTUVGOFZNT1BiMldXR3JBSG1ETUZBLW01WmlyODdqMEV2eE81OVZyd3cxY0FWU01JXzNNN1VDY3gyVTNGc18tdldwMWJtMElxamo3S3dqOXdCMS1YSGhzYWdLQU11VWlXN1MwZmFxT0I0dU1OaV9POQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "4d4ab00bade19df32d50c60184542f0d159f613e22968089f4ebfe69b73fff13",
+      "source_type": "company_news",
+      "source": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html",
+      "title": "Cencora, Inc. Q2 2026 Earnings Call Summary - Yahoo Finance",
+      "summary": "Cencora, Inc. Q2 2026 Earnings Call Summary Yahoo Finance",
+      "body": "Performance was driven by solid operating income growth in both U.S. and International segments, despite revenue headwinds from manufacturer list price reductions and customer losses.\n\nManagement attributed the U.S. revenue slowdown to faster-than-expected brand-to-biosimilar conversions at a large mail order customer and slower growth in the GLP-1 category.\n\nStrategic positioning in specialty pharmaceuticals remains a core growth driver, supported by the full acquisition of OneOncology and its integration with existing MSO platforms.\n\nOperational resilience was demonstrated by the global specialty logistics business, which achieved its second consecutive quarter of operating income growth following productivity initiatives.\n\nDigital transformation efforts, including the launch of AI-supported tools, are being embedded across the enterprise to improve customer support quality and operational efficiency.\n\nPortfolio optimization continues through the divestiture of non-core assets, such as U.S. hub consulting services, to focus resources on pharmaceutical-centric growth areas.\n\nFull-year EPS guidance was raised to $17.65\u2013$17.90, primarily reflecting the accounting treatment of MWI as an asset held for sale, alongside strong operating income expectations and the resumption of share repurchases.",
+      "evidence_quality": "full_body",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html",
+      "published_at": "Wed, 06 May 2026 16:48:33 GMT",
+      "ticker_hints": [
+        "COR"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPNDZlbGlTSS1pOHlNZXB3WXVRNVhmWC14Z3FPR25sam5zTUVGOFZNT1BiMldXR3JBSG1ETUZBLW01WmlyODdqMEV2eE81OVZyd3cxY0FWU01JXzNNN1VDY3gyVTNGc18tdldwMWJtMElxamo3S3dqOXdCMS1YSGhzYWdLQU11VWlXN1MwZmFxT0I0dU1OaV9POQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Cencora, Inc. Q2 2026 Earnings Call Summary - Yahoo Finance",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html",
+        "publisher_homepage_url": "https://finance.yahoo.com",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html",
+        "published_at": "Wed, 06 May 2026 16:48:33 GMT",
+        "summary": "Cencora, Inc. Q2 2026 Earnings Call Summary  Yahoo Finance",
+        "ticker": "COR",
+        "company_name": "Cencora Inc",
+        "query": "Cencora Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "COR"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Cencora earnings call directly affects the COR position as it provides updates on the company's financial performance and outlook.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://finance.yahoo.com/markets/stocks/articles/cencora-inc-q2-2026-earnings-164833854.html",
+      "content_source": "finance.yahoo.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 171,
+          "title_hits": 1,
+          "resolved_host": "finance.yahoo.com",
+          "source_match": true,
+          "acceptance_score": 4,
+          "method": "html"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOLWRxZW1QU0lDbFA1NTRpU1l2b0JDRFRJdHJkZ0tSZGpKZW1FNllvQ2lvSXpsR0J3UTZCSXhUTzdxS0JCOHZjNEMxUmZZcXpycXdoMEprNjU4MUZ1QWM2YlJzb05PWG9Ea3E5UDJ4a2s4UGxFX2dBWnNDcmJ4dDlNejFzdzFTRUlQaXg2NWU1bDFycERRRm9IaXdrLThfcjRFcExJMXFKbjZVS18wYnNnT3ZHY0hGNkxEUmlNaHBPUUFDeWxOUmNlZlFlSW5Fdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "2655e001f2468327de8d3170696aef39b8621ce7c0386553f3237b83b8412831",
+      "source_type": "company_news",
+      "source": "KVUE",
+      "source_url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10",
+      "title": "Cencora: Fiscal Q2 Earnings Snapshot - KVUE",
+      "summary": "Cencora: Fiscal Q2 Earnings Snapshot KVUE",
+      "body": "CONSHOHOCKEN, Pa.(AP) \u2014 CONSHOHOCKEN, Pa. (AP) \u2014 Cencora, Inc. (COR) on Wednesday reported fiscal second-quarter net income of $1.64 billion.\n\nThe Conshohocken, Pennsylvania-based company said it had profit of $8.40 per share. Earnings, adjusted for one-time gains and costs, were $4.75 per share.\n\nThe results did not meet Wall Street expectations. The average estimate of seven analysts surveyed by Zacks Investment Research was for earnings of $4.80 per share.\n\nThe prescription drug distributor posted revenue of $78.36 billion in the period, which also fell short of Street forecasts. Six analysts surveyed by Zacks expected $80.76 billion.\n\nCencora expects full-year earnings in the range of $17.65 to $17.90 per share.\n\nThis story was generated by Automated Insights (http://automatedinsights.com/ap) using data from Zacks Investment Research. Access a Zacks stock report on COR at https://www.zacks.com/ap/COR",
+      "evidence_quality": "full_body",
+      "url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10",
+      "published_at": "Wed, 06 May 2026 10:48:00 GMT",
+      "ticker_hints": [
+        "COR"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOLWRxZW1QU0lDbFA1NTRpU1l2b0JDRFRJdHJkZ0tSZGpKZW1FNllvQ2lvSXpsR0J3UTZCSXhUTzdxS0JCOHZjNEMxUmZZcXpycXdoMEprNjU4MUZ1QWM2YlJzb05PWG9Ea3E5UDJ4a2s4UGxFX2dBWnNDcmJ4dDlNejFzdzFTRUlQaXg2NWU1bDFycERRRm9IaXdrLThfcjRFcExJMXFKbjZVS18wYnNnT3ZHY0hGNkxEUmlNaHBPUUFDeWxOUmNlZlFlSW5Fdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Cencora: Fiscal Q2 Earnings Snapshot - KVUE",
+        "source": "KVUE",
+        "source_url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10",
+        "publisher_homepage_url": "https://www.kvue.com",
+        "url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10",
+        "published_at": "Wed, 06 May 2026 10:48:00 GMT",
+        "summary": "Cencora: Fiscal Q2 Earnings Snapshot  KVUE",
+        "ticker": "COR",
+        "company_name": "Cencora Inc",
+        "query": "Cencora Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "COR"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Cencora fiscal Q2 earnings snapshot directly affects the COR position by reporting financial results relevant to its growth archetype.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.kvue.com/article/syndication/associatedpress/cencora-fiscal-q2-earnings-snapshot/616-115e0497-fb60-4a6c-bdd8-798e32d57b10",
+      "content_source": "www.kvue.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 132,
+          "title_hits": 3,
+          "resolved_host": "kvue.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "html"
+        }
+      }
+    },
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQQnQ1emJ6ODZaV2pkQTlhaGM1QzFjZ2J5VTRXVGR0SVBMQlRSSTJiZ3I2M05LZ0F4MlFFZUc2QzQ5My14NUF2WkNodWYxS1dsQnJKNXhCenZMVlQxck1GNjQ2YVVReFlUV0txWHVWRXdBc3BYbXRkOWdNLUl3QklFZlpYQVo5QXlpZVk0ZnR1dnJBTXIzSmNRU3k4Z0owT3owaEZhTmFn?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/",
+        "query": "Camden Property Trust",
+        "title": "Camden Property Trust Q1 Earnings Call Highlights - MarketBeat",
+        "source": "MarketBeat",
+        "ticker": "CPT",
+        "summary": "Camden Property Trust Q1 Earnings Call Highlights  MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/",
+        "source_type": "company_news",
+        "company_name": "Camden Property Trust",
+        "published_at": "Fri, 01 May 2026 18:59:24 GMT",
+        "decoded_google_url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/",
+        "publisher_homepage_url": "https://www.marketbeat.com"
+      },
+      "url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/",
+      "body": "Camden Property Trust NYSE: CPT reported first-quarter 2026 results that came in ahead of the midpoint of management\u2019s guidance, while executives emphasized that much of the outperformance was timing-related and that the company is watching peak leasing season closely. Get Camden Property Trust alerts: Sign Up Leadership changes and market backdrop Kimberly Callahan, vice president of investor relations, opened the call by noting recent changes to Camden\u2019s executive team. Executive Chairman Ric Campo said the promotions of Alex Jessett to chief executive officer, Laurie Baker to president and chief operating officer, and Ben Fraker to chief financial officer reflect the company\u2019s succession planning and \u201chomegrown talent,\u201d with each executive having more than 25 years at Camden.\n\nCampo also pointed to Camden\u2019s workplace recognition, saying the company was named to the Fortune Best Place to Work list for the 19th consecutive year and ranked No. 13 this year.\n\nOn apartment fundamentals, Campo said new supply \u201chas peaked and has been cut in half in most of our markets,\u201d while first-quarter apartment net absorption was \u201cone of the best since 2016,\u201d despite slow job growth and weak consumer sentiment. Operations: lower bad debt, low turnover, modest April improvement As Home Prices Hit Highs, These Apartment REITs Offer Growth Jessett said the company posted its lowest bad debt level since the onset of COVID-19 at \u201cless than 40 basis points,\u201d attributing the improvement partly to larger income tax refunds received by many residents, continued resident financial strength, and enhanced credit screening. Jessett said refunds for middle- and higher-income earners are up about 10% versus last year, and he noted Camden\u2019s renters \u201cpay a low 19% of their income toward rent.\u201d\n\nBaker said operating performance was \u201cgenerally in line with our expectations.\u201d She added that first-quarter results were \u201cslightly ahead of budget,\u201d but the outperformance was \u201cmainly driven by timing-related items.\u201d Baker said preliminary April results were on track and showed \u201cmodest improvements\u201d in occupancy and blended lease rate growth versus the first quarter.\n\nTurnover remained \u201cexceptionally low,\u201d Baker said, with first-quarter 2026 annualized net turnover of 30%, \u201cone of the lowest in our company\u2019s history.\u201d She said only 9.2% of move-outs were related to home purchases, and she pointed to \u201crecord levels of resident retention.\u201d Renewal offers for May through July were sent out with average increases in the mid-3% range.\n\nIn the Q&A, management provided additional color on early second-quarter trends. The company said April occupancy was about 95.4%, compared to 95.1% in the first quarter, and that blended rates in April were up about 100 basis points compared to the first quarter. Management said it is anticipating a \u201cpretty strong third quarter,\u201d with a potentially better-than-typical fourth quarter if supply continues to fall as expected. Jessett highlighted \u201cgreen shoots\u201d in Atlanta, Dallas, Orlando, Nashville, Raleigh, and Southeast Florida.\n\nOn concessions, management said Camden does not offer concessions, but it is seeing market concessions \u201ccome down fairly meaningful in most of our markets,\u201d which it tied to lower supply. The company cited its Village District development in Raleigh, noting it is offering a concession there but \u201cnot much over\u201d one month free, which management said indicates concessions are \u201cstarting to get into check.\u201d Capital allocation: buybacks, acquisitions, and California sale progress Jessett said the company\u2019s process to sell its California portfolio was progressing on schedule, with \u201cover 230 companies signing confidentiality agreements.\u201d Camden is in diligence with one buyer for the entire portfolio and expects a closing \u201cat the end of June or early July.\u201d If that does not work out, Jessett said there are other potential buyers that could step in, \u201calthough with a later closing date.\u201d Management said the sales price is \u201cin line with expectations,\u201d but did not provide details.\n\nJessett said Camden continues to assume about 60% of the proceeds will be reinvested via 1031 exchanges into its Sun Belt markets. The remainder of the proceeds\u2014modeled at $650 million\u2014has been used for share repurchases in late 2025 and year-to-date 2026.",
+      "title": "Camden Property Trust Q1 Earnings Call Highlights - MarketBeat",
+      "source": "MarketBeat",
+      "summary": "Camden Property Trust Q1 Earnings Call Highlights MarketBeat",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Direct Q1 earnings call coverage for held position CPT, providing insights into operational performance and management outlook.",
+        "affected_tickers": [
+          "CPT"
+        ],
+        "evidence_quality": "full_body"
+      },
+      "event_hash": "47cfbe46c202b32e0329f68e2d9d7fca6c2d8c3f7df3ee94efe824c722698885",
+      "source_url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/",
+      "external_id": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQQnQ1emJ6ODZaV2pkQTlhaGM1QzFjZ2J5VTRXVGR0SVBMQlRSSTJiZ3I2M05LZ0F4MlFFZUc2QzQ5My14NUF2WkNodWYxS1dsQnJKNXhCenZMVlQxck1GNjQ2YVVReFlUV0txWHVWRXdBc3BYbXRkOWdNLUl3QklFZlpYQVo5QXlpZVk0ZnR1dnJBTXIzSmNRU3k4Z0owT3owaEZhTmFn?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Fri, 01 May 2026 18:59:24 GMT",
+      "resolved_url": "https://www.marketbeat.com/instant-alerts/camden-property-trust-q1-earnings-call-highlights-2026-05-01/",
+      "ticker_hints": [
+        "CPT"
+      ],
+      "scrape_status": "ok",
+      "content_source": "www.marketbeat.com",
+      "evidence_quality": "full_body",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "method": "html",
+          "accepted": true,
+          "title_hits": 4,
+          "word_count": 662,
+          "source_match": true,
+          "resolved_host": "marketbeat.com",
+          "failure_reason": "",
+          "acceptance_score": 6
+        }
+      },
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": ""
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPY0VRcWxyUEd5Z2hSLXROeHVSQkROblJ4OS1mV1otMDRHVmhzQ29aVXpXbVliWmZEczVrVzB6dGY2Vmd6QW9QdW1xOFlnc1FCNXlCZHNHbXFnaG5tYjhoWXpEWmdXVGVHeTF0WW03OHFBaXF5aWJvbTZSbS01OWpMM2lwVHM5Q1g0M3VFZkJrdXNjVVNzallMSkt6Z1VPaWwwdThwbWdsVkJnNXpEb2J6eEgtVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "f554ab3739791fb5326294881e9922fc26ae9bc3786e8dadefb1e6141a35f58f",
+      "source_type": "company_news",
+      "source": "Stock Titan",
+      "source_url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html",
+      "title": "[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report - Stock Titan",
+      "summary": "[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report Stock Titan",
+      "body": "[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report\n\nRobo.ai Announces Acquisition of Data Processing and Compression ...\n\nTraws Pharma to Advance Potential Clinical Candidates for the Tre...\n\nTeraWulf Reports First Quarter 2026 Results\n\nCastellum Announces First Quarter 2026 Financial Results\n\nFaraday Future Announces Strategic Partnership Between FF AI-Robo...\n\nFaraday Future Teases New Milestone with Announcement Coming on M...\n\n[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report\n\n10-Q Quarterly Reports: What Changes Quarter to Quarter \u2192\n\n05/01/2026 - 04:05 PM\n\nSECURITIES AND EXCHANGE COMMISSION\n\nWashington, D.C. 20549\n\n\u2612 QUARTERLY REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n\nFor the quarterly period ended March 31, 2026\n\n\u2610 TRANSITION REPORT PURSUANT TO SECTION 13 OR 15(d) OF THE SECURITIES EXCHANGE ACT OF 1934\n\nFor the transition period from ______________ to _______________\n\nCommission file number: 1-12110\n\nCAMDEN PROPERTY TRUST\n\n(Exact Name of Registrant as Specified in Its Charter)\n\n(State or other jurisdiction of\n\nincorporation or organization) (I.R.S. Employer\n\nIdentification No.)\n\n2800 Post Oak Boulevard, Suite 2700 Houston,\n\n(Address of principal executive offices) (Zip Code)\n\n(Registrant's Telephone Number, Including Area Code)\n\n(Former Address, If Changed Since Last Report)\n\nSecurities registered pursuant to Section 12(b) of the Act:\n\nTitle of each class Trading Symbol Name of each exchange on which registered\n\nCommon Shares of Beneficial Interest, $.01 par value CPT NYSE\n\nIndicate by check mark whether the registrant: (1) has filed all reports required to be filed by Section 13 or 15(d) of the Securities Exchange Act of 1934 during the preceding 12 months (or for such shorter period that the registrant was required to file such reports), and (2) has been subject to such filing requirements for the past 90 days. Yes \u00fd No \u00a8\n\nIndicate by check mark whether the registrant has submitted electronically every Interactive Data File required to be submitted pursuant to Rule 405 of Regulation S-T (\u00a7232.405 of this chapter) during the preceding 12 months (or for such shorter period that the registrant was required to submit). Yes \u00fd No \u00a8\n\nIndicate by check mark whether the registrant is a large accelerated filer, an accelerated filer, a non-accelerated filer, a smaller reporting company, or an emerging growth company. See definition of \"large accelerated filer\", \"accelerated filer\", and \"small reporting company\" in Rule 12b-2 of the Exchange Act. (Check one):\n\nLarge Accelerated Filer \u00fd Accelerated filer \u2610\n\nNon-accelerated filer \u00a8 Smaller Reporting Company \u2610\n\nEmerging Growth Company \u2610\n\nIf an emerging growth company, indicate by check mark if the registrant has elected to not use the extended transition period for complying with any new or revised financial accounting standards provided pursuant of Section 13(a) of the Exchange Act. \u00a8\n\nIndicate by check mark whether the registrant is a shell company (as defined in Rule 12b-2 of the Exchange Act). Yes \u2610 No \u00fd\n\nOn April 24, 2026, 100,519,732 common shares of the registrant were outstanding, net of treasury shares and shares held in our deferred compensation arrangements.\n\n1. Description of Business\n\nBusiness. Formed on May 25, 1993, Camden Property Trust (\"CPT\"), a Texas real estate investment trust (\"REIT\"), and all consolidated subsidiaries are primarily engaged in the ownership, management, development, reposition, redevelopment, acquisition, and construction of multifamily apartment communities. Our multifamily apartment communities are referred to as \"communities,\" \"multifamily communities,\" \"properties,\" or \"multifamily properties\" in the following discussion. As of March 31, 2026, we owned interests in, operated, or were developing 174 multifamily properties comprised of 59,416 apartment homes across the United States. Of the 174 properties, three properties were under construction as of March 31, 2026, and will consist of a total of 1,162 apartment homes when completed. We also own land holdings which we may develop into multifamily communities in the future.\n\n2. Summary of Significant Accounting Policies and Recent Accounting Pronouncements\n\nPrinciples of Consolidation. Our condensed consolidated financial statements include our accounts and the accounts of other subsidiaries (including partnerships and limited liability companies) over which we have control. All intercompany transactions, balances, and profits have been eliminated in consolidation. Investments acquired or created are evaluated based on the accounting guidance relating to variable interest entities (\"VIEs\"), which requires the consolidation of VIEs in which we are considered to be the primary beneficiary. If the investment is determined not to be a VIE, then the investment is evaluated for consolidation primarily using a voting interest model. In determining if we have a controlling financial interest, we consider factors such as ownership interests, decision making authority, kick-out rights, and participating rights. As of March 31, 2026, two of our consolidated operating partnerships were VIEs. We are considered the primary beneficiary of both consolidated operating partnerships and therefore consolidate these operating partnerships. As of March 31, 2026, we held approximately 93% and 95% of the outstanding common limited partnership units and the sole 1% general partnership interest in each of these consolidated operating partnerships.\n\nInterim Financial Reporting. We have prepared these unaudited financial statements in accordance with accounting principles generally accepted in the United States of America (\"GAAP\") for interim financial statements and the applicable rules and regulations of the Securities and Exchange Commission (\"SEC\"). Accordingly, these statements do not include all information and footnote disclosures required for annual statements. While we believe the disclosures presented are adequate for interim reporting, these interim unaudited financial statements should be read in conjunction with the audited financial statements and notes included in our 2025 Annual Report on Form 10-K.\n\nAcquisitions of Real Estate. Our acquisitions of real estate assets are generally accounted for as asset acquisitions. Upon acquisition, we determine the fair value of tangible and intangible assets, which includes land, buildings (as if-vacant), furniture and fixtures, the value of in-place leases, including above and below-market leases, and assumed liabilities. In estimating these values, we apply methods similar to those used by independent appraisers of income-producing property. Estimates of fair value of acquired debt, if any, are based upon interest rates available for the issuance of debt with similar terms and remaining maturities. Depreciation is computed on a straight-line basis over the remaining useful lives of the related tangible assets. The value of in-place leases and above or below-market leases is amortized on a straight-line basis over the estimated average remaining life of leases in place at the time of acquisition; the net carrying value of in-place leases are included in other assets, net and the net carrying value of above or below-market leases are included in other liabilities, net in our condensed consolidated balance sheets.\n\nDuring the three months ended March 31, 2026 and 2025, we recognized amortization expense related to in-place leases of approximately $1.3 million and $1.9 million, respectively. Net above and below-market leases were not material during the three months ended March 31, 2026 and 2025.\n\nDuring the three months ended March 31, 2026, the weighted average amortization period for in-place leases and net above-market leases was approximately eight months and nine months, respectively. During the three months ended March 31, 2025, the weighted average amortization period for both in-place leases and net below-market leases was approximately fourteen months.\n\nAsset Impairment. Long-lived assets are reviewed for impairment annually or whenever events or changes in circumstances indicate the carrying amount of an asset may not be recoverable. Impairment may exist if estimated future undiscounted cash flows associated with long-lived assets are not sufficient to recover the carrying value of such assets. We consider projected future undiscounted cash flows, trends, strategic decisions regarding future development plans, and other factors in our assessment of whether impairment conditions exist. While we believe our estimates of future cash flows are reasonable, different assumptions regarding a number of factors, including market rents, economic conditions, and occupancies,\n\ncould significantly affect these estimates. When impairment exists, the long-lived asset is adjusted to its fair value. In estimating fair value, management uses appraisals, comparable sales, management estimates, and discounted cash flow calculations which utilize inputs from a marketplace participant's perspective. No impairment charges were recognized for the three months ended March 31, 2026 or 2025.\n\nThe value of our properties under development depends on market conditions, including estimates of the project start date, projected construction costs, and demand for multifamily communities. We have reviewed market trends and other marketplace information and incorporated this information as well as our current outlook into the assumptions we use in our impairment analyses. Due to the judgment and assumptions applied in the impairment analyses, it is possible actual results could differ substantially from those estimated.\n\nWe believe the carrying value of our operating real estate assets, properties under development and land is currently recoverable. However, if market conditions deteriorate or if changes in our development strategy significantly affect any key assumptions used in our fair value estimates, we may need to take material charges in future periods for impairments related to existing assets. Any such material non-cash charges could have an adverse effect on our condensed consolidated financial position and results of operations.\n\nCost Capitalization. Real estate assets are carried at cost plus capitalized carrying charges. Carrying charges are primarily interest and real estate taxes which are capitalized as part of properties under development. Capitalized interest is generally based on the weighted average interest rate of our unsecured debt and was approximately $3.8 million and $3.6 million for the three months ended March 31, 2026 and 2025, respectively. Capitalized real estate taxes were approximately $0.6 million for each of the three months ended March 31, 2026 and 2025.\n\nExpenditures directly related to the development and improvement of real estate assets are capitalized at cost as land and buildings and improvements. Indirect development costs, including salaries and benefits and other related costs directly attributable to the development of properties, are also capitalized. We begin capitalizing development, construction, and carrying costs when the development of the future real estate asset is probable and certain activities necessary to prepare the underlying real estate for its intended use have been initiated. All construction and carrying costs are capitalized and reported in the balance sheet as properties under development until the apartment homes are substantially completed. As apartment homes within development properties are substantially completed, the total capitalized development cost of each apartment home is transferred from properties under development and land to buildings and improvements.\n\nDepreciation and amortization is computed over the expected useful lives of depreciable property on a straight-line basis with lives generally as follows:\n\nBuildings and improvements 5-35 years\n\nFurniture, fixtures, equipment, and other 3-20 years\n\nIntangible assets/liabilities (in-place leases and above and below-market leases) underlying lease term\n\nDerivative Financial Instruments. Derivative financial instruments are recorded in the condensed consolidated balance sheets at fair value and presented on a gross basis for financial reporting purposes even when those instruments are subject to master netting arrangements and may otherwise qualify for net presentation. Accounting for changes in the fair value of derivatives depends on the intended use of the derivative, whether we have elected to designate a derivative in a hedging relationship and apply hedge accounting, and whether the hedging relationship has satisfied the criteria necessary to apply hedge accounting. Cash flows from derivatives and the related gains and losses are classified as cash flows from operating activities on the condensed consolidated statements of cash flows.\n\nCash Flow Hedges. For derivative instruments which are designated and qualify as a cash flow hedge, the derivative's gain or loss is reported as a component to other comprehensive income (\"OCI\") and recorded in accumulated other comprehensive income (\"AOCI\") on our condensed consolidated balance sheets. The gain or loss is subsequently reclassified into net earnings when the hedged exposure affects net earnings, in the same line item as the underlying hedged item on our condensed consolidated statements of income and comprehensive income.\n\nCash flow hedges related to anticipated transactions are designated and documented at the inception of each hedge. Cash flows from hedging transactions are classified in the same categories as the cash flows from the respective hedged items.\n\nFair Value Hedges. For derivative instruments which are designated and qualify as a fair value hedge, the changes in fair value of the derivative instrument and the offsetting changes in fair value of the underlying hedged item due to changes in the hedged risk are recorded to interest expense on our condensed consolidated statements of income and comprehensive income.\n\nCounterparty Credit Risk. Fair values of our derivatives can change significantly from period-to-period based on, among other factors, market movements and changes in our positions. We manage counterparty credit risk (the risk counterparties will default and not make payments to us according to the terms of our agreements) on an individual counterparty basis.\n\nFair Value. For financial assets and liabilities recorded at fair value on a recurring or non-recurring basis, fair value is the price we would expect to receive to sell an asset, or pay to transfer a liability, in an orderly transaction with a market participant at the measurement date under current market conditions. In the absence of such data, fair value is estimated using internal information consistent with what market participants would use in a hypothetical transaction.\n\nIn determining fair value, observable inputs reflect market data obtained from independent sources while unobservable inputs reflect our market assumptions; preference is given to observable inputs. These two types of inputs create the following fair value hierarchy:\n\n\u2022Level 1: Quoted prices for identical instruments in active markets.\n\n\u2022Level 2: Quoted prices for similar instruments in active markets; quoted prices for identical or similar instruments in markets that are not active; and model-derived valuations whose inputs are observable or whose significant value drivers are observable.\n\n\u2022Level 3: Significant inputs to the valuation model are unobservable.\n\nRecurring Fair Value Measurements. The following describes the valuation methodologies we use to measure different financial instruments at fair value on a recurring basis:\n\nDerivative Financial Instruments. The estimated fair values of derivative financial instruments are valued using widely accepted valuation techniques including discounted cash flow analysis on the expected cash flows of each derivative. This analysis reflects the contractual terms of the derivatives, including the period to maturity, and uses observable market-based inputs, including interest rate curves and volatility. The fair values of interest rate swaps are estimated using the market-standard methodology of netting the discounted fixed cash payments and the discounted expected variable cash receipts. The variable cash receipts are based on an expectation of interest rates (forward curves) derived from observable market interest rate curves. In addition, credit valuation adjustments, which consider the impact of any credit enhancements to the contracts, are incorporated in the fair values to account for potential nonperformance risk, including our own nonperformance risk and the respective counterparty\u2019s nonperformance risk.\n\nAlthough we have determined the majority of the inputs used to value our derivatives fall within Level 2 of the fair value hierarchy, the credit valuation adjustments associated with our derivatives utilize Level 3 inputs, such as estimates of current credit spreads, to evaluate the likelihood of default. However, we have assessed the significance of the impact of the credit valuation adjustments on the overall valuation of our derivative positions and have determined the credit valuation adjustments are not significant to the overall valuation of our derivatives. As a result, we have determined our derivative valuations in their entirety are classified in Level 2 of the fair value hierarchy.\n\nDeferred Compensation Plan Investments. The estimated fair values of investment securities classified as deferred compensation plan investments are based on quoted market prices utilizing public information for the same transactions. Our deferred compensation plan investments, excluding the value of Company shares, are recorded in other assets in our condensed consolidated balance sheets. The inputs associated with the valuation of our recurring deferred compensation plan investments are included in Level 1 of the fair value hierarchy.\n\nNon-Recurring Fair Value Measurements. Certain assets are measured at fair value on a non-recurring basis. These assets are not measured at fair value on an ongoing basis, but are subject to fair value adjustments in certain circumstances. These assets primarily include long-lived assets which are recorded at fair value when they are acquired, or if the long-lived assets are impaired using the fair value methodologies used to measure long-lived assets described above at \"Asset Impairment.\" The inputs associated with the valuation of long-lived assets are generally included in Level 3 of the fair value hierarchy, unless a quoted price for a similar long-lived asset in an active market exists, at which time they are included in Level 2 of the fair value hierarchy. In addition, technology investments are assessed quarterly for impairment and measured at fair value if there is a permanent decline in estimated market conditions using Level 3 inputs, as further described below at \"Investments\".\n\nFinancial Instrument Fair Value Disclosures. As of March 31, 2026 and December 31, 2025, the carrying values of cash and cash equivalents, accounts receivable, accounts payable, accrued expenses, and distributions payable represented fair value because of the short-term nature of these instruments. The carrying value of restricted cash approximates its fair value based on the nature of our assessment of the ability to recover these amounts. In calculating the fair value of our notes payable, interest rate, and spread assumptions reflect current credit worthiness and market conditions available for the issuance of notes payable with similar terms and remaining maturities. These financial instruments utilize Level 2 inputs.\n\nIncome Recognition. The majority of our revenues are derived from real estate lease contracts and presented as property revenues, and include rental revenue as well as revenue under contractual terms for other services provided to our customers. As a lessor, we have also elected practical expedients to: i) not separate the lease and non-lease components by class of underlying assets and account for the combined components as a single component under certain conditions, and ii) exclude from lease revenues certain lessor costs paid directly by the lessee. Our other revenue streams include fee and asset management income in accordance with other revenue guidance, Accounting Standards Codification (\"ASC\") 606, Revenues from Contracts with Customers. Details of our material revenue streams are discussed below:\n\nProperty Revenues. We earn rental revenue from operating lease contracts for the use of dedicated spaces within owned assets, which is our only underlying asset class. We recognize rental revenues from these lease contracts on a straight-line basis over the applicable lease term, net of amounts related to lease contracts identified as uncollectible. We also earn revenues under contractual terms for other services considered non-lease components within a lease contract, primarily consisting of utility rebillings and other transactional fees. These amounts received under contractual terms for other services are charged to our residents and recognized monthly as earned. Any identified uncollectible amounts related to individual lease contracts are presented as an adjustment to property revenue. Any renewal options of real estate lease contracts are considered a new and separate contract which will be recognized at the time the option is exercised on a straight-line basis over the renewal period.\n\nAs of March 31, 2026, our average residential lease term was approximately fourteen months with all non-residential commercial leases averaging longer lease terms. We currently anticipate property revenue from existing leases as follows:\n\nYear ending December 31, Operating Leases\n\nRemainder of 2026 $ 711.0\n\n2027 128.9\n\n2028 3.0\n\n2029 2.6\n\n2030 1.9\n\nThereafter 1.8\n\nTotal $ 849.2\n\nCredit Risk. We believe there is no significant concentration of credit risk due to the number of residents, the types and diversity of submarkets in which our properties operate, and the collection terms in our leases.\n\nInvestments. We hold equity interests in certain technology funds which are not accounted for using the equity method because we have no influence over these entities and their fair values are not readily determinable. These investments are recorded using the measurement alternative in which our equity interests are recorded at cost, adjusted for impairments and observable price changes in orderly transactions for an identical or similar investment of the same issuer. At each reporting period, we reassess whether these investments continue to qualify for this measurement alternative. We had investments recorded at cost of approximately $15.9 million and $20.0 million as of March 31, 2026 and December 31, 2025, respectively. These investments are included in other assets, net in our condensed consolidated balance sheets. During the three months ended March 31, 2026, we recorded a $4.9 million impairment charge related to the permanent decline in estimated market conditions of certain technology investments, which is included in other non-operating expenses on our condensed consolidated statements of income and comprehensive income. No impairment charges were recognized during the same period in 2025.\n\nRestricted Cash. Restricted cash consists of escrow deposits held by lenders for property taxes, insurance and replacement reserves; cash required to be segregated for the repayment of residents' security deposits; escrowed amounts related to our development and acquisition activities; and amounts designated by the Company for planned Section 1031 exchange transactions. At March 31, 2026, approximately $76.4 million of restricted cash was held by a qualified intermediary in connection with Section 1031 exchange activity.\n\nReclassification of Prior Period. Certain prior period amounts have been reclassified in our condensed consolidated statement of income and comprehensive income to conform to the current period presentation. The Company reclassified certain legal-related costs from general and administrative expenses to other non-operating expenses. In addition, certain prior period amounts in the condensed consolidated statements of cash flow have been reclassified to conform to the current year presentation. These reclassifications had no impact on the condensed financial statements.\n\nRecent Accounting Pronouncements: In November 2024, the Financial Accounting Standards Board (\"FASB\") issued Accounting Standards Update (\"ASU\") 2024-03 (\"ASU 2024-03\"), Disaggregation of Income Statement Expenses. ASU 2024-03 requires public entities to provide additional disclosures in the notes to the financial statements of certain expense categories which are included in expense line items presented on the face of the income statement. Specifically, an entity should\n\n3. Per Share Data\n\nBasic earnings per share is computed using net income attributable to common shareholders and the weighted average number of common shares outstanding. Diluted earnings per share reflects common shares issuable from the assumed conversion of common share options and unvested share awards as well as units convertible into common shares. Only those items having a dilutive impact on our basic earnings per share are included in diluted earnings per share. Our unvested restricted share-based awards are considered participating securities and are reflected in the calculation of basic and diluted earnings per share using the two-class method. The impact of performance share awards, if any, and other units convertible into common shares is included in diluted earnings per share using the treasury stock method, and the impact of common shares under a forward sale agreement, if any, is included using the if-converted method until settlement.\n\nThe number of common share equivalent securities excluded from the diluted earnings per share calculation was approximately 1.8 million for each of the three months ended March 31, 2026 and 2025. These securities, which include share awards granted and units convertible into common shares are anti-dilutive and were therefore excluded from the diluted earnings per share calculations. The following table presents information necessary to calculate basic and diluted earnings per share for the periods indicated:\n\nThree Months Ended\n\nMarch 31,\n\n(in thousands, except per share amounts) 2026 2025\n\nEarnings per common share calculation \u2013 basic\n\nNet income attributable to common shareholders $ 42,449 $ 38,822\n\nAmount allocated to participating securities (101) (91)\n\nNet income attributable to common shareholders \u2013 basic $ 42,348 $ 38,731\n\nTotal earnings per common share \u2013 basic $ 0.40 $ 0.36\n\nWeighted average number of common shares outstanding \u2013 basic 104,826 108,530\n\nEarnings per common share calculation \u2013 diluted\n\nNet income attributable to common shareholders \u2013 diluted $ 42,348 $ 38,731\n\nTotal earnings per common share \u2013 diluted $ 0.40 $ 0.36\n\nWeighted average number of common shares outstanding \u2013 basic 104,826 108,530\n\nIncremental shares issuable from assumed conversion of share awards granted 73 67\n\nWeighted average number of common shares outstanding \u2013 diluted 104,899 108,597\n\n4. Common Shares\n\nIn January 2026, we repurchased 1,096,807 common shares at an average price of $110.03 per share for approximately $120.7 million under our then-existing share repurchase plan, which authorized up to $500.0 million of our common equity securities through open-market purchases, block purchases, and privately negotiated transactions. In February 2026, our Board of Trust Managers authorized a new share repurchase plan of up to $600.0 million, replacing the $500.0 million share repurchase plan authorized in October 2022, which had approximately $58.6 million remaining upon termination. During February and March 2026, we repurchased an additional 1,536,223 common shares at an average price of $102.91 per share, and a total cost of approximately $158.1 million under the share repurchase plan authorized in February 2026. In April 2026, we repurchased 1,429,136 common shares at an average price of $100.78 per share for approximately $144.1 million. As of the date of this filing, $297.8 million remained available for repurchases under our share repurchase plan.\n\nWe currently have an automatic shelf registration statement which allows us to offer common shares, preferred shares, debt securities, or warrants, and our Amended and Restated Declaration of Trust provides we may issue up to 185 million shares of beneficial interest, consisting of 175 million common shares and 10 million preferred shares. At March 31, 2026, we had approximately 101.9 million common shares outstanding, net of treasury shares and shares held in our deferred compensation arrangements, and no preferred shares outstanding.\n\nIn April 2026, we created an at-the-market (\"ATM\") share offering program through which we can, but have no obligation to, sell common shares for an aggregate offering amount of up to $500.0 million (the \"2026 ATM program\"), in amounts and at times as we determine, into the existing trading market at current market prices as well as through negotiated transactions. Actual sales from time to time may depend on a variety of factors including, among others, market conditions, the trading price of our common shares, and determinations by management of the appropriate sources of funding for us. We intend to use the proceeds from any sale of our common shares under the 2026 ATM program for general corporate purposes, which may include reducing future borrowings under our unsecured revolving credit facility or commercial paper program, the repayment of other indebtedness, the redemption or other repurchase of outstanding debt or equity securities, funding for development activities, and financing for acquisitions.\n\n5. Acquisitions and Dispositions\n\nAcquisition of Operating Properties. We did not acquire any operating properties during the three months ended March 31, 2026. During the three months ended March 31, 2025, we acquired two operating properties, consisting of a 352- apartment home community in Leander, Texas in January 2025 and a 435-apartment home community in Nashville, Tennessee in February 2025 for approximately $199.0 million.\n\nIn April 2026, we acquired two operating properties, consisting of a 269-apartment home community in the Atlanta, Georgia metropolitan area and a 288-apartment home community in Orlando, Florida for approximately $171.3 million.\n\n6. Notes Payable\n\nThe following is a summary of our indebtedness:\n\n(in millions) March 31,\n\n2026 December 31, 2025\n\n4.84% Term Loan, due 2026\n\n$ 39.9 $ 39.9\n\n3.85% Commercial Paper Program\n\n358.8 590.0\n\n$ 398.7 $ 629.9\n\nSenior unsecured notes\n\n4.97% Notes, due 2026 (1)\n\n$ 502.1 $ 504.0\n\n3.74% Notes, due 2028\n\n399.5 399.4\n\n3.67% Notes, due 2029 (2)\n\n597.6 597.4\n\n2.91% Notes, due 2030\n\n746.9 746.8\n\n5.06% Notes, due 2034\n\n395.8 395.7\n\n5.03% Notes, due 2036\n\n594.1 \u2014\n\n3.41% Notes, due 2049\n\n297.1 297.0\n\n$ 3,533.1 $ 2,940.3\n\nTotal unsecured notes payable $ 3,931.8 $ 3,570.2\n\nMaster Credit Facilities\n\n3.78% - 4.01% Conventional Mortgage Notes, due 2026 - 2028\n\n$ 279.6 $ 291.5\n\n3.87% note, due 2028\n\n39.1 39.1\n\nTotal secured notes payable $ 318.7 $ 330.6\n\nTotal notes payable (3)\n\n$ 4,250.5 $ 3,900.8\n\n(1) Balances are increased by $2.7 million and $4.9 million for fair value adjustments due to changes in benchmark interest rates related to these notes as of March 31, 2026 and December 31, 2025, respectively. See Note 7. \"Derivative Financial Instruments and Hedging Activities,\" for further discussion.\n\n(2) The 2029 Notes have an effective annual interest rate of approximately 3.84% through June 2026, which includes the effect of a settled forward interest rate swap, and approximately 3.28% thereafter, for an all-in average effective rate of approximately 3.67%.\n\n(3) Balances are decreased by unamortized debt discounts, debt issuance costs, and fair market value adjustments, net of $17.3 million and $10.1 million as of March 31, 2026 and December 31, 2025, respectively.\n\nIn February 2026, we issued $600.0 million aggregate principal amount of 4.90% senior unsecured notes due February 28, 2036 (the \"2036 Notes\") under our then existing shelf registration statement. The 2036 Notes were offered to the public at 99.94% of their face amount with a stated rate of 4.90% and a yield to maturity of 4.91%. After deducting underwriting discounts and other offering expenses, the net proceeds from the sale of the 2036 Notes was approximately $594.0 million. Interest on the 2036 Notes is payable semi-annually on February 28 and August 28, beginning August 28, 2026. We may redeem the 2036 Notes, in whole or in part, at anytime at a redemption price equal to the principal amount and accrued interest of the notes being redeemed, plus a make-whole provision. If, however, we redeem the 2036 Notes on or after three months prior to their maturity date, the redemption price will equal 100% of the principal amount of the 2036 Notes to be redeemed plus accrued and unpaid interest on the amount being redeemed to the redemption date. The 2036 Notes are direct, senior unsecured obligations and rank equally with all of our other unsecured and unsubordinated indebtedness.\n\nIn March 2026 we amended and restated our existing credit facility (the \"Credit Agreement\"), to among other things, remove a $300.0 million unsecured term loan facility with a delayed draw feature and extend the maturity date of our $1.2 billion unsecured revolving credit facility from August 2026 to March 2030, which may be extended at our option for two consecutive six-month periods. The Credit Agreement also continues to provide that, upon satisfaction of certain conditions, we may expand the facility up to three times by up to an additional $500.0 million in the aggregate. The interest rate on our unsecured revolving credit facility is based upon, at our option, (a) the daily or the one-, three-, or six-month Secured Overnight Financing Rate (\"SOFR\") plus, in each case, a spread based on our credit rating, or (b) a base rate equal to the higher of: (i) the Federal Funds Rate plus 0.50%, (ii) Bank of America, N.A.'s prime rate, (iii) Term SOFR plus 1.0%, and (iv) 1.0%. Advances under our unsecured revolving credit facility may be priced at the scheduled rates, or we may enter into bid rate loans with\n\nparticipating banks at rates below the scheduled rates. These bid rate loans have terms of 180 days or less and may not exceed the lesser of $600 million or the remaining amount available under our unsecured revolving credit facility. Our unsecured revolving credit facility is subject to customary financial covenants and limitations. We believe we are in compliance with all such financial covenants and limitations as of March 31, 2026 and through the date of this filing.\n\nIn March 2026, we also repaid the principal amount of one of our conventional mortgage secured notes payable, which matured on April 1, 2026, for a total of $12.0 million, plus accrued interest.\n\nOur unsecured revolving credit facility provides us with the ability to issue up to $50 million in letters of credit. While our issuance of letters of credit does not increase our borrowings outstanding under our unsecured revolving credit facility, it does reduce the amount available. At March 31, 2026, we had no outstanding letters of credit issued under our unsecured revolving credit facility and had approximately $1.2 billion available under our unsecured revolving credit facility.\n\nIn February 2025, we established a commercial paper program under which we may issue short-term, unsecured commercial paper notes (the \"Notes\") under the exemption from registration contained in Section (4)(a) of the Securities Act of 1933, as amended. Amounts available under the commercial paper program may be borrowed, repaid, and reborrowed from time to time, with the aggregate face or principal amount of the Notes outstanding under the commercial paper program at any time not to exceed $600 million. The Notes will have maturities of up to 397 days from the date of issue. The Notes will rank at least equal in priority to all of the Company's other unsecured and unsubordinated indebtedness. The net proceeds of the issuances of the Notes are expected to be used for general corporate purposes, which may include property acquisitions and development in the ordinary course of business, capital expenditures, and working capital. We currently plan to use our unsecured revolving credit facility as a liquidity backstop for borrowings under the commercial paper program. The commercial paper issued as of March 31, 2026 and December 31, 2025 had original maturities of less than 30 days. The weighted average interest rate on our commercial paper was approximately 3.85% and 3.84% as of March 31, 2026 and December 31, 2025, respectively.\n\nWe had outstanding floating rate debt of approximately $900.8 million and $1.1 billion at March 31, 2026 and December 31, 2025, respectively, which includes senior unsecured notes payable due in 2026 which have been converted to floating rate debt through the issuance of an interest rate swap. The weighted average interest rate on our outstanding floating rate debt was approximately 4.5% and 4.4% as of March 31, 2026 and December 31, 2025, respectively.\n\nOur indebtedness had a weighted average maturity of approximately 5.4 years at March 31, 2026. The table below is a summary of the maturity dates of our outstanding debt and principal amortizations, and the weighted average interest rates on such debt, at March 31, 2026:\n\nRemainder of 2026 $ 910.7 4.5 %\n\n2027 172.0 3.9\n\n2028 529.4 3.8\n\n2029 597.7 3.8\n\n2030 748.5 2.9\n\nThereafter 1,292.2 4.7\n\nTotal $ 4,250.5 4.1 %\n\n(1)Includes all available extension options.\n\n(2)Includes amortization of debt discounts, debt issuance costs, and fair market value adjustments.\n\n(3)Includes the effects of the applicable settled derivatives.\n\n7. Derivative Financial Instruments and Hedging Activities\n\nRisk Management Objective of Using Derivatives. We are exposed to certain risks arising from both our business operations and economic conditions. We manage economic risks, including interest rate, liquidity, and credit risk, primarily by managing the amount, sources, and duration of our debt funding and the use of derivative financial instruments. Specifically, we may enter into derivative financial instruments to manage exposures arising from business activities resulting in differences in the amount, timing, and duration of our known or expected cash payments related to our borrowings. We do not utilize derivative financial instruments for trading or speculative purposes. See Note 2. \"Summary of Significant Accounting Policies and Recent Accounting Pronouncements\" for a further discussion of derivative financial instruments.\n\nCash Flow Hedges. From time to time, we enter into designated cash flow hedges to manage the variability in cash flows due to changes in benchmark interest rates. We enter into interest rate swap agreements, including forward interest rate swaps and treasury locks, settled in cash based upon the difference between an agreed-upon benchmark rate and the prevailing\n\nbenchmark rate at settlement. The agreements are generally settled around the time of the pricing of the related debt. Each cash flow derivative gain or loss is recorded to OCI and is subsequently reclassified to interest expense over the life of the related debt. We did not have any cash flow hedges at March 31, 2026 and 2025.\n\nDuring each of the three months ended March 31, 2026 and 2025, approximately $0.3 million was reclassified from AOCI as an increase to interest expense for derivative financial instruments settled in prior periods.\n\nFair Value Hedges. From time to time, we utilize interest rate swaps to achieve an additional level of floating rate debt relative to fixed rate debt as we deem appropriate. We designate fixed to floating interest rate swaps as fair value hedges. The changes in fair value of these derivative instruments and the offsetting changes in fair value of the underlying hedged debt due to changes in the relevant benchmark interest rates are recorded in interest expense. At March 31, 2026 and December 31, 2025, we had one interest rate swap with a notional amount of $500.0 million designated as a fair value hedge, which converted our $500.0 million principal amount of 5.85% fixed rate senior unsecured notes due November 2026 into a floating rate instrument with an interest rate based on a SOFR index. Refer to Note 6. \"Notes Payable\" for further discussion of the $500.0 million notes due in 2026.\n\nRefer to Note 11. \"Fair Value Measurements\" for the outstanding derivative instruments and the corresponding fair value classifications.\n\n8. Share-Based Compensation\n\nIncentive Compensation. We currently maintain the 2018 Share Incentive Plan (the \"2018 Share Plan\"), which was approved by the Company's shareholders. The shares available for awards under the 2018 Share Plan are subject to certain other limits under the plan, generally available for any type of award authorized under the 2018 Share Plan including stock options, stock appreciation rights, restricted stock awards, performance awards, stock bonuses, and other stock-based awards. Persons eligible to receive awards under the 2018 Share Plan include subsidiaries' officers and employees, Trust Managers, and certain of our subsidiaries' consultants and advisors. A total of 9.7 million shares (\"Share Limit\") was authorized for grant under the 2018 Share Plan. Shares issued or to be issued are counted against the Share Limit as (1) 3.45 to 1.0 for every share award, excluding stock options and stock appreciation rights, granted, and (2) 1.0 to 1.0 for every stock option or stock appreciation right granted. As of March 31, 2026, there were approximately 2.5 million common shares available for grant under the 2018 Share Plan, which would result in approximately 0.7 million shares which could be granted pursuant to full value awards conversion ratios as defined under the 2018 Share Plan.\n\nTotal share-based compensation cost charged against income was approximately $4.8 million and $4.2 million for the three months ended March 31, 2026 and 2025, respectively. Total capitalized share-based compensation costs were approximately $0.6 million and $0.9 million for the three months ended March 31, 2026 and 2025, respectively.\n\nA summary with respect to restricted share awards under our share incentive plans for the three months ended March 31, 2026 is shown below:\n\nOutstanding Weighted\n\nAverageExercise / Grant Price\n\nNonvested share awards outstanding at December 31, 2025 236,669 $ 110.16\n\nGranted 214,855 108.84\n\nVested (197,326) 109.38\n\nForfeited (1,290) 110.62\n\nTotal nonvested share awards outstanding at March 31, 2026 252,908 $ 109.63\n\nRestricted Share Awards and Vesting. Share awards for employees generally vest over three years and are valued at the market value of the shares on the grant date. In the event the holder of the share awards attains at least age 65, and with respect to an employee, also attains at least ten or more years of service (\"Retirement Eligibility\") before the term in which the awards are scheduled to vest, the value of the share awards to such individual is amortized from the date of grant to the individual's Retirement Eligibility date. All new share awards granted to individuals after they reach Retirement Eligibility vest on the date of grant.\n\nThe weighted average fair value of share awards granted during the three months ended March 31, 2026 and 2025 was $108.84 per share and $118.90 per share, respectively. The total fair value of shares vested was approximately $21.6 million and $22.8 million during the three months ended March 31, 2026 and 2025, respectively. At March 31, 2026, the unamortized value of previously issued unvested share awards was approximately $25.8 million which is expected to be amortized over the next three years.\n\nPerformance Share Awards. In February 2026, the Company also awarded 50,927 performance share units (\"PSUs\") under the 2018 Share Plan to certain executive officers, all of which remain outstanding as of March 31, 2026. The PSUs vest at the end of a three\u2011year performance period, subject to the executive\u2019s continued employment with the Company through the final day of the performance period (which requirement is deemed satisfied upon a qualifying event, retirement, or disability. If the executive's service ends before the vesting date due to death, the PSUs will vest as if the performance period ended on such date). Payouts may range from 0% to 200% of the target number of PSUs, based on the achievement of pre\u2011established market and operating performance metrics, and are settled in common shares following the completion of the performance period. We treat PSUs as equity awards, and therefore, the amount of stock-based compensation we record over the performance period is based on the respective fair values of the PSUs on the grant date.\n\nApproximately 25,463 of the PSUs are subject to market conditions based on the Company\u2019s total shareholder return (\"TSR\") relative to (i) the Equity Apartment Index and (ii) the Equity REIT Index over the three\u2011year performance period. The Company uses a Monte Carlo valuation model to estimate the grant-date fair value for these market-based awards and will recognize compensation cost over the service period regardless of whether the TSR performance measures are met. Under this model, the simulated prices for the two indices described above are weighted to determine the grant\u2011date fair value per unit, which for the February 2026 awards was $120.42.\n\nThe remaining 25,464 PSUs are subject to operating performance conditions based on the Company\u2019s Net Debt to Annualized Adjusted EBITDAre (Earnings Before Interest, Taxes, Depreciation and Amortization for Real Estate) ratio and Core Funds from Operations (\"Core FFO\") per share over the same three\u2011year performance period. The fair value of the Net Debt to Annualized Adjusted EBITDAre and Core FFO per share portion of the PSUs was determined based on the closing market price of the Company's common shares on the date of grant, which was $108.84 for the February 2026 awards, and compensation cost will be recognized and adjusted at each reporting period date based on the probable outcome of the applicable performance conditions.\n\nThe PSUs include dividend equivalent rights (\"DERs\"), pursuant to which holders receive additional PSUs for cash dividends declared on the Company\u2019s common shares during the performance period. DERs accrue on both the original PSUs and previously credited DERs and are subject to the same vesting conditions and payout terms as the underlying PSUs.\n\nConstruction Contracts. As of March 31, 2026, we estimated the total additional cost to complete the three properties currently under construction to be approximately $176.6 million. We expect to fund this amount through a combination of one or more of the following: cash flows generated from operations, draws on our unsecured revolving credit facility and commercial paper program, the use of debt and equity offerings under our automatic shelf registration statement, proceeds from property dispositions, equity issued from our ATM program, and other unsecured borrowings or secured mortgages.\n\nLitigation. We have been named as a defendant in several cases alleging antitrust violations by RealPage, Inc. (\"RealPage\"), a seller of revenue management software and owners and/or operators of multifamily housing, including us, which utilize this software. The complaints allege collusion among the defendants to fix rents in violation of Section 1 of the Sherman Act. The U.S. Judicial Panel on Multidistrict Litigation has consolidated 43 cases, including those filed against us, into a single action in the United States District Court for the Middle District of Tennessee, in a case captioned In re: RealPage, Inc., Rental Software Antitrust Litigation (No. II) (the \"Class Action Litigation\").\n\nOn April 7, 2026, we entered into a binding term sheet for settlement with the named plaintiffs in the Class Action Litigation. We and the plaintiffs agreed to negotiate and execute a long-form settlement agreement on or before May 7, 2026, which will be subject to preliminary and final approval by the court. Under the term sheet, we agreed to pay an aggregate of $53.0 million to settle all claims which have been asserted, or could have been asserted, against us in the Class Action Litigation, inclusive of class member recoveries, plaintiffs\u2019 attorneys\u2019 fees, and the costs of administering the settlement. The pending settlement payment will be payable in two equal installments of $26.5 million, with the first installment payable within 45 days of execution of a long-form settlement agreement and the second installment payable within four months of execution of a long-form settlement agreement. The pending settlement also includes certain prospective commitments regarding our business practices, including provisions relating to the disclosure and use of non\u2011public data and our use of revenue management software, which we believe will not require material changes to our operations. The execution of the term sheet and any subsequent settlement agreement do not constitute an admission of fault or liability, and we do not admit wrongdoing. While we believe resolving this matter will allow us to avoid the significant costs and distraction of protracted litigation and reduce legal uncertainty, there can be no assurance a definitive settlement agreement will be finalized or approved by the court. If the settlement is not approved, we intend to continue to vigorously defend ourselves in the Class Action Litigation.\n\nIn addition to the Class Action Litigation disclosed above, on November 1, 2023, we, along with 13 other owners and/or operators of multifamily housing and RealPage, were named as defendants in a lawsuit centering around the use of said revenue management software by the Attorney General of the District of Columbia. On February 28, 2024, we, along with 11 other\n\nowners and/or operators of multifamily housing and RealPage, were named as defendants in a lawsuit centering around the use of said revenue management software by the Attorney General of Arizona. On January 7, 2025, we along with six other owners and/or operators of multifamily housing, were named in a civil lawsuit brought by the U.S. Department of Justice and ten states against RealPage with similar allegations. Additionally, we have been informed by other state regulators they are investigating this matter. We believe these various lawsuits are without merit and we intend to vigorously defend against them. As these proceedings are still in the fact and expert discovery phases, it is not possible for us to predict the outcome nor is it possible to estimate the amount of loss, if any, which may be associated with an adverse decision in any of these cases.\n\nAs of March 31, 2026 we recorded aggregate loss contingencies of $58.8 million related to the pending settlement described above and other unresolved related legal matters, including estimated costs to defend. These amounts are recorded in accounts payable and accrued expenses on our condensed consolidated balance sheets, and the related expense is included in other nonoperating expenses on our condensed consolidated statements of income and comprehensive income. The ultimate resolution of these matters may differ from the amounts accrued, and any such differences will be recognized in the period in which they become known.\n\nWe are subject to various other legal proceedings and claims which arise in the ordinary course of business. Matters which arise out of allegation of bodily injury, property damage, and employment practices are generally covered by insurance. While the resolution of these legal proceedings and claims cannot be predicted with certainty, management currently believes the final outcome of such matters will not have a material adverse effect on our condensed consolidated financial statements.\n\nOther Commitments and Contingencies. In the ordinary course of our business, we issue letters of intent indicating a willingness to negotiate for acquisitions, dispositions, or joint ventures and also enter into arrangements contemplating various transactions. Such letters of intent and other arrangements are non-binding as to either party unless and until a definitive contract is entered into by the parties. Even if definitive contracts relating to the purchase or sale of real property are entered into, these contracts generally provide the purchaser with time to evaluate the property and conduct due diligence, during which periods the purchaser will have the ability to terminate the contracts without penalty or forfeiture of any deposit or earnest money. There can be no assurance definitive contracts will be entered into with respect to any matter covered by letters of intent or we will consummate any transaction contemplated by any definitive contract. Furthermore, due diligence periods for real property are frequently extended as needed. An acquisition or sale of real property becomes probable at the time the due diligence period expires and the definitive contract has not been terminated. We are then at risk under a real property acquisition contract, but generally only to the extent of any earnest money deposits associated with the contract, and are obligated to sell under a real property sales contract. At March 31, 2026, we had approximately $1.8 million of earnest money deposits for potential acquisitions of land which are included in other assets in our condensed consolidated balance sheet, of which approximately $0.5 million was non-refundable.\n\nLease Commitments. Substantially all of our lessee operating leases, which are recorded within other liabilities in our condensed consolidated balance sheets, are related to office facility leases. We had no significant changes to our lessee lease commitments during the three months ended March 31, 2026. The lease and non-lease components, excluding short-term lease contracts with a duration of 12 months or less, are accounted for as a combined single component based upon the standalone price at the time the applicable lease is commenced and is recognized as a lease expense on a straight-line basis over the lease term. Most of our office facility leases include options to renew and generally are not included in the operating lease liabilities or right-of-use assets as they are not reasonably certain of being exercised. If an option to renew is exercised, it would be considered a separate contract and recognized based upon the standalone price at the time the option to renew is exercised. Variable lease payments which values are not known at lease commencement, such as executory costs of real estate taxes, property insurance, and common area maintenance, are expensed as incurred. Rental expense totaled approximately $1.1 million and $1.0 million for the three months ended March 31, 2026 and 2025.\n\nThe following is a summary of our future minimum payments of our current leases as of March 31, 2026:\n\nYear ending December 31, Operating Leases\n\nRemainder of 2026 $ 0.9\n\n2027 1.6\n\n2028 3.5\n\n2029 3.3\n\n2030 3.1\n\nThereafter 20.6\n\nDiscount for time value (8.4)\n\nLease liability as of March 31, 2026 $ 24.6\n\n10. Income Taxes\n\nWe have maintained and intend to maintain our election as a REIT under the Internal Revenue Code of 1986, as amended. In order for us to continue to qualify as a REIT we must meet a number of organizational and operational requirements, including a requirement to distribute annual dividends to our shareholders equal to a minimum of 90% of our adjusted taxable income. As a REIT, we generally will not be subject to federal income tax on our taxable income at the REIT level to the extent such income is distributed to our shareholders annually. If our taxable income exceeds our dividends in a tax year, REIT tax rules allow us to designate dividends from the subsequent tax year in order to avoid current taxation on undistributed income. If we fail to qualify as a REIT in any taxable year, we may be subject to federal and state income taxes for such year. In addition, we may not be able to requalify as a REIT for the four subsequent taxable years and may be subject to federal and state income taxes in those years as well. Historically, we have incurred only state and local income, franchise, and excise taxes. Taxable income from non-REIT activities managed through taxable REIT corporate subsidiaries, which are not material, is subject to applicable federal, state, and local income taxes. Our consolidated operating partnerships are flow-through entities and are not subject to federal income taxes at the entity level.\n\nIncome taxes for the three months ended March 31, 2026 and 2025 were comprised mainly of state income and franchise taxes, and federal taxes related to our taxable REIT corporate subsidiaries. We have no significant temporary or permanent differences or tax credits associated with our taxable REIT corporate subsidiaries.\n\n11. Fair Value Measurements\n\nThe following disclosures present information about our fair value measurements using the inputs and fair value hierarchy discussed in Note 2. \"Summary of Significant Accounting Policies and Recent Accounting Pronouncements.\"\n\nRecurring Fair Value Measurements. The following table presents information about our financial instruments measured at fair value on a recurring basis as of March 31, 2026 and December 31, 2025.\n\nFinancial Instruments Measured at Fair Value on a Recurring Basis\n\nMarch 31, 2026 December 31, 2025\n\n(in millions) Quoted Prices in Active Markets for Identical Assets (Level 1) Significant Other Observable Inputs (Level 2) Significant Unobservable Inputs (Level 3) Total Quoted Prices in Active Markets for Identical Assets (Level 1) Significant Other Observable Inputs (Level 2) Significant Unobservable Inputs (Level 3) Total\n\nDeferred compensation plan investments (1)\n\n$ 148.9 $ \u2014 $ \u2014 $ 148.9 $ 150.6 $ \u2014 $ \u2014 $ 150.6\n\nDerivative financial instruments (fair value hedges) \u2014 2.7 \u2014 2.7 \u2014 4.9 \u2014 4.9\n\n(1)Approximately $4.9 million and $10.9 million of participant cash was withdrawn from our deferred compensation plan investments during the three months ended March 31, 2026 and the year ended December 31, 2025, respectively.\n\nNon-Recurring Fair Value Disclosures. During the three months ended March 31, 2026, we recognized a $4.9 million impairment charge related to certain technology investments, as further disclosed in Note 2. \"Summary of Significant Accounting Policies and Recent Accounting Pronouncements.\"\n\nFinancial Instrument Fair Value Disclosures. The following table presents the carrying and estimated fair values of our notes payable at March 31, 2026 and December 31, 2025.\n\nMarch 31, 2026 December 31, 2025\n\n(in millions) Carrying\n\nFair Value Carrying\n\nFixed rate notes payable $ 3,349.7 $ 3,168.1 $ 2,766.9 $ 2,629.6\n\nFloating rate notes payable (1)\n\n900.8 903.9 1,133.9 1,140.9\n\n12. Reportable Segment\n\nEach of our operating properties is considered a separate operating segment as each property earns revenues and incurs expenses, individual operating results are reviewed and discrete financial information is available. We do not distinguish or group our consolidated operations based on size or type and each community has similar long-term economic characteristics and provides similar products and services to our residents. Additionally, all of our operations are within the continental United States and no multifamily apartment community comprises more than 1.5% of consolidated revenues. As a result, our operating properties are aggregated into a single reportable segment.\n\nThe Chief Operating Decision Makers (\"CODMs\") include the Company's Chief Executive Officer and its President and Chief Operating Officer. The CODMs primarily assess performance of the Company based upon net operating income (\"NOI\"). The measure of segment assets is reported on the condensed consolidated balance sheets as total consolidated assets. NOI is measured as total property revenues less total property expenses as reported on the condensed consolidated statements of income and comprehensive income. NOI excludes non-property revenues, other expenses, transactional gains and losses, and income taxes. We consider NOI to be an appropriate measure of operating performance because it reflects the ongoing profitability and performance of our communities without an allocation of corporate level management expense or general and administrative costs. The CODMs utilize NOI to evaluate year-over-year growth of our communities from prior periods, as well as to monitor budget to actual results in assessing performance, allocating resources, and establishing compensation.\n\nThe following table details NOI and significant expenses for the three months ended March 31:\n\nThree Months Ended\n\nMarch 31,\n\n(in thousands) 2026 2025\n\nProperty revenues $ 388,773 $ 390,565\n\nProperty expenses:\n\nReal estate taxes (49,890) (49,722)\n\nSalaries and benefits for on-site employees (26,345) (25,784)\n\nUtilities (27,626) (27,778)\n\nRepairs and maintenance (16,750) (16,713)\n\nOther property and maintenance expenses (a)\n\n(19,458) (19,423)\n\nNet operating income $ 248,704 $ 251,145\n\nNon-property income 1,237 3,695\n\nOther segment expenses (b)\n\n(85,370) (30,472)\n\nInterest expense (37,359) (33,790)\n\nDepreciation and amortization (150,000) (149,252)\n\nGain on sale of operating property, including land 68,100 \u2014\n\nIncome tax expense (938) (559)\n\nNet income $ 44,374 $ 40,767\n\n(a) Other non-significant property segment expenses, include the following other property and maintenance expenses: property insurance, marketing and leasing, property general and administrative, and other property expenses.\n\n(b) Other expenses include property management, fee and asset management, general and administrative, (benefit)/expense on deferred compensation plans, and other non-operating expenses.\n\nThe effect of changes in the operating and other accounts on cash flows from operating activities is as follows:\n\nThree Months Ended\n\nMarch 31,\n\n(in thousands) 2026 2025\n\nChange in assets:\n\nOther assets, net $ 8,875 $ 179\n\nChange in liabilities:\n\nAccounts payable and accrued expenses 19,985 (16,003)\n\nAccrued real estate taxes (32,564) (32,618)\n\nOther liabilities 15,113 1,697\n\nOther 1,514 884\n\nChange in operating accounts and other $ 12,923 $ (45,861)\n\nSource:\n\nView Original Filing on SEC EDGAR\n\nNYSE:CPT\n\nView CPT Stock Overview \u2192\n\n#955 Ranked by Market Cap\n\n#618 Ranked by Dividends\n\n#1594 52-Week Gainer\n\n#2398 Monthly Gainer\n\n#457 Ranked by Short %Change\n\nApr 30, 2026\n\nCamden Property Trust Announces First Quarter 2026 Operating Results\n\nApr 2, 2026\n\nCamden Property Trust Announces First Quarter 2026 Earnings Release and Conference Call Dates\n\nApr 1, 2026\n\nCamden Property Trust Named One of Fortune\u2019s 100 Best Companies to Work For\u00ae\n\nMar 27, 2026\n\nCamden Property Trust Announces Promotions and Changes to Senior Leadership Team\n\nFeb 27, 2026\n\nCamden Property Trust Announces Participation in Citi\u2019s 2026 Global Property CEO Conference and Provides First Quarter 2026 Operating Update\n\nCPT Latest SEC Filings\n\nMay 6, 2026\n\n[SCHEDULE 13G/A] CAMDEN PROPERTY TRUST Amended Passive Investment Disclosure\n\nApr 30, 2026\n\n[8-K] CAMDEN PROPERTY TRUST Reports Material Event\n\nApr 30, 2026\n\n[8-K] CAMDEN PROPERTY TRUST Reports Material Event\n\nApr 29, 2026\n\n[SCHEDULE 13G] CAMDEN PROPERTY TRUST Passive Investment Disclosure (>5%)\n\nApr 29, 2026\n\n[SCHEDULE 13G] CAMDEN PROPERTY TRUST Passive Investment Disclosure (>5%)\n\n10.39B\n\n98.31M\n\nREIT - Residential\n\nReal Estate Investment Trusts\n\nAdd to Google News\n\nAn independent AI\u2011powered platform for real\u2011time stock market news, press releases, SEC filings, earnings, and tools for trading and investing.\n\n\u00a9 2020-2026 StockTitan.net - Your Edge is Information\n\nInformation only. Not investment advice.",
+      "evidence_quality": "full_body",
+      "url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html",
+      "published_at": "Fri, 01 May 2026 16:05:30 GMT",
+      "ticker_hints": [
+        "CPT"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPY0VRcWxyUEd5Z2hSLXROeHVSQkROblJ4OS1mV1otMDRHVmhzQ29aVXpXbVliWmZEczVrVzB6dGY2Vmd6QW9QdW1xOFlnc1FCNXlCZHNHbXFnaG5tYjhoWXpEWmdXVGVHeTF0WW03OHFBaXF5aWJvbTZSbS01OWpMM2lwVHM5Q1g0M3VFZkJrdXNjVVNzallMSkt6Z1VPaWwwdThwbWdsVkJnNXpEb2J6eEgtVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report - Stock Titan",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html",
+        "publisher_homepage_url": "https://www.stocktitan.net",
+        "url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html",
+        "published_at": "Fri, 01 May 2026 16:05:30 GMT",
+        "summary": "[10-Q] CAMDEN PROPERTY TRUST Quarterly Earnings Report  Stock Titan",
+        "ticker": "CPT",
+        "company_name": "Camden Property Trust",
+        "query": "Camden Property Trust",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "CPT"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "The 10-Q filing contains detailed financial data and disclosures that inform the growth assessment of CPT.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.stocktitan.net/sec-filings/CPT/10-q-camden-property-trust-quarterly-earnings-report-07a785acc0b2.html",
+      "content_source": "stocktitan.net",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 9745,
+          "title_hits": 7,
+          "resolved_host": "stocktitan.net",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQMjFhbXhuZlRqOFVTTTZLMk02ZHFabHdpV3ZVX3lkeEZ1VjRnOWJqVllVYmkwWWJmbUFJUjJtTU1KR2hBd1o0Mmt5SkpqS1RISTRyVDVZNUpfbEpyMmNISDVobEdiVVBFakdud2xPenVlQVlsVi1PZGtXNTNRQ3NaV1hCSDRWZDNNY21lTlJ4N1dPM3NmLUh1UUxsOXpoZ1NwZTNWNGRicGdPemhKQ0dhTnIza1prQnd0MGdKX3hR?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "f1d6eb93518bca60460057c59fcb1f381fa6b1fdc955caf88700211633969738",
+      "source_type": "company_news",
+      "source": "Reuters",
+      "source_url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+      "title": "Chevron's upstream strength lifts first-quarter earnings past estimate - Reuters",
+      "summary": "Chevron's upstream strength lifts first-quarter earnings past estimate Reuters",
+      "body": "Chevron's upstream strength lifts first-quarter earnings past estimate Reuters",
+      "evidence_quality": "title_only",
+      "url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+      "published_at": "Fri, 01 May 2026 16:50:13 GMT",
+      "ticker_hints": [
+        "CVX"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQMjFhbXhuZlRqOFVTTTZLMk02ZHFabHdpV3ZVX3lkeEZ1VjRnOWJqVllVYmkwWWJmbUFJUjJtTU1KR2hBd1o0Mmt5SkpqS1RISTRyVDVZNUpfbEpyMmNISDVobEdiVVBFakdud2xPenVlQVlsVi1PZGtXNTNRQ3NaV1hCSDRWZDNNY21lTlJ4N1dPM3NmLUh1UUxsOXpoZ1NwZTNWNGRicGdPemhKQ0dhTnIza1prQnd0MGdKX3hR?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Chevron's upstream strength lifts first-quarter earnings past estimate - Reuters",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+        "publisher_homepage_url": "https://www.reuters.com",
+        "url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/",
+        "published_at": "Fri, 01 May 2026 16:50:13 GMT",
+        "summary": "Chevron's upstream strength lifts first-quarter earnings past estimate  Reuters",
+        "ticker": "CVX",
+        "company_name": "Chevron Corp",
+        "query": "Chevron Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "CVX"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Chevron beats earnings estimates due to upstream strength, confirming the growth archetype thesis for the position.",
+        "evidence_quality": "title_only"
+      },
+      "scrape_status": "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "resolution_debug": {
+        "error": "Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/energy/chevrons-upstream-strength-lifts-first-quarter-earnings-past-estimate-2026-05-01/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401"
+      }
+    },
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPY24wWjJ1X1Z6VzZVM1ZhV0RtZW5SMTh1NWpzUE9LVWUwVzhPcVdyVzlLTHhLVFVRd25PTG1pYmNrem1rel93M0RZTTlnOG0xb3ZzVjR2WHV4djJNODB4c0ZuMGp6eEV2NlJJVG5Mc1hSUjhNbTM0T0x1UjBpTFVuR0hVT20wM2FEekhrZ011d09DTzg0Ukp2cWZBMkF5VmFlZGVmS3RZdlVkeWIzOGFVV0pscw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+        "query": "Chevron Corp",
+        "title": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices - Bloomberg.com",
+        "source": "Bloomberg.com",
+        "ticker": "CVX",
+        "summary": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices  Bloomberg.com",
+        "source_url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+        "source_type": "company_news",
+        "company_name": "Chevron Corp",
+        "published_at": "Fri, 01 May 2026 17:16:35 GMT",
+        "decoded_google_url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+        "publisher_homepage_url": "https://www.bloomberg.com"
+      },
+      "url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+      "body": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices Bloomberg.com",
+      "title": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices - Bloomberg.com",
+      "source": "Bloomberg.com",
+      "summary": "Chevron Blows Away Estimates on War-Driven Surge in Oil Prices Bloomberg.com",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Chevron's earnings beat on war-driven oil prices shows strong energy segment performance, directly supporting CVX growth position.",
+        "affected_tickers": [
+          "CVX"
+        ],
+        "evidence_quality": "title_only"
+      },
+      "event_hash": "7fe203d7fe5f7887b5727a44d41b7f995231f6182f46211a9bd3b5bbcb458bda",
+      "source_url": "https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices",
+      "external_id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxPY24wWjJ1X1Z6VzZVM1ZhV0RtZW5SMTh1NWpzUE9LVWUwVzhPcVdyVzlLTHhLVFVRd25PTG1pYmNrem1rel93M0RZTTlnOG0xb3ZzVjR2WHV4djJNODB4c0ZuMGp6eEV2NlJJVG5Mc1hSUjhNbTM0T0x1UjBpTFVuR0hVT20wM2FEekhrZ011d09DTzg0Ukp2cWZBMkF5VmFlZGVmS3RZdlVkeWIzOGFVV0pscw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Fri, 01 May 2026 17:16:35 GMT",
+      "ticker_hints": [
+        "CVX"
+      ],
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "evidence_quality": "title_only",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      },
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-01/chevron-blows-away-estimates-on-war-driven-surge-in-oil-prices'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    }
+  ],
+  "significance_cache": {
+    "63525465c6d4fcd79e5d38734aa79470c3c3e71c057e6df59aeab712c662d82d": {
+      "confidence": 0.3,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Classification parse failed."
+    },
+    "0d6273123ba91b66960fb59e5c3a534e36d5c023689d91e53e54f799f7cbee0e": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "f779604e63f19330095cf44460eb26422c60af0b11fcec46e5c69319eb2ab05f": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "92c9ac3ea5250d9f0f3d6983e8ee59206b54e3263a222b4641d73b07ec1f424c": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "2d91467bbb886df5d548ca49496f56425415cd91ae96c74225b18efa5cbc0807": {
+      "rule": "keyword",
+      "confidence": 0.85,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Keyword detected routine minor event"
+    },
+    "5dbb7c630daca1625dc4d492cafd43e3f12f3b47df701f0065e1dabab3cd00aa": {
+      "rule": "keyword",
+      "confidence": 0.85,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Keyword detected routine minor event"
+    },
+    "bc57dd9de89c0214628dc68379a406ae910a4ded678db7ee73cd3d245194ebed": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "a64aae9f06ae52d5a024b7e2d1480a693a2a1f4b125d11d568854bb10ca3c710": {
+      "rule": "keyword",
+      "confidence": 0.85,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Keyword detected routine minor event"
+    },
+    "a30d7a0980e4b8ad273221dd89ad5cf2271e1712c6a1274dbb6c4f2aa0d473e4": {
+      "significance": "minor",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected routine minor event",
+      "confidence": 0.85,
+      "rule": "keyword"
+    },
+    "6ee355388e62c682d94c039341f487291d408c799c10643fde2d651761da9cba": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "cd71b75f19fe468596e6161abaf24fb6085a6f54e0cf834e17593544f408e93b": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "4d4ab00bade19df32d50c60184542f0d159f613e22968089f4ebfe69b73fff13": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "2655e001f2468327de8d3170696aef39b8621ce7c0386553f3237b83b8412831": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "47cfbe46c202b32e0329f68e2d9d7fca6c2d8c3f7df3ee94efe824c722698885": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "f554ab3739791fb5326294881e9922fc26ae9bc3786e8dadefb1e6141a35f58f": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "f1d6eb93518bca60460057c59fcb1f381fa6b1fdc955caf88700211633969738": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "7fe203d7fe5f7887b5727a44d41b7f995231f6182f46211a9bd3b5bbcb458bda": {
+      "significance": "minor",
+      "event_type": "other",
+      "why_it_matters": "Classification parse failed.",
+      "confidence": 0.3
+    }
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "position": {
+    "id": "de7efb1a-ed76-4d8a-b265-401f1963dba3",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "A",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 117.53,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "There is not enough recent news to form a confident risk rating for A. The current rating relies on existing position context and structural factors.",
+    "long_report": "Data for A is thin in this cycle, so the dominant risk rating defaults to structural and sector factors rather than company-specific catalysts. This is a limited-data rating \u2014 any new company-specific development (earnings, guidance, regulatory action) could shift the picture meaningfully. Treat this as limited-data until fuller data arrives.",
+    "methodology": "Limited-data rating based on position metadata and structural context. No usable event data for this cycle.",
+    "top_risks": [
+      "No confirmed company-specific catalyst in this cycle."
+    ],
+    "watch_items": [
+      "Recheck for resolved company or sector data before treating the current rating as settled."
+    ],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "de7efb1a-ed76-4d8a-b265-401f1963dba3",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "A",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 118.65,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "D",
+    "previous_total_score": 48.8,
+    "summary": "There is not enough recent news to form a confident risk rating for A. The current rating relies on existing position context and structural factors.",
+    "long_report": "Data for A is thin in this cycle, so the dominant risk rating defaults to structural and sector factors rather than company-specific catalysts. This is a limited-data rating \u2014 any new company-specific development (earnings, guidance, regulatory action) could shift the picture meaningfully. Treat this as limited-data until fuller data arrives.",
+    "top_risks": [
+      "No confirmed company-specific catalyst in this cycle."
+    ],
+    "watch_items": [
+      "Recheck for resolved company or sector data before treating the current rating as settled."
+    ],
+    "top_news": [],
+    "driver_cards": [],
+    "driver_cards_state": "limited",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Limited-data rating based on position metadata and structural context. No usable event data for this cycle.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "a2fddffc-1af1-495a-a03b-6249110a120f",
+      "ticker": "A",
+      "company_name": "Agilent Technologies Inc",
+      "asset_class": null,
+      "sector": "Life Sciences Tools & Services",
+      "industry": null,
+      "exchange": "NEW YORK STOCK EXCHANGE, INC.",
+      "market_cap": 33530766609.050488,
+      "market_cap_bucket": "moderate_high",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 244835461.5,
+      "spread_proxy": 0.001,
+      "beta": 1.2229881,
+      "volatility_proxy": 0.305747025,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:30:02.046635+00:00",
+      "created_at": "2026-04-12T21:58:17.893437+00:00",
+      "pe_ratio": 25.7639,
+      "week_52_high": 160.27,
+      "week_52_low": 104.79,
+      "price": 118.65,
+      "price_as_of": "2026-05-08T10:30:02.03287+00:00",
+      "avg_volume": 2.06351,
+      "previous_close": 117.69,
+      "open_price": 117.62,
+      "day_high": 119.58,
+      "day_low": 117.5,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "A",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

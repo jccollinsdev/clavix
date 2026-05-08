@@ -1,0 +1,20 @@
+{
+  "run_id": "9a6b926f-ea68-49c3-a597-937c86822f1d",
+  "started_at": "2026-05-08T11:42:08.607198+00:00",
+  "label": "sp500_backfill_batch_4",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "CHTR",
+    "AZO",
+    "AVB",
+    "AMAT",
+    "ADP",
+    "BF.B",
+    "AXON",
+    "AXP",
+    "BDX",
+    "CAT"
+  ]
+}

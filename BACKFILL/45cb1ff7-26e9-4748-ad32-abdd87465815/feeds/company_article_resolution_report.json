@@ -1,0 +1,189 @@
+{
+  "input_count": 40,
+  "enriched_count": 17,
+  "resolved_with_body": 17,
+  "wrapper_only": 23,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "SCHW": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "ok_proxy": 2
+      }
+    },
+    "BRO": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "ok": 1,
+        "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/transcripts/earnings-call-transcript-cboe-global-markets-beats-q1-2026-expectations-93CH-4660071'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1
+      }
+    },
+    "AAPL": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 1,
+        "ok_proxy": 2,
+        "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4900212-charles-river-laboratories-international-inc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1
+      }
+    },
+    "AVY": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 4
+      }
+    },
+    "ADM": {
+      "input_count": 4,
+      "resolved_with_body": 1,
+      "wrapper_only": 3,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/sec-filings/carvana-shareholders-approve-fiveforone-stock-split-and-new-incentive-plan-93CH-4665595'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+        "unknown": 3
+      }
+    },
+    "CNC": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CVNA": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CRL": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CASY": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "CBOE": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "ok": 4,
+    "ok_proxy": 10,
+    "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/transcripts/earnings-call-transcript-cboe-global-markets-beats-q1-2026-expectations-93CH-4660071'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/article/4900212-charles-river-laboratories-international-inc-2026-q1-results-earnings-call-presentation'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "error:Client error '403 Forbidden' for url 'https://www.investing.com/news/sec-filings/carvana-shareholders-approve-fiveforone-stock-split-and-new-incentive-plan-93CH-4665595'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403": 1,
+    "unknown": 23
+  },
+  "failure_reason_counts": {
+    "unknown": 23
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 23
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "SCHW",
+      "title": "Apple just posted $111 billion in revenue. Now its CFO and incoming CEO are teaming up - Fortune",
+      "status": "ok"
+    },
+    {
+      "ticker": "SCHW",
+      "title": "Court turns down Apple\u2019s request to pause order holding it in contempt - SCOTUSblog",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "SCHW",
+      "title": "Higher ethanol margins boost ADM (NYSE: ADM) Q1 2026 earnings outlook - Stock Titan",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "SCHW",
+      "title": "Avery Dennison Corporation (NYSE:AVY) Given Consensus Recommendation of \"Moderate Buy\" by Brokerages - MarketBeat",
+      "status": "ok"
+    },
+    {
+      "ticker": "BRO",
+      "title": "Avery Dennison Corp 1Q 2026: Revenue $2.3B, EPS $2.18\u2014 10-Q Summary - TradingView",
+      "status": "ok_proxy"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "ADM",
+      "title": "Higher ethanol margins boost ADM (NYSE: ADM) Q1 2026 earnings outlook - Stock Titan",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ADM",
+      "title": "Archer Daniels Midland Company (NYSE:ADM) Given Consensus Recommendation of \"Hold\" by Analysts - MarketBeat",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ADM",
+      "title": "symbol__ Stock Quote Price and Forecast - CNN",
+      "status": "unknown"
+    },
+    {
+      "ticker": "CNC",
+      "title": "Centene Corp. stock underperforms Tuesday when compared to competitors - MarketWatch",
+      "status": "unknown"
+    },
+    {
+      "ticker": "CNC",
+      "title": "Centene shares jump after Q1 2026 earnings as health insurers outperform - S&P Global",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.425,
+  "coverage_ok": true
+}

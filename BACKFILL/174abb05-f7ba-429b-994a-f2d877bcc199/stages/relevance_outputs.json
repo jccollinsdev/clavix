@@ -1,0 +1,1286 @@
+{
+  "cached_count": 272,
+  "uncached_count": 33,
+  "results": [
+    {
+      "article_index": 0,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Conference webcast scheduling announcements are low-information operational updates that don't provide investment-relevant details.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNZVZrVjNTS255LTBERmlsRTFZS0c2NkpFUlYwQWVQZUk1SWhVUkwtYWhGbVR0M3VqT1h6dVVrS2cyYnkxMUJ3blhmeVZTeGdna24zOUZfT0w5TDdMYUxfdGZOMTJaSUtnVVhLTHFoQ1B2LTRoU1ZhczJWekdhczlENE1WMVFEdlNCNlZCem8xUEQ3b3dLNGR2VTVobw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "f3fa9feb62bf7b62686e8a490ad1459ca52630d3592cee10e8e12a8725263d2b",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/news/AMT/american-tower-to-present-at-upcoming-may-iwe4hzxq2o2k.html",
+        "title": "American Tower schedules two May investor conference webcasts - Stock Titan",
+        "summary": "American Tower schedules two May investor conference webcasts Stock Titan",
+        "body": "American Tower schedules two May investor conference webcasts Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/news/AMT/american-tower-to-present-at-upcoming-may-iwe4hzxq2o2k.html",
+        "published_at": "Thu, 07 May 2026 20:15:00 GMT",
+        "ticker_hints": [
+          "AMT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNZVZrVjNTS255LTBERmlsRTFZS0c2NkpFUlYwQWVQZUk1SWhVUkwtYWhGbVR0M3VqT1h6dVVrS2cyYnkxMUJ3blhmeVZTeGdna24zOUZfT0w5TDdMYUxfdGZOMTJaSUtnVVhLTHFoQ1B2LTRoU1ZhczJWekdhczlENE1WMVFEdlNCNlZCem8xUEQ3b3dLNGR2VTVobw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "American Tower schedules two May investor conference webcasts - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/news/AMT/american-tower-to-present-at-upcoming-may-iwe4hzxq2o2k.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/news/AMT/american-tower-to-present-at-upcoming-may-iwe4hzxq2o2k.html",
+          "published_at": "Thu, 07 May 2026 20:15:00 GMT",
+          "summary": "American Tower schedules two May investor conference webcasts  Stock Titan",
+          "ticker": "AMT",
+          "company_name": "American Tower Corp",
+          "query": "American Tower Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/news/AMT/american-tower-to-present-at-upcoming-may-iwe4hzxq2o2k.html"
+        }
+      }
+    },
+    {
+      "article_index": 1,
+      "relevant": true,
+      "affected_tickers": [
+        "AMT"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Danske Bank increasing its AMT holdings signals institutional confidence in the tower REIT.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPVFV6OHFiS0VHMVJQeE8tWlFxUFktbnRESGVsLWlBcmZJem9ZNmJ4Smc3OThLMDk0X2Q1Ni1pN3RtRHVtZ2ttVVpZMlpCZ3ZTV25fYzkwZ2dsWURrdUR4TlhJNHNOSkp4WGlXR2dEOFEycHpWN1dkVmVxbjk2TFZ0RjhyRlcyOWh5N1R1Z3RXc3pkMVExRmRmYnN0dHdCME9kMUdWdzVJcmkwTmhUTU92SDN3SUtPbGxwV2VFbmsxM0ZuOW9Z?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "91d868870055baf5baad6a2612bf56e6e65077dccaa3e30fb61df7d710bbbc91",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-american-tower-corporation-amt-holdings-raised-by-danske-bank-a-s-2026-05-02/",
+        "title": "American Tower Corporation $AMT Holdings Raised by Danske Bank A S - MarketBeat",
+        "summary": "American Tower Corporation $AMT Holdings Raised by Danske Bank A S MarketBeat",
+        "body": "American Tower Corporation $AMT Holdings Raised by Danske Bank A S MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-american-tower-corporation-amt-holdings-raised-by-danske-bank-a-s-2026-05-02/",
+        "published_at": "Sat, 02 May 2026 08:37:40 GMT",
+        "ticker_hints": [
+          "AMT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPVFV6OHFiS0VHMVJQeE8tWlFxUFktbnRESGVsLWlBcmZJem9ZNmJ4Smc3OThLMDk0X2Q1Ni1pN3RtRHVtZ2ttVVpZMlpCZ3ZTV25fYzkwZ2dsWURrdUR4TlhJNHNOSkp4WGlXR2dEOFEycHpWN1dkVmVxbjk2TFZ0RjhyRlcyOWh5N1R1Z3RXc3pkMVExRmRmYnN0dHdCME9kMUdWdzVJcmkwTmhUTU92SDN3SUtPbGxwV2VFbmsxM0ZuOW9Z?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "American Tower Corporation $AMT Holdings Raised by Danske Bank A S - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-american-tower-corporation-amt-holdings-raised-by-danske-bank-a-s-2026-05-02/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-american-tower-corporation-amt-holdings-raised-by-danske-bank-a-s-2026-05-02/",
+          "published_at": "Sat, 02 May 2026 08:37:40 GMT",
+          "summary": "American Tower Corporation $AMT Holdings Raised by Danske Bank A S  MarketBeat",
+          "ticker": "AMT",
+          "company_name": "American Tower Corp",
+          "query": "American Tower Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-american-tower-corporation-amt-holdings-raised-by-danske-bank-a-s-2026-05-02/"
+        }
+      }
+    },
+    {
+      "article_index": 2,
+      "relevant": true,
+      "affected_tickers": [
+        "AMT"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Amendment of $11 billion in credit facilities represents material financial news affecting AMT's capital structure and borrowing costs.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiqwJBVV95cUxONzA5czB5dmgzamRYMTFoQW5lZHllMVlLWElzcmRkbkFmU2hiWExZcnFEYzNRYktLdmFJaUpranJ2UnhFam9FdndNV3JEQlE3Wkd5T3FyVWtqTWRYazIxV25YV0hKYnBjd005QVNveEJXbDNuaUFZRVN1VktSMi1sWXNTaTZpOG04ZkxkeTJuSEhxS3Y3VTVacUNScXJEVGhuNzV5eldSbGVHZHEyT2RabFRyQmstUExwcDcyRWNUZEJpblhTdmtFSGwxNFVJbkx6N09RdzhJM1NROHo1d3BRM3FlOVpKeU04a0l1Z0lGSDVQTFpYRGFqLXRaa21SQjB4LVZQQmc4TVJHaVRtSUhFUWZINDV6dk1sY1dRa3c0Ykc4SGlGSFkzWUJ4WQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "3afe29435383c0d04acc25f7d2ca63a23d950200f9190fa221bff40efc7fc3bd",
+        "source_type": "company_news",
+        "source": "TradingView",
+        "source_url": "https://www.tradingview.com/news/reuters.com,2026:newsml_FWN41K1P7:0-american-tower-corp-amends-6-billion-multicurrency-revolving-credit-facility-4-billion-credit-facility-1-billion-term-loan-sec-filing/",
+        "title": "American Tower Corp - Amends $6 Billion Multicurrency Revolving Credit Facility, $4 Billion Credit Facility, $1 Billion Term Loan - SEC Filing - TradingView",
+        "summary": "American Tower Corp - Amends $6 Billion Multicurrency Revolving Credit Facility, $4 Billion Credit Facility, $1 Billion Term Loan - SEC Filing TradingView",
+        "body": "American Tower Corp - Amends $6 Billion Multicurrency Revolving Credit Facility, $4 Billion Credit Facility, $1 Billion Term Loan - SEC Filing TradingView",
+        "evidence_quality": "title_only",
+        "url": "https://www.tradingview.com/news/reuters.com,2026:newsml_FWN41K1P7:0-american-tower-corp-amends-6-billion-multicurrency-revolving-credit-facility-4-billion-credit-facility-1-billion-term-loan-sec-filing/",
+        "published_at": "Thu, 07 May 2026 22:25:14 GMT",
+        "ticker_hints": [
+          "AMT"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiqwJBVV95cUxONzA5czB5dmgzamRYMTFoQW5lZHllMVlLWElzcmRkbkFmU2hiWExZcnFEYzNRYktLdmFJaUpranJ2UnhFam9FdndNV3JEQlE3Wkd5T3FyVWtqTWRYazIxV25YV0hKYnBjd005QVNveEJXbDNuaUFZRVN1VktSMi1sWXNTaTZpOG04ZkxkeTJuSEhxS3Y3VTVacUNScXJEVGhuNzV5eldSbGVHZHEyT2RabFRyQmstUExwcDcyRWNUZEJpblhTdmtFSGwxNFVJbkx6N09RdzhJM1NROHo1d3BRM3FlOVpKeU04a0l1Z0lGSDVQTFpYRGFqLXRaa21SQjB4LVZQQmc4TVJHaVRtSUhFUWZINDV6dk1sY1dRa3c0Ykc4SGlGSFkzWUJ4WQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "American Tower Corp - Amends $6 Billion Multicurrency Revolving Credit Facility, $4 Billion Credit Facility, $1 Billion Term Loan - SEC Filing - TradingView",
+          "source": "TradingView",
+          "source_url": "https://www.tradingview.com/news/reuters.com,2026:newsml_FWN41K1P7:0-american-tower-corp-amends-6-billion-multicurrency-revolving-credit-facility-4-billion-credit-facility-1-billion-term-loan-sec-filing/",
+          "publisher_homepage_url": "https://www.tradingview.com",
+          "url": "https://www.tradingview.com/news/reuters.com,2026:newsml_FWN41K1P7:0-american-tower-corp-amends-6-billion-multicurrency-revolving-credit-facility-4-billion-credit-facility-1-billion-term-loan-sec-filing/",
+          "published_at": "Thu, 07 May 2026 22:25:14 GMT",
+          "summary": "American Tower Corp - Amends $6 Billion Multicurrency Revolving Credit Facility, $4 Billion Credit Facility, $1 Billion Term Loan - SEC Filing  TradingView",
+          "ticker": "AMT",
+          "company_name": "American Tower Corp",
+          "query": "American Tower Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.tradingview.com/news/reuters.com,2026:newsml_FWN41K1P7:0-american-tower-corp-amends-6-billion-multicurrency-revolving-credit-facility-4-billion-credit-facility-1-billion-term-loan-sec-filing/"
+        }
+      }
+    },
+    {
+      "article_index": 3,
+      "relevant": true,
+      "affected_tickers": [
+        "BKR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Schedule 13G/A passive investment disclosures reveal significant institutional ownership changes for Baker Hughes.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQWExLQU5VOGdjanUyWUU5Nm43ZFM4MVpvUEcxSC1FMGZLcFU0Ykd0NEp0VWdQSTFlTWRVUzJTeG03TmFIMmY4SEJYN25pcVQ2R2FlMHZpb1pwMEpJNEFwamVtZnBxTDdYdll5UXgtb09aQlM5UVpSRW5oUlk0RUgzSzkzMkMwWHAzdTE4aV9aUzFhZ1FxbXdfTnVuMVp4RWoyNGEwUXlrZ0JtMzhtNDdtMGdmQ0FUcWpwWWs1OE9OMkg2c3E4bEx2Nw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "200cf1f015e622ee89cee5eb35d6f5b0db10a2c32b5195d3eef1b68c849f7767",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/BKR/schedule-13g-a-baker-hughes-co-amended-passive-investment-disclosure-02e94864fe4d.html",
+        "title": "[SCHEDULE 13G/A] Baker Hughes Co Amended Passive Investment Disclosure - Stock Titan",
+        "summary": "[SCHEDULE 13G/A] Baker Hughes Co Amended Passive Investment Disclosure Stock Titan",
+        "body": "[SCHEDULE 13G/A] Baker Hughes Co Amended Passive Investment Disclosure Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/BKR/schedule-13g-a-baker-hughes-co-amended-passive-investment-disclosure-02e94864fe4d.html",
+        "published_at": "Mon, 04 May 2026 12:17:13 GMT",
+        "ticker_hints": [
+          "BKR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQWExLQU5VOGdjanUyWUU5Nm43ZFM4MVpvUEcxSC1FMGZLcFU0Ykd0NEp0VWdQSTFlTWRVUzJTeG03TmFIMmY4SEJYN25pcVQ2R2FlMHZpb1pwMEpJNEFwamVtZnBxTDdYdll5UXgtb09aQlM5UVpSRW5oUlk0RUgzSzkzMkMwWHAzdTE4aV9aUzFhZ1FxbXdfTnVuMVp4RWoyNGEwUXlrZ0JtMzhtNDdtMGdmQ0FUcWpwWWs1OE9OMkg2c3E4bEx2Nw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "[SCHEDULE 13G/A] Baker Hughes Co Amended Passive Investment Disclosure - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/BKR/schedule-13g-a-baker-hughes-co-amended-passive-investment-disclosure-02e94864fe4d.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/BKR/schedule-13g-a-baker-hughes-co-amended-passive-investment-disclosure-02e94864fe4d.html",
+          "published_at": "Mon, 04 May 2026 12:17:13 GMT",
+          "summary": "[SCHEDULE 13G/A] Baker Hughes Co Amended Passive Investment Disclosure  Stock Titan",
+          "ticker": "BKR",
+          "company_name": "Baker Hughes Co",
+          "query": "Baker Hughes Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/BKR/schedule-13g-a-baker-hughes-co-amended-passive-investment-disclosure-02e94864fe4d.html"
+        }
+      }
+    },
+    {
+      "article_index": 4,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNa2VtMURFRWJyUmtJc0RGWWgtUUZEV3FPQXJlR0xFYnFaU2x4bF9YUDVjeEpzVzh6dFNTaVphSkxUbmZIdW5XMUJrOWdxai1IdmI2ZGFpMk5rOTNXY3pTOVF5MlNjd3JpejdKeVBVMy11VXI1VjBBb2FVb2VQSXhCdnFVNHNTR0RJWldoUnlJR2hfbzBuSkxTSnNBYWtkZjAxM21kdnFXZ1VHc09jOFFQOE8wMl9OZGRnLXF1ZDU0WWVnd3llNk85Q05LQm9OaFk?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "6325846753ebed666a635f1a46217330ec7bf7eb265790387fd73c7dbc6b5718",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/baker-hughes-co-stock-underperforms-wednesday-when-compared-to-competitors-af0b7765-f9ed0af66257",
+        "title": "Baker Hughes Co. stock underperforms Wednesday when compared to competitors - MarketWatch",
+        "summary": "Baker Hughes Co. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "body": "Baker Hughes Co. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/baker-hughes-co-stock-underperforms-wednesday-when-compared-to-competitors-af0b7765-f9ed0af66257",
+        "published_at": "Wed, 06 May 2026 20:45:00 GMT",
+        "ticker_hints": [
+          "BKR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizwFBVV95cUxNa2VtMURFRWJyUmtJc0RGWWgtUUZEV3FPQXJlR0xFYnFaU2x4bF9YUDVjeEpzVzh6dFNTaVphSkxUbmZIdW5XMUJrOWdxai1IdmI2ZGFpMk5rOTNXY3pTOVF5MlNjd3JpejdKeVBVMy11VXI1VjBBb2FVb2VQSXhCdnFVNHNTR0RJWldoUnlJR2hfbzBuSkxTSnNBYWtkZjAxM21kdnFXZ1VHc09jOFFQOE8wMl9OZGRnLXF1ZDU0WWVnd3llNk85Q05LQm9OaFk?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Baker Hughes Co. stock underperforms Wednesday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/baker-hughes-co-stock-underperforms-wednesday-when-compared-to-competitors-af0b7765-f9ed0af66257",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/baker-hughes-co-stock-underperforms-wednesday-when-compared-to-competitors-af0b7765-f9ed0af66257",
+          "published_at": "Wed, 06 May 2026 20:45:00 GMT",
+          "summary": "Baker Hughes Co. stock underperforms Wednesday when compared to competitors  MarketWatch",
+          "ticker": "BKR",
+          "company_name": "Baker Hughes Co",
+          "query": "Baker Hughes Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/baker-hughes-co-stock-underperforms-wednesday-when-compared-to-competitors-af0b7765-f9ed0af66257"
+        }
+      }
+    },
+    {
+      "article_index": 5,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic institutional ownership filing showing an asset manager bought BKR shares\u2014no new information about the company's growth prospects or fundamentals.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPZzhVTjI5ZkFOQjFPYnQxaE9JVEdfRVBlbk9DSFVGSFpiMDczUm56SlJvYnNMa1dlaWdhR0luRktWaXlrRFFxQ1RFNWd5RmZWcnhfTzR0cWlVbWRVV0RCeVktWWJaTTdCWUJjQkUtNmthcmF6VkxpMVZVTG9aQkJEMTI0cVdCMFZQZWJES1JGenBicDhWUGUzcV9vd2pGZlVnaEh5WmpUeWxQeDdzTEEwdG5UTWdZM1VJb2tFck1URzhKaS1ENGJfd1kweGpXWjVod3ZBQmtiZDVNa25w?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "a235e039b7a5238dc1ed29285245d68375342a867fc2f36db2e0e4f5edc21ccd",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-baker-hughes-company-bkr-shares-purchased-by-mitsubishi-ufj-asset-management-co-ltd-2026-05-08/",
+        "title": "Baker Hughes Company $BKR Shares Purchased by Mitsubishi UFJ Asset Management Co. Ltd. - MarketBeat",
+        "summary": "Baker Hughes Company $BKR Shares Purchased by Mitsubishi UFJ Asset Management Co. Ltd. MarketBeat",
+        "body": "Baker Hughes Company $BKR Shares Purchased by Mitsubishi UFJ Asset Management Co. Ltd. MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-baker-hughes-company-bkr-shares-purchased-by-mitsubishi-ufj-asset-management-co-ltd-2026-05-08/",
+        "published_at": "Fri, 08 May 2026 10:23:36 GMT",
+        "ticker_hints": [
+          "BKR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxPZzhVTjI5ZkFOQjFPYnQxaE9JVEdfRVBlbk9DSFVGSFpiMDczUm56SlJvYnNMa1dlaWdhR0luRktWaXlrRFFxQ1RFNWd5RmZWcnhfTzR0cWlVbWRVV0RCeVktWWJaTTdCWUJjQkUtNmthcmF6VkxpMVZVTG9aQkJEMTI0cVdCMFZQZWJES1JGenBicDhWUGUzcV9vd2pGZlVnaEh5WmpUeWxQeDdzTEEwdG5UTWdZM1VJb2tFck1URzhKaS1ENGJfd1kweGpXWjVod3ZBQmtiZDVNa25w?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Baker Hughes Company $BKR Shares Purchased by Mitsubishi UFJ Asset Management Co. Ltd. - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-baker-hughes-company-bkr-shares-purchased-by-mitsubishi-ufj-asset-management-co-ltd-2026-05-08/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-baker-hughes-company-bkr-shares-purchased-by-mitsubishi-ufj-asset-management-co-ltd-2026-05-08/",
+          "published_at": "Fri, 08 May 2026 10:23:36 GMT",
+          "summary": "Baker Hughes Company $BKR Shares Purchased by Mitsubishi UFJ Asset Management Co. Ltd.  MarketBeat",
+          "ticker": "BKR",
+          "company_name": "Baker Hughes Co",
+          "query": "Baker Hughes Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-baker-hughes-company-bkr-shares-purchased-by-mitsubishi-ufj-asset-management-co-ltd-2026-05-08/"
+        }
+      }
+    },
+    {
+      "article_index": 6,
+      "relevant": true,
+      "affected_tickers": [
+        "BKR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Company-specific investment analysis discussing BKR's 90% rally and whether upside remains, directly relevant to evaluating the BKR growth position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPanF3Q1lNV2hNbVJzempLTUt1RzBCQkJCTkpSbUZubGROcGRKdlR3cnVmTTJ0dGhveHJxRUxuakszSlpCNW9fMmpHSUJVdUUtQTFYREpTbHRhOWJLYmkteTBVczVQRklSNlRaQjN4dDR5Y1pqYW5UY0pULXI1NWo0b242VUZfdDNuT21ybWJoOWNyZGlxVXpiNHh4cUVrSmM0YzExQ1FqbGFWR2ZtcmMydWNuMjN1bGxTQXlMMmxuYTJvbHJSVEdn0gHMAUFVX3lxTE5XcXJlYlhhc2NfWkowS3cxVGEybi1XUjBlLU1ndS1RWWdBVWpfRUptY1FBRUhSRGx3WUJuNXI2Q1RaSE1jdkJlRWF2OVJ6Mm44cU9CUmVGRk9qdXA1MUVlTEFXT0E5cl9jQXJNbEN2R3pCQWFCbDl0XzZZbEc0VDJ3ZUxhV05LMzZycU56STFyVUttSTQ4clBNaElYZDV6UE9sSjFzQnZzOVRCTUtUaXRBOGtGX09DQmd4MW9aWEFTLVhfRnN0MkJiMW1VYg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "de94963bf02a72365661abdaf09c6994db3306fc85c87cb0736d2323d6e7ed45",
+        "source_type": "company_news",
+        "source": "simplywall.st",
+        "source_url": "https://simplywall.st/stocks/us/energy/nasdaq-bkr/baker-hughes/news/is-it-too-late-to-look-at-baker-hughes-bkr-after-a-90-one-ye",
+        "title": "Is It Too Late To Look At Baker Hughes (BKR) After A 90% One-Year Rally? - simplywall.st",
+        "summary": "Is It Too Late To Look At Baker Hughes (BKR) After A 90% One-Year Rally? simplywall.st",
+        "body": "Is It Too Late To Look At Baker Hughes (BKR) After A 90% One-Year Rally? simplywall.st",
+        "evidence_quality": "title_only",
+        "url": "https://simplywall.st/stocks/us/energy/nasdaq-bkr/baker-hughes/news/is-it-too-late-to-look-at-baker-hughes-bkr-after-a-90-one-ye",
+        "published_at": "Fri, 01 May 2026 23:22:03 GMT",
+        "ticker_hints": [
+          "BKR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPanF3Q1lNV2hNbVJzempLTUt1RzBCQkJCTkpSbUZubGROcGRKdlR3cnVmTTJ0dGhveHJxRUxuakszSlpCNW9fMmpHSUJVdUUtQTFYREpTbHRhOWJLYmkteTBVczVQRklSNlRaQjN4dDR5Y1pqYW5UY0pULXI1NWo0b242VUZfdDNuT21ybWJoOWNyZGlxVXpiNHh4cUVrSmM0YzExQ1FqbGFWR2ZtcmMydWNuMjN1bGxTQXlMMmxuYTJvbHJSVEdn0gHMAUFVX3lxTE5XcXJlYlhhc2NfWkowS3cxVGEybi1XUjBlLU1ndS1RWWdBVWpfRUptY1FBRUhSRGx3WUJuNXI2Q1RaSE1jdkJlRWF2OVJ6Mm44cU9CUmVGRk9qdXA1MUVlTEFXT0E5cl9jQXJNbEN2R3pCQWFCbDl0XzZZbEc0VDJ3ZUxhV05LMzZycU56STFyVUttSTQ4clBNaElYZDV6UE9sSjFzQnZzOVRCTUtUaXRBOGtGX09DQmd4MW9aWEFTLVhfRnN0MkJiMW1VYg?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Is It Too Late To Look At Baker Hughes (BKR) After A 90% One-Year Rally? - simplywall.st",
+          "source": "simplywall.st",
+          "source_url": "https://simplywall.st/stocks/us/energy/nasdaq-bkr/baker-hughes/news/is-it-too-late-to-look-at-baker-hughes-bkr-after-a-90-one-ye",
+          "publisher_homepage_url": "https://simplywall.st",
+          "url": "https://simplywall.st/stocks/us/energy/nasdaq-bkr/baker-hughes/news/is-it-too-late-to-look-at-baker-hughes-bkr-after-a-90-one-ye",
+          "published_at": "Fri, 01 May 2026 23:22:03 GMT",
+          "summary": "Is It Too Late To Look At Baker Hughes (BKR) After A 90% One-Year Rally?  simplywall.st",
+          "ticker": "BKR",
+          "company_name": "Baker Hughes Co",
+          "query": "Baker Hughes Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://simplywall.st/stocks/us/energy/nasdaq-bkr/baker-hughes/news/is-it-too-late-to-look-at-baker-hughes-bkr-after-a-90-one-ye"
+        }
+      }
+    },
+    {
+      "article_index": 7,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic institutional flow report showing Jennison sold APO shares\u2014no insight into APO's actual business performance or growth trajectory.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPMUlHdnpyX0VhUC1VQVRhSm90YXc4bm10WUpQRGJ5cjBZQ2EwbVdZNGdFTm1PLXZPeWNwMUxxNVcwQ2NudFVMSm5mOEhnQWtTNVdQV09oZWFVWkVZN281WlRrQ0MxMUtCUm1aQ2tCUUFoUVE1akVOYjVXclp5Ym4taU5nandZd3BOcWZCMVVXNG9kZ1N4TFdOUHc0eXhqM3pNY0ppN0JRclh6UEZmVlBiLUNaNUxxSFc4bTRDMHAwUEVLLVFseDl1bHJZeTRzYWlGTGwxVE13?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "514619122ea9f2225d486c5d531457a44ab53fc52e27a9ff7400c0895eb1db57",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-jennison-associates-llc-sells-54193-shares-of-apollo-global-management-inc-apo-2026-05-03/",
+        "title": "Jennison Associates LLC Sells 54,193 Shares of Apollo Global Management Inc. $APO - MarketBeat",
+        "summary": "Jennison Associates LLC Sells 54,193 Shares of Apollo Global Management Inc. $APO MarketBeat",
+        "body": "Jennison Associates LLC Sells 54,193 Shares of Apollo Global Management Inc. $APO MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-jennison-associates-llc-sells-54193-shares-of-apollo-global-management-inc-apo-2026-05-03/",
+        "published_at": "Sun, 03 May 2026 10:23:22 GMT",
+        "ticker_hints": [
+          "APO"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxPMUlHdnpyX0VhUC1VQVRhSm90YXc4bm10WUpQRGJ5cjBZQ2EwbVdZNGdFTm1PLXZPeWNwMUxxNVcwQ2NudFVMSm5mOEhnQWtTNVdQV09oZWFVWkVZN281WlRrQ0MxMUtCUm1aQ2tCUUFoUVE1akVOYjVXclp5Ym4taU5nandZd3BOcWZCMVVXNG9kZ1N4TFdOUHc0eXhqM3pNY0ppN0JRclh6UEZmVlBiLUNaNUxxSFc4bTRDMHAwUEVLLVFseDl1bHJZeTRzYWlGTGwxVE13?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Jennison Associates LLC Sells 54,193 Shares of Apollo Global Management Inc. $APO - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-jennison-associates-llc-sells-54193-shares-of-apollo-global-management-inc-apo-2026-05-03/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-jennison-associates-llc-sells-54193-shares-of-apollo-global-management-inc-apo-2026-05-03/",
+          "published_at": "Sun, 03 May 2026 10:23:22 GMT",
+          "summary": "Jennison Associates LLC Sells 54,193 Shares of Apollo Global Management Inc. $APO  MarketBeat",
+          "ticker": "APO",
+          "company_name": "Apollo Global Management Inc",
+          "query": "Apollo Global Management Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-jennison-associates-llc-sells-54193-shares-of-apollo-global-management-inc-apo-2026-05-03/"
+        }
+      }
+    },
+    {
+      "article_index": 8,
+      "relevant": true,
+      "affected_tickers": [
+        "BAX"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Company-specific analysis on Seeking Alpha discussing BAX's path to upside, directly relevant to evaluating the BAX growth position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQU1JMYldIb2RrQ09FVzQwbm1DZFRIRF9MRlJrT3A4Q05wRG8wOGZxRGFCQk85RllWaGt0ZnVSWTh0NVZ2eklUTXlWeFh2NUpzWEVPX0RYNUh3LU5TMFNqUDhKazB4TndCcDBiLUhlUjViQVZPclV6ZDhfYVgtRGhMYU5FMDcwVjJIYXZsU1E0VHpFUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "0bc183b04f233a4e9db820984caf2e1543f45d6e2c29979db787ffa95fc56dbe",
+        "source_type": "company_news",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside",
+        "title": "Baxter International Still Has A Path To Upside - Seeking Alpha",
+        "summary": "Baxter International Still Has A Path To Upside Seeking Alpha",
+        "body": "Baxter International Still Has A Path To Upside Seeking Alpha",
+        "evidence_quality": "title_only",
+        "url": "https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside",
+        "published_at": "Fri, 08 May 2026 02:30:39 GMT",
+        "ticker_hints": [
+          "BAX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQU1JMYldIb2RrQ09FVzQwbm1DZFRIRF9MRlJrT3A4Q05wRG8wOGZxRGFCQk85RllWaGt0ZnVSWTh0NVZ2eklUTXlWeFh2NUpzWEVPX0RYNUh3LU5TMFNqUDhKazB4TndCcDBiLUhlUjViQVZPclV6ZDhfYVgtRGhMYU5FMDcwVjJIYXZsU1E0VHpFUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Baxter International Still Has A Path To Upside - Seeking Alpha",
+          "source": "Seeking Alpha",
+          "source_url": "https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside",
+          "publisher_homepage_url": "https://seekingalpha.com",
+          "url": "https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside",
+          "published_at": "Fri, 08 May 2026 02:30:39 GMT",
+          "summary": "Baxter International Still Has A Path To Upside  Seeking Alpha",
+          "ticker": "BAX",
+          "company_name": "Baxter International Inc",
+          "query": "Baxter International Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://seekingalpha.com/article/4900994-baxter-international-still-has-a-path-to-upside"
+        }
+      }
+    },
+    {
+      "article_index": 9,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Routine director compensation disclosure with no material impact on BAX's growth outlook or investment thesis.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNbTNyaUVLU2swb3VUaDMzVW1hdy1uYS1DQ080UkgyX012bVZsbWhqQ3FGRjZRRnN2ajdwR3h2UTdDVW1NQzJ5MU9QU3RnQ2Uydnp6eXVFTEd6Q2pyRGltS0g0cHgxU2s0M3Nyc2xFS0JnS1dleEg5ejMxNXVwTFA4OVRaVHlNRFV6aDRMMlpsU1VKbk9zaTdabndxSS1iY0hFczF4SkY4YnlKcEhQa0JpZzQ5dGVOblFn?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "22cfafbe02f1dd64268c3f02a0c3b8c6175a4c016c96ba9ac5e4bffcf5e69b61",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/BAX/form-4-baxter-international-inc-insider-trading-activity-67df77e1598b.html",
+        "title": "Baxter International (BAX) director awarded 12,836 fully vested shares - Stock Titan",
+        "summary": "Baxter International (BAX) director awarded 12,836 fully vested shares Stock Titan",
+        "body": "Baxter International (BAX) director awarded 12,836 fully vested shares Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/BAX/form-4-baxter-international-inc-insider-trading-activity-67df77e1598b.html",
+        "published_at": "Thu, 07 May 2026 20:19:42 GMT",
+        "ticker_hints": [
+          "BAX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNbTNyaUVLU2swb3VUaDMzVW1hdy1uYS1DQ080UkgyX012bVZsbWhqQ3FGRjZRRnN2ajdwR3h2UTdDVW1NQzJ5MU9QU3RnQ2Uydnp6eXVFTEd6Q2pyRGltS0g0cHgxU2s0M3Nyc2xFS0JnS1dleEg5ejMxNXVwTFA4OVRaVHlNRFV6aDRMMlpsU1VKbk9zaTdabndxSS1iY0hFczF4SkY4YnlKcEhQa0JpZzQ5dGVOblFn?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Baxter International (BAX) director awarded 12,836 fully vested shares - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/BAX/form-4-baxter-international-inc-insider-trading-activity-67df77e1598b.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/BAX/form-4-baxter-international-inc-insider-trading-activity-67df77e1598b.html",
+          "published_at": "Thu, 07 May 2026 20:19:42 GMT",
+          "summary": "Baxter International (BAX) director awarded 12,836 fully vested shares  Stock Titan",
+          "ticker": "BAX",
+          "company_name": "Baxter International Inc",
+          "query": "Baxter International Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/BAX/form-4-baxter-international-inc-insider-trading-activity-67df77e1598b.html"
+        }
+      }
+    },
+    {
+      "article_index": 10,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPcnpEUUhtTDJUc3ktWmxsZ3g2WDE0UG9IbE5qOV9wUXdBd1ViZThjbXBETnlOSEpLczdOLUhmbC1zSWdEbTBzV1VjOHlqTnREM3JtMjg4RkFzTjMxeWNoblZvUU5iRmV0LWxZdlUxTkd5Qjc1RFFqVkdsQUgwaWt4VmNnSXU3OW9zTFpoS0h1TFZqV3pDNmplQkhZVnRnc0hCODMyQTB1TmNWSjBDbDFFUzQxSm1oeEp2SDJCQ3BoNEZJa1BEVi1ScEs5aTBTVHR6RW5fWHJVVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "44966150098097fc507155f7c6fe92461f590bdc96f2c02a19c19b7350694d41",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/baxter-international-inc-stock-underperforms-friday-when-compared-to-competitors-8457454b-c167b4d34c26",
+        "title": "Baxter International Inc. stock underperforms Friday when compared to competitors - MarketWatch",
+        "summary": "Baxter International Inc. stock underperforms Friday when compared to competitors MarketWatch",
+        "body": "Baxter International Inc. stock underperforms Friday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/baxter-international-inc-stock-underperforms-friday-when-compared-to-competitors-8457454b-c167b4d34c26",
+        "published_at": "Fri, 01 May 2026 21:18:00 GMT",
+        "ticker_hints": [
+          "BAX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPcnpEUUhtTDJUc3ktWmxsZ3g2WDE0UG9IbE5qOV9wUXdBd1ViZThjbXBETnlOSEpLczdOLUhmbC1zSWdEbTBzV1VjOHlqTnREM3JtMjg4RkFzTjMxeWNoblZvUU5iRmV0LWxZdlUxTkd5Qjc1RFFqVkdsQUgwaWt4VmNnSXU3OW9zTFpoS0h1TFZqV3pDNmplQkhZVnRnc0hCODMyQTB1TmNWSjBDbDFFUzQxSm1oeEp2SDJCQ3BoNEZJa1BEVi1ScEs5aTBTVHR6RW5fWHJVVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Baxter International Inc. stock underperforms Friday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/baxter-international-inc-stock-underperforms-friday-when-compared-to-competitors-8457454b-c167b4d34c26",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/baxter-international-inc-stock-underperforms-friday-when-compared-to-competitors-8457454b-c167b4d34c26",
+          "published_at": "Fri, 01 May 2026 21:18:00 GMT",
+          "summary": "Baxter International Inc. stock underperforms Friday when compared to competitors  MarketWatch",
+          "ticker": "BAX",
+          "company_name": "Baxter International Inc",
+          "query": "Baxter International Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/baxter-international-inc-stock-underperforms-friday-when-compared-to-competitors-8457454b-c167b4d34c26"
+        }
+      }
+    },
+    {
+      "article_index": 11,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a low-information 'what's going on' stock recap with no substantive news, earnings, or fundamental information\u2014just generic curiosity about stock movement.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMipgFBVV95cUxON1Y0bklsd09zQUxkMUtOb2N2d2l5cEZDMGtOOXZmemZRWWZsRW4yQ1d4MWpZSWFjbXlfbVF5SlVmSGthS3ZKVHltQ2ZJb1FaRk81THAyTms0TkI1cDdWWlNGdTJLbzVKbVRKMFotbG5zUHRfZXBTdmZ4TjFjTHp6NG5DdExOWUkzYkNqV011RDdCcm1kZFZnRXdoRURxTHk2cWMzRzNB?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "369f0058c684f716c6b7ca4fdfbeca9391e43b29fd25190d91dadf89426b61c7",
+        "source_type": "company_news",
+        "source": "Benzinga",
+        "source_url": "https://www.benzinga.com/markets/earnings/26/05/52208870/baxter-profit-plunges-35-as-tariffs-costs-bite",
+        "title": "What's Going On With Baxter International Stock Friday? - Baxter International (NYSE:BAX) - Benzinga",
+        "summary": "What's Going On With Baxter International Stock Friday? - Baxter International (NYSE:BAX) Benzinga",
+        "body": "What's Going On With Baxter International Stock Friday? - Baxter International (NYSE:BAX) Benzinga",
+        "evidence_quality": "title_only",
+        "url": "https://www.benzinga.com/markets/earnings/26/05/52208870/baxter-profit-plunges-35-as-tariffs-costs-bite",
+        "published_at": "Fri, 01 May 2026 11:54:07 GMT",
+        "ticker_hints": [
+          "BAX"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMipgFBVV95cUxON1Y0bklsd09zQUxkMUtOb2N2d2l5cEZDMGtOOXZmemZRWWZsRW4yQ1d4MWpZSWFjbXlfbVF5SlVmSGthS3ZKVHltQ2ZJb1FaRk81THAyTms0TkI1cDdWWlNGdTJLbzVKbVRKMFotbG5zUHRfZXBTdmZ4TjFjTHp6NG5DdExOWUkzYkNqV011RDdCcm1kZFZnRXdoRURxTHk2cWMzRzNB?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "What's Going On With Baxter International Stock Friday? - Baxter International (NYSE:BAX) - Benzinga",
+          "source": "Benzinga",
+          "source_url": "https://www.benzinga.com/markets/earnings/26/05/52208870/baxter-profit-plunges-35-as-tariffs-costs-bite",
+          "publisher_homepage_url": "https://www.benzinga.com",
+          "url": "https://www.benzinga.com/markets/earnings/26/05/52208870/baxter-profit-plunges-35-as-tariffs-costs-bite",
+          "published_at": "Fri, 01 May 2026 11:54:07 GMT",
+          "summary": "What's Going On With Baxter International Stock Friday? - Baxter International (NYSE:BAX)  Benzinga",
+          "ticker": "BAX",
+          "company_name": "Baxter International Inc",
+          "query": "Baxter International Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.benzinga.com/markets/earnings/26/05/52208870/baxter-profit-plunges-35-as-tariffs-costs-bite"
+        }
+      }
+    },
+    {
+      "article_index": 12,
+      "relevant": true,
+      "affected_tickers": [
+        "BKNG"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "BKNG's $750M senior note issuance at 5.375% is a material financing event that affects the company's capital structure and cost of debt.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOVjBrVE1Zd3RlTWhnX1U3aHNBWFQtdmRYMC15aXBTUGlHMktVME1MVEMyUUl5M0JPSE42a09jc3RPLWxtQjkyeEhqTExxb3lBaDdIY2hyWDJiUl8tTy1KY0hyY2UyeHZYY1hPNm85WFJUT3hNdTdXZ2JkNkZmRlpsRUhsUWZ0Ukk3RmRrRUZPSWxFdkw5a25ObkR6QW5mUFpOQmFzVF96QzFIVmR0SVE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "c3e91513c2b4f18871054a74c21a3c3ae735f5eb01544f15b31f209d0b906073",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/BKNG/8-k-booking-holdings-inc-reports-material-event-97ec57e0950c.html",
+        "title": "Booking Holdings (NASDAQ: BKNG) issues $750M 5.375% 2036 senior notes - Stock Titan",
+        "summary": "Booking Holdings (NASDAQ: BKNG) issues $750M 5.375% 2036 senior notes Stock Titan",
+        "body": "Booking Holdings (NASDAQ: BKNG) issues $750M 5.375% 2036 senior notes Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/BKNG/8-k-booking-holdings-inc-reports-material-event-97ec57e0950c.html",
+        "published_at": "Thu, 07 May 2026 20:49:22 GMT",
+        "ticker_hints": [
+          "BKNG"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMirgFBVV95cUxOVjBrVE1Zd3RlTWhnX1U3aHNBWFQtdmRYMC15aXBTUGlHMktVME1MVEMyUUl5M0JPSE42a09jc3RPLWxtQjkyeEhqTExxb3lBaDdIY2hyWDJiUl8tTy1KY0hyY2UyeHZYY1hPNm85WFJUT3hNdTdXZ2JkNkZmRlpsRUhsUWZ0Ukk3RmRrRUZPSWxFdkw5a25ObkR6QW5mUFpOQmFzVF96QzFIVmR0SVE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Booking Holdings (NASDAQ: BKNG) issues $750M 5.375% 2036 senior notes - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/BKNG/8-k-booking-holdings-inc-reports-material-event-97ec57e0950c.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/BKNG/8-k-booking-holdings-inc-reports-material-event-97ec57e0950c.html",
+          "published_at": "Thu, 07 May 2026 20:49:22 GMT",
+          "summary": "Booking Holdings (NASDAQ: BKNG) issues $750M 5.375% 2036 senior notes  Stock Titan",
+          "ticker": "BKNG",
+          "company_name": "Booking Holdings Inc",
+          "query": "Booking Holdings Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/BKNG/8-k-booking-holdings-inc-reports-material-event-97ec57e0950c.html"
+        }
+      }
+    },
+    {
+      "article_index": 13,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is generic market commentary noting daily stock performance versus competitors with no substantive news or fundamental drivers.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNR1Z0VmJVMFdSU2VuSGRXOEhPOWREMF8zNnMzLWtHNFgzZjVrRWdJbWo1R0tqbEtOUzQwLXBVWDVTN3ZKRG5fOWZPak5OLThodEliTE9zTU1Xb29ydkJUeEd3Tk15QkswMkZaU1NEUDFNRkRaWVl3ZExySnA1aHNDZER1TV9qUS1uNkg5QXhkVnQzOTI2YjZmWmE3Y2QzSkNRaE95bjJtbjJTd0tQSHhycGFyQW4waE0yaUl5ZVNaQjY2ZVl3dE8yeUdkRXo?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "23c5302ef33250bfdc54749574ef4f885b68065b94fdfcafb753d67ce49fa0d2",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/booking-holdings-inc-stock-outperforms-competitors-on-strong-trading-day-bdc2f142-eb4314494266",
+        "title": "Booking Holdings Inc. stock outperforms competitors on strong trading day - MarketWatch",
+        "summary": "Booking Holdings Inc. stock outperforms competitors on strong trading day MarketWatch",
+        "body": "Booking Holdings Inc. stock outperforms competitors on strong trading day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/booking-holdings-inc-stock-outperforms-competitors-on-strong-trading-day-bdc2f142-eb4314494266",
+        "published_at": "Tue, 05 May 2026 20:36:00 GMT",
+        "ticker_hints": [
+          "BKNG"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizAFBVV95cUxNR1Z0VmJVMFdSU2VuSGRXOEhPOWREMF8zNnMzLWtHNFgzZjVrRWdJbWo1R0tqbEtOUzQwLXBVWDVTN3ZKRG5fOWZPak5OLThodEliTE9zTU1Xb29ydkJUeEd3Tk15QkswMkZaU1NEUDFNRkRaWVl3ZExySnA1aHNDZER1TV9qUS1uNkg5QXhkVnQzOTI2YjZmWmE3Y2QzSkNRaE95bjJtbjJTd0tQSHhycGFyQW4waE0yaUl5ZVNaQjY2ZVl3dE8yeUdkRXo?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Booking Holdings Inc. stock outperforms competitors on strong trading day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/booking-holdings-inc-stock-outperforms-competitors-on-strong-trading-day-bdc2f142-eb4314494266",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/booking-holdings-inc-stock-outperforms-competitors-on-strong-trading-day-bdc2f142-eb4314494266",
+          "published_at": "Tue, 05 May 2026 20:36:00 GMT",
+          "summary": "Booking Holdings Inc. stock outperforms competitors on strong trading day  MarketWatch",
+          "ticker": "BKNG",
+          "company_name": "Booking Holdings Inc",
+          "query": "Booking Holdings Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/booking-holdings-inc-stock-outperforms-competitors-on-strong-trading-day-bdc2f142-eb4314494266"
+        }
+      }
+    },
+    {
+      "article_index": 14,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQT2dOeVpKQ2ozcTczS1dkYS1uMl82RFJLOTdUWjdsc3hlYjIxLXJOLU5qS2E2b2lkOTBuN1prSW1Qdmh1UlBZeU44N2xwZ01ybHBvMGVTUU11N1h1dHhtUTYzV3laRlZtVnc3RjZkbm1adnhIRTBWQlB5Q0hSTmxUVUtTeGYyUDl0c3g0QW5vRDNKY1Q1YlJmV210a18yNjlGZy02dHNabUQtZnlIYzZkd3BWc3ctenJOT1hIVUtzSWNkM0VzenJjMGtFVUFvYy11T2c?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "c601b35b4c2b0d08d4b601007cbcb479b2aacbd4c97f9b12bc2307827dcff75f",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/carrier-global-corp-stock-underperforms-tuesday-when-compared-to-competitors-91caa54d-446e6d429e46",
+        "title": "Carrier Global Corp. stock underperforms Tuesday when compared to competitors - MarketWatch",
+        "summary": "Carrier Global Corp. stock underperforms Tuesday when compared to competitors MarketWatch",
+        "body": "Carrier Global Corp. stock underperforms Tuesday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/carrier-global-corp-stock-underperforms-tuesday-when-compared-to-competitors-91caa54d-446e6d429e46",
+        "published_at": "Tue, 05 May 2026 20:49:00 GMT",
+        "ticker_hints": [
+          "CARR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQT2dOeVpKQ2ozcTczS1dkYS1uMl82RFJLOTdUWjdsc3hlYjIxLXJOLU5qS2E2b2lkOTBuN1prSW1Qdmh1UlBZeU44N2xwZ01ybHBvMGVTUU11N1h1dHhtUTYzV3laRlZtVnc3RjZkbm1adnhIRTBWQlB5Q0hSTmxUVUtTeGYyUDl0c3g0QW5vRDNKY1Q1YlJmV210a18yNjlGZy02dHNabUQtZnlIYzZkd3BWc3ctenJOT1hIVUtzSWNkM0VzenJjMGtFVUFvYy11T2c?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Carrier Global Corp. stock underperforms Tuesday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/carrier-global-corp-stock-underperforms-tuesday-when-compared-to-competitors-91caa54d-446e6d429e46",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/carrier-global-corp-stock-underperforms-tuesday-when-compared-to-competitors-91caa54d-446e6d429e46",
+          "published_at": "Tue, 05 May 2026 20:49:00 GMT",
+          "summary": "Carrier Global Corp. stock underperforms Tuesday when compared to competitors  MarketWatch",
+          "ticker": "CARR",
+          "company_name": "Carrier Global Corp",
+          "query": "Carrier Global Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/carrier-global-corp-stock-underperforms-tuesday-when-compared-to-competitors-91caa54d-446e6d429e46"
+        }
+      }
+    },
+    {
+      "article_index": 15,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Routine RSU vesting for executives is low-information corporate action, not investment-relevant news.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxORTBUbmEycHVIVWhxdGxBTFcyTkd1X2gzNGRxTjlRRlRDMFMtQ2Rwc19FR0VlVFplUUV4M2FPcWNXZmxxMGpPbkNsVFZxODI2NExUNTRDUkxWR0lSYmNQbDhjRjZOSlgzaXpfZWtUMU84b1dxZlpfNjV0X3pUVkN4anlVQzlTZ2c5QWV4dzFjV2wyVmI4VFJQWU5nNzNvaWZiTGltSFd5X051OVN6c0UtemV6VQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "63d4d4beaca857068ffd75b272609a5b6a56224daf586f8625ab13eaa4e24691",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/CARR/form-4-carrier-global-corp-insider-trading-activity-cd5978404507.html",
+        "title": "Carrier Global (NYSE: CARR) president nets shares after 50,616 RSUs vest - Stock Titan",
+        "summary": "Carrier Global (NYSE: CARR) president nets shares after 50,616 RSUs vest Stock Titan",
+        "body": "Carrier Global (NYSE: CARR) president nets shares after 50,616 RSUs vest Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/CARR/form-4-carrier-global-corp-insider-trading-activity-cd5978404507.html",
+        "published_at": "Fri, 01 May 2026 21:38:05 GMT",
+        "ticker_hints": [
+          "CARR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxORTBUbmEycHVIVWhxdGxBTFcyTkd1X2gzNGRxTjlRRlRDMFMtQ2Rwc19FR0VlVFplUUV4M2FPcWNXZmxxMGpPbkNsVFZxODI2NExUNTRDUkxWR0lSYmNQbDhjRjZOSlgzaXpfZWtUMU84b1dxZlpfNjV0X3pUVkN4anlVQzlTZ2c5QWV4dzFjV2wyVmI4VFJQWU5nNzNvaWZiTGltSFd5X051OVN6c0UtemV6VQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Carrier Global (NYSE: CARR) president nets shares after 50,616 RSUs vest - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/CARR/form-4-carrier-global-corp-insider-trading-activity-cd5978404507.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/CARR/form-4-carrier-global-corp-insider-trading-activity-cd5978404507.html",
+          "published_at": "Fri, 01 May 2026 21:38:05 GMT",
+          "summary": "Carrier Global (NYSE: CARR) president nets shares after 50,616 RSUs vest  Stock Titan",
+          "ticker": "CARR",
+          "company_name": "Carrier Global Corp",
+          "query": "Carrier Global Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/CARR/form-4-carrier-global-corp-insider-trading-activity-cd5978404507.html"
+        }
+      }
+    },
+    {
+      "article_index": 16,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPU2xYek10ZWxNWmhqZVZSWUxqbnpfbDhONnRYVGZFRW03dmRfaHYtMUtMZ2k5T1VYSV9KX0ZhUzFjWVJtVDA0Q0tUUWprUU4tcjZmdjhBM1o5SU5ZZXJIbm9hYkZDNHNKaDZ0aEk1VUtQRkJha19TNDFyc3hzZUdheWkxNk00aDA3M3R1NVFMLUFVaGdxTUtYOFR0a2c2dzBGd1VZamlNOUpkRDAwOHo4bUc4emR3M3gzOUxFMmVRM3VoeklEU3BJ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "30b10b94b7566e7fde91396bf2763b2a1ab0d9057f33a73556f2143f9d70eb30",
+        "source_type": "company_news",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com/news/analyst-ratings/carrier-global-stock-price-target-raised-to-75-by-argus-on-valuation-93CH-4658525",
+        "title": "Carrier Global stock price target raised to $75 by Argus on valuation - Investing.com",
+        "summary": "Carrier Global stock price target raised to $75 by Argus on valuation Investing.com",
+        "body": "Carrier Global stock price target raised to $75 by Argus on valuation Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.investing.com/news/analyst-ratings/carrier-global-stock-price-target-raised-to-75-by-argus-on-valuation-93CH-4658525",
+        "published_at": "Tue, 05 May 2026 11:17:50 GMT",
+        "ticker_hints": [
+          "CARR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPU2xYek10ZWxNWmhqZVZSWUxqbnpfbDhONnRYVGZFRW03dmRfaHYtMUtMZ2k5T1VYSV9KX0ZhUzFjWVJtVDA0Q0tUUWprUU4tcjZmdjhBM1o5SU5ZZXJIbm9hYkZDNHNKaDZ0aEk1VUtQRkJha19TNDFyc3hzZUdheWkxNk00aDA3M3R1NVFMLUFVaGdxTUtYOFR0a2c2dzBGd1VZamlNOUpkRDAwOHo4bUc4emR3M3gzOUxFMmVRM3VoeklEU3BJ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Carrier Global stock price target raised to $75 by Argus on valuation - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com/news/analyst-ratings/carrier-global-stock-price-target-raised-to-75-by-argus-on-valuation-93CH-4658525",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://www.investing.com/news/analyst-ratings/carrier-global-stock-price-target-raised-to-75-by-argus-on-valuation-93CH-4658525",
+          "published_at": "Tue, 05 May 2026 11:17:50 GMT",
+          "summary": "Carrier Global stock price target raised to $75 by Argus on valuation  Investing.com",
+          "ticker": "CARR",
+          "company_name": "Carrier Global Corp",
+          "query": "Carrier Global Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.investing.com/news/analyst-ratings/carrier-global-stock-price-target-raised-to-75-by-argus-on-valuation-93CH-4658525"
+        }
+      }
+    },
+    {
+      "article_index": 17,
+      "relevant": true,
+      "affected_tickers": [
+        "CARR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Analyst forecast upgrades following Q1 earnings indicate improving sentiment for CARR, directly relevant to the position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPSHNpTkNkaENidGZ4UURpcHVMa1VpR3VaUEgwNEtCVGQ1bDZCVzh0UWhuaDJWcEUwTjlFdFVGZzQxU2hXanZWR2FxN0V0Qm52OC0xcU1sMVJsTEVxZ0RsNXZUOGJ0MnJWVFJwLVRGNTNVdUVLaEtfNHVCV2ZDR20yTHN3bHpZcHhGbjFHNDRabjNXcDZXZUdLQjROcTFSSWNGclRWamNOWHZyZDNEdVNZQUN4M0pxUklNV1hBdzdxNGNNVFRJeWlXYVVIR0NKOHhucXhreEphZHE5dWZWT1V5dmsxNA?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "d11dc3df0bc743cb6bfdd143ce5d9af65cea01dcccfa2146c289b1cf839f4784",
+        "source_type": "company_news",
+        "source": "Benzinga",
+        "source_url": "https://www.benzinga.com/analyst-stock-ratings/price-target/26/05/52229479/carrier-global-analysts-boost-their-forecasts-following-upbeat-q1-earnings",
+        "title": "Carrier Global Analysts Boost Their Forecasts Following Upbeat Q1 Earnings - Benzinga",
+        "summary": "Carrier Global Analysts Boost Their Forecasts Following Upbeat Q1 Earnings Benzinga",
+        "body": "Carrier Global Analysts Boost Their Forecasts Following Upbeat Q1 Earnings Benzinga",
+        "evidence_quality": "title_only",
+        "url": "https://www.benzinga.com/analyst-stock-ratings/price-target/26/05/52229479/carrier-global-analysts-boost-their-forecasts-following-upbeat-q1-earnings",
+        "published_at": "Fri, 01 May 2026 19:16:08 GMT",
+        "ticker_hints": [
+          "CARR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPSHNpTkNkaENidGZ4UURpcHVMa1VpR3VaUEgwNEtCVGQ1bDZCVzh0UWhuaDJWcEUwTjlFdFVGZzQxU2hXanZWR2FxN0V0Qm52OC0xcU1sMVJsTEVxZ0RsNXZUOGJ0MnJWVFJwLVRGNTNVdUVLaEtfNHVCV2ZDR20yTHN3bHpZcHhGbjFHNDRabjNXcDZXZUdLQjROcTFSSWNGclRWamNOWHZyZDNEdVNZQUN4M0pxUklNV1hBdzdxNGNNVFRJeWlXYVVIR0NKOHhucXhreEphZHE5dWZWT1V5dmsxNA?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Carrier Global Analysts Boost Their Forecasts Following Upbeat Q1 Earnings - Benzinga",
+          "source": "Benzinga",
+          "source_url": "https://www.benzinga.com/analyst-stock-ratings/price-target/26/05/52229479/carrier-global-analysts-boost-their-forecasts-following-upbeat-q1-earnings",
+          "publisher_homepage_url": "https://www.benzinga.com",
+          "url": "https://www.benzinga.com/analyst-stock-ratings/price-target/26/05/52229479/carrier-global-analysts-boost-their-forecasts-following-upbeat-q1-earnings",
+          "published_at": "Fri, 01 May 2026 19:16:08 GMT",
+          "summary": "Carrier Global Analysts Boost Their Forecasts Following Upbeat Q1 Earnings  Benzinga",
+          "ticker": "CARR",
+          "company_name": "Carrier Global Corp",
+          "query": "Carrier Global Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.benzinga.com/analyst-stock-ratings/price-target/26/05/52229479/carrier-global-analysts-boost-their-forecasts-following-upbeat-q1-earnings"
+        }
+      }
+    },
+    {
+      "article_index": 18,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Generic daily stock performance recap without new fundamental information is low-information and irrelevant per rules.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQOGpTT1hxSkF1ckp0a25FTjJJOEtMRWRQeWMzRURyM3g4Z0M4dzVmdFFETDhOSHRxT3J4RkhGamFBbnQ4Z1QxdURzTHhDVW5XR2ZBUER3Vnpfc3Zra05kV25ORlYyWXd3aWdqOUJVN0FncWcyeTYyeVBTcUlOb1Ywd1hzMEcwY1VBaTJNRXlhSDNES1NJMlVhMW1kUnc0Wnh3UjA5ZkJwSnNrUUFQdlVfQkNMSzVQSVRDdmlQSkxtelV6eU1kODlZc2tpS3ZhcGM3?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "86d825c35fb5ae43e9011655c5fde35f41574db7b48d05e3c0b14bb0bf596a44",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/arista-networks-inc-stock-outperforms-competitors-despite-losses-on-the-day-0f766bee-60e1d45d4064",
+        "title": "Arista Networks Inc. stock outperforms competitors despite losses on the day - MarketWatch",
+        "summary": "Arista Networks Inc. stock outperforms competitors despite losses on the day MarketWatch",
+        "body": "Arista Networks Inc. stock outperforms competitors despite losses on the day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/arista-networks-inc-stock-outperforms-competitors-despite-losses-on-the-day-0f766bee-60e1d45d4064",
+        "published_at": "Thu, 07 May 2026 20:34:00 GMT",
+        "ticker_hints": [
+          "ANET"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQOGpTT1hxSkF1ckp0a25FTjJJOEtMRWRQeWMzRURyM3g4Z0M4dzVmdFFETDhOSHRxT3J4RkhGamFBbnQ4Z1QxdURzTHhDVW5XR2ZBUER3Vnpfc3Zra05kV25ORlYyWXd3aWdqOUJVN0FncWcyeTYyeVBTcUlOb1Ywd1hzMEcwY1VBaTJNRXlhSDNES1NJMlVhMW1kUnc0Wnh3UjA5ZkJwSnNrUUFQdlVfQkNMSzVQSVRDdmlQSkxtelV6eU1kODlZc2tpS3ZhcGM3?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Arista Networks Inc. stock outperforms competitors despite losses on the day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/arista-networks-inc-stock-outperforms-competitors-despite-losses-on-the-day-0f766bee-60e1d45d4064",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/arista-networks-inc-stock-outperforms-competitors-despite-losses-on-the-day-0f766bee-60e1d45d4064",
+          "published_at": "Thu, 07 May 2026 20:34:00 GMT",
+          "summary": "Arista Networks Inc. stock outperforms competitors despite losses on the day  MarketWatch",
+          "ticker": "ANET",
+          "company_name": "Arista Networks Inc",
+          "query": "Arista Networks Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/arista-networks-inc-stock-outperforms-competitors-despite-losses-on-the-day-0f766bee-60e1d45d4064"
+        }
+      }
+    },
+    {
+      "article_index": 19,
+      "relevant": true,
+      "affected_tickers": [
+        "ANET"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Q1 financial results analysis explains stock movement, providing direct fundamental context for the held ANET position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNdDF5NTVlX21lMDVZamZBMTdvNkFtaEpMNDVIYmpDZ2ZOeGNBU0x4a0ZYcmd1UXBqRzl0cWQyLUJDY0NTSDBob3hrdXdtWmRSS1k5Zjc0MnlPbnYzVHV4MTNyY0JCSVlxZkcyUm1IOExOREVlQWhGMzMzQ0lqa2pMS3dkZjIxbkJjVXdJc3pXS2RWU2s3OVNGcEFoa2E2N0M4RXlpb25HT1JoeTJSLWR5UjNycXRsaERGNDM5UnpGd1JDMUNk?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "d825668ce682af09a5f9f796a0fa810d00d8fa829e0b59b70dbd8b296b85d17e",
+        "source_type": "company_news",
+        "source": "Benzinga",
+        "source_url": "https://www.benzinga.com/markets/earnings/26/05/52308434/why-arista-networks-stock-is-trading-lower-after-q1-financial-results",
+        "title": "Why Arista Networks Stock Is Trading Lower After Q1 Financial Results - Benzinga",
+        "summary": "Why Arista Networks Stock Is Trading Lower After Q1 Financial Results Benzinga",
+        "body": "Why Arista Networks Stock Is Trading Lower After Q1 Financial Results Benzinga",
+        "evidence_quality": "title_only",
+        "url": "https://www.benzinga.com/markets/earnings/26/05/52308434/why-arista-networks-stock-is-trading-lower-after-q1-financial-results",
+        "published_at": "Tue, 05 May 2026 21:41:48 GMT",
+        "ticker_hints": [
+          "ANET"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNdDF5NTVlX21lMDVZamZBMTdvNkFtaEpMNDVIYmpDZ2ZOeGNBU0x4a0ZYcmd1UXBqRzl0cWQyLUJDY0NTSDBob3hrdXdtWmRSS1k5Zjc0MnlPbnYzVHV4MTNyY0JCSVlxZkcyUm1IOExOREVlQWhGMzMzQ0lqa2pMS3dkZjIxbkJjVXdJc3pXS2RWU2s3OVNGcEFoa2E2N0M4RXlpb25HT1JoeTJSLWR5UjNycXRsaERGNDM5UnpGd1JDMUNk?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Why Arista Networks Stock Is Trading Lower After Q1 Financial Results - Benzinga",
+          "source": "Benzinga",
+          "source_url": "https://www.benzinga.com/markets/earnings/26/05/52308434/why-arista-networks-stock-is-trading-lower-after-q1-financial-results",
+          "publisher_homepage_url": "https://www.benzinga.com",
+          "url": "https://www.benzinga.com/markets/earnings/26/05/52308434/why-arista-networks-stock-is-trading-lower-after-q1-financial-results",
+          "published_at": "Tue, 05 May 2026 21:41:48 GMT",
+          "summary": "Why Arista Networks Stock Is Trading Lower After Q1 Financial Results  Benzinga",
+          "ticker": "ANET",
+          "company_name": "Arista Networks Inc",
+          "query": "Arista Networks Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.benzinga.com/markets/earnings/26/05/52308434/why-arista-networks-stock-is-trading-lower-after-q1-financial-results"
+        }
+      }
+    },
+    {
+      "article_index": 20,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNV3otTU5Fb2VRdHhzYzVfRXNJOHgzbkZ3dGlxLVRXeE00a0QtWGdibl9OdnlWOVpReTRTSjVtcElxdThDeWs4RDFsX0ZLWkp6blBubFFzVHlpREFlYURXdW12M3ZrRmgydE5MVWtKb1h6MEhUZlJxTmxNVXN6SkdBQW42RGxYeEt1TUpyeU5nZTNkOEplcFVIMjBQd2tVYUdiY1lsdm1UQ1p5dWhBVlRjY0JWVnRWSXFKd1Y0RVkwNkdCN1Rp?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "2dd7036106afa3d3b55df253fc4a802282a862fadc8cad1ff5b7d4c1a5c6e417",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/aptiv-plc-stock-underperforms-tuesday-when-compared-to-competitors-d5b29a2e-dd1992ea67dc",
+        "title": "Aptiv PLC stock underperforms Tuesday when compared to competitors - MarketWatch",
+        "summary": "Aptiv PLC stock underperforms Tuesday when compared to competitors MarketWatch",
+        "body": "Aptiv PLC stock underperforms Tuesday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/aptiv-plc-stock-underperforms-tuesday-when-compared-to-competitors-d5b29a2e-dd1992ea67dc",
+        "published_at": "Tue, 05 May 2026 20:30:00 GMT",
+        "ticker_hints": [
+          "APTV"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixAFBVV95cUxNV3otTU5Fb2VRdHhzYzVfRXNJOHgzbkZ3dGlxLVRXeE00a0QtWGdibl9OdnlWOVpReTRTSjVtcElxdThDeWs4RDFsX0ZLWkp6blBubFFzVHlpREFlYURXdW12M3ZrRmgydE5MVWtKb1h6MEhUZlJxTmxNVXN6SkdBQW42RGxYeEt1TUpyeU5nZTNkOEplcFVIMjBQd2tVYUdiY1lsdm1UQ1p5dWhBVlRjY0JWVnRWSXFKd1Y0RVkwNkdCN1Rp?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Aptiv PLC stock underperforms Tuesday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/aptiv-plc-stock-underperforms-tuesday-when-compared-to-competitors-d5b29a2e-dd1992ea67dc",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/aptiv-plc-stock-underperforms-tuesday-when-compared-to-competitors-d5b29a2e-dd1992ea67dc",
+          "published_at": "Tue, 05 May 2026 20:30:00 GMT",
+          "summary": "Aptiv PLC stock underperforms Tuesday when compared to competitors  MarketWatch",
+          "ticker": "APTV",
+          "company_name": "APTIV PLC",
+          "query": "APTIV PLC",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/aptiv-plc-stock-underperforms-tuesday-when-compared-to-competitors-d5b29a2e-dd1992ea67dc"
+        }
+      }
+    },
+    {
+      "article_index": 21,
+      "relevant": true,
+      "affected_tickers": [
+        "APTV"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Q1 2026 earnings call presentation directly impacts APTV position with potential revisions to growth outlook and financial guidance.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOdzlnWmROaF9iYlJKYXd4aVZyVFRsdlVHMlYyNU8xckxwYXZtQmJuQ2czUXVmQldjNW5kZnBFa21nMFB5Yk1UbHUtUDUya1k0OEdGZ2JaODdXbEk1b1AxM2tsUGRiWjYtb0gwYW82NXNxaUZlcnZLZGZ6VzlCTjNqQVFRLVc5dm9IRnJXVGhUTFhhVDRiYy1IVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "66bcac9fa5671349c7d740aed148053c7345f953f01864f023b29c8cc42472cc",
+        "source_type": "company_news",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/article/4898596-aptiv-plc-2026-q1-results-earnings-call-presentation",
+        "title": "Aptiv PLC 2026 Q1 - Results - Earnings Call Presentation (NYSE:APTV) 2026-05-05 - Seeking Alpha",
+        "summary": "Aptiv PLC 2026 Q1 - Results - Earnings Call Presentation (NYSE:APTV) 2026-05-05 Seeking Alpha",
+        "body": "Aptiv PLC 2026 Q1 - Results - Earnings Call Presentation (NYSE:APTV) 2026-05-05 Seeking Alpha",
+        "evidence_quality": "title_only",
+        "url": "https://seekingalpha.com/article/4898596-aptiv-plc-2026-q1-results-earnings-call-presentation",
+        "published_at": "Tue, 05 May 2026 16:00:51 GMT",
+        "ticker_hints": [
+          "APTV"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOdzlnWmROaF9iYlJKYXd4aVZyVFRsdlVHMlYyNU8xckxwYXZtQmJuQ2czUXVmQldjNW5kZnBFa21nMFB5Yk1UbHUtUDUya1k0OEdGZ2JaODdXbEk1b1AxM2tsUGRiWjYtb0gwYW82NXNxaUZlcnZLZGZ6VzlCTjNqQVFRLVc5dm9IRnJXVGhUTFhhVDRiYy1IVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Aptiv PLC 2026 Q1 - Results - Earnings Call Presentation (NYSE:APTV) 2026-05-05 - Seeking Alpha",
+          "source": "Seeking Alpha",
+          "source_url": "https://seekingalpha.com/article/4898596-aptiv-plc-2026-q1-results-earnings-call-presentation",
+          "publisher_homepage_url": "https://seekingalpha.com",
+          "url": "https://seekingalpha.com/article/4898596-aptiv-plc-2026-q1-results-earnings-call-presentation",
+          "published_at": "Tue, 05 May 2026 16:00:51 GMT",
+          "summary": "Aptiv PLC 2026 Q1 - Results - Earnings Call Presentation (NYSE:APTV) 2026-05-05  Seeking Alpha",
+          "ticker": "APTV",
+          "company_name": "APTIV PLC",
+          "query": "APTIV PLC",
+          "source_type": "company_news",
+          "decoded_google_url": "https://seekingalpha.com/article/4898596-aptiv-plc-2026-q1-results-earnings-call-presentation"
+        }
+      }
+    },
+    {
+      "article_index": 22,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "BlackRock's passive stake in Syensqo is a disclosure filing, not news affecting BLK's business or the growth archetype position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNNHQ3U2pmTDNGOXJIM0loOWhYekZNMENKYWJULUpRUHg0STZpR1RpNEsycGlUSWFLdnpjbmJ2X19hOXlzT3RucEdaZ2F3UnV0eXByS1dPTVdwTDRRRTJQUUhFSjh4cXpsUkxUQlhXRTJ0M1RhMjF0by1OdkZMeUVuZXdFeTRUaEFsQUItbjNTbXJTREw2ald4N2NxVFAtOTBZMFF5Rng4M18xQzFGVkp5b1l0QQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "faedfebb34158fd66b625dd753dde5a21af075e0c512d134e3d402646ddd9f81",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/syensqo-participation-notification-blackrock-inc-064500526.html",
+        "title": "Syensqo - Participation notification by BlackRock Inc. - Yahoo Finance",
+        "summary": "Syensqo - Participation notification by BlackRock Inc. Yahoo Finance",
+        "body": "Syensqo - Participation notification by BlackRock Inc. Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/syensqo-participation-notification-blackrock-inc-064500526.html",
+        "published_at": "Fri, 08 May 2026 06:45:00 GMT",
+        "ticker_hints": [
+          "BLK"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNNHQ3U2pmTDNGOXJIM0loOWhYekZNMENKYWJULUpRUHg0STZpR1RpNEsycGlUSWFLdnpjbmJ2X19hOXlzT3RucEdaZ2F3UnV0eXByS1dPTVdwTDRRRTJQUUhFSjh4cXpsUkxUQlhXRTJ0M1RhMjF0by1OdkZMeUVuZXdFeTRUaEFsQUItbjNTbXJTREw2ald4N2NxVFAtOTBZMFF5Rng4M18xQzFGVkp5b1l0QQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Syensqo - Participation notification by BlackRock Inc. - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/syensqo-participation-notification-blackrock-inc-064500526.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/syensqo-participation-notification-blackrock-inc-064500526.html",
+          "published_at": "Fri, 08 May 2026 06:45:00 GMT",
+          "summary": "Syensqo - Participation notification by BlackRock Inc.  Yahoo Finance",
+          "ticker": "BLK",
+          "company_name": "BlackRock Inc",
+          "query": "BlackRock Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/syensqo-participation-notification-blackrock-inc-064500526.html"
+        }
+      }
+    },
+    {
+      "article_index": 23,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "BlackRock's passive stake in Umicore is a disclosure filing, not news affecting BLK's business or the growth archetype position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNbTlkTGEtQXNpcFdDclNJanZFMUNUb1BrSVc2bEpocHRZR1hLVTlGTGdKZ09PRnBsbDdkTDZSM0lJenhQRFVneDNEcDFKUm4wSXBXblNmR3lKQ3p6b1ZZbTU2SkhlRlR6OUcyV0tmZzlDTG1GR1JxenJDLVVyMGJzbWpxeUIxVFRGeDdDX09tUm5RcFpUblNlSTA0eUt2eXFHci1oV2hXQ0ZOZXA1X1BXMHdYUlNxeThweHNrZVh4dw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "583cf488c872b615607aa715628aeecb18a7d4cdefa65c4e5a99e772237bacf7",
+        "source_type": "company_news",
+        "source": "GlobeNewswire",
+        "source_url": "https://www.globenewswire.com/news-release/2026/05/04/3287011/0/en/umicore-transparency-notification-by-blackrock-inc.html",
+        "title": "Umicore - Transparency notification by BlackRock, Inc. - GlobeNewswire",
+        "summary": "Umicore - Transparency notification by BlackRock, Inc. GlobeNewswire",
+        "body": "Umicore - Transparency notification by BlackRock, Inc. GlobeNewswire",
+        "evidence_quality": "title_only",
+        "url": "https://www.globenewswire.com/news-release/2026/05/04/3287011/0/en/umicore-transparency-notification-by-blackrock-inc.html",
+        "published_at": "Mon, 04 May 2026 16:30:00 GMT",
+        "ticker_hints": [
+          "BLK"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMivwFBVV95cUxNbTlkTGEtQXNpcFdDclNJanZFMUNUb1BrSVc2bEpocHRZR1hLVTlGTGdKZ09PRnBsbDdkTDZSM0lJenhQRFVneDNEcDFKUm4wSXBXblNmR3lKQ3p6b1ZZbTU2SkhlRlR6OUcyV0tmZzlDTG1GR1JxenJDLVVyMGJzbWpxeUIxVFRGeDdDX09tUm5RcFpUblNlSTA0eUt2eXFHci1oV2hXQ0ZOZXA1X1BXMHdYUlNxeThweHNrZVh4dw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Umicore - Transparency notification by BlackRock, Inc. - GlobeNewswire",
+          "source": "GlobeNewswire",
+          "source_url": "https://www.globenewswire.com/news-release/2026/05/04/3287011/0/en/umicore-transparency-notification-by-blackrock-inc.html",
+          "publisher_homepage_url": "https://www.globenewswire.com",
+          "url": "https://www.globenewswire.com/news-release/2026/05/04/3287011/0/en/umicore-transparency-notification-by-blackrock-inc.html",
+          "published_at": "Mon, 04 May 2026 16:30:00 GMT",
+          "summary": "Umicore - Transparency notification by BlackRock, Inc.  GlobeNewswire",
+          "ticker": "BLK",
+          "company_name": "BlackRock Inc",
+          "query": "BlackRock Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.globenewswire.com/news-release/2026/05/04/3287011/0/en/umicore-transparency-notification-by-blackrock-inc.html"
+        }
+      }
+    },
+    {
+      "article_index": 24,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQaU5kYTRoUE0ybFY4MmRSZ0NxRkFxN08zaDZpQlJkdTFLRTh5VkhSY0VGellJMzFWVm9veF92MXpEeENYT19FdnpPcG5Ya2YzUXhPaW11MDVYc29fZXd5VmlXaWtqSlR0SjVDYzJWUHNQYUt3bllwM3FzRTU1eVQySlhaeEtIWnA3d0xWRlhkMHo2enNQQmJmOTJBWVk0XzlYSmRXN3dvVjNRSDBwUEI5aHdXOHQwZTdKVXgtZnhqYklhN21ZdVJBZFlNSGp5S3lt?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "0ed36c81761d67720c652c74cf3894234d41f752107e644ca0d1e53652a184e2",
+        "source_type": "company_news",
+        "source": "MSN",
+        "source_url": "https://www.msn.com/en-us/money/topstocks/ch-robinson-worldwide-inc-stock-underperforms-monday-when-compared-to-competitors/ar-AA22nELY",
+        "title": "CH Robinson Worldwide Inc. stock underperforms Monday when compared to competitors - MSN",
+        "summary": "CH Robinson Worldwide Inc. stock underperforms Monday when compared to competitors MSN",
+        "body": "CH Robinson Worldwide Inc. stock underperforms Monday when compared to competitors MSN",
+        "evidence_quality": "title_only",
+        "url": "https://www.msn.com/en-us/money/topstocks/ch-robinson-worldwide-inc-stock-underperforms-monday-when-compared-to-competitors/ar-AA22nELY",
+        "published_at": "Thu, 07 May 2026 04:55:20 GMT",
+        "ticker_hints": [
+          "CHRW"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQaU5kYTRoUE0ybFY4MmRSZ0NxRkFxN08zaDZpQlJkdTFLRTh5VkhSY0VGellJMzFWVm9veF92MXpEeENYT19FdnpPcG5Ya2YzUXhPaW11MDVYc29fZXd5VmlXaWtqSlR0SjVDYzJWUHNQYUt3bllwM3FzRTU1eVQySlhaeEtIWnA3d0xWRlhkMHo2enNQQmJmOTJBWVk0XzlYSmRXN3dvVjNRSDBwUEI5aHdXOHQwZTdKVXgtZnhqYklhN21ZdVJBZFlNSGp5S3lt?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CH Robinson Worldwide Inc. stock underperforms Monday when compared to competitors - MSN",
+          "source": "MSN",
+          "source_url": "https://www.msn.com/en-us/money/topstocks/ch-robinson-worldwide-inc-stock-underperforms-monday-when-compared-to-competitors/ar-AA22nELY",
+          "publisher_homepage_url": "https://www.msn.com",
+          "url": "https://www.msn.com/en-us/money/topstocks/ch-robinson-worldwide-inc-stock-underperforms-monday-when-compared-to-competitors/ar-AA22nELY",
+          "published_at": "Thu, 07 May 2026 04:55:20 GMT",
+          "summary": "CH Robinson Worldwide Inc. stock underperforms Monday when compared to competitors  MSN",
+          "ticker": "CHRW",
+          "company_name": "CH Robinson Worldwide Inc",
+          "query": "CH Robinson Worldwide Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.msn.com/en-us/money/topstocks/ch-robinson-worldwide-inc-stock-underperforms-monday-when-compared-to-competitors/ar-AA22nELY"
+        }
+      }
+    },
+    {
+      "article_index": 25,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a generic daily stock performance recap with minimal information content, reporting only that CHRW outperformed peers on a day it still lost value.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPM2hTYmE0eU1fdVRreTVOVUg2ak11VUJ1LWkwSUc5aklIMDRJVmhkTmRkQlg2cVFYTWEtVFcxZzBSWGxzVWZhZzlaT3NDTlExYXoxU1I3eVFSRkpGb2I4TkhNeXEwUEFzZ0RIcEVhMXJBa29jODJMZkZnZnpOT0U3MUk5NkV1NEwxb01NUXZoWWF6bmhEX1gxdnM3LWdvZWtFVmRWVUhaakswM2x5NC1XZFVPcm5LYlZ1czBPT3J5SjNGckpleWdIc0hub2N5b1N4WG9od0lnck1qUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "a4d7c3b38f42fdc41d16a27758e5f84e7b4505e493763b0cce4cec6678367017",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/c-h-robinson-worldwide-inc-stock-outperforms-competitors-despite-losses-on-the-day-fdfac528-07d0185b9f14",
+        "title": "C.H. Robinson Worldwide Inc. stock outperforms competitors despite losses on the day - MarketWatch",
+        "summary": "C.H. Robinson Worldwide Inc. stock outperforms competitors despite losses on the day MarketWatch",
+        "body": "C.H. Robinson Worldwide Inc. stock outperforms competitors despite losses on the day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/c-h-robinson-worldwide-inc-stock-outperforms-competitors-despite-losses-on-the-day-fdfac528-07d0185b9f14",
+        "published_at": "Fri, 01 May 2026 21:07:00 GMT",
+        "ticker_hints": [
+          "CHRW"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPM2hTYmE0eU1fdVRreTVOVUg2ak11VUJ1LWkwSUc5aklIMDRJVmhkTmRkQlg2cVFYTWEtVFcxZzBSWGxzVWZhZzlaT3NDTlExYXoxU1I3eVFSRkpGb2I4TkhNeXEwUEFzZ0RIcEVhMXJBa29jODJMZkZnZnpOT0U3MUk5NkV1NEwxb01NUXZoWWF6bmhEX1gxdnM3LWdvZWtFVmRWVUhaakswM2x5NC1XZFVPcm5LYlZ1czBPT3J5SjNGckpleWdIc0hub2N5b1N4WG9od0lnck1qUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "C.H. Robinson Worldwide Inc. stock outperforms competitors despite losses on the day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/c-h-robinson-worldwide-inc-stock-outperforms-competitors-despite-losses-on-the-day-fdfac528-07d0185b9f14",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/c-h-robinson-worldwide-inc-stock-outperforms-competitors-despite-losses-on-the-day-fdfac528-07d0185b9f14",
+          "published_at": "Fri, 01 May 2026 21:07:00 GMT",
+          "summary": "C.H. Robinson Worldwide Inc. stock outperforms competitors despite losses on the day  MarketWatch",
+          "ticker": "CHRW",
+          "company_name": "CH Robinson Worldwide Inc",
+          "query": "CH Robinson Worldwide Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/c-h-robinson-worldwide-inc-stock-outperforms-competitors-despite-losses-on-the-day-fdfac528-07d0185b9f14"
+        }
+      }
+    },
+    {
+      "article_index": 26,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Reporting an institutional purchase transaction is low-information content without analysis of implications for the growth archetype thesis.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQZnp6bUwzNE8zZ0t4LWN2QU51WlcxR3U0RS1IZTBydVZBYXBHMFd5RnFzc3dxYVBDVzBiczQxOHItWFVUM3Q1S2lOZjFOT2RYa0w1bkFRaEdMc3Jxc3k0ci1VZ1cySmhTTzA4UGtfY1VSb1BKOG16N0xreHJVT25uLVVHMy1CNF82andHbG1KdjZFUjFtamVxbjRFY0N0dkdSR0pXSHlOSE00azdCdE05Qk15V3h0OGFDUVFZNlNB?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "24d6f0ca927c64a4ce80593c67473d577e5a5f34b46aeee6d541c4d39de712da",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-ch-robinson-worldwide-inc-chrw-shares-purchased-by-strs-ohio-2026-05-07/",
+        "title": "C.H. Robinson Worldwide, Inc. $CHRW Shares Purchased by Strs Ohio - MarketBeat",
+        "summary": "C.H. Robinson Worldwide, Inc. $CHRW Shares Purchased by Strs Ohio MarketBeat",
+        "body": "C.H. Robinson Worldwide, Inc. $CHRW Shares Purchased by Strs Ohio MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-ch-robinson-worldwide-inc-chrw-shares-purchased-by-strs-ohio-2026-05-07/",
+        "published_at": "Thu, 07 May 2026 09:48:53 GMT",
+        "ticker_hints": [
+          "CHRW"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQZnp6bUwzNE8zZ0t4LWN2QU51WlcxR3U0RS1IZTBydVZBYXBHMFd5RnFzc3dxYVBDVzBiczQxOHItWFVUM3Q1S2lOZjFOT2RYa0w1bkFRaEdMc3Jxc3k0ci1VZ1cySmhTTzA4UGtfY1VSb1BKOG16N0xreHJVT25uLVVHMy1CNF82andHbG1KdjZFUjFtamVxbjRFY0N0dkdSR0pXSHlOSE00azdCdE05Qk15V3h0OGFDUVFZNlNB?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "C.H. Robinson Worldwide, Inc. $CHRW Shares Purchased by Strs Ohio - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-ch-robinson-worldwide-inc-chrw-shares-purchased-by-strs-ohio-2026-05-07/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-ch-robinson-worldwide-inc-chrw-shares-purchased-by-strs-ohio-2026-05-07/",
+          "published_at": "Thu, 07 May 2026 09:48:53 GMT",
+          "summary": "C.H. Robinson Worldwide, Inc. $CHRW Shares Purchased by Strs Ohio  MarketBeat",
+          "ticker": "CHRW",
+          "company_name": "CH Robinson Worldwide Inc",
+          "query": "CH Robinson Worldwide Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-ch-robinson-worldwide-inc-chrw-shares-purchased-by-strs-ohio-2026-05-07/"
+        }
+      }
+    },
+    {
+      "article_index": 27,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This article discusses tech stocks with no mention of CHRW, and C.H. Robinson is a logistics company, not a technology firm, so there's no thematic connection.",
+      "article": {
+        "external_id": "108303481",
+        "event_hash": "186f623f611966e2e2247e433edafd5290f64b483d0f7d8211be92954f055afe",
+        "source_type": "cnbc_sector_rss",
+        "source": "Tech",
+        "source_url": "",
+        "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+        "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "body": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+        "published_at": "2026-05-08T07:34:09+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "108303481",
+          "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+          "source": "Tech",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+          "published_at": "2026-05-08T07:34:09+00:00",
+          "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+          "sector": "technology",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 28,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+        "event_hash": "19a94d122eb7bd70af2c33c7cd24315522f743ca92601cb72fb84ee833a16a92",
+        "source_type": "cnbc_sector_rss",
+        "source": "TradingView",
+        "source_url": "https://www.tradingview.com",
+        "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+        "summary": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "body": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+        "published_at": "2026-04-12T07:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "logisticstransportation",
+        "raw": {
+          "id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+          "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+          "source": "TradingView",
+          "source_url": "https://www.tradingview.com",
+          "publisher_homepage_url": "https://www.tradingview.com",
+          "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+          "published_at": "2026-04-12T07:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5\" target=\"_blank\">JTC Stock Price and Chart \u2014 KSE:JTC</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">TradingView</font>",
+          "sector": "logisticstransportation",
+          "source_type": "google_sector_rss",
+          "query": "logisticstransportation stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 29,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+        "event_hash": "9035f9df36440ab60206c92d8645173fd1048cfb5d04a1d7ac0ac7d298352c54",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com",
+        "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+        "summary": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "body": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+        "published_at": "2026-05-07T15:52:40+00:00",
+        "ticker_hints": [],
+        "sector_hint": "airlines",
+        "raw": {
+          "id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+          "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+          "published_at": "2026-05-07T15:52:40+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5\" target=\"_blank\">UBS raises Delta Air Lines stock price target on margin expansion path</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investing.com</font>",
+          "sector": "airlines",
+          "source_type": "google_sector_rss",
+          "query": "airlines stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 30,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+        "event_hash": "7781e95f875227fa69d82f20e4e003cb6ecab937f7d2e893b2a4726e74c9e5fd",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com",
+        "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+        "summary": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "body": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+        "published_at": "2026-05-07T23:12:41+00:00",
+        "ticker_hints": [],
+        "sector_hint": "energy",
+        "raw": {
+          "id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+          "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+          "published_at": "2026-05-07T23:12:41+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5\" target=\"_blank\">Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketBeat</font>",
+          "sector": "energy",
+          "source_type": "google_sector_rss",
+          "query": "energy stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 31,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+        "event_hash": "9dec2ef7a51804cfd1809a68859a9bc47e4042623ad126cfb5cd0d857f04debb",
+        "source_type": "cnbc_sector_rss",
+        "source": "Frontiers",
+        "source_url": "https://www.frontiersin.org",
+        "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+        "summary": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "body": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+        "published_at": "2025-12-15T16:18:58+00:00",
+        "ticker_hints": [],
+        "sector_hint": "machinery",
+        "raw": {
+          "id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+          "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+          "source": "Frontiers",
+          "source_url": "https://www.frontiersin.org",
+          "publisher_homepage_url": "https://www.frontiersin.org",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+          "published_at": "2025-12-15T16:18:58+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5\" target=\"_blank\">Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Frontiers</font>",
+          "sector": "machinery",
+          "source_type": "google_sector_rss",
+          "query": "machinery stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 32,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+        "event_hash": "c268de142bba78da5290b86120bd17a1423dbdf9bce07676bae9afc9f41e2536",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com",
+        "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+        "summary": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "body": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+        "published_at": "2026-05-07T21:14:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+          "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+          "published_at": "2026-05-07T21:14:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5\" target=\"_blank\">Align Technology Inc. stock underperforms Thursday when compared to competitors</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketWatch</font>",
+          "sector": "technology",
+          "source_type": "google_sector_rss",
+          "query": "technology stock market news"
+        }
+      }
+    }
+  ]
+}

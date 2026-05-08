@@ -1,0 +1,29 @@
+{
+  "sequence": 17,
+  "logged_at": "2026-05-08T11:49:42.465057+00:00",
+  "model": "MiniMax-M2.7",
+  "function_name": "chatcompletion_text",
+  "caller": {
+    "file": "/Users/sansarkarki/Documents/Clavis/backend/app/pipeline/major_event_analyzer.py",
+    "function": "analyze_major_events_shared_batch",
+    "line": 194
+  },
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a senior equity risk rater evaluating a significant market event.\n\nYour job is to state the primary risk implication \u2014 not just describe what happened, but explain what it means for a holder of this position. If the event has both positive and negative angles, resolve which effect is primary and why.\n\nReturn strict JSON:\n{\n  \"analysis_text\": \"3-6 sentence analysis that leads with the primary implication, resolves competing forces, and states what would confirm or negate the risk\",\n  \"impact_horizon\": \"immediate|near_term|long_term\",\n  \"risk_direction\": \"improving|neutral|worsening\",\n  \"confidence\": 0.0-1.0,\n  \"scenario_summary\": \"one sentence stating the primary risk implication\",\n  \"key_implications\": [\"...\", \"...\"],\n  \"followup_notes\": [\"...\", \"...\"]\n}\n"
+    },
+    {
+      "role": "user",
+      "content": "For each event below, analyze the primary risk implication for a holder \u2014 not just what happened, but what it means. If an event has competing positive and negative angles, resolve which is primary.\n\nIf evidence quality is title_only or headline_summary, do not act as if you read a full article. Lower confidence and describe the rating as limited by available data.\n\nEvents:\n[0] Evidence quality: full_body\n    Title: [8-K] 3M CO Reports Material Event - Stock Titan\n    Summary: [8-K] 3M CO Reports Material Event Stock Titan\n    Body: # [8-K] 3M CO Reports Material Event | MMM 8-K Filing\n\n* [](http://www.stocktitan.net/sec-filings/MMM/8-k-3m-co-reports-material-event-1e9ab12ca57e.html#)LoginSign up\n\n* NEWS FEEDStock News LiveStock News TodayTrending News AI newsFDA ApprovalsClinical TrialsCrypto NewsMerger & AcquisitionsEarningsOfferingsIPO NewsStock Splits Top News - GainersTop News - Losers\n\n* SEC FILINGSSEC Filings LiveSEC Filings Today Form 4 - Insider Trading8-K - Material Events10-K - Annual Reports10-Q - Quarterly ReportsDEF 14A - Proxy StatementsS-1 - IPO RegistrationS-3 - Shelf Registration\n\n* STOCKSAll Stock Themes AI StocksEV StocksRenewable EnergyCrypto StocksCybersecurityOil & GasDefense & MilitarySpace & Satellite Financials All Stock RankingsStock Movers TodayLargest Companies by Market CapBest Dividend StocksBest Performing Stocks - 52 WeekBest Stocks of 2026Best Stocks May 2026Short Interest Increases\n\nReturn a JSON array with one object per event in order.\nEach object has: analysis_text, impact_horizon, risk_direction, confidence, scenario_summary, key_implications, followup_notes."
+    }
+  ],
+  "kwargs": {
+    "temperature": 0.2,
+    "max_tokens": 2600,
+    "timeout": 120
+  },
+  "response": "```json\n[\n  {\n    \"analysis_text\": \"The [8-K] filing for 3M (MMM) confirms a material event was reported to the SEC, but the available data contains zero details about what that event actually is. For a position holder, this creates immediate uncertainty \u2014 [8-K] filings report material events ranging from legal settlements and regulatory actions to strategic acquisitions or debt issuances, each with vastly different risk profiles. Without the filing's substantive content, I cannot determine whether this represents a catastrophic liability disclosure, a routine matter, or a positive strategic development. The filing type alone tells us only that 3M's legal team deemed something significant enough to require immediate public disclosure; the direction and magnitude remain unknown. This event should be treated as a risk catalyst pending full filing review \u2014 position holders should seek the actual 8-K content before adjusting exposure.\",\n    \"impact_horizon\": \"immediate\",\n    \"risk_direction\": \"neutral\",\n    \"confidence\": 0.15,\n    \"scenario_summary\": \"3M filed an 8-K reporting a material event, but available data contains no details about what event occurred, making risk assessment impossible without the actual filing content.\",\n    \"key_implications\": [\n      \"The filing confirms 3M's legal/IR team determined something material enough to trigger immediate SEC disclosure \u2014 standard threshold is information that would influence investor decisions\",\n      \"Without content, the event could be anything from a major litigation settlement to an acquisition to a credit agreement amendment \u2014 risk ranges from negligible to catastrophic\",\n      \"8-K material events typically require disclosure within 4 business days of the triggering event, establishing a recent timeline\"\n    ],\n    \"followup_notes\": [\n      \"Retrieve full 8-K from SEC EDGAR (search MMM 8-K filings) to determine event type and materiality\",\n      \"Check 3M investor relations website or Bloomberg for any related press releases\",\n      \"If the material event relates to ongoing litigation (Pfas, military earplches, etc.), this could signal a settlement or adverse court ruling\",\n      \"Current confidence is severely limited by absence of filing content \u2014 do not treat this as a completed risk assessment\"\n    ]\n  }\n]\n```",
+  "error": null,
+  "duration_ms": 26610.4
+}

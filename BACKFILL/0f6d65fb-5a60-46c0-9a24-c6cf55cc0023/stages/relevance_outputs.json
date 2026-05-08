@@ -1,0 +1,1060 @@
+{
+  "cached_count": 278,
+  "uncached_count": 27,
+  "results": [
+    {
+      "article_index": 0,
+      "relevant": true,
+      "affected_tickers": [
+        "CCL"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Carnival breaking ground on a new Miami HQ signals corporate investment and operational growth, directly impacting the held CCL position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNUk9iVllVZENrUnZhd2FDSEJqd2ZILVEwYUMzc2plVWNwMk53THdGWjlJTzRwbWhIQzRFbnBTU0FTXzZhamZjX2ZyTmhCbFhHYlNnbU1MRXRNNnhGYWtrLUZIR001MXhfVm5peGpmbllfbHVBQ2tXbUlsYmFNQ2l2bklsbzM?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "6f877a43623f3430e4e6e45dd463377cacd33387b1223c03fe3b6796d31ba270",
+        "source_type": "company_news",
+        "source": "Cruise Fever",
+        "source_url": "https://cruisefever.net/carnival-corporation-breaks-ground-on-new-hq-in-miami/",
+        "title": "Carnival Corporation Breaks Ground on New HQ in Miami - Cruise Fever",
+        "summary": "Carnival Corporation Breaks Ground on New HQ in Miami Cruise Fever",
+        "body": "Carnival Corporation Breaks Ground on New HQ in Miami Cruise Fever",
+        "evidence_quality": "title_only",
+        "url": "https://cruisefever.net/carnival-corporation-breaks-ground-on-new-hq-in-miami/",
+        "published_at": "Thu, 07 May 2026 16:47:46 GMT",
+        "ticker_hints": [
+          "CCL"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMihAFBVV95cUxNUk9iVllVZENrUnZhd2FDSEJqd2ZILVEwYUMzc2plVWNwMk53THdGWjlJTzRwbWhIQzRFbnBTU0FTXzZhamZjX2ZyTmhCbFhHYlNnbU1MRXRNNnhGYWtrLUZIR001MXhfVm5peGpmbllfbHVBQ2tXbUlsYmFNQ2l2bklsbzM?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Carnival Corporation Breaks Ground on New HQ in Miami - Cruise Fever",
+          "source": "Cruise Fever",
+          "source_url": "https://cruisefever.net/carnival-corporation-breaks-ground-on-new-hq-in-miami/",
+          "publisher_homepage_url": "https://cruisefever.net",
+          "url": "https://cruisefever.net/carnival-corporation-breaks-ground-on-new-hq-in-miami/",
+          "published_at": "Thu, 07 May 2026 16:47:46 GMT",
+          "summary": "Carnival Corporation Breaks Ground on New HQ in Miami  Cruise Fever",
+          "ticker": "CCL",
+          "company_name": "Carnival Corp",
+          "query": "Carnival Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://cruisefever.net/carnival-corporation-breaks-ground-on-new-hq-in-miami/"
+        }
+      }
+    },
+    {
+      "article_index": 1,
+      "relevant": true,
+      "affected_tickers": [
+        "BR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Broadridge's $500M senior note issuance represents a significant debt financing action for the held position, affecting its capital structure.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPaHFrRkk3ajBJZDlZMDlFNEtjc2l1RWlNSTRFR05mblN2aWQzaXRKUDI4YU9LOGptZEh6OXhuZ0NNdG1aMVhNOFRwRVMwUzFydk9jcGw2SzNCTXAxQ2FWTGhHeXlPSDRYNmZzaWFoU0VoN19VeE5NaGYyaTFhamZRQkhSYm1LOUlfd2ZOT01FTlRoMGtuZGpuendjb25vc1FPbklpZHo0eDJqa0ZFLVZtdjUzeDlLVVZ4ZXZlLW93?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "b8421f3283875241cc41d94250eb1311a3c69d602f017cfb99f3fccbbb3ac7e6",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/BR/8-k-broadridge-financial-solutions-inc-reports-material-event-ed9331131fa8.html",
+        "title": "Broadridge (NYSE: BR) prices $500M 5.75% senior notes to 2036 - Stock Titan",
+        "summary": "Broadridge (NYSE: BR) prices $500M 5.75% senior notes to 2036 Stock Titan",
+        "body": "Broadridge (NYSE: BR) prices $500M 5.75% senior notes to 2036 Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/BR/8-k-broadridge-financial-solutions-inc-reports-material-event-ed9331131fa8.html",
+        "published_at": "Wed, 06 May 2026 21:11:01 GMT",
+        "ticker_hints": [
+          "BR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPaHFrRkk3ajBJZDlZMDlFNEtjc2l1RWlNSTRFR05mblN2aWQzaXRKUDI4YU9LOGptZEh6OXhuZ0NNdG1aMVhNOFRwRVMwUzFydk9jcGw2SzNCTXAxQ2FWTGhHeXlPSDRYNmZzaWFoU0VoN19VeE5NaGYyaTFhamZRQkhSYm1LOUlfd2ZOT01FTlRoMGtuZGpuendjb25vc1FPbklpZHo0eDJqa0ZFLVZtdjUzeDlLVVZ4ZXZlLW93?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Broadridge (NYSE: BR) prices $500M 5.75% senior notes to 2036 - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/BR/8-k-broadridge-financial-solutions-inc-reports-material-event-ed9331131fa8.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/BR/8-k-broadridge-financial-solutions-inc-reports-material-event-ed9331131fa8.html",
+          "published_at": "Wed, 06 May 2026 21:11:01 GMT",
+          "summary": "Broadridge (NYSE: BR) prices $500M 5.75% senior notes to 2036  Stock Titan",
+          "ticker": "BR",
+          "company_name": "Broadridge Financial Solutions Inc",
+          "query": "Broadridge Financial Solutions Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/BR/8-k-broadridge-financial-solutions-inc-reports-material-event-ed9331131fa8.html"
+        }
+      }
+    },
+    {
+      "article_index": 2,
+      "relevant": true,
+      "affected_tickers": [
+        "BR"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Broadridge beating earnings estimates and analysts updating models is material corporate performance news for the held BR position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxPcU1VZGJiNmNxREE2TjlkWHVvMWkwNE83emI0Zl9hUkgyQ1h3SVJWcEFXMzU1d1poLU1CSjJfRDR4OGwzTTBCbFpaXzRGeEp5MTBPV3pkcmJhaWozNUdTSFgxc0FlOXo1amR1a1ItNE9nX2F4UklZMTFsVGx3T3E4UGpHa1AyUkZIQWVDTFg2MS1adENLOUdiLUJBT1R6NEdvRF9FOU9tRjl3T0JnWEFwVzdyc25Idk11cklmNUFPQ0ZFOEZPNGM1c2p5d1IxYmF4MjNxQWw1MjZSZzZwcl9kYzcyVDlLbm1hdzQ2YdIB8gFBVV95cUxNcXlwaHFoaWhaWUpHS1dlMHVDYjRMa3FpVnI3d1pHTFNiMmJyUVR3TkxBZDVlb0VEeTVEYzcxY2gyXzhSekxuVFU3ZHRIQ1hBTUhXLVkzS2VzRFRYMWUtekJTd2lKVV9JTnZkXzlSbWZka05mRE9wM3YyQUJmOFFYVlNPd2xPM0VpcFNiczJ1UWNrVG5qNi1rY0VLbmFVY0JQLUM2Z1MxMFFTNWdJZEtvcFN0VkJGci12RWhPNEpMelMteGsyR0FBUDZDWEJfLTdLanh0MGJNMjFNZzR6TVhxQXBhM3UySWdvNmtSNEltODlFdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ca63ff1ae67eda1121a662b441dfe3a6ce8a25f6ed84940f7d1c9688ed8e7dd8",
+        "source_type": "company_news",
+        "source": "simplywall.st",
+        "source_url": "https://simplywall.st/stocks/us/commercial-services/nyse-br/broadridge-financial-solutions/news/earnings-beat-broadridge-financial-solutions-inc-just-beat-a",
+        "title": "Earnings Beat: Broadridge Financial Solutions, Inc. Just Beat Analyst Forecasts, And Analysts Have Been Updating Their Models - simplywall.st",
+        "summary": "Earnings Beat: Broadridge Financial Solutions, Inc. Just Beat Analyst Forecasts, And Analysts Have Been Updating Their Models simplywall.st",
+        "body": "Earnings Beat: Broadridge Financial Solutions, Inc. Just Beat Analyst Forecasts, And Analysts Have Been Updating Their Models simplywall.st",
+        "evidence_quality": "title_only",
+        "url": "https://simplywall.st/stocks/us/commercial-services/nyse-br/broadridge-financial-solutions/news/earnings-beat-broadridge-financial-solutions-inc-just-beat-a",
+        "published_at": "Mon, 04 May 2026 11:59:42 GMT",
+        "ticker_hints": [
+          "BR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxPcU1VZGJiNmNxREE2TjlkWHVvMWkwNE83emI0Zl9hUkgyQ1h3SVJWcEFXMzU1d1poLU1CSjJfRDR4OGwzTTBCbFpaXzRGeEp5MTBPV3pkcmJhaWozNUdTSFgxc0FlOXo1amR1a1ItNE9nX2F4UklZMTFsVGx3T3E4UGpHa1AyUkZIQWVDTFg2MS1adENLOUdiLUJBT1R6NEdvRF9FOU9tRjl3T0JnWEFwVzdyc25Idk11cklmNUFPQ0ZFOEZPNGM1c2p5d1IxYmF4MjNxQWw1MjZSZzZwcl9kYzcyVDlLbm1hdzQ2YdIB8gFBVV95cUxNcXlwaHFoaWhaWUpHS1dlMHVDYjRMa3FpVnI3d1pHTFNiMmJyUVR3TkxBZDVlb0VEeTVEYzcxY2gyXzhSekxuVFU3ZHRIQ1hBTUhXLVkzS2VzRFRYMWUtekJTd2lKVV9JTnZkXzlSbWZka05mRE9wM3YyQUJmOFFYVlNPd2xPM0VpcFNiczJ1UWNrVG5qNi1rY0VLbmFVY0JQLUM2Z1MxMFFTNWdJZEtvcFN0VkJGci12RWhPNEpMelMteGsyR0FBUDZDWEJfLTdLanh0MGJNMjFNZzR6TVhxQXBhM3UySWdvNmtSNEltODlFdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Earnings Beat: Broadridge Financial Solutions, Inc. Just Beat Analyst Forecasts, And Analysts Have Been Updating Their Models - simplywall.st",
+          "source": "simplywall.st",
+          "source_url": "https://simplywall.st/stocks/us/commercial-services/nyse-br/broadridge-financial-solutions/news/earnings-beat-broadridge-financial-solutions-inc-just-beat-a",
+          "publisher_homepage_url": "https://simplywall.st",
+          "url": "https://simplywall.st/stocks/us/commercial-services/nyse-br/broadridge-financial-solutions/news/earnings-beat-broadridge-financial-solutions-inc-just-beat-a",
+          "published_at": "Mon, 04 May 2026 11:59:42 GMT",
+          "summary": "Earnings Beat: Broadridge Financial Solutions, Inc. Just Beat Analyst Forecasts, And Analysts Have Been Updating Their Models  simplywall.st",
+          "ticker": "BR",
+          "company_name": "Broadridge Financial Solutions Inc",
+          "query": "Broadridge Financial Solutions Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://simplywall.st/stocks/us/commercial-services/nyse-br/broadridge-financial-solutions/news/earnings-beat-broadridge-financial-solutions-inc-just-beat-a"
+        }
+      }
+    },
+    {
+      "article_index": 3,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Major bank consortium joining LTX for bond liquidity is general financial infrastructure news with no connection to held positions BR, CAH, or CCL.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMimwJBVV95cUxOalJoU2ltUDJST0R5dlJkRFBRVlVkS2owZHBicktYcm1BTzBJcXlsdXM4TDMzdlhZSC1mUEp0ZWtwckg2amVtSnUxc1VZX1E4VENfMnJtcG9EVUpRRGNCMUZXSzRIXzhfRTZFZmF2UUljWDl5RUFQMnB4QVdUSFg5Q0k3YVdxQWFJOGpJYk5ZVzRmVGJhNFlVQ3phMGpHT0JlY0w3b0JqY1ZHYzVnQkxlaDA5UUlraEZfbUp4QTc1RVNPS3I1TDJEOXBZTG1BSGp2Y3dnb09nWHBmSXZnTlB5XzdBZ05RRjhXQ0pPUWpLUndNOW5jQU9kM3pHNmZRM0RjYzBya1g0blRzWUo3b1lxRkRQandvbkl1OEdr?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "9c919bde1677cd548e610e17f59a823a97b429a8f79c25ec64d1a0244a18c044",
+        "source_type": "company_news",
+        "source": "PR Newswire",
+        "source_url": "https://www.prnewswire.com/news-releases/goldman-sachs-jp-morgan-td-securities-morgan-stanley-and-bank-of-america-join-ltx-in-bid-to-unlock-greater-liquidity-in-corporate-bonds-302764983.html",
+        "title": "Goldman Sachs, J.P. Morgan, TD Securities, Morgan Stanley, and Bank of America Join LTX in Bid to Unlock Greater Liquidity in Corporate Bonds - PR Newswire",
+        "summary": "Goldman Sachs, J.P. Morgan, TD Securities, Morgan Stanley, and Bank of America Join LTX in Bid to Unlock Greater Liquidity in Corporate Bonds PR Newswire",
+        "body": "Goldman Sachs, J.P. Morgan, TD Securities, Morgan Stanley, and Bank of America Join LTX in Bid to Unlock Greater Liquidity in Corporate Bonds PR Newswire",
+        "evidence_quality": "title_only",
+        "url": "https://www.prnewswire.com/news-releases/goldman-sachs-jp-morgan-td-securities-morgan-stanley-and-bank-of-america-join-ltx-in-bid-to-unlock-greater-liquidity-in-corporate-bonds-302764983.html",
+        "published_at": "Thu, 07 May 2026 10:00:00 GMT",
+        "ticker_hints": [
+          "BR"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMimwJBVV95cUxOalJoU2ltUDJST0R5dlJkRFBRVlVkS2owZHBicktYcm1BTzBJcXlsdXM4TDMzdlhZSC1mUEp0ZWtwckg2amVtSnUxc1VZX1E4VENfMnJtcG9EVUpRRGNCMUZXSzRIXzhfRTZFZmF2UUljWDl5RUFQMnB4QVdUSFg5Q0k3YVdxQWFJOGpJYk5ZVzRmVGJhNFlVQ3phMGpHT0JlY0w3b0JqY1ZHYzVnQkxlaDA5UUlraEZfbUp4QTc1RVNPS3I1TDJEOXBZTG1BSGp2Y3dnb09nWHBmSXZnTlB5XzdBZ05RRjhXQ0pPUWpLUndNOW5jQU9kM3pHNmZRM0RjYzBya1g0blRzWUo3b1lxRkRQandvbkl1OEdr?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Goldman Sachs, J.P. Morgan, TD Securities, Morgan Stanley, and Bank of America Join LTX in Bid to Unlock Greater Liquidity in Corporate Bonds - PR Newswire",
+          "source": "PR Newswire",
+          "source_url": "https://www.prnewswire.com/news-releases/goldman-sachs-jp-morgan-td-securities-morgan-stanley-and-bank-of-america-join-ltx-in-bid-to-unlock-greater-liquidity-in-corporate-bonds-302764983.html",
+          "publisher_homepage_url": "https://www.prnewswire.com",
+          "url": "https://www.prnewswire.com/news-releases/goldman-sachs-jp-morgan-td-securities-morgan-stanley-and-bank-of-america-join-ltx-in-bid-to-unlock-greater-liquidity-in-corporate-bonds-302764983.html",
+          "published_at": "Thu, 07 May 2026 10:00:00 GMT",
+          "summary": "Goldman Sachs, J.P. Morgan, TD Securities, Morgan Stanley, and Bank of America Join LTX in Bid to Unlock Greater Liquidity in Corporate Bonds  PR Newswire",
+          "ticker": "BR",
+          "company_name": "Broadridge Financial Solutions Inc",
+          "query": "Broadridge Financial Solutions Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.prnewswire.com/news-releases/goldman-sachs-jp-morgan-td-securities-morgan-stanley-and-bank-of-america-join-ltx-in-bid-to-unlock-greater-liquidity-in-corporate-bonds-302764983.html"
+        }
+      }
+    },
+    {
+      "article_index": 4,
+      "relevant": true,
+      "affected_tickers": [
+        "CAH"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Cardinal Health's board approving a quarterly dividend is a direct corporate action affecting shareholder returns for the held CAH position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOc2UtSU8xeHc0dDBNTV95ODZ1djl0ZUZHQkZpZ1MwMnlQM0xTYzFxb3RLa3E3UWREVmU3SDFoeXA1bFFlUXlSOUdseUZZZnpJMGtMR2FrN0xtMmxqMEt5eXNJMjBpMlN4bWRMeTVtUUd3cS1qWktCTzVGN3hoVF9ESUh4bTE1OVlmQlNkdXM0WnJzYU13RFNPWjJOdmlLRFZqWlBWUk9MTlpTeWZYRXNmWk94cUVqUmstQ1E?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "b13ad812f423641eede01bc7aef9008653183ff3e8e44c2bd7777447f5673f0e",
+        "source_type": "company_news",
+        "source": "PR Newswire",
+        "source_url": "https://www.prnewswire.com/news-releases/cardinal-health-board-of-directors-approves-quarterly-dividend-302763033.html",
+        "title": "Cardinal Health Board of Directors Approves Quarterly Dividend - PR Newswire",
+        "summary": "Cardinal Health Board of Directors Approves Quarterly Dividend PR Newswire",
+        "body": "Cardinal Health Board of Directors Approves Quarterly Dividend PR Newswire",
+        "evidence_quality": "title_only",
+        "url": "https://www.prnewswire.com/news-releases/cardinal-health-board-of-directors-approves-quarterly-dividend-302763033.html",
+        "published_at": "Tue, 05 May 2026 20:40:00 GMT",
+        "ticker_hints": [
+          "CAH"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiugFBVV95cUxOc2UtSU8xeHc0dDBNTV95ODZ1djl0ZUZHQkZpZ1MwMnlQM0xTYzFxb3RLa3E3UWREVmU3SDFoeXA1bFFlUXlSOUdseUZZZnpJMGtMR2FrN0xtMmxqMEt5eXNJMjBpMlN4bWRMeTVtUUd3cS1qWktCTzVGN3hoVF9ESUh4bTE1OVlmQlNkdXM0WnJzYU13RFNPWjJOdmlLRFZqWlBWUk9MTlpTeWZYRXNmWk94cUVqUmstQ1E?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Cardinal Health Board of Directors Approves Quarterly Dividend - PR Newswire",
+          "source": "PR Newswire",
+          "source_url": "https://www.prnewswire.com/news-releases/cardinal-health-board-of-directors-approves-quarterly-dividend-302763033.html",
+          "publisher_homepage_url": "https://www.prnewswire.com",
+          "url": "https://www.prnewswire.com/news-releases/cardinal-health-board-of-directors-approves-quarterly-dividend-302763033.html",
+          "published_at": "Tue, 05 May 2026 20:40:00 GMT",
+          "summary": "Cardinal Health Board of Directors Approves Quarterly Dividend  PR Newswire",
+          "ticker": "CAH",
+          "company_name": "Cardinal Health Inc",
+          "query": "Cardinal Health Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.prnewswire.com/news-releases/cardinal-health-board-of-directors-approves-quarterly-dividend-302763033.html"
+        }
+      }
+    },
+    {
+      "article_index": 5,
+      "relevant": true,
+      "affected_tickers": [
+        "CAH"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Price target upgrade for CAH after beating Q1 earnings directly affects the position's outlook and valuation.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQUlGemtPeHdlMzVUT3JCVkdtTERpTmVST0FpSWN2MnVHOGJDNWhMc2xaSEpVR0NXTXVsQk9RQ21GVkRBR2x1ajR5bXpGbU5xN1FJN0NVOTJkRkJ3bDhMVGdGckZPYkpYNG5yVnBURWIyR2VISXBpMUxmdk5xS0F4SGYzaks2cGxSWW5LcHpULVl5MlhrcEd0bUdzSm5Udw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "672f219d61ea484b5fc103c23b2fd73cd47693fcae7a2fc170b36ebe91a8f1b1",
+        "source_type": "company_news",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/cardinal-health-cah-price-target-185054868.html",
+        "title": "Cardinal Health (CAH) Price Target Upped by $4 After Beating Q1 Profit Estimates - Yahoo Finance",
+        "summary": "Cardinal Health (CAH) Price Target Upped by $4 After Beating Q1 Profit Estimates Yahoo Finance",
+        "body": "Cardinal Health (CAH) Price Target Upped by $4 After Beating Q1 Profit Estimates Yahoo Finance",
+        "evidence_quality": "title_only",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/cardinal-health-cah-price-target-185054868.html",
+        "published_at": "Wed, 06 May 2026 18:50:54 GMT",
+        "ticker_hints": [
+          "CAH"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQUlGemtPeHdlMzVUT3JCVkdtTERpTmVST0FpSWN2MnVHOGJDNWhMc2xaSEpVR0NXTXVsQk9RQ21GVkRBR2x1ajR5bXpGbU5xN1FJN0NVOTJkRkJ3bDhMVGdGckZPYkpYNG5yVnBURWIyR2VISXBpMUxmdk5xS0F4SGYzaks2cGxSWW5LcHpULVl5MlhrcEd0bUdzSm5Udw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Cardinal Health (CAH) Price Target Upped by $4 After Beating Q1 Profit Estimates - Yahoo Finance",
+          "source": "Yahoo Finance",
+          "source_url": "https://finance.yahoo.com/markets/stocks/articles/cardinal-health-cah-price-target-185054868.html",
+          "publisher_homepage_url": "https://finance.yahoo.com",
+          "url": "https://finance.yahoo.com/markets/stocks/articles/cardinal-health-cah-price-target-185054868.html",
+          "published_at": "Wed, 06 May 2026 18:50:54 GMT",
+          "summary": "Cardinal Health (CAH) Price Target Upped by $4 After Beating Q1 Profit Estimates  Yahoo Finance",
+          "ticker": "CAH",
+          "company_name": "Cardinal Health Inc",
+          "query": "Cardinal Health Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/cardinal-health-cah-price-target-185054868.html"
+        }
+      }
+    },
+    {
+      "article_index": 6,
+      "relevant": true,
+      "affected_tickers": [
+        "CAH"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "CAH's dividend increase announcement is a positive signal for income-focused growth investors holding the position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPUlNuU2NBZnh2emxxUERxU0g5M3VLYUtkTEx4MnhoeURHbi1RU3pnaFo0bm82VGVUTXhCdEdPanptUkxuS0s3Z1h0TFBKaG1wUmF3bDQwRl9Cb3dJUU9sS3RmbFpWS1BVeWFyZGR2aWNvQ2U2SDg5VVFaSXZDV2N1U0VLV3k5Y0RCa20wb3F0dHdCS1paOWdLZHdCb2lldFVBVWQ0c0wzZGMzakdiVTY4VjBuNU1raHZD?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "e6ec3627f394165afe5a572361fee840c7856d3eda6a3f89e5feab15c6e5c291",
+        "source_type": "company_news",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/article/4897816-cardinal-health-among-9-companies-announce-dividend-increases-first-half-may",
+        "title": "Cardinal Health Among 9 Companies To Announce Dividend Increases In The First Half Of May - Seeking Alpha",
+        "summary": "Cardinal Health Among 9 Companies To Announce Dividend Increases In The First Half Of May Seeking Alpha",
+        "body": "Cardinal Health Among 9 Companies To Announce Dividend Increases In The First Half Of May Seeking Alpha",
+        "evidence_quality": "title_only",
+        "url": "https://seekingalpha.com/article/4897816-cardinal-health-among-9-companies-announce-dividend-increases-first-half-may",
+        "published_at": "Sun, 03 May 2026 05:06:04 GMT",
+        "ticker_hints": [
+          "CAH"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPUlNuU2NBZnh2emxxUERxU0g5M3VLYUtkTEx4MnhoeURHbi1RU3pnaFo0bm82VGVUTXhCdEdPanptUkxuS0s3Z1h0TFBKaG1wUmF3bDQwRl9Cb3dJUU9sS3RmbFpWS1BVeWFyZGR2aWNvQ2U2SDg5VVFaSXZDV2N1U0VLV3k5Y0RCa20wb3F0dHdCS1paOWdLZHdCb2lldFVBVWQ0c0wzZGMzakdiVTY4VjBuNU1raHZD?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Cardinal Health Among 9 Companies To Announce Dividend Increases In The First Half Of May - Seeking Alpha",
+          "source": "Seeking Alpha",
+          "source_url": "https://seekingalpha.com/article/4897816-cardinal-health-among-9-companies-announce-dividend-increases-first-half-may",
+          "publisher_homepage_url": "https://seekingalpha.com",
+          "url": "https://seekingalpha.com/article/4897816-cardinal-health-among-9-companies-announce-dividend-increases-first-half-may",
+          "published_at": "Sun, 03 May 2026 05:06:04 GMT",
+          "summary": "Cardinal Health Among 9 Companies To Announce Dividend Increases In The First Half Of May  Seeking Alpha",
+          "ticker": "CAH",
+          "company_name": "Cardinal Health Inc",
+          "query": "Cardinal Health Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://seekingalpha.com/article/4897816-cardinal-health-among-9-companies-announce-dividend-increases-first-half-may"
+        }
+      }
+    },
+    {
+      "article_index": 7,
+      "relevant": true,
+      "affected_tickers": [
+        "CAH"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Analysis indicating conservative accounting for CAH's solid earnings suggests potential upside\u672a\u88ab\u5145\u5206\u5b9a\u4ef7, relevant to position assessment.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQQWw2NzRud0s1UmNZdEdZa0I4dnBXRnA4aWFZMWltb0Z4T19MdDNaSXF3ZjhWWGdHSGxTUURTWHhlcUc4Y0FoVHhKOXlaVEIzUmlvcnREMjNyeWFhRmdlYVp5NTVvV0YzSjVrVjRhTXBVY3lKNDd4dVE5VVhjbno0N1laX0VxZ01XUUlrb3BFSU5TZHd4cFlUOUlpS1ljb3JES09iNG9kN3ZiT3hfdnJ5U0xMQkdsbjNzUGowdGdTTUdoNGJOOVl1RjlzQlPSAdIBQVVfeXFMTVppV3RteVBySUxWS0ZfN0djUUQ0OGRRS2RTVUpndHNYUTE0QlRueEh2M1FOQi1md1g5R0pyMnlpWEJwR1BuTE9XSkg0NllWdkwxNlMzZzNoWVkzOE9iV1Y5dnZxZHNQRlBfNkZuY21KTlRsMU4yUWpFRDBtNDVzZ3U0Z3dNektveFhZdk1jZENlQm5hT1Y4ZjVoRk9wMUlmakswLTNDV0dpQ0lQSUlYUXhsRV9iTDRjcFV6QkFnb29mcGF6cVA4ZHdpT0ZoVkRNamRR?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "865b30e566aab20cf1cb5443f1e760de46c102eee37e26d1bf484c5c37da03ec",
+        "source_type": "company_news",
+        "source": "simplywall.st",
+        "source_url": "https://simplywall.st/stocks/us/healthcare/nyse-cah/cardinal-health/news/cardinal-healths-nysecah-solid-earnings-have-been-accounted",
+        "title": "Cardinal Health's (NYSE:CAH) Solid Earnings Have Been Accounted For Conservatively - simplywall.st",
+        "summary": "Cardinal Health's (NYSE:CAH) Solid Earnings Have Been Accounted For Conservatively simplywall.st",
+        "body": "Cardinal Health's (NYSE:CAH) Solid Earnings Have Been Accounted For Conservatively simplywall.st",
+        "evidence_quality": "title_only",
+        "url": "https://simplywall.st/stocks/us/healthcare/nyse-cah/cardinal-health/news/cardinal-healths-nysecah-solid-earnings-have-been-accounted",
+        "published_at": "Thu, 07 May 2026 13:03:47 GMT",
+        "ticker_hints": [
+          "CAH"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMizAFBVV95cUxQQWw2NzRud0s1UmNZdEdZa0I4dnBXRnA4aWFZMWltb0Z4T19MdDNaSXF3ZjhWWGdHSGxTUURTWHhlcUc4Y0FoVHhKOXlaVEIzUmlvcnREMjNyeWFhRmdlYVp5NTVvV0YzSjVrVjRhTXBVY3lKNDd4dVE5VVhjbno0N1laX0VxZ01XUUlrb3BFSU5TZHd4cFlUOUlpS1ljb3JES09iNG9kN3ZiT3hfdnJ5U0xMQkdsbjNzUGowdGdTTUdoNGJOOVl1RjlzQlPSAdIBQVVfeXFMTVppV3RteVBySUxWS0ZfN0djUUQ0OGRRS2RTVUpndHNYUTE0QlRueEh2M1FOQi1md1g5R0pyMnlpWEJwR1BuTE9XSkg0NllWdkwxNlMzZzNoWVkzOE9iV1Y5dnZxZHNQRlBfNkZuY21KTlRsMU4yUWpFRDBtNDVzZ3U0Z3dNektveFhZdk1jZENlQm5hT1Y4ZjVoRk9wMUlmakswLTNDV0dpQ0lQSUlYUXhsRV9iTDRjcFV6QkFnb29mcGF6cVA4ZHdpT0ZoVkRNamRR?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Cardinal Health's (NYSE:CAH) Solid Earnings Have Been Accounted For Conservatively - simplywall.st",
+          "source": "simplywall.st",
+          "source_url": "https://simplywall.st/stocks/us/healthcare/nyse-cah/cardinal-health/news/cardinal-healths-nysecah-solid-earnings-have-been-accounted",
+          "publisher_homepage_url": "https://simplywall.st",
+          "url": "https://simplywall.st/stocks/us/healthcare/nyse-cah/cardinal-health/news/cardinal-healths-nysecah-solid-earnings-have-been-accounted",
+          "published_at": "Thu, 07 May 2026 13:03:47 GMT",
+          "summary": "Cardinal Health's (NYSE:CAH) Solid Earnings Have Been Accounted For Conservatively  simplywall.st",
+          "ticker": "CAH",
+          "company_name": "Cardinal Health Inc",
+          "query": "Cardinal Health Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://simplywall.st/stocks/us/healthcare/nyse-cah/cardinal-health/news/cardinal-healths-nysecah-solid-earnings-have-been-accounted"
+        }
+      }
+    },
+    {
+      "article_index": 8,
+      "relevant": true,
+      "affected_tickers": [
+        "BXP"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "BXP's Q1 2026 earnings call presentation provides direct insights into the held position's performance and strategic direction.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOSlVoVUt0UndLOEVLMWI1T3VOUTZNT1NmUkNicXlKTlFfX3BpMzlRMXF0S0dFa3NxdkZnQWxxQU50MUM5bThic1RRaGxPTHFNUjJ1YmFCMGV6SFJNNGZzZURjcThFODc5MklpM3d2cXVTTFlrSGJ4dUtwRDhnLXNKS19xMk4tbGxMcEsyZnJwLXpnMWJqd0E?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "7d54e9a633f7f4b27116f867db87a264c9b3ca45d265c844488e93db8dd1ca16",
+        "source_type": "company_news",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/article/4900867-bxp-inc-2026-q1-results-earnings-call-presentation",
+        "title": "BXP, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:BXP) 2026-05-07 - Seeking Alpha",
+        "summary": "BXP, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:BXP) 2026-05-07 Seeking Alpha",
+        "body": "BXP, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:BXP) 2026-05-07 Seeking Alpha",
+        "evidence_quality": "title_only",
+        "url": "https://seekingalpha.com/article/4900867-bxp-inc-2026-q1-results-earnings-call-presentation",
+        "published_at": "Thu, 07 May 2026 23:02:38 GMT",
+        "ticker_hints": [
+          "BXP"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOSlVoVUt0UndLOEVLMWI1T3VOUTZNT1NmUkNicXlKTlFfX3BpMzlRMXF0S0dFa3NxdkZnQWxxQU50MUM5bThic1RRaGxPTHFNUjJ1YmFCMGV6SFJNNGZzZURjcThFODc5MklpM3d2cXVTTFlrSGJ4dUtwRDhnLXNKS19xMk4tbGxMcEsyZnJwLXpnMWJqd0E?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "BXP, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:BXP) 2026-05-07 - Seeking Alpha",
+          "source": "Seeking Alpha",
+          "source_url": "https://seekingalpha.com/article/4900867-bxp-inc-2026-q1-results-earnings-call-presentation",
+          "publisher_homepage_url": "https://seekingalpha.com",
+          "url": "https://seekingalpha.com/article/4900867-bxp-inc-2026-q1-results-earnings-call-presentation",
+          "published_at": "Thu, 07 May 2026 23:02:38 GMT",
+          "summary": "BXP, Inc. 2026 Q1 - Results - Earnings Call Presentation (NYSE:BXP) 2026-05-07  Seeking Alpha",
+          "ticker": "BXP",
+          "company_name": "BXP Inc",
+          "query": "BXP Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://seekingalpha.com/article/4900867-bxp-inc-2026-q1-results-earnings-call-presentation"
+        }
+      }
+    },
+    {
+      "article_index": 9,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQOERxYnVFZFZNb3hqeExLbDNsQWRGQjBBekExdUNoZXRfWVVRNV9PNUdGUjQ2d1dxYkNtckFvUld0a2dGaUFzUlFTdXFMVVR1Y2RGRlVkcU44dHVzNlJOZ1MwSDJxcHNPY2ktelJER3YzOFNJRTNSTVYzZUl0NnlrXzQzZV9uN1A5c2tPN21NNVNRdWVYX2NWa1U3WEt4dmRnaFFOQVZCcWZ2UFZRRTVzaFYxVkpJc2pxZml1WWl1LXE?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "5fe27984f16a5eeee7e0190e28b99657fccfe284647619929b63dcfaa5722240",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/bxp-inc-stock-underperforms-monday-when-compared-to-competitors-f57427d2-9c3028322d22",
+        "title": "BXP Inc. stock underperforms Monday when compared to competitors - MarketWatch",
+        "summary": "BXP Inc. stock underperforms Monday when compared to competitors MarketWatch",
+        "body": "BXP Inc. stock underperforms Monday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/bxp-inc-stock-underperforms-monday-when-compared-to-competitors-f57427d2-9c3028322d22",
+        "published_at": "Mon, 04 May 2026 21:16:00 GMT",
+        "ticker_hints": [
+          "BXP"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQOERxYnVFZFZNb3hqeExLbDNsQWRGQjBBekExdUNoZXRfWVVRNV9PNUdGUjQ2d1dxYkNtckFvUld0a2dGaUFzUlFTdXFMVVR1Y2RGRlVkcU44dHVzNlJOZ1MwSDJxcHNPY2ktelJER3YzOFNJRTNSTVYzZUl0NnlrXzQzZV9uN1A5c2tPN21NNVNRdWVYX2NWa1U3WEt4dmRnaFFOQVZCcWZ2UFZRRTVzaFYxVkpJc2pxZml1WWl1LXE?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "BXP Inc. stock underperforms Monday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/bxp-inc-stock-underperforms-monday-when-compared-to-competitors-f57427d2-9c3028322d22",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/bxp-inc-stock-underperforms-monday-when-compared-to-competitors-f57427d2-9c3028322d22",
+          "published_at": "Mon, 04 May 2026 21:16:00 GMT",
+          "summary": "BXP Inc. stock underperforms Monday when compared to competitors  MarketWatch",
+          "ticker": "BXP",
+          "company_name": "BXP Inc",
+          "query": "BXP Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/bxp-inc-stock-underperforms-monday-when-compared-to-competitors-f57427d2-9c3028322d22"
+        }
+      }
+    },
+    {
+      "article_index": 10,
+      "relevant": true,
+      "affected_tickers": [
+        "BAC"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Form 4/A reveals insider trading activity for BAC, a held position, which can signal management sentiment.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQN0N0cGRvdVRQMVNUcXNaNG1pVmNwczJPSnRvTHUtTXNiMFV3SGREczdUSzZkMGxUQVdFVkZMQWtzUmd2UWRHUjB1SnUxZl9oVnNEUU9raGFRQXEwdXVJLU1jWm55TzRxRHFjczJRN24yeE81cDBXY1RDX2hpODFJTHI1ZUZPRzZFY0JSRGRIc0kxWUEtUlQtS1I0TUNSbHNVdjExZ0dZWjRjLTA5QnRnOGN1Tm9XTjZSS0QyNm1BeGJ2dHli?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "cca76dd9a0e1f3da385ab9e0ffa018b90e9c786876cdcb70f17e00eec9809635",
+        "source_type": "company_news",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/BAC/form-4-a-bank-of-america-corp-de-amended-insider-trading-activity-a193bc778492.html",
+        "title": "[Form 4/A] BANK OF AMERICA CORP /DE/ Amended Insider Trading Activity - Stock Titan",
+        "summary": "[Form 4/A] BANK OF AMERICA CORP /DE/ Amended Insider Trading Activity Stock Titan",
+        "body": "[Form 4/A] BANK OF AMERICA CORP /DE/ Amended Insider Trading Activity Stock Titan",
+        "evidence_quality": "title_only",
+        "url": "https://www.stocktitan.net/sec-filings/BAC/form-4-a-bank-of-america-corp-de-amended-insider-trading-activity-a193bc778492.html",
+        "published_at": "Mon, 04 May 2026 23:09:38 GMT",
+        "ticker_hints": [
+          "BAC"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixAFBVV95cUxQN0N0cGRvdVRQMVNUcXNaNG1pVmNwczJPSnRvTHUtTXNiMFV3SGREczdUSzZkMGxUQVdFVkZMQWtzUmd2UWRHUjB1SnUxZl9oVnNEUU9raGFRQXEwdXVJLU1jWm55TzRxRHFjczJRN24yeE81cDBXY1RDX2hpODFJTHI1ZUZPRzZFY0JSRGRIc0kxWUEtUlQtS1I0TUNSbHNVdjExZ0dZWjRjLTA5QnRnOGN1Tm9XTjZSS0QyNm1BeGJ2dHli?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "[Form 4/A] BANK OF AMERICA CORP /DE/ Amended Insider Trading Activity - Stock Titan",
+          "source": "Stock Titan",
+          "source_url": "https://www.stocktitan.net/sec-filings/BAC/form-4-a-bank-of-america-corp-de-amended-insider-trading-activity-a193bc778492.html",
+          "publisher_homepage_url": "https://www.stocktitan.net",
+          "url": "https://www.stocktitan.net/sec-filings/BAC/form-4-a-bank-of-america-corp-de-amended-insider-trading-activity-a193bc778492.html",
+          "published_at": "Mon, 04 May 2026 23:09:38 GMT",
+          "summary": "[Form 4/A] BANK OF AMERICA CORP /DE/ Amended Insider Trading Activity  Stock Titan",
+          "ticker": "BAC",
+          "company_name": "Bank of America Corp",
+          "query": "Bank of America Corp",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.stocktitan.net/sec-filings/BAC/form-4-a-bank-of-america-corp-de-amended-insider-trading-activity-a193bc778492.html"
+        }
+      }
+    },
+    {
+      "article_index": 11,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Block Inc's participation in Bitcoin mining infrastructure working group is a thematic crypto piece with no direct stock price impact or ticker-specific relevance.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQZGVBc3BlMmQ3Wk5pRkZ0MUZ0cURaZWlMZXc0OXFscjg5Vk5uUUpSX2stUVlOdnhfc0RHb1FHMnZmV0RmV3pEeFkyR1g2MWhiaEpmWUVXUjcxQlhlSlI2d2ZxVEhVVHBvVDNaNzk3N0stZVFjRTlKaHE3aWEwTDlRWmNCX0FnQWtTLXhjNHVPTE9Fc182ZHFZSnRWUGVtcjhwX0ozTmttbDl1ZXBqYUFlUw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "eada0499ec432ce2ebf8b6208216914bd78245b12810192543c73b7905529ce8",
+        "source_type": "company_news",
+        "source": "Bitcoin Magazine",
+        "source_url": "https://bitcoinmagazine.com/news/antpool-block-inc-f2pool-foundry-spiderpool-dmnd-join-stratum-v2-working-group",
+        "title": "ANTPOOL, Block Inc, F2Pool, Foundry, Spiderpool, MARA Foundation & DMND Join Stratum v2 Working Group - Bitcoin Magazine",
+        "summary": "ANTPOOL, Block Inc, F2Pool, Foundry, Spiderpool, MARA Foundation & DMND Join Stratum v2 Working Group Bitcoin Magazine",
+        "body": "ANTPOOL, Block Inc, F2Pool, Foundry, Spiderpool, MARA Foundation & DMND Join Stratum v2 Working Group Bitcoin Magazine",
+        "evidence_quality": "title_only",
+        "url": "https://bitcoinmagazine.com/news/antpool-block-inc-f2pool-foundry-spiderpool-dmnd-join-stratum-v2-working-group",
+        "published_at": "Thu, 07 May 2026 14:00:00 GMT",
+        "ticker_hints": [
+          "XYZ"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQZGVBc3BlMmQ3Wk5pRkZ0MUZ0cURaZWlMZXc0OXFscjg5Vk5uUUpSX2stUVlOdnhfc0RHb1FHMnZmV0RmV3pEeFkyR1g2MWhiaEpmWUVXUjcxQlhlSlI2d2ZxVEhVVHBvVDNaNzk3N0stZVFjRTlKaHE3aWEwTDlRWmNCX0FnQWtTLXhjNHVPTE9Fc182ZHFZSnRWUGVtcjhwX0ozTmttbDl1ZXBqYUFlUw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "ANTPOOL, Block Inc, F2Pool, Foundry, Spiderpool, MARA Foundation & DMND Join Stratum v2 Working Group - Bitcoin Magazine",
+          "source": "Bitcoin Magazine",
+          "source_url": "https://bitcoinmagazine.com/news/antpool-block-inc-f2pool-foundry-spiderpool-dmnd-join-stratum-v2-working-group",
+          "publisher_homepage_url": "https://bitcoinmagazine.com",
+          "url": "https://bitcoinmagazine.com/news/antpool-block-inc-f2pool-foundry-spiderpool-dmnd-join-stratum-v2-working-group",
+          "published_at": "Thu, 07 May 2026 14:00:00 GMT",
+          "summary": "ANTPOOL, Block Inc, F2Pool, Foundry, Spiderpool, MARA Foundation & DMND Join Stratum v2 Working Group  Bitcoin Magazine",
+          "ticker": "XYZ",
+          "company_name": "Block Inc",
+          "query": "Block Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://bitcoinmagazine.com/news/antpool-block-inc-f2pool-foundry-spiderpool-dmnd-join-stratum-v2-working-group"
+        }
+      }
+    },
+    {
+      "article_index": 12,
+      "relevant": true,
+      "affected_tickers": [
+        "XYZ"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "XYZ stock climbs on strong Q1 earnings beat and raised 2026 guidance, directly impacting the growth position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOcTBJT29fbUVRNW9LaUh1Z01NUGo1YWpFcWoxVFE3c3o0UFNYUVJQZzY5QWV3bTZlcFVhMXkyTEtXVTl6YnBzQy1hc3I5cHdWaThXWnJJVlRIR0tmQ3J0T0swbVRIdkdNZGdwM3J3LWkyZDM4RDRCVHlrQ3RNRzJsWU9iQWhXQy05WWxoY21tTTVQeDFHVnpCcV9ELUUyeFJzZ2MxenBnQlZrdXMtQ01NVGg3V2x6dw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ba9bc9d4971361c24a4941075422a9dd37523a0876f44f83885f4fbef2ee7aaf",
+        "source_type": "company_news",
+        "source": "Seeking Alpha",
+        "source_url": "https://seekingalpha.com/news/4588935-block-stock-climbs-after-2026-guidance-boost-following-hefty-q1-earnings-beat",
+        "title": "Block stock climbs after 2026 guidance boost following hefty Q1 earnings beat (XYZ:NYSE) - Seeking Alpha",
+        "summary": "Block stock climbs after 2026 guidance boost following hefty Q1 earnings beat (XYZ:NYSE) Seeking Alpha",
+        "body": "Block stock climbs after 2026 guidance boost following hefty Q1 earnings beat (XYZ:NYSE) Seeking Alpha",
+        "evidence_quality": "title_only",
+        "url": "https://seekingalpha.com/news/4588935-block-stock-climbs-after-2026-guidance-boost-following-hefty-q1-earnings-beat",
+        "published_at": "Thu, 07 May 2026 20:24:32 GMT",
+        "ticker_hints": [
+          "XYZ"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOcTBJT29fbUVRNW9LaUh1Z01NUGo1YWpFcWoxVFE3c3o0UFNYUVJQZzY5QWV3bTZlcFVhMXkyTEtXVTl6YnBzQy1hc3I5cHdWaThXWnJJVlRIR0tmQ3J0T0swbVRIdkdNZGdwM3J3LWkyZDM4RDRCVHlrQ3RNRzJsWU9iQWhXQy05WWxoY21tTTVQeDFHVnpCcV9ELUUyeFJzZ2MxenBnQlZrdXMtQ01NVGg3V2x6dw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Block stock climbs after 2026 guidance boost following hefty Q1 earnings beat (XYZ:NYSE) - Seeking Alpha",
+          "source": "Seeking Alpha",
+          "source_url": "https://seekingalpha.com/news/4588935-block-stock-climbs-after-2026-guidance-boost-following-hefty-q1-earnings-beat",
+          "publisher_homepage_url": "https://seekingalpha.com",
+          "url": "https://seekingalpha.com/news/4588935-block-stock-climbs-after-2026-guidance-boost-following-hefty-q1-earnings-beat",
+          "published_at": "Thu, 07 May 2026 20:24:32 GMT",
+          "summary": "Block stock climbs after 2026 guidance boost following hefty Q1 earnings beat (XYZ:NYSE)  Seeking Alpha",
+          "ticker": "XYZ",
+          "company_name": "Block Inc",
+          "query": "Block Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://seekingalpha.com/news/4588935-block-stock-climbs-after-2026-guidance-boost-following-hefty-q1-earnings-beat"
+        }
+      }
+    },
+    {
+      "article_index": 13,
+      "relevant": true,
+      "affected_tickers": [
+        "XYZ"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "Earnings call transcript details guidance raise and Q1 performance, providing material information for the XYZ growth position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPUUV6Z00zWXl3TjJlYTlJa09qRHhlMGZ4ZG9VaGZEYndlQTZ5QkRPYk1OTEJXQU5aMGhNWDk3bFgyNnRMbHBjMk93N0ZDdkVLSGVuQTJYZkI0T3dyRWhCRDR1bzBFbElmd0J4SkJGV1hBdVlRZGlLSVRpSTl2SXNxbWJhU3FlZmRCQ1hwenoySjdFR0JoZEx4Z052QlhzN09mYlBQSWpiaWVwaGVKdC14cU5nc3ZkM09GQTBKTWxYTDR3RjQyanc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "8a97093bc4684453d4efd647adf400d10603b2414a438602ca248edcc0056285",
+        "source_type": "company_news",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-block-inc-raises-2026-guidance-after-strong-q1-93CH-4670955",
+        "title": "Earnings call transcript: Block Inc. raises 2026 guidance after strong Q1 - Investing.com",
+        "summary": "Earnings call transcript: Block Inc. raises 2026 guidance after strong Q1 Investing.com",
+        "body": "Earnings call transcript: Block Inc. raises 2026 guidance after strong Q1 Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://www.investing.com/news/transcripts/earnings-call-transcript-block-inc-raises-2026-guidance-after-strong-q1-93CH-4670955",
+        "published_at": "Fri, 08 May 2026 04:09:14 GMT",
+        "ticker_hints": [
+          "XYZ"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPUUV6Z00zWXl3TjJlYTlJa09qRHhlMGZ4ZG9VaGZEYndlQTZ5QkRPYk1OTEJXQU5aMGhNWDk3bFgyNnRMbHBjMk93N0ZDdkVLSGVuQTJYZkI0T3dyRWhCRDR1bzBFbElmd0J4SkJGV1hBdVlRZGlLSVRpSTl2SXNxbWJhU3FlZmRCQ1hwenoySjdFR0JoZEx4Z052QlhzN09mYlBQSWpiaWVwaGVKdC14cU5nc3ZkM09GQTBKTWxYTDR3RjQyanc?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Earnings call transcript: Block Inc. raises 2026 guidance after strong Q1 - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-block-inc-raises-2026-guidance-after-strong-q1-93CH-4670955",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://www.investing.com/news/transcripts/earnings-call-transcript-block-inc-raises-2026-guidance-after-strong-q1-93CH-4670955",
+          "published_at": "Fri, 08 May 2026 04:09:14 GMT",
+          "summary": "Earnings call transcript: Block Inc. raises 2026 guidance after strong Q1  Investing.com",
+          "ticker": "XYZ",
+          "company_name": "Block Inc",
+          "query": "Block Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.investing.com/news/transcripts/earnings-call-transcript-block-inc-raises-2026-guidance-after-strong-q1-93CH-4670955"
+        }
+      }
+    },
+    {
+      "article_index": 14,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOZnk3eUpueHJKVkNnc0dKU1lmWlZCc2dJVGNaRHVQMjJONTVMaWlJQWo2M2UwRTE4bkNNcHhCM0FmamNxc21mcU9WNUhWX092cHkxS0tDaXhhVWtHeWJ0M1RHZ2xQbUJyMW5oZmZhdlU0eVJzU1JQcmRWcEVTa2prU0ROTVBhUWdnUW9tMFhrVWJPWGUtZXhIYm84Z1NZZGJRT18xNWxfeVFjRzNSMElmRVd6VWE2YW9wWS04LTE3Z3E0RTNuVTkyajVxSG5YLXhNeE5pR2hR?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "c547de97393adbd29bc1aca9b591810fc9146d8e466b054a63840146e0697b90",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/bristol-myers-squibb-co-stock-underperforms-friday-when-compared-to-competitors-5cad0dd9-d249e5c08222",
+        "title": "Bristol Myers Squibb Co. stock underperforms Friday when compared to competitors - MarketWatch",
+        "summary": "Bristol Myers Squibb Co. stock underperforms Friday when compared to competitors MarketWatch",
+        "body": "Bristol Myers Squibb Co. stock underperforms Friday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/bristol-myers-squibb-co-stock-underperforms-friday-when-compared-to-competitors-5cad0dd9-d249e5c08222",
+        "published_at": "Fri, 01 May 2026 20:37:00 GMT",
+        "ticker_hints": [
+          "BMY"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOZnk3eUpueHJKVkNnc0dKU1lmWlZCc2dJVGNaRHVQMjJONTVMaWlJQWo2M2UwRTE4bkNNcHhCM0FmamNxc21mcU9WNUhWX092cHkxS0tDaXhhVWtHeWJ0M1RHZ2xQbUJyMW5oZmZhdlU0eVJzU1JQcmRWcEVTa2prU0ROTVBhUWdnUW9tMFhrVWJPWGUtZXhIYm84Z1NZZGJRT18xNWxfeVFjRzNSMElmRVd6VWE2YW9wWS04LTE3Z3E0RTNuVTkyajVxSG5YLXhNeE5pR2hR?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Bristol Myers Squibb Co. stock underperforms Friday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/bristol-myers-squibb-co-stock-underperforms-friday-when-compared-to-competitors-5cad0dd9-d249e5c08222",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/bristol-myers-squibb-co-stock-underperforms-friday-when-compared-to-competitors-5cad0dd9-d249e5c08222",
+          "published_at": "Fri, 01 May 2026 20:37:00 GMT",
+          "summary": "Bristol Myers Squibb Co. stock underperforms Friday when compared to competitors  MarketWatch",
+          "ticker": "BMY",
+          "company_name": "Bristol-Myers Squibb Co",
+          "query": "Bristol-Myers Squibb Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/bristol-myers-squibb-co-stock-underperforms-friday-when-compared-to-competitors-5cad0dd9-d249e5c08222"
+        }
+      }
+    },
+    {
+      "article_index": 15,
+      "relevant": true,
+      "affected_tickers": [
+        "BMY"
+      ],
+      "event_type": "sector",
+      "why_it_matters": "BMY as a major pharmaceutical company is directly affected by Big Pharma M&A trends driven by patent expiries, which could impact its growth prospects and strategic positioning.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNQVFadWV1VEhlZjF3cnNFdHpJZUMxWUdhTXdVYjZ4X3lycXE2b0gzTWpJSi1URTI1cUhqcG1uY2ZuR0Njc0s3ZDJpNkZYSG03SVZwZGozLU1sMGhoOW52d0xiWWtMOW1Sa3BKTEtuX0NYLUxBb2JmUF9iR3BsYnJUWGpwcDRaWWNtb3ppdUpKRnNiRU41V1VXZGs0b1ZOdlowZEtGYjVhUFpQY1o3Zk54cEU3X2tELTVDZnc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "ff57de2829b624e32b62e2362f4bd7ee7d5cdaa59e6ed90d0efd309c4f817e03",
+        "source_type": "company_news",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/legal/transactional/big-pharma-ma-set-mega-year-patent-expiries-drive-deal-urgency-2026-05-01/",
+        "title": "Big Pharma M&A set for mega year as patent expiries drive deal urgency - Reuters",
+        "summary": "Big Pharma M&A set for mega year as patent expiries drive deal urgency Reuters",
+        "body": "Big Pharma M&A set for mega year as patent expiries drive deal urgency Reuters",
+        "evidence_quality": "title_only",
+        "url": "https://www.reuters.com/legal/transactional/big-pharma-ma-set-mega-year-patent-expiries-drive-deal-urgency-2026-05-01/",
+        "published_at": "Fri, 01 May 2026 14:15:05 GMT",
+        "ticker_hints": [
+          "BMY"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNQVFadWV1VEhlZjF3cnNFdHpJZUMxWUdhTXdVYjZ4X3lycXE2b0gzTWpJSi1URTI1cUhqcG1uY2ZuR0Njc0s3ZDJpNkZYSG03SVZwZGozLU1sMGhoOW52d0xiWWtMOW1Sa3BKTEtuX0NYLUxBb2JmUF9iR3BsYnJUWGpwcDRaWWNtb3ppdUpKRnNiRU41V1VXZGs0b1ZOdlowZEtGYjVhUFpQY1o3Zk54cEU3X2tELTVDZnc?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Big Pharma M&A set for mega year as patent expiries drive deal urgency - Reuters",
+          "source": "Reuters",
+          "source_url": "https://www.reuters.com/legal/transactional/big-pharma-ma-set-mega-year-patent-expiries-drive-deal-urgency-2026-05-01/",
+          "publisher_homepage_url": "https://www.reuters.com",
+          "url": "https://www.reuters.com/legal/transactional/big-pharma-ma-set-mega-year-patent-expiries-drive-deal-urgency-2026-05-01/",
+          "published_at": "Fri, 01 May 2026 14:15:05 GMT",
+          "summary": "Big Pharma M&A set for mega year as patent expiries drive deal urgency  Reuters",
+          "ticker": "BMY",
+          "company_name": "Bristol-Myers Squibb Co",
+          "query": "Bristol-Myers Squibb Co",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.reuters.com/legal/transactional/big-pharma-ma-set-mega-year-patent-expiries-drive-deal-urgency-2026-05-01/"
+        }
+      }
+    },
+    {
+      "article_index": 16,
+      "relevant": true,
+      "affected_tickers": [
+        "CBRE"
+      ],
+      "event_type": "company_specific",
+      "why_it_matters": "CBRE's expansion of its U.S. property management asset management capabilities represents a direct business development that could drive growth for the held position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPZ3dTRUxiWFByd28wRFFwSHlDU2xHQi04THROUUJrcURGWnBiNlYteHdvci1ORmNNbWIxUWpxZmRVOHRyeTJLSlpTWVZxT3d5UmpwUnJ3bXZsenVQbFpIaHF0M3oxZUlaVEVyZVpoQmROcGo2aHZORXFLc1BnRDZ1YU40eU83cGhkRmk5c19jRXNpSzdoVlNGclZWMmk5bFVHWC1tSHpXUkJpTzRFRXZDTw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "19499d95498d0510c256fa40cde55ee21dcfb8836874a6c8c4c5cedbf13485db",
+        "source_type": "company_news",
+        "source": "CBRE",
+        "source_url": "https://www.cbre.com/press-releases/cbres-us-property-management-business-expands-asset-management-capabilities",
+        "title": "CBRE\u2019s U.S. Property Management Business Expands Asset Management Capabilities - CBRE",
+        "summary": "CBRE\u2019s U.S. Property Management Business Expands Asset Management Capabilities CBRE",
+        "body": "CBRE\u2019s U.S. Property Management Business Expands Asset Management Capabilities CBRE",
+        "evidence_quality": "title_only",
+        "url": "https://www.cbre.com/press-releases/cbres-us-property-management-business-expands-asset-management-capabilities",
+        "published_at": "Fri, 08 May 2026 00:03:35 GMT",
+        "ticker_hints": [
+          "CBRE"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPZ3dTRUxiWFByd28wRFFwSHlDU2xHQi04THROUUJrcURGWnBiNlYteHdvci1ORmNNbWIxUWpxZmRVOHRyeTJLSlpTWVZxT3d5UmpwUnJ3bXZsenVQbFpIaHF0M3oxZUlaVEVyZVpoQmROcGo2aHZORXFLc1BnRDZ1YU40eU83cGhkRmk5c19jRXNpSzdoVlNGclZWMmk5bFVHWC1tSHpXUkJpTzRFRXZDTw?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CBRE\u2019s U.S. Property Management Business Expands Asset Management Capabilities - CBRE",
+          "source": "CBRE",
+          "source_url": "https://www.cbre.com/press-releases/cbres-us-property-management-business-expands-asset-management-capabilities",
+          "publisher_homepage_url": "https://www.cbre.com",
+          "url": "https://www.cbre.com/press-releases/cbres-us-property-management-business-expands-asset-management-capabilities",
+          "published_at": "Fri, 08 May 2026 00:03:35 GMT",
+          "summary": "CBRE\u2019s U.S. Property Management Business Expands Asset Management Capabilities  CBRE",
+          "ticker": "CBRE",
+          "company_name": "CBRE Group Inc",
+          "query": "CBRE Group Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.cbre.com/press-releases/cbres-us-property-management-business-expands-asset-management-capabilities"
+        }
+      }
+    },
+    {
+      "article_index": 17,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a generic stock performance recap with no substantive information beyond noting CBRE outperformed on a given day.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQTU8wMHhicGpiMjRQMmFxWHZ2dWYtUEdxV2NBUTItZTB1ZEw2blY0STgyMzdIMVZwWXZGY0xPd0IxQVNDWG5DR3dSbVhzX3JUZDU1aDJLUGg0Um5HUTdxVy05NzZwWWotaHZaYzZ3NXQ2N3BZSngxNDFoMFlZeHM5RzlwRDA1a2JmanYySERsYk10SGpDSWFYSUloZ2hhNEhUMzRzcXk0dUUxZnlPWUpkeFFsVkpWd2NQZDd6RzJmZk1Kckg2RUxtMlhnTGswaG1ZenNRMVUzODJ4bDhxdFRuVkYzVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "f6b25a4e770550ad9fa92e3ed34c0421ddae8905b0683510975343fc2becb106",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/cbre-group-inc-cl-a-stock-outperforms-competitors-on-strong-trading-day-a7cd0e9a-9488a71b2f09?mod=mw_quote_news",
+        "title": "CBRE Group Inc. Cl A stock outperforms competitors on strong trading day - MarketWatch",
+        "summary": "CBRE Group Inc. Cl A stock outperforms competitors on strong trading day MarketWatch",
+        "body": "CBRE Group Inc. Cl A stock outperforms competitors on strong trading day MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/cbre-group-inc-cl-a-stock-outperforms-competitors-on-strong-trading-day-a7cd0e9a-9488a71b2f09?mod=mw_quote_news",
+        "published_at": "Thu, 07 May 2026 20:53:00 GMT",
+        "ticker_hints": [
+          "CBRE"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQTU8wMHhicGpiMjRQMmFxWHZ2dWYtUEdxV2NBUTItZTB1ZEw2blY0STgyMzdIMVZwWXZGY0xPd0IxQVNDWG5DR3dSbVhzX3JUZDU1aDJLUGg0Um5HUTdxVy05NzZwWWotaHZaYzZ3NXQ2N3BZSngxNDFoMFlZeHM5RzlwRDA1a2JmanYySERsYk10SGpDSWFYSUloZ2hhNEhUMzRzcXk0dUUxZnlPWUpkeFFsVkpWd2NQZDd6RzJmZk1Kckg2RUxtMlhnTGswaG1ZenNRMVUzODJ4bDhxdFRuVkYzVQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CBRE Group Inc. Cl A stock outperforms competitors on strong trading day - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/cbre-group-inc-cl-a-stock-outperforms-competitors-on-strong-trading-day-a7cd0e9a-9488a71b2f09?mod=mw_quote_news",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/cbre-group-inc-cl-a-stock-outperforms-competitors-on-strong-trading-day-a7cd0e9a-9488a71b2f09?mod=mw_quote_news",
+          "published_at": "Thu, 07 May 2026 20:53:00 GMT",
+          "summary": "CBRE Group Inc. Cl A stock outperforms competitors on strong trading day  MarketWatch",
+          "ticker": "CBRE",
+          "company_name": "CBRE Group Inc",
+          "query": "CBRE Group Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/cbre-group-inc-cl-a-stock-outperforms-competitors-on-strong-trading-day-a7cd0e9a-9488a71b2f09?mod=mw_quote_news"
+        }
+      }
+    },
+    {
+      "article_index": 18,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is a chart/earnings history page with no new information or analysis that would impact the CBRE position.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE51SGlQckZjWUpBZ1RSdUo0eDZjeS0tUmxOQi1hVTcxVVF0TTNJcnRqMDZqUEgwUWRoblhwOWpWcE42dW12VlBQbHJsQS1Ob21zRXZ4RVBGME15eTAwXzVwbg?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "8e84e4c709c8c530ea2435892c61c97f83e943c047d8deb76c15e1ceef3fdc32",
+        "source_type": "company_news",
+        "source": "ChartMill",
+        "source_url": "https://www.chartmill.com/stock/quote/CBRE/earnings",
+        "title": "CBRE Earnings History & Surprises | EPS & Revenue Results | CBRE GROUP INC - A (NYSE:CBRE) - ChartMill",
+        "summary": "CBRE Earnings History & Surprises | EPS & Revenue Results | CBRE GROUP INC - A (NYSE:CBRE) ChartMill",
+        "body": "CBRE Earnings History & Surprises | EPS & Revenue Results | CBRE GROUP INC - A (NYSE:CBRE) ChartMill",
+        "evidence_quality": "title_only",
+        "url": "https://www.chartmill.com/stock/quote/CBRE/earnings",
+        "published_at": "Mon, 04 May 2026 07:00:00 GMT",
+        "ticker_hints": [
+          "CBRE"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE51SGlQckZjWUpBZ1RSdUo0eDZjeS0tUmxOQi1hVTcxVVF0TTNJcnRqMDZqUEgwUWRoblhwOWpWcE42dW12VlBQbHJsQS1Ob21zRXZ4RVBGME15eTAwXzVwbg?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CBRE Earnings History & Surprises | EPS & Revenue Results | CBRE GROUP INC - A (NYSE:CBRE) - ChartMill",
+          "source": "ChartMill",
+          "source_url": "https://www.chartmill.com/stock/quote/CBRE/earnings",
+          "publisher_homepage_url": "https://www.chartmill.com",
+          "url": "https://www.chartmill.com/stock/quote/CBRE/earnings",
+          "published_at": "Mon, 04 May 2026 07:00:00 GMT",
+          "summary": "CBRE Earnings History & Surprises | EPS & Revenue Results | CBRE GROUP INC - A (NYSE:CBRE)  ChartMill",
+          "ticker": "CBRE",
+          "company_name": "CBRE Group Inc",
+          "query": "CBRE Group Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.chartmill.com/stock/quote/CBRE/earnings"
+        }
+      }
+    },
+    {
+      "article_index": 19,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Institutional ownership filings showing a single fund purchase are low-information recaps without direct impact on CNP's investment thesis.",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxOUmIyNFdsVF9OalVPTTU4MDY1YXV4M0Y2M2lvZURQSXlLS1YxWW9fSUp2SDNiSlBIdUE4cHpIRC1kZDhRMjJHMTluTTlQS1ZIUWV2U1RzUmh5ZEdLYUZka09VUXkxT1ByN0k2NG5SWUZXVDZUVmktcHZSc0p0by1Sam9FTzhCSlNkYVlEc0E5czg4czFFWk1CTVVrYUxGQVNxOVlhVi0zdTdCSWJ1OGdRbGF5bkpfeFNWeHdxQmdwNzhVOElwYW45Znl1ajNmUXYtYUh5MXMwTmVFNTRwTlJYcFNB?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "f25fe6551cf4d5fea46055244b5ce044fe9bc93a5283b8fe4d0a2492177978cb",
+        "source_type": "company_news",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com/instant-alerts/filing-artemis-investment-management-llp-purchases-781849-shares-of-centerpoint-energy-inc-cnp-2026-05-02/",
+        "title": "Artemis Investment Management LLP Purchases 781,849 Shares of CenterPoint Energy, Inc. $CNP - MarketBeat",
+        "summary": "Artemis Investment Management LLP Purchases 781,849 Shares of CenterPoint Energy, Inc. $CNP MarketBeat",
+        "body": "Artemis Investment Management LLP Purchases 781,849 Shares of CenterPoint Energy, Inc. $CNP MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketbeat.com/instant-alerts/filing-artemis-investment-management-llp-purchases-781849-shares-of-centerpoint-energy-inc-cnp-2026-05-02/",
+        "published_at": "Sat, 02 May 2026 07:24:47 GMT",
+        "ticker_hints": [
+          "CNP"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxOUmIyNFdsVF9OalVPTTU4MDY1YXV4M0Y2M2lvZURQSXlLS1YxWW9fSUp2SDNiSlBIdUE4cHpIRC1kZDhRMjJHMTluTTlQS1ZIUWV2U1RzUmh5ZEdLYUZka09VUXkxT1ByN0k2NG5SWUZXVDZUVmktcHZSc0p0by1Sam9FTzhCSlNkYVlEc0E5czg4czFFWk1CTVVrYUxGQVNxOVlhVi0zdTdCSWJ1OGdRbGF5bkpfeFNWeHdxQmdwNzhVOElwYW45Znl1ajNmUXYtYUh5MXMwTmVFNTRwTlJYcFNB?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "Artemis Investment Management LLP Purchases 781,849 Shares of CenterPoint Energy, Inc. $CNP - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com/instant-alerts/filing-artemis-investment-management-llp-purchases-781849-shares-of-centerpoint-energy-inc-cnp-2026-05-02/",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://www.marketbeat.com/instant-alerts/filing-artemis-investment-management-llp-purchases-781849-shares-of-centerpoint-energy-inc-cnp-2026-05-02/",
+          "published_at": "Sat, 02 May 2026 07:24:47 GMT",
+          "summary": "Artemis Investment Management LLP Purchases 781,849 Shares of CenterPoint Energy, Inc. $CNP  MarketBeat",
+          "ticker": "CNP",
+          "company_name": "CenterPoint Energy Inc",
+          "query": "CenterPoint Energy Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketbeat.com/instant-alerts/filing-artemis-investment-management-llp-purchases-781849-shares-of-centerpoint-energy-inc-cnp-2026-05-02/"
+        }
+      }
+    },
+    {
+      "article_index": 20,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxONHBBMUM4emM1cUhHVF9VdE9SaTdqMjNRT1lPc2g3S0dUek5SY0lMNDhOYkF2dDY5NW5TNU90UWdvbjJaRGN1c2U0aVJkYkNhN2tQUGxIWHU1b2JMLVdSVktyRW9LWDB0TDZuZWxQWUkyU3ptVnljSTZMUmhBeWVYNW82Z2xEbHZpSnJsYVVKNkE2azRla1V6UlBERnc2cnA4LWVqSUpOMVFyZDZmU3B1TktaZGFQcHNrbjdLV2p5RHkxTjlYNWJBLVpKbGFmbXYtQ1pYMmJHRkY?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "event_hash": "64543712f21edab93393d08bc4f0effa1004d0310e7e8f60992cd16ff0301644",
+        "source_type": "company_news",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com/data-news/centerpoint-energy-inc-stock-underperforms-wednesday-when-compared-to-competitors-d38a9cd2-768e697756bc",
+        "title": "CenterPoint Energy Inc. stock underperforms Wednesday when compared to competitors - MarketWatch",
+        "summary": "CenterPoint Energy Inc. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "body": "CenterPoint Energy Inc. stock underperforms Wednesday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://www.marketwatch.com/data-news/centerpoint-energy-inc-stock-underperforms-wednesday-when-compared-to-competitors-d38a9cd2-768e697756bc",
+        "published_at": "Wed, 06 May 2026 20:58:00 GMT",
+        "ticker_hints": [
+          "CNP"
+        ],
+        "sector_hint": null,
+        "raw": {
+          "id": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxONHBBMUM4emM1cUhHVF9VdE9SaTdqMjNRT1lPc2g3S0dUek5SY0lMNDhOYkF2dDY5NW5TNU90UWdvbjJaRGN1c2U0aVJkYkNhN2tQUGxIWHU1b2JMLVdSVktyRW9LWDB0TDZuZWxQWUkyU3ptVnljSTZMUmhBeWVYNW82Z2xEbHZpSnJsYVVKNkE2azRla1V6UlBERnc2cnA4LWVqSUpOMVFyZDZmU3B1TktaZGFQcHNrbjdLV2p5RHkxTjlYNWJBLVpKbGFmbXYtQ1pYMmJHRkY?oc=5&hl=en-US&gl=US&ceid=US:en",
+          "title": "CenterPoint Energy Inc. stock underperforms Wednesday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com/data-news/centerpoint-energy-inc-stock-underperforms-wednesday-when-compared-to-competitors-d38a9cd2-768e697756bc",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://www.marketwatch.com/data-news/centerpoint-energy-inc-stock-underperforms-wednesday-when-compared-to-competitors-d38a9cd2-768e697756bc",
+          "published_at": "Wed, 06 May 2026 20:58:00 GMT",
+          "summary": "CenterPoint Energy Inc. stock underperforms Wednesday when compared to competitors  MarketWatch",
+          "ticker": "CNP",
+          "company_name": "CenterPoint Energy Inc",
+          "query": "CenterPoint Energy Inc",
+          "source_type": "company_news",
+          "decoded_google_url": "https://www.marketwatch.com/data-news/centerpoint-energy-inc-stock-underperforms-wednesday-when-compared-to-competitors-d38a9cd2-768e697756bc"
+        }
+      }
+    },
+    {
+      "article_index": 21,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "This is general market commentary about tech stocks, which doesn't match any of the held positions (BAC is banking, BMY is pharma, CAH is healthcare distribution, CBRE is real estate, etc.).",
+      "article": {
+        "external_id": "108303481",
+        "event_hash": "186f623f611966e2e2247e433edafd5290f64b483d0f7d8211be92954f055afe",
+        "source_type": "cnbc_sector_rss",
+        "source": "Tech",
+        "source_url": "",
+        "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+        "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "body": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+        "evidence_quality": "title_only",
+        "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+        "published_at": "2026-05-08T07:34:09+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "108303481",
+          "title": "Tech stocks could offer their best value in years, analysts say, after stellar earnings season",
+          "source": "Tech",
+          "source_url": "",
+          "publisher_homepage_url": "",
+          "url": "https://www.cnbc.com/2026/05/08/us-tech-stocks-cheap-stellar-earnings-where-next.html",
+          "published_at": "2026-05-08T07:34:09+00:00",
+          "summary": "A succession of strong earnings seasons since then has allowed tech stocks to \"grow into\" their stock prices.",
+          "sector": "technology",
+          "source_type": "cnbc_sector_rss"
+        }
+      }
+    },
+    {
+      "article_index": 22,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+        "event_hash": "19a94d122eb7bd70af2c33c7cd24315522f743ca92601cb72fb84ee833a16a92",
+        "source_type": "cnbc_sector_rss",
+        "source": "TradingView",
+        "source_url": "https://www.tradingview.com",
+        "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+        "summary": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "body": "JTC Stock Price and Chart \u2014 KSE:JTC TradingView",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+        "published_at": "2026-04-12T07:00:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "logisticstransportation",
+        "raw": {
+          "id": "CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw",
+          "title": "JTC Stock Price and Chart \u2014 KSE:JTC - TradingView",
+          "source": "TradingView",
+          "source_url": "https://www.tradingview.com",
+          "publisher_homepage_url": "https://www.tradingview.com",
+          "url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5",
+          "published_at": "2026-04-12T07:00:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiV0FVX3lxTFBlYURRYUpBTEhuS2Q4TDVIeTdYX3pVZ1FLM2FWaU5namFzSXgzYklKNkN0QmE3V0hISXdZX2prWHBZc3lRS01CRElSdC1hcWs2RWswTkFWdw?oc=5\" target=\"_blank\">JTC Stock Price and Chart \u2014 KSE:JTC</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">TradingView</font>",
+          "sector": "logisticstransportation",
+          "source_type": "google_sector_rss",
+          "query": "logisticstransportation stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 23,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+        "event_hash": "9035f9df36440ab60206c92d8645173fd1048cfb5d04a1d7ac0ac7d298352c54",
+        "source_type": "cnbc_sector_rss",
+        "source": "Investing.com",
+        "source_url": "https://www.investing.com",
+        "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+        "summary": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "body": "UBS raises Delta Air Lines stock price target on margin expansion path Investing.com",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+        "published_at": "2026-05-07T15:52:40+00:00",
+        "ticker_hints": [],
+        "sector_hint": "airlines",
+        "raw": {
+          "id": "CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB",
+          "title": "UBS raises Delta Air Lines stock price target on margin expansion path - Investing.com",
+          "source": "Investing.com",
+          "source_url": "https://www.investing.com",
+          "publisher_homepage_url": "https://www.investing.com",
+          "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5",
+          "published_at": "2026-05-07T15:52:40+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiygFBVV95cUxNX0VjNUlWQzJneml5a1FwNVBEdXAtdXpRb1IzdGFiNDlvT1RobG1wbjN5SW1fWHNCYjZubVhWWlZyc3lhZWZCNnAyS3dHNjlrbkJFUDZpb1dYb2NmdEROeDhYTHRzZGlVY0YwOEdDcUx0c01YUU01Ukd3LVU1ZlU2ZFE2SWNaQjlZSDkxX3B3ZGNkNTFzWXRQLU1NRDlmWVExTUFINzdVWkNGMEhkbC1mNHdKanlZbVFua1NKbF9XZ1RXNGJDMl9jRFdB?oc=5\" target=\"_blank\">UBS raises Delta Air Lines stock price target on margin expansion path</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Investing.com</font>",
+          "sector": "airlines",
+          "source_type": "google_sector_rss",
+          "query": "airlines stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 24,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+        "event_hash": "7781e95f875227fa69d82f20e4e003cb6ecab937f7d2e893b2a4726e74c9e5fd",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketBeat",
+        "source_url": "https://www.marketbeat.com",
+        "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+        "summary": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "body": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? MarketBeat",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+        "published_at": "2026-05-07T23:12:41+00:00",
+        "ticker_hints": [],
+        "sector_hint": "energy",
+        "raw": {
+          "id": "CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA",
+          "title": "Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next? - MarketBeat",
+          "source": "MarketBeat",
+          "source_url": "https://www.marketbeat.com",
+          "publisher_homepage_url": "https://www.marketbeat.com",
+          "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5",
+          "published_at": "2026-05-07T23:12:41+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMipwFBVV95cUxQcDJpQjYtbmFfQTdtV2hVbmxLMVE2Zm9aT25FWnJ3TlE3X2RFMnE5c0VsTWEzbjFxZllEQ3g4NVdsUU1VRGpyLXpRbW5qZWtJeG1ZbHVncW44Y2ViaUMwVnpQZjVGTXp3NVdRN2cyTURPVkxUVWlCQlhkazRLTUYwS3dCX3dyeDJvZ2FHYUN1OFhHd0RncEpnU2RxVE9KUnJDTjhBMUtQOA?oc=5\" target=\"_blank\">Bloom Energy (NYSE:BE) Stock Price Down 9.2% - What's Next?</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketBeat</font>",
+          "sector": "energy",
+          "source_type": "google_sector_rss",
+          "query": "energy stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 25,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+        "event_hash": "9dec2ef7a51804cfd1809a68859a9bc47e4042623ad126cfb5cd0d857f04debb",
+        "source_type": "cnbc_sector_rss",
+        "source": "Frontiers",
+        "source_url": "https://www.frontiersin.org",
+        "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+        "summary": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "body": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting Frontiers",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+        "published_at": "2025-12-15T16:18:58+00:00",
+        "ticker_hints": [],
+        "sector_hint": "machinery",
+        "raw": {
+          "id": "CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE",
+          "title": "Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting - Frontiers",
+          "source": "Frontiers",
+          "source_url": "https://www.frontiersin.org",
+          "publisher_homepage_url": "https://www.frontiersin.org",
+          "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5",
+          "published_at": "2025-12-15T16:18:58+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMiogFBVV95cUxQdTRNeEhkeFQ5SmlpNVlIRUxNS3lKTlVmampPSVR6blRiaEQ3VVpORkZncXV4NS1NMnhxanRmMGphZEh5djY3RkdZeGFScWJOQ3hQajV0a040Tjd3U3pKTFQ1M3JJN0JBdGo3RS1WY1BUV21nQW1kX0ZMTndtNktPWTJEY01EYlhIb25iTldNOU5FMEpTM2NxMDUxNm51Q3J2WVE?oc=5\" target=\"_blank\">Artificial intelligence in financial market prediction: advancements in machine learning for stock price forecasting</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">Frontiers</font>",
+          "sector": "machinery",
+          "source_type": "google_sector_rss",
+          "query": "machinery stock market news"
+        }
+      }
+    },
+    {
+      "article_index": 26,
+      "relevant": false,
+      "affected_tickers": [],
+      "event_type": "irrelevant",
+      "why_it_matters": "Low-information quote or chart page",
+      "article": {
+        "external_id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+        "event_hash": "c268de142bba78da5290b86120bd17a1423dbdf9bce07676bae9afc9f41e2536",
+        "source_type": "cnbc_sector_rss",
+        "source": "MarketWatch",
+        "source_url": "https://www.marketwatch.com",
+        "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+        "summary": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "body": "Align Technology Inc. stock underperforms Thursday when compared to competitors MarketWatch",
+        "evidence_quality": "title_only",
+        "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+        "published_at": "2026-05-07T21:14:00+00:00",
+        "ticker_hints": [],
+        "sector_hint": "technology",
+        "raw": {
+          "id": "CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA",
+          "title": "Align Technology Inc. stock underperforms Thursday when compared to competitors - MarketWatch",
+          "source": "MarketWatch",
+          "source_url": "https://www.marketwatch.com",
+          "publisher_homepage_url": "https://www.marketwatch.com",
+          "url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5",
+          "published_at": "2026-05-07T21:14:00+00:00",
+          "summary": "<a href=\"https://news.google.com/rss/articles/CBMi7AFBVV95cUxQTExMZUljTGxQTW0tWDdsc1d3em82bjNmSXh2QkhGeTUway03aE5oV1BHMklZV3dPTWdXc2NSNUtfV2FZZmUzaDRDcFFTY3ZKbC05bVJhOHRWck13R0FlbnpvWXl0RVl3eFlTSmc1VUZtLUdJc3RrV3FTMGZmTVVMNGllVktlRG43LUw4bkdxaV9IZjFLemtxZnhMcG05ZGFGaXliUVJCOC1kSnVYUGhiQTlSUTB2NHk5Uy10OWtKQ0ZLdC02MVM4RDBVZFY0Q3FmZk45aVVOSV9VSG9kTkRkb1pRY1JDTUxqWm9ZTA?oc=5\" target=\"_blank\">Align Technology Inc. stock underperforms Thursday when compared to competitors</a>&nbsp;&nbsp;<font color=\"#6f6f6f\">MarketWatch</font>",
+          "sector": "technology",
+          "source_type": "google_sector_rss",
+          "query": "technology stock market news"
+        }
+      }
+    }
+  ]
+}

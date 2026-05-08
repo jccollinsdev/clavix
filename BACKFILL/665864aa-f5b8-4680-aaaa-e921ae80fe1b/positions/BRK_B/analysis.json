@@ -1,0 +1,379 @@
+{
+  "position": {
+    "id": "e3058efe-d014-4f85-bcf5-31e7d6685876",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "BRK.B",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 465.52,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null
+  },
+  "inferred_labels": [
+    "growth"
+  ],
+  "related_articles": [
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQTXpMMVJ5bmVROTFvY2psbkR6Sl94bk1EVjV5dlg2bjlhZGl2eGQyd2RlUk84cDAxZFc0cUlCMEdSMXEwNFUtenJha1loMGQtNDJvT01CY192R3JTd1JDNnlSdTQ1LTRySHVWc3pQb0hMUFVzVWVDM1FzNEJTMmRMTktMM1JRY2ZiTFFweUJTOFpWd3pCZG9sT3ZVTWljY05EZDdJYjk0ZWZEVEZRTDZxVlJlRU1VZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://seekingalpha.com/news/4584446-berkshire-hathaway-ceo-abel-stresses-technology-opportunity-at-annual-meeting",
+        "query": "Berkshire Hathaway Inc",
+        "title": "Berkshire Hathaway CEO Abel stresses technology opportunity at annual meeting (BRK.A:NYSE) - Seeking Alpha",
+        "source": "Seeking Alpha",
+        "ticker": "BRK.B",
+        "summary": "Berkshire Hathaway CEO Abel stresses technology opportunity at annual meeting (BRK.A:NYSE)  Seeking Alpha",
+        "source_url": "https://seekingalpha.com/news/4584446-berkshire-hathaway-ceo-abel-stresses-technology-opportunity-at-annual-meeting",
+        "source_type": "company_news",
+        "company_name": "Berkshire Hathaway Inc",
+        "published_at": "Sat, 02 May 2026 14:59:49 GMT",
+        "decoded_google_url": "https://seekingalpha.com/news/4584446-berkshire-hathaway-ceo-abel-stresses-technology-opportunity-at-annual-meeting",
+        "publisher_homepage_url": "https://seekingalpha.com"
+      },
+      "url": "https://seekingalpha.com/news/4584446-berkshire-hathaway-ceo-abel-stresses-technology-opportunity-at-annual-meeting",
+      "body": "Berkshire Hathaway CEO Abel stresses technology opportunity at annual meeting (BRK.A:NYSE) Seeking Alpha",
+      "title": "Berkshire Hathaway CEO Abel stresses technology opportunity at annual meeting (BRK.A:NYSE) - Seeking Alpha",
+      "source": "Seeking Alpha",
+      "summary": "Berkshire Hathaway CEO Abel stresses technology opportunity at annual meeting (BRK.A:NYSE) Seeking Alpha",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Berkshire Hathaway CEO discussed technology opportunities at the annual meeting, directly relevant to the BRK.B position held in the portfolio.",
+        "affected_tickers": [
+          "BRK.B"
+        ],
+        "evidence_quality": "title_only"
+      },
+      "event_hash": "0b5e69db85374842b8b3dc30971466d40bcd3b3f02e7185fe170da9dc6fcb26c",
+      "source_url": "https://seekingalpha.com/news/4584446-berkshire-hathaway-ceo-abel-stresses-technology-opportunity-at-annual-meeting",
+      "external_id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQTXpMMVJ5bmVROTFvY2psbkR6Sl94bk1EVjV5dlg2bjlhZGl2eGQyd2RlUk84cDAxZFc0cUlCMEdSMXEwNFUtenJha1loMGQtNDJvT01CY192R3JTd1JDNnlSdTQ1LTRySHVWc3pQb0hMUFVzVWVDM1FzNEJTMmRMTktMM1JRY2ZiTFFweUJTOFpWd3pCZG9sT3ZVTWljY05EZDdJYjk0ZWZEVEZRTDZxVlJlRU1VZw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Sat, 02 May 2026 14:59:49 GMT",
+      "ticker_hints": [
+        "BRK.B"
+      ],
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584446-berkshire-hathaway-ceo-abel-stresses-technology-opportunity-at-annual-meeting'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "evidence_quality": "title_only",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584446-berkshire-hathaway-ceo-abel-stresses-technology-opportunity-at-annual-meeting'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      },
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584446-berkshire-hathaway-ceo-abel-stresses-technology-opportunity-at-annual-meeting'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNWERVeDFSVnBOOURDZGh6aGh3ZnVRX3VRV0FjMzN2TVNlbFlMMVNyNGxiczNFZ2tDM002Z0JsTFM0eHc3c0FheG5UQTI1QVlNRUlNemVDUmw4UGZua25WTGNucm9oS1c1eVpZanVXWkU4eHpqYl9uRFBLNEU3SVBsUEN5M2ZKcHgtTzFwcmhPQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "f579c468315240c1f708df509049d1fc2813533056874ceb2bb3b08e93045dc1",
+      "source_type": "company_news",
+      "source": "Reuters",
+      "source_url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+      "title": "Berkshire Hathaway profit rises despite consumer stress, cash sets record - Reuters",
+      "summary": "Berkshire Hathaway profit rises despite consumer stress, cash sets record Reuters",
+      "body": "Berkshire Hathaway profit rises despite consumer stress, cash sets record Reuters",
+      "evidence_quality": "title_only",
+      "url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+      "published_at": "Sat, 02 May 2026 15:13:29 GMT",
+      "ticker_hints": [
+        "BRK.B"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNWERVeDFSVnBOOURDZGh6aGh3ZnVRX3VRV0FjMzN2TVNlbFlMMVNyNGxiczNFZ2tDM002Z0JsTFM0eHc3c0FheG5UQTI1QVlNRUlNemVDUmw4UGZua25WTGNucm9oS1c1eVpZanVXWkU4eHpqYl9uRFBLNEU3SVBsUEN5M2ZKcHgtTzFwcmhPQQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Berkshire Hathaway profit rises despite consumer stress, cash sets record - Reuters",
+        "source": "Reuters",
+        "source_url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+        "publisher_homepage_url": "https://www.reuters.com",
+        "url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+        "published_at": "Sat, 02 May 2026 15:13:29 GMT",
+        "summary": "Berkshire Hathaway profit rises despite consumer stress, cash sets record  Reuters",
+        "ticker": "BRK.B",
+        "company_name": "Berkshire Hathaway Inc",
+        "query": "Berkshire Hathaway Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "BRK.B"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Q1 profit rise and record cash position is directly material to BRK.B valuation and investment thesis.",
+        "evidence_quality": "title_only"
+      },
+      "scrape_status": "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401",
+      "resolution_debug": {
+        "error": "Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401"
+      }
+    },
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcUdOdEtvVmhvTmktRlIxX2NzTnJpNTFHODdxaE03dzViWkZzUUQ4bzRIZTc1YVF3alZhaEVJZFc4NDl2cFpVSWN3WkpITmZfRzBEbWhNM2NDeXhmb2xLWjBnMDM3TjdLWmV1cTV1YlEwMlFsV2pLaHRrUHVBYkRMZkQ1eEc?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+        "query": "Berkshire Hathaway Inc",
+        "title": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter - Financial Times",
+        "source": "Financial Times",
+        "ticker": "BRK.B",
+        "summary": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter  Financial Times",
+        "source_url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+        "source_type": "company_news",
+        "company_name": "Berkshire Hathaway Inc",
+        "published_at": "Sat, 02 May 2026 12:39:44 GMT",
+        "decoded_google_url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+        "publisher_homepage_url": "https://www.ft.com"
+      },
+      "url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+      "body": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times",
+      "title": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter - Financial Times",
+      "source": "Financial Times",
+      "summary": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Substantive financial reporting on Berkshire's $380bn cash pile and 14-quarter stock selling streak informs capital allocation assessment for BRK.B.",
+        "affected_tickers": [
+          "BRK.B"
+        ],
+        "evidence_quality": "title_only"
+      },
+      "event_hash": "faa3dcb837ebc229795ecd5d9ffb1491d0c8821b3ee0e5850076712f133a2cb2",
+      "source_url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+      "external_id": "https://news.google.com/rss/articles/CBMihAFBVV95cUxOcUdOdEtvVmhvTmktRlIxX2NzTnJpNTFHODdxaE03dzViWkZzUUQ4bzRIZTc1YVF3alZhaEVJZFc4NDl2cFpVSWN3WkpITmZfRzBEbWhNM2NDeXhmb2xLWjBnMDM3TjdLWmV1cTV1YlEwMlFsV2pLaHRrUHVBYkRMZkQ1eEc?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Sat, 02 May 2026 12:39:44 GMT",
+      "ticker_hints": [
+        "BRK.B"
+      ],
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "evidence_quality": "title_only",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      },
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    }
+  ],
+  "event_analyses": [],
+  "position_report": {
+    "summary": "BRK.B's current risk profile leans growth. The dominant read is mixed \u2014 no single force clearly dominates, based on 0 tracked developments.",
+    "long_report": "BRK.B is classified as growth. The most relevant developments were . 0 item(s) flagged downside pressure and 0 pointed to improvement. This rating is limited-data \u2014 a single new filing, earnings surprise, or regulatory update could shift the rating materially.",
+    "methodology": "Summary assembled from event-level analysis. LLM synthesis was unavailable for this position.",
+    "top_risks": [
+      "A single new article or filing could materially change the risk rating."
+    ],
+    "watch_items": [
+      "Check for new company-specific news, guidance, or filings that change the setup."
+    ],
+    "risk_context": [],
+    "driver_cards": [
+      {
+        "id": "faa3dcb837ebc229795ecd5d9ffb1491d0c8821b3ee0e5850076712f133a2cb2",
+        "rank": 1,
+        "title": "Earnings trajectory is uncertain",
+        "summary": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times",
+        "strength": "limited",
+        "direction": "neutral",
+        "theme": "earnings_risk",
+        "source_chips": [
+          "Financial Times"
+        ],
+        "supporting_event_ids": [],
+        "supporting_news_ids": [],
+        "supporting_evidence": [
+          {
+            "id": "",
+            "kind": "news_item",
+            "title": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter - Financial Times",
+            "summary": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times",
+            "source": "Financial Times",
+            "url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+            "published_at": "Sat, 02 May 2026 12:39:44 GMT",
+            "confidence": 0.5,
+            "event_id": null,
+            "news_id": null,
+            "alert_id": null
+          }
+        ]
+      },
+      {
+        "id": "f579c468315240c1f708df509049d1fc2813533056874ceb2bb3b08e93045dc1",
+        "rank": 2,
+        "title": "Liquidity position is adequate",
+        "summary": "Liquidity is sufficient for near-term operations but provides no meaningful buffer beyond 12 months.",
+        "strength": "limited",
+        "direction": "neutral",
+        "theme": "liquidity_risk",
+        "source_chips": [
+          "Reuters"
+        ],
+        "supporting_event_ids": [],
+        "supporting_news_ids": [],
+        "supporting_evidence": [
+          {
+            "id": "",
+            "kind": "news_item",
+            "title": "Berkshire Hathaway profit rises despite consumer stress, cash sets record - Reuters",
+            "summary": "Berkshire Hathaway profit rises despite consumer stress, cash sets record Reuters",
+            "source": "Reuters",
+            "url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+            "published_at": "Sat, 02 May 2026 15:13:29 GMT",
+            "confidence": 0.5,
+            "event_id": null,
+            "news_id": null,
+            "alert_id": null
+          }
+        ]
+      }
+    ],
+    "driver_cards_state": "ready",
+    "driver_cards_source": "generated"
+  },
+  "position_payload": {
+    "id": "e3058efe-d014-4f85-bcf5-31e7d6685876",
+    "user_id": "00000000-0000-0000-0000-000000000001",
+    "ticker": "BRK.B",
+    "shares": 0.0,
+    "purchase_price": 0.0,
+    "archetype": "growth",
+    "created_at": "2026-04-13T00:47:15.797313+00:00",
+    "updated_at": "2026-04-13T00:47:15.797313+00:00",
+    "current_price": 475.08,
+    "analysis_started_at": null,
+    "synced_from_brokerage": false,
+    "brokerage_authorization_id": null,
+    "brokerage_account_id": null,
+    "brokerage_last_synced_at": null,
+    "analysis_mode": "sp500_backfill",
+    "previous_grade": "B",
+    "previous_total_score": 67.2,
+    "summary": "BRK.B's current risk profile leans growth. The dominant read is mixed \u2014 no single force clearly dominates, based on 0 tracked developments.",
+    "long_report": "BRK.B is classified as growth. The most relevant developments were . 0 item(s) flagged downside pressure and 0 pointed to improvement. This rating is limited-data \u2014 a single new filing, earnings surprise, or regulatory update could shift the rating materially.",
+    "top_risks": [
+      "A single new article or filing could materially change the risk rating."
+    ],
+    "watch_items": [
+      "Check for new company-specific news, guidance, or filings that change the setup."
+    ],
+    "top_news": [
+      "Berkshire Hathaway CEO Abel stresses technology opportunity at annual meeting (BRK.A:NYSE) - Seeking Alpha",
+      "Berkshire Hathaway profit rises despite consumer stress, cash sets record - Reuters",
+      "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter - Financial Times"
+    ],
+    "driver_cards": [
+      {
+        "id": "faa3dcb837ebc229795ecd5d9ffb1491d0c8821b3ee0e5850076712f133a2cb2",
+        "rank": 1,
+        "title": "Earnings trajectory is uncertain",
+        "summary": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times",
+        "strength": "limited",
+        "direction": "neutral",
+        "theme": "earnings_risk",
+        "source_chips": [
+          "Financial Times"
+        ],
+        "supporting_event_ids": [],
+        "supporting_news_ids": [],
+        "supporting_evidence": [
+          {
+            "id": "",
+            "kind": "news_item",
+            "title": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter - Financial Times",
+            "summary": "Berkshire cash pile climbs to $380bn as stock sales streak hits 14th quarter Financial Times",
+            "source": "Financial Times",
+            "url": "https://www.ft.com/content/6701283e-6b4f-415d-8be2-bae35d74fe74?syn-25a6b1a6=1",
+            "published_at": "Sat, 02 May 2026 12:39:44 GMT",
+            "confidence": 0.5,
+            "event_id": null,
+            "news_id": null,
+            "alert_id": null
+          }
+        ]
+      },
+      {
+        "id": "f579c468315240c1f708df509049d1fc2813533056874ceb2bb3b08e93045dc1",
+        "rank": 2,
+        "title": "Liquidity position is adequate",
+        "summary": "Liquidity is sufficient for near-term operations but provides no meaningful buffer beyond 12 months.",
+        "strength": "limited",
+        "direction": "neutral",
+        "theme": "liquidity_risk",
+        "source_chips": [
+          "Reuters"
+        ],
+        "supporting_event_ids": [],
+        "supporting_news_ids": [],
+        "supporting_evidence": [
+          {
+            "id": "",
+            "kind": "news_item",
+            "title": "Berkshire Hathaway profit rises despite consumer stress, cash sets record - Reuters",
+            "summary": "Berkshire Hathaway profit rises despite consumer stress, cash sets record Reuters",
+            "source": "Reuters",
+            "url": "https://www.reuters.com/business/berkshire-hathaway-operating-profit-rises-2026-05-02/",
+            "published_at": "Sat, 02 May 2026 15:13:29 GMT",
+            "confidence": 0.5,
+            "event_id": null,
+            "news_id": null,
+            "alert_id": null
+          }
+        ]
+      }
+    ],
+    "driver_cards_state": "ready",
+    "driver_cards_source": "generated",
+    "inferred_labels": [
+      "growth"
+    ],
+    "methodology": "Summary assembled from event-level analysis. LLM synthesis was unavailable for this position.",
+    "thesis_verifier": [],
+    "event_analyses": [],
+    "ticker_metadata": {
+      "id": "b8ccba54-b351-454d-8520-330e7b6af28b",
+      "ticker": "BRK.B",
+      "company_name": "Berkshire Hathaway Inc",
+      "asset_class": null,
+      "sector": "Financial Services",
+      "industry": null,
+      "exchange": "NEW YORK STOCK EXCHANGE, INC.",
+      "market_cap": 1028781935385.5056,
+      "market_cap_bucket": "very_high",
+      "float_shares": null,
+      "avg_daily_dollar_volume": 80763.59999999999,
+      "spread_proxy": 0.001,
+      "beta": 0.24421969,
+      "volatility_proxy": 0.0610549225,
+      "profitability_profile": "mixed",
+      "leverage_profile": "moderate",
+      "macro_sensitivity": null,
+      "structural_fragility": null,
+      "liquidity_risk": null,
+      "updated_at": "2026-05-08T10:32:50.337924+00:00",
+      "created_at": "2026-04-12T21:59:49.143799+00:00",
+      "pe_ratio": 15.3623,
+      "week_52_high": 782014.25,
+      "week_52_low": 685150,
+      "price": 475.08,
+      "price_as_of": "2026-05-08T10:32:50.329811+00:00",
+      "avg_volume": 0.00017,
+      "previous_close": 469.83,
+      "open_price": 469.255,
+      "day_high": 477.19,
+      "day_low": 468.97,
+      "last_price_source": "finnhub",
+      "is_supported": true
+    },
+    "macro_impact": {
+      "ticker": "BRK.B",
+      "macro_relevance": "neutral",
+      "impact_summary": "No clear overnight macro read-through for this holding; company-specific developments remain the primary context unless new sector news broadens out."
+    }
+  }
+}

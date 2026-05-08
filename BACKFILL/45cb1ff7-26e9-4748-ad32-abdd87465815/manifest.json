@@ -1,0 +1,20 @@
+{
+  "run_id": "45cb1ff7-26e9-4748-ad32-abdd87465815",
+  "started_at": "2026-05-08T11:51:00.604185+00:00",
+  "label": "sp500_backfill_batch_6",
+  "user_id": "00000000-0000-0000-0000-000000000001",
+  "triggered_by": "scheduled",
+  "target_position_id": null,
+  "target_tickers": [
+    "SCHW",
+    "BRO",
+    "AAPL",
+    "AVY",
+    "ADM",
+    "CNC",
+    "CVNA",
+    "CRL",
+    "CASY",
+    "CBOE"
+  ]
+}

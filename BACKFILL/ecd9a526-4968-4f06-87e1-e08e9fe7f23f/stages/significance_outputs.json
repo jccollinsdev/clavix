@@ -1,0 +1,171 @@
+{
+  "articles_classified": [
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNVlcxelFuRFJ0SWpxRlZfZTEtR1BFclB3NmpzMU44Q2Z2WkQtNW96S1RGRW01dS1VM2VnZ0dHQzVaN3IwV3pOVTV5UmZjVHVIYk5fZ0RGVDEzdnoyblhaamlqMlR0UWFSaHdsOWRqYkdobDh4LXNFVDRUdnhpT0NxcldVZUZjXzR1VjFvWWRYQnNfb3drcVloS0tGbw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "767f9b5b195b2229411de64ccb25a490067d9b30120d92b1d8bb40cbc07c1bf7",
+      "source_type": "company_news",
+      "source": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/markets/stocks/articles/advanced-micro-devices-inc-amd-210033600.html",
+      "title": "Advanced Micro Devices, Inc. (AMD): Gap with NVIDIA Widening? - Yahoo Finance",
+      "summary": "Advanced Micro Devices, Inc. (AMD): Gap with NVIDIA Widening? Yahoo Finance",
+      "body": "We just covered Sell These 4 Stocks and Go All In on These 3 Stocks Before May 9th for 100x Returns? and Advanced Micro Devices, Inc. (NASDAQ:AMD) ranks 6th on this list.\n\nAdvanced Micro Devices, Inc. (NASDAQ:AMD) is the biggest competitor of NVIDIA in the AI and GPU universe. However, Instagram influencers have highlighted the absolute gap between AMD and NVIDIA that is actually widening in dollar terms. The data center revenue for the latter reached nearly $194 billion in FY2026, while the Instinct GPU revenue of the former is estimated at $7\u2013$8 billion. Finance influencers argue that while AMD is winning the right to exist, it is not yet winning the war, as NVIDIA grows by tens of billions per quarter while AMD grows by single billions. The ROCm software ecosystem of AMD is still playing catch-up to NVIDIA CUDA. Tiktokers have pointed out that AMD MI300X chips often deliver only 45% of their theoretical peak performance in real-world settings due to software maturity issues, compared to over 90% for NVIDIA.\n\nAdvanced Micro Devices, Inc. (NASDAQ:AMD) is also unlucky in the sense that it is caught between two dominant chip industry titans, forcing it to spend heavily on development for both CPUs and GPUs. For example, the Q1 2026 earnings of Intel show improved manufacturing yields that pose a renewed threat to AMD EPYC server dominance. Another important factor is AMD\u2019s reliance on TSMC. For comparisons, Intel is a manufacturing powerhouse",
+      "evidence_quality": "full_body",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/advanced-micro-devices-inc-amd-210033600.html",
+      "published_at": "Thu, 07 May 2026 21:00:33 GMT",
+      "ticker_hints": [
+        "AMD"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNVlcxelFuRFJ0SWpxRlZfZTEtR1BFclB3NmpzMU44Q2Z2WkQtNW96S1RGRW01dS1VM2VnZ0dHQzVaN3IwV3pOVTV5UmZjVHVIYk5fZ0RGVDEzdnoyblhaamlqMlR0UWFSaHdsOWRqYkdobDh4LXNFVDRUdnhpT0NxcldVZUZjXzR1VjFvWWRYQnNfb3drcVloS0tGbw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Advanced Micro Devices, Inc. (AMD): Gap with NVIDIA Widening? - Yahoo Finance",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/advanced-micro-devices-inc-amd-210033600.html",
+        "publisher_homepage_url": "https://finance.yahoo.com",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/advanced-micro-devices-inc-amd-210033600.html",
+        "published_at": "Thu, 07 May 2026 21:00:33 GMT",
+        "summary": "Advanced Micro Devices, Inc. (AMD): Gap with NVIDIA Widening?  Yahoo Finance",
+        "ticker": "AMD",
+        "company_name": "Advanced Micro Devices Inc",
+        "query": "Advanced Micro Devices Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/advanced-micro-devices-inc-amd-210033600.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "AMD"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Article directly discusses AMD's competitive positioning against NVIDIA, which is material to AMD's growth prospects as a held position.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://finance.yahoo.com/markets/stocks/articles/advanced-micro-devices-inc-amd-210033600.html",
+      "content_source": "finance.yahoo.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 242,
+          "title_hits": 8,
+          "resolved_host": "finance.yahoo.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "html"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQUENwVVRHR2pFNlFYdzZ0WDR1aDJjV2dUT0NxaXZWaFVXSGdoMUpSZUlSOHY0U1MzcDBxVU5VRFVLVVpqeHBpc1UtbURoeWN2NnRGM18yeFF2LXpyajhjWWNQNDBlN2k1VVU5cVFibG12Ymc5N3ZZX0NTREhycGdadW54ZFByYnllU0dmaWpaZlNTZmdKZ3BhZmxadw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "0ff4d5a9fa5e5f8e562ad710d17a7c63924e8cbe7bc03494126fbbe3d47b37c3",
+      "source_type": "company_news",
+      "source": "Yahoo Finance",
+      "source_url": "https://finance.yahoo.com/markets/stocks/articles/hold-fold-super-micro-computer-163600098.html",
+      "title": "Should You Hold or Fold Super Micro Computer Stock Before Q3 Earnings? - Yahoo Finance",
+      "summary": "Should You Hold or Fold Super Micro Computer Stock Before Q3 Earnings? Yahoo Finance",
+      "body": "Super Micro Computer, Inc. SMCI is set to report its third-quarter fiscal 2026 results on May 5, 2026, after market close.\n\nFor the fiscal third quarter, the company expects revenues to be $12.3 billion. The Zacks Consensus Estimate is pegged at $12.4 billion, indicating growth of 168.75% from the year-ago quarter\u2019s reported value.\n\nSuper Micro Computer expects non-GAAP earnings per share of 60 cents. The Zacks Consensus Estimate for earnings is pegged at 63 cents per share, suggesting a rise of 103.2% from the year-ago reported figure. The figure has remained unchanged over the past 60 days.\n\nSMCI\u2019s earnings beat the Zacks Consensus Estimate thrice in the trailing four quarters while missing once, delivering an average surprise of 15.58%.\n\nSuper Micro Computer, Inc. price-eps-surprise | Super Micro Computer, Inc. Quote\n\nOur proven model does not conclusively predict an earnings beat for Tyler Technologies this time. The combination of a positive Earnings ESP and a Zacks Rank #1 (Strong Buy), 2 (Buy) or 3 (Hold) increases the odds of an earnings beat, which is not the case here.\n\nThough Tyler carries a Zacks Rank #3, it has an Earnings ESP of 0.00%. You can uncover the best stocks to buy or sell before they are reported with our Earnings ESP Filter.",
+      "evidence_quality": "full_body",
+      "url": "https://finance.yahoo.com/markets/stocks/articles/hold-fold-super-micro-computer-163600098.html",
+      "published_at": "Fri, 01 May 2026 16:36:00 GMT",
+      "ticker_hints": [
+        "SMCI"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQUENwVVRHR2pFNlFYdzZ0WDR1aDJjV2dUT0NxaXZWaFVXSGdoMUpSZUlSOHY0U1MzcDBxVU5VRFVLVVpqeHBpc1UtbURoeWN2NnRGM18yeFF2LXpyajhjWWNQNDBlN2k1VVU5cVFibG12Ymc5N3ZZX0NTREhycGdadW54ZFByYnllU0dmaWpaZlNTZmdKZ3BhZmxadw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Should You Hold or Fold Super Micro Computer Stock Before Q3 Earnings? - Yahoo Finance",
+        "source": "Yahoo Finance",
+        "source_url": "https://finance.yahoo.com/markets/stocks/articles/hold-fold-super-micro-computer-163600098.html",
+        "publisher_homepage_url": "https://finance.yahoo.com",
+        "url": "https://finance.yahoo.com/markets/stocks/articles/hold-fold-super-micro-computer-163600098.html",
+        "published_at": "Fri, 01 May 2026 16:36:00 GMT",
+        "summary": "Should You Hold or Fold Super Micro Computer Stock Before Q3 Earnings?  Yahoo Finance",
+        "ticker": "SMCI",
+        "company_name": "Super Micro Computer Inc",
+        "query": "Super Micro Computer Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://finance.yahoo.com/markets/stocks/articles/hold-fold-super-micro-computer-163600098.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "SMCI"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Article provides pre-earnings analysis on SMCI, a directly held position, which could inform position management decisions.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://finance.yahoo.com/markets/stocks/articles/hold-fold-super-micro-computer-163600098.html",
+      "content_source": "finance.yahoo.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 210,
+          "title_hits": 6,
+          "resolved_host": "finance.yahoo.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "html"
+        }
+      }
+    }
+  ],
+  "significance_cache": {
+    "2d969595ed61f1bee4e8c449a14c9a2b9bb66778e8a2f4c75a3d69b56f1902ae": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "d7aa075b9fb60e765b50a9c8f2b36c2f3e29a87d3a988b1f6633c5bf0eaee57e": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "24ae4827a3c25ad895898487eb057b485956156dd8da942fb4cfda8c2f654816": {
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "This is a general market commentary article about Robinhood being a popular/trending stock, containing no new material catalyst, earnings, or corporate announcement."
+    },
+    "869653caf8ec2136c43b48742d4f3d01ae3b527040244179af3ad3a25766944f": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "e6bd6ed6b43884a9243df1612d3c1055c4a532b067976a89cb5ee83c52efb591": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "767f9b5b195b2229411de64ccb25a490067d9b30120d92b1d8bb40cbc07c1bf7": {
+      "significance": "minor",
+      "event_type": "other",
+      "why_it_matters": "Classification parse failed.",
+      "confidence": 0.3
+    },
+    "0ff4d5a9fa5e5f8e562ad710d17a7c63924e8cbe7bc03494126fbbe3d47b37c3": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    }
+  }
+}

@@ -1,0 +1,653 @@
+{
+  "articles_classified": [
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNUW5lLVhwR012Q1d0WF9sMVVnTm1TaFY2RTVTRmt6dHhzb2kzZE9OYm1vaEpsbm1raWkyMGNjWWIxb2ZPc1ZscldDenlaVjZCYXdsQWFGSThXSWtXNEdJQnVwMzRPS3BrTnRxRWpxSWdULXIzazl6QjFlQVFUYjlZUkpPNUNOcUZkRXRKb0lVaF9PVEFrQ0o4?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo",
+        "query": "Blackstone Inc",
+        "title": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending) - Seeking Alpha",
+        "source": "Seeking Alpha",
+        "ticker": "BX",
+        "summary": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending)  Seeking Alpha",
+        "source_url": "https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo",
+        "source_type": "company_news",
+        "company_name": "Blackstone Inc",
+        "published_at": "Mon, 04 May 2026 13:17:16 GMT",
+        "decoded_google_url": "https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo",
+        "publisher_homepage_url": "https://seekingalpha.com"
+      },
+      "url": "https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo",
+      "body": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending) Seeking Alpha",
+      "title": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending) - Seeking Alpha",
+      "source": "Seeking Alpha",
+      "summary": "Blackstone's data center REIT aims to raise ~$1.74B in IPO (BXDC:Pending) Seeking Alpha",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Blackstone's data center REIT IPO filing represents a concrete capital markets event within BX's portfolio that could affect valuations and growth positioning.",
+        "affected_tickers": [
+          "BX"
+        ],
+        "evidence_quality": "title_only"
+      },
+      "event_hash": "f67ded90b05863568c1cbc63f919351a80ddc5f2a42ce92515bb234e98a71288",
+      "source_url": "https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo",
+      "external_id": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNUW5lLVhwR012Q1d0WF9sMVVnTm1TaFY2RTVTRmt6dHhzb2kzZE9OYm1vaEpsbm1raWkyMGNjWWIxb2ZPc1ZscldDenlaVjZCYXdsQWFGSThXSWtXNEdJQnVwMzRPS3BrTnRxRWpxSWdULXIzazl6QjFlQVFUYjlZUkpPNUNOcUZkRXRKb0lVaF9PVEFrQ0o4?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Mon, 04 May 2026 13:17:16 GMT",
+      "ticker_hints": [
+        "BX"
+      ],
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "evidence_quality": "title_only",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      },
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://seekingalpha.com/news/4584621-blackstones-data-center-reit-aims-to-raise-174b-in-ipo'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+    },
+    {
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5ydjZELVEzZzQwTUhWQjdfMnZxV2pPN29pLVkxNUpSUWVoN0ozOFBBcm9iV0tkckJyaVdnRk1rT01UclJaQXZtSGdsem03dXNDWjhMT2toTTkwcHlxZGJfZVQxWUI5MzFOMTBjZEhn?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "url": "https://www.anthropic.com/news/enterprise-ai-services-company",
+        "query": "Blackstone Inc",
+        "title": "Building a new enterprise AI services company with Blackstone, Hellman & Friedman, and Goldman Sachs - Anthropic",
+        "source": "Anthropic",
+        "ticker": "BX",
+        "summary": "Building a new enterprise AI services company with Blackstone, Hellman & Friedman, and Goldman Sachs  Anthropic",
+        "source_url": "https://www.anthropic.com/news/enterprise-ai-services-company",
+        "source_type": "company_news",
+        "company_name": "Blackstone Inc",
+        "published_at": "Mon, 04 May 2026 14:13:35 GMT",
+        "decoded_google_url": "https://www.anthropic.com/news/enterprise-ai-services-company",
+        "publisher_homepage_url": "https://www.anthropic.com"
+      },
+      "url": "https://www.anthropic.com/news/enterprise-ai-services-company",
+      "body": "Anthropic, Blackstone, Hellman & Friedman, and Goldman Sachs announced the formation of a new AI services company. The organization will work with mid-sized companies across sectors to bring Claude into their most important operations. Applied AI engineers from Anthropic will work alongside the firm\u2019s engineering team to identify where Claude can have the most impact, build custom solutions, and support customers over the long term.\n\nAlongside the founding partners, the new company is backed by a consortium of leading alternative asset managers including General Atlantic, Leonard Green, Apollo Global Management, GIC, and Sequoia Capital.\n\n**Why we\u2019re building this**\n\nPutting Claude to work in an organization\u2019s core operations takes hands-on engineering and deep familiarity with how each business runs. Systems integrators in the Claude Partner Network lead that work for the world\u2019s largest enterprises today, and we are continuing to invest deeply in those partnerships as Claude reaches more customers. This new firm extends that delivery capacity further. Companies from community banks to mid-sized manufacturers and regional health systems stand to gain from AI, but lack the in-house resources to build and run frontier deployments.\n\n\u201cEnterprise demand for Claude is significantly outpacing any single delivery model. Our partnerships with the world's leading systems integrators are central to how Claude reaches large enterprises,\u201d said Krishna Rao, Chief Financial Officer of Anthropic. \u201cThis new firm brings additional operating capability to the ecosystem and capital from leading alternative asset managers. We are proud to build it alongside Blackstone, Hellman & Friedman, Goldman Sachs, and our other partners.\u201d\n\n**What the work will look like**\n\nA typical engagement starts with a small team working closely with the customer to understand where Claude can have the biggest impact. From there, the company's engineers\u2014alongside Anthropic Applied AI staff\u2014will develop Claude-powered systems tailored to each organization\u2019s operations.\n\nConsider a multi-site healthcare services group, like a network of physician practices. Clinicians spend hours each day on documentation, medical coding, prior authorizations, and compliance reviews. An engagement might begin with the company\u2019s engineering team sitting down with clinicians and IT staff to build tools that fit into the workflows that staff already use. The clinicians know where time disappears in a shift and what good patient care actually requires. The company's engineers build around that knowledge, allowing clinicians to devote more time to patient care.\n\nEngagements like this will run across mid-sized companies across industries, each shaped by the people closest to the work.\n\n**Building the Claude Partner Network**\n\nThis company will also become a member of Anthropic\u2019s growing Claude Partner Network.\n\nOur partnerships with Accenture, Deloitte, PwC, and the other consulting and systems integration firms in the Claude Partner Network are one of the ways Claude benefits the world\u2019s largest enterprises today. These firms lead the complex transformation programs that shape how global enterprises operate, and they bring Claude expertise to their millions of practitioners across every major industry. We have been steadily expanding the Claude Partner Network since its launch, and we are continuing to invest in the programs, funding, and teams that support our partners.\n\n## Related content\n\n### Anthropic names Theo Hourmouzis General Manager of Australia & New Zealand and officially opens Sydney office\n\n### An update on our election safeguards\n\nWe explain what we\u2019re doing to ensure Claude plays a positive role in the US midterms and other major elections around the world this year.",
+      "title": "Building a new enterprise AI services company with Blackstone, Hellman & Friedman, and Goldman Sachs - Anthropic",
+      "source": "Anthropic",
+      "summary": "Building a new enterprise AI services company with Blackstone, Hellman & Friedman, and Goldman Sachs Anthropic",
+      "relevance": {
+        "relevant": true,
+        "event_type": "company_specific",
+        "why_it_matters": "Blackstone is directly mentioned as a major investor in building a new enterprise AI services company, representing significant strategic activity aligned with the growth archetype.",
+        "affected_tickers": [
+          "BX"
+        ],
+        "evidence_quality": "full_body"
+      },
+      "event_hash": "56872418513e5a4fa669bf8b8e7bcfa6a2e009c9e9e44159af9b35f6ae400493",
+      "source_url": "https://www.anthropic.com/news/enterprise-ai-services-company",
+      "external_id": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5ydjZELVEzZzQwTUhWQjdfMnZxV2pPN29pLVkxNUpSUWVoN0ozOFBBcm9iV0tkckJyaVdnRk1rT01UclJaQXZtSGdsem03dXNDWjhMT2toTTkwcHlxZGJfZVQxWUI5MzFOMTBjZEhn?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "sector_hint": null,
+      "source_type": "company_news",
+      "published_at": "Mon, 04 May 2026 14:13:35 GMT",
+      "resolved_url": "https://www.anthropic.com/news/enterprise-ai-services-company",
+      "ticker_hints": [
+        "BX"
+      ],
+      "scrape_status": "ok_proxy",
+      "content_source": "anthropic.com",
+      "evidence_quality": "full_body",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "method": "proxy",
+          "accepted": true,
+          "title_hits": 8,
+          "word_count": 559,
+          "source_match": true,
+          "resolved_host": "anthropic.com",
+          "failure_reason": "",
+          "acceptance_score": 6
+        }
+      },
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": ""
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOM3l0YUlSUHg4ZTdUdk9vZUl1SzQ1a0lMVFVMUUFvMUJPZ1lIekpleUNVcUlEajBIWjVHMUIxcDQ2dHVMbG13Z2x4amdhMHI5bkQ2MGpaN3pYLVFRQWtNYnNrbmt5NkRIUHQzSndGVUdNVEU1dVQ3SWstRWx4X0hYQ2hJdVZhc3F2VjVxWk02cEtVdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "e76d0176b991f9e29c8936306e10a83c182a93bf1d948adcc49700b639ddccd6",
+      "source_type": "company_news",
+      "source": "Body Shop Business",
+      "source_url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/",
+      "title": "Blackstone Group to Buy Majority Stake in Service King - Body Shop Business",
+      "summary": "Blackstone Group to Buy Majority Stake in Service King Body Shop Business",
+      "body": "# Blackstone Group to Buy Majority Stake in Service King - BodyShop Business\n\nThis is a preview. This ad will run at the top of the page as expected when running (or previewing) on your website\n\n!Image 23: Revisit consent button\n\nWe value your privacy\n\nCustomise Consent Preferences!Image 25\n\nNecessary Always Active\n\n* Description required to support all CDP related functionality\n\n* Duration 6 months\n\n* Duration session\n\n* Duration 6 months\n\n* Duration session\n\n* Duration 6 months\n\n* Duration Never Expires\n\n* Duration session\n\n* Duration 6 months\n\n* Description Description is currently not available.\n\n* Duration 1 year 1 month 4 days\n\n* Description No description available.\n\n* Duration 1 year 1 month 4 days\n\n* Description Description is currently not available.\n\n* Duration session\n\n* Duration 1 year 1 month 4 days\n\n* Duration session\n\n* Duration 1 year 24 days\n\n* Description Used by Microsoft Advertising as a unique ID for visitors.\n\n* Duration 1 year 24 days\n\n* Duration 10 minutes\n\n## Main Navigation\n\nSearch for:\n\n* Customer Service\n\n* Employee Management\n\n* Training and Education\n\n* Everything Shop Operations\n\n* BodyShop Business: The Podcast\n\n* Consolidation Nation\n\n* Under the Radar Podcast Series\n\n* Paint Productivity & Profit\n\n* Auto Pros on the Road\n\n* Body Bangin Podcast\n\n* Collision Course\n\n* Consolidation Nation\n\n* Under the Radar Podcast Series\n\n* Sponsored Content\n\n* Mechanical Service\n\n* More Technical Postings\n\n* Sponsored Content\n\n* All Content Postings\n\n* LATEST DIGITAL EDITION\n\n* MAGAZINE ARCHIVE\n\n* SPONSORED CONTENT\n\n* RENEW SUBSCRIPTION\n\n[](https://www.facebook.com/BodyShopBusiness)\n\n[](https://www.instagram.com/bodyshopbiz/?hl=en)\n\n[](https://x.com/BodyShop_Biz)\n\n[](https://www.youtube.com/channel/UCHJrm8nCdre732pse5zrlAQ)\n\n* Content Submission\n\nThe information source for the collision repair industry.\n\nSubscribe[](https://www.bodyshopbusiness.com/?s=)\n\n## Header Navigation\n\n* Mechanical Service\n\n* Customer Service\n\n* Employee Management\n\n* Training and Education\n\n* Auto Pros on the Road\n\n* Collision Course\n\n* Consolidation Nation\n\n* Paint Productivity & Profit\n\n* Under the Radar Podcast Series\n\n* View the Buyer\u2019s Guide Listing\n\n* Update your listing\n\n* Join the listing\n\n* Sponsored Content\n\n# Blackstone Group to Buy Majority Stake in Service King\n\nDeal values Service King at about $650 million.\n\n!Image 48: BodyShop Business Staff Writers\n\nByBodyShop Business Staff Writers\n\nPublished: July 22, 2014\n\nBlackstone Group has agreed to buy a majority stake in Service King Collision Repair Centers from the Carlyle Group with a view to fund the company\u2019s future growth, according to sources familiar with the matter. The deal values Service King at about $650 million, one source said.\n\n* - NABC, Bill Knight Collision Repair Donate Recycled Ride to Oklahoma veteran\n\n* - Association News\n\n* - Top 5 Stories of the Week\n\nCarlyle will recognize a return of nearly four times its initial investment from the sale and will retain a significant minority stake in Service King, whose management will increase its own minority stake as part of the deal, sources said.\n\nWashington, D.C.-based Carlyle acquired a majority stake in Service King in August 2012, with plans to expand the company nationally. At the time, the Richardson, Texas-based company operated 49 collision repair shops in or near Texas\u2019s major cities. The company, which traces its roots to 1976 when its founder Eddie Lennox took out a $10,000 loan and repaired vehicles from his own garage, now operates 177 centers across 20 states.\n\nBlackstone\u2019s investment in the company comes as another private-equity-backed collision repair chain is on the auction block. Palladium Equity Partners LLC has hired an investment bank to sell ABRA Auto Body & Glass, which could fetch $500 million or more, sources familiar with the matter said last month.\n\nThe move underscores Blackstone\u2019s pursuit of smaller, high-growth deals as steep market valuations make traditional buyout deals more expensive. As of the end of the second quarter, the firm had $17.7 billion available to spend on private-equity investments.\n\nTags: Consolidators and MSOs\n\nASE Recommends Shops Conduct Airbag Inspections\n\nRegistration Now Open for AAPEX 2026\n\nWIN Awards 39 North American Collision Repair Students Scholarships, Tools\n\nNew AAA Study Shows U.S. Drivers Favor Level 2 Driving Assistance\n\nBodyShop Business YouTube Shorts\n\nFrom the AISIN Broadcast Studios\n\nBody Bangin\u2019: Auto Body Shops Leave Millions on the Table\n\nApr 28, 2026\n\nFord BlueCruise Adaptive Cruise Control: Overview and Service\n\nMay 5, 2026\n\nDo Departments of Insurance Actually Do Anything for Collision Repairers?\n\nApr 30, 2026\n\nLouisville Collision Center: The White Glove Experience\n\nApr 27, 2026\n\nVehicle ADAS Calibration: Static or Dynamic?\n\nApr 22, 2026\n\nThe Arcade Prophet\n\nApr 20, 2026\n\nSupplier Spotlight\n\nChemSpec USA, LLC.\n\nPhone: 330-669-4036\n\nFax: 330-669-3965\n\nContact: Tammy Anderson\n\nAddress:\n\nOrrville Ohio 44667\n\nView Supplier Profile\n\nVisit Buyer's Guide Listings\n\n## I-CAR Opens Call for 2026 Board of Directors Candidates\n\nIndustry leaders invited to apply for open board seats; application deadline is June 2, 2026.\n\n!Image 65: Jason Stahl\n\nJason Stahl has 32 years of experience as an editor, 25 of which is in B2B media, and has been editor of BodyShop Business for the past 20 years. From Cleveland, Ohio, Stahl earned a bachelor of arts degree in English from John Carroll University and started his career in journalism at a weekly newspaper, doing everything from delivering newspapers to selling advertising space to writing articles.\n\nPublished: May 6, 2026\n\nI-CAR has announced it is accepting applications for its 2026 board of directors election.\n\n\u201cStrong governance is vitally important to the future of I-CAR and the industry we serve,\" said Kyle Thompson, president and CEO of I-CAR. \"We invite experienced, mission-driven leaders to consider bringing their perspective to the I-CAR board of directors and hope to be in the fortunate position of providing our voting members with a strong slate of diverse candidates.\"\n\nKyle Al-Rifai of Swift Collision Finalist for EY\u2019s Entrepreneur Of The Year\n\nThe Entrepreneur Of The Year program celebrates the bold leaders who disrupt markets through the world\u2019s most groundbreaking companies, revolutionizing industries and uplifting communities.\n\nByJason StahlMay 6, 2026\n\nCaliber Appoints Jason Monaco as CFO\n\nMonaco will oversee Caliber\u2019s financial strategy and operations, supporting the company\u2019s continued growth and strategic investment.\n\nByJeff WhiteMay 6, 2026\n\nAASP/NJ Opens Registration for Lou Scoras Memorial Golf Outing\n\nThe event, which will be held on Sept. 15 at Knob Hill Golf Club in Manalapan, N.J., honors the memory of late shop owner and AASP/NJ member Lou Scoras.\n\nByJason StahlMay 5, 2026\n\nSenators Introduce Bill to Ban Chinese Vehicles, Connected Components from U.S. Market\n\nThe Connected Vehicle Security Act of 2026 would prohibit the import, sale and operation of vehicles manufactured in China or any other country of concern, and ban the use of Chinese-developed connected vehicle technologies on U.S. roads.\n\nByJason StahlMay 5, 2026\n\nRDA Welcomes Strong Turnout at Spring Impact Performance Conference\n\nA major focus of the meeting, which included all 19 RDA members, manufacturer partners and guests, was the continued rollout of RDA DataNet.\n\nByJason StahlMay 5, 2026\n\nConsolidation Nation Season 2 Ep. 4: The Sold My Shop Club\n\nBodyShop Business Editor Jason Stahl and Consolidation Coach\u2019s Laura Gay talk to two former body shop owners on what their lives look like after selling.\n\nByBodyShop Business Staff WritersMay 4, 2026\n\nI-CAR Announces Mixed Reality Repair Planning Training Series\n\nThe training is designed for estimators/repair planners pursuing ProLevel 2 recognition.\n\nByJason StahlMay 4, 2026\n\nWashtenaw Community College Transforms 1974 Classic into EV\n\nA 1974 Volkswagen Thing will enter the electric age through a project that converts the vintage vehicle into a fully electric car as part of a hands-on learning experience.\n\nByCasey WarrenMay 4, 2026\n\nNABC, Bill Knight Collision Repair Donate Recycled Ride to Oklahoma veteran\n\nMay 8, 2026\n\nTop 5 Stories of the Week\n\nMay 8, 2026\n\nASE Recommends Shops Conduct Airbag Inspections\n\nMay 7, 2026\n\nSubscribe to our Newsletter\n\nGet the latest update from our eNewsletters\n\nVisit our other Brands to drive your success\n\n!Image 96: Footer Logo\n\nThe information source for the collision repair industry.\n\n* Babcox Media Inc\n\n* 3550 Embassy Parkway\n\n* Akron, OH 44333-8318\n\n* p: (330) 670-1234\n\n* f: (330) 670-0874\n\n* e: info@babcox.com\n\n* About Babcox Media\n\n* Content Submission\n\n[](https://www.facebook.com/BodyShopBusiness)\n\n[](https://www.instagram.com/bodyshopbiz/?hl=en)\n\n[](https://x.com/BodyShop_Biz)\n\n[](https://www.youtube.com/channel/UCHJrm8nCdre732pse5zrlAQ)\n\n* Executive Interview: Jeff McFadden, President...\n\n* Axalta Coating Systems to Acquire Dura Coat Products\n\n* Francisco Partners to Acquire Majority Stake...",
+      "evidence_quality": "full_body",
+      "url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/",
+      "published_at": "Tue, 05 May 2026 14:00:00 GMT",
+      "ticker_hints": [
+        "BX"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMikgFBVV95cUxOM3l0YUlSUHg4ZTdUdk9vZUl1SzQ1a0lMVFVMUUFvMUJPZ1lIekpleUNVcUlEajBIWjVHMUIxcDQ2dHVMbG13Z2x4amdhMHI5bkQ2MGpaN3pYLVFRQWtNYnNrbmt5NkRIUHQzSndGVUdNVEU1dVQ3SWstRWx4X0hYQ2hJdVZhc3F2VjVxWk02cEtVdw?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Blackstone Group to Buy Majority Stake in Service King - Body Shop Business",
+        "source": "Body Shop Business",
+        "source_url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/",
+        "publisher_homepage_url": "https://www.bodyshopbusiness.com",
+        "url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/",
+        "published_at": "Tue, 05 May 2026 14:00:00 GMT",
+        "summary": "Blackstone Group to Buy Majority Stake in Service King  Body Shop Business",
+        "ticker": "BX",
+        "company_name": "Blackstone Inc",
+        "query": "Blackstone Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "BX"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Blackstone's acquisition of Service King demonstrates active deal-making and portfolio management, relevant to the growth archetype positioning.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.bodyshopbusiness.com/blackstone-group-to-buy-majority-stake-in-service-king/",
+      "content_source": "bodyshopbusiness.com",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 1355,
+          "title_hits": 8,
+          "resolved_host": "bodyshopbusiness.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVkZnNlZqRG0xVFZibDZZTFVIeXVrTXNNTVQ5WGlHZmtCMWxDOVhkR2RHMEw1TG0yZE02UjY2UnBGMy0zUVRCUGJyU2drSkk3ZXFMTXdkVHJjTWp1c3U1ajQ3d2g3bHB0NksyRUtJZzNsRFA4c2dUUm91NFFkdEpYVHZZTTJpVTlGVEN6RVlXMGFpbFRLNGFaT3hCUUs1LU1IWng5ME9XcGhMLWRwb0HSAbMBQVVfeXFMTi1DSzhSZ2FuV04tcFB5YUNiVnZQa0ZPMFJ2cm50Z1dIMjBYOUdxV0tRcEtJRExORkJlMUZBTUNNN0k0TTd0WnY1bGhhS05nZEZLazl3and3RmtMaXU5RGNOZWl0SWJyTU42X0F5Q0xjckRSTWlwSmJjcGREVXlJSzl3dERJYkVnRGtBU1IyNG8wZEl0U3pZeUVhYTVlQ1E3V0pCU3MyYnRkaXRmOWgtRzltNzQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "8c8b640449d6e3329cdce3553c895a64149db3307a04151a44ce063099942d23",
+      "source_type": "company_news",
+      "source": "The Times of Israel",
+      "source_url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/",
+      "title": "US tech giant Cisco buys Israeli AI cyber startup to protect digital workforce - The Times of Israel",
+      "summary": "US tech giant Cisco buys Israeli AI cyber startup to protect digital workforce The Times of Israel",
+      "body": "US tech giant Cisco Systems Inc. has agreed to buy Israeli cybersecurity startup Astrix Security to bolster its security arsenal to address emerging threats tied to the rapid use of autonomous AI agents, the companies said Tuesday.\n\nNo financial details were provided, but Hebrew media reports estimated the deal&#8217;s value at between $300 million and $400 million.\n\nFounded in 2021 by Alon Jackson, CEO, and Idan Gour, CTO &#8211; both veterans of Israel\u2019s vaunted IDF intelligence unit 8200 \u2013 Tel Aviv-based Astrix is the developer of a software platform that addresses the security gap created by AI agents or digital employees gaining unrestricted access to enterprise systems without governance, oversight, or identity management.\n\n\u201cWe founded Astrix with a clear conviction: the identities and credentials powering modern enterprise systems \u2014 API keys, service accounts, OAuth tokens \u2014 were dangerously under-secured,\u201d said Jackson. \u201cThese non-human identities were everywhere, growing fast, and largely invisible to security teams.\u201d\n\n\u201cWe built Astrix because we believed this was one of the most important unsolved problems in enterprise security,\u201d said Jackson.\n\nThe startup\u2019s platform is designed to map all AI agents in a company\u2019s network. The platform tracks the tools AI agents deploy to automate workloads, including the use of credentials to gain access to sensitive data and execute tasks across a sprawling web of machine-to-machine connections of modern enterprises. It identifies risks by tracking abnormal or malicious behavior patterns and addresses real-time security threats.\n\n\u201cWhat began as a mission to bring visibility and control to NHIs [non-human identities] evolved into something bigger: a platform purpose-built for the age of agentic AI &#8211; where autonomous agents already operate inside your most sensitive systems, holding privileged access, largely unseen,\u201d said Gour. \u201cThat gap is the next great attack surface &#8211; closing it is the work that matters.\u201d\n\nThe acquisition deal comes as companies are rapidly integrating autonomous assistants into existing software systems, business processes, and workflows. Agentic AI or virtual AI agents act similarly to smart assistants, using reasoning to make real-time decisions and complete complex tasks with minimal human input such as collating and analyzing vast amounts of data.",
+      "evidence_quality": "full_body",
+      "url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/",
+      "published_at": "Tue, 05 May 2026 15:40:00 GMT",
+      "ticker_hints": [
+        "CSCO"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNVkZnNlZqRG0xVFZibDZZTFVIeXVrTXNNTVQ5WGlHZmtCMWxDOVhkR2RHMEw1TG0yZE02UjY2UnBGMy0zUVRCUGJyU2drSkk3ZXFMTXdkVHJjTWp1c3U1ajQ3d2g3bHB0NksyRUtJZzNsRFA4c2dUUm91NFFkdEpYVHZZTTJpVTlGVEN6RVlXMGFpbFRLNGFaT3hCUUs1LU1IWng5ME9XcGhMLWRwb0HSAbMBQVVfeXFMTi1DSzhSZ2FuV04tcFB5YUNiVnZQa0ZPMFJ2cm50Z1dIMjBYOUdxV0tRcEtJRExORkJlMUZBTUNNN0k0TTd0WnY1bGhhS05nZEZLazl3and3RmtMaXU5RGNOZWl0SWJyTU42X0F5Q0xjckRSTWlwSmJjcGREVXlJSzl3dERJYkVnRGtBU1IyNG8wZEl0U3pZeUVhYTVlQ1E3V0pCU3MyYnRkaXRmOWgtRzltNzQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "US tech giant Cisco buys Israeli AI cyber startup to protect digital workforce - The Times of Israel",
+        "source": "The Times of Israel",
+        "source_url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/",
+        "publisher_homepage_url": "https://www.timesofisrael.com",
+        "url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/",
+        "published_at": "Tue, 05 May 2026 15:40:00 GMT",
+        "summary": "US tech giant Cisco buys Israeli AI cyber startup to protect digital workforce  The Times of Israel",
+        "ticker": "CSCO",
+        "company_name": "Cisco Systems Inc",
+        "query": "Cisco Systems Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "CSCO"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Cisco's acquisition of an Israeli AI cybersecurity startup aligns with growth-oriented tech investments and expands their security product offerings.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.timesofisrael.com/us-tech-giant-cisco-buys-israeli-ai-cyber-startup-to-protect-digital-workforce/",
+      "content_source": "www.timesofisrael.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 352,
+          "title_hits": 6,
+          "resolved_host": "timesofisrael.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "html"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNNmVpOERjRmk2VHlDNWx5TDMzODRPTmhuVUkzTnZPOEJEODlmZXBaOEpQR2FRM19mWEJtcWR4QmxXcVB6MzFaalhSNnkxRWc3TFlnVGNLa2RqeXpVbUhtMDBNN25RUnVpb1BuT19uMlZSaGVjajBMWmNpUXVGcVJYYWM5ZGNGOWRPRzNoSDZXd0NsQXRtQ3Y3UFZsOXVpdjJKY0JN?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "1b55ac14b36edbe62b73449267c7fd787050508cd638e0152e7e89a64c9f96f9",
+      "source_type": "company_news",
+      "source": "Stock Titan",
+      "source_url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html",
+      "title": "CSX (CSX) CEO Stephen Angel receives 200 phantom stock units in deferred plan - Stock Titan",
+      "summary": "CSX (CSX) CEO Stephen Angel receives 200 phantom stock units in deferred plan Stock Titan",
+      "body": "## CSX (CSX) CEO Stephen Angel receives 200 phantom stock units in deferred plan\n\nANGEL STEPHEN F reported acquisition or exercise transactions in this Form 4 filing.\n\n**CSX CORP President & CEO Stephen F. Angel** reported a compensation-related transaction involving phantom stock tied to CSX common shares. He received an award of **200 units of phantom stock** at an indicated value of **$45.09 per unit**, credited under the CSX Executive Deferred Compensation Plan.\n\nEach phantom stock unit is economically equivalent to one share of CSX common stock but is payable **in cash**, according to the distribution election made at the time of deferral. Following this grant, his indirect holdings in this phantom stock account total **1,632 units**, all held through the CSX Corporation Executive Deferred Compensation Plan trustee.\n\n* None.\n\nInsider ANGEL STEPHEN F\n\nRole President & CEO\n\n| Type | Security | Shares | Price | Value |\n\n| --- | --- | --- | --- | --- |\n\n| Grant/Award | Phantom Stock | 200 | $45.09 | $9K |\n\n**Holdings After Transaction:** Phantom Stock \u2014 1,632 shares (Indirect, CSX Executive Deferred Compensation Plan)\n\n1. Each unit of phantom stock is the economic equivalent of one share of Company common stock. Units of phantom stock become payable, in cash, consistent with the Reporting Person's distribution election made at the time of deferral. By Trustee, CSX Corporation Executive Deferred Compensation Plan.\n\nPhantom stock units granted 200 units Grant of phantom stock on May 1, 2026\n\nIndicated value per unit$45.09 per unit Grant price reference for phantom stock\n\nTotal phantom units after grant 1,632 units Indirect holdings following this transaction\n\nUnderlying common stock equivalence 200 shares Each phantom unit equals one CSX common share economically\n\nPhantom Stock financial\n\n\"Each unit of phantom stock is the economic equivalent of one share of Company common stock.\"\n\nA phantom stock is a form of compensation that gives employees or executives the benefits of stock ownership, such as the increase in stock value, without actually giving them real shares. It acts like a promise to pay the employee the equivalent value of company stock later, often as a bonus or incentive. This allows companies to motivate and reward staff without diluting ownership or transferring actual shares.\n\nCSX Executive Deferred Compensation Plan financial\n\n\"By Trustee, CSX Corporation Executive Deferred Compensation Plan.\"\n\nGrant, award, or other acquisition financial\n\n\"transaction_code_description: Grant, award, or other acquisition\"\n\nIndirect ownership financial\n\n\"direct_or_indirect: I, nature_of_ownership: CSX Executive Deferred Compensation Plan\"\n\n05/05/2026 - 08:15 PM\n\nFORM 4 UNITED STATES SECURITIES AND EXCHANGE COMMISSION\n\nWashington, D.C. 20549\n\nSTATEMENT OF CHANGES IN BENEFICIAL OWNERSHIP\n\nFiled pursuant to Section 16(a) of the Securities Exchange Act of 1934\n\nor Section 30(h) of the Investment Company Act of 1940 OMB APPROVAL OMB Number:3235-0287 Estimated average burden hours per response:0.5\n\nCheck this box if no longer subject to Section 16. Form 4 or Form 5 obligations may continue. _See_ Instruction 1(b).\n\nCheck this box to indicate that a transaction was made pursuant to a contract, instruction or written plan for the purchase or sale of equity securities of the issuer that is intended to satisfy the affirmative defense conditions of Rule 10b5-1(c). See Instruction 10.\n\n1. Name and Address of Reporting Person* ANGEL STEPHEN F * * * (Last)(First)(Middle) 500 WATER STREET * * * (Street) JACKSONVILLE FLORIDA 32202 * * * (City)(State)(Zip) * * * UNITED STATES * * * (Country)2. Issuer Name **and** Ticker or Trading Symbol CSX CORP [ CSX ]5. Relationship of Reporting Person(s) to Issuer (Check all applicable) X Director 10% Owner X Officer (give title below)Other (specify below) President & CEO\n\n2a. Foreign Trading Symbol\n\n3. Date of Earliest Transaction (Month/Day/Year)\n\n05/01/2026 6. Individual or Joint/Group Filing (Check Applicable Line) X Form filed by One Reporting Person Form filed by More than One Reporting Person\n\n4. If Amendment, Date of Original Filed (Month/Day/Year)\n\n| **Table I - Non-Derivative Securities Acquired, Disposed of, or Beneficially Owned** |\n\n| 1. Title of Security (Instr. 3) | 2. Transaction Date (Month/Day/Year) | 2A. Deemed Execution Date, if any (Month/Day/Year) | 3. Transaction Code (Instr. 8) | 4. Securities Acquired (A) or Disposed Of (D) (Instr. 3, 4 and 5) | 5. Amount of Securities Beneficially Owned Following Reported Transaction(s) (Instr. 3 and 4) | 6. Ownership Form: Direct (D) or Indirect (I) (Instr. 4) | 7. Nature of Indirect Beneficial Ownership (Instr. 4) |\n\n| Code | V | Amount | (A) or (D) | Price |\n\n| **Table II - Derivative Securities Acquired, Disposed of, or Beneficially Owned** **(e.g., puts, calls, warrants, options, convertible securities)** |\n\n| 1. Title of Derivative Security (Instr. 3) | 2. Conversion or Exercise Price of Derivative Security | 3. Transaction Date (Month/Day/Year) | 3A. Deemed Execution Date, if any (Month/Day/Year) | 4. Transaction Code (Instr. 8) | 5. Number of Derivative Securities Acquired (A) or Disposed of (D) (Instr. 3, 4 and 5) | 6. Date Exercisable and Expiration Date (Month/Day/Year) | 7. Title and Amount of Securities Underlying Derivative Security (Instr. 3 and 4) | 8. Price of Derivative Security (Instr. 5) | 9. Number of derivative Securities Beneficially Owned Following Reported Transaction(s) (Instr. 4) | 10. Ownership Form: Direct (D) or Indirect (I) (Instr. 4) | 11. Nature of Indirect Beneficial Ownership (Instr. 4) |\n\n| Code | V | (A) | (D) | Date Exercisable | Expiration Date | Title | Amount or Number of Shares |\n\n| Phantom Stock | (1) | 05/01/2026 | | A | | 200 | | (1) | (1) | Common Stock | 200 | $45.09 | 1,632 | I | CSX Executive Deferred Compensation Plan(2) |\n\n**Explanation of Responses:**\n\n1. Each unit of phantom stock is the economic equivalent of one share of Company common stock. Units of phantom stock become payable, in cash, consistent with the Reporting Person's distribution election made at the time of deferral.\n\n2. By Trustee, CSX Corporation Executive Deferred Compensation Plan.\n\nKacey Heekin-Luchin, Attorney-in-Fact 05/05/2026\n\n** Signature of Reporting Person Date\n\nReminder: Report on a separate line for each class of securities beneficially owned directly or indirectly.\n\n* If the form is filed by more than one reporting person, _see_ Instruction 4 (b)(v).\n\n** Intentional misstatements or omissions of facts constitute Federal Criminal Violations _See_ 18 U.S.C. 1001 and 15 U.S.C. 78ff(a).\n\nNote: File three copies of this Form, one of which must be manually signed. If space is insufficient, _see_ Instruction 6 for procedure.\n\n**Persons who respond to the collection of information contained in this form are not required to respond unless the form displays a currently valid OMB Number.**\n\n*** Form 4: SEC 1474 (03-26)**\n\n### What insider transaction did CSX (CSX) report for CEO Stephen F. Angel?\n\nCSX reported that President & CEO Stephen F. Angel received an award of 200 phantom stock units. These units are tied to CSX common stock value and are held indirectly through the CSX Executive Deferred Compensation Plan as part of his compensation arrangements.\n\n### What is the value of the phantom stock units granted to the CSX (CSX) CEO?\n\nThe 200 phantom stock units were recorded at an indicated value of $45.09 per unit. This aligns each unit\u2019s value with CSX common stock, and the award functions as deferred, cash-settled compensation rather than an immediate stock purchase on the open market.\n\n### How many phantom stock units does the CSX (CSX) CEO hold after this Form 4?\n\nAfter this reported grant, Stephen F. Angel\u2019s indirect holdings in phantom stock total 1,632 units. These units are maintained in the CSX Corporation Executive Deferred Compensation Plan and reflect compensation deferred into a stock-linked, cash-settled account managed by the plan\u2019s trustee.\n\n### How are CSX (CSX) phantom stock units settled for the CEO?\n\nEach phantom stock unit is economically equivalent to one CSX common share but is paid out in cash. Payment timing follows the distribution election Stephen F. Angel made when deferring compensation into the plan, rather than delivering actual CSX shares to him.\n\n### Is the CSX (CSX) CEO\u2019s phantom stock award a market buy or sell?\n\nThe Form 4 shows a compensation-related acquisition, not a market trade. The transaction code \u201cA\u201d reflects a grant or award of 200 phantom stock units under the CSX Executive Deferred Compensation Plan, rather than an open-market purchase or sale of CSX common stock.",
+      "evidence_quality": "full_body",
+      "url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html",
+      "published_at": "Tue, 05 May 2026 20:15:14 GMT",
+      "ticker_hints": [
+        "CSX"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNNmVpOERjRmk2VHlDNWx5TDMzODRPTmhuVUkzTnZPOEJEODlmZXBaOEpQR2FRM19mWEJtcWR4QmxXcVB6MzFaalhSNnkxRWc3TFlnVGNLa2RqeXpVbUhtMDBNN25RUnVpb1BuT19uMlZSaGVjajBMWmNpUXVGcVJYYWM5ZGNGOWRPRzNoSDZXd0NsQXRtQ3Y3UFZsOXVpdjJKY0JN?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "CSX (CSX) CEO Stephen Angel receives 200 phantom stock units in deferred plan - Stock Titan",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html",
+        "publisher_homepage_url": "https://www.stocktitan.net",
+        "url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html",
+        "published_at": "Tue, 05 May 2026 20:15:14 GMT",
+        "summary": "CSX (CSX) CEO Stephen Angel receives 200 phantom stock units in deferred plan  Stock Titan",
+        "ticker": "CSX",
+        "company_name": "CSX Corp",
+        "query": "CSX Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "CSX"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "CEO compensation through phantom stock units is a corporate governance event that can signal board confidence in future performance and affects executive alignment with shareholder interests.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.stocktitan.net/sec-filings/CSX/form-4-csx-corp-insider-trading-activity-c95b4627cdde.html",
+      "content_source": "stocktitan.net",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 1386,
+          "title_hits": 8,
+          "resolved_host": "stocktitan.net",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOY09oMzBSc1I2RWVXOTFkNzM3eW8wS0R4N3JZMlYtQV9kd1FDVnZsUmhRQUJlbEU1Q09pdGFUSXZ1T3psaU5jYVR4MzdZQi1lNEUxSWY2WVUxdkIyWHZ1YVY4UUx3c3VscENRbUtXeEZNNHJpaDhSYkoxcDRkRF8wYWlNNi1JcnNQQnBHc2xNZERQLVpBdGNxT0kybGRodl90anlpbkZIekVHTllnNHZ5NVNQdzNId2s?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "5462f604f072a60aad927ff14a403e53c9a7c6a8025e02e26be9ae818a734cc9",
+      "source_type": "company_news",
+      "source": "Stock Titan",
+      "source_url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html",
+      "title": "Digital Realty (DLR) grows Q1 2026 profit while funding big data center expansion - Stock Titan",
+      "summary": "Digital Realty (DLR) grows Q1 2026 profit while funding big data center expansion Stock Titan",
+      "body": "[10-Q] DIGITAL REALTY TRUST, INC. Quarterly Earnings Report\n\nSoundHound AI Reports Record Q1 Revenue of $44.2 Million, Up 52%\n\nNVIDIA and IREN Announce Strategic Partnership to Accelerate Depl...\n\nThe Trade Desk Reports First Quarter 2026 Financial Results\n\nIREN Expands AI Cloud Platform to Europe with Acquisition of Nost...\n\nCoreWeave Reports Strong First Quarter 2026 Results\n\nApplied Optoelectronics Reports First Quarter 2026 Results\n\nDigital Realty (DLR) grows Q1 2026 profit while funding big data center expansion\n\nRhea-AI Filing Summary\n\nDigital Realty reported higher first\u2011quarter 2026 results as its global data center portfolio expanded. Operating revenues reached $1.64 billion, up from $1.41 billion a year earlier, driven by rental and service income of $1.60 billion plus $34.9 million of fee and other income.\n\nOperating income rose to $267.8 million, and net income climbed to $174.8 million from $106.4 million. Net income available to common stockholders increased to $169.1 million, with diluted EPS of $0.46 versus $0.27. Comprehensive income was held back by a $100.5 million foreign currency translation loss, partly offset by higher derivative values.\n\nThe company invested heavily, with $870.0 million of improvements to properties and about $277.1 million for acquisitions in markets including Sofia, Milan, Portland and Atlanta, contributing to net real estate investments of $30.4 billion. Cash from operating activities strengthened to $532.4 million, supporting common and preferred dividends and distributions of roughly $442.8 million.\n\nDigital Realty also raised equity, generating $870.6 million of net proceeds from at\u2011the\u2011market common stock sales in the quarter and an additional $435 million afterward. Total debt outstanding was $18.14 billion with a 2.85% weighted\u2011average interest rate, primarily in euros, and the company remained in compliance with all debt covenants. Total assets were $48.9 billion and total equity $23.8 billion as of March 31, 2026.\n\nReal estate & REIT analyst neutral\n\nStrong Q1 growth with heavy capex and continued equity issuance keeps Digital Realty in expansion mode.\n\nDigital Realty delivered solid Q1 2026 growth, with revenue rising from $1.41B to $1.64B and net income improving to $174.8M. Operating cash flow of $532.4M comfortably covered common and preferred payouts of about $442.8M, reinforcing dividend support.\n\nAt the same time, the company deployed substantial capital, spending $870.0M on property improvements and $277.1M on acquisitions, lifting net real estate investments to $30.4B. This expansion is funded by a mix of debt\u2014$18.1B outstanding at a 2.85% weighted\u2011average rate\u2014and sizeable equity issuance.\n\nThrough its 2024 ATM program, Digital Realty raised $870.6M in Q1 and another $435M after March 31, 2026, with $570M of capacity remaining. While this adds potential dilution, it also supports balance sheet flexibility and development funding. Continued covenant compliance and diversified currency borrowing underpin liquidity as large construction commitments of about $3.2B are executed over time.\n\nOperating revenues:\n\n$1,635,173,000\n\nNet income:\n\n$174,804,000\n\nDiluted EPS:\n\n$0.46 per share\n\nOPERATING REVENUES\n\n$1,635,173,000\n\nThree months ended March 31, 2026\n\n$174,804,000\n\nThree months ended March 31, 2026\n\n$0.46 per share\n\nNet income available to common stockholders, Q1 2026\n\nCASH FROM OPERATIONS\n\n$532,421,000\n\nNet cash provided by operating activities, Q1 2026\n\nPROPERTY IMPROVEMENTS CAPEX\n\n$870,038,000\n\nImprovements to investments in real estate, Q1 2026\n\nTOTAL DEBT OUTSTANDING\n\n$18,137,568,000\n\nGlobal credit facilities, term loans, notes and other debt at March 31, 2026\n\nWEIGHTED-AVERAGE INTEREST RATE\n\n2.85%\n\nOn total debt at March 31, 2026\n\nATM EQUITY PROCEEDS\n\n$870,566,000\n\nNet proceeds from common stock issuance in Q1 2026\n\nGlobal Revolving Credit Facility, real estate investment trust (REIT), Redeemable Noncontrolling Interest, cross-currency interest rate swaps, +2 more\n\nGlobal Revolving Credit Facility\n\nReal Estate Investment Trust (REIT)\n\nRedeemable Noncontrolling Interest\n\nCross-Currency Interest Rate Swaps\n\nNet Investment Hedges\n\nAt The Market Offerings\n\nOperating revenues: $1,635,173,000\n\nOperating revenues\n\n$1,635,173,000\n\n$174,804,000\n\n$0.46\n\nCash from operations\n\n$532,421,000\n\n10-Q Quarterly Reports: What Changes Quarter to Quarter \u2192\n\n05/01/2026 - 09:22 PM\n\nSource:\n\nView Original Filing on SEC EDGAR\n\nHow did Digital Realty (DLR) perform financially in Q1 2026?\n\nDigital Realty grew total operating revenues to $1.64 billion in Q1 2026, up from $1.41 billion a year earlier. Net income increased to $174.8 million versus $106.4 million, and diluted EPS for common stockholders rose to $0.46 from $0.27.\n\nWhat were Digital Realty\u2019s cash flow and investment levels in Q1 2026?\n\nDigital Realty generated $532.4 million in cash from operating activities during Q1 2026. It used this cash plus financing to fund $870.0 million of real estate improvements and $277.1 million of acquisitions, reflecting continued expansion of its global data center footprint.\n\nHow much debt does Digital Realty (DLR) have and at what rates?\n\nAs of March 31, 2026, Digital Realty had $18.14 billion of total debt, mainly unsecured senior notes and global credit facilities. The weighted\u2011average interest rate was 2.85%, and borrowings were largely denominated in euros, with the company in compliance with all covenants.\n\nWhat equity did Digital Realty issue under its 2024 ATM program?\n\nIn Q1 2026, Digital Realty raised $870.6 million of net proceeds by selling about 4.9 million common shares at an average price of $178.36. After March 31, 2026, it raised another $435 million, leaving roughly $570 million of capacity under the $3.0 billion program.\n\nHow much did Digital Realty (DLR) pay in dividends and distributions in Q1 2026?\n\nFor Q1 2026, Digital Realty paid common stock dividends of about $425.0 million and preferred stock dividends totaling roughly $10.2 million. Corresponding Operating Partnership distributions were similar, and these payments were largely supported by operating cash flow.\n\nWhat is Digital Realty\u2019s total asset and equity base as of March 31, 2026?\n\nAt March 31, 2026, Digital Realty reported $48.86 billion in total assets, including $26.86 billion of net real estate investments. Total equity, including noncontrolling interests, was $23.80 billion, providing a substantial capital base to support ongoing development and acquisition activity.\n\nDid foreign currency and derivatives materially affect Digital Realty\u2019s Q1 2026 results?\n\nYes. Digital Realty recorded a $100.5 million foreign currency translation loss in Q1 2026, partially offset by a $27.8 million increase in derivative fair values. Overall, other comprehensive loss was $77.5 million, reducing comprehensive income relative to net income for the period.\n\nDigital Rlty Tr Inc\n\nNYSE:DLR\n\nView DLR Stock Overview \u2192\n\n#246 Ranked by Market Cap\n\n#916 Ranked by Dividends\n\n#851 52-Week Gainer\n\n#3011 Monthly Gainer\n\n#414 Ranked by Short %Change\n\nMay 6, 2026\n\nDigital Realty Expands Talent Development Opportunities for Operations Workforce Through Partnership with DCD Academy\n\nApr 23, 2026\n\nDigital Realty Reports First Quarter 2026 Results\n\nApr 17, 2026\n\nSieve Capital Issues Letter Urging Americold Shareholders to Vote AGAINST Chairman Mark Patterson and Director Andy Power at Annual Meeting\n\nMar 31, 2026\n\nDigital Realty Schedules First Quarter 2026 Earnings Release and Conference Call\n\nMar 30, 2026\n\nSieve Capital Announces Campaign for Boardroom Change at Americold Realty Trust\n\nDLR Latest SEC Filings\n\nMay 4, 2026\n\n[8-K] DIGITAL REALTY TRUST, INC. Reports Material Event\n\nMay 4, 2026\n\n[424B5] DIGITAL REALTY TRUST, INC. Prospectus Supplement (Debt Securities)\n\nApr 29, 2026\n\n[SCHEDULE 13G] DIGITAL REALTY TRUST, INC. Passive Investment Disclosure (>5%)\n\nApr 29, 2026\n\n[SCHEDULE 13G] DIGITAL REALTY TRUST, INC. Passive Investment Disclosure (>5%)\n\nApr 23, 2026\n\n[8-K] DIGITAL REALTY TRUST, INC. Reports Material Event\n\n70.17B\n\n351.33M\n\nReal Estate Investment Trusts\n\nAdd to Google News\n\nAn independent AI\u2011powered platform for real\u2011time stock market news, press releases, SEC filings, earnings, and tools for trading and investing.\n\n\u00a9 2020-2026 StockTitan.net - Your Edge is Information\n\nInformation only. Not investment advice.",
+      "evidence_quality": "full_body",
+      "url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html",
+      "published_at": "Fri, 01 May 2026 21:22:35 GMT",
+      "ticker_hints": [
+        "DLR"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOY09oMzBSc1I2RWVXOTFkNzM3eW8wS0R4N3JZMlYtQV9kd1FDVnZsUmhRQUJlbEU1Q09pdGFUSXZ1T3psaU5jYVR4MzdZQi1lNEUxSWY2WVUxdkIyWHZ1YVY4UUx3c3VscENRbUtXeEZNNHJpaDhSYkoxcDRkRF8wYWlNNi1JcnNQQnBHc2xNZERQLVpBdGNxT0kybGRodl90anlpbkZIekVHTllnNHZ5NVNQdzNId2s?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Digital Realty (DLR) grows Q1 2026 profit while funding big data center expansion - Stock Titan",
+        "source": "Stock Titan",
+        "source_url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html",
+        "publisher_homepage_url": "https://www.stocktitan.net",
+        "url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html",
+        "published_at": "Fri, 01 May 2026 21:22:35 GMT",
+        "summary": "Digital Realty (DLR) grows Q1 2026 profit while funding big data center expansion  Stock Titan",
+        "ticker": "DLR",
+        "company_name": "Digital Realty Trust Inc",
+        "query": "Digital Realty Trust Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "DLR"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Article directly mentions DLR and contains substantive company news about Q1 2026 profit growth and data center expansion funding, which is real business information relevant to the growth archetype position.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.stocktitan.net/sec-filings/DLR/10-q-digital-realty-trust-inc-quarterly-earnings-report-62edabe00990.html",
+      "content_source": "stocktitan.net",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 1211,
+          "title_hits": 8,
+          "resolved_host": "stocktitan.net",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPQy14eUo4dlZxdVVpbFd0czNEQ09Kc0Z1anVlN200UHNJVnJlR1VqZGtTSXo2Wlp4WFpycUF5ODNkdGdadUZTY2poLUc2S3ZVX3ZPTV91ck9oSDE0bmgwQnUzdWtWZWZzZS1LclNqWGpqWmY1ZFRMeGhjU1RIX1Y0UmYxZ2RsZHpZZXFpblJMOFpWdWl3WlhjWW1Hc2xRN204NXIxVlZyakF0ZlhoYW95M1VBYUFGUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "7cb64260412b8a12b451048fa83fa3109a6bf553667d07c992affbfeb11941d7",
+      "source_type": "company_news",
+      "source": "Bloomberg.com",
+      "source_url": "https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover",
+      "title": "GameStop CEO Says eBay Shut Account After Funding Stunt - Bloomberg.com",
+      "summary": "GameStop CEO Says eBay Shut Account After Funding Stunt Bloomberg.com",
+      "body": "GameStop CEO Says eBay Shut Account After Funding Stunt Bloomberg.com",
+      "evidence_quality": "title_only",
+      "url": "https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover",
+      "published_at": "Wed, 06 May 2026 23:59:45 GMT",
+      "ticker_hints": [
+        "EBAY"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMitgFBVV95cUxPQy14eUo4dlZxdVVpbFd0czNEQ09Kc0Z1anVlN200UHNJVnJlR1VqZGtTSXo2Wlp4WFpycUF5ODNkdGdadUZTY2poLUc2S3ZVX3ZPTV91ck9oSDE0bmgwQnUzdWtWZWZzZS1LclNqWGpqWmY1ZFRMeGhjU1RIX1Y0UmYxZ2RsZHpZZXFpblJMOFpWdWl3WlhjWW1Hc2xRN204NXIxVlZyakF0ZlhoYW95M1VBYUFGUQ?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "GameStop CEO Says eBay Shut Account After Funding Stunt - Bloomberg.com",
+        "source": "Bloomberg.com",
+        "source_url": "https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover",
+        "publisher_homepage_url": "https://www.bloomberg.com",
+        "url": "https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover",
+        "published_at": "Wed, 06 May 2026 23:59:45 GMT",
+        "summary": "GameStop CEO Says eBay Shut Account After Funding Stunt  Bloomberg.com",
+        "ticker": "EBAY",
+        "company_name": "eBay Inc",
+        "query": "eBay Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "EBAY"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "eBay shutting down GameStop's account represents a significant business decision that could affect eBay's marketplace dynamics and customer relations.",
+        "evidence_quality": "title_only"
+      },
+      "scrape_status": "error:Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "resolution_status": "error",
+      "resolution_failure_reason": "Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403",
+      "resolution_debug": {
+        "error": "Client error '403 Forbidden' for url 'https://www.bloomberg.com/news/articles/2026-05-06/gamestop-s-cohen-says-he-s-selling-on-ebay-to-help-fund-takeover'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403"
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQSVltYU54aE55djhNSUw5V1VNUllGQVV3dnRTZTVUY3lNWWc2WWlUeDhCZ3BkRmV0Y29GM1dvQkNILVJUbHRqWktNZnc4SUR0cjhFeWkyNlZ0d201NGxlQWhsSV9PWXlaYmFXVV81MGduUnhxbDNBZWRGWGlYMXNvZldHU3FLSVJ1eDNNQUpSaHJoZHZxR2JRM09iV1VrSFXSAaQBQVVfeXFMUFdzNXRXS0dpTnFkOEFuWFRybGYyaUJ0M0xYV3dUbXF1QnpYWmZMWGpiRThnWlpjcXhrNXpfaEg0dEdsM2dLZl9zc182VHBhNEFleThwcF94dGdSRi1tcl9ZSWhoSUdKRWVndmZIcTRyQkx2UnJZQl9UbkJfZnNQVEdqZEpNRzNfN3N6YUlwYXRyUTF2b2J4c01UaUZFLW1uVS1iSmk?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "9cd733cb296a9ffba8c96d3d95846250a08b43aa2d1e2bfcbc3bb3ce0f381288",
+      "source_type": "company_news",
+      "source": "CNBC",
+      "source_url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html",
+      "title": "GameStop stock sinks after surprise eBay takeover bid, Cohen's combative CNBC interview - CNBC",
+      "summary": "GameStop stock sinks after surprise eBay takeover bid, Cohen's combative CNBC interview CNBC",
+      "body": "!Image 1: GameStop CEO Ryan Cohen $56B eBay offer: 'An opportunity to build a much larger business'\n\nVideo game retailer GameStop announced Sunday it has made an unsolicited, nonbinding offer to acquire eBay for $125 per share in a cash-and-stock deal, valuing the e-commerce platform at roughly $55.5 billion**.**\n\nThe offer, split evenly between cash and GameStop common stock, represents a 20% premium to eBay\u2019s Friday close of $104.07, and a 46% premium to its closing price on Feb**.** 4 \u2014 when the gaming retail giant started building a stake in the company, GameStop said in its statement.\n\nShares of eBay climbed about 5% on Monday to around $109, well below GameStop\u2019s $125 offer, suggesting investors are skeptical the deal will close. GameStop\u2019s current market value is just below $12 billion, while eBay\u2019s is $46 billion.\n\nGameStop stock sank 10%.\n\nGameStop CEO Ryan Cohen told CNBC on Monday that he hasn\u2019t started any conversation with eBay\u2019s management.\n\n\u201cWe are just starting,\u201d Cohen said on CNBC\u2019s \u201cSquawk Box.\u201d \u201cFor obvious reasons, eBay is a public company, there\u2019s all kinds of perverse financial incentives from the board to the management team. So there\u2019s only one way to approach something like this.\u201d\n\nEBay confirmed that it received the offer in a statement Monday, and said its board would review it.\n\nThe proposal raises immediate questions about financing. GameStop\u2019s market value is only a fraction of the roughly $56 billion implied deal size, and while the company has lined up a $20 billion financing letter from TD Bank, the funding gap remains substantial.\n\nCohen offered limited clarity on the structure during what at times was a combative and awkward interview, repeatedly directing viewers to the company\u2019s website for details.\n\n\u201cWe are offering half cash, half stock, and we have the ability to issue stock in order to get the deal done. But the full details of the offer are on our website,\u201d Cohen said. \u201cWe will see what happens.\u201d\n\n!Image 2: hide content\n\nRT Quote | Last NASDAQ LS, VOL From CTA | USD\n\n!Image 3: after hours iconAfter Hours: Last | 7:48 AM EDT\n\n106.70!Image 4: quote price arrow up+0.28 (+0.26%)\n\n106.42!Image 5: quote price arrow down-1.73 (-1.60%)\n\nGameStop has accumulated roughly a 5% stake in eBay, consisting primarily of derivatives alongside some common stock, according to Cohen. The remainder of the deal would be funded from its approximately $9.4 billion cash pile as well as the possibility of issuing additional shares.\n\n\u201cIt makes us one of the largest shareholders. So they have a fiduciary duty to their shareholders to evaluate this proposal,\u201d Cohen said. \u201cThis is a business that is under-earning and can make a lot more money. And GameStop is a good blueprint for that.\u201d\n\nGameStop became a so-called \u201cmeme stock\u201d during a 2021 retail frenzy that drove sharp gains in its shares.\n\nCohen added that eBay\u2019s earnings power could increase materially under tighter cost controls, arguing earnings could potentially double over a relatively short period.\n\n\u201cIt\u2019s also going to be making a lot more money in the future than it is today because it\u2019s going to be run a lot more efficiently,\u201d Cohen said. \u201cWhen a business is not growing users and spending $2.5 billion in sales and marketing, there\u2019s a lot of fat to cut ... it\u2019s a business that can take on more leverage because it\u2019s going to be making more money in the future.\u201d\n\nWhen pressed on what evidence he has that he can grow a mature consumer business, Cohen pushed back sharply on skepticism around GameStop\u2019s own trajectory.\n\n\u201cDidn\u2019t you guys call for GameStop\u2019s demise multiple times? Like, it should have been bankrupt by now?\u201d he said. \u201cLook at our financial performance. Is it better than you guys anticipated? Because you guys said it was going to be doing really, really poorly, and it\u2019s actually doing okay.\u201d\n\nThe Wall Street Journal first reported on the unsolicited deal. Cohen told the Journal he is prepared to take the offer directly to shareholders in a proxy fight if necessary. Should the deal close, Cohen is expected to serve as Chief Executive Officer of the combined company, according to GameStop\u2019s statement.\n\n!Image 6: Watch CNBC's full interview with GameStop CEO Ryan Cohen\n\nThe proposal is subject to approval from eBay\u2019s board of directors, regulators, and shareholders from both companies. EBay did not immediately respond to a CNBC request for comment.\n\nBoth companies have struggled to adapt to shifting consumer preferences, and it remains unclear whether eBay\u2019s board will view GameStop \u2014 whose own market capitalization stood at roughly $11 billion before the news broke \u2014 as a credible acquirer for a company four times its size.\n\nCohen first hinted in January at plans to acquire a publicly traded consumer company larger than GameStop, telling CNBC at the time that the deal would be \u201ctransformational\u201d and \u201cnever been done before within the history of the capital markets.\u201d\n\n\u201cIt\u2019s gonna be really big. Really big. Very, very, very big,\u201d Cohen said of the size of the acquisition.\n\nThe Canadian entrepreneur built his reputation by founding Chewy, an online pet supply retailer that was sold to PetSmart for $3.35 billion in 2017. He later gained a cult following after building a large GameStop stake, and in late 2020, criticized the company for moving too slowly toward e-commerce, arguing that the video-game retailer could reposition itself as the Amazon of the gaming industry.\n\nHe joined GameStop\u2019s board in January 2021, just as retail traders on Reddit\u2019s WallStreetBets forum rallied behind the stock, sending shares 1,500% higher in two weeks, in one of modern markets\u2019 most chaotic episodes.\n\nCohen stepped up as CEO in September 2023, steering the company back to profitability through aggressive cost cuts and the closure of hundreds of stores.\n\nIn its offer, GameStop said it would cut $2 billion in annual costs within a year, targeting eBay\u2019s bloated sales and marketing budget, which totaled $2.4 billion in fiscal 2025 while net active buyer growth remained flat at less than 0.75%.\n\n\u201cMore spend is not producing more users on a marketplace with near-universal brand recognition,\u201d the statement said.\n\n!Image 7: hide content\n\nRT Quote | Last NASDAQ LS, VOL From CTA | USD\n\n!Image 8: after hours iconAfter Hours: Last | 8:07 AM EDT\n\n24.05!Image 9: quote price arrow up+0.08 (+0.33%)\n\n23.97!Image 10: quote price arrow down-1.20 (-4.77%)\n\nThe company projected that cost reductions alone would lift eBay\u2019s earnings per share, measured under standard U.S. accounting rules, to $7.79 from $4.26 in the first year.\n\nGameStop also pitched its roughly 1,600 U.S. retail stores as physical infrastructure for eBay\u2019s marketplace, offering a network for authentication, intake, fulfillment, and live commerce capabilities.\n\nCohen\u2019s compensation package, adjusted at the beginning of the year, also gave him an additional incentive to boost the company\u2019s market value and profitability.\n\nIn January, GameStop outlined a compensation package for Cohen comprising stock options tied to performance targets, including market capitalization and earnings thresholds. Based on the structure, the options could be worth more than $35 billion if the company reaches a $100 billion valuation and meets profit targets.\n\nEBay, meanwhile, has faced increased competition in e-commerce from rivals such as Amazon, Walmart and Etsy, as well as newer, China-linked marketplaces such as TikTok Shop, Temu and Shein. After peaking at $100 billion in gross merchandise volume in 2020, eBay\u2019s GMV slid to $79.6 billion in 2025, as the platform struggled to retain shoppers.\n\nTo keep buyers and sellers returning to its site, eBay CEO Jamie Iannone has pushed the company to lean into so-called \u201cfocus categories,\u201d such as trading cards, collectibles, used luxury goods and auto parts. In February, eBay said it would acquire Etsy\u2019s secondhand clothing app Depop for about $1.2 billion in cash, giving it an edge into younger consumers.\n\nEBay has also invested in artificial intelligence tools to make it easier for sellers to list their wares, and to help consumers find products on the site, including announcing a partnership with OpenAI for its agentic web browser.\n\nAs it spends more on AI, eBay has looked to trim its head count. The company in February laid off about 800 employees, or roughly 6% of its workforce.\n\nBernstein analysts wrote in a note to clients on Friday that while there is overlap between GameStop\u2019s and eBay\u2019s businesses in games, toys and collectibles, the strategic rationale for such a deal remains unclear. They added that Iannone\u2019s tenure has had its \u201cups and downs,\u201d but \u201crecent execution has been solid.\u201d\n\n\u201cWhy disrupt things?\u201d the firm wrote. \u201cThe turnaround is working.\u201d\n\n!Image 11: How the GameStop short squeeze permanently changed markets",
+      "evidence_quality": "full_body",
+      "url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html",
+      "published_at": "Mon, 04 May 2026 03:22:00 GMT",
+      "ticker_hints": [
+        "EBAY"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQSVltYU54aE55djhNSUw5V1VNUllGQVV3dnRTZTVUY3lNWWc2WWlUeDhCZ3BkRmV0Y29GM1dvQkNILVJUbHRqWktNZnc4SUR0cjhFeWkyNlZ0d201NGxlQWhsSV9PWXlaYmFXVV81MGduUnhxbDNBZWRGWGlYMXNvZldHU3FLSVJ1eDNNQUpSaHJoZHZxR2JRM09iV1VrSFXSAaQBQVVfeXFMUFdzNXRXS0dpTnFkOEFuWFRybGYyaUJ0M0xYV3dUbXF1QnpYWmZMWGpiRThnWlpjcXhrNXpfaEg0dEdsM2dLZl9zc182VHBhNEFleThwcF94dGdSRi1tcl9ZSWhoSUdKRWVndmZIcTRyQkx2UnJZQl9UbkJfZnNQVEdqZEpNRzNfN3N6YUlwYXRyUTF2b2J4c01UaUZFLW1uVS1iSmk?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "GameStop stock sinks after surprise eBay takeover bid, Cohen's combative CNBC interview - CNBC",
+        "source": "CNBC",
+        "source_url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html",
+        "publisher_homepage_url": "https://www.cnbc.com",
+        "url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html",
+        "published_at": "Mon, 04 May 2026 03:22:00 GMT",
+        "summary": "GameStop stock sinks after surprise eBay takeover bid, Cohen's combative CNBC interview  CNBC",
+        "ticker": "EBAY",
+        "company_name": "eBay Inc",
+        "query": "eBay Inc",
+        "source_type": "company_news",
+        "decoded_google_url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "EBAY"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "eBay's reported takeover bid for GameStop represents a strategic M&A move that could significantly impact eBay's growth trajectory.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://www.cnbc.com/2026/05/04/gamestop-ebay-takeover-bid-ryan-cohen-gaming-retail-ecommerce.html",
+      "content_source": "cnbc.com",
+      "scrape_status": "ok_proxy",
+      "resolution_status": "resolved_proxy",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "proxy",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 1433,
+          "title_hits": 4,
+          "resolved_host": "cnbc.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "proxy"
+        }
+      }
+    },
+    {
+      "external_id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOemJoUDZwU2NHYS1DaE1MMmZZWm8zUlpOalNOZjZZbVJ6LW9mSUV5S2J0VTdMRW50U2c1V2o1clg3U2ZhYWVXcUhkdUlGNVo1LThBT3gtSjVPaVNCSkxDdU1UbWhGY3B6V0ZYTlhpcFJBQjZXWXRJQkF4RlZ6NlhOTTNqbTdQSFdpQzJsNmtsamV6YjVVY0RRb29hcmZsTDRJN0VyZGVQQkVFR3Q2Ym03VmpQb016VFlV?oc=5&hl=en-US&gl=US&ceid=US:en",
+      "event_hash": "7481b89fa2af3ff942dbdff68cc191936d8e07a0496d89d0caca403cb23cc731",
+      "source_type": "company_news",
+      "source": "Finviz",
+      "source_url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component",
+      "title": "Entergy Corporation announces public offering of common stock with a forward component - Finviz",
+      "summary": "Entergy Corporation announces public offering of common stock with a forward component Finviz",
+      "body": "Home News Screener Charts Maps Groups Portfolio Insider Futures Forex Crypto Calendar Pricing Theme Help Login Register Market News Market Pulse Stocks News ETF News Crypto News Entergy Corporation announces public offering of common stock with a forward component By PR Newswire | May 05, 2026, 4:42 PM ETR -0.83% Entergy Corp NEW ORLEANS , May 5, 2026 /PRNewswire/ -- Entergy Corporation (NYSE: ETR) announced today the commencement of a registered underwritten offering of $2,175,000,000 of shares of its common stock. Subject to certain conditions, all shares are expected to be borrowed by the forward counterparties (as defined below) (or their respective affiliates) from third parties and sold to the underwriters and offered in connection with the forward sale agreements described below. Wells Fargo Securities, Citigroup, Barclays and Scotiabank are acting as joint book-running managers for the offering.\n\nIn connection with the offering, Entergy expects to enter into forward sale agreements with each of Wells Fargo Bank, National Association, Citibank, N.A., Barclays Bank PLC and The Bank of Nova Scotia (the \"forward counterparties\") under which Entergy will agree to issue and sell to the forward counterparties an aggregate of $2,175,000,000 of shares of its common stock at an initial forward sale price per share equal to the price per share at which the underwriters purchase the shares in the offering, subject to certain adjustments, upon physical settlement of the forward sale agreements. In addition, the underwriters of the offering expect to be granted a 30-day option to purchase up to an additional $326,250,000 of shares of Entergy's common stock upon the same terms. If the underwriters exercise their option to purchase additional shares of Common Stock, Entergy expects to enter into additional forward sale agreements with the forward counterparties with respect to the additional shares.\n\nSettlement of the forward sale agreements is expected to occur on or prior to April 30, 2028. Entergy may, subject to certain conditions, elect cash settlement or net share settlement for all or a portion of its rights or obligations under the forward sale agreements.\n\nIf Entergy elects physical settlement of the forward sale agreements, it expects to use the net proceeds for general corporate purposes, which may include repayment of commercial paper, outstanding loans under Entergy's revolving credit facility or other debt.\n\nThe offering is being made pursuant to Entergy's effective shelf registration statement filed with the U.S. Securities and Exchange Commission (the \"SEC\"). The preliminary prospectus supplement and the accompanying base prospectus related to the offering will be available on the SEC's website at www.sec.gov . Copies of the preliminary prospectus supplement and the accompanying base prospectus relating to the offering may be obtained from the joint-book running managers for the offering as follows:\n\nWells Fargo Securities, LLC 90 South 7th Street, 5th Floor Minneapolis, Minnesota 55402 Email: WFScustomerservice@wellsfargo.com Tel: 800-645-3751 (option #5)\n\nCitigroup c/o Broadridge Financial Solutions 1155 Long Island Avenue Edgewood, New York 11717 Tel: 800-831-9146\n\nBarclays Capital Inc. c/o Broadridge Financial Solutions 1155 Long Island Avenue Edgewood, New York 11717 Email: barclaysprospectus@broadridge.com Tel: 888-603-5847",
+      "evidence_quality": "full_body",
+      "url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component",
+      "published_at": "Tue, 05 May 2026 21:29:01 GMT",
+      "ticker_hints": [
+        "ETR"
+      ],
+      "sector_hint": null,
+      "raw": {
+        "id": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOemJoUDZwU2NHYS1DaE1MMmZZWm8zUlpOalNOZjZZbVJ6LW9mSUV5S2J0VTdMRW50U2c1V2o1clg3U2ZhYWVXcUhkdUlGNVo1LThBT3gtSjVPaVNCSkxDdU1UbWhGY3B6V0ZYTlhpcFJBQjZXWXRJQkF4RlZ6NlhOTTNqbTdQSFdpQzJsNmtsamV6YjVVY0RRb29hcmZsTDRJN0VyZGVQQkVFR3Q2Ym03VmpQb016VFlV?oc=5&hl=en-US&gl=US&ceid=US:en",
+        "title": "Entergy Corporation announces public offering of common stock with a forward component - Finviz",
+        "source": "Finviz",
+        "source_url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component",
+        "publisher_homepage_url": "https://finviz.com",
+        "url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component",
+        "published_at": "Tue, 05 May 2026 21:29:01 GMT",
+        "summary": "Entergy Corporation announces public offering of common stock with a forward component  Finviz",
+        "ticker": "ETR",
+        "company_name": "Entergy Corp",
+        "query": "Entergy Corp",
+        "source_type": "company_news",
+        "decoded_google_url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component"
+      },
+      "relevance": {
+        "relevant": true,
+        "affected_tickers": [
+          "ETR"
+        ],
+        "event_type": "company_specific",
+        "why_it_matters": "Entergy's public stock offering with a forward component affects capital structure and dilution risk for existing shareholders.",
+        "evidence_quality": "full_body"
+      },
+      "resolved_url": "https://finviz.com/news/351029/entergy-corporation-announces-public-offering-of-common-stock-with-a-forward-component",
+      "content_source": "finviz.com",
+      "scrape_status": "ok",
+      "resolution_status": "resolved_html",
+      "resolution_failure_reason": "",
+      "resolution_debug": {
+        "method": "html",
+        "evaluation": {
+          "accepted": true,
+          "failure_reason": "",
+          "word_count": 504,
+          "title_hits": 8,
+          "resolved_host": "finviz.com",
+          "source_match": true,
+          "acceptance_score": 6,
+          "method": "html"
+        }
+      }
+    }
+  ],
+  "significance_cache": {
+    "833d0481495e457003704900670f3267b5c7c72c1f87fd42a89f073cac36f010": {
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "CSX CFO Kevin Boone is scheduled to speak at a Bank of America investor conference, a routine appearance with no material new announcements expected."
+    },
+    "ded77e44588220d73ea2695ec7360786c1062269e32af582c8fab78b691a14a4": {
+      "confidence": 0.9,
+      "event_type": "financing",
+      "significance": "major",
+      "why_it_matters": "Digital Realty launched a $7.5 billion at-the-market equity offering program, representing a significant capital raise that could dilute existing shareholders."
+    },
+    "9c050e95e799ba7c8e63d8aaeb1df923aba650b512cf26de2f129fce3459ecc6": {
+      "confidence": 0.95,
+      "event_type": "mna",
+      "significance": "major",
+      "why_it_matters": "Crown Castle's $8.5 billion sale of its Fiber and Small Cell businesses to Zayo and Arium Networks (EQT) transforms the company into a pure-play tower operator, fundamentally changing its business model and capital structure."
+    },
+    "e8476e421788fcdc59bc72333abe0838cb9de76f8353b06db024cb89bbf68f13": {
+      "confidence": 0.9,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Routine monthly sales report with solid but expected growth; extra shopping day is a timing artifact, not a fundamental driver."
+    },
+    "e57f3cc2b63cd870a4471020c6725b2d81b405b44e809dc53776a5966ba4e389": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "482ec91db48d599a1bd0c392978198ac3a188d776702efe03413140c89e17059": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "cc3cb3fc52f559d5c788e458b11fa78f14cfda314116211de7fb9340f38cbb8e": {
+      "confidence": 0.3,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Classification unavailable."
+    },
+    "d8b5286c4ce15721f15583d4abf13853ddc88d7da823f78031b836f2ca5044d3": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "91c2149959a2e4c16d6f99763246442c1ee3c1e00191adbec284b3adc1a8c617": {
+      "confidence": 0.92,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Third-party investment analysis from Seeking Alpha on preferred equity risk-reward, not a corporate announcement or actionable news."
+    },
+    "85b947566294fbfa6b570ac7ad48cc3449b3a4fb795b884f7002bc5bfb745877": {
+      "confidence": 0.85,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Environmental NGO monitoring results documenting pellet pollution; no regulatory action, fine, or official investigation announced."
+    },
+    "65c2d6cf3e8d5fd9f390e67055e4d9c8eaef1e7bc8c81700647531e456b0acbd": {
+      "rule": "keyword",
+      "confidence": 0.85,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Keyword detected routine minor event"
+    },
+    "8c516f8f9b78caf8ce8e257259f0794063e02f2c38db5269bae5b1716ec585cd": {
+      "rule": "keyword",
+      "confidence": 0.95,
+      "event_type": "other",
+      "significance": "major",
+      "why_it_matters": "Keyword detected major event"
+    },
+    "4a0507ce7883aec8215e37ecc30b73ef9030d8c309dac6929e32a7384edcff8a": {
+      "confidence": 0.3,
+      "event_type": "other",
+      "significance": "minor",
+      "why_it_matters": "Classification unavailable."
+    },
+    "f67ded90b05863568c1cbc63f919351a80ddc5f2a42ce92515bb234e98a71288": {
+      "significance": "major",
+      "event_type": "financing",
+      "why_it_matters": "Blackstone's data center REIT IPO aims to raise $1.74 billion, representing a significant capital markets event and new public entity launch.",
+      "confidence": 0.95
+    },
+    "56872418513e5a4fa669bf8b8e7bcfa6a2e009c9e9e44159af9b35f6ae400493": {
+      "significance": "major",
+      "event_type": "product",
+      "why_it_matters": "Anthropic, Blackstone, Hellman & Friedman, Goldman Sachs, and a consortium of investors are forming a new AI services company focused on enterprise deployment of Claude.",
+      "confidence": 0.95
+    },
+    "e76d0176b991f9e29c8936306e10a83c182a93bf1d948adcc49700b639ddccd6": {
+      "significance": "major",
+      "event_type": "mna",
+      "why_it_matters": "Blackstone is acquiring a majority stake in Service King, a material M&A transaction for the alternative asset manager.",
+      "confidence": 0.9
+    },
+    "8c8b640449d6e3329cdce3553c895a64149db3307a04151a44ce063099942d23": {
+      "significance": "major",
+      "event_type": "mna",
+      "why_it_matters": "Cisco is acquiring Israeli AI cybersecurity startup Astrix Security for an estimated $300-400 million to address AI agent security threats.",
+      "confidence": 0.95
+    },
+    "1b55ac14b36edbe62b73449267c7fd787050508cd638e0152e7e89a64c9f96f9": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "5462f604f072a60aad927ff14a403e53c9a7c6a8025e02e26be9ae818a734cc9": {
+      "significance": "major",
+      "event_type": "earnings",
+      "why_it_matters": "Digital Realty reported Q1 2026 earnings with revenue of $1.64 billion, up from $1.41 billion year-over-year, and net income of $174.8 million versus $106.4 million prior year.",
+      "confidence": 0.95
+    },
+    "7cb64260412b8a12b451048fa83fa3109a6bf553667d07c992affbfeb11941d7": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "9cd733cb296a9ffba8c96d3d95846250a08b43aa2d1e2bfcbc3bb3ce0f381288": {
+      "significance": "major",
+      "event_type": "other",
+      "why_it_matters": "Keyword detected major event",
+      "confidence": 0.95,
+      "rule": "keyword"
+    },
+    "7481b89fa2af3ff942dbdff68cc191936d8e07a0496d89d0caca403cb23cc731": {
+      "significance": "major",
+      "event_type": "financing",
+      "why_it_matters": "Entergy Corporation announced a $2.175 billion public offering of common stock with a forward sale component.",
+      "confidence": 0.95
+    }
+  }
+}

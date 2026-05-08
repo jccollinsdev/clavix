@@ -1,0 +1,188 @@
+{
+  "input_count": 40,
+  "enriched_count": 18,
+  "resolved_with_body": 18,
+  "wrapper_only": 22,
+  "error_count": 0,
+  "resolved_search_count": 0,
+  "by_ticker": {
+    "ALB": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 4
+      }
+    },
+    "AEP": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 1,
+        "ok_proxy": 2,
+        "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/legal/litigation/aep-raises-capital-plan-78-billion-beats-profit-estimates-data-center-demand-2026-05-05/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1
+      }
+    },
+    "ABT": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "ok_proxy": 2
+      }
+    },
+    "ACN": {
+      "input_count": 4,
+      "resolved_with_body": 4,
+      "wrapper_only": 0,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok": 2,
+        "error:Client error '401 HTTP Forbidden' for url 'https://www.barrons.com/articles/why-alphabet-stock-remains-j-p-morgans-top-overall-pick-96ab6d8a'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+        "ok_proxy": 1
+      }
+    },
+    "ABNB": {
+      "input_count": 4,
+      "resolved_with_body": 2,
+      "wrapper_only": 2,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "ok_proxy": 2,
+        "unknown": 2
+      }
+    },
+    "AEE": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "AOS": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "SBAC": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "GOOG": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    },
+    "SNA": {
+      "input_count": 4,
+      "resolved_with_body": 0,
+      "wrapper_only": 4,
+      "error_count": 0,
+      "resolved_search_count": 0,
+      "status_counts": {
+        "unknown": 4
+      }
+    }
+  },
+  "status_counts": {
+    "ok_proxy": 11,
+    "ok": 5,
+    "error:Client error '401 HTTP Forbidden' for url 'https://www.reuters.com/legal/litigation/aep-raises-capital-plan-78-billion-beats-profit-estimates-data-center-demand-2026-05-05/'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+    "error:Client error '401 HTTP Forbidden' for url 'https://www.barrons.com/articles/why-alphabet-stock-remains-j-p-morgans-top-overall-pick-96ab6d8a'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401": 1,
+    "unknown": 22
+  },
+  "failure_reason_counts": {
+    "unknown": 22
+  },
+  "top_failure_reasons": [
+    {
+      "reason": "unknown",
+      "count": 22
+    }
+  ],
+  "sample_resolved_titles": [
+    {
+      "ticker": "ALB",
+      "title": "Airbnb tops revenue estimates, but Middle East cancellations rise due to Iran war - CNBC",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "ALB",
+      "title": "Airbnb Q1 2026 financial results - Airbnb Newsroom",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "ALB",
+      "title": "Airbnb Announces First Quarter 2026 Results - PR Newswire",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "ALB",
+      "title": "Abbott Laboratories Q1 2026 Earnings: $2B CGM Quarter, 65% Upside Priced In - TIKR.com",
+      "status": "ok_proxy"
+    },
+    {
+      "ticker": "AEP",
+      "title": "Court upholds $495 million verdict against Abbott Laboratories in case over preterm infant formula - Chicago Tribune",
+      "status": "ok"
+    }
+  ],
+  "sample_wrapper_titles": [
+    {
+      "ticker": "ABNB",
+      "title": "Airbnb Q1 2026 financial results - Airbnb Newsroom",
+      "status": "unknown"
+    },
+    {
+      "ticker": "ABNB",
+      "title": "Airbnb tops revenue estimates, but Middle East cancellations rise due to Iran war - CNBC",
+      "status": "unknown"
+    },
+    {
+      "ticker": "AEE",
+      "title": "Ameren Corp stock hits all-time high at 115.59 USD - Investing.com",
+      "status": "unknown"
+    },
+    {
+      "ticker": "AEE",
+      "title": "Ameren (AEE) utilities group president sells 6,500 shares in 10b5-1 plan - Stock Titan",
+      "status": "unknown"
+    },
+    {
+      "ticker": "AEE",
+      "title": "Ameren Corp reports results for the quarter ended March 31 - Earnings Summary - TradingView",
+      "status": "unknown"
+    }
+  ],
+  "coverage_rate": 0.45,
+  "coverage_ok": true
+}

@@ -1,0 +1,25 @@
+{
+  "sequence": 14,
+  "logged_at": "2026-05-08T11:49:37.984958+00:00",
+  "model": "MiniMax-M2.7",
+  "function_name": "chatcompletion_text",
+  "caller": {
+    "file": "/Users/sansarkarki/Documents/Clavis/backend/app/pipeline/agentic_scan.py",
+    "function": "analyze_minor_events_shared_batch",
+    "line": 266
+  },
+  "messages": [
+    {
+      "role": "user",
+      "content": "You are a portfolio risk rater.\n\nGiven multiple news items, produce a reusable base analysis for each event without assuming a specific holder. For each event, state the primary risk implication \u2014 what it means for the company's risk profile, not just what happened.\n\nNews items to analyze:\n[0] Evidence quality: full_body\n    Title: FMR LLC reports 12.78M shares (4.4%) in Brown-Forman (BF) - Stock Titan\n    Summary: FMR LLC reports 12.78M shares (4.4%) in Brown-Forman (BF) Stock Titan\n    Body: ## FMR LLC reports 12.78M shares (4.4%) in Brown-Forman (BF)\n\n**Brown-Forman Corp reports a Schedule 13G/A showing FMR LLC beneficially owns 12,779,312.42 shares of Class B common stock, representing **4.4%** of the class as of 03/31/2026.** The filing states FMR LLC has **sole dispositive power** over 12,779,312.42 shares and **sole voting power** over 7,408,620.36 shares. The filing is an ownership disclosure amendment and notes related Exhibit 99 and a power of attorney.\n\n* None.\n\nBeneficially owned shares 12,779,312.42 shares Amount beneficially owned as of 03/31/2026\n\nPercent of class 4.4%Percent of Class B common stock as stated in the filing\n\nSole voting power 7,408,620.36 shares Sole\n\nFor each news item above, return a JSON object with:\n- \"analysis_text\": \"2-4 sentence analysis stating the primary implication\"\n- \"impact_horizon\": \"immediate|near_term|long_term\"\n- \"risk_direction\": \"improving|neutral|worsening\"\n- \"confidence\": 0.0-1.0\n- \"scenario_summary\": \"one sentence stating the primary implication\"\n- \"key_implications\": [\"...\", \"...\"]\n- \"followup_notes\": [\"...\", \"...\"]\n\nReturn a JSON array with one object per news item in order."
+    }
+  ],
+  "kwargs": {
+    "temperature": 0.2,
+    "max_tokens": 2400,
+    "timeout": 120
+  },
+  "response": "```json\n[\n  {\n    \"analysis_text\": \"FMR LLC's 4.4% stake in Brown-Forman represents significant ownership concentration by a major institutional investor. The disclosure reveals a voting/disposability mismatch: FMR controls dispositive power over all 12.78M shares but voting power over only 7.4M shares, suggesting the remaining 5.37M shares may be held with divided voting rights or through special arrangements. At 4.4%, FMR is approaching the 5% Schedule 13G threshold that triggers enhanced reporting requirements and potential accelerated exit considerations. This creates moderate ownership risk through potential exit pressure and increased sensitivity to FMR's internal portfolio rebalancing decisions.\",\n    \"impact_horizon\": \"near_term\",\n    \"risk_direction\": \"neutral\",\n    \"confidence\": 0.78,\n    \"scenario_summary\": \"A large institutional investor holding near-threshold ownership with voting control mismatches creates moderate exit risk and voting bloc sensitivity for Brown-Forman.\",\n    \"key_implications\": [\n      \"FMR's dispositive control over all shares creates exit risk if portfolio rebalancing occurs\",\n      \"The ~5.37M share voting gap indicates potential divided governance arrangements\",\n      \"4.4% stake positions FMR near the 5% regulatory reporting threshold\"\n    ],\n    \"followup_notes\": [\n      \"Monitor for additional filings as FMR approaches 5% ownership\",\n      \"Track any changes in FMR's voting power relative to dispositive power\",\n      \"Assess whether this represents a passive or more engaged investment approach by Fidelity\",\n      \"Review institutional ownership concentration trends for Brown-Forman\"\n    ]\n  }\n]\n```",
+  "error": null,
+  "duration_ms": 27778.78
+}
