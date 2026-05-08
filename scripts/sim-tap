@@ -1,0 +1,186 @@
+#!/usr/bin/env python3
+"""
+Tap an element in the iOS Simulator by accessibility label.
+
+This script takes an accessibility tree JSON (from xcodebuild snapshot_ui)
+on stdin, finds an element by label, and clicks it on screen.
+
+Usage:
+  # Paste JSON on stdin, then the label as arg:
+  echo '<json>' | sim-tap "Connect brokerage"
+
+  # Or tap by sim coordinates directly:
+  sim-tap --coords 200 464
+
+  # List buttons from JSON on stdin:
+  echo '<json>' | sim-tap --list-buttons
+
+  # List all elements:
+  echo '<json>' | sim-tap --list
+
+  # Dry run (show what would be clicked):
+  echo '<json>' | sim-tap --dry-run "Connect brokerage"
+"""
+
+import subprocess
+import json
+import sys
+import argparse
+
+
+def get_sim_window_bounds():
+    swift_code = (
+        'import Cocoa\n'
+        'let windows = CGWindowListCopyWindowInfo(.optionOnScreenOnly, kCGNullWindowID) as! [[String: Any]]\n'
+        'for w in windows {\n'
+        '    if let owner = w["kCGWindowOwnerName"] as? String, owner == "Simulator" {\n'
+        '        if let bounds = w["kCGWindowBounds"] as? [String: Any] {\n'
+        '            let x = bounds["X"] as? Int ?? 0\n'
+        '            let y = bounds["Y"] as? Int ?? 0\n'
+        '            let width = bounds["Width"] as? Int ?? 0\n'
+        '            let height = bounds["Height"] as? Int ?? 0\n'
+        '            print("\\(x),\\(y),\\(width),\\(height)")\n'
+        '        }\n'
+        '    }\n'
+        '}\n'
+    )
+    result = subprocess.run(['swift', '-e', swift_code], capture_output=True, text=True, timeout=10)
+    parts = result.stdout.strip().split(',')
+    if len(parts) != 4:
+        raise RuntimeError(f"Could not find Simulator window: {result.stdout} {result.stderr}")
+    return int(parts[0]), int(parts[1]), int(parts[2]), int(parts[3])
+
+
+def sim_to_screen(sim_x, sim_y, win_x, win_y, win_w, win_h, sim_w=402, sim_h=874):
+    h_bezel = (win_w - sim_w) / 2
+    v_total_pad = win_h - sim_h
+    v_bottom_bezel = h_bezel
+    v_top = v_total_pad - v_bottom_bezel
+    screen_x = win_x + h_bezel + sim_x
+    screen_y = win_y + v_top + sim_y
+    return int(round(screen_x)), int(round(screen_y))
+
+
+def click(screen_x, screen_y):
+    subprocess.run(['cliclick', f'c:{screen_x},{screen_y}'], check=True)
+
+
+def find_by_label(tree, label):
+    results = []
+    nodes = tree if isinstance(tree, list) else [tree]
+
+    def walk(n):
+        for item in n:
+            if item.get('AXLabel', '').lower() == label.lower():
+                results.append(item)
+            for child in item.get('children', []):
+                walk([child])
+
+    walk(nodes)
+    return results
+
+
+def find_buttons(tree):
+    buttons = []
+    nodes = tree if isinstance(tree, list) else [tree]
+
+    def walk(n):
+        for item in n:
+            if item.get('type') == 'Button':
+                buttons.append(item)
+            for child in item.get('children', []):
+                walk([child])
+
+    walk(nodes)
+    return buttons
+
+
+def list_all(tree):
+    elements = []
+    nodes = tree if isinstance(tree, list) else [tree]
+
+    def walk(n, depth=0):
+        for item in n:
+            label = item.get('AXLabel') or ''
+            t = item.get('type', '')
+            role = item.get('role_description', '')
+            f = item.get('frame', {})
+            elements.append({'label': label, 'type': t, 'role': role, 'frame': f, 'depth': depth})
+            for child in item.get('children', []):
+                walk([child], depth + 1)
+
+    walk(nodes)
+    return elements
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Tap iOS Simulator elements by label')
+    parser.add_argument('label', nargs='?', help='Element label to tap')
+    parser.add_argument('--list', action='store_true', help='List all elements from JSON on stdin')
+    parser.add_argument('--list-buttons', action='store_true', help='List buttons only')
+    parser.add_argument('--coords', nargs=2, type=float, metavar=('X', 'Y'), help='Tap sim coords directly')
+    parser.add_argument('--dry-run', action='store_true', help='Show without clicking')
+    args = parser.parse_args()
+
+    if args.coords:
+        wx, wy, ww, wh = get_sim_window_bounds()
+        sx, sy = sim_to_screen(args.coords[0], args.coords[1], wx, wy, ww, wh)
+        if args.dry_run:
+            print(f"Would click screen ({sx}, {sy})")
+        else:
+            click(sx, sy)
+            print(f"Clicked screen ({sx}, {sy})")
+        return
+
+    tree = json.load(sys.stdin)
+
+    if args.list_buttons:
+        for b in find_buttons(tree):
+            label = b.get('AXLabel') or '(unlabeled)'
+            val = b.get('AXValue') or ''
+            f = b.get('frame', {})
+            print(f"  {label:<35} val={val:<15} @({f.get('x',0):.0f},{f.get('y',0):.0f}) {f.get('width',0):.0f}x{f.get('height',0):.0f}")
+        return
+
+    if args.list:
+        for e in list_all(tree):
+            indent = '  ' * e['depth']
+            f = e['frame']
+            print(f"{indent}{e['role']:<18} {e['type']:<15} {e['label']:<35} @({f.get('x',0):.0f},{f.get('y',0):.0f})")
+        return
+
+    if not args.label:
+        parser.print_help()
+        return
+
+    matches = find_by_label(tree, args.label)
+    if not matches:
+        print(f"No element found with label '{args.label}'")
+        similar = [e.get('AXLabel', '') for e in list_all(tree) if e.get('AXLabel')]
+        import difflib
+        close = difflib.get_close_matches(args.label, similar, n=5, cutoff=0.4)
+        if close:
+            print(f"Did you mean: {', '.join(close)}")
+        sys.exit(1)
+
+    if len(matches) > 1:
+        print(f"Found {len(matches)} matches. Tapping first.")
+
+    elem = matches[0]
+    f = elem['frame']
+    cx = f['x'] + f['width'] / 2
+    cy = f['y'] + f['height'] / 2
+
+    wx, wy, ww, wh = get_sim_window_bounds()
+    sx, sy = sim_to_screen(cx, cy, wx, wy, ww, wh)
+
+    name = elem.get('AXLabel', args.label)
+    if args.dry_run:
+        print(f"Would tap '{name}' sim ({cx:.1f},{cy:.1f}) → screen ({sx},{sy})")
+    else:
+        click(sx, sy)
+        print(f"Tapped '{name}' sim ({cx:.1f},{cy:.1f}) → screen ({sx},{sy})")
+
+
+if __name__ == '__main__':
+    main()
