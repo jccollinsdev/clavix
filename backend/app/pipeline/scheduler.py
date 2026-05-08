@@ -4,7 +4,7 @@ import logging
 import httpx
 import os
 from collections import Counter
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from itertools import zip_longest
 from typing import Any
 from dateutil.parser import isoparse
@@ -1075,79 +1075,43 @@ def _upsert_position_analysis(
         supabase.table("position_analyses").insert(payload).execute()
 
 
-def _store_relevant_news_items(
+def _store_relevant_articles(
     supabase,
     *,
     user_id: str,
     analysis_run_id: str,
     relevant_articles: list[dict],
 ):
+    from ..services.news_enrichment import enrich_and_store_articles_batch
+    import asyncio
+
+    articles_to_store = []
     for article in relevant_articles:
-        affected_tickers = article.get("relevance", {}).get("affected_tickers", []) or [
-            None
-        ]
-        for affected_ticker in affected_tickers:
-            existing = (
-                supabase.table("news_items")
-                .select("id")
-                .eq("analysis_run_id", analysis_run_id)
-                .eq("event_hash", article.get("event_hash"))
-                .eq("ticker", affected_ticker)
-                .limit(1)
-                .execute()
-                .data
+        articles_to_store.append({
+            "ticker": article.get("ticker", ""),
+            "title": article.get("title", ""),
+            "source": article.get("source", ""),
+            "url": article.get("url", ""),
+            "source_url": article.get("source_url") or article.get("url", ""),
+            "resolved_url": article.get("resolved_url") or article.get("url", ""),
+            "published_at": article.get("published_at"),
+            "body": article.get("body", ""),
+            "summary": article.get("summary", ""),
+            "event_hash": article.get("event_hash"),
+            "event_type": article.get("event_type"),
+            "significance": "minor",
+            "tags": article.get("tags") or [],
+        })
+
+    if articles_to_store:
+        try:
+            asyncio.ensure_future(
+                enrich_and_store_articles_batch(
+                    supabase, articles_to_store, analysis_run_id=analysis_run_id
+                )
             )
-            if existing:
-                continue
-
-            try:
-                supabase.table("news_items").insert(
-                    {
-                        "user_id": user_id,
-                        "ticker": affected_ticker,
-                        "title": article.get("title", ""),
-                        "source": article.get("source", ""),
-                        "url": article.get("url", ""),
-                        "significance": None,
-                        "event_hash": article.get("event_hash"),
-                        "published_at": article.get("published_at"),
-                        "body": article.get("body", ""),
-                        "affected_tickers": article.get("relevance", {}).get(
-                            "affected_tickers", []
-                        ),
-                        "relevance": article.get("relevance", {}),
-                        "analysis_run_id": analysis_run_id,
-                    }
-                ).execute()
-            except Exception:
-                continue
-
-    from ..services.ticker_cache_service import sync_ticker_news_cache
-
-    for ticker in sorted(
-        {
-            str(ticker or "").strip().upper()
-            for article in relevant_articles
-            for ticker in (
-                article.get("relevance", {}).get("affected_tickers", [])
-                or [article.get("ticker")]
-            )
-            if str(ticker or "").strip()
-        }
-    ):
-        cache_articles = []
-        for article in relevant_articles:
-            affected_tickers = article.get("relevance", {}).get(
-                "affected_tickers", []
-            ) or [article.get("ticker")]
-            normalized = {
-                str(item or "").strip().upper()
-                for item in affected_tickers
-                if str(item or "").strip()
-            }
-            if ticker in normalized:
-                cache_articles.append(article)
-        sync_ticker_news_cache(supabase, ticker=ticker, news_rows=cache_articles)
+        except Exception as exc:
+            logger.warning("news_enrichment batch failed: %s", exc)
 
 
 async def _load_ticker_metadata_map(
@@ -1400,16 +1364,16 @@ def _load_completed_position_payloads(
     for position in positions:
         score_rows = _execute_supabase_with_retry(
             lambda: (
-                supabase.table("risk_scores")
+                supabase.table("ticker_risk_snapshots")
                 .select("*")
-                .eq("analysis_run_id", analysis_run_id)
-                .eq("position_id", position["id"])
+                .eq("ticker", position.get("ticker", ""))
+                .order("created_at", desc=True)
                 .limit(1)
                 .execute()
                 .data
             ),
             context=(
-                f"risk_scores load for partial run {analysis_run_id} "
+                f"ticker_risk_snapshots load for partial run {analysis_run_id} "
                 f"position {position['id']}"
             ),
         )
@@ -1433,15 +1397,15 @@ def _load_completed_position_payloads(
 
         history_rows = _execute_supabase_with_retry(
             lambda: (
-                supabase.table("risk_scores")
-                .select("analysis_run_id, grade")
-                .eq("position_id", position["id"])
-                .order("calculated_at", desc=True)
+                supabase.table("ticker_risk_snapshots")
+                .select("grade")
+                .eq("ticker", position.get("ticker", ""))
+                .order("created_at", desc=True)
                 .limit(2)
                 .execute()
                 .data
             ),
-            context=f"risk_scores history load for position {position['id']}",
+            context=f"ticker_risk_snapshots history load for position {position['id']}",
         )
         previous_grade = None
         if len(history_rows) >= 2:
@@ -1460,7 +1424,6 @@ def _load_completed_position_payloads(
                 "top_news": analysis.get("top_news") or [],
                 "inferred_labels": analysis.get("inferred_labels") or [],
                 "methodology": analysis.get("methodology"),
-                "mirofish_used": score.get("mirofish_used", False),
                 "thesis_verifier": [],
             }
         )
@@ -2215,7 +2178,7 @@ async def execute_analysis_run(
             ]
 
         if relevant_articles:
-            _store_relevant_news_items(
+            _store_relevant_articles(
                 supabase,
                 user_id=user_id,
                 analysis_run_id=analysis_run_id,
@@ -2435,20 +2398,20 @@ async def execute_analysis_run(
         previous_grades_by_ticker = {}
         previous_total_scores_by_ticker = {}
         for position in positions:
-            previous_scores = (
-                supabase.table("risk_scores")
-                .select("grade, total_score")
-                .eq("position_id", position["id"])
-                .order("calculated_at", desc=True)
+            previous_snaps = (
+                supabase.table("ticker_risk_snapshots")
+                .select("grade, safety_score")
+                .eq("ticker", position["ticker"])
+                .order("created_at", desc=True)
                 .limit(1)
                 .execute()
                 .data
             )
             previous_grades_by_ticker[position["ticker"]] = (
-                previous_scores[0]["grade"] if previous_scores else None
+                previous_snaps[0]["grade"] if previous_snaps else None
             )
             previous_total_scores_by_ticker[position["ticker"]] = (
-                previous_scores[0].get("total_score") if previous_scores else None
+                previous_snaps[0].get("safety_score") if previous_snaps else None
             )
 
         async def _process_position(
@@ -2547,7 +2510,6 @@ async def execute_analysis_run(
                             payload=item["analysis"],
                         )
 
-            mirofish_used = False
             major_uncached_articles = []
             major_article_analysis_results: list[dict] = []
 
@@ -2650,7 +2612,6 @@ async def execute_analysis_run(
                 analysis_source = (
                     result.get("provider", "minimax") if result else "minimax"
                 )
-                mirofish_used = False
                 event_record = {
                     "analysis_run_id": analysis_run_id,
                     "position_id": position["id"],
@@ -2778,10 +2739,6 @@ async def execute_analysis_run(
                 None,
             )
 
-            mirofish_used = mirofish_used or any(
-                e.get("analysis_source") == "mirofish" for e in event_analyses
-            )
-
             position_payload = {
                 **position,
                 "analysis_mode": (
@@ -2799,7 +2756,6 @@ async def execute_analysis_run(
                 "driver_cards_source": position_report.get("driver_cards_source") or "generated",
                 "inferred_labels": inferred_labels,
                 "methodology": position_report["methodology"],
-                "mirofish_used": mirofish_used,
                 "thesis_verifier": position_report.get("thesis_verifier", []),
                 "event_analyses": event_analyses,
                 "ticker_metadata": ticker_metadata or {},
@@ -2879,12 +2835,12 @@ async def execute_analysis_run(
                 score_positions_batch,
             )
 
-            batch_risk_scores = await score_positions_batch(position_payloads)
-            for i, scores in enumerate(batch_risk_scores):
+            batch_position_scores = await score_positions_batch(position_payloads)
+            for i, scores in enumerate(batch_position_scores):
                 if i < len(position_payloads):
                     position_payloads[i].update(scores)
             if artifact_enabled:
-                write_named_json("stages/batch_risk_scores.json", batch_risk_scores)
+                write_named_json("stages/batch_position_scores.json", batch_position_scores)
 
             suspicious_score_count = 0
             for i, position in enumerate(positions):
@@ -2906,7 +2862,6 @@ async def execute_analysis_run(
                     position,
                     position_payloads[i],
                     inferred_labels=position_payloads[i].get("inferred_labels", []),
-                    mirofish_used=position_payloads[i].get("mirofish_used", False),
                 )
                 if not has_suspicious_neutral_scores(rescored):
                     position_payloads[i].update(rescored)
@@ -2941,10 +2896,10 @@ async def execute_analysis_run(
                 )
 
                 previous_score_result = (
-                    supabase.table("risk_scores")
+                    supabase.table("ticker_risk_snapshots")
                     .select("safety_score")
-                    .eq("position_id", position["id"])
-                    .order("calculated_at", desc=True)
+                    .eq("ticker", ticker.upper())
+                    .order("created_at", desc=True)
                     .limit(1)
                     .execute()
                 )
@@ -2987,59 +2942,15 @@ async def execute_analysis_run(
                 )
                 grade = ai_scores.get("grade") or structural_scores.get("grade") or "C"
 
-                risk_payload = {
-                    "position_id": position["id"],
-                    "analysis_run_id": analysis_run_id,
-                    "news_sentiment": ai_scores.get("news_sentiment"),
-                    "macro_exposure": ai_scores.get("macro_exposure"),
-                    "position_sizing": ai_scores.get("position_sizing"),
-                    "volatility_trend": ai_scores.get("volatility_trend"),
-                    "total_score": round(total_score, 1),
-                    "safety_score": structural_scores.get("safety_score"),
-                    "confidence": structural_scores.get("confidence"),
-                    "structural_base_score": structural_scores.get(
-                        "structural_base_score"
-                    ),
-                    "macro_adjustment": structural_scores.get("macro_adjustment"),
-                    "event_adjustment": structural_scores.get("event_adjustment"),
-                    "factor_breakdown": {
-                        **(
-                            structural_scores.get("factor_breakdown")
-                            if isinstance(
-                                structural_scores.get("factor_breakdown"), dict
-                            )
-                            else {}
-                        ),
-                        "ai_dimensions": {
-                            "news_sentiment": ai_scores.get("news_sentiment"),
-                            "macro_exposure": ai_scores.get("macro_exposure"),
-                            "position_sizing": ai_scores.get("position_sizing"),
-                            "volatility_trend": ai_scores.get("volatility_trend"),
-                        },
-                        # Preserve whether the final score came from the LLM path so
-                        # ticker snapshot sync can label methodology correctly later.
-                        "llm_scoring_used": bool(ai_scores.get("llm_scoring_used")),
-                    },
-                    "grade": grade,
-                    "reasoning": ai_scores.get("reasoning"),
-                    "grade_reason": ai_scores.get("grade_reason"),
-                    "evidence_summary": ai_scores.get("evidence_summary"),
-                    "dimension_rationale": ai_scores.get("dimension_rationale"),
-                    "mirofish_used": ai_scores.get(
-                        "mirofish_used", structural_scores.get("mirofish_used", False)
-                    ),
-                }
-                if artifact_enabled:
-                    record_position_artifact(
-                        ticker,
-                        "risk_payload",
-                        {
-                            "structural_scores": structural_scores,
-                            "ai_scores": ai_scores,
-                            "risk_payload": risk_payload,
-                        },
+                if "ticker" in position or position.get("ticker"):
+                    ticker_val = position.get("ticker") or position.get("ticker")
+                    _upsert_ticker_snapshot_from_scores(
+                        supabase,
+                        ticker=ticker_val,
+                        ai_scores=ai_scores,
+                        structural_scores=structural_scores,
+                        analysis_run_id=analysis_run_id,
                     )
-                supabase.table("risk_scores").insert(risk_payload).execute()
 
                 _upsert_position_analysis(
                     supabase,
@@ -3911,7 +3822,6 @@ async def enqueue_sp500_backfill_run(
 async def trigger_structural_refresh(user_id: str):
     from ..services.supabase import get_supabase
     from ..services.ticker_metadata import upsert_ticker_metadata
-    from .structural_scorer import calculate_structural_base_score
 
     supabase = get_supabase()
 
@@ -3923,92 +3833,22 @@ async def trigger_structural_refresh(user_id: str):
         .data
     )
 
-    today = datetime.utcnow().date()
-    today_iso = today.isoformat()
     tickers = sorted(
         {str(position.get("ticker") or "").strip().upper() for position in positions}
     )
+    refreshed = 0
 
     for ticker in tickers:
         if not ticker:
             continue
+        if upsert_ticker_metadata(supabase, ticker):
+            refreshed += 1
 
-        upsert_ticker_metadata(supabase, ticker)
-
-        meta_result = (
-            supabase.table("ticker_metadata")
-            .select("*")
-            .eq("ticker", ticker)
-            .limit(1)
-            .execute()
-        )
-
-        if not meta_result.data:
-            continue
-
-        metadata = meta_result.data[0]
-
-        previous_score_result = (
-            supabase.table("asset_safety_profiles")
-            .select("safety_score")
-            .eq("ticker", ticker)
-            .order("as_of_date", desc=True)
-            .limit(1)
-            .execute()
-        )
-        previous_safety = (
-            previous_score_result.data[0].get("safety_score")
-            if previous_score_result.data
-            else None
-        )
-
-        structural_result = calculate_structural_base_score(
-            market_cap=metadata.get("market_cap"),
-            avg_daily_dollar_volume=metadata.get("avg_daily_dollar_volume"),
-            volatility_proxy=metadata.get("volatility_proxy"),
-            leverage_profile=metadata.get("leverage_profile", "moderate"),
-            profitability_profile=metadata.get("profitability_profile", "mixed"),
-            asset_class=metadata.get("asset_class"),
-        )
-
-        safety_score = structural_result["structural_base_score"]
-        if previous_safety is not None:
-            from .structural_scorer import get_daily_move_cap
-
-            market_cap = metadata.get("market_cap")
-            asset_class = metadata.get("asset_class")
-            cap = get_daily_move_cap(asset_class, market_cap)
-            delta = safety_score - previous_safety
-            if abs(delta) > cap:
-                safety_score = previous_safety + (cap if delta > 0 else -cap)
-            safety_score = clamp_score(safety_score, 0)
-
-        factor_breakdown = structural_result.get("factor_breakdown", {})
-
-        profile_payload = {
-            "ticker": ticker,
-            "as_of_date": today_iso,
-            "structural_base_score": structural_result["structural_base_score"],
-            "macro_adjustment": 0.0,
-            "event_adjustment": 0.0,
-            "safety_score": safety_score,
-            "confidence": structural_result["confidence"],
-            "asset_class": metadata.get("asset_class"),
-            "regime_state": "neutral",
-            "market_cap_bucket": structural_result.get("market_cap_bucket"),
-            "liquidity_score": factor_breakdown.get("liquidity_score"),
-            "volatility_score": factor_breakdown.get("volatility_score"),
-            "leverage_score": factor_breakdown.get("leverage_score"),
-            "profitability_score": factor_breakdown.get("profitability_score"),
-            "factor_breakdown": factor_breakdown,
-        }
-
-        supabase.table("asset_safety_profiles").upsert(
-            profile_payload,
-            on_conflict="ticker,as_of_date",
-        ).execute()
-
-    return {"status": "structural_refresh_complete", "user_id": user_id}
+    return {
+        "status": "structural_refresh_complete",
+        "user_id": user_id,
+        "tickers_refreshed": refreshed,
+    }
 
 
 async def reschedule_user_digest(user_id: str):
@@ -4276,13 +4116,19 @@ def _sync_ai_scores_to_ticker_snapshots_sync(
     if not position_rows:
         return
     position_id = position_rows[0]["id"]
-    score_query = supabase.table("risk_scores").select("*").eq("position_id", position_id)
-    if analysis_run_id:
-        score_query = score_query.eq("analysis_run_id", analysis_run_id)
-    latest_score_rows = score_query.order("calculated_at", desc=True).limit(1).execute().data
-    if not latest_score_rows:
+    latest_snap_rows = (
+        supabase.table("ticker_risk_snapshots")
+        .select("*")
+        .eq("ticker", ticker.upper())
+        .eq("snapshot_type", job_type)
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+        .data
+    )
+    if not latest_snap_rows:
         return
-    ai_score = latest_score_rows[0]
+    ai_score = latest_snap_rows[0]
     analysis_query = (
         supabase.table("position_analyses").select("*").eq("position_id", position_id)
     )
@@ -4307,6 +4153,11 @@ def _sync_ai_scores_to_ticker_snapshots_sync(
     factor_breakdown = {
         **factor_breakdown,
         "ai_dimensions": {
+            "financial_health": (
+                stored_ai_dims.get("financial_health")
+                if stored_ai_dims.get("financial_health") is not None
+                else ai_score.get("financial_health")
+            ),
             "news_sentiment": (
                 stored_ai_dims.get("news_sentiment")
                 if stored_ai_dims.get("news_sentiment") is not None
@@ -4317,15 +4168,15 @@ def _sync_ai_scores_to_ticker_snapshots_sync(
                 if stored_ai_dims.get("macro_exposure") is not None
                 else ai_score.get("macro_exposure")
             ),
-            "position_sizing": (
-                stored_ai_dims.get("position_sizing")
-                if stored_ai_dims.get("position_sizing") is not None
-                else ai_score.get("position_sizing")
+            "sector_exposure": (
+                stored_ai_dims.get("sector_exposure")
+                if stored_ai_dims.get("sector_exposure") is not None
+                else ai_score.get("sector_exposure")
             ),
-            "volatility_trend": (
-                stored_ai_dims.get("volatility_trend")
-                if stored_ai_dims.get("volatility_trend") is not None
-                else ai_score.get("volatility_trend")
+            "volatility": (
+                stored_ai_dims.get("volatility")
+                if stored_ai_dims.get("volatility") is not None
+                else ai_score.get("volatility")
             ),
         },
     }
@@ -4799,19 +4650,16 @@ async def run_sp500_full_ai_analysis_fast(
         )
         latest_score = None
         if position_rows:
-            latest_score_rows = (
-                supabase.table("risk_scores")
-                .select(
-                    "news_sentiment, macro_exposure, position_sizing, volatility_trend, total_score, reasoning, analysis_run_id"
-                )
-                .eq("position_id", position_rows[0]["id"])
-                .eq("analysis_run_id", analysis_run_id)
-                .order("calculated_at", desc=True)
+            latest_snap_rows = (
+                supabase.table("ticker_risk_snapshots")
+                .select("grade, safety_score, financial_health, news_sentiment, macro_exposure, sector_exposure, volatility, reasoning, methodology_version")
+                .eq("ticker", ticker.upper())
+                .order("created_at", desc=True)
                 .limit(1)
                 .execute()
                 .data
             )
-            latest_score = latest_score_rows[0] if latest_score_rows else None
+            latest_score = latest_snap_rows[0] if latest_snap_rows else None
 
         snap = (
             supabase.table("ticker_risk_snapshots")
@@ -4830,17 +4678,19 @@ async def run_sp500_full_ai_analysis_fast(
         grade = s.get("grade") or "N/A"
         score = s.get("safety_score") or "N/A"
         method = s.get("methodology_version") or ""
+        fh = latest_score.get("financial_health") if latest_score else "N/A"
         news_sent = latest_score.get("news_sentiment") if latest_score else "N/A"
         macro_exp = latest_score.get("macro_exposure") if latest_score else "N/A"
-        pos_size = latest_score.get("position_sizing") if latest_score else "N/A"
-        vol_trend = latest_score.get("volatility_trend") if latest_score else "N/A"
+        sector_exp = latest_score.get("sector_exposure") if latest_score else "N/A"
+        vol = latest_score.get("volatility") if latest_score else "N/A"
         reasoning = (latest_score or {}).get("reasoning") or s.get("reasoning") or ""
         short_reasoning = reasoning[:80] + "..." if len(reasoning) > 80 else reasoning
         ai_tag = " [AI]" if "sp500-ai" in method else ""
         print(
             f"[{ticker}] AI{ai_tag}: Grade={grade} Score={score} | "
-            f"NewsSentiment={news_sent} | MacroExposure={macro_exp} | "
-            f"PositionSizing={pos_size} | VolatilityTrend={vol_trend} | "
+            f"FinHealth={fh} | NewsSentiment={news_sent} | "
+            f"MacroExposure={macro_exp} | SectorExposure={sector_exp} | "
+            f"Volatility={vol} | "
             f"Reasoning: {short_reasoning}"
         )
 
@@ -5206,20 +5056,61 @@ def _schedule_sp500_daily_refresh() -> None:
     )
 
 
-def _cleanup_old_news_items() -> None:
+def _upsert_ticker_snapshot_from_scores(
+    supabase,
+    *,
+    ticker: str,
+    ai_scores: dict,
+    structural_scores: dict,
+    analysis_run_id: str | None = None,
+) -> None:
+    today = date.today()
+    composite = ai_scores.get("total_score") or structural_scores.get("safety_score") or 50
+    grade = ai_scores.get("grade") or structural_scores.get("grade") or score_to_grade(composite)
+
+    payload = {
+        "ticker": ticker,
+        "snapshot_date": today,
+        "snapshot_type": "daily",
+        "grade": grade,
+        "safety_score": structural_scores.get("safety_score"),
+        "financial_health": ai_scores.get("financial_health"),
+        "news_sentiment_dim": ai_scores.get("news_sentiment"),
+        "macro_exposure_dim": ai_scores.get("macro_exposure"),
+        "sector_exposure": ai_scores.get("sector_exposure"),
+        "volatility": ai_scores.get("volatility"),
+        "composite_score": composite,
+        "confidence": structural_scores.get("confidence"),
+        "reasoning": ai_scores.get("reasoning"),
+        "dimension_rationale": ai_scores.get("dimension_rationale"),
+        "factor_breakdown": ai_scores.get("factor_breakdown") or {},
+        "analysis_as_of": datetime.now(timezone.utc).isoformat(),
+        "methodology_version": "v2",
+        "refresh_triggered_by_user_id": None,
+    }
+
+    try:
+        supabase.table("ticker_risk_snapshots").upsert(
+            payload,
+            on_conflict="ticker,snapshot_date,snapshot_type",
+        ).execute()
+    except Exception as exc:
+        logger.warning("ticker_risk_snapshots upsert failed for %s: %s", ticker, exc)
+
+
+def _cleanup_old_articles() -> None:
     from ..services.supabase import get_supabase
 
     cutoff = (datetime.now(timezone.utc) - timedelta(days=30)).isoformat()
     supabase = get_supabase()
-    supabase.table("news_items").delete().lt("processed_at", cutoff).execute()
-    supabase.table("ticker_news_cache").delete().lt("processed_at", cutoff).execute()
+    supabase.table("shared_ticker_events").delete().lt("published_at", cutoff).execute()
 
 
 def _schedule_news_cleanup() -> None:
     if scheduler.get_job(NEWS_CLEANUP_JOB_ID):
         scheduler.remove_job(NEWS_CLEANUP_JOB_ID)
     scheduler.add_job(
-        _cleanup_old_news_items,
+        _cleanup_old_articles,
         trigger=CronTrigger(hour=8, minute=30, timezone=ET),
         id=NEWS_CLEANUP_JOB_ID,
         replace_existing=True,

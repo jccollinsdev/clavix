@@ -1,3 +1,4 @@
+from __future__ import annotations
 import os
 import requests
 import time
@@ -20,6 +21,37 @@ _service_rate_limit_locks = {"finnhub": Lock(), "polygon": Lock()}
 
 STATIC_METADATA_TTL = timedelta(days=7)
 QUOTE_METADATA_TTL = timedelta(hours=24)
+
+_PERSISTABLE_TICKER_METADATA_FIELDS = {
+    "ticker",
+    "company_name",
+    "exchange",
+    "sector",
+    "industry",
+    "market_cap",
+    "market_cap_bucket",
+    "float_shares",
+    "avg_daily_dollar_volume",
+    "beta",
+    "pe_ratio",
+    "week_52_high",
+    "week_52_low",
+    "price",
+    "price_as_of",
+    "avg_volume",
+    "previous_close",
+    "open_price",
+    "day_high",
+    "day_low",
+    "last_price_source",
+    "volatility_proxy",
+    "profitability_profile",
+    "leverage_profile",
+    "macro_sensitivity",
+    "spread_proxy",
+    "is_supported",
+    "updated_at",
+}
 
 
 def _parse_timestamp(value: str | None) -> datetime | None:
@@ -211,6 +243,48 @@ def fetch_ticker_details_from_finnhub(ticker: str) -> dict | None:
         beta = metric_values.get("beta")
         float_shares = metric_values.get("sharesFloat")
 
+        debt_to_equity = _metric_as_float(metric_values, "totalDebt/totalEquityAnnual")
+        if debt_to_equity is None:
+            debt_to_equity = _metric_as_float(metric_values, "longTermDebt/equityAnnual")
+        if debt_to_equity is None:
+            debt_to_equity = _metric_as_float(metric_values, "currentEV/freeCashFlowAnnual")
+
+        fcf_margin = None
+        fcf = _metric_as_float(metric_values, "freeCashFlowAnnual")
+        rev = _metric_as_float(metric_values, "revenueAnnual")
+        if fcf is not None and rev and rev > 0:
+            fcf_margin = fcf / rev
+
+        interest_coverage = None
+        ebit = _metric_as_float(metric_values, "ebitdPerShareAnnual")
+        interest = _metric_as_float(metric_values, "totalDebt/totalEquityAnnual")
+        if interest_coverage is None:
+            interest_cov_raw = metric_values.get("interestCoverageAnnual")
+            interest_cov_raw2 = metric_values.get("interestCoverageQuarterly")
+            if interest_cov_raw is not None:
+                interest_coverage = _safe_metric_float(interest_cov_raw)
+            elif interest_cov_raw2 is not None:
+                interest_coverage = _safe_metric_float(interest_cov_raw2)
+
+        current_ratio = _metric_as_float(metric_values, "currentRatioAnnual")
+        if current_ratio is None:
+            current_ratio = _metric_as_float(metric_values, "currentRatioQuarterly")
+
+        revenue_growth_trend = None
+        rev_growth_yoy = _metric_as_float(metric_values, "revenueGrowthQuarterlyYoy")
+        rev_growth_3y = _metric_as_float(metric_values, "revenueGrowth3Y")
+        if rev_growth_yoy is not None:
+            revenue_growth_trend = rev_growth_yoy
+        elif rev_growth_3y is not None:
+            revenue_growth_trend = rev_growth_3y
+
+        profitability_profile = _get_profitability_profile(
+            _metric_as_float(metric_values, "netProfitMarginAnnual"),
+            _metric_as_float(metric_values, "roeAnnual"),
+        )
+        leverage_profile = _get_leverage_profile(debt_to_equity)
+        macro_sens = _get_macro_sensitivity(beta)
+
         return {
             "company_name": profile_data.get("name"),
             "ticker": ticker.upper(),
@@ -235,6 +309,15 @@ def fetch_ticker_details_from_finnhub(ticker: str) -> dict | None:
             "avg_volume": avg_volume or ten_day_avg,
             "last_price_source": "finnhub",
             "is_supported": True,
+
+            "debt_to_equity": debt_to_equity,
+            "fcf_margin": fcf_margin,
+            "interest_coverage": interest_coverage,
+            "current_ratio": current_ratio,
+            "revenue_growth_trend": revenue_growth_trend,
+            "profitability_profile": profitability_profile,
+            "leverage_profile": leverage_profile,
+            "macro_sensitivity": macro_sens,
         }
     except Exception as e:
         print(f"Error fetching Finnhub ticker details for {ticker}: {e}")
@@ -337,12 +420,39 @@ def _get_leverage_profile(debt_to_equity: float | None) -> str:
     if debt_to_equity is None:
         return "moderate"
     if debt_to_equity <= 0.3:
-        return "very_low"
+        return "low"
     if debt_to_equity <= 0.7:
         return "low"
     if debt_to_equity <= 1.5:
         return "moderate"
     if debt_to_equity <= 3.0:
+        return "high"
+    return "very_high"
+
+
+def _safe_metric_float(value) -> float | None:
+    try:
+        if value is None or value == "":
+            return None
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _metric_as_float(metric_values: dict, key: str) -> float | None:
+    raw = metric_values.get(key)
+    return _safe_metric_float(raw)
+
+
+def _get_macro_sensitivity(beta) -> str:
+    beta_val = _safe_metric_float(beta)
+    if beta_val is None:
+        return "moderate"
+    if beta_val <= 0.6:
+        return "low"
+    if beta_val <= 1.2:
+        return "moderate"
+    if beta_val <= 1.8:
         return "high"
     return "very_high"
 
@@ -360,8 +470,8 @@ def build_ticker_metadata(ticker: str) -> dict | None:
         volatility = min(max(abs(float(beta)) / 4.0, 0.05), 1.0)
 
     market_cap_bucket = _get_market_cap_bucket(market_cap)
-    profitability_profile = "mixed"
-    leverage_profile = "moderate"
+    profitability_profile = finnhub_data.get("profitability_profile")
+    leverage_profile = finnhub_data.get("leverage_profile")
 
     spread_proxy = None
     if finnhub_data.get("avg_daily_dollar_volume"):
@@ -392,6 +502,12 @@ def build_ticker_metadata(ticker: str) -> dict | None:
         "volatility_proxy": volatility,
         "profitability_profile": profitability_profile,
         "leverage_profile": leverage_profile,
+        "debt_to_equity": finnhub_data.get("debt_to_equity"),
+        "fcf_margin": finnhub_data.get("fcf_margin"),
+        "interest_coverage": finnhub_data.get("interest_coverage"),
+        "current_ratio": finnhub_data.get("current_ratio"),
+        "revenue_growth_trend": finnhub_data.get("revenue_growth_trend"),
+        "macro_sensitivity": finnhub_data.get("macro_sensitivity"),
         "spread_proxy": spread_proxy,
         "is_supported": True,
         "updated_at": datetime.utcnow().isoformat(),
@@ -415,14 +531,19 @@ def upsert_ticker_metadata(supabase: Client, ticker: str) -> dict | None:
     metadata = build_ticker_metadata(ticker)
     if not metadata:
         return None
+    persisted_metadata = {
+        key: value
+        for key, value in metadata.items()
+        if key in _PERSISTABLE_TICKER_METADATA_FIELDS
+    }
 
     if existing_row:
-        supabase.table("ticker_metadata").update(metadata).eq(
+        supabase.table("ticker_metadata").update(persisted_metadata).eq(
             "ticker", ticker.upper()
         ).execute()
         return metadata
 
-    supabase.table("ticker_metadata").insert(metadata).execute()
+    supabase.table("ticker_metadata").insert(persisted_metadata).execute()
     return metadata
 
 

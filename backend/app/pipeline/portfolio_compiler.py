@@ -87,6 +87,19 @@ Avoid phrases like:
 - "structurally"
 """
 
+GRADE_ORDINAL = {
+    "AAA": 10,
+    "AA": 9,
+    "A": 8,
+    "BBB": 7,
+    "BB": 6,
+    "B": 5,
+    "CCC": 4,
+    "CC": 3,
+    "C": 2,
+    "F": 1,
+}
+
 
 def _grade_change_text(position: dict) -> str:
     previous_grade = position.get("previous_grade")
@@ -329,7 +342,7 @@ def _build_portfolio_advice(
         score = float(position.get("total_score") or 0)
 
         if (
-            grade in {"D", "F"}
+            GRADE_ORDINAL.get(grade, 0) <= 4
             or score < 45
             or (previous_grade and previous_grade != grade)
         ):
@@ -534,8 +547,9 @@ def _sanitize_watchlist_alerts(items: list[str] | None) -> list[str]:
 
 
 def _position_urgency(position: dict) -> tuple[int, float]:
-    grade = position.get("grade") or "C"
-    priority = {"F": 5, "D": 4, "C": 3, "B": 2, "A": 1}.get(grade, 3)
+    grade = str(position.get("grade") or "C").strip().upper()
+    ordinal = GRADE_ORDINAL.get(grade, GRADE_ORDINAL["C"])
+    priority = 11 - ordinal
     changed = (
         1
         if position.get("previous_grade") and position.get("previous_grade") != grade
@@ -796,7 +810,7 @@ Positions:
 {position_summary}
 """
 
-    token_map = {"brief": 800, "standard": 1400, "detailed": 2200}
+    token_map = {"brief": 800, "standard": 1400, "verbose": 2200}
     max_tokens = token_map.get(summary_length, 1400)
 
     try:
@@ -877,6 +891,11 @@ Positions:
         or parsed.get("content")
         or fallback["overall_summary"],
         "sections": {
+            "header": {
+                "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+                "portfolio_grade": overall_grade,
+                "summary_line": f"Your portfolio is rated {overall_grade} today.",
+            },
             "overnight_macro": sections.get("overnight_macro")
             or (macro_context.get("overnight_macro") if macro_context else None)
             or fallback["sections"].get("overnight_macro")
@@ -885,17 +904,15 @@ Positions:
                 "themes": [],
                 "brief": "No overnight macro developments.",
             },
-            "sector_overview": normalized_sector_overview,
-            "position_impacts": normalized_position_impacts,
-            "portfolio_impact": sections.get("portfolio_impact")
-            or fallback["sections"].get("portfolio_impact")
-            or [],
-            "major_events": sections.get("major_events")
-            or fallback["sections"]["major_events"],
-            "what_matters_today": what_matters_today,
-            "watchlist_alerts": normalized_watchlist_alerts,
-            "watch_list": normalized_watch_list,
-            "monitoring_notes": monitoring_notes,
-            "portfolio_advice": monitoring_notes,
+            "sector_heat": normalized_sector_overview,
+            "positions": normalized_position_impacts,
+            "watchlist_updates": {
+                "alerts": normalized_watchlist_alerts,
+                "watch_list": normalized_watch_list,
+            },
+            "what_to_watch_today": {
+                "catalysts": what_matters_today,
+                "monitoring": monitoring_notes,
+            },
         },
     }

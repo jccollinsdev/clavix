@@ -63,9 +63,7 @@ async def create_holding(
 
     supported = ensure_ticker_in_universe(supabase, position.ticker)
     if not supported:
-        raise HTTPException(
-            400, "Ticker is not available in the shared ticker cache yet"
-        )
+        raise HTTPException(400, "Ticker is not available in Clavix yet")
 
     normalized_ticker = supported["ticker"]
     existing_position = (
@@ -238,7 +236,6 @@ async def delete_holding(position_id: str, user_id: str = Depends(get_user_id)):
     supabase.table("position_analyses").delete().eq(
         "position_id", position_id
     ).execute()
-    supabase.table("risk_scores").delete().eq("position_id", position_id).execute()
 
     result = (
         supabase.table("positions")

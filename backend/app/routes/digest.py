@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Any
 
 from fastapi import APIRouter, Request, Depends, HTTPException
@@ -424,7 +425,7 @@ async def _build_force_refresh_digest(
         "grade_summary": digest_record.get("grade_summary"),
         "structured_sections": digest_record.get("structured_sections"),
         "generated_at": digest_record.get("generated_at"),
-        "message": "generated from shared ticker cache",
+        "message": "generated from the latest ticker data",
     }
 
 

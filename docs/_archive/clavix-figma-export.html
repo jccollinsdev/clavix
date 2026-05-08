@@ -1,0 +1,3114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clavix — Figma Design Export</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg-primary: #0B0D12;
+  --surface: #14171E;
+  --surface-elevated: #1B1F28;
+  --surface-muted: #101319;
+  --border: #242934;
+  --border-subtle: #1E232D;
+  --text-primary: #EEF1F5;
+  --text-secondary: #8A93A3;
+  --text-tertiary: #5A6374;
+  --brand-cream: #D4C49B;
+  --informational: #3B82C4;
+  --risk-a: #1D9E75;
+  --risk-b: #639922;
+  --risk-c: #BA7517;
+  --risk-d: #D85A30;
+  --risk-f: #C8342B;
+  --grade-a-bg: #E1F5EE;
+  --grade-a-text: #085041;
+  --grade-b-bg: #EAF3DE;
+  --grade-b-text: #27500A;
+  --grade-c-bg: #FAEEDA;
+  --grade-c-text: #633806;
+  --grade-d-bg: #FAECE7;
+  --grade-d-text: #712B13;
+  --grade-f-bg: #FCEBEB;
+  --grade-f-text: #791F1F;
+  --corner-radius: 12px;
+  --inner-corner-radius: 10px;
+  --card-padding: 14px;
+  --screen-padding: 16px;
+  --section-spacing: 10px;
+  --small-spacing: 8px;
+  --medium-spacing: 16px;
+  --large-spacing: 16px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #1a1a2e;
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: var(--text-primary);
+  padding: 40px;
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.page-title h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--brand-cream);
+  letter-spacing: 4px;
+  margin-bottom: 12px;
+}
+
+.page-title p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.page-title .import-steps {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  padding: 20px;
+  max-width: 560px;
+  margin: 24px auto 0;
+  text-align: left;
+}
+
+.page-title .import-steps h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-cream);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.page-title .import-steps ol {
+  padding-left: 20px;
+}
+
+.page-title .import-steps li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.page-title .import-steps code {
+  background: var(--surface-elevated);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--informational);
+}
+
+.screens-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+  justify-content: center;
+  padding-bottom: 80px;
+}
+
+.screen-frame {
+  width: 393px;
+  background: var(--bg-primary);
+  border-radius: 40px;
+  overflow: hidden;
+  border: 3px solid #2a2a3a;
+  flex-shrink: 0;
+}
+
+.screen-frame .notch {
+  width: 126px;
+  height: 34px;
+  background: #000;
+  border-radius: 0 0 20px 20px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+.screen-frame .screen-content {
+  min-height: 700px;
+  overflow-y: auto;
+  padding-bottom: 90px;
+}
+
+.screen-label {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ——— Shared Components ——— */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  padding: var(--card-padding);
+}
+
+.card-elevated {
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  padding: var(--card-padding);
+}
+
+.section-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+}
+
+.grade-badge-large {
+  width: 76px;
+  height: 76px;
+  font-size: 40px;
+}
+
+.grade-badge-standard {
+  width: 34px;
+  height: 26px;
+  font-size: 13px;
+}
+
+.grade-badge-compact {
+  width: 26px;
+  height: 20px;
+  font-size: 13px;
+}
+
+.grade-a { background: var(--grade-a-bg); color: var(--grade-a-text); }
+.grade-b { background: var(--grade-b-bg); color: var(--grade-b-text); }
+.grade-c { background: var(--grade-c-bg); color: var(--grade-c-text); }
+.grade-d { background: var(--grade-d-bg); color: var(--grade-d-text); }
+.grade-f { background: var(--grade-f-bg); color: var(--grade-f-text); }
+
+.chip {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 6px;
+  background: var(--surface-elevated);
+  border: 0.5px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-tertiary);
+}
+
+.chip-info {
+  color: var(--informational);
+}
+
+.risk-bar-track {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.risk-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  height: 50px;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: var(--corner-radius);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  line-height: 50px;
+}
+
+.btn-secondary {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-small {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: var(--inner-corner-radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+.btn-small-prominent {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: transparent;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+.tab-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 74px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 16px;
+  padding-bottom: 14px;
+}
+
+.tab-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.tab-item.active {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.tab-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+/* ——— LOGIN SCREEN ——— */
+
+.login-screen {
+  background: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  min-height: 852px;
+}
+
+.login-monogram {
+  width: 56px;
+  height: 56px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--brand-cream);
+}
+
+.login-brand {
+  font-family: 'Inter', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--brand-cream);
+  letter-spacing: 4px;
+  margin-top: 16px;
+}
+
+.login-tagline {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.6;
+  max-width: 260px;
+  margin-top: 16px;
+}
+
+.login-field {
+  width: 100%;
+  max-width: 420px;
+  padding: 13px 14px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  color: var(--text-primary);
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+}
+
+.login-field::placeholder {
+  color: var(--text-tertiary);
+}
+
+.login-form {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 40px;
+}
+
+.login-forgot {
+  font-size: 13px;
+  color: var(--informational);
+  text-align: right;
+}
+
+.login-toggle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 24px;
+}
+
+.login-toggle a {
+  color: var(--informational);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.login-terms {
+  position: absolute;
+  bottom: 28px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.login-terms a {
+  color: var(--text-secondary);
+}
+
+/* ——— DASHBOARD SCREEN ——— */
+
+.dashboard-screen {
+  background: var(--bg-primary);
+  padding: 0 var(--screen-padding);
+}
+
+.dashboard-header {
+  padding: 16px 0 10px;
+}
+
+.wordmark-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.wordmark-logo {
+  width: 40px;
+  height: 40px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--brand-cream);
+}
+
+.wordmark-text {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--brand-cream);
+  letter-spacing: 2.1px;
+}
+
+.wordmark-header-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 6px;
+}
+
+.header-icon-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.page-title-text {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.3px;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 3px;
+}
+
+.hero-card {
+  margin-top: var(--section-spacing);
+}
+
+.hero-grade-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.hero-score-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hero-trend {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.trend-stable { color: var(--text-secondary); }
+.trend-improving { color: var(--risk-a); }
+.trend-worsening { color: var(--risk-d); }
+
+.hero-score-line {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.hero-score-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.hero-chips {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.hero-summary {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 10px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.hero-meta {
+  display: flex;
+  gap: 8px;
+  font-size: 11px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-secondary);
+  margin-top: 8px;
+}
+
+.stat-strip {
+  margin-top: var(--section-spacing);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  display: flex;
+}
+
+.stat-cell {
+  flex: 1;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-cell-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.stat-cell-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stat-cell-detail {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.stat-divider {
+  width: 1px;
+  background: var(--border);
+}
+
+/* ——— HOLDINGS SCREEN ——— */
+
+.holdings-screen {
+  background: var(--bg-primary);
+  padding: 0 var(--screen-padding);
+}
+
+.search-bar {
+  margin-top: var(--section-spacing);
+  padding: 12px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--inner-corner-radius);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-bar-icon {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.search-bar-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+}
+
+.search-bar-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.filter-row {
+  margin-top: var(--section-spacing);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  padding: 10px 14px;
+}
+
+.filter-pills {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.filter-pill {
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--inner-corner-radius);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.filter-pill.active {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+  font-weight: 600;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
+  font-size: 12px;
+}
+
+.section-heading {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+  margin-top: var(--section-spacing);
+  margin-bottom: 8px;
+}
+
+.position-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+}
+
+.position-row-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.position-row-ticker {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.position-row-ticker .archetype {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin-left: 8px;
+}
+
+.position-row-summary {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.position-row-chips {
+  display: flex;
+  gap: 6px;
+  margin-top: 3px;
+}
+
+.position-row-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.position-row-score {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.downgrade-accent {
+  border-left: 3px solid var(--risk-d);
+  border-radius: var(--corner-radius);
+}
+
+/* ——— DIGEST SCREEN ——— */
+
+.digest-screen {
+  background: var(--bg-primary);
+  padding: 0 var(--screen-padding);
+}
+
+.digest-hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.list-card {
+  margin-top: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  padding: 2px 14px;
+}
+
+.list-row {
+  padding: 12px 0;
+  display: flex;
+  gap: 10px;
+}
+
+.list-row-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-secondary);
+  opacity: 0.55;
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.list-row-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.list-row-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.list-row-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ——— ALERTS SCREEN ——— */
+
+.alerts-screen {
+  background: var(--bg-primary);
+  padding: 0 var(--screen-padding);
+}
+
+.alert-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  padding: var(--card-padding);
+}
+
+.alert-grid-cell {
+  padding: 10px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--inner-corner-radius);
+}
+
+.alert-grid-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.alert-grid-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 6px;
+}
+
+.alert-grid-bar {
+  height: 2px;
+  border-radius: 1px;
+  margin-top: 6px;
+}
+
+.alert-timeline-row {
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.alert-timeline-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 24px;
+  gap: 4px;
+}
+
+.alert-timeline-connector {
+  width: 1px;
+  flex: 1;
+  background: var(--border);
+}
+
+.alert-timeline-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.alert-timeline-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.alert-timeline-type {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.alert-timeline-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.alert-timeline-message {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.alert-timeline-ticker {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: 3px 6px;
+  background: var(--surface-elevated);
+  border-radius: 4px;
+  width: fit-content;
+}
+
+.alert-timeline-grade-change {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.alert-arrow {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+/* ——— TICKER DETAIL SCREEN ——— */
+
+.ticker-screen {
+  background: var(--bg-primary);
+  padding: 0 var(--screen-padding);
+}
+
+.ticker-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0 4px;
+}
+
+.ticker-nav-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.ticker-nav-subtitle {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.ticker-nav-left a {
+  font-size: 15px;
+  color: var(--informational);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.ticker-nav-right {
+  display: flex;
+  gap: 6px;
+}
+
+.ticker-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.ticker-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ticker-price-period {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.ticker-change {
+  text-align: right;
+}
+
+.ticker-change-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ticker-change-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.ticker-sparkline {
+  height: 56px;
+  margin-top: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.ticker-days-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.ticker-day-pill {
+  flex: 1;
+  padding: 7px 0;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.ticker-day-pill.active {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+}
+
+.metric-cell {
+  padding: 12px 14px;
+  border-right: 1px solid var(--border);
+}
+
+.metric-cell:last-child {
+  border-right: none;
+}
+
+.metric-cell-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.metric-cell-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 4px;
+}
+
+.dimension-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.dimension-name {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.dimension-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ——— SETTINGS SCREEN ——— */
+
+.settings-screen {
+  background: var(--bg-primary);
+  padding: 0 var(--screen-padding);
+}
+
+.settings-group {
+  margin-top: var(--section-spacing);
+}
+
+.settings-group-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding-left: 2px;
+  margin-bottom: 8px;
+}
+
+.settings-group-footnote {
+  font-size: 12px;
+  color: var(--text-secondary);
+  padding-left: 2px;
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.settings-row {
+  display: flex;
+  align-items: center;
+  padding: 13px 0;
+  gap: 12px;
+}
+
+.settings-row-label {
+  font-size: 15px;
+  color: var(--text-primary);
+}
+
+.settings-row-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.settings-row-value {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-left: auto;
+}
+
+.settings-row-chevron {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  margin-left: auto;
+}
+
+.settings-row-action {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.toggle {
+  width: 40px;
+  height: 24px;
+  border-radius: 12px;
+  position: relative;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.toggle-on {
+  background: var(--risk-a);
+}
+
+.toggle-off {
+  background: var(--border);
+}
+
+.toggle-knob {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 2px;
+}
+
+.toggle-on .toggle-knob { right: 2px; }
+.toggle-off .toggle-knob { left: 2px; }
+
+.settings-row-destructive {
+  color: var(--risk-f);
+}
+
+.settings-row-info {
+  color: var(--informational);
+}
+
+/* ——— ONBOARDING SCREEN ——— */
+
+.onboarding-screen {
+  background: var(--bg-primary);
+  padding: 24px var(--screen-padding);
+  min-height: 852px;
+  display: flex;
+  flex-direction: column;
+}
+
+.onboarding-progress {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+.progress-segment.filled {
+  background: var(--text-primary);
+}
+
+.onboarding-step-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.4px;
+}
+
+.onboarding-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 24px;
+}
+
+.onboarding-monogram {
+  width: 64px;
+  height: 64px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--brand-cream);
+}
+
+.onboarding-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.4px;
+  line-height: 1.2;
+  margin-top: 24px;
+}
+
+.onboarding-body-text {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+.onboarding-input-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+.onboarding-input {
+  width: 100%;
+  padding: 13px 14px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  color: var(--text-primary);
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+}
+
+.onboarding-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.onboarding-footer {
+  padding-bottom: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.onboarding-notice-card {
+  margin-top: 24px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+}
+
+.onboarding-notice-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+
+.onboarding-notice-body {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.onboarding-toggle-card {
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.onboarding-toggle-text {
+  flex: 1;
+}
+
+.onboarding-toggle-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.onboarding-toggle-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.checkbox-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 16px;
+}
+
+.checkbox-box {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 1.5px solid var(--informational);
+  background: var(--informational);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.checkbox-check {
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.checkbox-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Evidence dots */
+.evidence-dots {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.evidence-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+}
+
+.evidence-dot-filled {
+  background: rgba(26, 158, 117, 0.4);
+  outline: 0.5px solid rgba(26, 158, 117, 0.4);
+}
+
+.evidence-dot-empty {
+  background: rgba(138, 147, 163, 0.25);
+  outline: 0.5px solid rgba(138, 147, 163, 0.4);
+}
+
+/* SVG sparkline chart approximation */
+.sparkline-svg {
+  width: 100%;
+  height: 56px;
+}
+
+/* Methodology step */
+.methodology-step {
+  display: flex;
+  gap: var(--medium-spacing);
+  padding: var(--card-padding);
+  background: var(--surface-elevated);
+  border-radius: var(--inner-corner-radius);
+}
+
+.methodology-num {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  width: 24px;
+}
+
+.methodology-content {
+  flex: 1;
+}
+
+.methodology-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.methodology-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+/* Score band row for score explanation */
+.score-band-row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--medium-spacing);
+  padding: var(--card-padding);
+  background: var(--surface-elevated);
+  border-radius: var(--inner-corner-radius);
+}
+
+.score-band-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.score-band-range {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.score-band-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Offline banner */
+.offline-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  margin-bottom: var(--section-spacing);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.offline-dot {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--risk-d);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.status-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  padding: var(--card-padding);
+}
+
+.status-card-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.status-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.status-card-badge {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.progress-track {
+  height: 4px;
+  background: var(--border);
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 4px;
+  background: var(--informational);
+}
+
+.status-card-copy {
+  margin-top: 16px;
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.error-card {
+  display: flex;
+  gap: 10px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  overflow: hidden;
+}
+
+.error-accent {
+  width: 3px;
+  background: var(--risk-f);
+  flex-shrink: 0;
+}
+
+.error-card-copy {
+  padding: 10px 10px 10px 0;
+  font-size: 12px;
+  color: var(--text-primary);
+  line-height: 1.45;
+}
+
+.state-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--corner-radius);
+  padding: var(--card-padding);
+}
+
+.state-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.state-card-body {
+  margin-top: 8px;
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.state-card-meta {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  line-height: 1.45;
+}
+
+.pill-action {
+  padding: 7px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface-elevated);
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.settings-inline-picker {
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface-elevated);
+}
+
+.ext-link {
+  font-size: 15px;
+  color: var(--text-tertiary);
+  margin-left: auto;
+}
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  <h1>CLAVIX</h1>
+  <p>Editable HTML export aligned to the current Clavix SwiftUI app, including the full onboarding flow, core tabs, settings detail views, and important app states.</p>
+  <div class="import-steps">
+    <h3>How to import into Figma</h3>
+    <ol>
+      <li>Install the free <strong>HTML to Figma</strong> plugin from the Figma Community</li>
+      <li>Open Figma → Plugins → HTML to Figma</li>
+      <li>Paste the URL: <code>file:///Users/sansarkarki/Documents/Clavis/design/clavix-figma-export.html</code></li>
+      <li>Or open this file in Chrome, then use the plugin's "Import from URL" feature</li>
+      <li>All text, buttons, cards, and colors will import as individual editable Figma layers</li>
+    </ol>
+  </div>
+</div>
+
+<div class="screens-grid">
+
+<!-- ==================== LOGIN ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="login-screen">
+      <!-- Monogram -->
+      <div style="display:flex;flex-direction:column;align-items:center;padding-top:56px;">
+        <div class="login-monogram">C</div>
+        <div class="login-brand">CLAVIX</div>
+        <div class="login-tagline">Portfolio intelligence for self-directed investors</div>
+      </div>
+      <!-- Form -->
+      <div class="login-form">
+        <input class="login-field" type="text" placeholder="Email address" />
+        <div>
+          <input class="login-field" type="password" placeholder="Password" />
+          <div class="login-forgot">Forgot password?</div>
+        </div>
+        <div style="font-size:12px;color:var(--informational);line-height:1.45;min-height:14px;">Status message</div>
+        <div style="height:14px"></div>
+        <button class="btn-primary">Sign in</button>
+      </div>
+      <div class="login-toggle" style="text-align:center;">Don't have an account? <a href="#">Sign up</a></div>
+      <div class="login-terms">
+        By continuing you agree to our<br/>
+        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Login</div>
+</div>
+
+<!-- ==================== ONBOARDING — WELCOME ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="onboarding-screen">
+      <div class="onboarding-progress">
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+      </div>
+      <div class="onboarding-step-label">Step 1 of 5</div>
+      <div class="onboarding-body">
+        <div class="onboarding-monogram">C</div>
+        <div class="onboarding-title">Portfolio risk, measured.</div>
+        <div class="onboarding-body-text">Clavix helps you answer three questions every morning: how risky is my portfolio, what changed, and what should I look at first.</div>
+        <div class="onboarding-input-label">YOUR NAME</div>
+        <input class="onboarding-input" placeholder="First name" />
+      </div>
+      <div class="onboarding-footer">
+        <button class="btn-primary">Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Onboarding — Welcome</div>
+</div>
+
+<!-- ==================== ONBOARDING — DATE OF BIRTH ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="onboarding-screen">
+      <div class="onboarding-progress">
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+      </div>
+      <div class="onboarding-step-label">Step 2 of 5</div>
+      <div class="onboarding-body">
+        <div class="onboarding-title" style="margin-top:0;font-size:28px;">Date of birth</div>
+        <div class="onboarding-body-text">Required to confirm you meet minimum age requirements in your jurisdiction.</div>
+        <div style="margin-top:24px;display:flex;align-items:center;justify-content:flex-start;">
+          <div class="settings-inline-picker">Jan 12, 1994</div>
+        </div>
+        <div class="card-elevated" style="margin-top:24px;">
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">You must be at least 18 years old to use Clavix. We use this only to verify age and store the birth year in your profile.</div>
+        </div>
+      </div>
+      <div class="onboarding-footer">
+        <button class="btn-primary">Continue</button>
+        <button class="btn-secondary">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Onboarding — Date Of Birth</div>
+</div>
+
+<!-- ==================== ONBOARDING — RISK ACK ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="onboarding-screen">
+      <div class="onboarding-progress">
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+      </div>
+      <div class="onboarding-step-label">Step 3 of 5</div>
+      <div class="onboarding-body">
+        <div class="onboarding-title">One thing before we begin.</div>
+        <div style="font-size:15px;font-weight:600;color:var(--text-secondary);margin-top:8px;line-height:1.5;">Clavix is informational only. It is not financial advice.</div>
+        <div class="onboarding-notice-card">
+          <div class="onboarding-notice-label">Risk acknowledgement</div>
+          <div class="onboarding-notice-body">Clavix is informational only. Risk grades and scores reflect risk signals derived from public data and model outputs. They are not recommendations to buy, sell, or hold any security.</div>
+          <div class="divider" style="margin:14px 0;"></div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">Past scores do not predict future results. Always consult a qualified adviser before making investment decisions.</div>
+        </div>
+        <div class="checkbox-row">
+          <div class="checkbox-box"><span class="checkbox-check">✓</span></div>
+          <div class="checkbox-label">I understand Clavix provides information only, and that I am solely responsible for my investment decisions.</div>
+        </div>
+      </div>
+      <div class="onboarding-footer">
+        <button class="btn-primary">Agree &amp; continue</button>
+        <button class="btn-secondary">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Onboarding — Risk Acknowledgment</div>
+</div>
+
+<!-- ==================== ONBOARDING — PREFERENCES ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="onboarding-screen">
+      <div class="onboarding-progress">
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment"></div>
+      </div>
+      <div class="onboarding-step-label">Step 4 of 5</div>
+      <div class="onboarding-body">
+        <div class="onboarding-title">Pick what wakes you up.</div>
+        <div class="onboarding-body-text">Adjust any of these later in Settings.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px;">
+          <div class="onboarding-toggle-card">
+            <div class="onboarding-toggle-text">
+              <div class="onboarding-toggle-title">Morning rating</div>
+              <div class="onboarding-toggle-subtitle">Daily portfolio summary at your configured rating time</div>
+            </div>
+            <div class="toggle toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="onboarding-toggle-card">
+            <div class="onboarding-toggle-text">
+              <div class="onboarding-toggle-title">Grade changes</div>
+              <div class="onboarding-toggle-subtitle">Any upgrade or downgrade in your holdings</div>
+            </div>
+            <div class="toggle toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="onboarding-toggle-card">
+            <div class="onboarding-toggle-text">
+              <div class="onboarding-toggle-title">Major events</div>
+              <div class="onboarding-toggle-subtitle">Earnings, regulatory actions, and major news</div>
+            </div>
+            <div class="toggle toggle-off"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="onboarding-toggle-card">
+            <div class="onboarding-toggle-text">
+              <div class="onboarding-toggle-title">Large price moves</div>
+              <div class="onboarding-toggle-subtitle">Significant daily moves across your portfolio</div>
+            </div>
+            <div class="toggle toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="onboarding-footer">
+        <button class="btn-primary">Continue</button>
+        <button class="btn-secondary">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Onboarding — Preferences</div>
+</div>
+
+<!-- ==================== ONBOARDING — BROKERAGE ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="onboarding-screen">
+      <div class="onboarding-progress">
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment filled"></div>
+        <div class="progress-segment filled"></div>
+      </div>
+      <div class="onboarding-step-label">Step 5 of 5</div>
+      <div class="onboarding-body">
+        <div class="onboarding-title">Connect your brokerage</div>
+        <div class="onboarding-body-text">Optional. Brokerage connections are read-only and only import holdings, so you can keep manual entries when you want to.</div>
+        <div class="onboarding-notice-card" style="margin-top:20px;">
+          <div class="onboarding-notice-label">Why connect now?</div>
+          <div class="onboarding-notice-body">Importing holdings here is faster than entering them by hand, and you can still keep manual holdings alongside synced ones.</div>
+        </div>
+        <div style="margin-top:20px;font-size:12px;color:var(--text-secondary);line-height:1.5;">Brokerage auto-import is not available right now. You can add holdings manually and connect a brokerage later in Settings.</div>
+      </div>
+      <div class="onboarding-footer">
+        <button class="btn-primary">Connect brokerage</button>
+        <button class="btn-primary" style="background:var(--surface-elevated);color:var(--text-primary);border:1px solid var(--border);">Continue without brokerage</button>
+        <button class="btn-secondary">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Onboarding — Brokerage</div>
+</div>
+
+<!-- ==================== DASHBOARD ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="dashboard-screen">
+      <div class="dashboard-header">
+        <div class="wordmark-row">
+          <div class="wordmark-logo">C</div>
+          <div>
+            <div class="wordmark-text">CLAVIX</div>
+          </div>
+          <div class="wordmark-header-actions">
+            <div class="header-icon-btn">🕐</div>
+          </div>
+        </div>
+        <div class="page-title-text">Good morning</div>
+        <div class="page-subtitle">Fri, May 1</div>
+      </div>
+
+      <div class="offline-banner">
+        <div class="offline-dot">⌁</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-primary);">Offline</div>
+          <div style="margin-top:3px;line-height:1.45;">Showing cached data. Actions will retry when the network returns.</div>
+        </div>
+      </div>
+
+      <div class="status-card" style="margin-top:var(--section-spacing);">
+        <div class="status-card-title-row">
+          <div class="status-card-title">Building your rating</div>
+          <div class="status-card-badge">Updating</div>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:62%;"></div></div>
+        <div class="status-card-copy">3 holdings processed, 4 events analyzed.</div>
+      </div>
+
+      <div class="error-card" style="margin-top:var(--section-spacing);">
+        <div class="error-accent"></div>
+        <div class="error-card-copy">Couldn't load your portfolio right now.</div>
+      </div>
+
+      <!-- Hero Card -->
+      <div class="card hero-card">
+        <div class="section-label">PORTFOLIO SCORE</div>
+        <div class="hero-grade-row">
+          <div class="grade-badge grade-badge-large grade-b">B</div>
+          <div class="hero-score-info">
+            <div class="hero-trend trend-stable">→ stable</div>
+            <div class="hero-score-line">
+              <span>Score</span>
+              <span class="hero-score-num">72</span>
+            </div>
+            <div class="evidence-dots">
+              <div class="evidence-dot evidence-dot-filled"></div>
+              <div class="evidence-dot evidence-dot-filled"></div>
+              <div class="evidence-dot evidence-dot-empty"></div>
+            </div>
+          </div>
+        </div>
+        <div class="hero-chips">
+          <span class="chip chip-info">Portfolio-specific</span>
+          <span class="chip">Updated 2h ago</span>
+        </div>
+        <div class="hero-summary">Portfolio risk is stable with moderate exposure. Two holdings showing elevated news risk. No critical concentration issues.</div>
+        <div class="hero-buttons">
+          <div class="btn-small">↻ Refresh</div>
+          <div class="btn-small btn-small-prominent">▶ Run</div>
+        </div>
+        <div class="hero-meta">
+          <span>Updated 9:42 AM</span>
+          <span>·</span>
+          <span>Next 6:00 AM</span>
+        </div>
+      </div>
+
+      <!-- Stat Strip -->
+      <div class="stat-strip">
+        <div class="stat-cell">
+          <div class="stat-cell-label">At risk</div>
+          <div class="stat-cell-value">2</div>
+          <div class="stat-cell-detail">of 5 holdings</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-cell">
+          <div class="stat-cell-label">Alerts</div>
+          <div class="stat-cell-value">3</div>
+          <div class="stat-cell-detail">recent changes</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-cell">
+          <div class="stat-cell-label">Watchlist</div>
+          <div class="stat-cell-value">2</div>
+          <div class="stat-cell-detail">items tracked</div>
+        </div>
+      </div>
+
+      <div class="state-card" style="margin-top:var(--section-spacing);">
+        <div class="state-card-title">Needs Attention</div>
+        <div class="card-elevated" style="margin-top:16px;padding:14px;">
+          <div style="display:flex;align-items:flex-start;gap:16px;">
+            <div style="flex:1;">
+              <div style="font-size:15px;font-weight:600;color:var(--text-primary);">TSLA</div>
+              <div style="font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.45;">Risk rising after earnings miss and wider post-event volatility.</div>
+            </div>
+            <div style="text-align:right;display:flex;flex-direction:column;gap:4px;align-items:flex-end;">
+              <div class="grade-badge grade-badge-compact grade-d">D</div>
+              <div class="hero-trend trend-worsening" style="font-size:12px;">↑ worsening</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text-secondary);">38</div>
+            </div>
+          </div>
+          <div class="risk-bar-track" style="margin-top:10px;"><div class="risk-bar-fill" style="width:38%;background:var(--risk-d);"></div></div>
+        </div>
+      </div>
+
+      <!-- What Changed -->
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;">
+          <div class="section-label" style="margin-bottom:0;">WHAT CHANGED · 3</div>
+          <div style="font-size:13px;color:var(--informational);">See all</div>
+        </div>
+        <div style="margin-top:10px;">
+          <!-- Entry 1 -->
+          <div style="display:flex;gap:10px;padding:8px 0;">
+            <div class="grade-badge grade-badge-compact grade-b">B</div>
+            <div style="flex:1;">
+              <div style="font-size:12px;font-weight:600;color:var(--text-primary);">Portfolio</div>
+              <div style="font-size:12px;color:var(--text-secondary);line-height:1.3;">Score 72 · Stable</div>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-secondary);">Now</div>
+          </div>
+          <!-- Entry 2 -->
+          <div style="display:flex;gap:10px;padding:8px 0;">
+            <div class="grade-badge grade-badge-compact grade-d">D</div>
+            <div style="flex:1;">
+              <div style="font-size:12px;font-weight:600;color:var(--text-primary);">TSLA</div>
+              <div style="font-size:12px;color:var(--text-secondary);line-height:1.3;">Downgraded from B to D</div>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-secondary);">2h ago</div>
+          </div>
+          <!-- Entry 3 -->
+          <div style="display:flex;gap:10px;padding:8px 0;">
+            <div class="grade-badge grade-badge-compact grade-c">C</div>
+            <div style="flex:1;">
+              <div style="font-size:12px;font-weight:600;color:var(--text-primary);">AAPL</div>
+              <div style="font-size:12px;color:var(--text-secondary);line-height:1.3;">Elevated macro exposure this week</div>
+            </div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-secondary);">5h ago</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Portfolio Risk Contributors -->
+      <div style="margin-top:var(--section-spacing);">
+        <div class="section-label">PORTFOLIO RISK CONTRIBUTORS</div>
+        <div class="card" style="margin-top:8px;">
+          <div style="display:flex;gap:10px;margin-bottom:8px;">
+            <div style="width:6px;height:6px;border-radius:50%;background:rgba(216,90,48,0.5);margin-top:5px;flex-shrink:0;"></div>
+            <div style="font-size:12px;font-weight:600;color:var(--text-primary);">TSLA earnings miss driving volatility spike</div>
+          </div>
+          <div style="display:flex;gap:10px;margin-bottom:8px;">
+            <div style="width:6px;height:6px;border-radius:50%;background:rgba(216,90,48,0.5);margin-top:5px;flex-shrink:0;"></div>
+            <div style="font-size:12px;font-weight:600;color:var(--text-primary);">Sector rotation into defensive names</div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <div style="width:6px;height:6px;border-radius:50%;background:rgba(138,147,163,0.5);margin-top:5px;flex-shrink:0;"></div>
+            <div style="font-size:12px;font-weight:600;color:var(--text-primary);">Portfolio concentration in tech</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Morning Rating Teaser -->
+      <div class="card" style="margin-top:var(--section-spacing);cursor:pointer;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+          <div class="section-label" style="margin-bottom:0;">MORNING RATING</div>
+          <div class="grade-badge grade-badge-compact grade-b">B</div>
+        </div>
+        <div style="font-size:15px;font-weight:500;color:var(--text-primary);margin-top:8px;line-height:1.4;">Portfolio holding steady with two positions under watch. No overnight catalysts detected.</div>
+        <div style="display:flex;gap:8px;margin-top:8px;align-items:center;">
+          <span class="chip">Market view</span>
+          <span class="chip">Updated 1h ago</span>
+          <span style="margin-left:auto;font-size:12px;color:var(--text-secondary);">Today</span>
+          <span style="color:var(--text-tertiary);">·</span>
+          <span style="font-size:13px;font-weight:500;color:var(--informational);">Read rating →</span>
+        </div>
+      </div>
+
+      <!-- Tab Bar -->
+      <div class="tab-bar">
+        <div class="tab-item active"><div class="tab-icon">🏠</div>Home</div>
+        <div class="tab-item"><div class="tab-icon">💼</div>Holdings</div>
+        <div class="tab-item"><div class="tab-icon">📄</div>Rating</div>
+        <div class="tab-item"><div class="tab-icon">🔔</div>Alerts</div>
+        <div class="tab-item"><div class="tab-icon">⚙️</div>Settings</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Dashboard</div>
+</div>
+
+<!-- ==================== HOLDINGS ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="holdings-screen">
+      <div class="dashboard-header">
+        <div class="wordmark-row">
+          <div class="wordmark-logo">C</div>
+          <div><div class="wordmark-text">CLAVIX</div></div>
+          <div class="wordmark-header-actions">
+            <div class="header-icon-btn" style="font-size:13px;">＋</div>
+            <div class="header-icon-btn">↻</div>
+          </div>
+        </div>
+        <div class="page-title-text">Holdings</div>
+        <div class="page-subtitle">Updated May 1</div>
+      </div>
+
+      <div class="offline-banner">
+        <div class="offline-dot">⌁</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-primary);">Offline</div>
+          <div style="margin-top:3px;line-height:1.45;">Showing cached data. Actions will retry when the network returns.</div>
+        </div>
+      </div>
+
+      <!-- Search -->
+      <div class="search-bar">
+        <span class="search-bar-icon">🔍</span>
+        <input class="search-bar-input" placeholder="Search ticker or company" />
+      </div>
+
+      <!-- Filter row -->
+      <div class="filter-row">
+        <div class="filter-pills">
+          <div class="filter-pill active">All</div>
+          <div class="filter-pill">Grade D-F</div>
+          <div class="filter-pill">Improving</div>
+          <div class="filter-pill">Worsening</div>
+        </div>
+        <div class="filter-actions">
+          <span style="color:var(--text-secondary);">Sort</span>
+          <span style="color:var(--text-primary);font-weight:500;">Grade ▾</span>
+          <span style="color:var(--text-primary);font-weight:500;margin-left:8px;">Refresh</span>
+        </div>
+      </div>
+
+      <div class="section-heading">Watchlist · 2</div>
+      <div class="card" style="padding:2px 14px;">
+        <div class="position-row" style="padding:10px 0;">
+          <div class="grade-badge grade-badge-standard grade-b">B</div>
+          <div class="position-row-info">
+            <div class="position-row-ticker">NVDA</div>
+            <div class="position-row-summary">Tracked symbol</div>
+          </div>
+          <div class="position-row-right">
+            <div class="position-row-score" style="color:var(--text-primary);">68</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="position-row" style="padding:10px 0;">
+          <div class="grade-badge grade-badge-standard grade-c">C</div>
+          <div class="position-row-info">
+            <div class="position-row-ticker">AMD</div>
+            <div class="position-row-summary">Tracked symbol</div>
+          </div>
+          <div class="position-row-right">
+            <div class="position-row-score" style="color:var(--text-primary);">57</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Downgraded section -->
+      <div class="section-heading">Downgraded · 2</div>
+      <div class="card downgrade-accent" style="padding:0 14px;">
+        <div class="position-row">
+          <div class="grade-badge grade-badge-standard grade-d">D</div>
+          <div class="position-row-info">
+            <div class="position-row-ticker">TSLA <span class="archetype">Growth</span></div>
+            <div class="position-row-summary">Earnings miss and delivery numbers below consensus. Volatility elevated.</div>
+            <div class="position-row-chips">
+              <span class="chip chip-info">Portfolio-specific</span>
+              <span class="chip">Updated 2h ago</span>
+            </div>
+          </div>
+          <div class="position-row-right">
+            <div class="hero-trend trend-worsening" style="font-size:12px;">↑ worsening</div>
+            <div class="position-row-score">38</div>
+          </div>
+        </div>
+        <div class="risk-bar-track"><div class="risk-bar-fill" style="width:38%;background:var(--risk-d);"></div></div>
+        <div class="divider"></div>
+        <div class="position-row">
+          <div class="grade-badge grade-badge-standard grade-c">C</div>
+          <div class="position-row-info">
+            <div class="position-row-ticker">AAPL <span class="archetype">Core</span></div>
+            <div class="position-row-summary">Elevated macro exposure this week. Regulatory scrutiny in EU markets.</div>
+            <div class="position-row-chips">
+              <span class="chip chip-info">Portfolio-specific</span>
+              <span class="chip">Updated 3h ago</span>
+            </div>
+          </div>
+          <div class="position-row-right">
+            <div class="hero-trend trend-worsening" style="font-size:12px;">↑ worsening</div>
+            <div class="position-row-score">54</div>
+          </div>
+        </div>
+        <div class="risk-bar-track" style="margin-bottom:2px;"><div class="risk-bar-fill" style="width:54%;background:var(--risk-c);"></div></div>
+      </div>
+
+      <!-- All holdings section -->
+      <div class="section-heading">All holdings · 5</div>
+      <div class="card" style="padding:2px 14px;">
+        <div class="position-row">
+          <div class="grade-badge grade-badge-standard grade-a">A</div>
+          <div class="position-row-info">
+            <div class="position-row-ticker">JPM <span class="archetype">Core</span> <span style="font-size:11px;font-weight:600;color:var(--informational);padding:3px 6px;background:rgba(59,130,196,0.12);border-radius:999px;margin-left:8px;">Synced</span></div>
+            <div class="position-row-summary">Stable earnings, low volatility. Strong balance sheet metrics.</div>
+            <div class="position-row-chips" style="align-items:center;">
+              <div class="evidence-dots">
+                <div class="evidence-dot evidence-dot-filled"></div>
+                <div class="evidence-dot evidence-dot-filled"></div>
+                <div class="evidence-dot evidence-dot-filled"></div>
+              </div>
+              <span class="chip chip-info">Portfolio-specific</span>
+              <span class="chip">Updated 1h ago</span>
+            </div>
+          </div>
+          <div class="position-row-right">
+            <div class="hero-trend trend-stable" style="font-size:12px;">→ stable</div>
+            <div class="position-row-score">85</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="position-row">
+          <div class="grade-badge grade-badge-standard grade-b">B</div>
+          <div class="position-row-info">
+            <div class="position-row-ticker">MSFT <span class="archetype">Growth</span></div>
+            <div class="position-row-summary">Cloud revenue growth solid. AI integration on track.</div>
+            <div class="position-row-chips">
+              <span class="chip chip-info">Portfolio-specific</span>
+              <span class="chip">Updated 4h ago</span>
+            </div>
+          </div>
+          <div class="position-row-right">
+            <div class="hero-trend trend-improving" style="font-size:12px;">↓ improving</div>
+            <div class="position-row-score">71</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="position-row">
+          <div class="grade-badge grade-badge-standard grade-a">A</div>
+          <div class="position-row-info">
+            <div class="position-row-ticker">GOOG <span class="archetype">Growth</span></div>
+            <div class="position-row-summary">Ad revenue recovery. Search market share stable.</div>
+            <div class="position-row-chips">
+              <span class="chip chip-info">Portfolio-specific</span>
+              <span class="chip">Updated 2h ago</span>
+            </div>
+          </div>
+          <div class="position-row-right">
+            <div class="hero-trend trend-stable" style="font-size:12px;">→ stable</div>
+            <div class="position-row-score">82</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Home</div>
+        <div class="tab-item active"><div class="tab-icon">💼</div>Holdings</div>
+        <div class="tab-item"><div class="tab-icon">📄</div>Rating</div>
+        <div class="tab-item"><div class="tab-icon">🔔</div>Alerts</div>
+        <div class="tab-item"><div class="tab-icon">⚙️</div>Settings</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Holdings</div>
+</div>
+
+<!-- ==================== TICKER DETAIL ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="ticker-screen">
+      <!-- Nav -->
+      <div class="ticker-nav">
+        <div class="ticker-nav-left"><a href="#">‹ Holdings</a></div>
+        <div>
+          <div class="ticker-nav-title">TSLA</div>
+          <div class="ticker-nav-subtitle">Tesla, Inc.</div>
+        </div>
+        <div class="ticker-nav-right">
+          <div class="header-icon-btn">↻</div>
+          <div class="header-icon-btn">★</div>
+        </div>
+      </div>
+
+      <!-- Hero -->
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div class="hero-grade-row">
+          <div class="grade-badge grade-badge-large grade-d">D</div>
+          <div class="hero-score-info">
+            <div class="hero-trend trend-worsening">↑ worsening</div>
+            <div class="hero-score-line">
+              <span>Score</span>
+              <span class="hero-score-num">38</span>
+            </div>
+            <div class="evidence-dots">
+              <div class="evidence-dot evidence-dot-filled"></div>
+              <div class="evidence-dot evidence-dot-filled"></div>
+              <div class="evidence-dot evidence-dot-empty"></div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:16px;">
+          <div style="font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.8px;">TSLA</div>
+          <div style="font-size:15px;font-weight:600;color:var(--text-primary);margin-top:2px;">Tesla, Inc.</div>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:8px;align-items:center;">
+          <span class="chip chip-info">Portfolio-specific</span>
+          <span class="chip">Updated 2h ago</span>
+          <span style="margin-left:auto;font-size:12px;color:var(--text-secondary);">Automotive</span>
+        </div>
+        <div style="margin-top:10px;font-size:15px;font-weight:600;color:var(--text-primary);line-height:1.4;">Earnings miss driving risk higher. Delivery numbers below consensus estimates.</div>
+        <div style="margin-top:6px;font-size:15px;color:var(--text-secondary);line-height:1.5;">Volatility elevated post-earnings with implied move expansion.</div>
+      </div>
+
+      <!-- Price Card -->
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div class="ticker-price-row">
+          <div>
+            <div class="ticker-price">$242.68</div>
+            <div class="ticker-price-period">Last 30 days</div>
+          </div>
+          <div class="ticker-change">
+            <div class="ticker-change-pct" style="color:var(--risk-d);">-3.2%</div>
+            <div class="ticker-change-label">TODAY</div>
+          </div>
+        </div>
+        <div class="ticker-sparkline">
+          <svg class="sparkline-svg" viewBox="0 0 340 56">
+            <polyline fill="none" stroke="#D85A30" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="0,20 30,18 60,22 90,15 120,20 150,28 180,32 210,30 240,38 270,35 300,40 340,44"/>
+          </svg>
+        </div>
+        <div class="ticker-days-row">
+          <div class="ticker-day-pill">1D</div>
+          <div class="ticker-day-pill">1W</div>
+          <div class="ticker-day-pill active">1M</div>
+          <div class="ticker-day-pill">3M</div>
+          <div class="ticker-day-pill">1Y</div>
+        </div>
+      </div>
+
+      <!-- Fundamentals -->
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div class="section-label">FUNDAMENTALS</div>
+        <div class="metric-grid" style="background:var(--surface);border-radius:var(--corner-radius);overflow:hidden;margin-top:8px;">
+          <div class="metric-cell">
+            <div class="metric-cell-label">P/E</div>
+            <div class="metric-cell-value">62.4</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-cell-label">Mkt cap</div>
+            <div class="metric-cell-value">$772.3B</div>
+          </div>
+          <div class="metric-cell">
+            <div class="metric-cell-label">Volatility</div>
+            <div class="metric-cell-value">74</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Risk Dimensions -->
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div class="section-label">RISK DIMENSIONS</div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:10px;">
+          <div>
+            <div class="dimension-row"><span class="dimension-name">News risk signals</span><span class="dimension-value">28</span></div>
+            <div class="risk-bar-track"><div class="risk-bar-fill" style="width:28%;background:var(--risk-a);"></div></div>
+          </div>
+          <div>
+            <div class="dimension-row"><span class="dimension-name">Macro exposure</span><span class="dimension-value">55</span></div>
+            <div class="risk-bar-track"><div class="risk-bar-fill" style="width:55%;background:var(--risk-b);"></div></div>
+          </div>
+          <div>
+            <div class="dimension-row"><span class="dimension-name">Position sizing</span><span class="dimension-value">42</span></div>
+            <div class="risk-bar-track"><div class="risk-bar-fill" style="width:42%;background:var(--risk-c);"></div></div>
+          </div>
+          <div>
+            <div class="dimension-row"><span class="dimension-name">Volatility trend</span><span class="dimension-value">74</span></div>
+            <div class="risk-bar-track"><div class="risk-bar-fill" style="width:74%;background:var(--risk-d);"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score Rationale -->
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div class="section-label">SCORE RATIONALE</div>
+        <div style="margin-top:10px;font-size:15px;color:var(--text-secondary);line-height:1.5;">Earnings miss and delivery numbers below consensus. Volatility elevated post-earnings with implied move expansion across options chain.</div>
+      </div>
+
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div class="section-label">WHY THIS GRADE</div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:10px;">
+          <div style="font-size:15px;color:var(--text-primary);line-height:1.4;">Recent event pressure is concentrated around post-earnings volatility and delivery revisions.</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.45;">Shared snapshot and held-position reads are aligned on a weaker near-term risk profile.</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div class="section-label">EVENT ANALYSES</div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <div style="font-size:15px;font-weight:600;color:var(--text-primary);">Q1 earnings miss</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;line-height:1.45;">Revenue and delivery results came in below consensus, increasing downside pressure.</div>
+          </div>
+          <div class="divider"></div>
+          <div>
+            <div style="font-size:15px;font-weight:600;color:var(--text-primary);">Options volatility expansion</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;line-height:1.45;">Implied move widened after earnings, keeping short-term risk elevated.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div class="section-label">RECENT ALERTS</div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div class="grade-badge grade-badge-compact grade-d">D</div>
+            <div style="flex:1;">
+              <div style="font-size:12px;font-weight:600;color:var(--text-secondary);">GRADE CHANGE</div>
+              <div style="font-size:15px;font-weight:600;color:var(--text-primary);margin-top:2px;line-height:1.4;">TSLA downgraded from B to D</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div class="section-label">RECENT NEWS</div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <div style="font-size:15px;font-weight:600;color:var(--text-primary);line-height:1.4;">Tesla delivery numbers miss analyst expectations</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;">MarketWatch • 2h ago</div>
+          </div>
+          <div class="divider"></div>
+          <div>
+            <div style="font-size:15px;font-weight:600;color:var(--text-primary);line-height:1.4;">Options market prices in wider move after earnings</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;">Yahoo Finance • 5h ago</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- What to Track -->
+      <div class="card" style="margin-top:var(--section-spacing);">
+        <div class="section-label">WHAT TO TRACK</div>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;gap:10px;">
+            <div style="width:5px;height:5px;border-radius:50%;background:var(--text-secondary);margin-top:6px;flex-shrink:0;"></div>
+            <div style="font-size:15px;color:var(--text-primary);line-height:1.4;">Q2 delivery numbers — analyst consensus revision</div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <div style="width:5px;height:5px;border-radius:50%;background:var(--text-secondary);margin-top:6px;flex-shrink:0;"></div>
+            <div style="font-size:15px;color:var(--text-primary);line-height:1.4;">Options implied volatility ahead of next earnings cycle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Ticker Detail</div>
+</div>
+
+<!-- ==================== MORNING RATING / DIGEST ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="digest-screen">
+      <div class="dashboard-header">
+        <div class="wordmark-row">
+          <div class="wordmark-logo">C</div>
+          <div><div class="wordmark-text">CLAVIX</div></div>
+          <div class="wordmark-header-actions">
+            <div class="header-icon-btn">💼</div>
+          </div>
+        </div>
+        <div class="page-title-text">Morning Rating</div>
+        <div class="page-subtitle">Fri, May 1</div>
+      </div>
+
+      <div class="offline-banner">
+        <div class="offline-dot">⌁</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-primary);">Offline</div>
+          <div style="margin-top:3px;line-height:1.45;">Showing cached data. Actions will retry when the network returns.</div>
+        </div>
+      </div>
+
+      <div class="status-card" style="margin-top:var(--section-spacing);">
+        <div class="status-card-title-row">
+          <div class="status-card-title">Building your rating</div>
+          <div class="status-card-badge">Updating</div>
+        </div>
+        <div class="progress-track"><div class="progress-fill" style="width:48%;"></div></div>
+        <div class="status-card-copy">2 holdings processed, 3 events analyzed.</div>
+      </div>
+
+      <div class="error-card" style="margin-top:var(--section-spacing);">
+        <div class="error-accent"></div>
+        <div class="error-card-copy">Couldn't load your Morning Rating right now.</div>
+      </div>
+
+      <!-- Digest Hero -->
+      <div class="card">
+        <div class="section-label">RATING · 7:00 AM</div>
+        <div class="hero-grade-row" style="margin-top:10px;">
+          <div class="grade-badge grade-badge-large grade-b">B</div>
+          <div class="hero-score-info">
+            <div class="hero-trend trend-stable">→ stable</div>
+            <div class="hero-score-line">
+              <span>Score</span>
+              <span class="hero-score-num">72</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-chips" style="margin-top:6px;">
+          <span class="chip chip-info">Portfolio-specific</span>
+          <span class="chip">Updated 1h ago</span>
+        </div>
+        <div style="margin-top:10px;font-size:14px;color:var(--text-secondary);line-height:1.5;">• TSLA: Earnings miss elevating position risk</div>
+        <div style="font-size:14px;color:var(--text-secondary);line-height:1.5;">• Watchlist alert for NVDA earnings next week</div>
+        <div class="hero-summary" style="margin-top:6px;">Portfolio risk is stable with moderate exposure. Two holdings showing elevated news risk. No critical concentration issues.</div>
+        <div class="digest-hero-meta">
+          <span>5 holdings</span>
+          <span>·</span>
+          <span>Stable</span>
+          <div class="btn-small" style="margin-left:auto;">↻ Refresh</div>
+        </div>
+      </div>
+
+      <!-- What Matters Today -->
+      <div class="section-heading">What matters today</div>
+      <div class="list-card">
+        <div class="list-row">
+          <div class="list-row-dot"></div>
+          <div class="list-row-content">
+            <div class="list-row-title">TSLA earnings aftermath</div>
+            <div class="list-row-subtitle">Medium urgency</div>
+            <div style="font-size:12px;color:var(--text-tertiary);margin-top:2px;">TSLA, AAPL</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="list-row">
+          <div class="list-row-dot"></div>
+          <div class="list-row-content">
+            <div class="list-row-title">Fed minutes release</div>
+            <div class="list-row-subtitle">Low urgency</div>
+            <div style="font-size:12px;color:var(--text-tertiary);margin-top:2px;">JPM, MSFT</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sector Overview -->
+      <div class="section-heading">Sector overview</div>
+      <div class="list-card">
+        <div class="list-row">
+          <div class="list-row-dot"></div>
+          <div class="list-row-content">
+            <div class="list-row-title">Technology</div>
+            <div class="list-row-subtitle">Mixed signals. AI tailwinds offset by regulatory headwinds in EU.</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="list-row">
+          <div class="list-row-dot"></div>
+          <div class="list-row-content">
+            <div class="list-row-title">Financials</div>
+            <div class="list-row-subtitle">Net interest margin stable. Credit quality indicators positive.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Overnight Macro -->
+      <div class="section-heading">Overnight macro</div>
+      <div class="card">
+        <div style="font-size:15px;color:var(--text-secondary);line-height:1.5;">Global equity markets mixed as investors digest the latest Fed commentary. Bond yields steady with slight flattening.</div>
+        <div style="font-size:12px;color:var(--text-tertiary);margin-top:8px;">Interest rates • Inflation • Fed policy</div>
+        <div style="margin-top:10px;font-size:15px;color:var(--text-secondary);line-height:1.5;">• Asia-Pacific markets closed higher overnight</div>
+        <div style="font-size:15px;color:var(--text-secondary);line-height:1.5;">• European futures indicating flat open</div>
+      </div>
+
+      <div class="section-heading">Position impacts</div>
+      <div class="list-card">
+        <div class="list-row" style="display:block;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div class="grade-badge grade-badge-compact grade-d">D</div>
+            <div style="flex:1;">
+              <div style="font-size:15px;font-weight:600;color:var(--text-primary);">TSLA</div>
+              <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;line-height:1.45;">Earnings miss is now the clearest near-term drag on portfolio stability.</div>
+            </div>
+            <div style="font-size:12px;color:var(--text-secondary);">High</div>
+          </div>
+          <div style="font-size:12px;color:var(--informational);margin-top:10px;">Open ticker</div>
+          <div style="font-size:12px;color:var(--text-tertiary);margin-top:8px;line-height:1.45;">Delivery revisions • Volatility trend</div>
+          <div style="font-size:12px;color:var(--text-tertiary);margin-top:4px;line-height:1.45;">Risks: Earnings reset • Options pricing</div>
+        </div>
+        <div class="divider"></div>
+        <div class="list-row" style="display:block;">
+          <div style="display:flex;gap:12px;align-items:flex-start;">
+            <div class="grade-badge grade-badge-compact grade-c">C</div>
+            <div style="flex:1;">
+              <div style="font-size:15px;font-weight:600;color:var(--text-primary);">AAPL</div>
+              <div style="font-size:12px;color:var(--text-secondary);margin-top:3px;line-height:1.45;">EU regulatory pressure is keeping medium-term macro exposure elevated.</div>
+            </div>
+            <div style="font-size:12px;color:var(--text-secondary);">Medium</div>
+          </div>
+          <div style="font-size:12px;color:var(--informational);margin-top:10px;">Open ticker</div>
+          <div style="font-size:12px;color:var(--text-tertiary);margin-top:8px;line-height:1.45;">Watch items: EU scrutiny • Services trend</div>
+        </div>
+      </div>
+
+      <!-- Watchlist Alerts -->
+      <div class="section-heading">Watchlist alerts</div>
+      <div class="list-card">
+        <div class="list-row">
+          <div style="width:8px;height:8px;border-radius:50%;background:rgba(200,52,43,0.7);margin-top:4px;flex-shrink:0;"></div>
+          <div class="list-row-content">
+            <div style="font-size:15px;font-weight:600;color:var(--text-secondary);line-height:1.4;">NVDA earnings scheduled next week — implied volatility elevated</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Home</div>
+        <div class="tab-item"><div class="tab-icon">💼</div>Holdings</div>
+        <div class="tab-item active"><div class="tab-icon">📄</div>Rating</div>
+        <div class="tab-item"><div class="tab-icon">🔔</div>Alerts</div>
+        <div class="tab-item"><div class="tab-icon">⚙️</div>Settings</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Morning Rating</div>
+</div>
+
+<!-- ==================== ALERTS ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="alerts-screen">
+      <div class="dashboard-header">
+        <div class="wordmark-row">
+          <div class="wordmark-logo">C</div>
+          <div><div class="wordmark-text">CLAVIX</div></div>
+        </div>
+        <div class="page-title-text">Alerts</div>
+        <div class="page-subtitle">Last 24h</div>
+      </div>
+
+      <div class="offline-banner">
+        <div class="offline-dot">⌁</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-primary);">Offline</div>
+          <div style="margin-top:3px;line-height:1.45;">Showing cached data. Actions will retry when the network returns.</div>
+        </div>
+      </div>
+
+      <!-- Summary Grid -->
+      <div class="alert-grid" style="margin-top:var(--section-spacing);">
+        <div class="alert-grid-cell">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <div class="alert-grid-label">Critical</div>
+            <div class="alert-grid-count" style="color:var(--text-primary);">1</div>
+          </div>
+          <div class="alert-grid-bar" style="background:var(--risk-f);"></div>
+        </div>
+        <div class="alert-grid-cell">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <div class="alert-grid-label">High</div>
+            <div class="alert-grid-count" style="color:var(--text-primary);">2</div>
+          </div>
+          <div class="alert-grid-bar" style="background:var(--risk-d);"></div>
+        </div>
+        <div class="alert-grid-cell">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <div class="alert-grid-label">Elevated</div>
+            <div class="alert-grid-count" style="color:var(--text-primary);">1</div>
+          </div>
+          <div class="alert-grid-bar" style="background:var(--risk-c);"></div>
+        </div>
+        <div class="alert-grid-cell">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;">
+            <div class="alert-grid-label">Info</div>
+            <div class="alert-grid-count" style="color:var(--text-primary);">1</div>
+          </div>
+          <div class="alert-grid-bar" style="background:var(--text-secondary);"></div>
+        </div>
+      </div>
+
+      <!-- Filter chips -->
+      <div style="display:flex;gap:6px;margin-top:var(--section-spacing);overflow-x:auto;">
+        <div class="filter-pill active">All · 5</div>
+        <div class="filter-pill">Critical · 1</div>
+        <div class="filter-pill">Grade · 3</div>
+        <div class="filter-pill">Events · 1</div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="list-card" style="margin-top:8px;">
+        <!-- Alert 1 -->
+        <div class="alert-timeline-row">
+          <div class="alert-timeline-left">
+            <div class="grade-badge grade-badge-compact grade-d">D</div>
+            <div class="alert-timeline-connector"></div>
+          </div>
+          <div class="alert-timeline-body">
+            <div class="alert-timeline-meta">
+              <div class="alert-timeline-type">GRADE CHANGE</div>
+              <div class="alert-timeline-time">2h ago</div>
+            </div>
+            <div class="alert-timeline-message">TSLA downgraded from B to D</div>
+            <div class="alert-timeline-ticker">TSLA</div>
+            <div class="alert-timeline-grade-change">
+              <div class="grade-badge grade-badge-compact grade-b">B</div>
+              <span class="alert-arrow">→</span>
+              <div class="grade-badge grade-badge-compact grade-d">D</div>
+              <span class="hero-trend trend-worsening" style="font-size:12px;">↑ worsening</span>
+            </div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:2px;line-height:1.4;">Earnings miss and delivery numbers below consensus</div>
+            <div style="display:flex;gap:6px;margin-top:6px;">
+              <span class="chip">Earnings miss</span>
+              <span class="chip">Volatility up</span>
+            </div>
+            <div class="evidence-dots" style="margin-top:6px;">
+              <div class="evidence-dot evidence-dot-filled"></div>
+              <div class="evidence-dot evidence-dot-filled"></div>
+              <div class="evidence-dot evidence-dot-empty"></div>
+            </div>
+          </div>
+        </div>
+        <div class="divider" style="margin-left:34px;"></div>
+        <!-- Alert 2 -->
+        <div class="alert-timeline-row">
+          <div class="alert-timeline-left">
+            <div class="grade-badge grade-badge-compact grade-c">C</div>
+            <div class="alert-timeline-connector"></div>
+          </div>
+          <div class="alert-timeline-body">
+            <div class="alert-timeline-meta">
+              <div class="alert-timeline-type">GRADE CHANGE</div>
+              <div class="alert-timeline-time">5h ago</div>
+            </div>
+            <div class="alert-timeline-message">AAPL downgraded from A to C</div>
+            <div class="alert-timeline-ticker">AAPL</div>
+            <div class="alert-timeline-grade-change">
+              <div class="grade-badge grade-badge-compact grade-a">A</div>
+              <span class="alert-arrow">→</span>
+              <div class="grade-badge grade-badge-compact grade-c">C</div>
+              <span class="hero-trend trend-worsening" style="font-size:12px;">↑ worsening</span>
+            </div>
+          </div>
+        </div>
+        <div class="divider" style="margin-left:34px;"></div>
+        <!-- Alert 3 -->
+        <div class="alert-timeline-row">
+          <div class="alert-timeline-left">
+            <div class="grade-badge grade-badge-compact grade-b">B</div>
+          </div>
+          <div class="alert-timeline-body">
+            <div class="alert-timeline-meta">
+              <div class="alert-timeline-type">PORTFOLIO GRADE</div>
+              <div class="alert-timeline-time">6h ago</div>
+            </div>
+            <div class="alert-timeline-message">Portfolio grade shifted from A to B</div>
+            <div class="alert-timeline-grade-change">
+              <div class="grade-badge grade-badge-compact grade-a">A</div>
+              <span class="alert-arrow">→</span>
+              <div class="grade-badge grade-badge-compact grade-b">B</div>
+              <span class="hero-trend trend-worsening" style="font-size:12px;">↑ worsening</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Home</div>
+        <div class="tab-item"><div class="tab-icon">💼</div>Holdings</div>
+        <div class="tab-item"><div class="tab-icon">📄</div>Rating</div>
+        <div class="tab-item active"><div class="tab-icon">🔔</div>Alerts</div>
+        <div class="tab-item"><div class="tab-icon">⚙️</div>Settings</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Alerts</div>
+</div>
+
+<!-- ==================== SETTINGS ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div class="settings-screen">
+      <div class="dashboard-header">
+        <div class="wordmark-row">
+          <div class="wordmark-logo">C</div>
+          <div><div class="wordmark-text">CLAVIX</div></div>
+        </div>
+        <div class="page-title-text">Settings</div>
+      </div>
+
+      <div class="offline-banner">
+        <div class="offline-dot">⌁</div>
+        <div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-primary);">Offline</div>
+          <div style="margin-top:3px;line-height:1.45;">Showing cached data. Actions will retry when the network returns.</div>
+        </div>
+      </div>
+
+      <!-- Rating Group -->
+      <div class="settings-group">
+        <div class="settings-group-label">Rating</div>
+        <div class="card" style="padding:0 14px;">
+          <div class="settings-row">
+            <div style="flex:1;">
+              <div class="settings-row-label">Rating time</div>
+            </div>
+            <div class="settings-inline-picker">7:00 AM</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div style="flex:1;">
+              <div class="settings-row-label">Weekday only</div>
+              <div class="settings-row-subtitle">Skip weekend rating delivery</div>
+            </div>
+            <div class="toggle toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+        </div>
+      <div class="settings-group-footnote">Morning rating is generated from overnight data. Changes save automatically.</div>
+      </div>
+
+      <div class="settings-group">
+        <div class="settings-group-label">Brokerage</div>
+        <div class="card" style="padding:0 14px;">
+          <div class="settings-row">
+            <div class="settings-row-label">Status</div>
+            <div class="settings-row-value">Not connected</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label settings-row-action settings-row-info">Connect brokerage</div>
+            <div class="settings-row-chevron">›</div>
+          </div>
+        </div>
+        <div class="settings-group-footnote">Brokerage connections are read-only. Clavix imports holdings and lets you choose between manual and automatic sync.</div>
+      </div>
+
+      <!-- Alerts Group -->
+      <div class="settings-group">
+        <div class="settings-group-label">Alerts</div>
+        <div class="card" style="padding:0 14px;">
+          <div class="settings-row">
+            <div style="flex:1;">
+              <div class="settings-row-label">Grade changes</div>
+              <div class="settings-row-subtitle">Any upgrade or downgrade</div>
+            </div>
+            <div class="toggle toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div style="flex:1;">
+              <div class="settings-row-label">Major events</div>
+              <div class="settings-row-subtitle">Holdings only</div>
+            </div>
+            <div class="toggle toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div style="flex:1;">
+              <div class="settings-row-label">Portfolio risk changes</div>
+              <div class="settings-row-subtitle">Composite portfolio score moves</div>
+            </div>
+            <div class="toggle toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div style="flex:1;">
+              <div class="settings-row-label">Large price moves</div>
+              <div class="settings-row-subtitle">Significant daily moves in your holdings</div>
+            </div>
+            <div class="toggle toggle-off"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div style="flex:1;">
+              <div class="settings-row-label">Quiet hours</div>
+              <div class="settings-row-subtitle">Suppress alerts overnight</div>
+            </div>
+            <div class="toggle toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label">From</div>
+            <div class="settings-inline-picker">10:00 PM</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label">To</div>
+            <div class="settings-inline-picker">7:00 AM</div>
+          </div>
+        </div>
+        <div class="settings-group-footnote">Alert rows cover grade changes, major events, portfolio risk shifts, and large price moves.</div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="settings-group">
+        <div class="settings-group-label">Notifications</div>
+        <div class="card" style="padding:0 14px;">
+          <div class="settings-row">
+            <div style="flex:1;">
+              <div class="settings-row-label">Push notifications</div>
+              <div class="settings-row-subtitle">Controls whether the app sends rating and alert pushes</div>
+            </div>
+            <div class="toggle toggle-on"><div class="toggle-knob"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Account -->
+      <div class="settings-group">
+        <div class="settings-group-label">Account</div>
+        <div class="card" style="padding:0 14px;">
+          <div class="settings-row">
+            <div class="settings-row-label">Email</div>
+            <div class="settings-row-value">user@example.com</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label">Plan</div>
+            <div class="settings-row-value">Clavix Pro</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label settings-row-action settings-row-info">Export my data</div>
+            <div class="settings-row-chevron">›</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label settings-row-action settings-row-destructive">Delete account</div>
+            <div class="settings-row-chevron">›</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div class="settings-group">
+        <div class="settings-group-label">About</div>
+        <div class="card" style="padding:0 14px;">
+          <div class="settings-row">
+            <div class="settings-row-label">Version</div>
+            <div class="settings-row-value">v1.0</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label">Score explanation</div>
+            <div class="settings-row-chevron">›</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label">Data sources &amp; methodology</div>
+            <div class="settings-row-chevron">›</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label">Privacy policy</div>
+            <div style="font-size:15px;color:var(--text-tertiary);margin-left:auto;">↗</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label">Terms of service</div>
+            <div style="font-size:15px;color:var(--text-tertiary);margin-left:auto;">↗</div>
+          </div>
+          <div class="divider"></div>
+          <div class="settings-row">
+            <div class="settings-row-label">Refund policy</div>
+            <div style="font-size:15px;color:var(--text-tertiary);margin-left:auto;">↗</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div style="margin-top:var(--section-spacing);">
+        <div class="card-elevated">
+          <div style="font-size:11px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">INFORMATIONAL ONLY</div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;">Clavix provides risk intelligence for informational purposes only. Scores reflect model output based on available data and do not constitute investment advice.</div>
+        </div>
+      </div>
+
+      <!-- Sign Out -->
+      <div style="margin-top:var(--section-spacing);">
+        <div class="card" style="padding:0 14px;">
+          <div class="settings-row">
+            <div class="settings-row-label settings-row-action settings-row-destructive">Sign out</div>
+            <div class="settings-row-chevron">›</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-bar">
+        <div class="tab-item"><div class="tab-icon">🏠</div>Home</div>
+        <div class="tab-item"><div class="tab-icon">💼</div>Holdings</div>
+        <div class="tab-item"><div class="tab-icon">📄</div>Rating</div>
+        <div class="tab-item"><div class="tab-icon">🔔</div>Alerts</div>
+        <div class="tab-item active"><div class="tab-icon">⚙️</div>Settings</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Settings</div>
+</div>
+
+<!-- ==================== SCORE EXPLANATION ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div style="background:var(--bg-primary);padding:0 var(--screen-padding);">
+      <div style="padding:16px 0;">
+        <div style="font-size:15px;color:var(--informational);">‹ Settings</div>
+        <div style="font-size:17px;font-weight:500;color:var(--text-primary);text-align:center;margin-top:-20px;">Score Explanation</div>
+      </div>
+      <div style="margin-top:var(--large-spacing);display:flex;flex-direction:column;gap:var(--large-spacing);">
+        <div>
+          <div style="font-size:28px;font-weight:600;color:var(--text-primary);">How Risk Scores Work</div>
+          <div style="font-size:15px;color:var(--text-secondary);margin-top:8px;line-height:1.5;">Scores range from 0 to 100, where 100 represents minimum risk and 0 represents extreme risk.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:var(--medium-spacing);">
+          <div class="score-band-row">
+            <div class="grade-badge grade-badge-standard grade-a">A</div>
+            <div class="score-band-info">
+              <div class="score-band-range" style="color:var(--risk-a);">80–100</div>
+              <div class="score-band-desc">Safe — minimum risk exposure</div>
+            </div>
+          </div>
+          <div class="score-band-row">
+            <div class="grade-badge grade-badge-standard grade-b">B</div>
+            <div class="score-band-info">
+              <div class="score-band-range" style="color:var(--risk-b);">65–79</div>
+              <div class="score-band-desc">Stable — low risk</div>
+            </div>
+          </div>
+          <div class="score-band-row">
+            <div class="grade-badge grade-badge-standard grade-c">C</div>
+            <div class="score-band-info">
+              <div class="score-band-range" style="color:var(--risk-c);">50–64</div>
+              <div class="score-band-desc">Elevated — moderate risk</div>
+            </div>
+          </div>
+          <div class="score-band-row">
+            <div class="grade-badge grade-badge-standard grade-d">D</div>
+            <div class="score-band-info">
+              <div class="score-band-range" style="color:var(--risk-d);">35–49</div>
+              <div class="score-band-desc">Risky — elevated risk</div>
+            </div>
+          </div>
+          <div class="score-band-row">
+            <div class="grade-badge grade-badge-standard grade-f">F</div>
+            <div class="score-band-info">
+              <div class="score-band-range" style="color:var(--risk-f);">0–34</div>
+              <div class="score-band-desc">Critical — high risk</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--text-tertiary);line-height:1.5;">Informational only. Scores reflect model output based on available data. They do not constitute financial advice.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Score Explanation</div>
+</div>
+
+<!-- ==================== METHODOLOGY ==================== -->
+<div>
+<div class="screen-frame">
+  <div class="notch"></div>
+  <div class="screen-content">
+    <div style="background:var(--bg-primary);padding:0 var(--screen-padding);">
+      <div style="padding:16px 0;">
+        <div style="font-size:15px;color:var(--informational);">‹ Settings</div>
+        <div style="font-size:17px;font-weight:500;color:var(--text-primary);text-align:center;margin-top:-20px;">Methodology</div>
+      </div>
+      <div style="margin-top:var(--large-spacing);display:flex;flex-direction:column;gap:var(--large-spacing);">
+        <div>
+          <div style="font-size:28px;font-weight:600;color:var(--text-primary);">Methodology Overview</div>
+          <div style="font-size:15px;color:var(--text-secondary);margin-top:8px;line-height:1.5;">Clavix evaluates holdings across multiple risk dimensions including market structure, macro sensitivity, news risk signals, and catalyst quality.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:var(--medium-spacing);">
+          <div class="methodology-step">
+            <div class="methodology-num">01</div>
+            <div class="methodology-content">
+              <div class="methodology-title">Data Collection</div>
+              <div class="methodology-desc">Real-time price, news, and market structure signals are gathered for each holding.</div>
+            </div>
+          </div>
+          <div class="methodology-step">
+            <div class="methodology-num">02</div>
+            <div class="methodology-content">
+              <div class="methodology-title">Relevance Filtering</div>
+              <div class="methodology-desc">Market noise is filtered out so only holding-relevant stories move forward.</div>
+            </div>
+          </div>
+          <div class="methodology-step">
+            <div class="methodology-num">03</div>
+            <div class="methodology-content">
+              <div class="methodology-title">Risk Analysis</div>
+              <div class="methodology-desc">Each holding is scored across four dimensions: news risk signals, macro exposure, position sizing, and volatility trend.</div>
+            </div>
+          </div>
+          <div class="methodology-step">
+            <div class="methodology-num">04</div>
+            <div class="methodology-content">
+              <div class="methodology-title">Grade Assignment</div>
+              <div class="methodology-desc">Composite scores are mapped to letter grades with fixed boundaries.</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--text-tertiary);line-height:1.5;">All scores are informational model outputs only. They do not constitute financial advice and should not be used as the sole basis for investment decisions.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="screen-label">Methodology</div>
+</div>
+
+</div><!-- end screens-grid -->
+
+</body>
+</html>
