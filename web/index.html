@@ -211,43 +211,41 @@
       margin: 0 auto;
       padding: 80px 32px 72px;
       display: grid;
-      grid-template-columns: 55fr 45fr;
+      grid-template-columns: 1fr 1fr;
       gap: 60px;
       align-items: center;
       min-height: calc(100vh - 60px);
     }
 
-    .hero-badge {
-      display: inline-flex;
+    /* ── Carousel ─────────────────────────────────────────── */
+    .hero-visual {
+      overflow: hidden;
+      height: 580px;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      background: var(--surface-el);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 6px 14px;
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--text-2);
-      letter-spacing: 0.04em;
-      margin-bottom: 28px;
       opacity: 0;
-      animation: fade-up 0.6s ease 0.05s forwards;
+      animation: fade-up 0.8s ease 0.2s forwards;
+      mask-image: linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 14%, black 86%, transparent 100%);
     }
-    .pulse-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #1D9E75;
-      position: relative;
-      flex-shrink: 0;
+    .carousel-track {
+      display: flex;
+      animation: carousel-scroll 30s linear infinite;
+      will-change: transform;
     }
-    .pulse-dot::after {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: rgba(29,158,117,0.35);
-      animation: pulse-ring 2s ease-out infinite;
+    .carousel-track:hover { animation-play-state: paused; }
+    .carousel-set {
+      display: flex;
+      gap: 18px;
+      padding-right: 18px;
+      align-items: center;
+    }
+    .c-phone { width: 192px; flex-shrink: 0; }
+    .c-up { transform: translateY(-22px); }
+    .c-dn { transform: translateY(22px); }
+    @keyframes carousel-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
 
     .hero-h1 {
@@ -365,48 +363,6 @@
     }
     .form-state-dupe.on { display: flex; }
 
-    /* ── Hero Visual ──────────────────────────────────────── */
-    .hero-visual {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      animation: fade-up 0.8s ease 0.2s forwards;
-    }
-    .hero-phone-wrap {
-      position: relative;
-    }
-    .hero-phone {
-      width: 270px;
-      animation: phone-float 6s ease-in-out infinite;
-      transform: rotate(-3deg);
-    }
-
-    .float-chip {
-      position: absolute;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--surface-el);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.09);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-2);
-      white-space: nowrap;
-      pointer-events: none;
-    }
-    .float-chip .ticker {
-      font-family: var(--mono);
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text);
-    }
-    .chip-aa  { top: 12%;   right: -64px; animation: chip1 5s   ease-in-out infinite; }
-    .chip-bbb { top: 46%;   left: -72px;  animation: chip2 6.5s ease-in-out infinite 0.6s; }
-    .chip-a   { bottom: 16%; right: -52px; animation: chip3 4.5s ease-in-out infinite 1.3s; }
 
     /* ── Stats Strip ──────────────────────────────────────── */
     .stats-strip {
@@ -840,26 +796,6 @@
       from { opacity: 0; transform: translateY(18px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-    @keyframes phone-float {
-      0%,100% { transform: rotate(-3deg) translateY(0); }
-      50%      { transform: rotate(-3deg) translateY(-14px); }
-    }
-    @keyframes chip1 {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-10px); }
-    }
-    @keyframes chip2 {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(9px); }
-    }
-    @keyframes chip3 {
-      0%,100% { transform: translateY(0); }
-      50%      { transform: translateY(-7px); }
-    }
-    @keyframes pulse-ring {
-      0%   { transform: scale(1); opacity: 0.55; }
-      100% { transform: scale(2.6); opacity: 0; }
-    }
     @keyframes shake {
       0%,100% { transform: translateX(0); }
       20%      { transform: translateX(-5px); }
@@ -880,8 +816,10 @@
       .hero-sub { margin-left: auto; margin-right: auto; }
       .hero-badge { margin-left: auto; margin-right: auto; }
       .hero-form-outer .form-note { text-align: center; }
-      .hero-visual { padding-bottom: 32px; }
-      .float-chip { display: none; }
+      .hero-visual { height: 420px; padding-bottom: 0; }
+      .c-phone { width: 160px; }
+      .c-up { transform: translateY(-16px); }
+      .c-dn { transform: translateY(16px); }
 
       .stats-inner { grid-template-columns: repeat(2,1fr); }
       .stat-item:nth-child(2) { border-right: 1px solid var(--border); }
@@ -938,11 +876,6 @@
 
     <!-- Left: Copy -->
     <div class="hero-copy">
-      <div class="hero-badge">
-        <span class="pulse-dot"></span>
-        EARLY ACCESS &nbsp;·&nbsp; BETA OPEN
-      </div>
-
       <h1 class="hero-h1">Portfolio risk,<br><em>graded</em>.</h1>
 
       <p class="hero-sub">
@@ -987,30 +920,22 @@
       </div>
     </div>
 
-    <!-- Right: Phone visual -->
+    <!-- Right: Screenshot carousel -->
     <div class="hero-visual">
-      <div class="hero-phone-wrap">
-        <div class="float-chip chip-aa">
-          <span class="grade-badge g-aa grade">AA</span>
-          <span class="ticker">MSFT</span>
+      <div class="carousel-track">
+        <div class="carousel-set">
+          <div class="phone-wrap c-phone c-up"><div class="phone-frame-outer"><div class="phone-screen"><img src="screenshots/screen_today_live.jpg" alt="Today's Digest" loading="eager"></div></div></div>
+          <div class="phone-wrap c-phone c-dn"><div class="phone-frame-outer"><div class="phone-screen"><img src="screenshots/screen_digest_live.jpg" alt="Morning Digest" loading="eager"></div></div></div>
+          <div class="phone-wrap c-phone c-up"><div class="phone-frame-outer"><div class="phone-screen"><img src="screenshots/screen_holdings_live.jpg" alt="Holdings" loading="lazy"></div></div></div>
+          <div class="phone-wrap c-phone c-dn"><div class="phone-frame-outer"><div class="phone-screen"><img src="screenshots/screen_detail_live.jpg" alt="Position detail" loading="lazy"></div></div></div>
+          <div class="phone-wrap c-phone c-up"><div class="phone-frame-outer"><div class="phone-screen"><img src="screenshots/screen_alerts_live.jpg" alt="Alerts" loading="lazy"></div></div></div>
         </div>
-        <div class="float-chip chip-bbb">
-          <span class="grade-badge g-bbb grade">BBB</span>
-          <span class="ticker">AAPL</span>
-        </div>
-        <div class="float-chip chip-a">
-          <span class="grade-badge g-a grade">A</span>
-          <span class="ticker">TSLA</span>
-        </div>
-
-        <div class="phone-wrap hero-phone">
-          <div class="phone-frame-outer">
-            <div class="phone-screen">
-              <img src="screenshots/screen_today_live.jpg"
-                alt="Clavix app — Today's Digest showing portfolio grade A and five-axis snapshot"
-                loading="eager" width="270">
-            </div>
-          </div>
+        <div class="carousel-set" aria-hidden="true">
+          <div class="phone-wrap c-phone c-up"><div class="phone-frame-outer"><div class="phone-screen"><img src="screenshots/screen_today_live.jpg" alt="" loading="lazy"></div></div></div>
+          <div class="phone-wrap c-phone c-dn"><div class="phone-frame-outer"><div class="phone-screen"><img src="screenshots/screen_digest_live.jpg" alt="" loading="lazy"></div></div></div>
+          <div class="phone-wrap c-phone c-up"><div class="phone-frame-outer"><div class="phone-screen"><img src="screenshots/screen_holdings_live.jpg" alt="" loading="lazy"></div></div></div>
+          <div class="phone-wrap c-phone c-dn"><div class="phone-frame-outer"><div class="phone-screen"><img src="screenshots/screen_detail_live.jpg" alt="" loading="lazy"></div></div></div>
+          <div class="phone-wrap c-phone c-up"><div class="phone-frame-outer"><div class="phone-screen"><img src="screenshots/screen_alerts_live.jpg" alt="" loading="lazy"></div></div></div>
         </div>
       </div>
     </div>

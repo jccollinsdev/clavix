@@ -1,106 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Refund Policy - Clavix</title>
-  <meta name="robots" content="noindex, nofollow" />
-  <link rel="canonical" href="https://getclavix.com/refund" />
-  <meta name="theme-color" content="#0F1117" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refund Policy — Clavix</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="canonical" href="https://getclavix.com/refund">
+  <meta name="theme-color" content="#EDEAD9">
+  <link rel="icon" type="image/png" href="logos/appicon_1024.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg-primary: #0F1117; --surface: #161B24; --surface-el: #1E2530; --border: #2A3140;
-      --text-pri: #E8ECF0; --text-sec: #7A8799; --risk-a: #1D9E75; --cream: #FEF5E7;
-      --font-ui: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+      --bg:      #EDEAD9;
+      --surface: #F5F1E8;
+      --border:  #DDD7C8;
+      --text:    #1A1815;
+      --text-2:  #5C5748;
+      --text-3:  #9B917F;
+      --accent:  #C2410C;
+      --bg-dark: #1A1815;
+      --font:    'Inter', -apple-system, sans-serif;
+      --mono:    'JetBrains Mono', monospace;
+      --radius:  4px;
     }
     html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg-primary); color: var(--text-pri);
-      font-family: var(--font-ui); font-weight: 400; -webkit-font-smoothing: antialiased;
+    body { font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+    a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; transition: opacity 0.15s; }
+    a:hover { opacity: 0.75; }
+    img { display: block; }
+
+    .nav-outer {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(237,234,217,0.88);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
     }
-    a { color: var(--risk-a); text-decoration: underline; text-underline-offset: 2px; }
-    a:hover { color: var(--cream); }
     nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 3rem; height: 64px;
-      background: rgba(15,17,23,0.92); backdrop-filter: blur(12px);
-      border-bottom: 0.5px solid var(--border); position: sticky; top: 0; z-index: 100;
+      max-width: 1200px; margin: 0 auto; padding: 0 32px;
+      height: 60px; display: flex; align-items: center; justify-content: space-between;
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-mark {
-      width: 32px; height: 32px; background: var(--surface-el);
-      border: 0.5px solid var(--border); display: grid; place-items: center;
-      color: var(--risk-a); font-family: var(--font-mono);
-      font-size: 0.78rem; font-weight: 500;
+    .nav-logo img { width: 28px; height: 28px; border-radius: 6px; }
+    .nav-wordmark { font-size: 14px; font-weight: 700; letter-spacing: 0.12em; color: var(--text); }
+    .nav-back {
+      font-size: 13px; font-weight: 500; color: var(--text-2);
+      text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s;
     }
-    .logo-word {
-      font-weight: 600; font-size: 1.1rem; letter-spacing: 0.12em;
-      color: var(--cream); text-transform: uppercase;
+    .nav-back:hover { color: var(--text); }
+
+    main { max-width: 760px; margin: 0 auto; padding: 56px 32px 96px; }
+    .doc-eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      color: var(--accent); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 10px;
     }
-    main { max-width: 900px; margin: 0 auto; padding: 4rem 2rem 6rem; }
-    h1 { font-size: 2.2rem; font-weight: 400; letter-spacing: -0.02em; margin-bottom: 0.5rem; color: var(--text-pri); }
-    .doc-meta { font-size: 0.8rem; color: var(--text-sec); margin-bottom: 2rem; line-height: 1.6; }
-    p { font-size: 0.92rem; line-height: 1.75; color: var(--text-sec); margin-bottom: 0.8rem; font-weight: 300; }
-    .highlight { background: var(--surface-el); border-left: 2px solid var(--risk-a); padding: 1rem 1.2rem; margin: 1.2rem 0; }
-    .highlight p { margin-bottom: 0; }
-    footer {
-      padding: 2.5rem 3rem; border-top: 0.5px solid var(--border);
-      background: var(--bg-primary); display: flex; justify-content: space-between;
-      align-items: center; flex-wrap: wrap; gap: 1rem; max-width: 900px; margin: 0 auto;
+    h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.022em; line-height: 1.1; color: var(--text); margin-bottom: 10px; }
+    .doc-meta {
+      font-size: 13px; color: var(--text-3); margin-bottom: 40px; line-height: 1.7;
+      padding-bottom: 32px; border-bottom: 1px solid var(--border);
     }
-    .footer-copy { font-size: 0.72rem; color: var(--text-sec); letter-spacing: 0.04em; }
-    .footer-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
-    .footer-links a { font-size: 0.72rem; color: var(--text-sec); letter-spacing: 0.04em; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--text-pri); }
-    .footer-risk { width: 100%; font-size: 0.68rem; color: var(--text-sec); line-height: 1.6; border-top: 0.5px solid var(--border); padding-top: 1rem; margin-top: 0.5rem; }
+    h2 {
+      font-size: 17px; font-weight: 600; color: var(--text);
+      margin-top: 40px; margin-bottom: 12px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    p { font-size: 15px; line-height: 1.72; color: var(--text-2); margin-bottom: 14px; }
+    strong { color: var(--text); font-weight: 600; }
+
+    .status-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 24px; margin: 24px 0;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .status-label {
+      font-family: var(--mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3);
+    }
+    .status-value { font-size: 15px; font-weight: 600; color: var(--text); }
+    .status-note { font-size: 13px; color: var(--text-2); }
+
+    footer { background: var(--bg-dark); border-top: 1px solid #252118; padding: 28px 32px; }
+    .footer-inner {
+      max-width: 760px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .footer-logo img { width: 20px; height: 20px; border-radius: 4px; opacity: 0.6; }
+    .footer-logo span { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #3A3228; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 12px; color: #3A3228; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: #5C5748; }
+    .footer-copy { font-size: 12px; color: #2E2A22; }
+    .footer-risk { width: 100%; font-size: 11px; color: #2E2A22; line-height: 1.6; border-top: 1px solid #252118; padding-top: 16px; margin-top: 4px; }
+
     @media (max-width: 600px) {
-      nav { padding: 0 1.25rem; height: 56px; }
-      .logo-word { font-size: 0.9rem; }
-      .logo-mark { width: 28px; height: 28px; font-size: 0.68rem; }
-      main { padding: 2rem 1.25rem 4rem; }
-      h1 { font-size: 1.6rem; }
-      footer { padding: 2rem 1.25rem; flex-direction: column; align-items: flex-start; }
+      nav { padding: 0 20px; }
+      main { padding: 36px 20px 72px; }
+      h1 { font-size: 28px; }
+      footer { padding: 24px 20px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="/" class="nav-logo" aria-label="Clavix home">
-      <span class="logo-mark">CX</span>
-      <span class="logo-word">CLAVIX</span>
-    </a>
-  </nav>
+  <header class="nav-outer">
+    <nav>
+      <a class="nav-logo" href="/">
+        <img src="logos/appicon_1024.png" alt="Clavix">
+        <span class="nav-wordmark">CLAVIX</span>
+      </a>
+      <a class="nav-back" href="/">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to home
+      </a>
+    </nav>
+  </header>
 
   <main>
+    <p class="doc-eyebrow">Legal</p>
     <h1>Refund Policy</h1>
     <p class="doc-meta">Last Updated: June 1, 2026</p>
 
-    <p>Clavix offers a free tier and is currently available at no cost. No in-app purchases or subscription payments are processed in the current version.</p>
-
-    <p>If and when subscription purchases are introduced, refunds will be handled in accordance with Apple App Store policies. Apple handles all payment processing, and refund requests must be submitted through Apple.</p>
-
-    <div class="highlight">
-      <p><strong>Current status:</strong> No payment system is active. This page will be updated when subscription features launch.</p>
+    <div class="status-card">
+      <span class="status-label">Current status</span>
+      <span class="status-value">No payment system active</span>
+      <span class="status-note">Clavix is free during beta. No in-app purchases or subscription payments are processed in the current version. This page will be updated when subscription features launch.</span>
     </div>
 
-    <p>If you have questions, contact us at <a href="mailto:support@getclavix.com">support@getclavix.com</a>.</p>
+    <h2>Current Version</h2>
+    <p>Clavix offers a free tier and is currently available at no cost. No in-app purchases or subscription payments are processed in the current version.</p>
+
+    <h2>Future Subscriptions</h2>
+    <p>If and when subscription purchases are introduced, refunds will be handled in accordance with Apple App Store policies. Apple handles all payment processing for iOS apps, and refund requests must be submitted directly through Apple.</p>
+    <p>To request a refund from Apple, visit <strong>reportaproblem.apple.com</strong> or contact Apple Support.</p>
+
+    <h2>Contact</h2>
+    <p>If you have questions about billing or refunds, contact us at <a href="mailto:support@getclavix.com">support@getclavix.com</a>.</p>
   </main>
 
   <footer>
-    <a href="/" class="nav-logo" aria-label="Clavix home"><span class="logo-mark" style="width:28px;height:28px;font-size:0.68rem;opacity:0.85;">CX</span><span class="logo-word" style="font-size:0.9rem;opacity:0.6;">CLAVIX</span></a>
-    <span class="footer-copy">&copy; 2026 Andover Digital LLC. Clavix is a product of Andover Digital LLC.</span>
-    <ul class="footer-links">
-      <li><a href="/privacy">Privacy</a></li>
-      <li><a href="/terms">Terms</a></li>
-      <li><a href="/refund">Refund</a></li>
-      <li><a href="/methodology">Methodology</a></li>
-      <li><a href="mailto:support@getclavix.com">Contact</a></li>
-    </ul>
-    <p class="footer-risk">Clavix is for informational purposes only and does not provide investment advice. Nothing on this site or in the app constitutes a recommendation to buy, sell, or hold any security. Portfolio risk scores and analysis are generated algorithmically and may be inaccurate, delayed, or incomplete. Always do your own research and consult a licensed financial advisor before making investment decisions.</p>
+    <div class="footer-inner">
+      <a class="footer-logo" href="/">
+        <img src="logos/appicon_1024.png" alt="Clavix">
+        <span>CLAVIX</span>
+      </a>
+      <div class="footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/refund">Refund</a>
+        <a href="mailto:support@getclavix.com">Contact</a>
+      </div>
+      <span class="footer-copy">&copy; 2026 Andover Digital LLC</span>
+      <p class="footer-risk">Clavix is for informational purposes only and does not provide investment advice. Nothing on this site or in the app constitutes a recommendation to buy, sell, or hold any security. Portfolio risk scores and analysis are generated algorithmically and may be inaccurate, delayed, or incomplete. Always do your own research and consult a licensed financial advisor before making investment decisions.</p>
+    </div>
   </footer>
 </body>
 </html>

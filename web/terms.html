@@ -1,134 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Terms of Service - Clavix</title>
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://getclavix.com/terms" />
-  <meta name="theme-color" content="#0F1117" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service — Clavix</title>
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://getclavix.com/terms">
+  <meta name="theme-color" content="#EDEAD9">
+  <link rel="icon" type="image/png" href="logos/appicon_1024.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg-primary: #0F1117;
-      --surface: #161B24;
-      --surface-el: #1E2530;
-      --border: #2A3140;
-      --text-pri: #E8ECF0;
-      --text-sec: #7A8799;
-      --risk-a: #1D9E75;
-      --cream: #FEF5E7;
-      --font-ui: 'Inter', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      --bg:      #EDEAD9;
+      --surface: #F5F1E8;
+      --surface-el: #FAF7F0;
+      --border:  #DDD7C8;
+      --text:    #1A1815;
+      --text-2:  #5C5748;
+      --text-3:  #9B917F;
+      --accent:  #C2410C;
+      --bg-dark: #1A1815;
+      --font:    'Inter', -apple-system, sans-serif;
+      --mono:    'JetBrains Mono', monospace;
+      --radius:  4px;
     }
     html { scroll-behavior: smooth; }
-    body {
-      background: var(--bg-primary);
-      color: var(--text-pri);
-      font-family: var(--font-ui);
-      font-weight: 400;
-      -webkit-font-smoothing: antialiased;
-    }
-    a { color: var(--risk-a); text-decoration: underline; text-underline-offset: 2px; }
-    a:hover { color: var(--cream); }
-    nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 3rem; height: 64px;
-      background: rgba(15,17,23,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 0.5px solid var(--border);
+    body { font-family: var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+    a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; transition: opacity 0.15s; }
+    a:hover { opacity: 0.75; }
+    img { display: block; }
+
+    .nav-outer {
       position: sticky; top: 0; z-index: 100;
+      background: rgba(237,234,217,0.88);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav {
+      max-width: 1200px; margin: 0 auto; padding: 0 32px;
+      height: 60px; display: flex; align-items: center; justify-content: space-between;
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-mark {
-      width: 32px; height: 32px;
-      background: var(--surface-el);
-      border: 0.5px solid var(--border);
-      display: grid; place-items: center;
-      color: var(--risk-a);
-      font-family: var(--font-mono);
-      font-size: 0.78rem; font-weight: 500;
+    .nav-logo img { width: 28px; height: 28px; border-radius: 6px; }
+    .nav-wordmark { font-size: 14px; font-weight: 700; letter-spacing: 0.12em; color: var(--text); }
+    .nav-back {
+      font-size: 13px; font-weight: 500; color: var(--text-2);
+      text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s;
     }
-    .logo-word {
-      font-weight: 600; font-size: 1.1rem;
-      letter-spacing: 0.12em;
-      color: var(--cream);
-      text-transform: uppercase;
+    .nav-back:hover { color: var(--text); }
+
+    main { max-width: 760px; margin: 0 auto; padding: 56px 32px 96px; }
+    .doc-eyebrow {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      color: var(--accent); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 10px;
     }
-    main { max-width: 900px; margin: 0 auto; padding: 4rem 2rem 6rem; }
-    h1 {
-      font-size: 2.2rem; font-weight: 400;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.5rem;
-      color: var(--text-pri);
-    }
+    h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.022em; line-height: 1.1; color: var(--text); margin-bottom: 10px; }
     .doc-meta {
-      font-size: 0.8rem; color: var(--text-sec);
-      margin-bottom: 3rem; line-height: 1.6;
+      font-size: 13px; color: var(--text-3); margin-bottom: 40px; line-height: 1.7;
+      padding-bottom: 32px; border-bottom: 1px solid var(--border);
     }
     h2 {
-      font-size: 1.3rem; font-weight: 500;
-      margin: 2.5rem 0 1rem;
-      color: var(--text-pri);
-      padding-bottom: 0.4rem;
-      border-bottom: 0.5px solid var(--border);
+      font-size: 17px; font-weight: 600; color: var(--text);
+      margin-top: 40px; margin-bottom: 12px;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+      letter-spacing: -0.01em;
     }
-    h3 {
-      font-size: 1rem; font-weight: 500;
-      margin: 1.5rem 0 0.6rem;
-      color: var(--cream);
+    h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-top: 22px; margin-bottom: 8px; }
+    p { font-size: 15px; line-height: 1.72; color: var(--text-2); margin-bottom: 14px; }
+    ul, ol { padding-left: 20px; margin-bottom: 14px; }
+    li { font-size: 15px; line-height: 1.7; color: var(--text-2); margin-bottom: 6px; }
+    strong { color: var(--text); font-weight: 600; }
+
+    .highlight {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid var(--text-3);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 14px 18px; margin: 18px 0;
     }
-    p, li { font-size: 0.92rem; line-height: 1.75; color: var(--text-sec); margin-bottom: 0.8rem; font-weight: 300; }
-    ul, ol { padding-left: 1.5rem; margin-bottom: 1rem; }
-    li { margin-bottom: 0.4rem; }
-    .highlight { background: var(--surface-el); border-left: 2px solid var(--risk-a); padding: 1rem 1.2rem; margin: 1.2rem 0; }
     .highlight p { margin-bottom: 0; }
-    strong { color: var(--text-pri); font-weight: 500; }
-    .disc { color: var(--risk-a); font-weight: 400; }
-    footer {
-      padding: 2.5rem 3rem;
-      border-top: 0.5px solid var(--border);
-      background: var(--bg-primary);
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 1rem;
-      max-width: 900px; margin: 0 auto;
+
+    .disc { color: var(--accent); font-weight: 500; }
+
+    footer { background: var(--bg-dark); border-top: 1px solid #252118; padding: 28px 32px; }
+    .footer-inner {
+      max-width: 760px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
     }
-    .footer-copy { font-size: 0.72rem; color: var(--text-sec); letter-spacing: 0.04em; }
-    .footer-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
-    .footer-links a { font-size: 0.72rem; color: var(--text-sec); letter-spacing: 0.04em; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--text-pri); }
-    .footer-risk { width: 100%; font-size: 0.68rem; color: var(--text-sec); line-height: 1.6; border-top: 0.5px solid var(--border); padding-top: 1rem; margin-top: 0.5rem; }
+    .footer-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .footer-logo img { width: 20px; height: 20px; border-radius: 4px; opacity: 0.6; }
+    .footer-logo span { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; color: #3A3228; }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a { font-size: 12px; color: #3A3228; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: #5C5748; }
+    .footer-copy { font-size: 12px; color: #2E2A22; }
+    .footer-risk { width: 100%; font-size: 11px; color: #2E2A22; line-height: 1.6; border-top: 1px solid #252118; padding-top: 16px; margin-top: 4px; }
+
     @media (max-width: 600px) {
-      nav { padding: 0 1.25rem; height: 56px; }
-      .logo-word { font-size: 0.9rem; }
-      .logo-mark { width: 28px; height: 28px; font-size: 0.68rem; }
-      main { padding: 2rem 1.25rem 4rem; }
-      h1 { font-size: 1.6rem; }
-      h2 { font-size: 1.1rem; }
-      footer { padding: 2rem 1.25rem; flex-direction: column; align-items: flex-start; }
+      nav { padding: 0 20px; }
+      main { padding: 36px 20px 72px; }
+      h1 { font-size: 28px; }
+      footer { padding: 24px 20px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="/" class="nav-logo" aria-label="Clavix home">
-      <span class="logo-mark">CX</span>
-      <span class="logo-word">CLAVIX</span>
-    </a>
-  </nav>
+  <header class="nav-outer">
+    <nav>
+      <a class="nav-logo" href="/">
+        <img src="logos/appicon_1024.png" alt="Clavix">
+        <span class="nav-wordmark">CLAVIX</span>
+      </a>
+      <a class="nav-back" href="/">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M9 2L4 7l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Back to home
+      </a>
+    </nav>
+  </header>
 
   <main>
+    <p class="doc-eyebrow">Legal</p>
     <h1>Terms of Service</h1>
     <p class="doc-meta">
-      Effective Date: June 1, 2026 &middot; Last Updated: June 1, 2026<br />
+      Effective Date: June 1, 2026 &middot; Last Updated: June 1, 2026<br>
       <em>This version replaces the prior Terms of Service dated April 12, 2026.</em>
     </p>
 
     <div class="highlight">
-      <p>These Terms are between you and <strong>Andover Digital LLC</strong>, the operator of Clavix. The Clavix iOS app is distributed on the Apple App Store through an Individual Apple Developer account. The App Store may display an individual developer name as the seller for Apple distribution purposes. That distribution role does not change that Andover Digital LLC operates the Clavix service and provides these Terms, the Privacy Policy, support, and product experience.</p>
+      <p>These Terms are between you and <strong>Andover Digital LLC</strong>, the operator of Clavix. The Clavix iOS app is distributed on the Apple App Store through an Individual Apple Developer account. The App Store may display an individual developer name as the seller for Apple distribution purposes. That distribution role does not change that Andover Digital LLC operates the Clavix service and provides these Terms.</p>
     </div>
 
     <h2>1. Acceptance</h2>
@@ -139,9 +143,7 @@
     <ul>
       <li>These Terms are between you and Andover Digital LLC. Apple is not a party to these Terms.</li>
       <li>Apple is not responsible for the Service, its content, maintenance, support, or any claims relating to the Service.</li>
-      <li>If the Service does not conform to any applicable warranty, you may notify Apple, and Apple will refund the purchase price (if any) for the app. To the maximum extent permitted by law, Apple has no other warranty obligation.</li>
-      <li>Apple is not responsible for addressing any claims by you or any third party relating to the Service.</li>
-      <li>Apple is not responsible for the investigation, defense, settlement, or discharge of any third-party intellectual property infringement claim related to the Service.</li>
+      <li>If the Service does not conform to any applicable warranty, you may notify Apple, and Apple will refund the purchase price (if any) for the app.</li>
       <li>Apple and its subsidiaries are third-party beneficiaries of these Terms as they relate to your license of the iOS app.</li>
     </ul>
 
@@ -162,7 +164,7 @@
       <li>A prediction or forecast of future market performance</li>
     </ul>
     <p><strong>Risk scores are algorithmic observations, not recommendations.</strong> Scores and grades reflect model output based on publicly available data and may be inaccurate, delayed, incomplete, or based on erroneous inputs.</p>
-    <p><strong>You are solely responsible for all investment decisions you make.</strong> Before making any investment decision, consult a qualified financial advisor or licensed professional. Past performance reflected in any Clavix output is not indicative of future results.</p>
+    <p><strong>You are solely responsible for all investment decisions you make.</strong> Before making any investment decision, consult a qualified financial advisor or licensed professional.</p>
 
     <h2>6. Account Registration and Security</h2>
     <p>You agree to provide accurate information when registering, maintain the confidentiality of your credentials, notify us of unauthorized access, and accept responsibility for all account activity.</p>
@@ -171,13 +173,13 @@
     <p>You are responsible for the accuracy of portfolio data you enter manually. Clavix does not verify self-reported holdings, cost basis, or purchase dates. We do not provide trade confirmation, tax lot tracking, or position reconciliation.</p>
 
     <h2>8. Brokerage Connections</h2>
-    <p>Brokerage connection is not yet available in the current version. When available in a future update, we will update these Terms. At that time, you will be able to connect supported brokerage accounts via OAuth or read-only API, and your brokerage login credentials will be handled by your brokerage and not stored by us.</p>
+    <p>Brokerage connection is not yet available in the current version. When available in a future update, we will update these Terms.</p>
 
     <h2>9. Subscriptions and Purchases</h2>
     <p>In-app purchases are not yet available in the current version. When subscription purchases are implemented, we will update these Terms with applicable pricing, trial terms, auto-renewal, refund, and cancellation terms.</p>
 
     <h2>10. Third-Party Data and AI Outputs</h2>
-    <p>The Service relies on third-party data sources including Polygon.io, Finnhub, Jina AI Reader, CNBC RSS, Google News RSS, and MiniMax (AI/LLM processing). We do not guarantee that any data, risk score, analysis, or AI-generated content is complete, accurate, current, or suitable for any purpose. Market conditions can change rapidly. AI-generated content may contain errors, hallucinations, or inaccuracies. You assume all risk associated with reliance on any information provided by the Service.</p>
+    <p>The Service relies on third-party data sources including Polygon.io, Finnhub, Jina AI Reader, CNBC RSS, Google News RSS, and MiniMax (AI/LLM processing). We do not guarantee that any data, risk score, analysis, or AI-generated content is complete, accurate, current, or suitable for any purpose. You assume all risk associated with reliance on any information provided by the Service.</p>
 
     <h2>11. Alerts and Notifications</h2>
     <p>Alerts and push notifications are informational. They may be delayed, missed, duplicated, or inaccurate due to technical issues, data provider delays, or system limitations. Do not rely on alerts as the sole basis for time-sensitive investment decisions.</p>
@@ -192,42 +194,42 @@
     <p>Your use of the Service is governed by our <a href="/privacy">Privacy Policy</a>, incorporated by reference.</p>
 
     <h2>15. Disclaimer of Warranties</h2>
-    <p><strong>The Service is provided &ldquo;as is&rdquo; and &ldquo;as available,&rdquo; without warranty of any kind.</strong> To the fullest extent permitted by law, Andover Digital LLC disclaims all warranties, including merchantability, fitness for a particular purpose, accuracy, and non-infringement. We do not warrant that the Service will be uninterrupted, error-free, or secure.</p>
+    <p><strong>The Service is provided &ldquo;as is&rdquo; and &ldquo;as available,&rdquo; without warranty of any kind.</strong> To the fullest extent permitted by law, Andover Digital LLC disclaims all warranties, including merchantability, fitness for a particular purpose, accuracy, and non-infringement.</p>
 
     <h2>16. Limitation of Liability</h2>
-    <p>To the fullest extent permitted by law, Andover Digital LLC shall not be liable for indirect, incidental, special, consequential, or punitive damages, including investment losses, lost profits, or loss of data. Our aggregate liability shall not exceed the greater of the amount you paid us in the preceding 12 months or $100. No payment system exists in the current version; this section will be reviewed when subscriptions are introduced.</p>
+    <p>To the fullest extent permitted by law, Andover Digital LLC shall not be liable for indirect, incidental, special, consequential, or punitive damages, including investment losses, lost profits, or loss of data. Our aggregate liability shall not exceed the greater of the amount you paid us in the preceding 12 months or $100.</p>
 
     <h2>17. Indemnification</h2>
     <p>You agree to indemnify Andover Digital LLC from claims arising out of your use of the Service, violation of these Terms, violation of applicable law, or investment decisions you make.</p>
 
     <h2>18. Suspension and Termination</h2>
-    <p>We may suspend or terminate your access at any time, with or without cause. You may terminate your account at any time through the in-app &ldquo;Delete Account&rdquo; feature or by emailing <a href="mailto:support@getclavix.com">support@getclavix.com</a>. Sections 5, 13, 15, 16, 17, 18, 20, and 21 survive termination.</p>
+    <p>We may suspend or terminate your access at any time, with or without cause. You may terminate your account at any time through the in-app &ldquo;Delete Account&rdquo; feature or by emailing <a href="mailto:support@getclavix.com">support@getclavix.com</a>.</p>
 
     <h2>19. Changes to Terms</h2>
     <p>We may update these Terms. Material changes will be communicated through the app. Your continued use after the effective date constitutes acceptance.</p>
 
     <h2>20. Governing Law and Dispute Resolution</h2>
-    <p>These Terms are governed by the laws of the <strong>Commonwealth of Massachusetts</strong>. Any dispute shall be resolved through binding arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules. Arbitration shall take place in Massachusetts or by videoconference. You and Andover Digital LLC agree to bring claims only in your individual capacity (class action waiver). Exceptions: either party may seek injunctive relief for intellectual property infringement or bring claims in small claims court.</p>
+    <p>These Terms are governed by the laws of the <strong>Commonwealth of Massachusetts</strong>. Any dispute shall be resolved through binding arbitration administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules. You and Andover Digital LLC agree to bring claims only in your individual capacity (class action waiver).</p>
 
     <h2>21. Contact</h2>
-    <p>
-      <strong>Andover Digital LLC</strong><br />
-      Operator of Clavix<br />
-      Email: <a href="mailto:support@getclavix.com">support@getclavix.com</a>
-    </p>
+    <p><strong>Andover Digital LLC</strong><br>Operator of Clavix<br>Email: <a href="mailto:support@getclavix.com">support@getclavix.com</a></p>
   </main>
 
   <footer>
-    <a href="/" class="nav-logo" aria-label="Clavix home"><span class="logo-mark" style="width:28px;height:28px;font-size:0.68rem;opacity:0.85;">CX</span><span class="logo-word" style="font-size:0.9rem;opacity:0.6;">CLAVIX</span></a>
-    <span class="footer-copy">&copy; 2026 Andover Digital LLC. Clavix is a product of Andover Digital LLC.</span>
-    <ul class="footer-links">
-      <li><a href="/privacy">Privacy</a></li>
-      <li><a href="/terms">Terms</a></li>
-      <li><a href="/refund">Refund</a></li>
-      <li><a href="/methodology">Methodology</a></li>
-      <li><a href="mailto:support@getclavix.com">Contact</a></li>
-    </ul>
-    <p class="footer-risk">Clavix is for informational purposes only and does not provide investment advice. Nothing on this site or in the app constitutes a recommendation to buy, sell, or hold any security. Portfolio risk scores and analysis are generated algorithmically and may be inaccurate, delayed, or incomplete. Always do your own research and consult a licensed financial advisor before making investment decisions.</p>
+    <div class="footer-inner">
+      <a class="footer-logo" href="/">
+        <img src="logos/appicon_1024.png" alt="Clavix">
+        <span>CLAVIX</span>
+      </a>
+      <div class="footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/refund">Refund</a>
+        <a href="mailto:support@getclavix.com">Contact</a>
+      </div>
+      <span class="footer-copy">&copy; 2026 Andover Digital LLC</span>
+      <p class="footer-risk">Clavix is for informational purposes only and does not provide investment advice. Nothing on this site or in the app constitutes a recommendation to buy, sell, or hold any security. Portfolio risk scores and analysis are generated algorithmically and may be inaccurate, delayed, or incomplete. Always do your own research and consult a licensed financial advisor before making investment decisions.</p>
+    </div>
   </footer>
 </body>
 </html>
