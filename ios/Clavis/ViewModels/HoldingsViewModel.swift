@@ -142,8 +142,7 @@ class HoldingsViewModel: ObservableObject {
             default:
                 await finishAddWorkflow(after: 1.0)
             }
-        } catch let apiError as APIError,
-                  case .limitReached(let code) = apiError, code == "holding_limit_reached" {
+        } catch APIError.limitReached(let code) where code == "holding_limit_reached" {
             showProgressSheet = false
             progressValue = 0.0
             pendingTicker = nil

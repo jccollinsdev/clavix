@@ -915,8 +915,7 @@ struct TickerDetailView: View {
             }
             NotificationCenter.default.post(name: .watchlistDidChange, object: nil)
             await reloadAll()
-        } catch let apiError as APIError,
-                  case .limitReached(let code) = apiError, code == "watchlist_limit_reached" {
+        } catch APIError.limitReached(let code) where code == "watchlist_limit_reached" {
             watchlistOverride = nil
             showWatchlistLimitPaywall = true
         } catch {

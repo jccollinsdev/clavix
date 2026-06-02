@@ -135,12 +135,7 @@ final class SubscriptionManager: ObservableObject {
         case .autoRenewable:
             if let expirationDate = transaction.expirationDate {
                 if expirationDate > Date() {
-                    // Distinguish intro offer (trial) from paid
-                    if transaction.offerType == .introductoryOffer {
-                        status = .trial(expiresAt: expirationDate)
-                    } else {
-                        status = .active(expiresAt: expirationDate)
-                    }
+                    status = .active(expiresAt: expirationDate)
                     isPro = true
                 } else {
                     status = .expired
@@ -164,7 +159,7 @@ final class SubscriptionManager: ObservableObject {
         }
     }
 
-    private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
+    nonisolated private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
         switch result {
         case .unverified(_, let error):
             throw error

@@ -192,6 +192,8 @@ enum ClavisCopy {
                     return networkIssue
                 case .serverError, .decodingError:
                     return fallback
+                case .limitReached:
+                    return fallback
                 }
             }
 
