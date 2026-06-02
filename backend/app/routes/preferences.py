@@ -248,6 +248,40 @@ async def register_device_token(token_update: DeviceTokenUpdate, request: Reques
     return {"status": "registered"}
 
 
+class SubscriptionTierUpdate(BaseModel):
+    subscription_tier: str
+
+
+@router.patch("/subscription-tier")
+async def update_subscription_tier(update: SubscriptionTierUpdate, request: Request):
+    """Called by the iOS app after a successful StoreKit purchase or restore.
+    Validates the tier value and syncs it to user_preferences."""
+    user_id = request.state.user_id
+    allowed_tiers = {"free", "pro"}
+    tier = update.subscription_tier.strip().lower()
+    if tier not in allowed_tiers:
+        raise HTTPException(400, f"Invalid subscription_tier. Allowed: {allowed_tiers}")
+
+    supabase = get_supabase()
+    existing = (
+        supabase.table("user_preferences")
+        .select("id")
+        .eq("user_id", user_id)
+        .execute()
+        .data
+    )
+    if existing:
+        supabase.table("user_preferences").update({"subscription_tier": tier}).eq(
+            "user_id", user_id
+        ).execute()
+    else:
+        supabase.table("user_preferences").insert(
+            {"user_id": user_id, "subscription_tier": tier}
+        ).execute()
+
+    return {"status": "ok", "subscription_tier": tier}
+
+
 @router.post("/profile")
 async def update_profile(profile: ProfileUpdate, request: Request):
     user_id = request.state.user_id

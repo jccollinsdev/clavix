@@ -44,7 +44,7 @@ allowed_origins = [
     for origin in settings.cors_allowed_origins.split(",")
     if origin.strip()
 ]
-public_paths = {"/health", "/admin/login", "/admin/logout", "/waitlist", "/waitlist/"}
+public_paths = {"/ping", "/health", "/admin/login", "/admin/logout", "/waitlist", "/waitlist/"}
 public_doc_paths = {"/docs", "/openapi.json", "/redoc"}
 
 
@@ -315,6 +315,11 @@ async def debug_middleware(request: Request, call_next):
             user_id=user_id,
         )
         raise
+
+
+@app.get("/ping")
+async def ping():
+    return {"ok": True}
 
 
 @app.get("/health")

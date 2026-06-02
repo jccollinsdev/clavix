@@ -805,7 +805,7 @@ def _fallback_position_report(
     )
     labels_text = _join_text_items(inferred_labels[:3]) if inferred_labels else "core"
     event_titles = [
-        event.get("title", "recent data") for event in event_analyses[:3]
+        event.get("title") or "recent data" for event in event_analyses[:3]
     ]
 
     stance = "mixed — no single force clearly dominates"
@@ -825,13 +825,14 @@ def _fallback_position_report(
         f"This rating is limited-data — a single new filing, earnings surprise, or regulatory update could shift the rating materially."
     )
     top_risks = [
-        event.get("scenario_summary") or event.get("title", "Recent catalyst risk")
+        event.get("scenario_summary") or event.get("title") or "Recent catalyst risk"
         for event in event_analyses[:3]
     ]
     watch_items = [
         followup
         for event in event_analyses[:3]
         for followup in (event.get("recommended_followups") or [])[:1]
+        if followup is not None
     ]
 
     return {
