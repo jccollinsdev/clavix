@@ -300,6 +300,7 @@ struct TickerDetailView: View {
                                 .foregroundColor(.clavixInk)
                         }
                         scoreDeltaLine(detail)
+                        dataFreshnessLine(detail)
 
                         if isHeld {
                             heroShareContent(detail)
@@ -377,6 +378,27 @@ struct TickerDetailView: View {
 
     private func honestScoreDelta(_ detail: TickerDetailResponse) -> Int? {
         detail.sharedAnalysis?.summary.scoreDelta
+    }
+
+    private func dataFreshnessLine(_ detail: TickerDetailResponse) -> some View {
+        let asOf = detail.freshness.analysisAsOf
+        let label: String
+        if let asOf {
+            let age = -asOf.timeIntervalSinceNow
+            if age < 3600 {
+                label = "Updated \(Int(age / 60))m ago"
+            } else if age < 86400 {
+                label = "Updated \(Int(age / 3600))h ago"
+            } else {
+                label = "Updated \(Int(age / 86400))d ago"
+            }
+        } else {
+            label = "Update time unavailable"
+        }
+        let isStale = asOf.map { -$0.timeIntervalSinceNow > 86400 } ?? false
+        return Text(label)
+            .font(ClavisTypography.clavixMono(10, weight: .regular))
+            .foregroundColor(isStale ? .clavixWarnInk : .clavixInk4)
     }
 
     /// YOU HOLD + share count + cost P&L — shown in the top-left column, below delta, next to radar.

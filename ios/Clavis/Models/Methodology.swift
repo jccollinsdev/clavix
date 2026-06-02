@@ -39,6 +39,8 @@ struct MethodologyFinancialHealth: Codable, MethodologyDimensionProtocol {
     let dataSource: String?
     let peerComparisons: [MethodologyPeerComparison]?
     let sectorMedianComparison: [String: MethodologySectorMedian]?
+    let ratiosAvailable: Int?
+    let limitedData: Bool?
 
     var label: String { "Financial Health" }
 
@@ -54,6 +56,8 @@ struct MethodologyFinancialHealth: Codable, MethodologyDimensionProtocol {
         case dataSource = "data_source"
         case peerComparisons = "peer_comparisons"
         case sectorMedianComparison = "sector_median_comparison"
+        case ratiosAvailable = "ratios_available"
+        case limitedData = "limited_data"
     }
 }
 

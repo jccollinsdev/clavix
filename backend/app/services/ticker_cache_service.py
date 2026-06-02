@@ -392,17 +392,25 @@ def _profitability_trend_label(metadata: dict[str, Any]) -> str | None:
 
 
 def _build_financial_health_inputs(metadata: dict[str, Any]) -> dict[str, Any]:
+    d_e = _coerce_float(metadata.get("debt_to_equity"))
+    fcf = _coerce_float(metadata.get("fcf_margin"))
+    int_cov = _coerce_float(metadata.get("interest_coverage"))
+    curr_r = _coerce_float(metadata.get("current_ratio"))
+    rev_growth = _coerce_float(metadata.get("revenue_growth_trend"))
+    ratios_available = sum(1 for v in [d_e, fcf, int_cov, curr_r, rev_growth] if v is not None)
     return {
-        "debt_to_equity": _coerce_float(metadata.get("debt_to_equity")),
-        "fcf_margin": _coerce_float(metadata.get("fcf_margin")),
-        "interest_coverage": _coerce_float(metadata.get("interest_coverage")),
-        "current_ratio": _coerce_float(metadata.get("current_ratio")),
+        "debt_to_equity": d_e,
+        "fcf_margin": fcf,
+        "interest_coverage": int_cov,
+        "current_ratio": curr_r,
         "revenue_growth_trend": _normalize_growth_trend_label(
             metadata.get("revenue_growth_trend")
         ),
         "profitability_trend": _profitability_trend_label(metadata),
         "as_of_date": metadata.get("price_as_of") or metadata.get("updated_at"),
         "data_source": "finnhub",
+        "ratios_available": ratios_available,
+        "limited_data": ratios_available < 2,
     }
 
 

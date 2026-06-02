@@ -360,7 +360,15 @@ def _deterministic_dimension_scores(
         age_days = _event_age_days(event)
         recency = max(0.35, 1.0 - min(age_days, 14.0) / 20.0)
         magnitude = 15 if significance == "major" else 7
-        news_delta += direction * magnitude * confidence * recency
+        # Title-only articles carry much less signal — penalise lack of body depth
+        evidence_quality = str(event.get("evidence_quality") or "").strip().lower()
+        if evidence_quality == "title_only":
+            depth_weight = 0.4
+        elif evidence_quality == "headline_summary":
+            depth_weight = 0.65
+        else:
+            depth_weight = 1.0
+        news_delta += direction * magnitude * confidence * recency * depth_weight
 
     news_sentiment = clamp_score(round(50 + news_delta), 0)
     news_rationale = (

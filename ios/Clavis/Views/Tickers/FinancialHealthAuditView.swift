@@ -23,6 +23,19 @@ struct FinancialHealthAuditView: View {
                         subtitle: "Source: Finnhub, updated \(AuditSupport.formattedAsOfDate(dimension?.asOfDate))"
                     )
 
+                    if dimension?.limitedData == true {
+                        ClavixInlineNoticeCard(
+                            eyebrow: "Data Limited",
+                            title: "Fewer than 2 financial ratios available",
+                            message: "Finnhub does not report all metrics for this company (common for banks, REITs, foreign-listed, and some small caps). The Financial Health score defaults to neutral (50) where data is absent — treat it as directional only.",
+                            footnote: "Ratios available: \(dimension?.ratiosAvailable ?? 0) of 5",
+                            glyph: "exclamationmark.triangle",
+                            fill: .clavixWarnSoft,
+                            foreground: .clavixWarnInk,
+                            secondary: .clavixWarnInk
+                        )
+                    }
+
                     AuditSectionCard(title: "Ratio Table") {
                         AuditValueRow(label: "D/E", value: decimal(dimension?.debtToEquity), status: status(for: dimension?.debtToEquity, lowIsGood: true))
                         AuditValueRow(label: "FCF Margin", value: percent(dimension?.fcfMargin), status: status(for: dimension?.fcfMargin, lowIsGood: false))

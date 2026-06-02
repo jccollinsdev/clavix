@@ -659,9 +659,9 @@ struct DigestView: View {
     private func digestCardDateLabel(_ digest: Digest) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        formatter.timeStyle = .none
+        formatter.timeStyle = .short
         formatter.timeZone = TimeZone(identifier: "America/New_York") ?? .current
-        return formatter.string(from: digest.generatedAt)
+        return formatter.string(from: digest.generatedAt) + " ET"
     }
 
     /// Portfolio per-dimension snapshot. Each cell is the value-weighted average

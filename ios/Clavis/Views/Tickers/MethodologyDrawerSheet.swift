@@ -91,6 +91,24 @@ struct MethodologyDrawerSheet: View {
                             .font(ClavisTypography.footnote)
                             .foregroundColor(.clavixInk3)
                     }
+
+                    ClavixCard(fill: .clavixPaper2) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            ClavixEyebrow("Composite Score")
+                            Text("Equal-weight average of all five dimensions (20% each). Dimensions excluded when Clavix determines data is insufficient — the average is taken across the remaining available dimensions.")
+                                .font(ClavisTypography.footnote)
+                                .foregroundColor(.clavixInk3)
+                                .fixedSize(horizontal: false, vertical: true)
+                            Text("Score → Grade: AAA ≥90  AA ≥80  A ≥70  BBB ≥60  BB ≥50  B ≥40  CCC ≥30  CC ≥20  C ≥10  F <10")
+                                .font(ClavisTypography.label)
+                                .foregroundColor(.clavixInk3)
+                                .fixedSize(horizontal: false, vertical: true)
+                            Text("News signal from body-analyzed articles. Title-only articles carry 40% of full weight. Source: Finnhub (fundamentals) · Polygon (price/vol) · internal LLM pipeline (news/macro).")
+                                .font(ClavisTypography.label)
+                                .foregroundColor(.clavixInk3)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
                 }
                 .padding(.horizontal, ClavisTheme.screenPadding)
                 .padding(.vertical, ClavisTheme.sectionSpacing)
