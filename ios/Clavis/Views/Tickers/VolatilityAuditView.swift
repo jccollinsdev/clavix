@@ -25,13 +25,17 @@ struct VolatilityAuditView: View {
                     )
 
                     AuditSectionCard(title: "Metrics") {
-                        AuditValueRow(label: "Realized Vol 30d", value: percent(dimension?.realizedVol30d), status: "Metric")
-                        AuditValueRow(label: "Realized Vol 90d", value: percent(dimension?.realizedVol90d), status: "Metric")
-                        AuditValueRow(label: "Vol Ratio", value: format(dimension?.volRatio), status: (dimension?.volRatio ?? 1) > 1 ? "Rising" : "Falling")
-                        AuditValueRow(label: "Max Drawdown 252d", value: percent(dimension?.maxDrawdown252d), status: "Metric")
-                        AuditValueRow(label: "Beta to SPY", value: format(dimension?.betaToSpy), status: "Metric")
-                        AuditValueRow(label: "IV Rank", value: dimension?.ivRank.map { String(format: "%.1f", $0) } ?? "—", status: dimension?.ivSource?.humanizedTitleCasedDisplayText ?? "Metric")
-                        AuditValueRow(label: "Implied Vol", value: percent(dimension?.impliedVolatility), status: "Metric")
+                        AuditValueRow(label: "Realized Vol 30d", value: percent(dimension?.realizedVol30d), status: "Annualized")
+                        AuditValueRow(label: "Realized Vol 90d", value: percent(dimension?.realizedVol90d), status: "Annualized")
+                        AuditValueRow(label: "Vol Ratio (30d/90d)", value: format(dimension?.volRatio), status: (dimension?.volRatio ?? 1) > 1 ? "Rising" : "Falling")
+                        AuditValueRow(label: "Max Drawdown 252d", value: percent(dimension?.maxDrawdown252d), status: "From Peak")
+                        AuditValueRow(label: "Beta to SPY", value: format(dimension?.betaToSpy), status: "Correlation")
+                        if dimension?.ivSource?.lowercased() == "polygon" {
+                            AuditValueRow(label: "Options IV 30d", value: percent(dimension?.impliedVolatility), status: "Live")
+                            AuditValueRow(label: "IV Rank", value: dimension?.ivRank.map { String(format: "%.1f", $0) } ?? "—", status: "Percentile")
+                        } else {
+                            AuditValueRow(label: "Vol Regime Proxy", value: dimension?.ivRank.map { String(format: "%.1f", $0) } ?? "—", status: "Estimated")
+                        }
                     }
 
                     AuditSectionCard(title: "Vol Trend") {

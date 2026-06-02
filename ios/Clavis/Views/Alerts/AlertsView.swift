@@ -3,7 +3,6 @@ import SwiftUI
 struct AlertsView: View {
     @Binding var selectedTab: Int
     @StateObject private var viewModel = AlertsViewModel()
-    @State private var selectedFilter: AlertsFilter = .all
     @State private var hasLoaded = false
 
     var body: some View {
@@ -18,9 +17,6 @@ struct AlertsView: View {
                         }
                         .padding(.horizontal, ClavixLayout.pad)
                     }
-
-                    filterChips
-                        .padding(.horizontal, ClavixLayout.pad)
 
                     alertsSummaryCard
                         .padding(.horizontal, ClavixLayout.pad)
@@ -45,7 +41,7 @@ struct AlertsView: View {
                             glyph: "bell.badge"
                         )
                         .padding(.horizontal, ClavixLayout.pad)
-                    } else if filteredAlerts.isEmpty {
+                    } else if viewModel.alerts.isEmpty {
                         emptyState
                     } else {
                         ForEach(dayGroupedAlerts, id: \.day) { group in
@@ -68,15 +64,11 @@ struct AlertsView: View {
             .background(Color.clavixPage.ignoresSafeArea())
             .safeAreaInset(edge: .top, spacing: 0) {
                 ClavixStickyBar(trailing: AnyView(
-                    HStack(spacing: 18) {
-                        Image(systemName: "slider.horizontal.3")
+                    Button(action: { Task { try? await APIService.shared.markAllAlertsRead(); viewModel.markAlertsSeen() } }) {
+                        Image(systemName: "checkmark")
                             .foregroundColor(.clavixInk)
-                        Button(action: { Task { try? await APIService.shared.markAllAlertsRead(); viewModel.markAlertsSeen() } }) {
-                            Image(systemName: "checkmark")
-                                .foregroundColor(.clavixInk)
-                        }
-                        .buttonStyle(.plain)
                     }
+                    .buttonStyle(.plain)
                 ))
             }
             .toolbar(.hidden, for: .navigationBar)
@@ -99,7 +91,7 @@ struct AlertsView: View {
             eyebrow: alertsEyebrow,
             title: alertsSummaryTitle,
             message: alertsSummaryMessage,
-            footnote: selectedFilter == .all ? "The Morning Report remains the authoritative daily summary." : "Filter counts reflect the last 7 days of captured activity.",
+            footnote: "The Morning Report remains the authoritative daily summary.",
             glyph: "bell.badge"
         )
     }
@@ -118,11 +110,8 @@ struct AlertsView: View {
         if viewModel.alerts.isEmpty {
             return "No captured alerts yet"
         }
-        let filteredCount = filteredAlerts.count
-        if selectedFilter == .all {
-            return "\(filteredCount) alert\(filteredCount == 1 ? "" : "s") ready for review"
-        }
-        return "\(selectedFilter.title) alerts narrowed to \(filteredCount)"
+        let count = viewModel.alerts.count
+        return "\(count) alert\(count == 1 ? "" : "s") ready for review"
     }
 
     private var alertsSummaryMessage: String {
@@ -135,25 +124,11 @@ struct AlertsView: View {
         return "Use alerts for triage, then open a ticker or return to Today when you need the full narrative behind a move."
     }
 
-    private var filterChips: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 4) {
-                ForEach(AlertsFilter.allCases, id: \.title) { filter in
-                    let count = filter.apply(to: viewModel.alerts).count
-                    Button(action: { selectedFilter = filter }) {
-                        ClavixPill(label: "\(filter.title) · \(count)", active: selectedFilter == filter)
-                    }
-                    .buttonStyle(.plain)
-                }
-            }
-        }
-    }
-
     private var emptyState: some View {
         ClavixInlineNoticeCard(
             eyebrow: "All quiet",
-            title: "No alerts match this filter",
-            message: "Clavix has not captured any \(selectedFilter.title.lowercased()) alerts in the current view.",
+            title: "No alerts yet",
+            message: "Grade changes, portfolio risk notices, and major news will appear here once Clavix has something worth flagging.",
             footnote: "Morning Reports still arrive on schedule even when the alert tape is quiet.",
             glyph: "bell.slash"
         )
@@ -172,10 +147,6 @@ struct AlertsView: View {
         .padding(.bottom, 4)
     }
 
-    private var filteredAlerts: [Alert] {
-        selectedFilter.apply(to: viewModel.alerts)
-    }
-
     private struct DayGroup {
         let day: String
         let alerts: [Alert]
@@ -189,7 +160,7 @@ struct AlertsView: View {
         var groups: [(key: String, value: [Alert])] = []
         var lookup: [String: Int] = [:]
 
-        for alert in filteredAlerts {
+        for alert in viewModel.alerts {
             let label: String
             if calendar.isDateInToday(alert.createdAt) {
                 label = "Today · \(formatter.string(from: alert.createdAt))"
@@ -342,39 +313,6 @@ private enum AlertDestination {
     case ticker(String)
 }
 
-private enum AlertsFilter: CaseIterable {
-    case all
-    case gradeChanges
-    case news
-    case portfolio
-    case macro
-
-    var title: String {
-        switch self {
-        case .all: return "All"
-        case .gradeChanges: return "Grade"
-        case .news: return "News"
-        case .portfolio: return "Portfolio"
-        case .macro: return "Macro"
-        }
-    }
-
-    func apply(to alerts: [Alert]) -> [Alert] {
-        let filtered: [Alert] = switch self {
-        case .all:
-            alerts
-        case .gradeChanges:
-            alerts.filter { $0.type == .gradeChange }
-        case .news:
-            alerts.filter { $0.type == .majorEvent }
-        case .portfolio:
-            alerts.filter { $0.type == .portfolioGradeChange || $0.type == .digestReady || $0.type == .ratingReady || $0.type == .portfolioSafetyThresholdBreach }
-        case .macro:
-            alerts.filter { $0.type == .macroShock }
-        }
-        return filtered.sorted { $0.createdAt > $1.createdAt }
-    }
-}
 
 private extension Alert {
     func isUnread(seenAt: Date?) -> Bool {

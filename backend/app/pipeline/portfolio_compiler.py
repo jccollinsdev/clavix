@@ -827,7 +827,7 @@ Positions:
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": prompt},
             ],
-            temperature=0.15,
+            temperature=0.1,
             max_tokens=max_tokens,
         )
         parsed = extract_json_object(result, {})

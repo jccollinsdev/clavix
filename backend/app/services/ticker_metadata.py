@@ -246,8 +246,6 @@ def fetch_ticker_details_from_finnhub(ticker: str) -> dict | None:
         debt_to_equity = _metric_as_float(metric_values, "totalDebt/totalEquityAnnual")
         if debt_to_equity is None:
             debt_to_equity = _metric_as_float(metric_values, "longTermDebt/equityAnnual")
-        if debt_to_equity is None:
-            debt_to_equity = _metric_as_float(metric_values, "currentEV/freeCashFlowAnnual")
 
         fcf_margin = None
         fcf = _metric_as_float(metric_values, "freeCashFlowAnnual")
@@ -255,16 +253,20 @@ def fetch_ticker_details_from_finnhub(ticker: str) -> dict | None:
         if fcf is not None and rev and rev > 0:
             fcf_margin = fcf / rev
 
+        # Use Finnhub's direct interest coverage ratio; fall back to EBIT/interest-expense
         interest_coverage = None
-        ebit = _metric_as_float(metric_values, "ebitdPerShareAnnual")
-        interest = _metric_as_float(metric_values, "totalDebt/totalEquityAnnual")
+        interest_cov_raw = metric_values.get("interestCoverageAnnual")
+        interest_cov_raw2 = metric_values.get("interestCoverageQuarterly")
+        if interest_cov_raw is not None:
+            interest_coverage = _safe_metric_float(interest_cov_raw)
+        elif interest_cov_raw2 is not None:
+            interest_coverage = _safe_metric_float(interest_cov_raw2)
         if interest_coverage is None:
-            interest_cov_raw = metric_values.get("interestCoverageAnnual")
-            interest_cov_raw2 = metric_values.get("interestCoverageQuarterly")
-            if interest_cov_raw is not None:
-                interest_coverage = _safe_metric_float(interest_cov_raw)
-            elif interest_cov_raw2 is not None:
-                interest_coverage = _safe_metric_float(interest_cov_raw2)
+            # Compute EBIT / interest expense directly from raw metrics
+            ebit_raw = _metric_as_float(metric_values, "ebitAnnual")
+            int_exp_raw = _metric_as_float(metric_values, "interestExpenseAnnual")
+            if ebit_raw is not None and int_exp_raw is not None and int_exp_raw > 0:
+                interest_coverage = round(ebit_raw / int_exp_raw, 2)
 
         current_ratio = _metric_as_float(metric_values, "currentRatioAnnual")
         if current_ratio is None:

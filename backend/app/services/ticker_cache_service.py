@@ -14,7 +14,7 @@ from fastapi import HTTPException
 
 from ..pipeline.risk_scorer import score_position_structural
 from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength, sanitize_text_field, normalize_event_analysis_payload, calculate_weighted_score
-from ..pipeline.structural_scorer import estimate_iv_rank_from_realized_vol, percentile_rank
+from ..pipeline.structural_scorer import estimate_iv_rank_from_realized_vol, percentile_rank, smooth_score_with_history
 from ..pipeline.position_report_builder import _build_driver_cards
 from .alert_payloads import enrich_alert_rows
 from .macro_regression import FACTOR_TICKERS, macro_regression_to_audit_jsonb, run_macro_regression
@@ -3981,12 +3981,21 @@ def refresh_ticker_snapshot(
             .eq("ticker", ticker)
             .lt("snapshot_date", target_date_iso)
             .order("snapshot_date", desc=True)
-            .limit(1)
+            .limit(10)
             .execute()
             .data
             or []
         )
         previous_snapshot = previous_snapshot_rows[0] if previous_snapshot_rows else None
+        # Build oldest→newest list of historical scores for EMA smoothing
+        _history_scores: list[float] = []
+        for _row in reversed(previous_snapshot_rows):
+            _val = _row.get("composite_score") or _row.get("safety_score")
+            if _val is not None:
+                try:
+                    _history_scores.append(float(_val))
+                except (TypeError, ValueError):
+                    pass
         news_rows = (
             supabase.table("shared_ticker_events")
             .select("*")
@@ -4033,6 +4042,25 @@ def refresh_ticker_snapshot(
             recent_events=recent_events,
             previous_safety_score=prev_score_for_smoothing,
         )
+        # Apply 10-day EMA smoothing to prevent "personality shift" swings
+        if _history_scores and score.get("total_score") is not None:
+            asset_class = (scoring_metadata or {}).get("asset_class")
+            market_cap = (scoring_metadata or {}).get("market_cap")
+            smoothed = smooth_score_with_history(
+                float(score["total_score"]),
+                _history_scores,
+                asset_class=asset_class,
+                market_cap=market_cap,
+            )
+            if smoothed != score["total_score"]:
+                from ..pipeline.analysis_utils import score_to_grade
+                score = {
+                    **score,
+                    "total_score": smoothed,
+                    "safety_score": smoothed,
+                    "composite_score": smoothed,
+                    "grade": score_to_grade(smoothed),
+                }
 
         # ── CLAVIX TRUTH §7: Limited-data exclusion ─────────────────────────
         # score_position_structural counts all recent_events (which may include

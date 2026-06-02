@@ -111,7 +111,7 @@ Position context:
                 {"role": "system", "content": MAJOR_EVENT_SYSTEM_PROMPT},
                 {"role": "user", "content": user_prompt},
             ],
-            temperature=0.2,
+            temperature=0.1,
             max_tokens=900,
         )
     except Exception:
@@ -176,7 +176,7 @@ Each object has: analysis_text, impact_horizon, risk_direction, confidence, scen
             {"role": "system", "content": MAJOR_EVENT_SYSTEM_PROMPT},
             {"role": "user", "content": prompt},
         ],
-        temperature=0.2,
+        temperature=0.1,
         max_tokens=4000,
     )
 
@@ -227,7 +227,7 @@ Each object has: analysis_text, impact_horizon, risk_direction, confidence, scen
                 {"role": "system", "content": MAJOR_EVENT_SYSTEM_PROMPT},
                 {"role": "user", "content": prompt},
             ],
-            temperature=0.2,
+            temperature=0.1,
             max_tokens=2600,
         )
     except MiniMaxAuthError:

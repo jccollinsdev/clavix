@@ -289,6 +289,46 @@ def smooth_score_change(
         return previous_score - cap
 
 
+def compute_score_ema_10d(
+    score_history: list[float],
+    alpha: float = 0.25,
+) -> Optional[float]:
+    """EMA anchor from up to 10 days of score history (oldest→newest).
+
+    alpha=0.25 weights recent days meaningfully while anchoring on the trend.
+    Returns None when history has fewer than 3 data points — not enough to
+    form a reliable anchor, so no smoothing is applied.
+    """
+    if len(score_history) < 3:
+        return score_history[-1] if score_history else None
+    ema = float(score_history[0])
+    for score in score_history[1:]:
+        ema = alpha * float(score) + (1.0 - alpha) * ema
+    return round(ema, 1)
+
+
+def smooth_score_with_history(
+    new_score: float,
+    score_history: list[float],
+    asset_class: Optional[str] = None,
+    market_cap: Optional[float] = None,
+) -> float:
+    """Apply day-over-day cap relative to a 10-day EMA anchor.
+
+    Prevents 'personality shift' swings: even if yesterday's score was an
+    anomaly, the EMA anchor keeps the score within 2× the daily cap of the
+    medium-term trend. Day-over-day cap is also applied on top.
+    """
+    if not score_history:
+        return new_score
+    cap = get_daily_move_cap(asset_class, market_cap)
+    ema_anchor = compute_score_ema_10d(score_history)
+    if ema_anchor is not None and abs(new_score - ema_anchor) > cap * 2:
+        direction = 1 if new_score > ema_anchor else -1
+        new_score = ema_anchor + direction * cap * 2
+    return smooth_score_change(new_score, score_history[-1], asset_class, market_cap)
+
+
 def calculate_macro_adjustment(
     regime_state: str = "neutral",
     asset_sensitivity: str = "moderate",

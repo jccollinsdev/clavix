@@ -941,7 +941,7 @@ Event analyses:
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": prompt},
             ],
-            temperature=0.2,
+            temperature=0.1,
             max_tokens=1400,
         )
     except Exception:
@@ -1079,7 +1079,7 @@ async def build_position_reports_batch(
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": prompt},
         ],
-        temperature=0.2,
+        temperature=0.1,
         max_tokens=5000,
     )
 

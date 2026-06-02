@@ -106,11 +106,14 @@ struct ContentView: View {
 struct LoadingView: View {
     var body: some View {
         ZStack {
-            Color.backgroundPrimary.ignoresSafeArea()
-            VStack(spacing: 20) {
-                ClavisMonogram(size: 56, cornerRadius: 14)
+            Color.clavixPage.ignoresSafeArea()
+            VStack(spacing: 24) {
+                Image("clavix_logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 44, height: 44)
                 ProgressView()
-                    .tint(.textSecondary)
+                    .tint(.clavixInk3)
             }
         }
     }

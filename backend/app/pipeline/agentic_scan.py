@@ -134,7 +134,7 @@ async def analyze_minor_event(
     try:
         result = chatcompletion_text(
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.3,
+            temperature=0.1,
             max_tokens=800,
         )
     except MiniMaxAuthError:
@@ -238,7 +238,7 @@ async def analyze_minor_events_batch(
     try:
         result = chatcompletion_text(
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.3,
+            temperature=0.1,
             max_tokens=4000,
         )
     except MiniMaxAuthError:
@@ -309,7 +309,7 @@ async def analyze_minor_events_shared_batch(articles: list[dict]) -> list[dict]:
     try:
         result = chatcompletion_text(
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.2,
+            temperature=0.1,
             max_tokens=2400,
         )
     except MiniMaxAuthError:
