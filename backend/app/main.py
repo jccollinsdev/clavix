@@ -318,11 +318,13 @@ async def debug_middleware(request: Request, call_next):
 
 
 @app.get("/ping")
+@app.head("/ping")
 async def ping():
     return {"ok": True}
 
 
 @app.get("/health")
+@app.head("/health")
 async def health():
     apns_status = validate_apns_configuration()
     return {
