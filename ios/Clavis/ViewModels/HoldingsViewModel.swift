@@ -18,6 +18,7 @@ class HoldingsViewModel: ObservableObject {
     @Published var createdPositionId: String?
     @Published var lastRefreshedAt: Date?
     @Published var brokerageLastSyncedAt: Date?
+    @Published var showHoldingLimitPaywall = false
     @Published var subscriptionTier: String = "free"
 
     private let api = APIService.shared
@@ -141,6 +142,12 @@ class HoldingsViewModel: ObservableObject {
             default:
                 await finishAddWorkflow(after: 1.0)
             }
+        } catch let apiError as APIError,
+                  case .limitReached(let code) = apiError, code == "holding_limit_reached" {
+            showProgressSheet = false
+            progressValue = 0.0
+            pendingTicker = nil
+            showHoldingLimitPaywall = true
         } catch {
             showProgressSheet = false
             progressValue = 0.0

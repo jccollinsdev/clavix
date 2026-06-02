@@ -14,15 +14,6 @@ struct SearchView: View {
     }
 
     private let recentsKey = "clavix.search.recents"
-    // v1: ETFs are not in the tracked universe, so the "ETFs" and "S&P 500"
-    // (seeded "SPY") chips were dead-ends and have been removed. "Recently
-    // downgraded" seeded an empty query (no-op) and is removed until backend
-    // filter params exist. Remaining chips seed real, in-universe results.
-    private let browseChips: [[String]] = [
-        ["Mega caps", "Dividend aristocrats"],
-        ["High-grade only"]
-    ]
-
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -33,7 +24,6 @@ struct SearchView: View {
                         searchPrimerSection
                         recentSection
                         trendingSection
-                        browseSection
                     }
                 }
                 .padding(.horizontal, ClavixLayout.pad)
@@ -225,23 +215,6 @@ struct SearchView: View {
         }
     }
 
-    private var browseSection: some View {
-        ClavixSection(eyebrow: "Quick filters", title: "Browse") {
-            VStack(alignment: .leading, spacing: 8) {
-                ForEach(Array(browseChips.enumerated()), id: \.offset) { _, row in
-                    HStack(spacing: 6) {
-                        ForEach(row, id: \.self) { label in
-                            Button(action: { applyBrowseFilter(label) }) {
-                                ClavixPill(label: label)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     // MARK: - Actions
 
     private func runSearch() {
@@ -278,16 +251,6 @@ struct SearchView: View {
                     isLoading = false
                 }
             }
-        }
-    }
-
-    private func applyBrowseFilter(_ label: String) {
-        // Quick filters become a search seed today; backend filter params come later (P1).
-        switch label {
-        case "Mega caps":           query = "AAPL"
-        case "Dividend aristocrats":query = "JNJ"
-        case "High-grade only":     query = "MSFT"
-        default: query = label
         }
     }
 

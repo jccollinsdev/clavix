@@ -89,12 +89,46 @@ def _list_holdings_sync(
     )
 
 
+FREE_TIER_HOLDING_LIMIT = 3
+
+
+def _get_subscription_tier(supabase, user_id: str) -> str:
+    row = (
+        supabase.table("user_preferences")
+        .select("subscription_tier")
+        .eq("user_id", user_id)
+        .limit(1)
+        .execute()
+        .data
+    )
+    return (row[0].get("subscription_tier") or "free").lower() if row else "free"
+
+
 def _create_holding_sync(
     supabase,
     *,
     user_id: str,
     position: PositionCreate,
 ) -> dict[str, Any]:
+    tier = _get_subscription_tier(supabase, user_id)
+    if tier == "free":
+        existing_count = (
+            supabase.table("positions")
+            .select("id", count="exact")
+            .eq("user_id", user_id)
+            .execute()
+            .count
+        ) or 0
+        if existing_count >= FREE_TIER_HOLDING_LIMIT:
+            raise HTTPException(
+                403,
+                detail={
+                    "code": "holding_limit_reached",
+                    "limit": FREE_TIER_HOLDING_LIMIT,
+                    "message": f"Free plan supports up to {FREE_TIER_HOLDING_LIMIT} holdings. Upgrade to Clavix Pro for unlimited positions.",
+                },
+            )
+
     supported = ensure_ticker_in_universe(supabase, position.ticker)
     is_outside_universe = False
     if not supported:

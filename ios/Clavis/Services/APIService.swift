@@ -30,6 +30,7 @@ enum APIError: Error, LocalizedError {
     case serverError(Int)
     case decodingError(Error)
     case networkError(String, Error)
+    case limitReached(String)   // code: "holding_limit_reached" | "watchlist_limit_reached"
 
     var errorDescription: String? {
         switch self {
@@ -39,6 +40,7 @@ enum APIError: Error, LocalizedError {
         case .serverError(let code): return "Server error: \(code)"
         case .decodingError(let error): return "Failed to decode response: \(error.localizedDescription)"
         case .networkError(let url, let error): return "Network error for \(url): \(error.localizedDescription)"
+        case .limitReached(let code): return "Limit reached: \(code)"
         }
     }
 }
@@ -238,6 +240,14 @@ class APIService {
             switch httpResponse.statusCode {
             case 200...299:
                 return data
+            case 403:
+                // Parse structured limit errors from the backend
+                if let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let detail = json["detail"] as? [String: Any],
+                   let code = detail["code"] as? String {
+                    throw APIError.limitReached(code)
+                }
+                throw APIError.serverError(403)
             case 401:
                 // On the first 401, force-refresh the Supabase session and retry
                 // once with the new token. This covers the common case of an

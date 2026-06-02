@@ -22,6 +22,7 @@ struct TickerDetailView: View {
     @State private var showAllArticles = false
     @State private var scoreHistoryDimensions: Set<String> = []
     @State private var selectedHistoryPeriod: TickerHistoryPeriod = .oneMonth
+    @State private var showWatchlistLimitPaywall = false
 
     init(
         ticker: String,
@@ -108,6 +109,10 @@ struct TickerDetailView: View {
                 }
             )
             .presentationBackground(Color.clavixPage)
+        }
+        .sheet(isPresented: $showWatchlistLimitPaywall) {
+            PaywallView(triggerContext: .watchlistLimit)
+                .environmentObject(SubscriptionManager.shared)
         }
     }
 
@@ -910,6 +915,10 @@ struct TickerDetailView: View {
             }
             NotificationCenter.default.post(name: .watchlistDidChange, object: nil)
             await reloadAll()
+        } catch let apiError as APIError,
+                  case .limitReached(let code) = apiError, code == "watchlist_limit_reached" {
+            watchlistOverride = nil
+            showWatchlistLimitPaywall = true
         } catch {
             watchlistOverride = nil
             errorMessage = ClavisCopy.Errors.watchlistUpdate(error)

@@ -26,6 +26,21 @@ async def get_watchlists(user_id: str = Depends(get_user_id)):
     return {"watchlists": [watchlist], "message": "ok"}
 
 
+FREE_TIER_WATCHLIST_LIMIT = 5
+
+
+def _get_subscription_tier(supabase, user_id: str) -> str:
+    row = (
+        supabase.table("user_preferences")
+        .select("subscription_tier")
+        .eq("user_id", user_id)
+        .limit(1)
+        .execute()
+        .data
+    )
+    return (row[0].get("subscription_tier") or "free").lower() if row else "free"
+
+
 @router.post("/default/items")
 async def add_to_default_watchlist(
     payload: WatchlistItemCreate, user_id: str = Depends(get_user_id)
@@ -43,12 +58,31 @@ async def add_to_default_watchlist(
         .execute()
         .data
     )
-    if not existing:
-        (
+    if existing:
+        return get_default_watchlist_detail(supabase, user_id)
+
+    tier = _get_subscription_tier(supabase, user_id)
+    if tier == "free":
+        current_count = (
             supabase.table("watchlist_items")
-            .insert({"watchlist_id": watchlist["id"], "ticker": supported["ticker"]})
+            .select("id", count="exact")
+            .eq("watchlist_id", watchlist["id"])
             .execute()
-        )
+            .count
+        ) or 0
+        if current_count >= FREE_TIER_WATCHLIST_LIMIT:
+            raise HTTPException(
+                status_code=403,
+                detail={
+                    "code": "watchlist_limit_reached",
+                    "limit": FREE_TIER_WATCHLIST_LIMIT,
+                    "message": f"Free plan supports up to {FREE_TIER_WATCHLIST_LIMIT} watchlist items. Upgrade to Clavix Pro for unlimited.",
+                },
+            )
+
+    supabase.table("watchlist_items").insert(
+        {"watchlist_id": watchlist["id"], "ticker": supported["ticker"]}
+    ).execute()
 
     return get_default_watchlist_detail(supabase, user_id)
 

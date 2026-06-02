@@ -43,8 +43,14 @@ def _get_or_create_prefs(supabase, user_id: str) -> dict:
     )
     if existing:
         return existing[0]
-    supabase.table("user_preferences").insert({"user_id": user_id}).execute()
-    return {"id": None, "user_id": user_id}
+    from datetime import datetime, timezone
+    now = datetime.now(timezone.utc).isoformat()
+    supabase.table("user_preferences").insert({
+        "user_id": user_id,
+        "trial_started_at": now,
+        "subscription_tier": "free",
+    }).execute()
+    return {"id": None, "user_id": user_id, "trial_started_at": now, "subscription_tier": "free"}
 
 
 @router.get("")

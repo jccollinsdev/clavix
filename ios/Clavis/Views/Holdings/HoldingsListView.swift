@@ -137,6 +137,10 @@ struct HoldingsListView: View {
                 PaywallView(triggerContext: .holdingLimit)
                     .environmentObject(SubscriptionManager.shared)
             }
+            .sheet(isPresented: $viewModel.showHoldingLimitPaywall) {
+                PaywallView(triggerContext: .holdingLimit)
+                    .environmentObject(SubscriptionManager.shared)
+            }
             .sheet(item: $deleteCandidate) { position in
                 HoldingDeleteSheet(
                     ticker: position.ticker,
