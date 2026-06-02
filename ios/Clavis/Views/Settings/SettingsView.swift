@@ -86,9 +86,9 @@ struct SettingsView: View {
                     } else {
                         SettingsSectionCard("BROKERAGE") {
                             SettingsValueRow(
-                                "Connect brokerage",
-                                value: "Coming soon",
-                                detail: "Read-only position sync from Robinhood, Schwab, Fidelity, and others. No trading access.",
+                                "Brokerage sync",
+                                value: "Coming later",
+                                detail: "Read-only portfolio sync from your brokerage. Available in a future update.",
                                 valueColor: .clavixInk3
                             )
                         }
@@ -562,7 +562,8 @@ private struct MorningReportSettingsDetailView: View {
         }
         .toolbar(.hidden, for: .navigationBar)
         .sheet(isPresented: $showUpgradeSheet) {
-            SettingsUpgradeSheet()
+            PaywallView(triggerContext: .verboseDigest)
+                .environmentObject(SubscriptionManager.shared)
         }
     }
 
@@ -1041,11 +1042,11 @@ struct SettingsUpgradeSheet: View {
                             Text("Upgrade to Pro")
                                 .font(ClavisTypography.h2)
                                 .foregroundColor(.clavixInk)
-                            Text("Verbose digest, brokerage sync, and CSV import are part of Clavix Pro.")
+                            Text("Unlimited holdings & watchlist, verbose morning briefing, 90-day score history across all 5 dimensions, and advanced alerts.")
                                 .font(ClavisTypography.body)
                                 .foregroundColor(.clavixInk3)
                                 .fixedSize(horizontal: false, vertical: true)
-                            ClavisPrimaryButton(title: "Pro is coming soon", action: { dismiss() })
+                            ClavisPrimaryButton(title: "Pro — coming soon", action: { dismiss() })
                         }
                     }
                 }

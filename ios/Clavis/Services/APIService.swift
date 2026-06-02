@@ -780,6 +780,12 @@ class APIService {
         _ = try await makeRequest(path: "/preferences/profile", method: "POST", body: body)
     }
 
+    func updateSubscriptionTier(_ tier: String) async throws {
+        struct TierUpdate: Encodable { let subscription_tier: String }
+        let body = try JSONEncoder().encode(TierUpdate(subscription_tier: tier))
+        _ = try await makeRequest(path: "/preferences/subscription-tier", method: "PATCH", body: body)
+    }
+
     func exportAccount() async throws -> Data {
         try await makeRequest(path: "/account/export")
     }

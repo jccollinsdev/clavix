@@ -7,11 +7,13 @@ struct ClavisApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var subscriptionManager = SubscriptionManager.shared
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(authViewModel)
+                .environmentObject(subscriptionManager)
         }
     }
 }

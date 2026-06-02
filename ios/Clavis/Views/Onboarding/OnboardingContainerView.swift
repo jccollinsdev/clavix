@@ -47,13 +47,15 @@ struct OnboardingContainerView: View {
         }
         .sheet(isPresented: $showCSVSheet) {
             if authViewModel.subscriptionTier.lowercased() == "free" {
-                OnboardingUpgradeSheet()
+                PaywallView(triggerContext: .generic)
+                    .environmentObject(SubscriptionManager.shared)
             } else {
                 CSVImportSheet()
             }
         }
         .sheet(isPresented: $showUpgradeSheet) {
-            OnboardingUpgradeSheet()
+            PaywallView(triggerContext: .holdingLimit)
+                .environmentObject(SubscriptionManager.shared)
         }
         .onReceive(NotificationCenter.default.publisher(for: .snapTradeCallbackReceived)) { notification in
             guard let url = notification.object as? URL else { return }
@@ -369,7 +371,7 @@ private struct OnboardingUpgradeSheet: View {
                             Text("Coming soon")
                                 .font(ClavisTypography.clavixSerif(26, weight: .medium))
                                 .foregroundColor(.clavixInk)
-                            Text("Pro will unlock unlimited positions, brokerage sync, verbose morning reports, and deeper risk history.")
+                            Text("Pro will unlock unlimited positions & watchlist, verbose morning briefing, 90-day score history, and advanced alerts.")
                                 .font(ClavisTypography.inter(14, weight: .regular))
                                 .foregroundColor(.clavixInk2)
                                 .fixedSize(horizontal: false, vertical: true)

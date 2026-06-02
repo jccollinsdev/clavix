@@ -134,7 +134,8 @@ struct HoldingsListView: View {
                 AddPositionProgressView(viewModel: viewModel)
             }
             .sheet(isPresented: $showUpgradeSheet) {
-                HoldingsUpgradeSheet()
+                PaywallView(triggerContext: .holdingLimit)
+                    .environmentObject(SubscriptionManager.shared)
             }
             .sheet(item: $deleteCandidate) { position in
                 HoldingDeleteSheet(
