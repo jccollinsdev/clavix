@@ -133,11 +133,10 @@ struct HoldingsListView: View {
             .fullScreenCover(isPresented: $viewModel.showProgressSheet) {
                 AddPositionProgressView(viewModel: viewModel)
             }
-            .sheet(isPresented: $showUpgradeSheet) {
-                PaywallView(triggerContext: .holdingLimit)
-                    .environmentObject(SubscriptionManager.shared)
-            }
-            .sheet(isPresented: $viewModel.showHoldingLimitPaywall) {
+            .sheet(isPresented: Binding(
+                get: { showUpgradeSheet || viewModel.showHoldingLimitPaywall },
+                set: { if !$0 { showUpgradeSheet = false; viewModel.showHoldingLimitPaywall = false } }
+            )) {
                 PaywallView(triggerContext: .holdingLimit)
                     .environmentObject(SubscriptionManager.shared)
             }

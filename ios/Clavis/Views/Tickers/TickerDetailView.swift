@@ -3,8 +3,10 @@ import SwiftUI
 struct TickerDetailView: View {
     let ticker: String
     let positionId: String?
+    #if DEBUG
     let debugFixture: TickerDetailDebugFixture?
     let debugScrollTarget: String?
+    #endif
 
     @Environment(\.dismiss) private var dismiss
     @State private var detail: TickerDetailResponse?
@@ -24,6 +26,7 @@ struct TickerDetailView: View {
     @State private var selectedHistoryPeriod: TickerHistoryPeriod = .oneMonth
     @State private var showWatchlistLimitPaywall = false
 
+    #if DEBUG
     init(
         ticker: String,
         positionId: String? = nil,
@@ -35,6 +38,15 @@ struct TickerDetailView: View {
         self.debugFixture = debugFixture
         self.debugScrollTarget = debugScrollTarget
     }
+    #else
+    init(
+        ticker: String,
+        positionId: String? = nil
+    ) {
+        self.ticker = ticker
+        self.positionId = positionId
+    }
+    #endif
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -67,6 +79,7 @@ struct TickerDetailView: View {
             .task {
                 guard !hasLoaded else { return }
                 hasLoaded = true
+                #if DEBUG
                 if let debugFixture {
                     apply(debugFixture)
                     if let debugScrollTarget {
@@ -78,8 +91,12 @@ struct TickerDetailView: View {
                 } else {
                     await reloadAll()
                 }
+                #else
+                await reloadAll()
+                #endif
             }
             .refreshable {
+                #if DEBUG
                 if let debugFixture {
                     apply(debugFixture)
                     if let debugScrollTarget {
@@ -90,6 +107,9 @@ struct TickerDetailView: View {
                 } else {
                     await reloadAll()
                 }
+                #else
+                await reloadAll()
+                #endif
             }
         }
         .sheet(item: $selectedArticle) { article in
@@ -891,6 +911,7 @@ struct TickerDetailView: View {
         }
     }
 
+    #if DEBUG
     private func apply(_ fixture: TickerDetailDebugFixture) {
         detail = fixture.detail
         methodology = fixture.methodology
@@ -900,6 +921,7 @@ struct TickerDetailView: View {
         isLoading = false
         watchlistOverride = nil
     }
+    #endif
 
     private func toggleWatchlist() async {
         let targetState = !isInWatchlist
