@@ -17,8 +17,6 @@
 		226D8D4CFD22EFF6B4F06AE7 /* ClavixHiFiReferenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6865E9629A6E4707A21F1107 /* ClavixHiFiReferenceView.swift */; };
 		260312ED46C93D4855AA49AF /* SharedTickerAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32583580F21DC84D7740A433 /* SharedTickerAnalysis.swift */; };
 		2968C7B9D5B0CD322BFC6BA5 /* AlertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8722709AAABD33C139625D0 /* AlertsView.swift */; };
-		38AE97BDD9984D5F8FFA06AB /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB98C75F0D149ABB3AA18C8 /* PaywallView.swift */; };
-		4D84CE30295B44508994591C /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C39F4C7DB7E4EEEB8416506 /* SubscriptionManager.swift */; };
 		2D0A2D28435796BB5DF7C2ED /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 473421A47E2CCB53FC0AEAF7 /* PushNotificationManager.swift */; };
 		2E5B0458654B424B86CC9561 /* DisplayText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE04452D246D5FAAB52974D /* DisplayText.swift */; };
 		2EA0DA31A7D842D87C059271 /* DimsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F408B85808E7B5B4E4F83C67 /* DimsRow.swift */; };
@@ -26,6 +24,7 @@
 		3344083E580C435CBF836450 /* Grade.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739D74C2D9236A111A6601C /* Grade.swift */; };
 		3514B9BBCE7E4165EC2F0510 /* ScoreBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9565123DA3D266B662CD8DCA /* ScoreBar.swift */; };
 		3873AA4E72E0982ED4010AE1 /* ScoreHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C337E9434261287EE3A82F3C /* ScoreHistory.swift */; };
+		38AE97BDD9984D5F8FFA06AB /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FB98C75F0D149ABB3AA18C8 /* PaywallView.swift */; };
 		394A41DC223DF84E206FDE95 /* ClavixVQAComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 770F7DC8D4FA49517326EDF6 /* ClavixVQAComponents.swift */; };
 		3EAE8B2B99CE87F9C797C551 /* PositionAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = E435B87D2019D238DB264C8B /* PositionAnalysis.swift */; };
 		3FF5D7328FC66209E1592256 /* NewsSentimentAuditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAB6D2108AEDFE74E487806 /* NewsSentimentAuditView.swift */; };
@@ -37,6 +36,7 @@
 		4B27F3CADA914879B69C42AF /* PeriodChips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B744E730D7680726059FEC /* PeriodChips.swift */; };
 		4C67DB796D30B8B099615B2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3EF9D33F89ABA37D1B82F8FF /* Assets.xcassets */; };
 		4D460994A1250C58933CBE7A /* clavix-hifi-v2.html in Resources */ = {isa = PBXBuildFile; fileRef = 80FF9274D7054F9FFD043346 /* clavix-hifi-v2.html */; };
+		4D84CE30295B44508994591C /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C39F4C7DB7E4EEEB8416506 /* SubscriptionManager.swift */; };
 		4E2788D874AA22953477EE2A /* PriceChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F46151C0C929856200978D9 /* PriceChartView.swift */; };
 		529D674B4CA12C34CD5FDBC9 /* PositionHeatmapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C63319087949D420671AC07E /* PositionHeatmapView.swift */; };
 		5325BE30E38E60F995043C32 /* OnboardingContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39592197B205D7C5872DC4B /* OnboardingContainerView.swift */; };
@@ -110,6 +110,7 @@
 		00FFD559FB9BBE224BD8F233 /* SectorHeatmapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorHeatmapView.swift; sourceTree = "<group>"; };
 		011115DAEE21B65A0074A27C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0C394F153A0BBF81D597DFF4 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
+		0C39F4C7DB7E4EEEB8416506 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		0FBC158DBA1385D691EFFC37 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		109D64880EF83D2FC224A3F4 /* DigestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DigestView.swift; sourceTree = "<group>"; };
 		11006E9F2139120F0114C419 /* AnalysisRun.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisRun.swift; sourceTree = "<group>"; };
@@ -128,14 +129,13 @@
 		3B794A9A0FBCA58BDD1729AC /* ClavixDesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClavixDesignTokens.swift; sourceTree = "<group>"; };
 		3C8B94F66156A937403DBA44 /* ClavisCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClavisCopy.swift; sourceTree = "<group>"; };
 		3EF9D33F89ABA37D1B82F8FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3FB98C75F0D149ABB3AA18C8 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		417DBD36968B87DE7233E51A /* NewsFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeed.swift; sourceTree = "<group>"; };
 		473421A47E2CCB53FC0AEAF7 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
 		50C0926DEC5A852E71E5F348 /* DecodingHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingHelpers.swift; sourceTree = "<group>"; };
 		53555B360591C580A0CD8C63 /* Digest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Digest.swift; sourceTree = "<group>"; };
 		542C28363E5DC104462E73F7 /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
 		5854505856CBD1CDCBC4D3B7 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
-		3FB98C75F0D149ABB3AA18C8 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
-		0C39F4C7DB7E4EEEB8416506 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		5856048E7E14BD3C2E4B76B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5950AE0D54F23F38C9E21204 /* SectorExposureAuditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorExposureAuditView.swift; sourceTree = "<group>"; };
 		5C50488C1E5684D80C97CE8B /* Hairline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hairline.swift; sourceTree = "<group>"; };
@@ -341,20 +341,20 @@
 			path = Digest;
 			sourceTree = "<group>";
 		};
-		5537A0F02AA349FAB474DE7C /* Paywall */ = {
-			isa = PBXGroup;
-			children = (
-				3FB98C75F0D149ABB3AA18C8 /* PaywallView.swift */,
-			);
-			path = Paywall;
-			sourceTree = "<group>";
-		};
 		4BD6F16D51D994E7DEDC05CB /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
 				E39592197B205D7C5872DC4B /* OnboardingContainerView.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		5537A0F02AA349FAB474DE7C /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+				3FB98C75F0D149ABB3AA18C8 /* PaywallView.swift */,
+			);
+			path = Paywall;
 			sourceTree = "<group>";
 		};
 		59513A3D375BB66DD30123D5 /* Design */ = {
@@ -909,7 +909,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.clavisdev.portfolioassistant;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -929,7 +929,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.clavisdev.portfolioassistant;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
