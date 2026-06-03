@@ -396,6 +396,15 @@ class APIService {
         return response.results
     }
 
+    /// Whole-universe screening dataset for the Search radar filter. Lean rows
+    /// (grade, composite, five dimensions) for ~500 names; cached for the
+    /// session by the caller and filtered locally as the radar is dragged.
+    func fetchUniverseScreen(timeoutInterval: TimeInterval = 20) async throws -> [UniverseScreenItem] {
+        let data = try await makeRequest(path: "/tickers/screen", timeoutInterval: timeoutInterval)
+        let response = try decoder.decode(UniverseScreenResponse.self, from: data)
+        return response.items
+    }
+
     func fetchTickerDetail(
         ticker: String,
         positionId: String? = nil,
@@ -911,6 +920,50 @@ struct TriggerAnalysisResponse: Codable {
 struct TickerSearchResponse: Codable {
     let results: [TickerSearchResult]
     let message: String?
+}
+
+struct UniverseScreenResponse: Codable {
+    let items: [UniverseScreenItem]
+    let count: Int?
+    let message: String?
+}
+
+/// One active-universe ticker's latest five-dimension snapshot, used by the
+/// Search radar screener. `nil` on a dimension means Clavix has not scored that
+/// dimension yet (e.g. no qualifying news) — the screener treats those as
+/// "unknown", excluded only when that axis's minimum is raised above zero.
+struct UniverseScreenItem: Identifiable, Codable, Hashable {
+    let ticker: String
+    let companyName: String
+    let sector: String?
+    let grade: String?
+    let compositeScore: Double
+    let financialHealth: Double?
+    let newsSentiment: Double?
+    let macroExposure: Double?
+    let sectorExposure: Double?
+    let volatility: Double?
+    let limitedDimensions: [String]?
+    let price: Double?
+    let analysisAsOf: Date?
+
+    var id: String { ticker }
+
+    enum CodingKeys: String, CodingKey {
+        case ticker
+        case companyName = "company_name"
+        case sector
+        case grade
+        case compositeScore = "composite_score"
+        case financialHealth = "financial_health"
+        case newsSentiment = "news_sentiment"
+        case macroExposure = "macro_exposure"
+        case sectorExposure = "sector_exposure"
+        case volatility
+        case limitedDimensions = "limited_dimensions"
+        case price
+        case analysisAsOf = "analysis_as_of"
+    }
 }
 
 struct TickerSearchResult: Identifiable, Codable, Hashable {

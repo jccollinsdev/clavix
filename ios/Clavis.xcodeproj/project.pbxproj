@@ -73,6 +73,7 @@
 		B132E9643F3BA783E542C73C /* NewsFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 417DBD36968B87DE7233E51A /* NewsFeed.swift */; };
 		B17527C480F9282C275C623A /* DigestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C6F0F05198A0A2B6FCFBAC5 /* DigestViewModel.swift */; };
 		B1DCA91EDA51D1BC794CC012 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333BA210B878B8BC3EBDB2A4 /* SearchView.swift */; };
+		418BD03120264B208BB1CC58 /* RadarScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C24A88C64E4644BF37048D /* RadarScreenView.swift */; };
 		B27C10B2A3807B3DF6854E93 /* AlertsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D439D2E866ACEF64034DD2D /* AlertsViewModel.swift */; };
 		B288C1564FD3A5CA715AEE40 /* ClavisApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B80F8C63EDE5E09B0FB7067F /* ClavisApp.swift */; };
 		B61BCC248F71D8DB1FB4DCCB /* ClavisDesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE607541546CE04B5295937C /* ClavisDesignSystem.swift */; };
@@ -125,6 +126,7 @@
 		30B744E730D7680726059FEC /* PeriodChips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodChips.swift; sourceTree = "<group>"; };
 		32583580F21DC84D7740A433 /* SharedTickerAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTickerAnalysis.swift; sourceTree = "<group>"; };
 		333BA210B878B8BC3EBDB2A4 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		30C24A88C64E4644BF37048D /* RadarScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadarScreenView.swift; sourceTree = "<group>"; };
 		33F42FE9D494BEF219ED81FD /* TickerDriverCardsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerDriverCardsSection.swift; sourceTree = "<group>"; };
 		3B794A9A0FBCA58BDD1729AC /* ClavixDesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClavixDesignTokens.swift; sourceTree = "<group>"; };
 		3C8B94F66156A937403DBA44 /* ClavisCopy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClavisCopy.swift; sourceTree = "<group>"; };
@@ -498,6 +500,7 @@
 			isa = PBXGroup;
 			children = (
 				333BA210B878B8BC3EBDB2A4 /* SearchView.swift */,
+				30C24A88C64E4644BF37048D /* RadarScreenView.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -685,6 +688,7 @@
 				3873AA4E72E0982ED4010AE1 /* ScoreHistory.swift in Sources */,
 				C188EBCA0860A8809B63399B /* ScoreHistoryChart.swift in Sources */,
 				B1DCA91EDA51D1BC794CC012 /* SearchView.swift in Sources */,
+				418BD03120264B208BB1CC58 /* RadarScreenView.swift in Sources */,
 				C6155195A47362A5F9785E89 /* SectorExposureAuditView.swift in Sources */,
 				93E72878DDD61A1E3B6DD358 /* SectorHeatmapView.swift in Sources */,
 				B9DD10F0D12C47D0C61BEF8D /* SettingsView.swift in Sources */,

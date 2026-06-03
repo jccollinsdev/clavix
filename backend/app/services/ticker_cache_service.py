@@ -976,6 +976,111 @@ def search_supported_tickers(
     return results
 
 
+def screen_universe(supabase, max_results: int = 600) -> list[dict[str, Any]]:
+    """Lean whole-universe snapshot powering the Search radar screener.
+
+    Returns one row per active universe ticker that has a recent risk snapshot,
+    carrying only the fields the iOS radar filter needs (grade, composite, the
+    five product dimensions, limited-data flags, sector, company name, price).
+    Deliberately avoids the per-ticker news / shared-analysis / watchlist joins
+    that ``search_supported_tickers`` does — the screener loads the full ~500
+    name universe and the client filters locally, so the payload must stay light.
+
+    Latest-per-ticker is resolved here from a bounded, paginated read of
+    ``ticker_risk_snapshots`` (the table holds history and a single supabase-py
+    response caps at 1000 rows, so we page newest-first until every active
+    ticker's latest row has been seen).
+    """
+    ensure_sp500_universe_seeded(supabase)
+    universe = (
+        supabase.table("ticker_universe")
+        .select("ticker, company_name, sector")
+        .eq("is_active", True)
+        .execute()
+        .data
+        or []
+    )
+    universe_map = {
+        row["ticker"]: row for row in universe if row.get("ticker")
+    }
+    if not universe_map:
+        return []
+
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=21)).date().isoformat()
+    latest_by_ticker: dict[str, dict[str, Any]] = {}
+    page_size = 1000
+    offset = 0
+    while True:
+        rows = (
+            supabase.table("ticker_risk_snapshots")
+            .select(
+                "ticker, grade, composite_score, safety_score, financial_health, "
+                "news_sentiment_dim, macro_exposure_dim, sector_exposure, volatility, "
+                "limited_data_dimensions, analysis_as_of"
+            )
+            .gte("snapshot_date", cutoff)
+            .order("analysis_as_of", desc=True)
+            .order("updated_at", desc=True)
+            .range(offset, offset + page_size - 1)
+            .execute()
+            .data
+            or []
+        )
+        if not rows:
+            break
+        for row in rows:
+            ticker = row.get("ticker")
+            if not ticker or ticker in latest_by_ticker:
+                continue
+            if ticker in universe_map:
+                latest_by_ticker[ticker] = row
+        # First row seen per ticker is its newest snapshot. Stop once every
+        # active ticker is resolved, or when a short page signals no more data.
+        if len(latest_by_ticker) >= len(universe_map) or len(rows) < page_size:
+            break
+        offset += page_size
+        if offset >= 8000:  # hard safety cap (~8 pages / 8k history rows)
+            break
+
+    metadata_map = get_metadata_map(supabase, list(latest_by_ticker.keys()))
+
+    items: list[dict[str, Any]] = []
+    for ticker, snap in latest_by_ticker.items():
+        composite = snap.get("composite_score")
+        if composite is None:
+            composite = snap.get("safety_score")
+        composite = _coerce_float(composite)
+        if composite is None:
+            continue
+        uni = universe_map.get(ticker, {})
+        meta = metadata_map.get(ticker, {})
+        limited = snap.get("limited_data_dimensions")
+        if not isinstance(limited, list):
+            limited = []
+        items.append(
+            {
+                "ticker": ticker,
+                "company_name": uni.get("company_name")
+                or meta.get("company_name")
+                or ticker,
+                "sector": uni.get("sector") or meta.get("sector"),
+                "grade": snap.get("grade"),
+                "composite_score": composite,
+                "financial_health": _coerce_float(snap.get("financial_health")),
+                "news_sentiment": _coerce_float(snap.get("news_sentiment_dim")),
+                "macro_exposure": _coerce_float(snap.get("macro_exposure_dim")),
+                "sector_exposure": _coerce_float(snap.get("sector_exposure")),
+                "volatility": _coerce_float(snap.get("volatility")),
+                "limited_dimensions": [str(dim) for dim in limited],
+                "price": _coerce_float(meta.get("price")),
+                "analysis_as_of": snap.get("analysis_as_of"),
+            }
+        )
+
+    items.sort(key=lambda row: row["composite_score"], reverse=True)
+    return items[:max_results]
+
+
 def get_metadata_map(supabase, tickers: list[str]) -> dict[str, dict[str, Any]]:
     if not tickers:
         return {}

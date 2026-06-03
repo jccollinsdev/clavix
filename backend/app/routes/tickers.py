@@ -10,6 +10,7 @@ from ..services.ticker_cache_service import (
     get_latest_refresh_job,
     get_ticker_detail_bundle,
     refresh_ticker_snapshot,
+    screen_universe,
     search_supported_tickers,
 )
 
@@ -129,6 +130,23 @@ async def search_tickers(
     supabase = get_supabase()
     results = await asyncio.to_thread(search_supported_tickers, supabase, q, limit=limit, user_id=user_id)
     return {"results": results, "message": "ok"}
+
+
+@router.get("/screen")
+async def screen_universe_route(
+    user_id: str = Depends(get_user_id),
+):
+    """Whole-universe screening dataset for the Search radar filter.
+
+    Returns one lean row per active ticker (grade, composite, five product
+    dimensions, limited-data flags). The iOS client caches this for the session
+    and filters locally as the user drags the radar, so this endpoint must stay
+    a single lightweight read. Registered before ``/{ticker}`` so "screen" is
+    not matched as a ticker symbol.
+    """
+    supabase = get_supabase()
+    items = await asyncio.to_thread(screen_universe, supabase)
+    return {"items": items, "count": len(items), "message": "ok"}
 
 
 def _snapshot_is_stale(result: dict) -> bool:

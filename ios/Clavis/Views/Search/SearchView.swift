@@ -21,9 +21,9 @@ struct SearchView: View {
                     if !trimmedQuery.isEmpty {
                         queryResultsSection
                     } else {
-                        searchPrimerSection
+                        RadarScreenSection()
                         recentSection
-                        trendingSection
+                        searchPrimerSection
                     }
                 }
                 .padding(.horizontal, ClavixLayout.pad)
@@ -200,18 +200,6 @@ struct SearchView: View {
                     glyph: "clock.arrow.circlepath"
                 )
             }
-        }
-    }
-
-    private var trendingSection: some View {
-        ClavixSection(eyebrow: "What others are looking at", title: "Trending") {
-            ClavixInlineNoticeCard(
-                eyebrow: "Activity",
-                title: "Trending data has not populated yet",
-                message: "This module fills in only after enough search activity is captured.",
-                footnote: "Until then, Browse remains the fastest way to jump into supported names.",
-                glyph: "chart.line.uptrend.xyaxis"
-            )
         }
     }
 
