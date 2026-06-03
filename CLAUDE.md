@@ -50,7 +50,7 @@ docker compose        # backend container management
 Key commands:
 
 ```bash
-ssh clavix-vps 'cd /opt/clavis && sudo -n git pull origin main && sudo -n docker compose restart clavis-backend'
+ssh clavix-vps 'cd /opt/clavis && sudo -n git pull origin main && sudo -n docker compose restart backend'
 ssh clavix-vps 'sudo -n docker logs clavis-backend-1 --tail 50'
 ssh clavix-vps 'sudo -n docker exec clavis-backend-1 python -m app.scripts.verify_data_truth'
 ```
@@ -76,7 +76,7 @@ ssh clavix-vps 'sudo -n fail2ban-client status sshd'
 - Deploy:
 
   ```bash
-  ssh clavix-vps 'cd /opt/clavis && sudo -n git pull origin main && sudo -n docker compose restart clavis-backend'
+  ssh clavix-vps 'cd /opt/clavis && sudo -n git pull origin main && sudo -n docker compose restart backend'
   ```
 
 - Post-deploy verify:

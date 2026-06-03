@@ -115,15 +115,19 @@ final class SubscriptionManager: ObservableObject {
                 return
             }
         }
-        // No active entitlement found
-        // Check if the server-side trial is still valid (14-day trial management
-        // is handled by the backend until StoreKit trial kicks in).
-        // For now fall back to server-reported tier.
-        let serverTier = await fetchServerTier()
-        if serverTier == "pro" || serverTier == "admin" {
+        // No active StoreKit entitlement — fall back to server-reported tier.
+        // The backend resolves "trial" when trial_ends_at > now, so this
+        // correctly grants Pro access during the 14-day window.
+        let (serverTier, trialEndsAt) = await fetchServerPrefs()
+        switch serverTier {
+        case "pro", "admin":
             status = .active(expiresAt: .distantFuture)
             isPro = true
-        } else {
+        case "trial":
+            let expiry = trialEndsAt ?? Date().addingTimeInterval(14 * 86400)
+            status = .trial(expiresAt: expiry)
+            isPro = true
+        default:
             status = .notSubscribed
             isPro = false
         }
@@ -168,11 +172,17 @@ final class SubscriptionManager: ObservableObject {
         }
     }
 
-    private func fetchServerTier() async -> String {
+    private func fetchServerPrefs() async -> (tier: String, trialEndsAt: Date?) {
         guard let prefs = try? await APIService.shared.fetchPreferences() else {
-            return "free"
+            return ("free", nil)
         }
-        return prefs.subscriptionTier?.lowercased() ?? "free"
+        let tier = (prefs.effectiveTier ?? prefs.subscriptionTier ?? "free").lowercased()
+        var trialEnds: Date? = nil
+        if let raw = prefs.trialEndsAt {
+            let iso = raw.replacingOccurrences(of: "Z", with: "+00:00")
+            trialEnds = ISO8601DateFormatter().date(from: iso)
+        }
+        return (tier, trialEnds)
     }
 
     private func syncTierToBackend() async {

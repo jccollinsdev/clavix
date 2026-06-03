@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import os
 import time
 from datetime import date, datetime, timedelta, timezone
@@ -10,6 +11,11 @@ from app.services.ticker_cache_service import (
     list_active_sp500_tickers,
     refresh_ticker_snapshot,
 )
+
+logger = logging.getLogger(__name__)
+
+_MAX_RETRIES = 2
+_RETRY_BASE_DELAY_SECONDS = 3
 
 
 DIMENSION_KEYS = (
@@ -123,16 +129,31 @@ def run(
         if not force_refresh and snapshot_dimensions_fresh(date_snapshots.get(ticker)):
             skipped += 1
             continue
-        try:
-            refresh_ticker_snapshot(
-                supabase,
-                ticker=ticker,
-                job_type=effective_job_type,
-                snapshot_date=snapshot_date,
+
+        last_exc: Exception | None = None
+        for attempt in range(_MAX_RETRIES + 1):
+            try:
+                refresh_ticker_snapshot(
+                    supabase,
+                    ticker=ticker,
+                    job_type=effective_job_type,
+                    snapshot_date=snapshot_date,
+                )
+                last_exc = None
+                break
+            except Exception as exc:
+                last_exc = exc
+                if attempt < _MAX_RETRIES:
+                    time.sleep(_RETRY_BASE_DELAY_SECONDS * (2 ** attempt))
+
+        if last_exc is not None:
+            failed.append({"ticker": ticker, "error": str(last_exc)})
+            logger.error(
+                "composite_recompute: ticker %s failed after %d attempts: %s",
+                ticker, _MAX_RETRIES + 1, last_exc,
             )
+        else:
             processed += 1
-        except Exception as exc:
-            failed.append({"ticker": ticker, "error": str(exc)})
 
         if (
             inter_batch_delay_seconds > 0
@@ -141,8 +162,18 @@ def run(
         ):
             time.sleep(inter_batch_delay_seconds)
 
+    if failed:
+        failure_rate = len(failed) / max(len(tickers), 1)
+        log_fn = logger.critical if failure_rate >= 0.1 else logger.warning
+        log_fn(
+            "composite_recompute FINISHED with %d failures / %d tickers (%.0f%%). "
+            "First 10 failed: %s",
+            len(failed), len(tickers), failure_rate * 100,
+            [f["ticker"] for f in failed[:10]],
+        )
+
     return {
-        "status": "completed" if not failed else "failed",
+        "status": "completed" if not failed else "partial" if processed > 0 else "failed",
         "items_processed": processed,
         "items_skipped": skipped,
         "items_failed": len(failed),

@@ -565,6 +565,8 @@ class APIService {
         let name: String?
         let birthYear: Int?
         let subscriptionTier: String?
+        let trialEndsAt: String?
+        let effectiveTier: String?
 
         enum CodingKeys: String, CodingKey {
             case digestTime = "digest_time"
@@ -582,6 +584,8 @@ class APIService {
             case name
             case birthYear = "birth_year"
             case subscriptionTier = "subscription_tier"
+            case trialEndsAt = "trial_ends_at"
+            case effectiveTier = "effective_tier"
         }
     }
 

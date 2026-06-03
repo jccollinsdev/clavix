@@ -332,7 +332,19 @@ struct TickerDetailView: View {
                         }
                     }
                     Spacer(minLength: 8)
-                    TickerRadarChart(dimensions: radarDimensions, size: 168)
+                    if hasAnyDimensionScore {
+                        TickerRadarChart(dimensions: radarDimensions, size: 168)
+                    } else {
+                        VStack(spacing: 4) {
+                            Image(systemName: "chart.pie")
+                                .font(.system(size: 26))
+                                .foregroundColor(.clavixInk4)
+                            Text("Radar pending")
+                                .font(ClavisTypography.clavixMono(9, weight: .regular))
+                                .foregroundColor(.clavixInk4)
+                        }
+                        .frame(width: 108, height: 108)
+                    }
                 }
                 .padding(14)
 
@@ -1181,6 +1193,10 @@ struct TickerDetailView: View {
         }
         let filtered = snapshots.filter { $0.date >= cutoff }
         return filtered.isEmpty ? snapshots : filtered
+    }
+
+    private var hasAnyDimensionScore: Bool {
+        radarDimensions.contains { $0.score != nil }
     }
 
     private var radarDimensions: [TickerRadarDimension] {

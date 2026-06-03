@@ -33,6 +33,29 @@ class ProfileUpdate(BaseModel):
 router = APIRouter()
 
 
+_TRIAL_DAYS = 14
+
+
+def _effective_tier(prefs: dict) -> str:
+    """Resolve effective access tier from stored prefs, honouring the 14-day trial window."""
+    from datetime import datetime, timezone
+
+    tier = (prefs.get("subscription_tier") or "free").lower()
+    if tier in ("pro", "admin"):
+        return tier
+    trial_ends_raw = prefs.get("trial_ends_at")
+    if trial_ends_raw:
+        try:
+            trial_ends = datetime.fromisoformat(str(trial_ends_raw).replace("Z", "+00:00"))
+            if trial_ends.tzinfo is None:
+                trial_ends = trial_ends.replace(tzinfo=timezone.utc)
+            if datetime.now(timezone.utc) < trial_ends:
+                return "trial"
+        except (ValueError, TypeError):
+            pass
+    return "free"
+
+
 def _get_or_create_prefs(supabase, user_id: str) -> dict:
     existing = (
         supabase.table("user_preferences")
@@ -43,14 +66,23 @@ def _get_or_create_prefs(supabase, user_id: str) -> dict:
     )
     if existing:
         return existing[0]
-    from datetime import datetime, timezone
-    now = datetime.now(timezone.utc).isoformat()
+    from datetime import datetime, timedelta, timezone
+    now = datetime.now(timezone.utc)
+    trial_ends = (now + timedelta(days=_TRIAL_DAYS)).isoformat()
+    now_iso = now.isoformat()
     supabase.table("user_preferences").insert({
         "user_id": user_id,
-        "trial_started_at": now,
+        "trial_started_at": now_iso,
+        "trial_ends_at": trial_ends,
         "subscription_tier": "free",
     }).execute()
-    return {"id": None, "user_id": user_id, "trial_started_at": now, "subscription_tier": "free"}
+    return {
+        "id": None,
+        "user_id": user_id,
+        "trial_started_at": now_iso,
+        "trial_ends_at": trial_ends,
+        "subscription_tier": "free",
+    }
 
 
 @router.get("")
@@ -74,6 +106,8 @@ async def get_preferences(request: Request):
         "name": prefs.get("name"),
         "birth_year": prefs.get("birth_year"),
         "subscription_tier": prefs.get("subscription_tier") or "free",
+        "trial_ends_at": prefs.get("trial_ends_at"),
+        "effective_tier": _effective_tier(prefs),
     }
     return safe
 
