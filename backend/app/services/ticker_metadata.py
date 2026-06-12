@@ -14,7 +14,17 @@ FINNHUB_BASE_URL = "https://finnhub.io/api/v1"
 
 MAX_RETRIES = 5
 RETRY_BASE_DELAY = 5.0
-_MIN_CALL_SPACING = 0.12
+
+# Minimum spacing between successive calls to a provider, in seconds.
+# Finnhub's free tier allows 60 calls/min, so calls must be >=1s apart; we use
+# 1.05s (~57/min) for headroom. The old global 0.12s (~500/min) burst past the
+# quota after ~100 tickers and 429-failed the rest of the daily universe
+# recompute. Override per provider via env if you move to a paid plan.
+_MIN_CALL_SPACING_BY_SERVICE = {
+    "finnhub": float(os.getenv("FINNHUB_MIN_CALL_SPACING", "1.05")),
+    "polygon": float(os.getenv("POLYGON_MIN_CALL_SPACING", "0.12")),
+}
+_DEFAULT_MIN_CALL_SPACING = 0.12
 
 _last_api_call = {"finnhub": 0.0, "polygon": 0.0}
 _service_rate_limit_locks = {"finnhub": Lock(), "polygon": Lock()}
@@ -95,12 +105,13 @@ def _reuse_cached_metadata(existing: dict | None) -> dict | None:
 
 
 def _rate_limit(service: str):
+    spacing = _MIN_CALL_SPACING_BY_SERVICE.get(service, _DEFAULT_MIN_CALL_SPACING)
     lock = _service_rate_limit_locks.setdefault(service, Lock())
     with lock:
         now = time.monotonic()
         elapsed = now - _last_api_call.get(service, 0)
-        if elapsed < _MIN_CALL_SPACING:
-            time.sleep(_MIN_CALL_SPACING - elapsed)
+        if elapsed < spacing:
+            time.sleep(spacing - elapsed)
         _last_api_call[service] = time.monotonic()
 
 
