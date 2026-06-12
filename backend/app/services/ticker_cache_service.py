@@ -4166,7 +4166,6 @@ def refresh_ticker_snapshot(
                 market_cap=market_cap,
             )
             if smoothed != score["total_score"]:
-                from ..pipeline.analysis_utils import score_to_grade
                 score = {
                     **score,
                     "total_score": smoothed,
