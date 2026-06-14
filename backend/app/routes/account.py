@@ -149,6 +149,8 @@ async def delete_account(user_id: str = Depends(get_user_id)):
     position_ids = [row["id"] for row in positions if row.get("id")]
     watchlists = _table_rows(supabase, "watchlists", user_id)
     watchlist_ids = [row["id"] for row in watchlists if row.get("id")]
+    analysis_runs_rows = _table_rows(supabase, "analysis_runs", user_id)
+    run_ids = [row["id"] for row in analysis_runs_rows if row.get("id")]
 
     deleted_counts: dict[str, int] = {}
 
@@ -199,7 +201,34 @@ async def delete_account(user_id: str = Depends(get_user_id)):
     # ── Step 4: All tables with FK → auth.users (must clear before auth delete)
     deleted_counts["alerts"] = delete_rows("alerts")
     deleted_counts["digests"] = delete_rows("digests")
-    deleted_counts["shared_ticker_events"] = 0  # shared table, no user FK
+
+    # analysis_runs has children that reference it: position_analyses and
+    # event_analyses (NOT NULL FK, must be deleted) and shared_ticker_events
+    # (nullable FK on a shared table, must be de-referenced not deleted).
+    # Clearing these before deleting the runs avoids a FK violation that would
+    # otherwise fail the whole request with 500. Position-scoped deletes in
+    # Step 2 only fire when the user still has positions, so we repeat the
+    # delete here keyed by run_id to cover runs whose positions were removed.
+    if run_ids:
+        deleted_counts["position_analyses"] = (
+            deleted_counts.get("position_analyses", 0)
+            + delete_rows_in("position_analyses", "analysis_run_id", run_ids)
+        )
+        deleted_counts["event_analyses"] = (
+            deleted_counts.get("event_analyses", 0)
+            + delete_rows_in("event_analyses", "analysis_run_id", run_ids)
+        )
+        try:
+            supabase.table("shared_ticker_events").update(
+                {"analysis_run_id": None}
+            ).in_("analysis_run_id", run_ids).execute()
+        except Exception as exc:
+            logger.warning(
+                "account_delete_shared_events_deref_failed user_id=%s error=%s",
+                user_id, exc,
+            )
+    deleted_counts["shared_ticker_events"] = 0  # shared table, de-referenced above
+
     deleted_counts["portfolio_risk_snapshots"] = delete_rows("portfolio_risk_snapshots")
     deleted_counts["analysis_runs"] = delete_rows("analysis_runs")
     deleted_counts["positions"] = delete_rows("positions")
@@ -210,18 +239,33 @@ async def delete_account(user_id: str = Depends(get_user_id)):
     deleted_counts["watchlists"] = delete_rows("watchlists")
 
     # ── Step 6: Delete Supabase auth user (must be last) ────────────────────
+    # Idempotent: if the auth user is already gone (e.g. deleted out-of-band,
+    # or a retry of a partially completed delete), treat it as success rather
+    # than failing the whole request.
     try:
         supabase.auth.admin.delete_user(user_id)
         logger.info("account_delete_auth_user_ok user_id=%s", user_id)
     except Exception as exc:
-        logger.error(
-            "account_delete_auth_user_failed user_id=%s error=%s", user_id, exc
+        msg = str(exc).lower()
+        already_gone = (
+            "not found" in msg
+            or "user_not_found" in msg
+            or "404" in msg
         )
-        raise HTTPException(
-            500,
-            "Account data was removed but the auth record could not be deleted. "
-            "Please contact support.",
-        ) from exc
+        if already_gone:
+            logger.warning(
+                "account_delete_auth_user_already_gone user_id=%s (treating as success)",
+                user_id,
+            )
+        else:
+            logger.error(
+                "account_delete_auth_user_failed user_id=%s error=%s", user_id, exc
+            )
+            raise HTTPException(
+                500,
+                "Account data was removed but the auth record could not be deleted. "
+                "Please contact support.",
+            ) from exc
 
     logger.info(
         "account_delete_complete user_id=%s counts=%s snaptrade_deleted=%s",
