@@ -17,8 +17,6 @@ struct SettingsView: View {
                         SettingsMessageCard(message: message, fill: .clavixAccentSoft, foreground: .clavixAccentInk)
                     }
 
-                    settingsOverviewCard
-
                     NavigationLink {
                         ProfileSettingsDetailView(viewModel: viewModel)
                     } label: {
@@ -122,6 +120,15 @@ struct SettingsView: View {
 
                         Divider()
 
+                        Button {
+                            Task { await authViewModel.signOut() }
+                        } label: {
+                            SettingsActionRow("Sign out")
+                        }
+                        .buttonStyle(.plain)
+
+                        Divider()
+
                         NavigationLink {
                             DeleteAccountDetailView(viewModel: viewModel)
                                 .environmentObject(authViewModel)
@@ -198,37 +205,23 @@ struct SettingsView: View {
     }
 
     private var versionFooter: some View {
-        VStack(alignment: .center, spacing: 10) {
-            Text(ClavisCopy.appVersionString)
-                .font(ClavisTypography.clavixCaption)
-                .foregroundColor(.clavixInk3)
-            Button("Sign out") {
-                Task { await authViewModel.signOut() }
-            }
-            .font(ClavisTypography.clavixMono(11, weight: .semibold))
-            .foregroundColor(.clavixInk3)
-            .buttonStyle(.plain)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.top, 8)
+        Text(cleanVersionLabel)
+            .font(ClavisTypography.clavixMono(10, weight: .regular))
+            .tracking(0.6)
+            .foregroundColor(.clavixInk4)
+            .frame(maxWidth: .infinity)
+            .padding(.top, 20)
+    }
+
+    private var cleanVersionLabel: String {
+        let short = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
+        return "CLAVIX · VERSION \(short)"
     }
 
     private var isFreeTier: Bool {
         viewModel.subscriptionTier == "free"
     }
 
-    private var settingsOverviewCard: some View {
-        ClavixInlineNoticeCard(
-            eyebrow: "Preferences",
-            title: "Control delivery, not methodology",
-            message: "Settings manage your account profile and Morning Report cadence. Risk grades and score definitions remain fixed and auditable from Reference.",
-            footnote: ClavisCopy.settingsDisclaimer,
-            glyph: "slider.horizontal.3",
-            fill: .clavixAccentSoft,
-            foreground: .clavixAccentInk,
-            secondary: .clavixAccentInk
-        )
-    }
 }
 
 private struct SettingsSectionCard<Content: View>: View {

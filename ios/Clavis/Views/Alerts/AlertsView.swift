@@ -91,7 +91,6 @@ struct AlertsView: View {
             eyebrow: alertsEyebrow,
             title: alertsSummaryTitle,
             message: alertsSummaryMessage,
-            footnote: "The Morning Report remains the authoritative daily summary.",
             glyph: "bell.badge"
         )
     }
@@ -121,7 +120,7 @@ struct AlertsView: View {
         if viewModel.alerts.isEmpty {
             return "Grade changes, portfolio risk notices, and major news will appear here once Clavix has something worth flagging."
         }
-        return "Use alerts for triage, then open a ticker or return to Today when you need the full narrative behind a move."
+        return ""
     }
 
     private var emptyState: some View {

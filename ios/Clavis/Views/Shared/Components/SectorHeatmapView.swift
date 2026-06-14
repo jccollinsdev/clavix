@@ -5,70 +5,93 @@ struct SectorHeatmapItem: Identifiable {
     let symbol: String
     let name: String
     let weight: Double       // 0.0 – 1.0 portfolio weight
-    let changePct: Double?   // day change %, nil if unavailable
+    let changePct: Double?   // sector ETF day change %, nil if unavailable
 }
 
+/// Sector weight map: each sector is a full-width band whose height is
+/// proportional to its share of the portfolio (floored at 10% so small
+/// sectors stay legible), tinted by its sector ETF's move on the day.
 struct SectorHeatmapView: View {
     let items: [SectorHeatmapItem]
 
-    private let columns = [GridItem(.flexible(), spacing: 1), GridItem(.flexible(), spacing: 1)]
-    private let cellHeight: CGFloat = 68
+    /// Minimum share any sector occupies, regardless of true weight.
+    private let weightFloor: Double = 0.10
 
     static func height(for count: Int) -> CGFloat {
-        let rows = max(1, Int(ceil(Double(count) / 2.0)))
-        return CGFloat(rows) * 68 + CGFloat(rows - 1)
+        let c = max(1, count)
+        return min(max(CGFloat(c) * 58, 150), 430)
     }
 
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 1) {
-            ForEach(items) { item in
-                cell(item)
+        GeometryReader { geo in
+            let heights = proportionalHeights(total: geo.size.height, spacing: 1)
+            VStack(spacing: 1) {
+                ForEach(Array(items.enumerated()), id: \.element.id) { idx, item in
+                    cell(item)
+                        .frame(height: heights.indices.contains(idx) ? heights[idx] : nil)
+                }
             }
         }
         .background(Color.clavixRule)
     }
 
+    private func proportionalHeights(total: CGFloat, spacing: CGFloat) -> [CGFloat] {
+        let n = items.count
+        guard n > 0 else { return [] }
+        let available = max(0, total - spacing * CGFloat(n - 1))
+        let effective = items.map { max($0.weight, weightFloor) }
+        let sum = effective.reduce(0, +)
+        guard sum > 0 else {
+            let even = available / CGFloat(n)
+            return Array(repeating: even, count: n)
+        }
+        return effective.map { available * CGFloat($0 / sum) }
+    }
+
     private func cell(_ item: SectorHeatmapItem) -> some View {
-        VStack(alignment: .leading, spacing: 3) {
-            HStack(alignment: .firstTextBaseline) {
+        HStack(alignment: .center, spacing: 10) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(item.symbol)
-                    .font(ClavisTypography.clavixMono(12, weight: .bold))
+                    .font(ClavisTypography.clavixMono(13, weight: .bold))
                     .foregroundColor(cellForeground(item.changePct))
-                Spacer()
+                Text(item.name)
+                    .font(ClavisTypography.inter(11, weight: .regular))
+                    .foregroundColor(cellForeground(item.changePct).opacity(0.72))
+                    .lineLimit(1)
+            }
+            Spacer(minLength: 6)
+            VStack(alignment: .trailing, spacing: 2) {
                 if let pct = item.changePct {
                     Text(formatPct(pct))
-                        .font(ClavisTypography.clavixMono(10, weight: .semibold))
-                        .foregroundColor(cellForeground(item.changePct).opacity(0.85))
+                        .font(ClavisTypography.clavixMono(11, weight: .semibold))
+                        .foregroundColor(cellForeground(item.changePct))
                 }
+                Text(formatWeight(item.weight))
+                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .foregroundColor(cellForeground(item.changePct).opacity(0.6))
             }
-            Text(item.name)
-                .font(ClavisTypography.inter(10, weight: .regular))
-                .foregroundColor(cellForeground(item.changePct).opacity(0.7))
-                .lineLimit(1)
-            Spacer()
-            Text(formatWeight(item.weight))
-                .font(ClavisTypography.clavixMono(10, weight: .regular))
-                .foregroundColor(cellForeground(item.changePct).opacity(0.6))
         }
-        .padding(.horizontal, 10)
-        .padding(.vertical, 9)
-        .frame(maxWidth: .infinity, minHeight: cellHeight, alignment: .topLeading)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
         .background(cellBackground(item.changePct))
     }
 
     private func cellBackground(_ changePct: Double?) -> Color {
         guard let pct = changePct else { return Color.clavixPaper }
-        if pct >= 1.0 { return Color(hex: "#D4EFE3") }
-        if pct >= 0.25 { return Color(hex: "#E8F5EE") }
-        if pct <= -1.0 { return Color(hex: "#F5DADA") }
-        if pct <= -0.25 { return Color(hex: "#FAE8E8") }
+        if pct >= 1.5 { return Color(hex: "#C2E9D6") }
+        if pct >= 0.5 { return Color(hex: "#D9F0E4") }
+        if pct >= 0.1 { return Color(hex: "#E8F5EE") }
+        if pct <= -1.5 { return Color(hex: "#F0CACA") }
+        if pct <= -0.5 { return Color(hex: "#F5D9D9") }
+        if pct <= -0.1 { return Color(hex: "#FAE8E8") }
         return Color.clavixPaper
     }
 
     private func cellForeground(_ changePct: Double?) -> Color {
         guard let pct = changePct else { return .clavixInk }
-        if pct >= 0.25 { return Color(hex: "#085041") }
-        if pct <= -0.25 { return Color(hex: "#7A1A1A") }
+        if pct >= 0.1 { return Color(hex: "#085041") }
+        if pct <= -0.1 { return Color(hex: "#7A1A1A") }
         return .clavixInk
     }
 
@@ -78,6 +101,6 @@ struct SectorHeatmapView: View {
     }
 
     private func formatWeight(_ w: Double) -> String {
-        "\(String(format: "%.1f", w * 100))% of portfolio"
+        "\(String(format: "%.0f", w * 100))% of book"
     }
 }

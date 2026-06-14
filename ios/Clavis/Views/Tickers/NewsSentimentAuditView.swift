@@ -53,9 +53,8 @@ struct NewsSentimentAuditView: View {
                                         .font(ClavisTypography.footnote)
                                         .foregroundColor(.clavixInk3)
                                     HStack(spacing: ClavisTheme.smallSpacing) {
-                                        Text(article.sentimentScore.map { "S \(Int($0.rounded()))" } ?? "S —")
-                                        Text(article.sourceTier.map { "T\($0)" } ?? "T—")
-                                        Text(article.recencyWeight.map { String(format: "%.1fx", $0) } ?? "1.0x")
+                                        Text(article.sentimentScore.map { "Sentiment \(Int($0.rounded()))" } ?? "Sentiment —")
+                                        Text(article.recencyWeight.map { String(format: "%.1fx weight", $0) } ?? "1.0x weight")
                                     }
                                     .font(ClavisTypography.label)
                                     .foregroundColor(.clavixAccent)

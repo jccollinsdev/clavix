@@ -172,17 +172,6 @@ struct TickerDetailView: View {
                 }
                 .buttonStyle(.plain)
             }
-
-            Button(action: { Task { await toggleWatchlist() } }) {
-                if isMutatingWatchlist {
-                    ProgressView()
-                        .tint(.clavixInk)
-                } else {
-                    Image(systemName: isInWatchlist ? "star.fill" : "star")
-                        .foregroundColor(isInWatchlist ? .clavixAccent : .clavixInk)
-                }
-            }
-            .buttonStyle(.plain)
         }
         .padding(.horizontal, ClavixLayout.pad)
         .padding(.top, 8)
@@ -814,26 +803,56 @@ struct TickerDetailView: View {
 
     @ViewBuilder
     private func bottomCtas(_ detail: TickerDetailResponse) -> some View {
-        if !isHeld || isInWatchlist {
-            ClavixCard(fill: .clavixPaper) {
-                VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
-                    if !isHeld {
-                        HStack(spacing: ClavisTheme.smallSpacing) {
-                            ClavisPrimaryButton(title: "Add to Holdings", action: { showAddHoldingSheet = true })
-                            ClavisSecondaryButton(title: isInWatchlist ? "On Watchlist" : "Add to Watchlist") {
-                                Task { await toggleWatchlist() }
-                            }
-                        }
-                    }
-
-                    if isInWatchlist {
-                        Text("Watching")
-                            .font(ClavisTypography.footnoteEmphasis)
-                            .foregroundColor(.clavixAccent)
-                    }
-                }
-            }
+        HStack(spacing: 10) {
+            holdingsActionButton
+            watchlistActionButton
         }
+    }
+
+    /// Add to / In Holdings. Solid when actionable, muted check when already held.
+    private var holdingsActionButton: some View {
+        Button(action: { if !isHeld { showAddHoldingSheet = true } }) {
+            HStack(spacing: 7) {
+                Image(systemName: isHeld ? "checkmark" : "plus")
+                    .font(.system(size: 13, weight: .semibold))
+                Text(isHeld ? "In Holdings" : "Add to Holdings")
+                    .font(ClavisTypography.inter(14, weight: .semibold))
+            }
+            .foregroundColor(isHeld ? .clavixInk3 : .clavixPaper)
+            .frame(maxWidth: .infinity)
+            .frame(height: 48)
+            .background(isHeld ? Color.clavixPaper2 : Color.clavixInk)
+            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous)
+                .stroke(isHeld ? Color.clavixRule : Color.clear, lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .disabled(isHeld)
+    }
+
+    /// Watchlist toggle. Bordered when off, accent-filled star when watching.
+    private var watchlistActionButton: some View {
+        Button(action: { Task { await toggleWatchlist() } }) {
+            HStack(spacing: 7) {
+                if isMutatingWatchlist {
+                    ProgressView().tint(.clavixAccent).scaleEffect(0.8)
+                } else {
+                    Image(systemName: isInWatchlist ? "star.fill" : "star")
+                        .font(.system(size: 13, weight: .semibold))
+                }
+                Text(isInWatchlist ? "Watching" : "Watchlist")
+                    .font(ClavisTypography.inter(14, weight: .semibold))
+            }
+            .foregroundColor(isInWatchlist ? .clavixAccentInk : .clavixInk)
+            .frame(maxWidth: .infinity)
+            .frame(height: 48)
+            .background(isInWatchlist ? Color.clavixAccentSoft : Color.clavixPaper)
+            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous)
+                .stroke(isInWatchlist ? Color.clavixAccent.opacity(0.45) : Color.clavixRule, lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .disabled(isMutatingWatchlist)
     }
 
     private func auditDestination(for key: String) -> AuditDestination? {

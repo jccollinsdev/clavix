@@ -279,6 +279,10 @@ struct RadarFilterChart: View {
     @Binding var thresholds: [RadarAxis: Double]
     var size: CGFloat = 248
 
+    /// The axis currently being dragged. Locked in on touch-down (nearest
+    /// handle) and held for the gesture so neighbouring handles can't steal it.
+    @State private var activeAxis: RadarAxis?
+
     private let axes = RadarAxis.allCases
     private let spaceName = "radarFilterSpace"
     /// Minimum drawn fraction so handles never collapse onto each other at the
@@ -328,29 +332,39 @@ struct RadarFilterChart: View {
                 thresholdPath(center: center, radius: radius, count: count)
                     .stroke(Color.clavixAccent, style: StrokeStyle(lineWidth: 2))
 
-                // Draggable handles
+                // Draggable handles (rendering only; a single gesture below
+                // drives whichever handle the user grabs).
                 ForEach(Array(axes.enumerated()), id: \.element) { index, axis in
                     let fraction = drawnFraction(for: thresholds[axis] ?? 0)
                     let point = polygonPoint(center: center, radius: radius * fraction, index: index, count: count)
                     handle
                         .position(point)
-                        .gesture(
-                            DragGesture(minimumDistance: 0, coordinateSpace: .named(spaceName))
-                                .onChanged { value in
-                                    thresholds[axis] = projectedValue(
-                                        location: value.location,
-                                        center: center,
-                                        index: index,
-                                        count: count,
-                                        radius: radius
-                                    )
-                                }
-                        )
+                        .allowsHitTesting(false)
                 }
             }
             .frame(width: frame, height: frame)
             .frame(maxWidth: .infinity)
             .coordinateSpace(name: spaceName)
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture(minimumDistance: 0, coordinateSpace: .named(spaceName))
+                    .onChanged { value in
+                        let axis = activeAxis ?? nearestAxis(
+                            to: value.startLocation, center: center, radius: radius, count: count
+                        )
+                        activeAxis = axis
+                        if let index = axes.firstIndex(of: axis) {
+                            thresholds[axis] = projectedValue(
+                                location: value.location,
+                                center: center,
+                                index: index,
+                                count: count,
+                                radius: radius
+                            )
+                        }
+                    }
+                    .onEnded { _ in activeAxis = nil }
+            )
         }
         .frame(width: size, height: size)
     }
@@ -372,6 +386,22 @@ struct RadarFilterChart: View {
 
     private func drawnFraction(for value: Double) -> CGFloat {
         max(CGFloat(value / 100.0), floorFraction)
+    }
+
+    /// Pick the handle whose current dot is closest to the touch-down point.
+    private func nearestAxis(to location: CGPoint, center: CGPoint, radius: CGFloat, count: Int) -> RadarAxis {
+        var best = axes[0]
+        var bestDistance = CGFloat.greatestFiniteMagnitude
+        for (index, axis) in axes.enumerated() {
+            let fraction = drawnFraction(for: thresholds[axis] ?? 0)
+            let point = polygonPoint(center: center, radius: radius * fraction, index: index, count: count)
+            let distance = hypot(point.x - location.x, point.y - location.y)
+            if distance < bestDistance {
+                bestDistance = distance
+                best = axis
+            }
+        }
+        return best
     }
 
     private func thresholdPath(center: CGPoint, radius: CGFloat, count: Int) -> Path {

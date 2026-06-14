@@ -17,12 +17,9 @@ struct ArticleDetailSheet: View {
                     .foregroundColor(.clavixInk)
                     .fixedSize(horizontal: false, vertical: true)
 
-                // Impact pill + source tier + timestamp
+                // Impact pill + timestamp
                 HStack(spacing: 8) {
                     impactPill
-                    if let tier = article.sourceTier {
-                        tierBadge(tier)
-                    }
                     Text("·")
                         .font(ClavisTypography.clavixMono(10, weight: .regular))
                         .foregroundColor(.clavixInk4)
@@ -161,16 +158,24 @@ struct ArticleDetailSheet: View {
     }
 
     private var portfolioContextText: String? {
-        if let portfolioContext, !portfolioContext.isEmpty {
-            return portfolioContext.sanitizedDisplayText
-        }
-        if let personalised = article.personalisedStructural?.sanitizedDisplayText, !personalised.isEmpty {
-            if let narrative = article.personalisedNarrative?.sanitizedDisplayText, !narrative.isEmpty {
-                return "\(personalised) \(narrative)"
-            }
-            return personalised
-        }
-        return nil
+        // Only show portfolio context when an explicit, complete string is
+        // provided for a held position. The raw personalised_structural
+        // template can come back with blank score placeholders ("from  to "),
+        // so we no longer fall back to it.
+        guard let portfolioContext = portfolioContext?.sanitizedDisplayText,
+              !portfolioContext.isEmpty,
+              !Self.looksIncomplete(portfolioContext) else { return nil }
+        return portfolioContext
+    }
+
+    /// Guards against half-rendered backend templates that leave blank score
+    /// values (e.g. "changed your score from  to ").
+    private static func looksIncomplete(_ text: String) -> Bool {
+        let lowered = text.lowercased()
+        return text.contains("  ")
+            || lowered.contains("from  to")
+            || lowered.contains("none")
+            || lowered.contains("null")
     }
 
     private var riskSignalText: String {
@@ -193,16 +198,6 @@ struct ArticleDetailSheet: View {
         if score >= 70 { return .clavixGood }
         if score >= 50 { return .clavixWarn }
         return .clavixBad
-    }
-
-    private func tierBadge(_ tier: Int) -> some View {
-        Text("T\(tier)")
-            .font(ClavisTypography.clavixMono(10, weight: .bold))
-            .foregroundColor(.clavixInk3)
-            .padding(.horizontal, 5)
-            .padding(.vertical, 3)
-            .background(Color.clavixPaper2)
-            .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
     }
 
     private var impactPill: some View {

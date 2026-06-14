@@ -42,8 +42,8 @@ struct ClavixLargeHeader: View {
                 .foregroundColor(.clavixInk)
         }
         .padding(.horizontal, ClavixLayout.pad)
-        .padding(.top, 4)
-        .padding(.bottom, 14)
+        .padding(.top, 22)
+        .padding(.bottom, 16)
         .background(Color.clavixPage.ignoresSafeArea(edges: .top))
     }
 }
@@ -182,10 +182,12 @@ struct ClavixInlineNoticeCard: View {
                             .font(ClavisTypography.clavixSerif(18, weight: .medium))
                             .foregroundColor(foreground)
                             .fixedSize(horizontal: false, vertical: true)
-                        Text(message)
-                            .font(ClavisTypography.clavixCaption)
-                            .foregroundColor(secondary)
-                            .fixedSize(horizontal: false, vertical: true)
+                        if !message.isEmpty {
+                            Text(message)
+                                .font(ClavisTypography.clavixCaption)
+                                .foregroundColor(secondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
                         if let footnote, !footnote.isEmpty {
                             Text(footnote)
                                 .font(ClavisTypography.clavixMono(10, weight: .regular))
