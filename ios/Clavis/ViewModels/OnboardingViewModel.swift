@@ -42,18 +42,18 @@ final class OnboardingViewModel: ObservableObject {
                 print("[Onboarding] APIError: \(error.localizedDescription)")
                 switch error {
                 case .unauthorized:
-                    errorMessage = "Session expired — please sign in again."
+                    errorMessage = "Session expired. Please sign in again."
                 case .serverError(let code):
                     errorMessage = "Server error (\(code)). Please try again."
                 case .networkError:
-                    errorMessage = "No connection — please check your internet and try again."
+                    errorMessage = "No connection. Please check your internet and try again."
                 default:
-                    errorMessage = "Couldn't complete setup — please check your connection and try again."
+                    errorMessage = "Couldn't complete setup. Please check your connection and try again."
                 }
                 isCompleting = false
             } catch {
                 print("[Onboarding] Unexpected error: \(error.localizedDescription)")
-                errorMessage = "Couldn't complete setup — please check your connection and try again."
+                errorMessage = "Couldn't complete setup. Please check your connection and try again."
                 isCompleting = false
             }
         }

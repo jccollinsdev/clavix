@@ -36,7 +36,7 @@ struct MorningReportView: View {
                     ClavixInlineNoticeCard(
                         eyebrow: "Not yet generated",
                         title: "Your first Morning Report is on its way",
-                        message: "Clavix generates a personalised Morning Report each weekday morning using the positions in your book. Check back tomorrow — once your portfolio has been through a full analysis cycle, the briefing will appear here.",
+                        message: "Clavix generates a personalised Morning Report each weekday morning using the positions in your book. Check back tomorrow. Once your portfolio has been through a full analysis cycle, the briefing will appear here.",
                         footnote: "Reports run overnight. Your portfolio risk grades and the Today tab update independently and are already live.",
                         glyph: "newspaper"
                     )

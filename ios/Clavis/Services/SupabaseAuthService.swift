@@ -1,3 +1,5 @@
+import AuthenticationServices
+import CryptoKit
 import Foundation
 import Supabase
 
@@ -132,6 +134,24 @@ class SupabaseAuthService {
         )
     }
 
+    @MainActor
+    func signInWithApple(idToken: String, nonce: String) async throws {
+        let credentials = OpenIDConnectCredentials(
+            provider: .apple,
+            idToken: idToken,
+            nonce: nonce
+        )
+        try await supabase.auth.signInWithIdToken(credentials: credentials)
+    }
+
+    @MainActor
+    func signInWithGoogle() async throws {
+        _ = try await supabase.auth.signInWithOAuth(
+            provider: .google,
+            redirectTo: URL(string: "clavix://auth/callback")!
+        )
+    }
+
     // Called from AppDelegate when the OS opens a clavis://auth/callback URL.
     // Exchanges the PKCE authorization code for a live session.
     @MainActor
@@ -230,4 +250,93 @@ class SupabaseAuthService {
             return nil
         }
     }
+}
+
+// MARK: - Apple Sign In
+
+@MainActor
+final class AppleSignInCoordinator: NSObject {
+    struct Result {
+        let idToken: String
+        let nonce: String
+    }
+
+    private var currentNonce: String?
+    private var continuation: CheckedContinuation<Result, Error>?
+
+    func signIn() async throws -> Result {
+        try await withCheckedThrowingContinuation { continuation in
+            self.continuation = continuation
+            let nonce = randomNonceString()
+            self.currentNonce = nonce
+
+            let request = ASAuthorizationAppleIDProvider().createRequest()
+            request.requestedScopes = [.fullName, .email]
+            request.nonce = sha256(nonce)
+
+            let controller = ASAuthorizationController(authorizationRequests: [request])
+            controller.delegate = self
+            controller.presentationContextProvider = self
+            controller.performRequests()
+        }
+    }
+
+    private func randomNonceString(length: Int = 32) -> String {
+        var bytes = [UInt8](repeating: 0, count: length)
+        _ = SecRandomCopyBytes(kSecRandomDefault, bytes.count, &bytes)
+        let charset = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        return String(bytes.map { charset[Int($0) % charset.count] })
+    }
+
+    private func sha256(_ input: String) -> String {
+        SHA256.hash(data: Data(input.utf8))
+            .compactMap { String(format: "%02x", $0) }
+            .joined()
+    }
+}
+
+extension AppleSignInCoordinator: ASAuthorizationControllerDelegate {
+    nonisolated func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithAuthorization authorization: ASAuthorization
+    ) {
+        Task { @MainActor in
+            guard
+                let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
+                let tokenData = credential.identityToken,
+                let idToken = String(data: tokenData, encoding: .utf8),
+                let nonce = currentNonce
+            else {
+                continuation?.resume(throwing: AppleSignInError.invalidCredential)
+                continuation = nil
+                return
+            }
+            continuation?.resume(returning: Result(idToken: idToken, nonce: nonce))
+            continuation = nil
+        }
+    }
+
+    nonisolated func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithError error: Error
+    ) {
+        Task { @MainActor in
+            continuation?.resume(throwing: error)
+            continuation = nil
+        }
+    }
+}
+
+extension AppleSignInCoordinator: ASAuthorizationControllerPresentationContextProviding {
+    nonisolated func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow } ?? UIWindow()
+    }
+}
+
+enum AppleSignInError: LocalizedError {
+    case invalidCredential
+    var errorDescription: String? { "Apple Sign In returned an invalid credential. Please try again." }
 }

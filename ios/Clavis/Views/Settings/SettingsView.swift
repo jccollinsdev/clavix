@@ -1046,7 +1046,7 @@ struct SettingsUpgradeSheet: View {
                                 .font(ClavisTypography.body)
                                 .foregroundColor(.clavixInk3)
                                 .fixedSize(horizontal: false, vertical: true)
-                            ClavisPrimaryButton(title: "Pro — coming soon", action: { dismiss() })
+                            ClavisPrimaryButton(title: "Clavix Pro: coming soon", action: { dismiss() })
                         }
                     }
                 }
@@ -1081,16 +1081,16 @@ struct ScoreExplanationView: View {
                 }
 
                 VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
-                    ScoreBandRow(grade: "AAA", range: "90–100", description: "Investment Grade — minimum risk", color: .gradeCAAA)
-                    ScoreBandRow(grade: "AA", range: "80–89", description: "Strong — low risk", color: .gradeCAA)
-                    ScoreBandRow(grade: "A", range: "70–79", description: "Sound — moderate-low risk", color: .gradeCA)
-                    ScoreBandRow(grade: "BBB", range: "60–69", description: "Adequate — moderate risk", color: .gradeCBBB)
-                    ScoreBandRow(grade: "BB", range: "50–59", description: "Speculative — elevated risk", color: .gradeCBB)
-                    ScoreBandRow(grade: "B", range: "40–49", description: "Vulnerable — high risk", color: .gradeCB)
-                    ScoreBandRow(grade: "CCC", range: "30–39", description: "Weak — very high risk", color: .gradeCCCC)
-                    ScoreBandRow(grade: "CC", range: "20–29", description: "Distressed — extreme risk", color: .gradeCCC)
-                    ScoreBandRow(grade: "C", range: "10–19", description: "Near Default — severe risk", color: .gradeCC)
-                    ScoreBandRow(grade: "F", range: "0–9", description: "Default — critical risk", color: .gradeCF)
+                    ScoreBandRow(grade: "AAA", range: "90–100", description: "Investment Grade, minimum risk", color: .gradeCAAA)
+                    ScoreBandRow(grade: "AA", range: "80–89", description: "Strong, low risk", color: .gradeCAA)
+                    ScoreBandRow(grade: "A", range: "70–79", description: "Sound, moderate-low risk", color: .gradeCA)
+                    ScoreBandRow(grade: "BBB", range: "60–69", description: "Adequate, moderate risk", color: .gradeCBBB)
+                    ScoreBandRow(grade: "BB", range: "50–59", description: "Speculative, elevated risk", color: .gradeCBB)
+                    ScoreBandRow(grade: "B", range: "40–49", description: "Vulnerable, high risk", color: .gradeCB)
+                    ScoreBandRow(grade: "CCC", range: "30–39", description: "Weak, very high risk", color: .gradeCCCC)
+                    ScoreBandRow(grade: "CC", range: "20–29", description: "Distressed, extreme risk", color: .gradeCCC)
+                    ScoreBandRow(grade: "C", range: "10–19", description: "Near Default, severe risk", color: .gradeCC)
+                    ScoreBandRow(grade: "F", range: "0–9", description: "Default, critical risk", color: .gradeCF)
                 }
             }
             .padding(.horizontal, ClavisTheme.screenPadding)

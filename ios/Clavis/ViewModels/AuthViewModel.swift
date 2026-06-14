@@ -1,3 +1,4 @@
+import AuthenticationServices
 import Foundation
 import SwiftUI
 
@@ -13,6 +14,7 @@ class AuthViewModel: ObservableObject {
 
     private let authService = SupabaseAuthService.shared
     private let api = APIService.shared
+    private let appleSignInCoordinator = AppleSignInCoordinator()
     private var sessionExpiredObserver: NSObjectProtocol?
     private static let onboardingCacheKey = "clavix.hasCompletedOnboarding"
 
@@ -112,6 +114,38 @@ class AuthViewModel: ObservableObject {
             print("[Auth] signUp error: \(error)")
         }
 
+        isLoading = false
+    }
+
+    func signInWithApple() async {
+        isLoading = true
+        errorMessage = nil
+        statusMessage = nil
+        do {
+            let result = try await appleSignInCoordinator.signIn()
+            try await authService.signInWithApple(idToken: result.idToken, nonce: result.nonce)
+            isAuthenticated = true
+            await checkOnboardingStatus()
+        } catch let error as ASAuthorizationError where error.code == .canceled {
+            // User tapped Cancel — silent, not an error
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+        isLoading = false
+    }
+
+    func signInWithGoogle() async {
+        isLoading = true
+        errorMessage = nil
+        statusMessage = nil
+        do {
+            // Supabase SDK uses ASWebAuthenticationSession internally to complete the OAuth flow
+            try await authService.signInWithGoogle()
+            isAuthenticated = true
+            await checkOnboardingStatus()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
         isLoading = false
     }
 

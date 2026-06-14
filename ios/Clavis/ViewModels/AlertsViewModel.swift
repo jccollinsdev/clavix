@@ -83,6 +83,6 @@ class AlertsViewModel: ObservableObject {
 
     var quietHoursBannerText: String? {
         guard quietHoursEnabled, let quietHoursEnd else { return nil }
-        return "Quiet hours active until \(quietHoursEnd) — alerts queued"
+        return "Quiet hours active until \(quietHoursEnd). Alerts queued."
     }
 }
