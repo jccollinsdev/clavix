@@ -26,6 +26,12 @@ struct HoldingsListView: View {
     @State private var showQuickSetupSheet = false
     @State private var sortKey: HoldingsSortKey = .weight
 
+    // First-run getting-started checklist (interactive launcher)
+    @AppStorage("clavix.checklist.openedBreakdown") private var clOpenedBreakdown = false
+    @AppStorage("clavix.checklist.viewedToday") private var clViewedToday = false
+    @AppStorage("clavix.checklist.trackedName") private var clTrackedName = false
+    @AppStorage("clavix.checklist.dismissed") private var clDismissed = false
+
     private var totalMarketValue: Double {
         viewModel.holdings.compactMap(\.currentValue).reduce(0, +)
     }
@@ -74,6 +80,7 @@ struct HoldingsListView: View {
                     }
 
                     bookHero
+                    if showGettingStarted { gettingStartedCard }
                     positionsSection
                     watchlistSection
                     sectorCompositionSection
@@ -444,6 +451,37 @@ struct HoldingsListView: View {
             ClavixPill(label: label, active: sortKey == key)
         }
         .buttonStyle(.plain)
+    }
+
+    private var allChecklistDone: Bool {
+        clOpenedBreakdown && clViewedToday && clTrackedName
+    }
+
+    private var showGettingStarted: Bool {
+        !clDismissed && !allChecklistDone && !viewModel.holdings.isEmpty
+    }
+
+    private var gettingStartedCard: some View {
+        GettingStartedChecklistCard(
+            openedBreakdown: clOpenedBreakdown,
+            viewedToday: clViewedToday,
+            trackedName: clTrackedName,
+            onOpenBreakdown: {
+                clOpenedBreakdown = true
+                if let ticker = sortedHoldings.first?.ticker {
+                    navigationPath.append(ticker)
+                }
+            },
+            onMorningBrief: {
+                clViewedToday = true
+                selectedTab = 0
+            },
+            onTrackName: {
+                clTrackedName = true
+                selectedTab = 2
+            },
+            onDismiss: { clDismissed = true }
+        )
     }
 
     private func openAddHolding() {
@@ -1628,5 +1666,121 @@ struct QuickPortfolioSetupSheet: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - First-run getting-started checklist
+
+struct GettingStartedChecklistCard: View {
+    let openedBreakdown: Bool
+    let viewedToday: Bool
+    let trackedName: Bool
+    let onOpenBreakdown: () -> Void
+    let onMorningBrief: () -> Void
+    let onTrackName: () -> Void
+    let onDismiss: () -> Void
+
+    private var doneCount: Int {
+        [openedBreakdown, viewedToday, trackedName].filter { $0 }.count
+    }
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header
+            HStack(spacing: 8) {
+                Text("GET STARTED")
+                    .font(ClavisTypography.clavixMono(10, weight: .bold))
+                    .tracking(0.8)
+                    .foregroundColor(.clavixAccent)
+                Spacer()
+                Text("\(doneCount) / 3")
+                    .font(ClavisTypography.clavixMono(10, weight: .bold))
+                    .foregroundColor(.clavixInk3)
+                Button(action: onDismiss) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 11, weight: .bold))
+                        .foregroundColor(.clavixInk4)
+                }
+                .buttonStyle(.plain)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .background(Color.clavixPaper2)
+            Rectangle().fill(Color.clavixRule).frame(height: 1)
+
+            ChecklistTaskRow(
+                done: openedBreakdown,
+                title: "See your full risk breakdown",
+                subtitle: "Open a position's five-dimension view",
+                action: onOpenBreakdown
+            )
+            Rectangle().fill(Color.clavixRule).frame(height: 1)
+            ChecklistTaskRow(
+                done: viewedToday,
+                title: "Read your morning brief",
+                subtitle: "Your daily risk report on the Today tab",
+                action: onMorningBrief
+            )
+            Rectangle().fill(Color.clavixRule).frame(height: 1)
+            ChecklistTaskRow(
+                done: trackedName,
+                title: "Track a name to watch",
+                subtitle: "Add a ticker from Search",
+                action: onTrackName
+            )
+        }
+        .background(Color.clavixPaper)
+        .overlay(Rectangle().stroke(Color.clavixRule, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+    }
+}
+
+private struct ChecklistTaskRow: View {
+    let done: Bool
+    let title: String
+    let subtitle: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: { if !done { action() } }) {
+            HStack(spacing: 12) {
+                ZStack {
+                    if done {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(.clavixGood)
+                    } else {
+                        Circle()
+                            .stroke(Color.clavixInk4, lineWidth: 1.5)
+                            .frame(width: 20, height: 20)
+                    }
+                }
+                .frame(width: 22, height: 22)
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(title)
+                        .font(ClavisTypography.inter(14, weight: .semibold))
+                        .foregroundColor(done ? .clavixInk3 : .clavixInk)
+                        .strikethrough(done, color: .clavixInk3)
+                    Text(subtitle)
+                        .font(ClavisTypography.clavixMono(9, weight: .regular))
+                        .tracking(0.3)
+                        .foregroundColor(.clavixInk3)
+                }
+
+                Spacer(minLength: 0)
+
+                if !done {
+                    Image(systemName: "chevron.right")
+                        .font(.system(size: 11, weight: .semibold))
+                        .foregroundColor(.clavixInk4)
+                }
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 13)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .disabled(done)
     }
 }
