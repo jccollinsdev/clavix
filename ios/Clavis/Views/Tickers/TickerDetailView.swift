@@ -325,7 +325,6 @@ struct TickerDetailView: View {
                                 .foregroundColor(.clavixInk)
                         }
                         scoreDeltaLine(detail)
-                        dataFreshnessLine(detail)
 
                         if isHeld {
                             heroShareContent(detail)
@@ -441,7 +440,6 @@ struct TickerDetailView: View {
     /// YOU HOLD + share count + cost P&L — shown in the top-left column, below delta, next to radar.
     private func heroShareContent(_ detail: TickerDetailResponse) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            ClavixEyebrow("You hold")
             Text(holdSummaryLine(detail))
                 .font(ClavisTypography.clavixMono(13, weight: .semibold))
                 .foregroundColor(.clavixInk)
@@ -470,7 +468,7 @@ struct TickerDetailView: View {
     private func holdSummaryLine(_ detail: TickerDetailResponse) -> String {
         let shares = detail.portfolioOverlay?.shares ?? detail.position.shares
         let parts: [String] = [
-            shares > 0 ? "\(shares.formatted()) sh" : nil,
+            shares > 0 ? "\(shares.formatted()) shares" : nil,
             holdWeightText(detail)
         ].compactMap { $0 }
         return parts.isEmpty ? "Holding" : parts.joined(separator: " · ")
@@ -890,8 +888,9 @@ struct TickerDetailView: View {
 
             Task {
                 let loadedPrice = try? await APIService.shared.fetchPriceHistory(ticker: ticker, days: 365)
+                let sortedPrices = (loadedPrice?.prices ?? []).sorted { $0.recordedAt < $1.recordedAt }
                 await MainActor.run {
-                    priceHistory = loadedPrice?.prices ?? []
+                    priceHistory = sortedPrices
                 }
             }
 
@@ -1172,15 +1171,37 @@ struct TickerDetailView: View {
 
     private var filteredPriceHistory: [PricePoint] {
         guard !priceHistory.isEmpty else { return [] }
-        let sorted = priceHistory.sorted { $0.recordedAt < $1.recordedAt }
+        // priceHistory is kept sorted at load time.
+        let sorted = priceHistory
         if selectedHistoryPeriod == .oneDay {
             return Array(sorted.suffix(min(sorted.count, 2)))
         }
         guard let cutoff = Calendar.current.date(byAdding: .day, value: -selectedHistoryPeriod.dayWindow, to: Date()) else {
-            return sorted
+            return Self.downsample(sorted)
         }
         let filtered = sorted.filter { $0.recordedAt >= cutoff }
-        return filtered.isEmpty ? sorted : filtered
+        return Self.downsample(filtered.isEmpty ? sorted : filtered)
+    }
+
+    /// Even-stride downsample to keep Swift Charts responsive. Minute-level
+    /// tickers can carry thousands of points per window; rendering a LineMark
+    /// for each is what makes the chart lag. ~160 points keeps the curve shape
+    /// while cutting the mark count by an order of magnitude. First and last
+    /// points are always preserved so the endpoints stay accurate.
+    static func downsample(_ points: [PricePoint], cap: Int = 160) -> [PricePoint] {
+        guard points.count > cap, cap >= 2 else { return points }
+        let step = Double(points.count - 1) / Double(cap - 1)
+        var out: [PricePoint] = []
+        out.reserveCapacity(cap)
+        var idx = 0.0
+        for _ in 0..<cap {
+            out.append(points[min(Int(idx.rounded()), points.count - 1)])
+            idx += step
+        }
+        if let realLast = points.last, out.last?.recordedAt != realLast.recordedAt {
+            out[out.count - 1] = realLast
+        }
+        return out
     }
 
     private var filteredScoreSnapshots: [ScoreSnapshot] {

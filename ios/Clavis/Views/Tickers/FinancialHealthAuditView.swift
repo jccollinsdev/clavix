@@ -108,6 +108,61 @@ struct FinancialHealthAuditView: View {
     }
 }
 
+// MARK: - Shared audit components (editorial redesign)
+
+func auditBandColor(_ score: Double?) -> Color {
+    guard let score else { return .clavixInk4 }
+    switch score {
+    case 67...:      return .clavixGood
+    case 34..<67:    return .clavixWarn
+    default:         return .clavixBad
+    }
+}
+
+func auditBandLabel(_ score: Double?) -> String {
+    guard let score else { return "NO READ" }
+    switch score {
+    case 67...:   return "STRONG"
+    case 34..<67: return "MODERATE"
+    default:      return "WEAK"
+    }
+}
+
+func auditGrade(for score: Double?) -> String {
+    guard let score else { return "—" }
+    switch score {
+    case 90...100: return "AAA"
+    case 80..<90:  return "AA"
+    case 70..<80:  return "A"
+    case 60..<70:  return "BBB"
+    case 50..<60:  return "BB"
+    case 40..<50:  return "B"
+    case 30..<40:  return "CCC"
+    case 20..<30:  return "CC"
+    case 10..<20:  return "C"
+    default:       return "F"
+    }
+}
+
+/// Horizontal 0 to 100 score track, filled to the dimension score in its band color.
+struct AuditScoreBar: View {
+    let score: Double?
+    var body: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                Rectangle().fill(Color.clavixPaper2)
+                Rectangle()
+                    .fill(auditBandColor(score))
+                    .frame(width: max(0, min(1, (score ?? 0) / 100)) * geo.size.width)
+            }
+        }
+        .frame(height: 6)
+        .clipShape(RoundedRectangle(cornerRadius: 3))
+        .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color.clavixRule, lineWidth: 1))
+    }
+}
+
+/// Dimension masthead: ticker eyebrow, serif name, big score, band verdict, score bar.
 struct AuditHeaderCard: View {
     let title: String
     let ticker: String
@@ -115,77 +170,143 @@ struct AuditHeaderCard: View {
     let subtitle: String
 
     var body: some View {
-        ClavixCard(fill: .clavixPaper) {
-            VStack(alignment: .leading, spacing: ClavisTheme.smallSpacing) {
-                Text(title)
-                    .font(ClavisTypography.h2)
-                    .foregroundColor(.clavixInk)
-                Text(ticker)
-                    .font(ClavisTypography.footnoteEmphasis)
-                    .foregroundColor(.clavixAccent)
-                HStack(alignment: .center, spacing: ClavisTheme.smallSpacing) {
-                    Text(score.map { "\(Int($0.rounded()))" } ?? "—")
-                        .font(ClavisTypography.portfolioScore)
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(ticker)
+                        .font(ClavisTypography.clavixMono(10, weight: .bold))
+                        .tracking(0.8)
+                        .foregroundColor(.clavixAccent)
+                    Text(title)
+                        .font(ClavisTypography.clavixSerif(26, weight: .medium))
+                        .tracking(-0.4)
                         .foregroundColor(.clavixInk)
-                    GradeBadge(grade: grade(for: score), size: .standard)
                 }
-                Text(subtitle)
-                    .font(ClavisTypography.footnote)
-                    .foregroundColor(.clavixInk3)
+                Spacer(minLength: 8)
+                ClavixGradeBadge(auditGrade(for: score), size: 44)
             }
-        }
-    }
 
-    private func grade(for score: Double?) -> String {
-        guard let score else { return "—" }
-        switch score {
-        case 90...100: return "AAA"
-        case 80..<90: return "AA"
-        case 70..<80: return "A"
-        case 60..<70: return "BBB"
-        case 50..<60: return "BB"
-        case 40..<50: return "B"
-        case 30..<40: return "CCC"
-        case 20..<30: return "CC"
-        case 10..<20: return "C"
-        default: return "F"
+            HStack(alignment: .lastTextBaseline, spacing: 8) {
+                Text(score.map { "\(Int($0.rounded()))" } ?? "—")
+                    .font(ClavisTypography.clavixMono(40, weight: .semibold))
+                    .tracking(-1)
+                    .foregroundColor(.clavixInk)
+                Text("/ 100")
+                    .font(ClavisTypography.clavixMono(13, weight: .regular))
+                    .foregroundColor(.clavixInk4)
+                Spacer()
+                Text(auditBandLabel(score))
+                    .font(ClavisTypography.clavixMono(10, weight: .bold))
+                    .tracking(0.6)
+                    .foregroundColor(auditBandColor(score))
+            }
+
+            AuditScoreBar(score: score)
+
+            Text(subtitle)
+                .font(ClavisTypography.clavixMono(10, weight: .regular))
+                .foregroundColor(.clavixInk3)
+                .fixedSize(horizontal: false, vertical: true)
         }
+        .padding(16)
+        .background(Color.clavixPaper)
+        .overlay(Rectangle().stroke(Color.clavixRule, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
     }
 }
 
+/// Bordered section with a mono header and a hairline, terminal-ledger style.
 struct AuditSectionCard<Content: View>: View {
     let title: String
     @ViewBuilder let content: Content
 
     var body: some View {
-        ClavixCard(fill: .clavixPaper) {
-            VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
-                Text(title)
-                    .font(ClavisTypography.label)
-                    .foregroundColor(.clavixInk3)
+        VStack(alignment: .leading, spacing: 0) {
+            Text(title.uppercased())
+                .font(ClavisTypography.clavixMono(10, weight: .bold))
+                .tracking(0.8)
+                .foregroundColor(.clavixInk3)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 11)
+            Rectangle().fill(Color.clavixRule).frame(height: 1)
+            VStack(alignment: .leading, spacing: 12) {
                 content
             }
+            .padding(14)
         }
+        .background(Color.clavixPaper)
+        .overlay(Rectangle().stroke(Color.clavixRule, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
     }
 }
 
+enum AuditVerdict { case good, warn, bad, neutral }
+
+/// Metric row: label (+ optional unit caption), prominent mono value, and a
+/// color-coded verdict pill. Health words (Healthy/Watch/Stressed) read as
+/// colored verdicts; plain units (Annualized/Correlation/Metric) read as muted
+/// chips, so the row is never an ambiguous three-column wall of text.
 struct AuditValueRow: View {
     let label: String
     let value: String
     let status: String
+    var caption: String? = nil
 
     var body: some View {
-        HStack(alignment: .center, spacing: ClavisTheme.smallSpacing) {
-            Text(label)
-                .font(ClavisTypography.bodyEmphasis)
-                .foregroundColor(.clavixInk)
-            Spacer()
+        HStack(alignment: .center, spacing: 10) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(label)
+                    .font(ClavisTypography.inter(14, weight: .semibold))
+                    .foregroundColor(.clavixInk)
+                if let caption {
+                    Text(caption)
+                        .font(ClavisTypography.clavixMono(9, weight: .regular))
+                        .foregroundColor(.clavixInk3)
+                }
+            }
+            Spacer(minLength: 8)
             Text(value)
-                .font(ClavisTypography.footnoteEmphasis)
-                .foregroundColor(.clavixInk3)
-            Text(status)
-                .font(ClavisTypography.label)
-                .foregroundColor(.clavixAccent)
+                .font(ClavisTypography.clavixMono(15, weight: .semibold))
+                .foregroundColor((value == "Unavailable" || value == "—") ? .clavixInk4 : .clavixInk)
+            statusPill
+        }
+    }
+
+    private var statusPill: some View {
+        let verdict = Self.classify(status)
+        return Text(status.uppercased())
+            .font(ClavisTypography.clavixMono(8, weight: .bold))
+            .tracking(0.4)
+            .foregroundColor(ink(verdict))
+            .padding(.horizontal, 6)
+            .padding(.vertical, 3)
+            .background(fill(verdict))
+            .clipShape(RoundedRectangle(cornerRadius: 3))
+    }
+
+    private func fill(_ v: AuditVerdict) -> Color {
+        switch v {
+        case .good:    return .clavixGoodSoft
+        case .warn:    return .clavixWarnSoft
+        case .bad:     return .clavixBadSoft
+        case .neutral: return .clavixPaper2
+        }
+    }
+    private func ink(_ v: AuditVerdict) -> Color {
+        switch v {
+        case .good:    return .clavixGoodInk
+        case .warn:    return .clavixWarnInk
+        case .bad:     return .clavixBadInk
+        case .neutral: return .clavixInk3
+        }
+    }
+
+    static func classify(_ status: String) -> AuditVerdict {
+        switch status.lowercased() {
+        case "healthy", "live", "falling": return .good
+        case "watch", "rising", "estimated", "active": return .warn
+        case "stressed": return .bad
+        default: return .neutral
         }
     }
 }
