@@ -25,7 +25,7 @@ struct MacroExposureAuditView: View {
                     )
 
                     if dimension?.limitedData == true {
-                        AuditLimitedDataView(message: "Limited Data — the regression did not have enough clean history to support a full macro read.")
+                        AuditLimitedDataView(message: "Limited Data: the regression did not have enough clean history to support a full macro read.")
                     }
 
                     AuditSectionCard(title: "Factor Sensitivity") {

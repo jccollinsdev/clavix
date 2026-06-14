@@ -23,7 +23,7 @@ struct NewsSentimentAuditView: View {
                             .foregroundColor(.clavixInk3)
                     }
                 } else if let dimension, (dimension.articleCount7d ?? 0) < 3 {
-                    AuditLimitedDataView(message: "Limited Data — fewer than 3 relevant articles were available in the seven-day window.")
+                    AuditLimitedDataView(message: "Limited Data: fewer than 3 relevant articles were available in the seven-day window.")
                 } else {
                     AuditHeaderCard(
                         title: "News Sentiment",

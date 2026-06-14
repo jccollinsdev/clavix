@@ -204,7 +204,7 @@ struct RadarScreenSection: View {
                     Text("\(vm.total)")
                         .font(ClavisTypography.clavixMono(15, weight: .bold))
                         .foregroundColor(.clavixInk)
-                    Text("names tracked — drag to narrow")
+                    Text("names tracked. Drag to narrow.")
                         .font(ClavisTypography.clavixCaption)
                         .foregroundColor(.clavixInk3)
                 }
@@ -263,7 +263,7 @@ struct RadarScreenSection: View {
             }
 
             if matches.count > shown.count {
-                Text("+ \(matches.count - shown.count) more — tighten the radar to focus the list.")
+                Text("+ \(matches.count - shown.count) more. Tighten the radar to focus the list.")
                     .font(ClavisTypography.clavixMono(10, weight: .regular))
                     .tracking(0.2)
                     .foregroundColor(.clavixInk3)

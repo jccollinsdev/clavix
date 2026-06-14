@@ -268,7 +268,7 @@ struct TickerDetailView: View {
                         )
                     }
                 } else {
-                    Text("New — score history requires at least 2 days of data.")
+                    Text("New: score history requires at least 2 days of data.")
                         .font(ClavisTypography.clavixCaption)
                         .foregroundColor(.clavixInk3)
                 }
@@ -406,7 +406,7 @@ struct TickerDetailView: View {
                         .foregroundColor(.clavixInk3)
                 }
             } else {
-                Text("— · no prior session score")
+                Text("No prior session score.")
                     .font(ClavisTypography.clavixMono(11, weight: .regular))
                     .foregroundColor(.clavixInk3)
             }
@@ -501,7 +501,7 @@ struct TickerDetailView: View {
 
     private var ratingPendingCard: some View {
         HStack(spacing: ClavisTheme.smallSpacing) {
-            Text("Rating pending — check back after market open")
+            Text("Rating pending. Check back after market open.")
                 .font(ClavisTypography.footnote)
                 .foregroundColor(.clavixInk3)
             Spacer()

@@ -23,6 +23,7 @@ struct HoldingsListView: View {
     @State private var deleteCandidate: Position?
     @State private var showUpgradeSheet = false
     @State private var showAddHoldingSheet = false
+    @State private var showQuickSetupSheet = false
     @State private var sortKey: HoldingsSortKey = .weight
 
     private var totalMarketValue: Double {
@@ -112,6 +113,9 @@ struct HoldingsListView: View {
                 guard let ticker = newValue else { return }
                 deepLinkTicker = nil
                 navigationPath.append(ticker)
+            }
+            .sheet(isPresented: $showQuickSetupSheet) {
+                QuickPortfolioSetupSheet(viewModel: viewModel)
             }
             .sheet(isPresented: $showAddHoldingSheet) {
                 HoldingsAddMethodSheet(
@@ -445,6 +449,8 @@ struct HoldingsListView: View {
     private func openAddHolding() {
         if isFreeTier && viewModel.holdings.count >= 3 {
             showUpgradeSheet = true
+        } else if viewModel.holdings.isEmpty {
+            showQuickSetupSheet = true
         } else {
             showAddHoldingSheet = true
         }
@@ -1327,6 +1333,300 @@ private struct HoldingsUpgradeSheet: View {
                 bordered: true,
                 action: { dismiss() }
             )
+        }
+    }
+}
+import SwiftUI
+
+/// First-time portfolio setup sheet.
+/// Shown instead of the method picker when the user has zero holdings.
+/// Lets the user enter up to 5 tickers at once, then plays a short
+/// "Scoring your positions" animation before dismissing to the Holdings tab.
+struct QuickPortfolioSetupSheet: View {
+
+    @ObservedObject var viewModel: HoldingsViewModel
+    @Environment(\.dismiss) private var dismiss
+
+    // MARK: - State
+
+    struct Entry: Identifiable {
+        let id = UUID()
+        var ticker = ""
+        var shares = ""
+    }
+
+    @State private var entries: [Entry] = [Entry(), Entry(), Entry()]
+    @State private var phase: Phase = .input
+    @State private var dimensionIndex = 0
+    @State private var cycleTimer: Timer?
+
+    enum Phase { case input, analyzing }
+
+    // MARK: - Data
+
+    private let dimensions: [(code: String, name: String)] = [
+        ("FIN",  "Financial Health"),
+        ("NEWS", "News Sentiment"),
+        ("MAC",  "Macro Exposure"),
+        ("SEC",  "Sector Exposure"),
+        ("VOL",  "Volatility"),
+    ]
+
+    private var validEntries: [(ticker: String, shares: Double)] {
+        entries.compactMap { e in
+            let t = e.ticker.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+            guard !t.isEmpty else { return nil }
+            return (t, Double(e.shares) ?? 1.0)
+        }
+    }
+
+    // MARK: - Body
+
+    var body: some View {
+        ZStack {
+            Color.clavixPage.ignoresSafeArea()
+            switch phase {
+            case .input:     inputView.transition(.opacity)
+            case .analyzing: analyzingView.transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.35), value: phase)
+    }
+
+    // MARK: - Input screen
+
+    private var inputView: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+
+                    // Header
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Set up your book")
+                            .font(ClavisTypography.clavixSerif(30, weight: .medium))
+                            .foregroundColor(.clavixInk)
+                        Text("Add the positions you hold. Clavix scores each one across five risk dimensions every morning.")
+                            .font(ClavisTypography.inter(14, weight: .regular))
+                            .foregroundColor(.clavixInk2)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(.bottom, 28)
+
+                    // Column labels
+                    HStack(spacing: 10) {
+                        Text("TICKER")
+                            .font(ClavisTypography.clavixMono(9, weight: .bold))
+                            .tracking(0.5)
+                            .foregroundColor(.clavixInk3)
+                            .frame(width: 88, alignment: .center)
+                        Text("SHARES")
+                            .font(ClavisTypography.clavixMono(9, weight: .bold))
+                            .tracking(0.5)
+                            .foregroundColor(.clavixInk3)
+                            .padding(.leading, 12)
+                        Spacer()
+                    }
+                    .padding(.bottom, 8)
+
+                    // Entry rows
+                    VStack(spacing: 8) {
+                        ForEach($entries) { $entry in
+                            HStack(spacing: 10) {
+                                TextField("AAPL", text: $entry.ticker)
+                                    .font(ClavisTypography.clavixMono(14, weight: .bold))
+                                    .textInputAutocapitalization(.characters)
+                                    .autocorrectionDisabled()
+                                    .keyboardType(.asciiCapable)
+                                    .multilineTextAlignment(.center)
+                                    .frame(width: 88, height: 50)
+                                    .background(Color.clavixPaper2)
+                                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.clavixRule, lineWidth: 1))
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+
+                                TextField("Shares (optional)", text: $entry.shares)
+                                    .font(ClavisTypography.inter(14, weight: .regular))
+                                    .keyboardType(.decimalPad)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 50)
+                                    .padding(.horizontal, 12)
+                                    .background(Color.clavixPaper2)
+                                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.clavixRule, lineWidth: 1))
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                            }
+                        }
+                    }
+                    .padding(.bottom, 14)
+
+                    // Add row button
+                    if entries.count < 5 {
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                entries.append(Entry())
+                            }
+                        } label: {
+                            HStack(spacing: 6) {
+                                Image(systemName: "plus")
+                                    .font(.system(size: 12, weight: .medium))
+                                Text("Add another position")
+                                    .font(ClavisTypography.inter(13, weight: .regular))
+                            }
+                            .foregroundColor(.clavixInk3)
+                            .padding(.vertical, 8)
+                        }
+                    }
+
+                    Spacer().frame(height: 28)
+
+                    // Primary CTA
+                    Button {
+                        Task { await submit() }
+                    } label: {
+                        HStack(spacing: 8) {
+                            Text("Analyze my portfolio")
+                                .font(ClavisTypography.inter(15, weight: .semibold))
+                            Image(systemName: "arrow.right")
+                                .font(.system(size: 13, weight: .semibold))
+                        }
+                        .foregroundColor(validEntries.isEmpty ? .clavixInk3 : .clavixPaper)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 52)
+                        .background(validEntries.isEmpty ? Color.clavixPaper2 : Color.clavixInk)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    }
+                    .disabled(validEntries.isEmpty)
+                    .padding(.bottom, 12)
+
+                    // Skip link
+                    Button("I'll add positions later") { dismiss() }
+                        .font(ClavisTypography.inter(13, weight: .regular))
+                        .foregroundColor(.clavixInk3)
+                        .frame(maxWidth: .infinity)
+                        .padding(.bottom, 32)
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 24)
+            }
+            .background(Color.clavixPage.ignoresSafeArea())
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Skip") { dismiss() }
+                        .font(ClavisTypography.inter(13, weight: .regular))
+                        .foregroundColor(.clavixInk3)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    // MARK: - Analyzing screen
+
+    private var analyzingView: some View {
+        VStack(spacing: 0) {
+            Spacer()
+
+            VStack(spacing: 28) {
+                // Wordmark
+                HStack(spacing: 8) {
+                    Image("clavix_logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 22, height: 22)
+                    Text("CLAVIX")
+                        .font(ClavisTypography.clavixMono(12, weight: .bold))
+                        .tracking(1.5)
+                        .foregroundColor(.clavixInk)
+                }
+
+                // Headline
+                VStack(spacing: 6) {
+                    Text("Scoring your positions")
+                        .font(ClavisTypography.clavixSerif(28, weight: .medium))
+                        .foregroundColor(.clavixInk)
+                        .multilineTextAlignment(.center)
+                    Text("across five risk dimensions")
+                        .font(ClavisTypography.inter(15, weight: .regular))
+                        .foregroundColor(.clavixInk2)
+                }
+
+                // Cycling dimension chips
+                VStack(spacing: 10) {
+                    HStack(spacing: 6) {
+                        ForEach(0..<dimensions.count, id: \.self) { i in
+                            Text(dimensions[i].code)
+                                .font(ClavisTypography.clavixMono(9, weight: .bold))
+                                .tracking(0.4)
+                                .foregroundColor(i == dimensionIndex ? .clavixPaper : .clavixInk3)
+                                .padding(.horizontal, 9)
+                                .padding(.vertical, 5)
+                                .background(i == dimensionIndex ? Color.clavixInk : Color.clear)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke(i == dimensionIndex ? Color.clear : Color.clavixRule, lineWidth: 1)
+                                )
+                                .clipShape(RoundedRectangle(cornerRadius: 4))
+                        }
+                    }
+
+                    Text(dimensions[dimensionIndex].name)
+                        .font(ClavisTypography.inter(13, weight: .regular))
+                        .foregroundColor(.clavixInk3)
+                        .frame(height: 18)
+                        .id(dimensionIndex)
+                        .transition(
+                            .asymmetric(
+                                insertion: .opacity.combined(with: .move(edge: .bottom)),
+                                removal:   .opacity.combined(with: .move(edge: .top))
+                            )
+                        )
+                        .animation(.easeInOut(duration: 0.22), value: dimensionIndex)
+                }
+            }
+
+            Spacer()
+
+            Text("This usually takes a moment.")
+                .font(ClavisTypography.inter(12, weight: .regular))
+                .foregroundColor(.clavixInk4)
+                .padding(.bottom, 44)
+        }
+        .frame(maxWidth: .infinity)
+        .onAppear { startCycle() }
+        .onDisappear { cycleTimer?.invalidate() }
+    }
+
+    // MARK: - Logic
+
+    private func submit() async {
+        withAnimation { phase = .analyzing }
+
+        let toSave = validEntries
+        Task {
+            for (ticker, shares) in toSave {
+                await viewModel.addHolding(
+                    ticker: ticker,
+                    shares: shares,
+                    purchasePrice: 0,
+                    allowOutsideUniverse: true
+                )
+            }
+            await viewModel.loadHoldings()
+        }
+    }
+
+    private func startCycle() {
+        var tick = 0
+        cycleTimer = Timer.scheduledTimer(withTimeInterval: 0.65, repeats: true) { timer in
+            tick += 1
+            if tick < dimensions.count {
+                withAnimation(.easeInOut(duration: 0.22)) {
+                    dimensionIndex = tick
+                }
+            } else {
+                timer.invalidate()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
+                    dismiss()
+                }
+            }
         }
     }
 }

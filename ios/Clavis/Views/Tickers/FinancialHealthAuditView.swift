@@ -27,7 +27,7 @@ struct FinancialHealthAuditView: View {
                         ClavixInlineNoticeCard(
                             eyebrow: "Data Limited",
                             title: "Fewer than 2 financial ratios available",
-                            message: "Finnhub does not report all metrics for this company (common for banks, REITs, foreign-listed, and some small caps). The Financial Health score defaults to neutral (50) where data is absent — treat it as directional only.",
+                            message: "Finnhub does not report all metrics for this company (common for banks, REITs, foreign-listed, and some small caps). The Financial Health score defaults to neutral (50) where data is absent. Treat it as directional only.",
                             footnote: "Ratios available: \(dimension?.ratiosAvailable ?? 0) of 5",
                             glyph: "exclamationmark.triangle",
                             fill: .clavixWarnSoft,

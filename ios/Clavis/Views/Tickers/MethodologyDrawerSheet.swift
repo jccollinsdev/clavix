@@ -95,7 +95,7 @@ struct MethodologyDrawerSheet: View {
                     ClavixCard(fill: .clavixPaper2) {
                         VStack(alignment: .leading, spacing: 8) {
                             ClavixEyebrow("Composite Score")
-                            Text("Equal-weight average of all five dimensions (20% each). Dimensions excluded when Clavix determines data is insufficient — the average is taken across the remaining available dimensions.")
+                            Text("Equal-weight average of all five dimensions (20% each). Dimensions excluded when Clavix determines data is insufficient. The average is taken across the remaining available dimensions.")
                                 .font(ClavisTypography.footnote)
                                 .foregroundColor(.clavixInk3)
                                 .fixedSize(horizontal: false, vertical: true)
@@ -150,7 +150,7 @@ struct MethodologyDrawerSheet: View {
     private var methodologyVersionSubtitle: String {
         let raw = methodology.composite.methodologyVersion?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         if raw.isEmpty {
-            return "Methodology —"
+            return "Methodology"
         }
         if raw.lowercased().hasPrefix("v") {
             return "Methodology \(raw)"

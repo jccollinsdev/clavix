@@ -152,7 +152,7 @@ struct PaywallView: View {
     // MARK: - Legal footer
 
     private var legalFooter: some View {
-        Text("Subscription renews at \(subscriptionManager.proDisplayPrice)/month after trial unless cancelled. Cancel anytime in Settings → Apple ID → Subscriptions. Clavix is informational only — not investment advice.")
+        Text("Subscription renews at \(subscriptionManager.proDisplayPrice)/month after trial unless cancelled. Cancel anytime in Settings → Apple ID → Subscriptions. Clavix is informational only. Not investment advice.")
             .font(ClavisTypography.inter(11, weight: .regular))
             .foregroundColor(.clavixInk4)
             .multilineTextAlignment(.center)
@@ -178,7 +178,7 @@ enum PaywallTrigger {
         case .watchlistLimit:
             return "Free accounts monitor up to 5 watchlist tickers. Pro removes the limit."
         case .advancedAlerts:
-            return "Advanced alerts — watchlist grade changes, macro-shock signals, and portfolio-level risk triggers — are Pro features."
+            return "Advanced alerts (watchlist grade changes, macro-shock signals, and portfolio-level risk triggers) are Pro features."
         case .generic:
             return nil
         }
