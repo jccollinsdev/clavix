@@ -183,15 +183,23 @@ final class OnboardingViewModel: ObservableObject {
     }
 
     private func persistHoldings(_ results: [TickerSearchResult]) async {
-        for result in results {
-            let sharesString = entries.first { $0.resolved?.ticker == result.ticker }?.shares ?? ""
-            let shares = Double(sharesString.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 1
-            _ = try? await api.createHolding(
-                ticker: result.ticker,
-                shares: shares,
-                purchasePrice: 0,
-                allowOutsideUniverse: true
-            )
+        // Capture entries snapshot before concurrent work begins (actor isolation).
+        let snapEntries = entries
+        // Fire all creates in parallel — sequential saves caused later tickers to
+        // be missed when the user navigated to holdings before the loop finished.
+        await withTaskGroup(of: Void.self) { group in
+            for result in results {
+                let sharesString = snapEntries.first { $0.resolved?.ticker == result.ticker }?.shares ?? ""
+                let shares = Double(sharesString.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 1
+                group.addTask {
+                    _ = try? await APIService.shared.createHolding(
+                        ticker: result.ticker,
+                        shares: shares,
+                        purchasePrice: 0,
+                        allowOutsideUniverse: true
+                    )
+                }
+            }
         }
     }
 
@@ -256,6 +264,11 @@ final class OnboardingViewModel: ObservableObject {
                 print("[Onboarding] Auth token present: \(await SupabaseAuthService.shared.getAccessToken() != nil)")
                 try await api.acknowledgeOnboarding()
                 print("[Onboarding] acknowledgeOnboarding succeeded")
+                // Reset checklist so it re-appears after a fresh onboarding.
+                for key in ["clavix.checklist.openedBreakdown", "clavix.checklist.viewedToday",
+                            "clavix.checklist.trackedName", "clavix.checklist.dismissed"] {
+                    UserDefaults.standard.removeObject(forKey: key)
+                }
                 completion()
             } catch let error as APIError {
                 print("[Onboarding] APIError: \(error.localizedDescription)")

@@ -49,26 +49,28 @@ class HoldingsViewModel: ObservableObject {
                 }
             }
 
-            Task {
-                guard let brokerageStatus = try? await api.fetchBrokerageStatus() else { return }
-
-                await MainActor.run {
-                    self.applyBrokerageStatus(brokerageStatus)
-                }
-
-                if shouldAutoSyncBrokerage(brokerageStatus) {
-                    _ = try? await api.syncBrokerage(refreshRemote: false)
-                    let refreshedHoldings = try? await api.fetchHoldings()
-                    let refreshedStatus = try? await api.fetchBrokerageStatus()
+            if FeatureFlags.brokerageEnabled {
+                Task {
+                    guard let brokerageStatus = try? await api.fetchBrokerageStatus() else { return }
 
                     await MainActor.run {
-                        if let refreshedHoldings {
-                            self.holdings = refreshedHoldings
-                            self.lastRefreshedAt = Date()
-                            self.brokerageLastSyncedAt = Date()
-                        }
-                        if let refreshedStatus {
-                            self.applyBrokerageStatus(refreshedStatus)
+                        self.applyBrokerageStatus(brokerageStatus)
+                    }
+
+                    if shouldAutoSyncBrokerage(brokerageStatus) {
+                        _ = try? await api.syncBrokerage(refreshRemote: false)
+                        let refreshedHoldings = try? await api.fetchHoldings()
+                        let refreshedStatus = try? await api.fetchBrokerageStatus()
+
+                        await MainActor.run {
+                            if let refreshedHoldings {
+                                self.holdings = refreshedHoldings
+                                self.lastRefreshedAt = Date()
+                                self.brokerageLastSyncedAt = Date()
+                            }
+                            if let refreshedStatus {
+                                self.applyBrokerageStatus(refreshedStatus)
+                            }
                         }
                     }
                 }

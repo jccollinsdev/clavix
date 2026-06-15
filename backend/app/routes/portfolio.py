@@ -34,6 +34,9 @@ SECTOR_ETF_MAP = {
     "materials": "XLB",
     "real estate": "XLRE",
     "communication services": "XLC",
+    "media": "XLC",
+    "interactive media": "XLC",
+    "entertainment": "XLC",
 }
 
 

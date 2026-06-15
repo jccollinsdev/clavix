@@ -63,6 +63,9 @@ final class DigestViewModel: ObservableObject {
             self.today = await todayTask
 
             if digestResponse == nil, !holdings.isEmpty {
+                if !isGenerating {
+                    _ = try? await api.triggerAnalysis()
+                }
                 await refreshMorningReportStatus()
             }
         } catch is CancellationError {

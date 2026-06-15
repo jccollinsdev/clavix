@@ -728,8 +728,9 @@ struct DigestView: View {
             case "utilities":                             return "XLU"
             case "materials":                             return "XLB"
             case "real estate":                           return "XLRE"
-            case "communication services":                return "XLC"
-            case "us total market":                       return "VTI"
+            case "communication services",
+                 "media", "interactive media", "entertainment":  return "XLC"
+            case "us total market":                              return "VTI"
             default:
                 return String(normalizedSector.prefix(3)).uppercased()
             }
@@ -737,15 +738,16 @@ struct DigestView: View {
 
         var shortName: String {
             switch normalizedSector.lowercased() {
-            case "tech", "technology":                       return "Technology"
-            case "information technology":                   return "Tech"
-            case "semiconductors", "semis":                  return "Semis"
-            case "health care", "healthcare":                return "Health"
-            case "financials", "financial services":         return "Financials"
-            case "consumer discretionary":                   return "Consumer D"
-            case "consumer staples":                         return "Consumer S"
-            case "communication services":                   return "Comm Svcs"
-            case "us total market":                          return "US Total"
+            case "tech", "technology":                           return "Technology"
+            case "information technology":                       return "Tech"
+            case "semiconductors", "semis":                      return "Semis"
+            case "health care", "healthcare":                    return "Health"
+            case "financials", "financial services":             return "Financials"
+            case "consumer discretionary":                       return "Consumer D"
+            case "consumer staples":                             return "Consumer S"
+            case "communication services",
+                 "media", "interactive media", "entertainment":  return "Comm Svcs"
+            case "us total market":                              return "US Total"
             default: return normalizedSector
             }
         }
