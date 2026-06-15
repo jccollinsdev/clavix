@@ -30,15 +30,36 @@ FREE_TIER_WATCHLIST_LIMIT = 5
 
 
 def _get_subscription_tier(supabase, user_id: str) -> str:
+    """Return effective tier, honouring the 14-day trial window."""
+    from datetime import datetime, timezone
+
     row = (
         supabase.table("user_preferences")
-        .select("subscription_tier")
+        .select("subscription_tier, trial_ends_at")
         .eq("user_id", user_id)
         .limit(1)
         .execute()
         .data
     )
-    return (row[0].get("subscription_tier") or "free").lower() if row else "free"
+    if not row:
+        return "free"
+    prefs = row[0]
+    tier = (prefs.get("subscription_tier") or "free").lower()
+    if tier in ("pro", "admin"):
+        return tier
+    trial_ends_raw = prefs.get("trial_ends_at")
+    if trial_ends_raw:
+        try:
+            trial_ends = datetime.fromisoformat(
+                str(trial_ends_raw).replace("Z", "+00:00")
+            )
+            if trial_ends.tzinfo is None:
+                trial_ends = trial_ends.replace(tzinfo=timezone.utc)
+            if datetime.now(timezone.utc) < trial_ends:
+                return "trial"
+        except (ValueError, TypeError):
+            pass
+    return "free"
 
 
 @router.post("/default/items")
