@@ -1015,7 +1015,7 @@ struct TickerDetailView: View {
                 abbrev: "NEWS",
                 score: shared?.newsSentiment ?? ai?.newsSentiment ?? current?.newsSentiment,
                 subtitle: newsSubtitle,
-                isLimited: (methodology?.dimensions.newsSentiment.articleCount7d ?? 0) < 3
+                isLimited: methodology?.dimensions.newsSentiment.limitedData ?? false
             ),
             TickerDimensionItem(
                 key: "macro_exposure",

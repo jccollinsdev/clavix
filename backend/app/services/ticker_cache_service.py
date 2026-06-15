@@ -150,7 +150,13 @@ def _parse_iso_datetime(value: Any) -> datetime | None:
 
 def _coerce_snapshot_date(value: date | str | None) -> date:
     if value is None:
-        return date.today()
+        today = date.today()
+        # On weekends, return the prior Friday so snapshots aren't dated Sat/Sun.
+        if today.weekday() == 5:  # Saturday
+            return today - timedelta(days=1)
+        if today.weekday() == 6:  # Sunday
+            return today - timedelta(days=2)
+        return today
     if isinstance(value, date):
         return value
     return date.fromisoformat(str(value))
@@ -3901,12 +3907,14 @@ def _upsert_ticker_snapshot(
     payload: dict[str, Any],
 ) -> dict[str, Any]:
     snapshot_date = payload["snapshot_date"]
+    # After the 20260615 migration all rows are snapshot_type='daily' and the unique
+    # constraint is on (ticker, snapshot_date) only — don't filter by snapshot_type.
+    payload = {**payload, "snapshot_type": "daily"}
     existing = (
         supabase.table("ticker_risk_snapshots")
         .select("id")
         .eq("ticker", ticker)
         .eq("snapshot_date", snapshot_date)
-        .eq("snapshot_type", snapshot_type)
         .limit(1)
         .execute()
         .data

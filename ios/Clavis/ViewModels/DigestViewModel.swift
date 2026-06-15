@@ -129,7 +129,7 @@ final class DigestViewModel: ObservableObject {
     }
 
     var isFreeTier: Bool {
-        subscriptionTier == "free"
+        !SubscriptionManager.shared.isPro
     }
 
     func grade(for ticker: String) -> String {

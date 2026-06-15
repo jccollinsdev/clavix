@@ -64,7 +64,7 @@ struct HoldingsListView: View {
     }
 
     private var isFreeTier: Bool {
-        viewModel.subscriptionTier == "free"
+        !SubscriptionManager.shared.isPro
     }
 
     private var isInitialHydration: Bool {

@@ -138,10 +138,17 @@ def _align_series(
     common_dates = sorted(all_dates)
     for date in common_dates:
         row = []
+        skip = False
         for factor in factor_order:
             fm = _factor_maps.get(factor, {})
-            row.append(fm.get(date, 0.0))
-        if all(v == 0.0 for v in row):
+            val = fm.get(date)
+            if val is None:
+                # Missing factor bar — omit this date rather than filling 0.0,
+                # which would silently bias the OLS coefficient toward zero.
+                skip = True
+                break
+            row.append(val)
+        if skip:
             continue
         tk_val = _ticker_map.get(date, 0.0)
         y.append(tk_val)

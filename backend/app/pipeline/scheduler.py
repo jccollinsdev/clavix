@@ -4494,7 +4494,6 @@ def _sync_ai_scores_to_ticker_snapshots_sync(
             client.table("ticker_risk_snapshots")
             .select("safety_score")
             .eq("ticker", ticker_upper)
-            .eq("snapshot_type", job_type)
             .order("analysis_as_of", desc=True)
             .order("updated_at", desc=True)
             .order("created_at", desc=True)
@@ -4809,7 +4808,6 @@ async def run_sp500_full_ai_analysis_fast(
             supabase.table("ticker_risk_snapshots")
             .select("grade, safety_score, factor_breakdown")
             .eq("ticker", ticker.upper())
-            .eq("snapshot_type", job_type)
             .order("created_at", desc=True)
             .limit(1)
             .execute()
@@ -4979,7 +4977,6 @@ async def run_sp500_full_ai_analysis_fast(
             supabase.table("ticker_risk_snapshots")
             .select("grade, safety_score, reasoning, methodology_version")
             .eq("ticker", ticker.upper())
-            .eq("snapshot_type", job_type)
             .order("created_at", desc=True)
             .limit(1)
             .execute()
@@ -5421,7 +5418,7 @@ def _upsert_ticker_snapshot_from_scores(
     try:
         supabase.table("ticker_risk_snapshots").upsert(
             payload,
-            on_conflict="ticker,snapshot_date,snapshot_type",
+            on_conflict="ticker,snapshot_date",
         ).execute()
     except Exception as exc:
         logger.warning("ticker_risk_snapshots upsert failed for %s: %s", ticker, exc)
@@ -5582,7 +5579,7 @@ def _schedule_daily_macro_snapshot() -> None:
         scheduler.remove_job(DAILY_MACRO_SNAPSHOT_JOB_ID)
     scheduler.add_job(
         _run_registered_job,
-        trigger=CronTrigger(hour=5, minute=0, timezone=ET),
+        trigger=CronTrigger(hour=5, minute=0, day_of_week="mon-fri", timezone=ET),
         id=DAILY_MACRO_SNAPSHOT_JOB_ID,
         args=[DAILY_MACRO_SNAPSHOT_JOB_ID],
         replace_existing=True,
@@ -5595,7 +5592,7 @@ def _schedule_daily_sector_snapshot() -> None:
         scheduler.remove_job(DAILY_SECTOR_SNAPSHOT_JOB_ID)
     scheduler.add_job(
         _run_registered_job,
-        trigger=CronTrigger(hour=5, minute=15, timezone=ET),
+        trigger=CronTrigger(hour=5, minute=15, day_of_week="mon-fri", timezone=ET),
         id=DAILY_SECTOR_SNAPSHOT_JOB_ID,
         args=[DAILY_SECTOR_SNAPSHOT_JOB_ID],
         replace_existing=True,

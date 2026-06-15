@@ -219,7 +219,7 @@ struct SettingsView: View {
     }
 
     private var isFreeTier: Bool {
-        viewModel.subscriptionTier == "free"
+        !SubscriptionManager.shared.isPro
     }
 
 }
@@ -561,7 +561,7 @@ private struct MorningReportSettingsDetailView: View {
     }
 
     private func selectDigestLength(_ option: SummaryLength) {
-        if option == .verbose && viewModel.subscriptionTier == "free" {
+        if option == .verbose && !SubscriptionManager.shared.isPro {
             showUpgradeSheet = true
             return
         }

@@ -185,4 +185,15 @@ struct AIDimensions: Codable {
         case positionSizing = "position_sizing"
         case volatilityTrend = "volatility_trend"
     }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        financialHealth = try? container.decodeFlexibleDoubleIfPresent(forKey: .financialHealth)
+        newsSentiment = try? container.decodeFlexibleDoubleIfPresent(forKey: .newsSentiment)
+        macroExposure = try? container.decodeFlexibleDoubleIfPresent(forKey: .macroExposure)
+        sectorExposure = try? container.decodeFlexibleDoubleIfPresent(forKey: .sectorExposure)
+        volatility = try? container.decodeFlexibleDoubleIfPresent(forKey: .volatility)
+        positionSizing = try? container.decodeFlexibleDoubleIfPresent(forKey: .positionSizing)
+        volatilityTrend = try? container.decodeFlexibleDoubleIfPresent(forKey: .volatilityTrend)
+    }
 }

@@ -326,7 +326,34 @@ async def ping():
 @app.get("/health")
 @app.head("/health")
 async def health():
+    from .services.supabase import get_supabase
+    from .pipeline.scheduler import SYSTEM_SP500_USER_ID, SP500_BACKFILL_TRIGGER
+
     apns_status = validate_apns_configuration()
+
+    recompute_status = "unknown"
+    recompute_completed_at = None
+    recompute_error = None
+    try:
+        supabase = get_supabase()
+        rows = (
+            supabase.table("analysis_runs")
+            .select("status, completed_at, error_message, created_at")
+            .eq("user_id", SYSTEM_SP500_USER_ID)
+            .eq("triggered_by", SP500_BACKFILL_TRIGGER)
+            .order("created_at", desc=True)
+            .limit(1)
+            .execute()
+            .data
+        )
+        if rows:
+            row = rows[0]
+            recompute_status = row.get("status") or "unknown"
+            recompute_completed_at = row.get("completed_at")
+            recompute_error = row.get("error_message")
+    except Exception:
+        recompute_status = "error"
+
     return {
         "status": "ok",
         "apns": "configured" if apns_status["configured"] else "missing",
@@ -335,6 +362,11 @@ async def health():
         "supabase": "configured"
         if settings.supabase_url.strip() and settings.supabase_service_role_key.strip()
         else "missing",
+        "last_recompute": {
+            "status": recompute_status,
+            "completed_at": recompute_completed_at,
+            "error": recompute_error,
+        },
     }
 
 

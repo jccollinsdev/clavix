@@ -66,6 +66,7 @@ struct MethodologyNewsSentiment: Codable, MethodologyDimensionProtocol {
     let articleCount7d: Int?
     let volumeSignal: Bool?
     let weightedScore: Double?
+    let limitedData: Bool?
     let articles: [MethodologyArticle]
     let articleHistogram14d: [MethodologyArticleHistogramPoint]?
     let sentimentDistribution: [MethodologySentimentBucket]?
@@ -77,6 +78,7 @@ struct MethodologyNewsSentiment: Codable, MethodologyDimensionProtocol {
         case articleCount7d = "article_count_7d"
         case volumeSignal = "volume_signal"
         case weightedScore = "weighted_score"
+        case limitedData = "limited_data"
         case articles
         case articleHistogram14d = "article_histogram_14d"
         case sentimentDistribution = "sentiment_distribution"

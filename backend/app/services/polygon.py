@@ -226,9 +226,8 @@ def fetch_aggs(ticker: str, days: int = 30) -> list[dict]:
         if resp.status_code == 200:
             data = resp.json()
             results = data.get("results") or []
-            if results:
-                with _aggs_cache_lock:
-                    _aggs_cache[cache_key] = (time.monotonic(), results)
+            with _aggs_cache_lock:
+                _aggs_cache[cache_key] = (time.monotonic(), results)
             return results
         return []
     except Exception as e:
