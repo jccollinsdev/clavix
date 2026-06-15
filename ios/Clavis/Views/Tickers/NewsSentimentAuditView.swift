@@ -49,7 +49,7 @@ struct NewsSentimentAuditView: View {
                                     Text("\(article.source ?? "Unknown") · \(article.publishedAt ?? "Date unavailable")")
                                         .font(ClavisTypography.footnote)
                                         .foregroundColor(.clavixInk3)
-                                    Text(article.tldr ?? "TLDR unavailable")
+                                    Text(cleanTldr(article.tldr))
                                         .font(ClavisTypography.footnote)
                                         .foregroundColor(.clavixInk3)
                                     HStack(spacing: ClavisTheme.smallSpacing) {
@@ -94,6 +94,17 @@ struct NewsSentimentAuditView: View {
         .sheet(item: $selectedArticle) { article in
             ArticleDetailSheet(article: article, ticker: ticker)
         }
+    }
+
+    private func cleanTldr(_ tldr: String?) -> String {
+        guard let text = tldr?.sanitizedDisplayText, !text.isEmpty else { return "Brief unavailable" }
+        let lower = text.lowercased()
+        let isJunk = lower.contains("navigation elements")
+            || lower.contains("website navigation")
+            || (lower.contains("article body") && lower.contains("navigation"))
+            || lower.contains("making analysis impossible")
+            || lower.contains("no substantive")
+        return isJunk ? "Brief unavailable" : text
     }
 
     private var weightedAverageText: String {

@@ -143,6 +143,28 @@ def is_paywalled_domain(url: str) -> bool:
 def is_blocked_domain(url: str) -> bool:
     """Anti-bot/blocked domains: 0% extraction success, not paywalled."""
     host = _normalize_url_host(url)
+
+# Navigation-heavy markers: if 2+ appear in the first 500 chars, the scraper
+# got the site's navigation shell instead of article content.
+_NAV_MARKERS = [
+    "skip to content",
+    "skip to navigation",
+    "skip to main content",
+    "skip to right column",
+    "home page",
+    "create free account",
+    "accessibility",
+    "stock screener",
+    "best credit cards",
+    "best savings accounts",
+]
+
+
+def _is_navigation_heavy(body: str) -> bool:
+    """Return True when the extracted body is a navigation menu, not article text."""
+    prefix = body[:600].lower()
+    matches = sum(1 for marker in _NAV_MARKERS if marker in prefix)
+    return matches >= 2
     return any(bd in host for bd in _BLOCKED_DOMAINS) if host else False
 
 
@@ -366,6 +388,11 @@ async def enrich_and_store_article(
     elif not body or len(body.split()) < 30:
         body = "[No body extracted] " + headline
         extraction_status = "failed"
+    elif _is_navigation_heavy(body):
+        # Scraper got the site navigation shell instead of article text.
+        # Store headline-only; skip LLM tldr/implications (no real content).
+        body = "[Navigation only] " + headline
+        extraction_status = "navigation_only"
     elif body:
         extraction_status = "success"
     else:
@@ -403,6 +430,7 @@ async def enrich_and_store_article(
         body
         and not is_paywalled
         and not body.startswith("[No body extracted]")
+        and not body.startswith("[Navigation only]")
         and len(body.split()) >= 40
     )
     headline_only = not body_has_content and bool(headline)

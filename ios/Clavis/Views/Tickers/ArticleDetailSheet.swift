@@ -148,10 +148,12 @@ struct ArticleDetailSheet: View {
     // MARK: - Computed content
 
     private var briefText: String {
-        if let tldr = article.tldr?.sanitizedDisplayText, !tldr.isEmpty {
+        if let tldr = article.tldr?.sanitizedDisplayText, !tldr.isEmpty,
+           !Self.looksLikeNavigationJunk(tldr) {
             return tldr
         }
-        if let whatItMeans = article.whatItMeans?.sanitizedDisplayText, !whatItMeans.isEmpty {
+        if let whatItMeans = article.whatItMeans?.sanitizedDisplayText, !whatItMeans.isEmpty,
+           !Self.looksLikeNavigationJunk(whatItMeans) {
             return whatItMeans
         }
         return "Brief unavailable for this article."
@@ -178,11 +180,29 @@ struct ArticleDetailSheet: View {
             || lowered.contains("null")
     }
 
+    /// Guards against LLM output generated from navigation-menu bodies rather
+    /// than real article text (e.g. "article body contains only navigation elements").
+    private static func looksLikeNavigationJunk(_ text: String) -> Bool {
+        let lowered = text.lowercased()
+        return lowered.contains("navigation elements")
+            || lowered.contains("website navigation")
+            || lowered.contains("navigation links")
+            || (lowered.contains("article body") && lowered.contains("navigation"))
+            || lowered.contains("making analysis impossible")
+            || lowered.contains("no substantive")
+            || lowered.contains("article content is not provided")
+            || lowered.contains("article body provided contains only")
+            || lowered.contains("only website")
+            || lowered.contains("ui components without")
+    }
+
     private var riskSignalText: String {
-        if let sentimentReason = article.sentimentReason?.sanitizedDisplayText, !sentimentReason.isEmpty {
+        if let sentimentReason = article.sentimentReason?.sanitizedDisplayText, !sentimentReason.isEmpty,
+           !Self.looksLikeNavigationJunk(sentimentReason) {
             return sentimentReason
         }
-        if let whatItMeans = article.whatItMeans?.sanitizedDisplayText, !whatItMeans.isEmpty {
+        if let whatItMeans = article.whatItMeans?.sanitizedDisplayText, !whatItMeans.isEmpty,
+           !Self.looksLikeNavigationJunk(whatItMeans) {
             return whatItMeans
         }
         return "Risk signal unavailable for this article."

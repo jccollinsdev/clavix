@@ -2876,8 +2876,12 @@ async def execute_analysis_run(
                         "message": f"Major event detected for {ticker}: {article.get('title', '')}",
                         "event_hash": event_hash,
                         "analysis_run_id": analysis_run_id,
-                        "change_reason": article.get("summary")
-                        or article.get("title", "Major event detected."),
+                        "change_reason": (
+                            article.get("what_it_means")
+                            or article.get("tldr")
+                            or article.get("summary")
+                            or f"Major event detected for {ticker}."
+                        ),
                         "change_details": {
                             "event_type": significance.get("event_type", "other"),
                             "significance": significance.get("significance", "major"),
