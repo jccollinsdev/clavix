@@ -1,6 +1,7 @@
 import SwiftUI
 import Supabase
 import SafariServices
+import Sentry
 
 @main
 struct ClavisApp: App {
@@ -14,6 +15,9 @@ struct ClavisApp: App {
             ContentView()
                 .environmentObject(authViewModel)
                 .environmentObject(subscriptionManager)
+                .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+                    Task { await subscriptionManager.refresh() }
+                }
         }
     }
 }
@@ -23,8 +27,22 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
+        configureCrashReporting()
         PushNotificationManager.shared.registerForRemoteNotifications()
         return true
+    }
+
+    private func configureCrashReporting() {
+        guard let dsn = Bundle.main.infoDictionary?["SENTRY_DSN"] as? String else { return }
+        let trimmed = dsn.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty, !trimmed.hasPrefix("$(") else { return }
+
+        SentrySDK.start { options in
+            options.dsn = trimmed
+            options.tracesSampleRate = 0.1
+            options.profilesSampleRate = 0.0
+            options.environment = "production"
+        }
     }
 
     func application(

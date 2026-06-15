@@ -143,6 +143,7 @@ def is_paywalled_domain(url: str) -> bool:
 def is_blocked_domain(url: str) -> bool:
     """Anti-bot/blocked domains: 0% extraction success, not paywalled."""
     host = _normalize_url_host(url)
+    return any(bd in host for bd in _BLOCKED_DOMAINS) if host else False
 
 # Navigation-heavy markers: if 2+ appear in the first 500 chars, the scraper
 # got the site's navigation shell instead of article content.
@@ -165,7 +166,6 @@ def _is_navigation_heavy(body: str) -> bool:
     prefix = body[:600].lower()
     matches = sum(1 for marker in _NAV_MARKERS if marker in prefix)
     return matches >= 2
-    return any(bd in host for bd in _BLOCKED_DOMAINS) if host else False
 
 
 def validate_enrichment_completeness(article: dict) -> tuple[bool, list[str]]:

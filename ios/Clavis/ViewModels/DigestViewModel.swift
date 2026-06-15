@@ -32,6 +32,7 @@ final class DigestViewModel: ObservableObject {
             isLoading = true
         }
         errorMessage = nil
+        let usedCachedData = hydrateFromCache()
 
         async let holdingsTask: [Position] = api.fetchHoldings()
         async let preferencesTask = try? await api.fetchPreferences()
@@ -47,7 +48,7 @@ final class DigestViewModel: ObservableObject {
 
             let preferences = await preferencesTask
             self.summaryLength = DigestLengthOption(rawValue: preferences?.summaryLength?.lowercased() ?? "standard") ?? .standard
-            self.subscriptionTier = preferences?.subscriptionTier?.lowercased() ?? "free"
+            self.subscriptionTier = (preferences?.effectiveTier ?? preferences?.subscriptionTier ?? "free").lowercased()
 
             let digestResponse = await digestResponseTask
             let latestRun = await latestRunTask
@@ -71,10 +72,32 @@ final class DigestViewModel: ObservableObject {
         } catch is CancellationError {
             errorMessage = nil
         } catch {
-            self.errorMessage = ClavisCopy.Errors.digestLoad(error)
+            if !usedCachedData {
+                self.errorMessage = ClavisCopy.Errors.digestLoad(error)
+            }
         }
 
         isLoading = false
+    }
+
+    private func hydrateFromCache() -> Bool {
+        var hydrated = false
+        if holdings.isEmpty, let cachedHoldings = api.cachedHoldings() {
+            holdings = cachedHoldings
+            hydrated = true
+        }
+        if todayDigest == nil, let cachedResponse = api.cachedTodayDigest() {
+            let digest = cachedResponse.digest ?? cachedResponse.generatedDigest ?? cachedResponse.savedDigest
+            todayDigest = digest
+            activeRun = cachedResponse.analysisRun
+            updateMorningReportState(digest: digest)
+            hydrated = true
+        }
+        if alerts.isEmpty, let cachedAlerts = api.cachedAlerts() {
+            alerts = cachedAlerts
+            hydrated = true
+        }
+        return hydrated
     }
 
     func reloadDigestFromDatabase() async {

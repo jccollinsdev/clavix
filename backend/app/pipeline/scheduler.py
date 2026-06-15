@@ -4788,7 +4788,10 @@ async def run_sp500_full_ai_analysis_fast(
             "failed": [{"error": "No system positions found for SP500 tickers"}],
         }
 
-    REFRESH_CONCURRENCY = 2
+    try:
+        REFRESH_CONCURRENCY = max(1, int(os.getenv("REFRESH_CONCURRENCY", "2")))
+    except ValueError:
+        REFRESH_CONCURRENCY = 2
 
     def _print_ticker_analysis(ticker: str, meta: dict) -> None:
         pe = meta.get("pe_ratio") or "N/A"

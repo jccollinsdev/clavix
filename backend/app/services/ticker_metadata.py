@@ -35,6 +35,7 @@ QUOTE_METADATA_TTL = timedelta(hours=24)
 _PERSISTABLE_TICKER_METADATA_FIELDS = {
     "ticker",
     "company_name",
+    "asset_class",
     "exchange",
     "sector",
     "industry",
@@ -57,11 +58,27 @@ _PERSISTABLE_TICKER_METADATA_FIELDS = {
     "volatility_proxy",
     "profitability_profile",
     "leverage_profile",
+    "debt_to_equity",
+    "fcf_margin",
+    "interest_coverage",
+    "current_ratio",
+    "revenue_growth_trend",
+    "fundamentals_updated_at",
     "macro_sensitivity",
     "spread_proxy",
     "is_supported",
     "updated_at",
 }
+
+_FINANCIAL_HEALTH_FIELDS = (
+    "debt_to_equity",
+    "fcf_margin",
+    "interest_coverage",
+    "current_ratio",
+    "revenue_growth_trend",
+    "profitability_profile",
+    "leverage_profile",
+)
 
 
 def _parse_timestamp(value: str | None) -> datetime | None:
@@ -86,7 +103,27 @@ def _is_recent(existing: dict, field: str, ttl: timedelta) -> bool:
     return datetime.now(timezone.utc) - updated_at <= ttl
 
 
-def _reuse_cached_metadata(existing: dict | None) -> dict | None:
+def _fundamentals_are_fresh(existing: dict | None) -> bool:
+    if not existing:
+        return False
+    has_cached_fundamental_shape = any(
+        existing.get(field) is not None for field in _FINANCIAL_HEALTH_FIELDS
+    ) or existing.get("fundamentals_updated_at") is not None
+    if not has_cached_fundamental_shape:
+        return False
+    updated_at = _parse_timestamp(
+        existing.get("fundamentals_updated_at") or existing.get("updated_at")
+    )
+    if updated_at is None:
+        return False
+    return datetime.now(timezone.utc) - updated_at <= STATIC_METADATA_TTL
+
+
+def _reuse_cached_metadata(
+    existing: dict | None,
+    *,
+    prefer_cached_fundamentals: bool = False,
+) -> dict | None:
     if not existing:
         return None
 
@@ -100,6 +137,8 @@ def _reuse_cached_metadata(existing: dict | None) -> dict | None:
     )
 
     if static_fresh and quote_fresh:
+        return existing
+    if prefer_cached_fundamentals and static_fresh and _fundamentals_are_fresh(existing):
         return existing
     return None
 
@@ -470,8 +509,8 @@ def _get_macro_sensitivity(beta) -> str:
     return "very_high"
 
 
-def build_ticker_metadata(ticker: str) -> dict | None:
-    finnhub_data = fetch_ticker_details_from_finnhub(ticker)
+def build_ticker_metadata(ticker: str, finnhub_data: dict | None = None) -> dict | None:
+    finnhub_data = finnhub_data or fetch_ticker_details_from_finnhub(ticker)
     if not finnhub_data:
         return None
 
@@ -490,9 +529,12 @@ def build_ticker_metadata(ticker: str) -> dict | None:
     if finnhub_data.get("avg_daily_dollar_volume"):
         spread_proxy = 0.001
 
+    now_iso = datetime.now(timezone.utc).isoformat()
+
     return {
         "ticker": ticker.upper(),
         "company_name": finnhub_data.get("company_name"),
+        "asset_class": finnhub_data.get("asset_class"),
         "exchange": finnhub_data.get("exchange"),
         "sector": finnhub_data.get("sector"),
         "industry": finnhub_data.get("industry"),
@@ -520,14 +562,21 @@ def build_ticker_metadata(ticker: str) -> dict | None:
         "interest_coverage": finnhub_data.get("interest_coverage"),
         "current_ratio": finnhub_data.get("current_ratio"),
         "revenue_growth_trend": finnhub_data.get("revenue_growth_trend"),
+        "fundamentals_updated_at": now_iso,
         "macro_sensitivity": finnhub_data.get("macro_sensitivity"),
         "spread_proxy": spread_proxy,
         "is_supported": True,
-        "updated_at": datetime.utcnow().isoformat(),
+        "updated_at": now_iso,
     }
 
 
-def upsert_ticker_metadata(supabase: Client, ticker: str) -> dict | None:
+def upsert_ticker_metadata(
+    supabase: Client,
+    ticker: str,
+    finnhub_data: dict | None = None,
+    *,
+    prefer_cached_fundamentals: bool = False,
+) -> dict | None:
     existing = (
         supabase.table("ticker_metadata")
         .select("*")
@@ -537,11 +586,15 @@ def upsert_ticker_metadata(supabase: Client, ticker: str) -> dict | None:
         .data
     )
     existing_row = existing[0] if existing else None
-    cached = _reuse_cached_metadata(existing_row)
-    if cached:
-        return cached
+    if finnhub_data is None:
+        cached = _reuse_cached_metadata(
+            existing_row,
+            prefer_cached_fundamentals=prefer_cached_fundamentals,
+        )
+        if cached:
+            return cached
 
-    metadata = build_ticker_metadata(ticker)
+    metadata = build_ticker_metadata(ticker, finnhub_data=finnhub_data)
     if not metadata:
         return None
     persisted_metadata = {

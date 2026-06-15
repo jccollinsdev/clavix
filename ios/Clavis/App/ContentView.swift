@@ -2,6 +2,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject var subscriptionManager: SubscriptionManager
     @State private var hasCheckedSession = false
 
     var body: some View {
@@ -36,6 +37,8 @@ struct ContentView: View {
         .onChange(of: authViewModel.isAuthenticated) { _, isAuth in
             if !isAuth {
                 hasCheckedSession = false
+            } else {
+                Task { await subscriptionManager.refresh() }
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .supabaseAuthCallbackReceived)) { notification in
@@ -56,7 +59,11 @@ struct ContentView: View {
             LoadingView()
         } else if authViewModel.isAuthenticated {
             if authViewModel.hasCompletedOnboarding || allowDebugBypassLiveEntry {
-                MainTabView()
+                if shouldShowExpiredPaywall {
+                    ExpiredPaywallView()
+                } else {
+                    MainTabView()
+                }
             } else {
                 OnboardingContainerView()
             }
@@ -100,6 +107,15 @@ struct ContentView: View {
         #else
         false
         #endif
+    }
+
+    private var shouldShowExpiredPaywall: Bool {
+        switch subscriptionManager.status {
+        case .notSubscribed, .expired:
+            return true
+        case .unknown, .trial, .active:
+            return false
+        }
     }
 }
 

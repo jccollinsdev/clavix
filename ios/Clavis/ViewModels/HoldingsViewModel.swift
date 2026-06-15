@@ -34,6 +34,7 @@ class HoldingsViewModel: ObservableObject {
         }
         errorMessage = nil
         showError = false
+        let usedCachedData = showLoading && holdings.isEmpty && hydrateFromCache()
 
         do {
             holdings = try await api.fetchHoldings()
@@ -45,7 +46,7 @@ class HoldingsViewModel: ObservableObject {
 
                 await MainActor.run {
                     self.watchlistItems = watchlists?.first?.items ?? []
-                    self.subscriptionTier = preferences?.subscriptionTier?.lowercased() ?? "free"
+                    self.subscriptionTier = (preferences?.effectiveTier ?? preferences?.subscriptionTier ?? "free").lowercased()
                 }
             }
 
@@ -78,7 +79,9 @@ class HoldingsViewModel: ObservableObject {
         } catch is CancellationError {
             errorMessage = nil
         } catch {
-            errorMessage = ClavisCopy.Errors.holdingsLoad(error)
+            if !usedCachedData {
+                errorMessage = ClavisCopy.Errors.holdingsLoad(error)
+            }
         }
 
         isLoading = false
@@ -87,6 +90,13 @@ class HoldingsViewModel: ObservableObject {
 
     func refreshHoldings() async {
         await loadHoldings(showLoading: false)
+    }
+
+    private func hydrateFromCache() -> Bool {
+        guard let cachedHoldings = api.cachedHoldings() else { return false }
+        holdings = cachedHoldings
+        lastRefreshedAt = Date()
+        return true
     }
 
     func refreshWatchlist() async {

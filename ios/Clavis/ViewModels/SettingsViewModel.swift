@@ -60,7 +60,7 @@ class SettingsViewModel: ObservableObject {
             }
             userName = prefs.name ?? ""
             birthYear = prefs.birthYear
-            subscriptionTier = prefs.subscriptionTier?.lowercased() ?? "free"
+            subscriptionTier = (prefs.effectiveTier ?? prefs.subscriptionTier ?? "free").lowercased()
             if let sl = prefs.summaryLength, let length = SummaryLength(rawValue: sl.capitalized) {
                 summaryLength = length
             }

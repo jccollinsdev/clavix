@@ -111,6 +111,16 @@ class APIService {
     ]
     private let responseCache = APIResponseCache()
 
+    private enum PersistentCacheKey: String {
+        case holdings
+        case todayDigest
+        case alerts
+
+        var storageKey: String {
+            "clavix.api.staleCache.\(rawValue)"
+        }
+    }
+
     private init() {
         self.baseURL = Config.backendBaseUrl
         self.decoder = JSONDecoder()
@@ -311,6 +321,14 @@ class APIService {
         }
     }
 
+    private func cachedData(for key: PersistentCacheKey) -> Data? {
+        UserDefaults.standard.data(forKey: key.storageKey)
+    }
+
+    private func storeCachedData(_ data: Data, for key: PersistentCacheKey) {
+        UserDefaults.standard.set(data, forKey: key.storageKey)
+    }
+
     struct CreateHoldingRequest: Encodable {
         let ticker: String
         let shares: Double
@@ -362,7 +380,14 @@ class APIService {
 
     func fetchHoldings(timeoutInterval: TimeInterval = 15) async throws -> [Position] {
         let data = try await makeRequest(path: "/holdings", timeoutInterval: timeoutInterval)
-        return try decoder.decode([Position].self, from: data)
+        let decoded = try decoder.decode([Position].self, from: data)
+        storeCachedData(data, for: .holdings)
+        return decoded
+    }
+
+    func cachedHoldings() -> [Position]? {
+        guard let data = cachedData(for: .holdings) else { return nil }
+        return try? decoder.decode([Position].self, from: data)
     }
 
     func fetchDashboard() async throws -> DashboardResponse {
@@ -470,7 +495,16 @@ class APIService {
     func fetchTodayDigest(forceRefresh: Bool = false, timeoutInterval: TimeInterval = 75) async throws -> DigestResponse {
         let path = forceRefresh ? "/digest?force_refresh=true" : "/digest"
         let data = try await makeRequest(path: path, timeoutInterval: timeoutInterval)
-        return try decoder.decode(DigestResponse.self, from: data)
+        let decoded = try decoder.decode(DigestResponse.self, from: data)
+        if !forceRefresh {
+            storeCachedData(data, for: .todayDigest)
+        }
+        return decoded
+    }
+
+    func cachedTodayDigest() -> DigestResponse? {
+        guard let data = cachedData(for: .todayDigest) else { return nil }
+        return try? decoder.decode(DigestResponse.self, from: data)
     }
 
     func fetchDigestHistory(limit: Int = 7, timeoutInterval: TimeInterval = 75) async throws -> [Digest] {
@@ -502,7 +536,13 @@ class APIService {
     func fetchAlerts(timeoutInterval: TimeInterval = 12) async throws -> [Alert] {
         let data = try await makeRequest(path: "/alerts", timeoutInterval: timeoutInterval)
         let response = try decoder.decode(AlertsResponse.self, from: data)
+        storeCachedData(data, for: .alerts)
         return response.alerts
+    }
+
+    func cachedAlerts() -> [Alert]? {
+        guard let data = cachedData(for: .alerts) else { return nil }
+        return try? decoder.decode(AlertsResponse.self, from: data).alerts
     }
 
     // MARK: - Analysis Runs
@@ -839,6 +879,38 @@ class APIService {
 
     func markAllAlertsRead() async throws {
         _ = try await makeRequest(path: "/alerts/read-all", method: "POST")
+    }
+
+    // MARK: - Analytics
+
+    struct AnalyticsEventRequest: Encodable {
+        let event_name: String
+        let properties: [String: String]
+        let client_event_id: String
+        let platform: String
+        let app_version: String?
+    }
+
+    func recordAnalyticsEvent(name: String, properties: [String: String] = [:]) async {
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        let event = AnalyticsEventRequest(
+            event_name: name,
+            properties: properties,
+            client_event_id: UUID().uuidString,
+            platform: "ios",
+            app_version: appVersion
+        )
+        do {
+            let body = try JSONEncoder().encode(event)
+            _ = try await makeRequest(
+                path: "/analytics/event",
+                method: "POST",
+                body: body,
+                suppressSessionExpired: true
+            )
+        } catch {
+            print("[Analytics] Failed to record \(name): \(error)")
+        }
     }
 
     // MARK: - Today envelope

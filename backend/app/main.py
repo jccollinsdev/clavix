@@ -21,6 +21,7 @@ from .routes.news import router as news_router
 from .routes.preferences import router as preferences_router
 from .routes.prices import router as prices_router
 from .routes.account import router as account_router
+from .routes.analytics import router as analytics_router
 from .routes.admin import router as admin_router
 from .routes.scheduler import router as scheduler_router
 from .routes.push_test_route import router as test_push_router
@@ -379,6 +380,7 @@ app.include_router(
     analysis_runs_router, prefix="/analysis-runs", tags=["analysis-runs"]
 )
 app.include_router(alerts_router, prefix="/alerts", tags=["alerts"])
+app.include_router(analytics_router, prefix="/analytics", tags=["analytics"])
 app.include_router(news_router, prefix="/news", tags=["news"])
 app.include_router(preferences_router, prefix="/preferences", tags=["preferences"])
 app.include_router(tickers_router, prefix="/tickers", tags=["tickers"])

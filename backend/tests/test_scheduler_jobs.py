@@ -261,7 +261,7 @@ def test_upsert_ticker_snapshot_from_scores_serializes_snapshot_date():
 
     assert len(supabase.query.upsert_calls) == 1
     call = supabase.query.upsert_calls[0]
-    assert call["on_conflict"] == "ticker,snapshot_date,snapshot_type"
+    assert call["on_conflict"] == "ticker,snapshot_date"
     assert call["row"]["snapshot_date"] == today
     assert call["row"]["ticker"] == "EXPD"
 

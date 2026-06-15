@@ -133,13 +133,15 @@ def _create_holding_sync(
 ) -> dict[str, Any]:
     tier = _get_subscription_tier(supabase, user_id)
     if tier == "free":
-        existing_count = (
+        positions_result = (
             supabase.table("positions")
             .select("id", count="exact")
             .eq("user_id", user_id)
             .execute()
-            .count
-        ) or 0
+        )
+        existing_count = getattr(positions_result, "count", None)
+        if existing_count is None:
+            existing_count = len(positions_result.data or [])
         if existing_count >= FREE_TIER_HOLDING_LIMIT:
             raise HTTPException(
                 403,

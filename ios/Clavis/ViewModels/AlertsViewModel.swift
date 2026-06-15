@@ -27,6 +27,7 @@ class AlertsViewModel: ObservableObject {
     func loadAlerts() async {
         isLoading = true
         errorMessage = nil
+        let usedCachedData = alerts.isEmpty && hydrateFromCache()
 
         do {
             alerts = try await api.fetchAlerts()
@@ -47,10 +48,25 @@ class AlertsViewModel: ObservableObject {
             errorMessage = nil
         } catch {
             print("Failed to load alerts: \(error)")
-            errorMessage = ClavisCopy.Errors.alertsLoad(error)
+            if !usedCachedData {
+                errorMessage = ClavisCopy.Errors.alertsLoad(error)
+            }
         }
 
         isLoading = false
+    }
+
+    private func hydrateFromCache() -> Bool {
+        var hydrated = false
+        if let cachedAlerts = api.cachedAlerts() {
+            alerts = cachedAlerts
+            hydrated = true
+        }
+        if let cachedHoldings = api.cachedHoldings() {
+            holdings = cachedHoldings
+            hydrated = true
+        }
+        return hydrated
     }
 
     var sortedAlerts: [Alert] {

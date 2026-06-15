@@ -467,12 +467,32 @@ CREATE TABLE IF NOT EXISTS public.ticker_metadata (
     day_high NUMERIC,
     day_low NUMERIC,
     last_price_source TEXT,
+    debt_to_equity NUMERIC,
+    fcf_margin NUMERIC,
+    interest_coverage NUMERIC,
+    current_ratio NUMERIC,
+    revenue_growth_trend NUMERIC,
+    fundamentals_updated_at TIMESTAMPTZ,
     is_supported BOOLEAN NOT NULL DEFAULT false,
     updated_at TIMESTAMPTZ DEFAULT now(),
     created_at TIMESTAMPTZ DEFAULT now()
 );
 
 ALTER TABLE public.ticker_metadata ENABLE ROW LEVEL SECURITY;
+
+-- analytics_events — first-party funnel analytics
+CREATE TABLE IF NOT EXISTS public.analytics_events (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    event_name TEXT NOT NULL CHECK (event_name ~ '^[a-z][a-z0-9_]{1,63}$'),
+    properties JSONB NOT NULL DEFAULT '{}'::jsonb,
+    client_event_id TEXT,
+    platform TEXT,
+    app_version TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+ALTER TABLE public.analytics_events ENABLE ROW LEVEL SECURITY;
 
 -- asset_safety_profiles — Daily structural safety snapshot
 CREATE TABLE IF NOT EXISTS public.asset_safety_profiles (

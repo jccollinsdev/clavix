@@ -9,6 +9,7 @@ struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
 
     let triggerContext: PaywallTrigger
+    var showsCloseButton: Bool = true
 
     var body: some View {
         NavigationStack {
@@ -26,14 +27,22 @@ struct PaywallView: View {
             }
             .background(Color.clavixPage.ignoresSafeArea())
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") { dismiss() }
-                        .font(ClavisTypography.clavixMono(11, weight: .semibold))
-                        .foregroundColor(.clavixInk3)
+                if showsCloseButton {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") { dismiss() }
+                            .font(ClavisTypography.clavixMono(11, weight: .semibold))
+                            .foregroundColor(.clavixInk3)
+                    }
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Clavix Pro")
+        }
+        .onAppear {
+            AnalyticsService.track(
+                AnalyticsEventName.paywallViewed,
+                properties: ["trigger": triggerContext.analyticsName]
+            )
         }
         .alert("Purchase Error", isPresented: .init(
             get: { subscriptionManager.purchaseError != nil },
@@ -167,6 +176,7 @@ enum PaywallTrigger {
     case verboseDigest
     case watchlistLimit
     case advancedAlerts
+    case expiredTrial
     case generic
 
     var message: String? {
@@ -179,8 +189,27 @@ enum PaywallTrigger {
             return "Free accounts monitor up to 5 watchlist tickers. Pro removes the limit."
         case .advancedAlerts:
             return "Advanced alerts (watchlist grade changes, macro-shock signals, and portfolio-level risk triggers) are Pro features."
+        case .expiredTrial:
+            return "Your free trial has ended. Subscribe to keep tracking your full portfolio risk picture."
         case .generic:
             return nil
+        }
+    }
+
+    var analyticsName: String {
+        switch self {
+        case .holdingLimit:
+            return "holding_limit"
+        case .verboseDigest:
+            return "verbose_digest"
+        case .watchlistLimit:
+            return "watchlist_limit"
+        case .advancedAlerts:
+            return "advanced_alerts"
+        case .expiredTrial:
+            return "expired_trial"
+        case .generic:
+            return "generic"
         }
     }
 }

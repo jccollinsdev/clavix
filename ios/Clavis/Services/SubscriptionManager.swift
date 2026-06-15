@@ -30,6 +30,7 @@ final class SubscriptionManager: ObservableObject {
 
     private var products: [Product] = []
     private var transactionListenerTask: Task<Void, Never>?
+    private let trialStartedTrackedKey = "clavix.analytics.trialStartedTracked"
 
     private init() {
         transactionListenerTask = listenForTransactions()
@@ -58,12 +59,20 @@ final class SubscriptionManager: ObservableObject {
         isLoading = true
         purchaseError = nil
         do {
+            await APIService.shared.recordAnalyticsEvent(
+                name: AnalyticsEventName.purchaseTapped,
+                properties: ["product_id": product.id]
+            )
             let result = try await product.purchase()
             switch result {
             case .success(let verification):
                 let transaction = try checkVerified(verification)
                 await updateStatus(for: transaction)
                 await transaction.finish()
+                await APIService.shared.recordAnalyticsEvent(
+                    name: AnalyticsEventName.purchaseSuccess,
+                    properties: ["product_id": transaction.productID]
+                )
                 await syncTierToBackend()
             case .userCancelled:
                 break
@@ -82,6 +91,7 @@ final class SubscriptionManager: ObservableObject {
         isLoading = true
         purchaseError = nil
         do {
+            await APIService.shared.recordAnalyticsEvent(name: AnalyticsEventName.restoreTapped)
             try await AppStore.sync()
             await refresh()
         } catch {
@@ -127,6 +137,10 @@ final class SubscriptionManager: ObservableObject {
             let expiry = trialEndsAt ?? Date().addingTimeInterval(14 * 86400)
             status = .trial(expiresAt: expiry)
             isPro = true
+            trackTrialStartedIfNeeded(expiresAt: expiry)
+        case "unknown":
+            status = .unknown
+            isPro = false
         default:
             status = .notSubscribed
             isPro = false
@@ -174,7 +188,7 @@ final class SubscriptionManager: ObservableObject {
 
     private func fetchServerPrefs() async -> (tier: String, trialEndsAt: Date?) {
         guard let prefs = try? await APIService.shared.fetchPreferences() else {
-            return ("free", nil)
+            return ("unknown", nil)
         }
         let tier = (prefs.effectiveTier ?? prefs.subscriptionTier ?? "free").lowercased()
         var trialEnds: Date? = nil
@@ -183,6 +197,15 @@ final class SubscriptionManager: ObservableObject {
             trialEnds = ISO8601DateFormatter().date(from: iso)
         }
         return (tier, trialEnds)
+    }
+
+    private func trackTrialStartedIfNeeded(expiresAt: Date) {
+        guard !UserDefaults.standard.bool(forKey: trialStartedTrackedKey) else { return }
+        UserDefaults.standard.set(true, forKey: trialStartedTrackedKey)
+        AnalyticsService.track(
+            AnalyticsEventName.trialStarted,
+            properties: ["expires_at": ISO8601DateFormatter().string(from: expiresAt)]
+        )
     }
 
     private func syncTierToBackend() async {

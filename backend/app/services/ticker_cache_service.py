@@ -1591,24 +1591,6 @@ def _first_non_none(*values: Any) -> Any:
     return None
 
 
-def _first_positive(*values: Any) -> Any:
-    """Return the first value that is not None and > 0.
-
-    Used for dimension scores where 0 means "excluded from composite by the
-    limited-data exclusion logic" (B3 fix), not "actually scored zero."
-    A true zero-score dimension is theoretically possible but does not occur
-    in practice; treating stored 0 as missing is safer than treating it as real.
-    """
-    for v in values:
-        if v is not None:
-            try:
-                if float(v) > 0:
-                    return v
-            except (TypeError, ValueError):
-                pass
-    return None
-
-
 def _shared_risk_dimensions(snapshot: dict[str, Any] | None) -> dict[str, Any]:
     snapshot = snapshot or {}
     factor_breakdown = snapshot.get("factor_breakdown") or {}
@@ -1629,32 +1611,35 @@ def _shared_risk_dimensions(snapshot: dict[str, Any] | None) -> dict[str, Any]:
     # math doesn't add up, which destroys trust with the sophisticated ICP.
     limited_dims: set[str] = set(snapshot.get("limited_data_dimensions") or [])
 
-    # Use _first_positive for all snapshot dimension reads: a stored value of 0
-    # means the dimension was excluded from the composite by the limited-data
-    # exclusion logic (B3 fix), not that the dimension actually scored zero.
-    # Returning None for 0-valued dimensions keeps the API response honest —
-    # the iOS five-axis shows "—" instead of a misleadingly small bar.
-    news_score = (
-        None if "news_sentiment" in limited_dims
-        else _first_positive(snapshot.get("news_sentiment_dim"), ai_dims.get("news_sentiment"))
-    )
+    def _dimension_value(name: str, *values: Any) -> Any:
+        if name in limited_dims:
+            return None
+        return _first_non_none(*values)
 
     return {
-        "financial_health": _first_positive(
+        "financial_health": _dimension_value(
+            "financial_health",
             snapshot.get("financial_health"),
             ai_dims.get("financial_health"),
             ai_dims.get("position_sizing"),
         ),
-        "news_sentiment": news_score,
-        "macro_exposure": _first_positive(
+        "news_sentiment": _dimension_value(
+            "news_sentiment",
+            snapshot.get("news_sentiment_dim"),
+            ai_dims.get("news_sentiment"),
+        ),
+        "macro_exposure": _dimension_value(
+            "macro_exposure",
             snapshot.get("macro_exposure_dim"),
             ai_dims.get("macro_exposure"),
-        ) if "macro_exposure" not in limited_dims else None,
-        "sector_exposure": _first_positive(
+        ),
+        "sector_exposure": _dimension_value(
+            "sector_exposure",
             snapshot.get("sector_exposure"),
             ai_dims.get("sector_exposure"),
         ),
-        "volatility": _first_positive(
+        "volatility": _dimension_value(
+            "volatility",
             snapshot.get("volatility"),
             ai_dims.get("volatility"),
             ai_dims.get("volatility_trend"),
@@ -4063,7 +4048,11 @@ def refresh_ticker_snapshot(
                 "news_cache_count": news_cache_refresh.get("count", 0),
             }
 
-        metadata = upsert_ticker_metadata(supabase, ticker)
+        metadata = upsert_ticker_metadata(
+            supabase,
+            ticker,
+            prefer_cached_fundamentals=True,
+        )
         if not metadata:
             raise RuntimeError(f"Unable to refresh ticker metadata for {ticker}")
 
@@ -4241,8 +4230,8 @@ def refresh_ticker_snapshot(
 
             The structural scorer and LLM both use 0 to mean 'excluded' or
             'no data', not a genuine zero score. Storing None keeps the
-            snapshot schema honest: _first_positive() and the portfolio
-            rollup skip None just like they skip 0, but None is unambiguous.
+            snapshot schema honest for newly generated rows, while the API
+            read path can still preserve legacy rows with explicit zeroes.
             """
             try:
                 v = int(round(float(value)))

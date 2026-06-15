@@ -6,6 +6,9 @@ struct UserPreferences: Codable {
     let digestTime: String
     let notificationsEnabled: Bool
     let apnsToken: String?
+    let subscriptionTier: String?
+    let effectiveTier: String?
+    let trialEndsAt: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -13,5 +16,8 @@ struct UserPreferences: Codable {
         case digestTime = "digest_time"
         case notificationsEnabled = "notifications_enabled"
         case apnsToken = "apns_token"
+        case subscriptionTier = "subscription_tier"
+        case effectiveTier = "effective_tier"
+        case trialEndsAt = "trial_ends_at"
     }
 }

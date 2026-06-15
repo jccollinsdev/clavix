@@ -12,6 +12,8 @@
 	<string>$(SUPABASE_ANON_KEY)</string>
 	<key>BACKEND_BASE_URL</key>
 	<string>https://clavis.andoverdigital.com</string>
+	<key>SENTRY_DSN</key>
+	<string>$(SENTRY_DSN)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
