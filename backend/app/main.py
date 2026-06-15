@@ -327,7 +327,6 @@ async def ping():
 @app.head("/health")
 async def health():
     from .services.supabase import get_supabase
-    from .pipeline.scheduler import SYSTEM_SP500_USER_ID, SP500_BACKFILL_TRIGGER
 
     apns_status = validate_apns_configuration()
 
@@ -337,10 +336,9 @@ async def health():
     try:
         supabase = get_supabase()
         rows = (
-            supabase.table("analysis_runs")
-            .select("status, completed_at, error_message, created_at")
-            .eq("user_id", SYSTEM_SP500_USER_ID)
-            .eq("triggered_by", SP500_BACKFILL_TRIGGER)
+            supabase.table("ticker_refresh_jobs")
+            .select("status, completed_at, error_message, job_type, created_at")
+            .eq("job_type", "daily")
             .order("created_at", desc=True)
             .limit(1)
             .execute()
