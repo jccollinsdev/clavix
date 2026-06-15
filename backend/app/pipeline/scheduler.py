@@ -4576,6 +4576,14 @@ async def refresh_sp500_cache(
 ) -> dict:
     from ..services.supabase import get_supabase
 
+    # Skip recompute on weekends — Polygon daily bars don't update and SPY/factor
+    # ETF bar fetches can transiently fail, producing broken limited_data snapshots
+    # that overwrite Friday's good data.  Manual triggers (job_type != "daily")
+    # are allowed any day.
+    if job_type == "daily" and datetime.now(ET).weekday() >= 5:
+        logger.info("[SP500] Skipping weekend daily recompute (weekday=%d)", datetime.now(ET).weekday())
+        return {"status": "skipped", "reason": "weekend", "job_type": job_type}
+
     supabase = get_supabase()
     ensure_sp500_universe_seeded(supabase)
     tickers = list_active_sp500_tickers(supabase, limit=limit)
@@ -5309,7 +5317,7 @@ def _schedule_holdings_daily_ai_refresh() -> None:
         scheduler.remove_job(HOLDINGS_DAILY_AI_JOB_ID)
     scheduler.add_job(
         run_user_holdings_daily_ai_refresh,
-        trigger=CronTrigger(hour=7, minute=0, timezone=ET),
+        trigger=CronTrigger(hour=7, minute=0, day_of_week="mon-fri", timezone=ET),
         id=HOLDINGS_DAILY_AI_JOB_ID,
         replace_existing=True,
         misfire_grace_time=3600,
@@ -5341,7 +5349,7 @@ def _schedule_sp500_backfill() -> None:
         scheduler.remove_job(SP500_BACKFILL_JOB_ID)
     scheduler.add_job(
         _run_scheduled_sp500_backfill,
-        trigger=CronTrigger(hour=7, minute=30, timezone=ET),
+        trigger=CronTrigger(hour=7, minute=30, day_of_week="mon-fri", timezone=ET),
         id=SP500_BACKFILL_JOB_ID,
         replace_existing=True,
         misfire_grace_time=6 * 3600,
@@ -5354,7 +5362,7 @@ def _schedule_sp500_daily_refresh() -> None:
         scheduler.remove_job(SP500_DAILY_JOB_ID)
     scheduler.add_job(
         refresh_sp500_cache,
-        trigger=CronTrigger(hour=8, minute=0, timezone=ET),
+        trigger=CronTrigger(hour=8, minute=0, day_of_week="mon-fri", timezone=ET),
         id=SP500_DAILY_JOB_ID,
         replace_existing=True,
         kwargs={"job_type": "daily"},
