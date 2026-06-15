@@ -2,8 +2,10 @@ from __future__ import annotations
 
 import logging
 import os
+import smtplib
 import time
 from datetime import date, datetime, timedelta, timezone
+from email.mime.text import MIMEText
 from typing import Any
 
 from app.services.supabase import get_supabase
@@ -13,6 +15,61 @@ from app.services.ticker_cache_service import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+def _send_job_failure_alert(result: dict) -> None:
+    """Fire a failure alert via Sentry and optionally email when recompute has failures.
+
+    Email is sent only when ALERT_EMAIL, SMTP_HOST, SMTP_USER, SMTP_PASS are set.
+    Sentry is used when available regardless.
+    """
+    items_failed = result.get("items_failed", 0)
+    if not items_failed:
+        return
+
+    failure_rate = items_failed / max(result.get("items_processed", 0) + items_failed, 1)
+    subject = (
+        f"[Clavix] composite_recompute: {items_failed} failures "
+        f"({failure_rate:.0%}) on {date.today().isoformat()}"
+    )
+    body_lines = [
+        subject,
+        "",
+        f"Processed: {result.get('items_processed', 0)}",
+        f"Failed:    {items_failed}",
+        f"Skipped:   {result.get('items_skipped', 0)}",
+        "",
+        "Failed tickers:",
+    ]
+    for entry in (result.get("metadata") or {}).get("failed", []):
+        body_lines.append(f"  {entry.get('ticker')}: {entry.get('error')}")
+    body = "\n".join(body_lines)
+
+    # Sentry alert (no extra config needed if DSN is set)
+    try:
+        import sentry_sdk
+        sentry_sdk.capture_message(subject, level="error", extras={"result": result})
+    except Exception:
+        pass
+
+    # Email alert (optional — set ALERT_EMAIL + SMTP_HOST + SMTP_USER + SMTP_PASS)
+    alert_email = os.getenv("ALERT_EMAIL", "").strip()
+    smtp_host = os.getenv("SMTP_HOST", "").strip()
+    smtp_user = os.getenv("SMTP_USER", "").strip()
+    smtp_pass = os.getenv("SMTP_PASS", "").strip()
+    if alert_email and smtp_host and smtp_user and smtp_pass:
+        try:
+            msg = MIMEText(body)
+            msg["Subject"] = subject
+            msg["From"] = smtp_user
+            msg["To"] = alert_email
+            with smtplib.SMTP(smtp_host, int(os.getenv("SMTP_PORT", "587"))) as s:
+                s.starttls()
+                s.login(smtp_user, smtp_pass)
+                s.send_message(msg)
+            logger.info("composite_recompute: failure alert email sent to %s", alert_email)
+        except Exception as exc:
+            logger.warning("composite_recompute: failed to send alert email: %s", exc)
 
 _MAX_RETRIES = 2
 _RETRY_BASE_DELAY_SECONDS = 3
@@ -172,7 +229,7 @@ def run(
             [f["ticker"] for f in failed[:10]],
         )
 
-    return {
+    result = {
         "status": "completed" if not failed else "partial" if processed > 0 else "failed",
         "items_processed": processed,
         "items_skipped": skipped,
@@ -184,6 +241,8 @@ def run(
             "failed": failed[:25],
         },
     }
+    _send_job_failure_alert(result)
+    return result
 
 
 def run_from_env() -> dict:

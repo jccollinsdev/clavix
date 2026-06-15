@@ -483,6 +483,45 @@ def sanitize_public_analysis_text(value: Any) -> Any:
     return value
 
 
+# Minimum score to be in each grade band (lower bound, inclusive).
+_GRADE_LOWER_BOUND: dict[str, float] = {
+    "AAA": 90, "AA": 80, "A": 70, "BBB": 60, "BB": 50,
+    "B": 40, "CCC": 30, "CC": 20, "C": 10, "F": 0,
+}
+# Score must be this many points into the new band before we flip the grade.
+# Prevents daily oscillation at boundaries (e.g. 69.8 / 70.2 → A/BBB every day).
+_HYSTERESIS_BUFFER = 2.0
+
+
+def apply_grade_hysteresis(new_score: float, previous_grade: str | None) -> str:
+    """Return the grade for new_score, but hold previous_grade unless the score
+    is at least _HYSTERESIS_BUFFER points into the new band.
+
+    Examples at the A/BBB boundary (70):
+      score=69.5, prev=A   → A    (only 0.5 below boundary, not enough to flip)
+      score=67.9, prev=A   → BBB  (2.1 below boundary, flip confirmed)
+      score=70.8, prev=BBB → BBB  (only 0.8 above boundary, not enough to flip)
+      score=72.1, prev=BBB → A    (2.1 above boundary, flip confirmed)
+    """
+    new_grade = score_to_grade(new_score)
+    if not previous_grade or new_grade == previous_grade:
+        return new_grade
+
+    prev_lower = _GRADE_LOWER_BOUND.get(previous_grade, 0)
+    new_lower = _GRADE_LOWER_BOUND.get(new_grade, 0)
+
+    if new_lower < prev_lower:
+        # Moving to a lower (worse) grade: require score to be BUFFER below the old boundary.
+        if new_score > prev_lower - _HYSTERESIS_BUFFER:
+            return previous_grade
+    else:
+        # Moving to a higher (better) grade: require score to be BUFFER above the new boundary.
+        if new_score < new_lower + _HYSTERESIS_BUFFER:
+            return previous_grade
+
+    return new_grade
+
+
 def score_to_grade(score: float) -> str:
     if score >= 90:
         return "AAA"

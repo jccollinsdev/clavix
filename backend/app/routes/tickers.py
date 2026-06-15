@@ -275,7 +275,7 @@ async def get_score_history(
         .select(
             "snapshot_date,composite_score,safety_score,grade,"
             "financial_health,news_sentiment_dim,macro_exposure_dim,"
-            "sector_exposure,volatility,methodology_version"
+            "sector_exposure,volatility,methodology_version,analysis_as_of"
         )
         .eq("ticker", normalized)
         .gte("snapshot_date", cutoff)
@@ -284,15 +284,32 @@ async def get_score_history(
     res = await asyncio.to_thread(query.execute)
     rows = res.data or []
 
-    points = []
+    # Deduplicate by date (daily + manual_refresh rows may coexist for same date).
+    # Keep the row with the latest analysis_as_of timestamp.
+    best_by_date: dict[str, dict] = {}
     for row in rows:
+        date_key = row.get("snapshot_date")
+        if not date_key:
+            continue
+        existing = best_by_date.get(date_key)
+        if existing is None:
+            best_by_date[date_key] = row
+        else:
+            new_ts = str(row.get("analysis_as_of") or "")
+            old_ts = str(existing.get("analysis_as_of") or "")
+            if new_ts > old_ts:
+                best_by_date[date_key] = row
+
+    points = []
+    for date_key in sorted(best_by_date.keys()):
+        row = best_by_date[date_key]
         composite = row.get("composite_score")
         if composite is None:
             composite = row.get("safety_score")
         if composite is None:
             continue
         points.append({
-            "date": row.get("snapshot_date"),
+            "date": date_key,
             "composite": composite,
             "grade": row.get("grade"),
             "financial_health": row.get("financial_health"),

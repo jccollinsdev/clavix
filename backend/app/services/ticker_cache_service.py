@@ -13,7 +13,7 @@ from uuid import uuid4
 from fastapi import HTTPException
 
 from ..pipeline.risk_scorer import score_position_structural
-from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength, sanitize_text_field, normalize_event_analysis_payload, calculate_weighted_score
+from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength, sanitize_text_field, normalize_event_analysis_payload, calculate_weighted_score, apply_grade_hysteresis
 from ..pipeline.structural_scorer import estimate_iv_rank_from_realized_vol, percentile_rank, smooth_score_with_history
 from ..pipeline.position_report_builder import _build_driver_cards
 from .alert_payloads import enrich_alert_rows
@@ -4200,6 +4200,14 @@ def refresh_ticker_snapshot(
                 "grade": recomputed_grade,
             }
 
+        # Grade hysteresis: only flip grade if score is firmly in the new band.
+        # Prevents A<->BBB boundary wobble from daily noise (±2 point buffer).
+        if previous_snapshot is not None:
+            prev_grade = previous_snapshot.get("grade")
+            stable_grade = apply_grade_hysteresis(float(score["total_score"]), prev_grade)
+            if stable_grade != score["grade"]:
+                score = {**score, "grade": stable_grade}
+
         analysis_as_of = _utcnow_iso()
         dimension_inputs = {
             "financial_health": financial_inputs,
@@ -4237,7 +4245,7 @@ def refresh_ticker_snapshot(
         snapshot_payload = {
             "ticker": ticker,
             "snapshot_date": target_date_iso,
-            "snapshot_type": job_type,
+            "snapshot_type": "daily",
             "grade": score["grade"],
             "safety_score": round(score["safety_score"], 1),
             "financial_health": _dim_or_none(score.get("financial_health")),
@@ -4266,7 +4274,7 @@ def refresh_ticker_snapshot(
         snapshot = _upsert_ticker_snapshot(
             supabase,
             ticker=ticker,
-            snapshot_type=job_type,
+            snapshot_type="daily",
             payload=snapshot_payload,
         )
         _update_refresh_job(
