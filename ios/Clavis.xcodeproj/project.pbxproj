@@ -142,7 +142,7 @@
 		5856048E7E14BD3C2E4B76B9 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5950AE0D54F23F38C9E21204 /* SectorExposureAuditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorExposureAuditView.swift; sourceTree = "<group>"; };
 		5C50488C1E5684D80C97CE8B /* Hairline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hairline.swift; sourceTree = "<group>"; };
-		5D2D5EF09E956F001BB97806 /* Clavis.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Clavis.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D2D5EF09E956F001BB97806 /* Clavis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Clavis.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D8545E60D1223D1BE1CAC01 /* NewsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsItem.swift; sourceTree = "<group>"; };
 		5FB222F969A57C25732D4483 /* MethodologyDrawerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodologyDrawerSheet.swift; sourceTree = "<group>"; };
 		62102C656701648AC3AB0097 /* EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyState.swift; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 		70EE5F0AE203E42FD2BDAC80 /* DriverCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverCard.swift; sourceTree = "<group>"; };
 		723C913265F4BD04FE9F014C /* ArticleDetailSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleDetailSheet.swift; sourceTree = "<group>"; };
 		741B24BE5B94DBF045AACBD4 /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
-		748235FD4A49798AE09D15A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		748235FD4A49798AE09D15A0 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		770F7DC8D4FA49517326EDF6 /* ClavixVQAComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClavixVQAComponents.swift; sourceTree = "<group>"; };
 		7842C6597A0754FBE7FFDDC5 /* Tokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tokens.swift; sourceTree = "<group>"; };
 		8096670C0289B5C0E86BC964 /* TickerDetailDebugFixture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickerDetailDebugFixture.swift; sourceTree = "<group>"; };
@@ -437,7 +437,6 @@
 			isa = PBXGroup;
 			children = (
 				E4CF20F0809491F4543430C1 /* App */,
-				B6E1D28A38A273CB900820BD /* Config */,
 				08943CAF6232695BB0760A00 /* DesignSystem */,
 				92AA54F4898E4A5413AFB424 /* Models */,
 				77D100D22D580D259613F232 /* Resources */,
@@ -579,7 +578,6 @@
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					D6FE17FA964BA9FB7FC4EC18 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					F19C7445CE3B86C3FA4E2645 = {
@@ -815,7 +813,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.clavisdev.portfolioassistant.tests;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Clavis.app/Clavis";
 			};
 			name = Release;
@@ -904,7 +902,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.clavisdev.portfolioassistant.tests;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Clavis.app/Clavis";
 			};
 			name = Debug;
@@ -916,6 +914,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GYMG4MQS8F;
 				INFOPLIST_FILE = Clavis/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -924,7 +923,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.clavisdev.portfolioassistant;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -935,6 +934,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GYMG4MQS8F;
 				INFOPLIST_FILE = Clavis/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -943,7 +943,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.clavisdev.portfolioassistant;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
