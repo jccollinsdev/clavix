@@ -263,6 +263,7 @@ final class AppleSignInCoordinator: NSObject {
 
     private var currentNonce: String?
     private var continuation: CheckedContinuation<Result, Error>?
+    private var controller: ASAuthorizationController?
 
     func signIn() async throws -> Result {
         try await withCheckedThrowingContinuation { continuation in
@@ -277,6 +278,7 @@ final class AppleSignInCoordinator: NSObject {
             let controller = ASAuthorizationController(authorizationRequests: [request])
             controller.delegate = self
             controller.presentationContextProvider = self
+            self.controller = controller
             controller.performRequests()
         }
     }
@@ -301,6 +303,7 @@ extension AppleSignInCoordinator: ASAuthorizationControllerDelegate {
         didCompleteWithAuthorization authorization: ASAuthorization
     ) {
         Task { @MainActor in
+            self.controller = nil
             guard
                 let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
                 let tokenData = credential.identityToken,
@@ -321,6 +324,7 @@ extension AppleSignInCoordinator: ASAuthorizationControllerDelegate {
         didCompleteWithError error: Error
     ) {
         Task { @MainActor in
+            self.controller = nil
             continuation?.resume(throwing: error)
             continuation = nil
         }
@@ -329,10 +333,12 @@ extension AppleSignInCoordinator: ASAuthorizationControllerDelegate {
 
 extension AppleSignInCoordinator: ASAuthorizationControllerPresentationContextProviding {
     nonisolated func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        UIApplication.shared.connectedScenes
-            .compactMap { $0 as? UIWindowScene }
-            .flatMap { $0.windows }
-            .first { $0.isKeyWindow } ?? UIWindow()
+        MainActor.assumeIsolated {
+            UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .flatMap { $0.windows }
+                .first { $0.isKeyWindow } ?? UIWindow()
+        }
     }
 }
 
