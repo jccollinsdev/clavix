@@ -793,16 +793,27 @@ def ensure_sp500_universe_seeded(supabase) -> None:
 
 
 def list_active_sp500_tickers(supabase, limit: int | None = None) -> list[str]:
+    """Return all active tickers ordered so SP500 comes first, then ETFs, then others.
+
+    Originally SP500-only; expanded to include ETF / CORE_ETF / USER_SHARED so
+    every is_active ticker gets refreshed in the daily recompute, not just the index.
+    """
     ensure_sp500_universe_seeded(supabase)
     result = (
         supabase.table("ticker_universe")
-        .select("ticker")
-        .eq("index_membership", "SP500")
+        .select("ticker, index_membership, priority_rank")
         .eq("is_active", True)
-        .order("priority_rank")
         .execute()
     )
-    tickers = [row["ticker"] for row in (result.data or [])]
+    rows = result.data or []
+    # SP500 first (by priority_rank), then ETF variants, then USER_SHARED
+    _ORDER = {"SP500": 0, "ETF": 1, "CORE_ETF": 1}
+    rows.sort(key=lambda r: (
+        _ORDER.get((r.get("index_membership") or "").upper(), 2),
+        r.get("priority_rank") if r.get("priority_rank") is not None else 999999,
+        r.get("ticker", ""),
+    ))
+    tickers = [row["ticker"] for row in rows if row.get("ticker")]
     if limit is not None:
         return tickers[:limit]
     return tickers
@@ -4087,7 +4098,7 @@ def refresh_ticker_snapshot(
 
         previous_snapshot_rows = (
             supabase.table("ticker_risk_snapshots")
-            .select("composite_score,safety_score,snapshot_date")
+            .select("composite_score,safety_score,snapshot_date,grade")
             .eq("ticker", ticker)
             .lt("snapshot_date", target_date_iso)
             .order("snapshot_date", desc=True)
@@ -4187,6 +4198,20 @@ def refresh_ticker_snapshot(
                 "volatility": score.get("volatility"),
             }
             recomputed_composite = round(calculate_weighted_score(normalized_excl_news), 1)
+            # Re-apply EMA smoothing to the recomputed composite: limited-data tickers
+            # would otherwise bypass the day-over-day damping that full-data tickers get.
+            if _history_scores:
+                _asset_class = (scoring_metadata or {}).get("asset_class")
+                _market_cap = (scoring_metadata or {}).get("market_cap")
+                recomputed_composite = round(
+                    smooth_score_with_history(
+                        recomputed_composite,
+                        _history_scores,
+                        asset_class=_asset_class,
+                        market_cap=_market_cap,
+                    ),
+                    1,
+                )
             recomputed_grade = score_to_grade(recomputed_composite)
             score = {
                 **score,

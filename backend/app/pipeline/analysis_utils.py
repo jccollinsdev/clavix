@@ -490,7 +490,9 @@ _GRADE_LOWER_BOUND: dict[str, float] = {
 }
 # Score must be this many points into the new band before we flip the grade.
 # Prevents daily oscillation at boundaries (e.g. 69.8 / 70.2 → A/BBB every day).
-_HYSTERESIS_BUFFER = 2.0
+# 3.0 chosen from prod data: avg score delta at grade flip is 4.8, so 3.0 catches
+# genuine boundary wobble while allowing real 5+ point fundamental moves through.
+_HYSTERESIS_BUFFER = 3.0
 
 
 def apply_grade_hysteresis(new_score: float, previous_grade: str | None) -> str:
