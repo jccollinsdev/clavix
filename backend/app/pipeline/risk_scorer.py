@@ -397,10 +397,12 @@ def _deterministic_dimension_scores(
         "volatility": volatility,
     }
     weighted = calculate_weighted_score(normalized_scores)
+    _meta = position_data.get("ticker_metadata") or {}
     total = round(
         smooth_score_change(
             new_score=weighted,
             previous_score=position_data.get("previous_total_score"),
+            market_cap=_meta.get("market_cap"),
         ),
         1,
     )
@@ -831,10 +833,12 @@ async def score_position(
     ) = _data_state_for_position(position_data)
 
     weighted = calculate_weighted_score(normalized_scores)
+    _single_meta = position_data.get("ticker_metadata") or {}
     total = round(
         smooth_score_change(
             new_score=weighted,
             previous_score=position_report.get("previous_total_score"),
+            market_cap=_single_meta.get("market_cap"),
         ),
         1,
     )
@@ -1194,10 +1198,12 @@ Respond with ONLY the JSON object. Start with {{ and end with }}."""
                     llm_used=True,
                 )
             weighted = calculate_weighted_score(normalized)
+            _pos_meta = position.get("ticker_metadata") or {}
             total = round(
                 smooth_score_change(
                     new_score=weighted,
                     previous_score=position.get("previous_total_score"),
+                    market_cap=_pos_meta.get("market_cap"),
                 ),
                 1,
             )

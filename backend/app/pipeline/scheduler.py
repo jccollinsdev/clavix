@@ -16,7 +16,7 @@ from apscheduler.triggers.cron import CronTrigger
 from apscheduler.triggers.date import DateTrigger
 from apscheduler.triggers.interval import IntervalTrigger
 
-from .analysis_utils import utcnow_iso, clamp_score, score_to_grade, sanitize_text_field, normalize_event_analysis_payload
+from .analysis_utils import utcnow_iso, clamp_score, score_to_grade, sanitize_text_field, normalize_event_analysis_payload, apply_grade_hysteresis
 from .news_normalizer import normalize_news_batch, _evidence_quality
 from ..services.backfill_artifacts import record_stage, get_run_artifact_dir, begin_artifact_session, write_named_json, end_artifact_session, record_position_artifact
 from ..services.digest_selection import current_trading_date
@@ -2596,12 +2596,14 @@ async def execute_analysis_run(
 
         previous_grades_by_ticker = {}
         previous_total_scores_by_ticker = {}
+        _today_iso = current_trading_date().isoformat()
         for position in positions:
             previous_snaps = (
                 supabase.table("ticker_risk_snapshots")
-                .select("grade, safety_score")
+                .select("grade, composite_score, safety_score")
                 .eq("ticker", position["ticker"])
-                .order("created_at", desc=True)
+                .neq("snapshot_date", _today_iso)
+                .order("snapshot_date", desc=True)
                 .limit(1)
                 .execute()
                 .data
@@ -2610,7 +2612,12 @@ async def execute_analysis_run(
                 previous_snaps[0]["grade"] if previous_snaps else None
             )
             previous_total_scores_by_ticker[position["ticker"]] = (
-                previous_snaps[0].get("safety_score") if previous_snaps else None
+                (
+                    previous_snaps[0].get("composite_score")
+                    or previous_snaps[0].get("safety_score")
+                )
+                if previous_snaps
+                else None
             )
 
         async def _process_position(
@@ -5381,6 +5388,10 @@ def _upsert_ticker_snapshot_from_scores(
     today = current_trading_date()
     composite = ai_scores.get("total_score") or structural_scores.get("safety_score") or 50
     grade = ai_scores.get("grade") or structural_scores.get("grade") or score_to_grade(composite)
+
+    previous_grade = ai_scores.get("previous_grade")
+    if previous_grade:
+        grade = apply_grade_hysteresis(float(composite), previous_grade)
 
     def _dim_or_none(value) -> "int | None":
         """Return None for zero-valued dimensions from the LLM.
