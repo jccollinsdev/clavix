@@ -209,16 +209,10 @@ final class SubscriptionManager: ObservableObject {
     }
 
     private func syncTierToBackend() async {
-        // After a successful purchase or restore, tell the backend about the new tier.
-        // The backend uses this for digest verbosity and advanced alerts gating.
-        // In production this should use the StoreKit receipt for server-side verification.
-        let newTier: String
-        switch status {
-        case .trial, .active:
-            newTier = "pro"
-        default:
-            newTier = "free"
-        }
-        _ = try? await APIService.shared.updateSubscriptionTier(newTier)
+        // Only sync on a verified StoreKit active purchase — not on server-granted trial.
+        // The server manages the trial tier itself via trial_ends_at; syncing "pro" here
+        // would collide with that and allow client-side tier escalation.
+        guard case .active = status else { return }
+        _ = try? await APIService.shared.updateSubscriptionTier("pro")
     }
 }

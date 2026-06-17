@@ -99,6 +99,29 @@ struct PaywallView: View {
         }
     }
 
+    // MARK: - Computed helpers
+
+    private var hasIntroductoryOffer: Bool {
+        subscriptionManager.proProduct?.subscription?.introductoryOffer != nil
+    }
+
+    private var trialSubtitle: String {
+        if case .trial(let expiresAt) = subscriptionManager.status {
+            let days = max(0, Int(expiresAt.timeIntervalSinceNow / 86400))
+            return "\(days) day\(days == 1 ? "" : "s") remaining in your free trial"
+        }
+        if hasIntroductoryOffer { return "14-day free trial · cancel anytime" }
+        return "cancel anytime"
+    }
+
+    private var ctaTitle: String {
+        if subscriptionManager.isLoading { return "Loading…" }
+        if case .trial = subscriptionManager.status {
+            return "Subscribe — \(subscriptionManager.proDisplayPrice)/mo"
+        }
+        return hasIntroductoryOffer ? "Start 14-day free trial" : "Subscribe — \(subscriptionManager.proDisplayPrice)/mo"
+    }
+
     // MARK: - Pricing
 
     private var pricingSection: some View {
@@ -116,7 +139,7 @@ struct PaywallView: View {
                             .font(ClavisTypography.inter(14, weight: .regular))
                             .foregroundColor(.clavixAccentInk)
                     }
-                    Text("14-day free trial · no credit card required · cancel anytime")
+                    Text(trialSubtitle)
                         .font(ClavisTypography.inter(12, weight: .regular))
                         .foregroundColor(.clavixAccentInk)
                 }
@@ -130,11 +153,7 @@ struct PaywallView: View {
 
     private var ctaSection: some View {
         VStack(spacing: 12) {
-            ClavisPrimaryButton(
-                title: subscriptionManager.isLoading
-                    ? "Starting trial…"
-                    : "Start 14-day free trial"
-            ) {
+            ClavisPrimaryButton(title: ctaTitle) {
                 Task { await subscriptionManager.purchase() }
             }
             .disabled(subscriptionManager.isLoading || subscriptionManager.proProduct == nil)
@@ -161,12 +180,22 @@ struct PaywallView: View {
     // MARK: - Legal footer
 
     private var legalFooter: some View {
-        Text("Subscription renews at \(subscriptionManager.proDisplayPrice)/month after trial unless cancelled. Cancel anytime in Settings → Apple ID → Subscriptions. Clavix is informational only. Not investment advice.")
-            .font(ClavisTypography.inter(11, weight: .regular))
-            .foregroundColor(.clavixInk4)
-            .multilineTextAlignment(.center)
-            .padding(.horizontal, ClavixLayout.pad)
-            .padding(.bottom, 12)
+        VStack(spacing: 10) {
+            Text("Payment charged to your Apple ID at purchase. Auto-renews at \(subscriptionManager.proDisplayPrice)/month unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings > Apple ID > Subscriptions. Clavix is informational only — not investment advice.")
+                .font(ClavisTypography.inter(11, weight: .regular))
+                .foregroundColor(.clavixInk4)
+                .multilineTextAlignment(.center)
+            HStack(spacing: 20) {
+                Link("Terms of Use", destination: URL(string: "https://getclavix.com/terms")!)
+                    .font(ClavisTypography.inter(11, weight: .medium))
+                    .foregroundColor(.clavixInk3)
+                Link("Privacy Policy", destination: URL(string: "https://getclavix.com/privacy")!)
+                    .font(ClavisTypography.inter(11, weight: .medium))
+                    .foregroundColor(.clavixInk3)
+            }
+        }
+        .padding(.horizontal, ClavixLayout.pad)
+        .padding(.bottom, 12)
     }
 }
 

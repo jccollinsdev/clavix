@@ -2,7 +2,8 @@
   "rewrites": [
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/terms.html" },
-    { "source": "/refund", "destination": "/refund.html" }
+    { "source": "/refund", "destination": "/refund.html" },
+    { "source": "/confirm", "destination": "/confirm.html" }
   ],
   "redirects": [
     { "source": "/methodology", "destination": "/#methodology", "permanent": true }
