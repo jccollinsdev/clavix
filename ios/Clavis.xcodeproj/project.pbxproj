@@ -208,6 +208,7 @@
 		EAF67B67B01D102D75413A73 /* AppBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppBar.swift; sourceTree = "<group>"; };
 		F408B85808E7B5B4E4F83C67 /* DimsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimsRow.swift; sourceTree = "<group>"; };
 		F69D9B95550A0BD3EBCB6A2F /* Methodology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Methodology.swift; sourceTree = "<group>"; };
+		FF7258AF2FE32EC000CB319B /* Clavis.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Clavis.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -436,6 +437,7 @@
 		AC65E2D75EB32E12A33E4FD5 /* Clavis */ = {
 			isa = PBXGroup;
 			children = (
+				FF7258AF2FE32EC000CB319B /* Clavis.entitlements */,
 				E4CF20F0809491F4543430C1 /* App */,
 				08943CAF6232695BB0760A00 /* DesignSystem */,
 				92AA54F4898E4A5413AFB424 /* Models */,
@@ -912,6 +914,7 @@
 			baseConfigurationReference = 64339F378E9D1A25949DCD60 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Clavis/Clavis.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GYMG4MQS8F;
@@ -932,6 +935,7 @@
 			baseConfigurationReference = 64339F378E9D1A25949DCD60 /* Secrets.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Clavis/Clavis.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GYMG4MQS8F;
