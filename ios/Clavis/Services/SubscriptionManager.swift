@@ -73,7 +73,7 @@ final class SubscriptionManager: ObservableObject {
                     name: AnalyticsEventName.purchaseSuccess,
                     properties: ["product_id": transaction.productID]
                 )
-                await syncTierToBackend()
+                await syncTierToBackend(transactionID: String(transaction.id))
             case .userCancelled:
                 break
             case .pending:
@@ -172,7 +172,7 @@ final class SubscriptionManager: ObservableObject {
                 guard let transaction = try? self.checkVerified(result) else { continue }
                 await self.updateStatus(for: transaction)
                 await transaction.finish()
-                await self.syncTierToBackend()
+                await self.syncTierToBackend(transactionID: String(transaction.id))
             }
         }
     }
@@ -208,11 +208,11 @@ final class SubscriptionManager: ObservableObject {
         )
     }
 
-    private func syncTierToBackend() async {
+    private func syncTierToBackend(transactionID: String) async {
         // Only sync on a verified StoreKit active purchase — not on server-granted trial.
         // The server manages the trial tier itself via trial_ends_at; syncing "pro" here
         // would collide with that and allow client-side tier escalation.
         guard case .active = status else { return }
-        _ = try? await APIService.shared.updateSubscriptionTier("pro")
+        _ = try? await APIService.shared.updateSubscriptionTier("pro", transactionID: transactionID)
     }
 }

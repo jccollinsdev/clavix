@@ -843,9 +843,12 @@ class APIService {
         _ = try await makeRequest(path: "/preferences/profile", method: "POST", body: body)
     }
 
-    func updateSubscriptionTier(_ tier: String) async throws {
-        struct TierUpdate: Encodable { let subscription_tier: String }
-        let body = try JSONEncoder().encode(TierUpdate(subscription_tier: tier))
+    func updateSubscriptionTier(_ tier: String, transactionID: String) async throws {
+        struct TierUpdate: Encodable {
+            let subscription_tier: String
+            let transaction_id: String
+        }
+        let body = try JSONEncoder().encode(TierUpdate(subscription_tier: tier, transaction_id: transactionID))
         _ = try await makeRequest(path: "/preferences/subscription-tier", method: "PATCH", body: body)
     }
 

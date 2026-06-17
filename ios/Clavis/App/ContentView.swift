@@ -39,6 +39,7 @@ struct ContentView: View {
                 hasCheckedSession = false
             } else {
                 Task { await subscriptionManager.refresh() }
+                Task { await PushNotificationManager.shared.requestPermission() }
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .supabaseAuthCallbackReceived)) { notification in

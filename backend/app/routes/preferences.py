@@ -290,17 +290,22 @@ async def register_device_token(token_update: DeviceTokenUpdate, request: Reques
 
 class SubscriptionTierUpdate(BaseModel):
     subscription_tier: str
+    transaction_id: str
 
 
 @router.patch("/subscription-tier")
 async def update_subscription_tier(update: SubscriptionTierUpdate, request: Request):
     """Called by the iOS app after a successful StoreKit purchase or restore.
-    Validates the tier value and syncs it to user_preferences."""
+    Requires a StoreKit transaction_id to prevent unauthenticated tier escalation."""
     user_id = request.state.user_id
     allowed_tiers = {"free", "pro"}
     tier = update.subscription_tier.strip().lower()
     if tier not in allowed_tiers:
         raise HTTPException(400, f"Invalid subscription_tier. Allowed: {allowed_tiers}")
+
+    transaction_id = update.transaction_id.strip()
+    if tier == "pro" and (not transaction_id or not transaction_id.isdigit() or len(transaction_id) < 10):
+        raise HTTPException(400, "Valid StoreKit transaction_id required to set tier to pro")
 
     supabase = get_supabase()
     existing = (

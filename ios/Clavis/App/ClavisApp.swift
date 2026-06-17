@@ -28,7 +28,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         configureCrashReporting()
-        Task { await PushNotificationManager.shared.requestPermission() }
         return true
     }
 
