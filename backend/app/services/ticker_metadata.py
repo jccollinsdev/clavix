@@ -80,6 +80,47 @@ _FINANCIAL_HEALTH_FIELDS = (
     "leverage_profile",
 )
 
+KNOWN_ETF_TICKERS = frozenset(
+    {
+        "AGG",
+        "ARKK",
+        "BIL",
+        "BND",
+        "EEM",
+        "EFA",
+        "GLD",
+        "HYG",
+        "IAU",
+        "IEFA",
+        "IJH",
+        "IVV",
+        "IWM",
+        "LQD",
+        "QQQ",
+        "SCHD",
+        "SHY",
+        "SLV",
+        "SOXX",
+        "SPY",
+        "TLT",
+        "USO",
+        "VNQ",
+        "VOO",
+        "VTI",
+        "XLB",
+        "XLC",
+        "XLE",
+        "XLF",
+        "XLI",
+        "XLK",
+        "XLP",
+        "XLRE",
+        "XLU",
+        "XLV",
+        "XLY",
+    }
+)
+
 
 def _parse_timestamp(value: str | None) -> datetime | None:
     if not value:
@@ -347,7 +388,7 @@ def fetch_ticker_details_from_finnhub(ticker: str) -> dict | None:
             "avg_daily_dollar_volume": avg_daily_dollar_volume,
             "beta": beta,
             "float_shares": float_shares,
-            "asset_class": "large_cap_equity",
+            "asset_class": _infer_asset_class_from_finnhub(ticker_upper, profile_data),
             "pe_ratio": metric_values.get("peTTM")
             or metric_values.get("peNormalizedAnnual"),
             "week_52_high": metric_values.get("52WeekHigh"),
@@ -433,6 +474,17 @@ def _map_polygon_type_to_asset_class(type_str: str | None) -> str:
     if "adr" in type_lower or "gdr" in type_lower:
         return "adr"
     return "other"
+
+
+def _infer_asset_class_from_finnhub(ticker: str, profile_data: dict) -> str:
+    ticker_upper = ticker.upper()
+    text = " ".join(
+        str(profile_data.get(key) or "")
+        for key in ("name", "finnhubIndustry", "sector", "industry")
+    ).lower()
+    if ticker_upper in KNOWN_ETF_TICKERS or "etf" in text or "exchange traded" in text:
+        return "etf"
+    return "large_cap_equity"
 
 
 def _get_market_cap_bucket(market_cap: float | None) -> str | None:

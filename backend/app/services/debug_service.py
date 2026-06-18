@@ -252,7 +252,11 @@ def patch_minimax_service():
     original_chatcompletion = minimax.chatcompletion
     original_chatcompletion_text = minimax.chatcompletion_text
 
-    def tracked_chatcompletion(messages: list, model: str = "MiniMax-M2.7", **kwargs):
+    def tracked_chatcompletion(
+        messages: list,
+        model: str = minimax.DEFAULT_MODEL,
+        **kwargs,
+    ):
         start = time.perf_counter()
         error = None
         response = None
@@ -277,7 +281,7 @@ def patch_minimax_service():
             )
 
     def tracked_chatcompletion_text(
-        messages: list, model: str = "MiniMax-M2.7", **kwargs
+        messages: list, model: str = minimax.DEFAULT_MODEL, **kwargs
     ) -> str:
         start = time.perf_counter()
         error = None

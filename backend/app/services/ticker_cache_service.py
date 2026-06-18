@@ -2465,6 +2465,8 @@ def _project_shared_detail_compatibility(
                 "week_52_high": metadata.get("week_52_high"),
                 "week_52_low": metadata.get("week_52_low"),
                 "market_cap": metadata.get("market_cap"),
+                "asset_class": metadata.get("asset_class"),
+                "index_membership": summary.get("index_membership"),
             },
             "position": position,
             "latest_price": {

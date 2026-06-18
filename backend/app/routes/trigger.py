@@ -7,6 +7,8 @@ from ..services.supabase import get_supabase
 from ..pipeline.scheduler import enqueue_analysis_run
 
 router = APIRouter()
+MANUAL_ANALYSIS_DAILY_LIMIT = 3
+MANUAL_ANALYSIS_COOLDOWN = timedelta(minutes=15)
 
 
 def require_user_id(request: Request) -> str:
@@ -17,13 +19,26 @@ class TriggerAnalysisRequest(BaseModel):
     position_id: str | None = None
 
 
+def _parse_iso_datetime(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            return parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc)
+    except ValueError:
+        return None
+
+
 @router.post("")
 async def trigger_analysis(
     payload: TriggerAnalysisRequest | None = None,
     user_id: str = Depends(require_user_id),
 ):
     supabase = get_supabase()
-    cutoff = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
+    now = datetime.now(timezone.utc)
+    cutoff = (now - timedelta(hours=24)).isoformat()
     recent_manual_runs = (
         supabase.table("analysis_runs")
         .select("id, started_at")
@@ -31,12 +46,20 @@ async def trigger_analysis(
         .eq("triggered_by", "manual")
         .gte("started_at", cutoff)
         .order("started_at", desc=True)
-        .limit(3)
+        .limit(MANUAL_ANALYSIS_DAILY_LIMIT)
         .execute()
         .data
         or []
     )
-    if len(recent_manual_runs) >= 3:
+    if recent_manual_runs:
+        latest_started_at = _parse_iso_datetime(recent_manual_runs[0].get("started_at"))
+        if latest_started_at and now - latest_started_at < MANUAL_ANALYSIS_COOLDOWN:
+            raise HTTPException(
+                429,
+                "Manual analysis is cooling down. Please try again in a few minutes.",
+            )
+
+    if len(recent_manual_runs) >= MANUAL_ANALYSIS_DAILY_LIMIT:
         raise HTTPException(
             429,
             "Manual analysis is limited to 3 requests per 24 hours.",
@@ -50,7 +73,7 @@ async def trigger_analysis(
         )
         prefs_payload = {
             "user_id": user_id,
-            "last_analysis_request_at": datetime.now(timezone.utc).isoformat(),
+            "last_analysis_request_at": now.isoformat(),
         }
         existing = (
             supabase.table("user_preferences")

@@ -999,22 +999,39 @@ struct TickerDetailView: View {
         let shared = detail.sharedAnalysis?.riskDimensions
         let ai = detail.currentScore?.factorBreakdown?.aiDimensions
         let current = detail.currentScore
+        let isETF = detail.profile.isETF
+        let financialTitle = isETF ? "Holdings Quality" : "Financial Health"
+        let financialAbbrev = isETF ? "HLD" : "FIN"
+        let financialSubtitle = isETF
+            ? "Weighted top-holding risk"
+            : methodology?.dimensions.financialHealth.dataSource ?? "Quarterly fundamentals"
+        let categoryTitle = isETF ? "Category Signal" : "News Sentiment"
+        let categoryAbbrev = isETF ? "CAT" : "NEWS"
+        let categorySubtitle = isETF ? "Fund flows and category news" : newsSubtitle
+        let sectorTitle = isETF ? "Concentration" : "Sector Exposure"
+        let sectorAbbrev = isETF ? "CONC" : "SEC"
+        let sectorSubtitle = isETF
+            ? "Sector and holding breadth"
+            : methodology?.dimensions.sectorExposure.sector ?? detail.profile.sector ?? "Sector state"
+        let volatilitySubtitle = isETF
+            ? "Volatility, drawdown, beta"
+            : methodology?.dimensions.volatility.asOfDate ?? "Daily price action"
 
         return [
             TickerDimensionItem(
                 key: "financial_health",
-                title: "Financial Health",
-                abbrev: "FIN",
+                title: financialTitle,
+                abbrev: financialAbbrev,
                 score: shared?.financialHealth ?? ai?.financialHealth ?? current?.financialHealth,
-                subtitle: methodology?.dimensions.financialHealth.dataSource ?? "Quarterly fundamentals",
+                subtitle: financialSubtitle,
                 isLimited: (shared?.financialHealth ?? ai?.financialHealth ?? current?.financialHealth) == nil
             ),
             TickerDimensionItem(
                 key: "news_sentiment",
-                title: "News Sentiment",
-                abbrev: "NEWS",
+                title: categoryTitle,
+                abbrev: categoryAbbrev,
                 score: shared?.newsSentiment ?? ai?.newsSentiment ?? current?.newsSentiment,
-                subtitle: newsSubtitle,
+                subtitle: categorySubtitle,
                 isLimited: methodology?.dimensions.newsSentiment.limitedData ?? false
             ),
             TickerDimensionItem(
@@ -1027,10 +1044,10 @@ struct TickerDetailView: View {
             ),
             TickerDimensionItem(
                 key: "sector_exposure",
-                title: "Sector Exposure",
-                abbrev: "SEC",
+                title: sectorTitle,
+                abbrev: sectorAbbrev,
                 score: shared?.sectorExposure ?? ai?.sectorExposure ?? current?.sectorExposure,
-                subtitle: methodology?.dimensions.sectorExposure.sector ?? detail.profile.sector ?? "Sector state",
+                subtitle: sectorSubtitle,
                 isLimited: (shared?.sectorExposure ?? ai?.sectorExposure ?? current?.sectorExposure) == nil
             ),
             TickerDimensionItem(
@@ -1038,7 +1055,7 @@ struct TickerDetailView: View {
                 title: "Volatility",
                 abbrev: "VOL",
                 score: shared?.volatility ?? ai?.volatility ?? current?.volatility,
-                subtitle: methodology?.dimensions.volatility.asOfDate ?? "Daily price action",
+                subtitle: volatilitySubtitle,
                 isLimited: (shared?.volatility ?? ai?.volatility ?? current?.volatility) == nil
             )
         ]

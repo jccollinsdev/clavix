@@ -6,6 +6,8 @@ import math
 from datetime import datetime, timezone
 
 from ..services.minimax import chatcompletion_text
+from ..services.supabase import get_supabase
+from ..services.ticker_metadata import KNOWN_ETF_TICKERS
 from .analysis_utils import (
     clamp_score,
     extract_json_object,
@@ -79,6 +81,156 @@ Respond in this exact JSON format (no markdown, no explanation):
 {{"financial_health": 0-100, "news_sentiment": 0-100, "macro_exposure": 0-100, "sector_exposure": 0-100, "volatility": 0-100, "grade": "AAA|AA|A|BBB|BB|B|CCC|CC|C|F", "reasoning": "concise risk rationale per rules above", "dimension_rationale": {{"financial_health": "...", "news_sentiment": "...", "macro_exposure": "...", "sector_exposure": "...", "volatility": "..."}}}}"""
 
 DIMENSION_KEYS = V2_DIMENSION_KEYS
+
+# ETF-specific LLM prompt — replaces financial_health/news_sentiment semantics
+ETF_SYSTEM_PROMPT = """You are a risk rating system for ETFs and index funds. Score this ETF across 5 risk dimensions and write a concise risk rationale.
+
+Scale: 0 = very risky / high drawdown risk. 100 = very safe / stable. Higher = lower risk.
+
+ETF:
+- Ticker: {ticker}
+- Fund name: {fund_name}
+- Category: {category}
+- Recent news context: {summary}
+
+Scoring criteria for ETFs:
+1. financial_health (0-100): Quality of top holdings. High-grade, diversified holdings with strong fundamentals → high (70-100). Concentrated in speculative, leveraged, or struggling names → low (0-40). Use any available holdings data. If the fund's top holdings have strong balance sheets and earnings, score this dimension high.
+2. news_sentiment (0-100): Category/fund-flow sentiment. Strong inflows, positive sector rotation into this fund type → high. Outflows, redemption pressure, adverse category rotation → low. 50 only when flows are genuinely neutral.
+3. macro_exposure (0-100): How macro conditions affect this fund. Less sensitive to rate/cycle shifts → high. High duration, rate-sensitive, or cyclical exposure → low.
+4. sector_exposure (0-100): Strength and breadth of the sector or asset class. Broad, diversified, strong-performing sector → high. Narrow, concentrated, weak, or volatile sector/asset class → low.
+5. volatility (0-100): Low, stable, or falling realized volatility → high. High, rising, or drawdown-prone fund → low.
+
+How to write "reasoning" — credit-rating format:
+FORMAT: Header line + max 2 driver lines. No paragraphs.
+Example:
+A — Solid (→ stable)
+Broad diversification limits single-name risk
+Rate sensitivity moderate for this duration
+
+Rules:
+1. First line: [GRADE] — [Risk Level] ([arrow])
+   - Risk Level: AAA=Treasury-Grade, AA=Investment-Grade Safe, A=Solid, BBB=Stable Watch Points, BB=Mixed Signals, B=Elevated Risk, CCC=High Risk
+   - Arrow: ↓ improving, ↑ worsening, → stable
+2. Next 1-2 lines: specific, causal fund-level risk drivers. Each ≤60 chars.
+3. No individual stock names. No "may", "could", "suggests", "sentiment", "thesis".
+4. If evidence is thin, write: "Limited data — risk based on category profile"
+
+Write like a credit rating bulletin. Direct, specific, concrete.
+
+Respond in this exact JSON format (no markdown, no explanation):
+{{"financial_health": 0-100, "news_sentiment": 0-100, "macro_exposure": 0-100, "sector_exposure": 0-100, "volatility": 0-100, "grade": "AAA|AA|A|BBB|BB|B|CCC|CC|C|F", "reasoning": "concise risk rationale per rules above", "dimension_rationale": {{"financial_health": "Holdings quality and fund composition risk", "news_sentiment": "Fund flow and category rotation signal", "macro_exposure": "Rate and cycle sensitivity", "sector_exposure": "Sector/asset class breadth and strength", "volatility": "Realized volatility and drawdown profile"}}}}"""
+
+# Display labels for ETF dimensions (overrides generic stock labels in iOS)
+ETF_DIMENSION_LABELS = {
+    "financial_health": "Holdings Quality",
+    "news_sentiment": "Category Signal",
+    "macro_exposure": "Macro Exposure",
+    "sector_exposure": "Concentration",
+    "volatility": "Volatility",
+}
+
+
+def _is_etf(position_data: dict) -> bool:
+    meta = position_data.get("ticker_metadata") or {}
+    ticker = str(position_data.get("ticker") or meta.get("ticker") or "").upper()
+    asset_class = str(meta.get("asset_class") or "").lower()
+    membership = str(
+        meta.get("index_membership") or position_data.get("index_membership") or ""
+    ).upper()
+    return asset_class == "etf" or "ETF" in membership or ticker in KNOWN_ETF_TICKERS
+
+
+def _score_etf_holdings_risk(ticker: str) -> int | None:
+    """Return a 0-100 holdings quality score for an ETF by averaging the composite
+    scores of its top holdings from the latest etf_holdings data.
+    Returns None if no holdings data is available."""
+    try:
+        supabase = get_supabase()
+        # Get the most recent as_of date for this ETF
+        date_rows = (
+            supabase.table("etf_holdings")
+            .select("as_of")
+            .eq("etf_ticker", ticker.upper())
+            .order("as_of", desc=True)
+            .limit(1)
+            .execute()
+            .data
+        )
+        if not date_rows:
+            return None
+        latest_date = date_rows[0]["as_of"]
+
+        # Get top holdings for that date
+        holding_rows = (
+            supabase.table("etf_holdings")
+            .select("holding_ticker, weight_pct, rank")
+            .eq("etf_ticker", ticker.upper())
+            .eq("as_of", latest_date)
+            .order("rank")
+            .limit(25)
+            .execute()
+            .data
+        )
+        if not holding_rows:
+            return None
+
+        holding_tickers = [r["holding_ticker"] for r in holding_rows]
+
+        # Get latest composite scores for those tickers
+        score_rows = (
+            supabase.table("ticker_risk_snapshots")
+            .select("ticker, composite_score, safety_score")
+            .in_("ticker", holding_tickers)
+            .order("snapshot_date", desc=True)
+            .execute()
+            .data
+        )
+        # Build latest-score map per ticker
+        score_map: dict[str, float] = {}
+        for row in score_rows:
+            t = str(row.get("ticker") or "").upper()
+            if t not in score_map:
+                cs = row.get("composite_score")
+                ss = row.get("safety_score")
+                val = cs if cs is not None else ss
+                if val is not None:
+                    score_map[t] = float(val)
+
+        # Weighted average by holdings weight
+        total_weight = 0.0
+        weighted_sum = 0.0
+        for holding in holding_rows:
+            ht = str(holding["holding_ticker"]).upper()
+            w = float(holding.get("weight_pct") or 1.0)
+            score = score_map.get(ht)
+            if score is not None:
+                weighted_sum += score * w
+                total_weight += w
+
+        if total_weight == 0:
+            return None
+        return clamp_score(round(weighted_sum / total_weight), 0)
+    except Exception:
+        return None
+
+
+def _etf_llm_prompt(position_data: dict) -> str:
+    meta = position_data.get("ticker_metadata") or {}
+    ticker = str(position_data.get("ticker") or "")
+    company_name = str(
+        meta.get("company_name") or position_data.get("company_name") or ticker
+    )
+    sector = str(meta.get("sector") or meta.get("index_membership") or "ETF")
+    summary = str(position_data.get("summary") or "No recent news context available.")
+    article_evidence = _article_evidence_brief(position_data)
+    if article_evidence:
+        summary = summary + "\n\nArticle evidence:\n" + article_evidence
+    return ETF_SYSTEM_PROMPT.format(
+        ticker=ticker,
+        fund_name=company_name,
+        category=sector,
+        summary=summary[:600],
+    )
 
 
 def _neutral_dimension_count(scores: dict | None) -> int:
@@ -336,6 +488,7 @@ def _deterministic_dimension_scores(
         coverage_note,
     ) = _data_state_for_position(position_data)
     ticker_metadata = position_data.get("ticker_metadata") or {}
+    is_etf_position = _is_etf(position_data)
 
     worsening_major = 0
     improving_major = 0
@@ -347,9 +500,17 @@ def _deterministic_dimension_scores(
         if significance == "major" and direction > 0:
             improving_major += 1
 
-    # --- Dimension 1: Financial Health (0-100) ---
-    fin = _score_financial_health(ticker_metadata)
-    fin_rationale = _fin_rationale(ticker_metadata, fin)
+    # --- Dimension 1: Financial Health / Holdings Quality (0-100) ---
+    if is_etf_position:
+        ticker_str = str(position_data.get("ticker") or "").upper()
+        precomputed = ticker_metadata.get("etf_holdings_risk")
+        fin = int(precomputed) if precomputed is not None else (
+            _score_etf_holdings_risk(ticker_str) or _score_financial_health(ticker_metadata)
+        )
+        fin_rationale = "Holdings quality score based on weighted avg risk of top constituents."
+    else:
+        fin = _score_financial_health(ticker_metadata)
+        fin_rationale = _fin_rationale(ticker_metadata, fin)
 
     # --- Dimension 2: News Sentiment (0-100) ---
     news_delta = 0.0
@@ -425,7 +586,7 @@ def _deterministic_dimension_scores(
         source_count=source_count,
     )
 
-    return {
+    out = {
         **normalized_scores,
         "total_score": total,
         "grade": grade,
@@ -449,6 +610,9 @@ def _deterministic_dimension_scores(
         "evidence_strength": evidence_strength(source_count),
         "llm_scoring_used": False,
     }
+    if is_etf_position:
+        out["dimension_labels"] = ETF_DIMENSION_LABELS
+    return out
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -764,6 +928,16 @@ async def score_position(
         * _safe_float(position_data.get("shares")),
         0.0,
     )
+    # Pre-fetch ETF holdings risk to inject into ticker_metadata before scoring
+    is_etf_pos = _is_etf(position_data)
+    if is_etf_pos:
+        ticker_str = str(position_data.get("ticker") or "").upper()
+        holdings_risk = await asyncio.to_thread(_score_etf_holdings_risk, ticker_str)
+        if holdings_risk is not None:
+            meta = dict(position_data.get("ticker_metadata") or {})
+            meta["etf_holdings_risk"] = holdings_risk
+            position_data = {**position_data, "ticker_metadata": meta}
+
     deterministic = _deterministic_dimension_scores(
         position_data,
         portfolio_total_value=max(
@@ -775,7 +949,7 @@ async def score_position(
     if not _prefer_llm_scoring(position_data) and not _needs_llm_scoring(position_data):
         return deterministic
 
-    prompt = _llm_score_prompt(position_data)
+    prompt = _etf_llm_prompt(position_data) if is_etf_pos else _llm_score_prompt(position_data)
 
     def _request_scores() -> tuple[str, dict]:
         result_text = chatcompletion_text(
@@ -880,6 +1054,7 @@ async def score_position(
         "is_provisional": coverage_state != "substantive",
         "evidence_strength": evidence_strength(source_count),
         "llm_scoring_used": True,
+        **({"dimension_labels": ETF_DIMENSION_LABELS} if is_etf_pos else {}),
     }
 
 

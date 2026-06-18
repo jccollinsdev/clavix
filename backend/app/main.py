@@ -33,7 +33,6 @@ from .routes.brokerage import router as brokerage_router
 from .routes.waitlist import router as waitlist_router
 from .pipeline.scheduler import start_scheduler
 from .services.apns import validate_apns_configuration
-from .services.snaptrade import snaptrade_is_configured
 from .config import get_settings
 from .services.supabase import get_supabase
 import json
@@ -327,46 +326,7 @@ async def ping():
 @app.get("/health")
 @app.head("/health")
 async def health():
-    from .services.supabase import get_supabase
-
-    apns_status = validate_apns_configuration()
-
-    recompute_status = "unknown"
-    recompute_completed_at = None
-    recompute_error = None
-    try:
-        supabase = get_supabase()
-        rows = (
-            supabase.table("ticker_refresh_jobs")
-            .select("status, completed_at, error_message, job_type, created_at")
-            .eq("job_type", "daily")
-            .order("created_at", desc=True)
-            .limit(1)
-            .execute()
-            .data
-        )
-        if rows:
-            row = rows[0]
-            recompute_status = row.get("status") or "unknown"
-            recompute_completed_at = row.get("completed_at")
-            recompute_error = row.get("error_message")
-    except Exception:
-        recompute_status = "error"
-
-    return {
-        "status": "ok",
-        "apns": "configured" if apns_status["configured"] else "missing",
-        "snaptrade": "configured" if snaptrade_is_configured() else "missing",
-        "minimax": "configured" if settings.minimax_api_key.strip() else "missing",
-        "supabase": "configured"
-        if settings.supabase_url.strip() and settings.supabase_service_role_key.strip()
-        else "missing",
-        "last_recompute": {
-            "status": recompute_status,
-            "completed_at": recompute_completed_at,
-            "error": recompute_error,
-        },
-    }
+    return {"status": "ok"}
 
 
 app.include_router(holdings_router, prefix="/holdings", tags=["holdings"])

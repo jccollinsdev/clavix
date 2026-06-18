@@ -54,6 +54,24 @@ def test_deterministic_scores_mark_llm_usage_false():
     assert result["llm_scoring_used"] is False
 
 
+def test_known_etf_uses_holdings_quality_labels(monkeypatch):
+    monkeypatch.setattr(risk_scorer, "_score_etf_holdings_risk", lambda ticker: 82)
+
+    result = risk_scorer._deterministic_dimension_scores(
+        {
+            "ticker": "SPY",
+            "ticker_metadata": {},
+            "event_analyses": [],
+        },
+        portfolio_total_value=1.0,
+    )
+
+    assert result["financial_health"] == 82
+    assert result["dimension_labels"]["financial_health"] == "Holdings Quality"
+    assert result["dimension_labels"]["news_sentiment"] == "Category Signal"
+    assert result["dimension_labels"]["sector_exposure"] == "Concentration"
+
+
 def test_neutral_gate_requires_all_dimensions():
     assert (
         risk_scorer.has_suspicious_neutral_scores(

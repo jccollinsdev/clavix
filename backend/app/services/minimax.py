@@ -8,6 +8,7 @@ from .backfill_artifacts import record_llm_call
 
 settings = get_settings()
 DEFAULT_CHAT_TIMEOUT_SECONDS = 120
+DEFAULT_MODEL = "MiniMax-M3"
 _MINIMAX_THROTTLE_LOCK = threading.Lock()
 _MINIMAX_NEXT_ALLOWED_AT = 0.0
 
@@ -20,7 +21,7 @@ class MiniMaxAuthError(RuntimeError):
     pass
 
 
-def chatcompletion(messages: list, model: str = "MiniMax-M2.7", **kwargs):
+def chatcompletion(messages: list, model: str = DEFAULT_MODEL, **kwargs):
     return client.chat.completions.create(model=model, messages=messages, **kwargs)
 
 
@@ -71,7 +72,7 @@ def _wait_for_minimax_slot() -> None:
         time.sleep(wait_seconds)
 
 
-def chatcompletion_text(messages: list, model: str = "MiniMax-M2.7", **kwargs) -> str:
+def chatcompletion_text(messages: list, model: str = DEFAULT_MODEL, **kwargs) -> str:
     if "max_tokens" not in kwargs:
         kwargs["max_tokens"] = 1000
     if "timeout" not in kwargs:

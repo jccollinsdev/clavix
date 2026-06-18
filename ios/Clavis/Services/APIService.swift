@@ -1184,6 +1184,13 @@ struct TickerProfile: Codable {
     let week52High: Double?
     let week52Low: Double?
     let marketCap: Double?
+    let assetClass: String?
+    let indexMembership: String?
+
+    var isETF: Bool {
+        assetClass?.lowercased() == "etf"
+            || indexMembership?.uppercased().contains("ETF") == true
+    }
 
     enum CodingKeys: String, CodingKey {
         case ticker
@@ -1195,6 +1202,8 @@ struct TickerProfile: Codable {
         case week52High = "week_52_high"
         case week52Low = "week_52_low"
         case marketCap = "market_cap"
+        case assetClass = "asset_class"
+        case indexMembership = "index_membership"
     }
 }
 

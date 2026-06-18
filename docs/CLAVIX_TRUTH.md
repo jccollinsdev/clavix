@@ -2,9 +2,11 @@
 
 **The single source of truth for what Clavix is, who it's for, and how it works.**
 
-**Version:** 2.1
-**Last updated:** May 31, 2026
+**Version:** 2.2
+**Last updated:** June 17, 2026
 **Status:** Authoritative. Supersedes all prior product, methodology, pricing, and roadmap documents.
+
+> **v2.2 change (2026-06-17):** LLM generation now uses **MiniMax-M3** via the OpenAI-compatible MiniMax API. This replaces MiniMax-M2.7 as the default app model.
 
 > **v2.1 change (2026-05-31):** Brokerage / automatic position sync is **deferred to a post-v1 release** (legal/admin/EIN exposure). v1 ships manual-entry only. Pro is **not** gated on brokerage. See `docs/CLAVIX_LAUNCH_SCOPE_v1.md` for the decision record and the revised Free/Pro split (§11 and §16 below reflect it).
 
@@ -554,7 +556,7 @@ Cost optimization: macro section is generated once per day and shared across all
 
 ### LLM provider for digest
 
-**MiniMax-M2.7** via OpenAI-compatible client. ~$20/mo flat fee gives 45K requests/week. At ~10 requests per user per day (digest generation + news sentiment + dimension narratives), this supports up to ~600 active users on the current plan. Scales linearly from there.
+**MiniMax-M3** via OpenAI-compatible client. Current capacity depends on the active MiniMax billing plan and rate limits. At ~10 requests per user per day (digest generation + news sentiment + dimension narratives), monitor usage before expanding beyond the initial active-user cohort.
 
 ---
 

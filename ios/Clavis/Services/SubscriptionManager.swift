@@ -31,8 +31,12 @@ final class SubscriptionManager: ObservableObject {
     private var products: [Product] = []
     private var transactionListenerTask: Task<Void, Never>?
     private let trialStartedTrackedKey = "clavix.analytics.trialStartedTracked"
+    private let cachedIsProKey = "clavix.subscription.cachedIsPro"
 
     private init() {
+        // Restore last known Pro state immediately so the UI doesn't flash the
+        // paywall on launch if the entitlement check is slow or offline.
+        isPro = UserDefaults.standard.bool(forKey: cachedIsProKey)
         transactionListenerTask = listenForTransactions()
         Task { await refresh() }
     }
@@ -94,6 +98,7 @@ final class SubscriptionManager: ObservableObject {
             await APIService.shared.recordAnalyticsEvent(name: AnalyticsEventName.restoreTapped)
             try await AppStore.sync()
             await refresh()
+            await syncCurrentStoreKitEntitlementToBackend()
         } catch {
             purchaseError = "Restore failed. Please try again."
         }
@@ -140,11 +145,13 @@ final class SubscriptionManager: ObservableObject {
             trackTrialStartedIfNeeded(expiresAt: expiry)
         case "unknown":
             status = .unknown
-            isPro = false
+            // Do not overwrite isPro here — keep cached value until we get a definitive answer
+            return
         default:
             status = .notSubscribed
             isPro = false
         }
+        persistIsProCache()
     }
 
     private func updateStatus(for transaction: Transaction) async {
@@ -159,10 +166,15 @@ final class SubscriptionManager: ObservableObject {
                     status = .expired
                     isPro = false
                 }
+                persistIsProCache()
             }
         default:
             break
         }
+    }
+
+    private func persistIsProCache() {
+        UserDefaults.standard.set(isPro, forKey: cachedIsProKey)
     }
 
     private func listenForTransactions() -> Task<Void, Never> {
@@ -174,6 +186,15 @@ final class SubscriptionManager: ObservableObject {
                 await transaction.finish()
                 await self.syncTierToBackend(transactionID: String(transaction.id))
             }
+        }
+    }
+
+    private func syncCurrentStoreKitEntitlementToBackend() async {
+        for await result in Transaction.currentEntitlements {
+            guard let transaction = try? checkVerified(result) else { continue }
+            guard ClavixProduct.all.contains(transaction.productID) else { continue }
+            await syncTierToBackend(transactionID: String(transaction.id))
+            return
         }
     }
 

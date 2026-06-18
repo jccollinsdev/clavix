@@ -18,6 +18,10 @@ class _Query:
     def select(self, *_args, **_kwargs):
         return self
 
+    def eq(self, field, value):
+        self.rows = [row for row in self.rows if row.get(field) == value]
+        return self
+
     def execute(self):
         if self._upsert_rows is not None:
             self.db.upsert_calls.append((self.table_name, self._upsert_rows))
@@ -44,8 +48,18 @@ def test_monthly_etf_holdings_refresh_uses_live_issuer_rows(monkeypatch):
         {
             "positions": [{"ticker": "SPY"}, {"ticker": "QQQ"}],
             "watchlist_items": [{"ticker": "VTI"}],
+            "ticker_metadata": [
+                {"ticker": "SPY", "asset_class": "etf"},
+                {"ticker": "QQQ", "asset_class": "etf"},
+                {"ticker": "VTI", "asset_class": "etf"},
+            ],
             "etf_holdings": [],
         }
+    )
+    monkeypatch.setattr(
+        etf_holdings,
+        "ETF_STATIC_SEEDS",
+        {"SPY": [("AAPL", 7.0)], "QQQ": [("NVDA", 8.5)], "VTI": [("MSFT", 5.2)]},
     )
     monkeypatch.setattr(etf_holdings, "get_supabase", lambda: db)
     monkeypatch.setattr(
@@ -100,14 +114,31 @@ def test_monthly_etf_holdings_refresh_uses_live_issuer_rows(monkeypatch):
     assert db.upsert_conflicts == ["etf_ticker,holding_ticker,as_of"]
 
 
+def test_active_etfs_includes_metadata_etfs(monkeypatch):
+    db = _DB(
+        {
+            "ticker_metadata": [
+                {"ticker": "SPY", "asset_class": "etf"},
+                {"ticker": "EFA", "asset_class": "etf"},
+                {"ticker": "AAPL", "asset_class": "large_cap_equity"},
+            ],
+        }
+    )
+    monkeypatch.setattr(etf_holdings, "ETF_STATIC_SEEDS", {"SPY": [("AAPL", 7.0)]})
+
+    assert etf_holdings._active_etfs(db) == ["EFA", "SPY"]
+
+
 def test_monthly_etf_holdings_refresh_falls_back_to_static_seed(monkeypatch):
     db = _DB(
         {
             "positions": [{"ticker": "SPY"}],
             "watchlist_items": [],
+            "ticker_metadata": [{"ticker": "SPY", "asset_class": "etf"}],
             "etf_holdings": [],
         }
     )
+    monkeypatch.setattr(etf_holdings, "ETF_STATIC_SEEDS", {"SPY": [("AAPL", 7.0)]})
     monkeypatch.setattr(etf_holdings, "get_supabase", lambda: db)
     monkeypatch.setattr(etf_holdings, "_fetch_ssga_holdings", lambda ticker: [])
 
