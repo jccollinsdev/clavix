@@ -5449,10 +5449,18 @@ def _cleanup_old_articles() -> None:
 def _load_active_tickers_sync(supabase) -> list[str]:
     positions = supabase.table("positions").select("ticker").execute().data or []
     watchlist_items = supabase.table("watchlist_items").select("ticker").execute().data or []
+    universe = (
+        supabase.table("ticker_universe")
+        .select("ticker")
+        .eq("is_active", True)
+        .execute()
+        .data
+        or []
+    )
     return sorted(
         {
             str(row.get("ticker") or "").strip().upper()
-            for row in positions + watchlist_items
+            for row in positions + watchlist_items + universe
             if row.get("ticker")
         }
     )
