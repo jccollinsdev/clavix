@@ -4,16 +4,32 @@ Last updated: 2026-06-18
 
 ---
 
-## Tomorrow — TestFlight Launch Day
+## Status as of Thu Jun 18 (end of day)
+
+### Done today
+- [x] `clavix_pro_monthly` — **Ready to Submit** (localization, price $19.99/month, US availability, subscription group localization all filled)
+- [x] 14-day free trial Introductory Offer configured (type: Free, start: Jun 18, no end date)
+- [x] Bank account (TD Bank ...1188) added — Processing (24h to clear)
+- [x] Free Apps Agreement — Active
+- [x] Dad (bipulkarki@gmail.com) invited as Admin — pending acceptance
+- [x] Mom (prashamshakarki@gmail.com) invited as Admin — pending acceptance
+
+### Still pending (user tasks for Fri Jun 19 morning)
+- [ ] **Mom: accept invite, log into App Store Connect with her own Apple ID, complete W-9 with her SSN** — legal entity on account is PRASHAMSHA KATUWAL; Paid Apps Agreement stays "Pending User Info" until W-9 is submitted; mom does NOT need her own dev account, just an Apple ID
+- [ ] **Dad: accept team invite** → you add him to Beta Testers → he gets TestFlight install link
+- [ ] Fix Build 4 "Missing Compliance" in TestFlight → click "Manage" → answer encryption question (Yes, uses HTTPS / Yes, exempt)
+- [ ] Create Sandbox Tester Apple ID for dad: Users and Access → Sandbox → Testers → "+" → throwaway email
+
+---
+
+## Fri Jun 19 — TestFlight Launch Day
 
 ### App Store Connect (you)
 
-- [ ] Confirm `clavix_pro_monthly` subscription product exists and shows "Ready to Submit" in App Store Connect → In-App Purchases
-- [ ] Confirm 14-day Introductory Offer has been submitted for review on `clavix_pro_monthly` (being done today — verify it shows "Waiting for Review" tomorrow morning)
-- [ ] Create a Sandbox Tester account for dad: App Store Connect → Users and Access → Sandbox → Testers → "+" → use a throwaway email, not dad's real one
-- [ ] Confirm the new build (1.0 or 1.1 depending on what ASC assigned) has finished processing — you'll get an email. If not, check App Store Connect → TestFlight
-- [ ] Add the processed build to the Internal Testing group in TestFlight
-- [ ] Send dad a TestFlight invite to his real email
+- [ ] Mom accepts invite → logs in with her Apple ID → submits W-9 (her SSN, Non-Exempt Payee) → Paid Apps Agreement activates within 24-48h
+- [ ] Dad accepts team invite → TestFlight → Beta Testers → "+" → add bipulkarki@gmail.com → he gets TestFlight invite
+- [ ] Create Sandbox Tester Apple ID for dad: Users and Access → Sandbox → Testers → "+" → throwaway email (e.g. dadtest.clavix@gmail.com)
+- [ ] Fix Build 4 Missing Compliance: TestFlight → iOS Builds → Build 4 → Manage → encryption Yes / Yes exempt
 
 ### When Dad Installs (you + me)
 
