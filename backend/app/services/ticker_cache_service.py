@@ -4240,7 +4240,7 @@ def refresh_ticker_snapshot(
                     "grade": score_to_grade(smoothed),
                 }
 
-        # ── CLAVIX TRUTH §7: Limited-data exclusion ─────────────────────────
+        # ── CLAVIX TRUTH §7: Limited-data exclusion + ETF peer borrowing ───
         # score_position_structural counts all recent_events (which may include
         # articles older than 7 days) when deciding whether news_sentiment is
         # computable. news_inputs uses a strict 7-day window. When news_inputs
@@ -4251,45 +4251,81 @@ def refresh_ticker_snapshot(
         # Exception: for same-index ETFs (SPY/VOO/IVV etc.), borrow the score
         # from a peer rather than excluding the dimension. This prevents identical
         # funds from diverging by letter grade due to news-ingestion variance.
-        if news_inputs.get("limited_data") and score.get("news_sentiment") is not None:
+        # Checked before the null-exclusion so ETFs with zero articles (news=None)
+        # also benefit from peer borrowing, not just ETFs with thin article counts.
+        _peer_borrowed = False
+        if news_inputs.get("limited_data"):
             _is_etf_asset = str((scoring_metadata or {}).get("asset_class") or "").lower() == "etf"
-            _peer_news = _get_peer_etf_news_sentiment(ticker, supabase, target_date_iso) if _is_etf_asset else None
-            if _peer_news is not None:
-                score = {**score, "news_sentiment": _peer_news}
-                news_inputs = {**news_inputs, "limited_data": False, "source": "peer_etf"}
-                logger.debug("ETF %s borrowed news_sentiment=%d from same-index peer", ticker, _peer_news)
-            else:
-                normalized_excl_news = {
-                    "financial_health": score.get("financial_health"),
-                    "news_sentiment": None,  # excluded
-                    "macro_exposure": score.get("macro_exposure"),
-                    "sector_exposure": score.get("sector_exposure"),
-                    "volatility": score.get("volatility"),
-                }
-                recomputed_composite = round(calculate_weighted_score(normalized_excl_news), 1)
-                # Re-apply EMA smoothing to the recomputed composite: limited-data tickers
-                # would otherwise bypass the day-over-day damping that full-data tickers get.
-                if _history_scores:
-                    _asset_class = (scoring_metadata or {}).get("asset_class")
-                    _market_cap = (scoring_metadata or {}).get("market_cap")
-                    recomputed_composite = round(
-                        smooth_score_with_history(
-                            recomputed_composite,
-                            _history_scores,
-                            asset_class=_asset_class,
-                            market_cap=_market_cap,
-                        ),
-                        1,
+            if _is_etf_asset:
+                _peer_news = _get_peer_etf_news_sentiment(ticker, supabase, target_date_iso)
+                if _peer_news is not None:
+                    _borrowed_dims = {
+                        "financial_health": score.get("financial_health"),
+                        "news_sentiment": _peer_news,
+                        "macro_exposure": score.get("macro_exposure"),
+                        "sector_exposure": score.get("sector_exposure"),
+                        "volatility": score.get("volatility"),
+                    }
+                    _recomputed = round(calculate_weighted_score(_borrowed_dims), 1)
+                    if _history_scores:
+                        _ac_b = (scoring_metadata or {}).get("asset_class")
+                        _mc_b = (scoring_metadata or {}).get("market_cap")
+                        _recomputed = round(
+                            smooth_score_with_history(
+                                _recomputed,
+                                _history_scores,
+                                asset_class=_ac_b,
+                                market_cap=_mc_b,
+                            ),
+                            1,
+                        )
+                    score = {
+                        **score,
+                        "news_sentiment": _peer_news,
+                        "total_score": _recomputed,
+                        "safety_score": _recomputed,
+                        "composite_score": _recomputed,
+                        "grade": score_to_grade(_recomputed),
+                    }
+                    news_inputs = {**news_inputs, "limited_data": False, "source": "peer_etf"}
+                    _peer_borrowed = True
+                    logger.debug(
+                        "ETF %s borrowed news_sentiment=%d composite=%.1f grade=%s",
+                        ticker, _peer_news, _recomputed, score["grade"],
                     )
-                recomputed_grade = score_to_grade(recomputed_composite)
-                score = {
-                    **score,
-                    "news_sentiment": None,
-                    "total_score": recomputed_composite,
-                    "safety_score": recomputed_composite,
-                    "composite_score": recomputed_composite,
-                    "grade": recomputed_grade,
-                }
+
+        if not _peer_borrowed and news_inputs.get("limited_data") and score.get("news_sentiment") is not None:
+            normalized_excl_news = {
+                "financial_health": score.get("financial_health"),
+                "news_sentiment": None,  # excluded
+                "macro_exposure": score.get("macro_exposure"),
+                "sector_exposure": score.get("sector_exposure"),
+                "volatility": score.get("volatility"),
+            }
+            recomputed_composite = round(calculate_weighted_score(normalized_excl_news), 1)
+            # Re-apply EMA smoothing to the recomputed composite: limited-data tickers
+            # would otherwise bypass the day-over-day damping that full-data tickers get.
+            if _history_scores:
+                _asset_class = (scoring_metadata or {}).get("asset_class")
+                _market_cap = (scoring_metadata or {}).get("market_cap")
+                recomputed_composite = round(
+                    smooth_score_with_history(
+                        recomputed_composite,
+                        _history_scores,
+                        asset_class=_asset_class,
+                        market_cap=_market_cap,
+                    ),
+                    1,
+                )
+            recomputed_grade = score_to_grade(recomputed_composite)
+            score = {
+                **score,
+                "news_sentiment": None,
+                "total_score": recomputed_composite,
+                "safety_score": recomputed_composite,
+                "composite_score": recomputed_composite,
+                "grade": recomputed_grade,
+            }
 
         # Grade hysteresis: only flip grade if score is firmly in the new band.
         # Prevents A<->BBB boundary wobble from daily noise (±2 point buffer).
