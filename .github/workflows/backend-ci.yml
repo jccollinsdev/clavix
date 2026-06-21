@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install -r requirements.txt pytest
+          python3 -m pip install -r requirements.txt pytest pytest-asyncio
 
       - name: Compile backend
         run: python3 -m compileall -q app
