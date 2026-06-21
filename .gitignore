@@ -47,4 +47,6 @@ token-dashboard/
 apns/
 ios/Clavis/Config/Secrets.local.xcconfig
 BACKFILL/
+BACKFILL_IMPORT/
+backups/
 scratch/
