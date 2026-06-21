@@ -115,33 +115,11 @@ In the app record → App Information:
 
 In the app record → App Privacy → Get Started:
 
-Answer the questionnaire based on what Clavix actually collects:
-
-**Contact Info:**
-- Email Address: YES, collected, linked to user, NOT used for tracking, purpose: App Functionality
-
-**User Content:**
-- (none — portfolio holdings go under "Other Data")
-
-**Identifiers:**
-- User ID: YES, collected, linked to user, NOT used for tracking, purpose: App Functionality
-
-**Other Data:**
-- Name: YES, optional, linked to user, NOT for tracking, purpose: Personalization
-- Financial Info (portfolio holdings — tickers, shares, cost basis): YES, linked to user, NOT for tracking, purpose: App Functionality
-
-**Purchases:**
-- Purchase History: NO (StoreKit doesn't persist receipts as first-party data)
-
-**Usage Data:**
-- Product Interaction: NO
-- Crash Data: NO (Sentry disabled)
-- Performance Data: NO
-
-**Do NOT check:**
-- Device ID (not collected)
-- Advertising ID (not collected)
-- Location (not collected)
+Use the verified selections in
+`docs/legal/APP_STORE_PRIVACY_LABELS_DRAFT.md`. The current app collects
+linked account, portfolio, APNs token, purchase-history, preference, and
+first-party product-interaction data. Sentry diagnostics are collected without
+being linked to identity. Nothing is used for tracking.
 
 ---
 
@@ -178,9 +156,9 @@ In the app record → In-App Purchases → Manage → Subscriptions:
    - Localizations → English (U.S.):
      - Display Name: `Clavix Pro`
      - Description: `Unlimited holdings & watchlist, verbose morning briefing, 90-day score history, advanced alerts, and the deepest audit view.`
-   - Promotional Offers: Add Free Trial
-     - Duration: 14 days
-     - No price
+   - Introductory Offer: Free Trial
+     - Duration: 2 weeks (14 days)
+     - Customer pays: $0 during the introductory period
    - Click "Save"
 
 4. Submit for review (required even for sandbox testing with StoreKit 2):

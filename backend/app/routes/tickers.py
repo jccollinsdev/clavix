@@ -6,6 +6,7 @@ from datetime import datetime, time, timedelta, timezone
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, Request
 
 from ..services.supabase import get_supabase
+from ..services.entitlements import get_effective_tier
 from ..services.ticker_cache_service import (
     get_latest_refresh_job,
     get_ticker_detail_bundle,
@@ -26,21 +27,12 @@ def get_user_id(request: Request) -> str:
 
 
 def _user_subscription_tier(supabase, user_id: str) -> str:
-    result = (
-        supabase.table("user_preferences")
-        .select("subscription_tier")
-        .eq("user_id", user_id)
-        .limit(1)
-        .execute()
-    )
-    if not result.data:
-        return "free"
-    return (result.data[0].get("subscription_tier") or "free").lower()
+    return get_effective_tier(supabase, user_id)
 
 
 def _require_pro_or_admin(supabase, user_id: str) -> str:
     tier = _user_subscription_tier(supabase, user_id)
-    if tier not in {"pro", "admin"}:
+    if tier not in {"trial", "pro", "admin"}:
         raise HTTPException(403, "Manual refresh is available to Pro users only")
     return tier
 
@@ -53,7 +45,7 @@ def _today_window() -> tuple[str, str]:
 
 
 def _enforce_refresh_limit(supabase, user_id: str, ticker: str, tier: str) -> None:
-    if tier in {"pro", "admin"}:
+    if tier in {"trial", "pro", "admin"}:
         return
     start, end = _today_window()
     rows = (

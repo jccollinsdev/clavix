@@ -1,6 +1,7 @@
 from __future__ import annotations
 from fastapi import APIRouter, Request, HTTPException
 from pydantic import BaseModel
+from ..services.entitlements import effective_tier_from_preferences
 from ..services.supabase import get_supabase
 
 
@@ -33,27 +34,8 @@ class ProfileUpdate(BaseModel):
 router = APIRouter()
 
 
-_TRIAL_DAYS = 14
-
-
 def _effective_tier(prefs: dict) -> str:
-    """Resolve effective access tier from stored prefs, honouring the 14-day trial window."""
-    from datetime import datetime, timezone
-
-    tier = (prefs.get("subscription_tier") or "free").lower()
-    if tier in ("pro", "admin"):
-        return tier
-    trial_ends_raw = prefs.get("trial_ends_at")
-    if trial_ends_raw:
-        try:
-            trial_ends = datetime.fromisoformat(str(trial_ends_raw).replace("Z", "+00:00"))
-            if trial_ends.tzinfo is None:
-                trial_ends = trial_ends.replace(tzinfo=timezone.utc)
-            if datetime.now(timezone.utc) < trial_ends:
-                return "trial"
-        except (ValueError, TypeError):
-            pass
-    return "free"
+    return effective_tier_from_preferences(prefs)
 
 
 def _get_or_create_prefs(supabase, user_id: str) -> dict:
@@ -66,21 +48,13 @@ def _get_or_create_prefs(supabase, user_id: str) -> dict:
     )
     if existing:
         return existing[0]
-    from datetime import datetime, timedelta, timezone
-    now = datetime.now(timezone.utc)
-    trial_ends = (now + timedelta(days=_TRIAL_DAYS)).isoformat()
-    now_iso = now.isoformat()
     supabase.table("user_preferences").insert({
         "user_id": user_id,
-        "trial_started_at": now_iso,
-        "trial_ends_at": trial_ends,
         "subscription_tier": "free",
     }).execute()
     return {
         "id": None,
         "user_id": user_id,
-        "trial_started_at": now_iso,
-        "trial_ends_at": trial_ends,
         "subscription_tier": "free",
     }
 
@@ -106,7 +80,8 @@ async def get_preferences(request: Request):
         "name": prefs.get("name"),
         "birth_year": prefs.get("birth_year"),
         "subscription_tier": prefs.get("subscription_tier") or "free",
-        "trial_ends_at": prefs.get("trial_ends_at"),
+        "trial_ends_at": None,
+        "subscription_expires_at": prefs.get("subscription_expires_at"),
         "effective_tier": _effective_tier(prefs),
     }
     return safe
@@ -286,45 +261,6 @@ async def register_device_token(token_update: DeviceTokenUpdate, request: Reques
     await reschedule_user_digest(user_id)
 
     return {"status": "registered"}
-
-
-class SubscriptionTierUpdate(BaseModel):
-    subscription_tier: str
-    transaction_id: str
-
-
-@router.patch("/subscription-tier")
-async def update_subscription_tier(update: SubscriptionTierUpdate, request: Request):
-    """Called by the iOS app after a successful StoreKit purchase or restore.
-    Requires a StoreKit transaction_id to prevent unauthenticated tier escalation."""
-    user_id = request.state.user_id
-    allowed_tiers = {"free", "pro"}
-    tier = update.subscription_tier.strip().lower()
-    if tier not in allowed_tiers:
-        raise HTTPException(400, f"Invalid subscription_tier. Allowed: {allowed_tiers}")
-
-    transaction_id = update.transaction_id.strip()
-    if tier == "pro" and (not transaction_id or not transaction_id.isdigit() or len(transaction_id) < 10):
-        raise HTTPException(400, "Valid StoreKit transaction_id required to set tier to pro")
-
-    supabase = get_supabase()
-    existing = (
-        supabase.table("user_preferences")
-        .select("id")
-        .eq("user_id", user_id)
-        .execute()
-        .data
-    )
-    if existing:
-        supabase.table("user_preferences").update({"subscription_tier": tier}).eq(
-            "user_id", user_id
-        ).execute()
-    else:
-        supabase.table("user_preferences").insert(
-            {"user_id": user_id, "subscription_tier": tier}
-        ).execute()
-
-    return {"status": "ok", "subscription_tier": tier}
 
 
 @router.post("/profile")

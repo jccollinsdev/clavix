@@ -9,6 +9,7 @@ struct UserPreferences: Codable {
     let subscriptionTier: String?
     let effectiveTier: String?
     let trialEndsAt: String?
+    let subscriptionExpiresAt: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -19,5 +20,6 @@ struct UserPreferences: Codable {
         case subscriptionTier = "subscription_tier"
         case effectiveTier = "effective_tier"
         case trialEndsAt = "trial_ends_at"
+        case subscriptionExpiresAt = "subscription_expires_at"
     }
 }

@@ -181,7 +181,9 @@ struct PaywallView: View {
 
     private var legalFooter: some View {
         VStack(spacing: 10) {
-            Text("Payment charged to your Apple ID at purchase. Auto-renews at \(subscriptionManager.proDisplayPrice)/month unless cancelled at least 24 hours before the end of the current period. Manage or cancel in Settings > Apple ID > Subscriptions. Clavix is informational only — not investment advice.")
+            Text(hasIntroductoryOffer
+                 ? "No charge for 14 days. Then \(subscriptionManager.proDisplayPrice)/month, automatically renewing unless cancelled at least 24 hours before the trial or current billing period ends. Manage or cancel in Settings > Apple ID > Subscriptions. Clavix is informational only — not investment advice."
+                 : "Payment is charged to your Apple ID at purchase and renews at \(subscriptionManager.proDisplayPrice)/month unless cancelled at least 24 hours before the current billing period ends. Manage or cancel in Settings > Apple ID > Subscriptions. Clavix is informational only — not investment advice.")
                 .font(ClavisTypography.inter(11, weight: .regular))
                 .foregroundColor(.clavixInk4)
                 .multilineTextAlignment(.center)

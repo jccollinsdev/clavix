@@ -16,3 +16,4 @@ sentry-sdk>=2.0.0,<3.0.0
 snaptrade-python-sdk==11.0.178
 numpy==2.4.6
 requests>=2.31.0
+app-store-server-library==3.1.2

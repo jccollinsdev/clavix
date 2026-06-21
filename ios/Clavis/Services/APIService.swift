@@ -606,6 +606,7 @@ class APIService {
         let birthYear: Int?
         let subscriptionTier: String?
         let trialEndsAt: String?
+        let subscriptionExpiresAt: String?
         let effectiveTier: String?
 
         enum CodingKeys: String, CodingKey {
@@ -625,6 +626,7 @@ class APIService {
             case birthYear = "birth_year"
             case subscriptionTier = "subscription_tier"
             case trialEndsAt = "trial_ends_at"
+            case subscriptionExpiresAt = "subscription_expires_at"
             case effectiveTier = "effective_tier"
         }
     }
@@ -843,13 +845,19 @@ class APIService {
         _ = try await makeRequest(path: "/preferences/profile", method: "POST", body: body)
     }
 
-    func updateSubscriptionTier(_ tier: String, transactionID: String) async throws {
-        struct TierUpdate: Encodable {
-            let subscription_tier: String
-            let transaction_id: String
+    func syncSubscription(signedTransaction: String) async throws {
+        struct SubscriptionSync: Encodable {
+            let signed_transaction: String
         }
-        let body = try JSONEncoder().encode(TierUpdate(subscription_tier: tier, transaction_id: transactionID))
-        _ = try await makeRequest(path: "/preferences/subscription-tier", method: "PATCH", body: body)
+        let body = try JSONEncoder().encode(
+            SubscriptionSync(signed_transaction: signedTransaction)
+        )
+        _ = try await makeRequest(
+            path: "/subscriptions/sync",
+            method: "POST",
+            body: body,
+            timeoutInterval: 75
+        )
     }
 
     func exportAccount() async throws -> Data {

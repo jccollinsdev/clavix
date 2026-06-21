@@ -41,6 +41,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
             options.tracesSampleRate = 0.1
             options.profilesSampleRate = 0.0
             options.environment = "production"
+            options.sendDefaultPii = false
         }
     }
 

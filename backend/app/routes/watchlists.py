@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 
 from ..services.supabase import get_supabase
+from ..services.entitlements import get_effective_tier
 from ..services.ticker_cache_service import (
     get_default_watchlist_detail,
     get_or_create_default_watchlist,
@@ -30,36 +31,7 @@ FREE_TIER_WATCHLIST_LIMIT = 5
 
 
 def _get_subscription_tier(supabase, user_id: str) -> str:
-    """Return effective tier, honouring the 14-day trial window."""
-    from datetime import datetime, timezone
-
-    row = (
-        supabase.table("user_preferences")
-        .select("subscription_tier, trial_ends_at")
-        .eq("user_id", user_id)
-        .limit(1)
-        .execute()
-        .data
-    )
-    if not row:
-        return "free"
-    prefs = row[0]
-    tier = (prefs.get("subscription_tier") or "free").lower()
-    if tier in ("pro", "admin"):
-        return tier
-    trial_ends_raw = prefs.get("trial_ends_at")
-    if trial_ends_raw:
-        try:
-            trial_ends = datetime.fromisoformat(
-                str(trial_ends_raw).replace("Z", "+00:00")
-            )
-            if trial_ends.tzinfo is None:
-                trial_ends = trial_ends.replace(tzinfo=timezone.utc)
-            if datetime.now(timezone.utc) < trial_ends:
-                return "trial"
-        except (ValueError, TypeError):
-            pass
-    return "free"
+    return get_effective_tier(supabase, user_id)
 
 
 @router.post("/default/items")

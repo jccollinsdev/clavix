@@ -63,21 +63,36 @@ final class SubscriptionManager: ObservableObject {
         isLoading = true
         purchaseError = nil
         do {
+            guard
+                let userID = await SupabaseAuthService.shared.getUserId(),
+                let appAccountToken = UUID(uuidString: userID)
+            else {
+                purchaseError = "Please sign in again before starting your subscription."
+                isLoading = false
+                return
+            }
             await APIService.shared.recordAnalyticsEvent(
                 name: AnalyticsEventName.purchaseTapped,
                 properties: ["product_id": product.id]
             )
-            let result = try await product.purchase()
+            let result = try await product.purchase(
+                options: [.appAccountToken(appAccountToken)]
+            )
             switch result {
             case .success(let verification):
                 let transaction = try checkVerified(verification)
                 await updateStatus(for: transaction)
-                await transaction.finish()
-                await APIService.shared.recordAnalyticsEvent(
-                    name: AnalyticsEventName.purchaseSuccess,
-                    properties: ["product_id": transaction.productID]
-                )
-                await syncTierToBackend(transactionID: String(transaction.id))
+                if await syncTierToBackend(
+                    signedTransaction: verification.jwsRepresentation
+                ) {
+                    await transaction.finish()
+                    await APIService.shared.recordAnalyticsEvent(
+                        name: AnalyticsEventName.purchaseSuccess,
+                        properties: ["product_id": transaction.productID]
+                    )
+                } else {
+                    purchaseError = "Your trial started, but account access is still syncing. Reopen the app in a moment."
+                }
             case .userCancelled:
                 break
             case .pending:
@@ -127,19 +142,21 @@ final class SubscriptionManager: ObservableObject {
             guard let transaction = try? checkVerified(result) else { continue }
             if ClavixProduct.all.contains(transaction.productID) {
                 await updateStatus(for: transaction)
+                _ = await syncTierToBackend(
+                    signedTransaction: result.jwsRepresentation
+                )
                 return
             }
         }
-        // No active StoreKit entitlement — fall back to server-reported tier.
-        // The backend resolves "trial" when trial_ends_at > now, so this
-        // correctly grants Pro access during the 14-day window.
-        let (serverTier, trialEndsAt) = await fetchServerPrefs()
+        // Server fallback covers an admin override or a recently verified
+        // StoreKit entitlement while the App Store is temporarily unavailable.
+        let (serverTier, subscriptionExpiresAt) = await fetchServerPrefs()
         switch serverTier {
         case "pro", "admin":
-            status = .active(expiresAt: .distantFuture)
+            status = .active(expiresAt: subscriptionExpiresAt ?? .distantFuture)
             isPro = true
         case "trial":
-            let expiry = trialEndsAt ?? Date().addingTimeInterval(14 * 86400)
+            let expiry = subscriptionExpiresAt ?? Date()
             status = .trial(expiresAt: expiry)
             isPro = true
             trackTrialStartedIfNeeded(expiresAt: expiry)
@@ -160,7 +177,12 @@ final class SubscriptionManager: ObservableObject {
         case .autoRenewable:
             if let expirationDate = transaction.expirationDate {
                 if expirationDate > Date() {
-                    status = .active(expiresAt: expirationDate)
+                    if transaction.offerType == .introductory {
+                        status = .trial(expiresAt: expirationDate)
+                        trackTrialStartedIfNeeded(expiresAt: expirationDate)
+                    } else {
+                        status = .active(expiresAt: expirationDate)
+                    }
                     isPro = true
                 } else {
                     status = .expired
@@ -183,8 +205,11 @@ final class SubscriptionManager: ObservableObject {
                 guard let self else { return }
                 guard let transaction = try? self.checkVerified(result) else { continue }
                 await self.updateStatus(for: transaction)
-                await transaction.finish()
-                await self.syncTierToBackend(transactionID: String(transaction.id))
+                if await self.syncTierToBackend(
+                    signedTransaction: result.jwsRepresentation
+                ) {
+                    await transaction.finish()
+                }
             }
         }
     }
@@ -193,7 +218,9 @@ final class SubscriptionManager: ObservableObject {
         for await result in Transaction.currentEntitlements {
             guard let transaction = try? checkVerified(result) else { continue }
             guard ClavixProduct.all.contains(transaction.productID) else { continue }
-            await syncTierToBackend(transactionID: String(transaction.id))
+            _ = await syncTierToBackend(
+                signedTransaction: result.jwsRepresentation
+            )
             return
         }
     }
@@ -207,17 +234,16 @@ final class SubscriptionManager: ObservableObject {
         }
     }
 
-    private func fetchServerPrefs() async -> (tier: String, trialEndsAt: Date?) {
+    private func fetchServerPrefs() async -> (tier: String, expiresAt: Date?) {
         guard let prefs = try? await APIService.shared.fetchPreferences() else {
             return ("unknown", nil)
         }
         let tier = (prefs.effectiveTier ?? prefs.subscriptionTier ?? "free").lowercased()
-        var trialEnds: Date? = nil
-        if let raw = prefs.trialEndsAt {
-            let iso = raw.replacingOccurrences(of: "Z", with: "+00:00")
-            trialEnds = ISO8601DateFormatter().date(from: iso)
+        var expiresAt: Date? = nil
+        if let raw = prefs.subscriptionExpiresAt {
+            expiresAt = FlexibleDateDecoder.decode(raw)
         }
-        return (tier, trialEnds)
+        return (tier, expiresAt)
     }
 
     private func trackTrialStartedIfNeeded(expiresAt: Date) {
@@ -229,11 +255,14 @@ final class SubscriptionManager: ObservableObject {
         )
     }
 
-    private func syncTierToBackend(transactionID: String) async {
-        // Only sync on a verified StoreKit active purchase — not on server-granted trial.
-        // The server manages the trial tier itself via trial_ends_at; syncing "pro" here
-        // would collide with that and allow client-side tier escalation.
-        guard case .active = status else { return }
-        _ = try? await APIService.shared.updateSubscriptionTier("pro", transactionID: transactionID)
+    private func syncTierToBackend(signedTransaction: String) async -> Bool {
+        do {
+            try await APIService.shared.syncSubscription(
+                signedTransaction: signedTransaction
+            )
+            return true
+        } catch {
+            return false
+        }
     }
 }

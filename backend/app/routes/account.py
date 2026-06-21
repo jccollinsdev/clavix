@@ -118,6 +118,9 @@ async def export_account(user_id: str = Depends(get_user_id)):
         ),
         "watchlists": watchlists,
         "watchlist_items": watchlist_items,
+        "app_store_subscriptions": _table_rows(
+            supabase, "app_store_subscriptions", user_id
+        ),
     }
 
 
@@ -233,6 +236,12 @@ async def delete_account(user_id: str = Depends(get_user_id)):
     deleted_counts["analysis_runs"] = delete_rows("analysis_runs")
     deleted_counts["positions"] = delete_rows("positions")
     deleted_counts["scheduler_jobs"] = delete_rows("scheduler_jobs")
+    deleted_counts["app_store_notifications"] = delete_rows(
+        "app_store_notifications"
+    )
+    deleted_counts["app_store_subscriptions"] = delete_rows(
+        "app_store_subscriptions"
+    )
     deleted_counts["user_preferences"] = delete_rows("user_preferences")
 
     # ── Step 5: Tables without FK constraints ────────────────────────────────

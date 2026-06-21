@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pydantic_settings import BaseSettings
 from functools import lru_cache
 
@@ -42,6 +44,10 @@ class Settings(BaseSettings):
     scheduler_tier: str = "cron"
     minimax_personalisation_enabled: bool = False
     minimax_daily_budget: int = 0
+    app_store_bundle_id: str = "com.clavisdev.portfolioassistant"
+    app_store_app_apple_id: int | None = 6775920073
+    app_store_product_ids: str = "clavix_pro_monthly"
+    app_store_online_checks: bool = True
 
     class Config:
         env_file = ".env"

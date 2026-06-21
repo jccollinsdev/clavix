@@ -20,6 +20,7 @@ from ..services.ticker_cache_service import (
     refresh_ticker_snapshot,
 )
 from ..services.route_freshness import latest_job_freshness
+from ..services.entitlements import get_effective_tier
 
 router = APIRouter()
 
@@ -93,36 +94,7 @@ FREE_TIER_HOLDING_LIMIT = 3
 
 
 def _get_subscription_tier(supabase, user_id: str) -> str:
-    """Return effective tier, honouring the 14-day trial window."""
-    from datetime import datetime, timezone
-
-    row = (
-        supabase.table("user_preferences")
-        .select("subscription_tier, trial_ends_at")
-        .eq("user_id", user_id)
-        .limit(1)
-        .execute()
-        .data
-    )
-    if not row:
-        return "free"
-    prefs = row[0]
-    tier = (prefs.get("subscription_tier") or "free").lower()
-    if tier in ("pro", "admin"):
-        return tier
-    trial_ends_raw = prefs.get("trial_ends_at")
-    if trial_ends_raw:
-        try:
-            trial_ends = datetime.fromisoformat(
-                str(trial_ends_raw).replace("Z", "+00:00")
-            )
-            if trial_ends.tzinfo is None:
-                trial_ends = trial_ends.replace(tzinfo=timezone.utc)
-            if datetime.now(timezone.utc) < trial_ends:
-                return "trial"
-        except (ValueError, TypeError):
-            pass
-    return "free"
+    return get_effective_tier(supabase, user_id)
 
 
 def _create_holding_sync(
