@@ -67,7 +67,7 @@ after verifying the result, and add evidence beside it when possible.
 - [x] Verify the live Clavix database contains
   `app_store_subscriptions`, `app_store_notifications`, and the four new
   subscription columns on `user_preferences`.
-- [ ] BLOCKER Configure App Store Server Notifications V2 for production and
+- [x] Configure App Store Server Notifications V2 for production and
   sandbox to:
   `https://clavis.andoverdigital.com/subscriptions/app-store-notifications`.
 - [x] Update and redeploy `web/refund.html` for Apple-managed subscriptions.
@@ -88,7 +88,7 @@ Do these in order. Stop if a gate fails.
    `uwvwulhkxtzabykelvam`.
 3. [x] Verify new tables, columns, RLS, mock user data, and a free effective
    tier.
-4. [ ] Configure Apple Server Notifications V2 in App Store Connect.
+4. [x] Configure Apple Server Notifications V2 in App Store Connect.
 5. [ ] Send Apple's test notification and verify HTTP 200 plus a notification
    row in Supabase.
 6. [x] Fix and deploy the refund page.
@@ -158,14 +158,15 @@ Do these in order. Stop if a gate fails.
 
 ## 3. Apple StoreKit and Subscription Configuration
 
-- [ ] VERIFY Confirm subscription group name `Clavix Pro` exists.
-- [ ] VERIFY Confirm product ID is exactly `clavix_pro_monthly`.
-- [ ] VERIFY Confirm subscription duration is one month.
-- [ ] VERIFY Confirm US base price is $19.99.
-- [ ] VERIFY Confirm the product is available in every intended storefront.
-- [ ] VERIFY Confirm English localization has a display name and accurate
+- [x] Confirm subscription group name `Clavix Pro` exists.
+- [x] Confirm product ID is exactly `clavix_pro_monthly`.
+- [x] Confirm subscription duration is one month.
+- [x] Confirm US base price is $19.99.
+- [x] Confirm the product is available in the intended launch storefronts:
+  United States and Canada.
+- [x] Confirm English localization has a display name and accurate
   description.
-- [ ] VERIFY Confirm the introductory offer is type `Free`, duration `2 weeks`,
+- [x] Confirm the introductory offer is type `Free`, duration `2 weeks`,
   starts now, and covers every intended storefront.
 - [ ] VERIFY Confirm no old or overlapping introductory offer conflicts with
   the 14-day offer.
@@ -206,10 +207,10 @@ customer never opens the app again.
   `https://clavis.andoverdigital.com/subscriptions/app-store-notifications`.
 - [x] Endpoint does not require Clavix user authentication.
 - [x] Endpoint verifies Apple's signed payload before changing data.
-- [ ] BLOCKER Enter the URL under App Store Connect -> App Information -> App
+- [x] Enter the URL under App Store Connect -> App Information -> App
   Store Server Notifications.
-- [ ] BLOCKER Set both Production Server URL and Sandbox Server URL.
-- [ ] BLOCKER Select Version 2 notifications.
+- [x] Set both Production Server URL and Sandbox Server URL.
+- [x] Use Apple's current Version 2 notification setup for both URLs.
 - [ ] BLOCKER Request a test notification from App Store Connect.
 - [ ] BLOCKER Confirm Apple reports success and the endpoint returns HTTP 200.
 - [ ] BLOCKER Confirm the test notification UUID is stored once in Supabase.
@@ -854,7 +855,8 @@ Official submission flow:
 ### Gate A: Upload build to TestFlight
 
 - [x] Correct Supabase migration is live.
-- [ ] Apple notification URL is configured and test notification succeeds.
+- [ ] Apple notification URL is configured; test notification still needs to
+  succeed and be verified in Supabase.
 - [x] Refund page is truthful.
 - [x] Final entitlement model is decided.
 - [ ] Build number matches final source.
