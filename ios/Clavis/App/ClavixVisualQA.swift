@@ -1803,7 +1803,7 @@ private struct ClavixVisualQADeleteConfirm: View {
 }
 
 private struct ClavixVisualQAFreeLimitReached: View {
-    var body: some View { VQAScreen(eyebrow: "Free plan", title: "Position limit reached") { VQACard(fill: .vqaAccentSoft) { Text("Free accounts can track three positions. Upgrade to add more positions, connect your brokerage, and unlock full history.").foregroundColor(.vqaAccentInk) }; VQAButton("View Pro", fill: .vqaAccent, foreground: .white) {}; VQAButton("Manage positions", fill: .clear, foreground: .vqaInk) {}.overlay(RoundedRectangle(cornerRadius: 7).stroke(Color.vqaRule, lineWidth: 1)) } }
+    var body: some View { VQAScreen(eyebrow: "Subscription", title: "Access required") { VQACard(fill: .vqaAccentSoft) { Text("Start your trial or restore your subscription to track positions and unlock full history.").foregroundColor(.vqaAccentInk) }; VQAButton("View subscription", fill: .vqaAccent, foreground: .white) {}; VQAButton("Manage positions", fill: .clear, foreground: .vqaInk) {}.overlay(RoundedRectangle(cornerRadius: 7).stroke(Color.vqaRule, lineWidth: 1)) } }
 }
 
 private struct ClavixVisualQABrokerageSync: View {

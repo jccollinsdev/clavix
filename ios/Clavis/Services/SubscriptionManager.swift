@@ -27,6 +27,7 @@ final class SubscriptionManager: ObservableObject {
     @Published var isPro: Bool = false
     @Published var isLoading: Bool = false
     @Published var purchaseError: String?
+    @Published private(set) var isEligibleForIntroOffer: Bool = false
 
     private var products: [Product] = []
     private var transactionListenerTask: Task<Void, Never>?
@@ -128,12 +129,18 @@ final class SubscriptionManager: ObservableObject {
     // MARK: - Private
 
     private func loadProducts() async {
-        guard products.isEmpty else { return }
-        do {
-            products = try await Product.products(for: ClavixProduct.all)
-        } catch {
-            // Product load failure is non-fatal — price display degrades gracefully
+        if products.isEmpty {
+            do {
+                products = try await Product.products(for: ClavixProduct.all)
+            } catch {
+                // Product load failure is non-fatal; the locked paywall can retry.
+            }
         }
+        guard let subscription = proProduct?.subscription else {
+            isEligibleForIntroOffer = false
+            return
+        }
+        isEligibleForIntroOffer = await subscription.isEligibleForIntroOffer
     }
 
     private func checkCurrentEntitlement() async {

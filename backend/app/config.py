@@ -48,6 +48,7 @@ class Settings(BaseSettings):
     app_store_app_apple_id: int | None = 6775920073
     app_store_product_ids: str = "clavix_pro_monthly"
     app_store_online_checks: bool = True
+    hard_paywall_enabled: bool = False
 
     class Config:
         env_file = ".env"

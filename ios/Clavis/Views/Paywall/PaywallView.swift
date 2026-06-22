@@ -102,7 +102,8 @@ struct PaywallView: View {
     // MARK: - Computed helpers
 
     private var hasIntroductoryOffer: Bool {
-        subscriptionManager.proProduct?.subscription?.introductoryOffer != nil
+        subscriptionManager.isEligibleForIntroOffer
+            && subscriptionManager.proProduct?.subscription?.introductoryOffer != nil
     }
 
     private var trialSubtitle: String {
@@ -213,11 +214,11 @@ enum PaywallTrigger {
     var message: String? {
         switch self {
         case .holdingLimit:
-            return "Free accounts track up to 3 positions. Pro gives you unlimited holdings so your whole book is covered."
+            return "Your subscription is required to add and monitor positions across your whole portfolio."
         case .verboseDigest:
             return "The verbose morning briefing explains what overnight news means for each position in depth. It's a Pro feature."
         case .watchlistLimit:
-            return "Free accounts monitor up to 5 watchlist tickers. Pro removes the limit."
+            return "Your subscription is required to monitor watchlist tickers and receive ongoing risk updates."
         case .advancedAlerts:
             return "Advanced alerts (watchlist grade changes, macro-shock signals, and portfolio-level risk triggers) are Pro features."
         case .expiredTrial:

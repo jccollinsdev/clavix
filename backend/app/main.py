@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
 from jose import jwt, JWTError
+from starlette.concurrency import run_in_threadpool
 from .routes.holdings import router as holdings_router
 from .routes.digest import router as digest_router
 from .routes.today import router as today_router
@@ -36,6 +37,7 @@ from .pipeline.scheduler import start_scheduler
 from .services.apns import validate_apns_configuration
 from .config import get_settings
 from .services.supabase import get_supabase
+from .services.entitlements import get_effective_tier, has_paid_access
 import json
 
 logger = logging.getLogger(__name__)
@@ -62,6 +64,28 @@ def _is_public_path(path: str) -> bool:
     if path in public_paths:
         return True
     if settings.enable_public_docs and path in public_doc_paths:
+        return True
+    return False
+
+
+def _is_entitlement_exempt_path(method: str, path: str) -> bool:
+    """Keep only purchase, recovery, and pre-paywall onboarding routes open."""
+    normalized = path.rstrip("/") or "/"
+    recovery_prefixes = ("/subscriptions", "/preferences", "/account")
+    if any(
+        normalized == prefix or normalized.startswith(f"{prefix}/")
+        for prefix in recovery_prefixes
+    ):
+        return True
+    onboarding_prefixes = ("/analytics", "/brokerage")
+    if any(
+        normalized == prefix or normalized.startswith(f"{prefix}/")
+        for prefix in onboarding_prefixes
+    ):
+        return True
+    if method == "GET" and normalized == "/tickers/search":
+        return True
+    if method == "POST" and normalized == "/holdings":
         return True
     return False
 
@@ -228,6 +252,48 @@ async def validate_jwt_middleware(request: Request, call_next):
         return JSONResponse(status_code=401, content={"detail": "Invalid token"})
 
     request.state.user_id = user_id
+
+    if (
+        settings.hard_paywall_enabled
+        and not _is_entitlement_exempt_path(request.method, request.url.path)
+    ):
+        try:
+            tier = await run_in_threadpool(
+                get_effective_tier,
+                get_supabase(),
+                user_id,
+            )
+        except Exception as exc:
+            log_event(
+                logging.ERROR,
+                "entitlement_check_failed",
+                method=request.method,
+                path=request.url.path,
+                user_id=user_id,
+                error=str(exc),
+            )
+            return JSONResponse(
+                status_code=503,
+                content={
+                    "detail": "Subscription status is temporarily unavailable",
+                    "code": "entitlement_unavailable",
+                },
+            )
+        if not has_paid_access(tier):
+            log_event(
+                logging.INFO,
+                "subscription_required",
+                method=request.method,
+                path=request.url.path,
+                user_id=user_id,
+            )
+            return JSONResponse(
+                status_code=402,
+                content={
+                    "detail": "An active Clavix Pro subscription is required",
+                    "code": "subscription_required",
+                },
+            )
 
     return await call_next(request)
 

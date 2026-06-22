@@ -60,9 +60,14 @@ struct ContentView: View {
             LoadingView()
         } else if authViewModel.isAuthenticated {
             if authViewModel.hasCompletedOnboarding || allowDebugBypassLiveEntry {
-                if shouldShowExpiredPaywall {
-                    ExpiredPaywallView()
-                } else {
+                switch subscriptionManager.status {
+                case .unknown:
+                    LoadingView()
+                case .notSubscribed:
+                    SubscriptionRequiredView(reason: .notSubscribed)
+                case .expired:
+                    SubscriptionRequiredView(reason: .expired)
+                case .trial, .active:
                     MainTabView()
                 }
             } else {
@@ -110,14 +115,6 @@ struct ContentView: View {
         #endif
     }
 
-    private var shouldShowExpiredPaywall: Bool {
-        switch subscriptionManager.status {
-        case .notSubscribed, .expired:
-            return true
-        case .unknown, .trial, .active:
-            return false
-        }
-    }
 }
 
 struct LoadingView: View {

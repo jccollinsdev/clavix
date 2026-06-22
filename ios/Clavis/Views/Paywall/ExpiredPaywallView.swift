@@ -1,13 +1,19 @@
 import SwiftUI
 
-struct ExpiredPaywallView: View {
+enum SubscriptionRequiredReason {
+    case notSubscribed
+    case expired
+}
+
+struct SubscriptionRequiredView: View {
     @EnvironmentObject private var authViewModel: AuthViewModel
+    let reason: SubscriptionRequiredReason
 
     var body: some View {
-        PaywallView(triggerContext: .expiredTrial, showsCloseButton: false)
+        PaywallView(triggerContext: triggerContext, showsCloseButton: false)
             .safeAreaInset(edge: .bottom) {
                 VStack(spacing: 10) {
-                    Text("Your free trial has ended")
+                    Text(statusMessage)
                         .font(ClavisTypography.inter(13, weight: .semibold))
                         .foregroundColor(.clavixInk2)
 
@@ -24,5 +30,15 @@ struct ExpiredPaywallView: View {
                 .padding(.bottom, 16)
                 .background(Color.clavixPage)
             }
+    }
+
+    private var triggerContext: PaywallTrigger {
+        reason == .expired ? .expiredTrial : .generic
+    }
+
+    private var statusMessage: String {
+        reason == .expired
+            ? "Your free trial or subscription has ended"
+            : "Start your 14-day free trial to continue"
     }
 }

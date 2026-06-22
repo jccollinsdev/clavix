@@ -1350,16 +1350,16 @@ private struct HoldingsUpgradeSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        ClavixScreen(eyebrow: "Free plan", title: "Position limit reached") {
+        ClavixScreen(eyebrow: "Subscription", title: "Access required") {
             ClavixCard(fill: .clavixAccentSoft) {
-                Text("Free accounts can track three positions. Upgrade for unlimited positions, the verbose morning brief, and full history.")
+                Text("Start your trial or restore your subscription to track positions, receive the morning brief, and view full history.")
                     .font(ClavisTypography.inter(14, weight: .regular))
                     .foregroundColor(.clavixAccentInk)
                     .fixedSize(horizontal: false, vertical: true)
             }
 
             HoldingsSheetButton(
-                title: "View Pro",
+                title: "View subscription",
                 fill: .clavixAccent,
                 action: { dismiss() }
             )

@@ -59,24 +59,21 @@ after verifying the result, and add evidence beside it when possible.
 
 ### Hard blockers right now
 
-- [ ] BLOCKER Re-authenticate Supabase CLI using the account that owns project
-  `uwvwulhkxtzabykelvam`. The currently authenticated account can only see the
-  unrelated `varfoot` project.
-- [ ] BLOCKER Apply
+- [x] Re-authenticate Supabase CLI using the account that owns project
+  `uwvwulhkxtzabykelvam`.
+- [x] Apply
   `supabase/migrations/20260621180000_production_storekit_entitlements.sql`
   to project `uwvwulhkxtzabykelvam`.
-- [ ] BLOCKER Verify the live Clavix database contains
+- [x] Verify the live Clavix database contains
   `app_store_subscriptions`, `app_store_notifications`, and the four new
   subscription columns on `user_preferences`.
 - [ ] BLOCKER Configure App Store Server Notifications V2 for production and
   sandbox to:
   `https://clavis.andoverdigital.com/subscriptions/app-store-notifications`.
-- [ ] BLOCKER Update and redeploy `web/refund.html`. It currently says no
-  purchases or subscriptions are processed, which is no longer true.
-- [ ] BLOCKER Decide the launch entitlement model: useful free tier with caps,
-  or trial-only hard paywall. Current backend retains free-tier limits while
-  some older launch documents say trial-only. Product, website, paywall, and
-  App Store copy must tell one consistent story.
+- [x] Update and redeploy `web/refund.html` for Apple-managed subscriptions.
+- [x] Launch entitlement model is final: no freemium; every user must start the
+  Apple 14-day introductory trial or subscribe at $19.99/month, and loses
+  product access when the verified StoreKit entitlement expires.
 - [ ] BLOCKER Upload build 10 only after the database migration and server
   notification configuration are complete.
 - [ ] BLOCKER Complete a real TestFlight purchase, restore, cancellation, and
@@ -86,16 +83,16 @@ after verifying the result, and add evidence beside it when possible.
 
 Do these in order. Stop if a gate fails.
 
-1. [ ] Re-authenticate Supabase CLI to the Clavix project owner account.
-2. [ ] Apply the StoreKit entitlement migration to
+1. [x] Re-authenticate Supabase CLI to the Clavix project owner account.
+2. [x] Apply the StoreKit entitlement migration to
    `uwvwulhkxtzabykelvam`.
-3. [ ] Verify new tables, columns, RLS, mock user data, and a free effective
+3. [x] Verify new tables, columns, RLS, mock user data, and a free effective
    tier.
 4. [ ] Configure Apple Server Notifications V2 in App Store Connect.
 5. [ ] Send Apple's test notification and verify HTTP 200 plus a notification
    row in Supabase.
-6. [ ] Fix and deploy the refund page.
-7. [ ] Choose freemium versus trial-only and update all conflicting copy.
+6. [x] Fix and deploy the refund page.
+7. [x] Choose trial-only hard paywall and update the shipping entitlement code.
 8. [ ] Upload build 10 to App Store Connect.
 9. [ ] Resolve export-compliance/build-processing questions and wait for build
    status `Ready to Submit`.
@@ -106,12 +103,12 @@ Do these in order. Stop if a gate fails.
 
 ## 1. Product and Scope Decisions
 
-- [ ] BLOCKER Write a one-sentence launch model and treat it as final:
-  - Option A: Free tier supports 3 holdings and 5 watchlist items; Pro unlocks
-    higher limits and premium features.
-  - Option B: Every new user must start the Apple 14-day trial or subscribe,
-    then loses access when the entitlement expires.
-- [ ] TASK Define exactly which features are free and which require Pro.
+- [x] Launch model: Every new user must start the Apple 14-day trial or
+  subscribe at $19.99/month, then loses access when the verified entitlement
+  expires. There is no freemium product tier.
+- [x] All product features require an active trial, paid subscription, or
+  explicit admin entitlement; only onboarding, purchase/restore, account,
+  analytics, and subscription-recovery routes remain available while locked.
 - [ ] TASK Confirm every Pro feature advertised on the paywall works today.
 - [ ] TASK Remove or label anything not shipping in 1.0 as `Coming later`.
 - [ ] TASK Confirm brokerage connection remains unavailable in version 1.0.
@@ -128,26 +125,26 @@ Do these in order. Stop if a gate fails.
 
 ## 2. Supabase and Billing Data
 
-- [ ] BLOCKER Log in to Supabase CLI with access to
+- [x] Log in to Supabase CLI with access to
   `uwvwulhkxtzabykelvam`.
-- [ ] BLOCKER Link the repository to the correct project and verify the project
+- [x] Link an isolated migration workspace to the correct project and verify the project
   name before running any DDL.
-- [ ] BLOCKER Dry-run only the StoreKit entitlement migration.
-- [ ] BLOCKER Apply only
+- [x] Dry-run only the StoreKit entitlement migration.
+- [x] Apply only
   `20260621180000_production_storekit_entitlements.sql`; do not replay the old
   date-only migration files.
-- [ ] BLOCKER Verify these `user_preferences` columns:
+- [x] Verify these `user_preferences` columns:
   - `subscription_expires_at`
   - `subscription_offer_type`
   - `subscription_original_transaction_id`
   - `subscription_environment`
-- [ ] BLOCKER Verify `app_store_subscriptions` exists with unique original and
+- [x] Verify `app_store_subscriptions` exists with unique original and
   latest transaction IDs.
-- [ ] BLOCKER Verify `app_store_notifications` exists with unique notification
+- [x] Verify `app_store_notifications` exists with unique notification
   UUIDs.
-- [ ] BLOCKER Verify RLS is enabled and only the service role can manage billing
+- [x] Verify RLS is enabled and only the service role can manage billing
   rows.
-- [ ] BLOCKER Verify old `trial_started_at` and `trial_ends_at` values are
+- [x] Verify old `trial_started_at` and `trial_ends_at` values are
   cleared.
 - [ ] VERIFY Confirm the mock user still has the expected portfolio and digest
   after migration.
@@ -359,8 +356,8 @@ customer never opens the app again.
   price targets, or features not in the submitted build.
 - [ ] TASK Ensure every mention of the trial says 14 days, $0 during trial,
   then the localized monthly price, auto-renewing unless cancelled.
-- [ ] TASK Ensure App Store copy reflects the final free-tier versus trial-only
-  decision.
+- [ ] TASK Ensure App Store copy consistently states that product access
+  requires the trial or subscription; there is no freemium tier.
 - [ ] TASK Prepare US English metadata first; localize only after the English
   truth is stable.
 
@@ -856,10 +853,10 @@ Official submission flow:
 
 ### Gate A: Upload build to TestFlight
 
-- [ ] Correct Supabase migration is live.
+- [x] Correct Supabase migration is live.
 - [ ] Apple notification URL is configured and test notification succeeds.
-- [ ] Refund page is truthful.
-- [ ] Final entitlement model is decided.
+- [x] Refund page is truthful.
+- [x] Final entitlement model is decided.
 - [ ] Build number matches final source.
 
 ### Gate B: Give Dad full end-to-end access

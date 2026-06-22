@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 
-from app.services.entitlements import effective_tier_from_preferences
+from app.services.entitlements import effective_tier_from_preferences, has_paid_access
 
 
 def test_admin_override_does_not_require_storekit_expiration():
@@ -59,3 +59,11 @@ def test_legacy_server_trial_dates_no_longer_grant_access():
         )
         == "free"
     )
+
+
+def test_only_server_verified_paid_tiers_grant_product_access():
+    assert has_paid_access("trial")
+    assert has_paid_access("pro")
+    assert has_paid_access("admin")
+    assert not has_paid_access("free")
+    assert not has_paid_access("unknown")

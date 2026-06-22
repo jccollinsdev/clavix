@@ -4,6 +4,9 @@ from datetime import datetime, timezone
 from typing import Any
 
 
+PAID_ACCESS_TIERS = frozenset({"trial", "pro", "admin"})
+
+
 def _parse_datetime(value: Any) -> datetime | None:
     if not value:
         return None
@@ -37,6 +40,11 @@ def effective_tier_from_preferences(
     if prefs.get("subscription_offer_type") == 1:
         return "trial"
     return "pro"
+
+
+def has_paid_access(tier: str) -> bool:
+    """Return whether a server-verified tier may access the paid product."""
+    return tier.lower() in PAID_ACCESS_TIERS
 
 
 def get_effective_tier(supabase, user_id: str) -> str:
