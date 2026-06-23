@@ -16,8 +16,12 @@ struct OnboardingContainerView: View {
                 switch viewModel.currentPage {
                 case .welcome:
                     OnboardingWelcomeSetupView(
-                        name: viewModel.welcomeName,
-                        onPrimary: { viewModel.nextPage() }
+                        viewModel: viewModel,
+                        isFreeTier: !SubscriptionManager.shared.isPro,
+                        onPrimary: {
+                            viewModel.runAnalysis()
+                            viewModel.nextPage()
+                        }
                     )
                 case .addPortfolio:
                     OnboardingPortfolioAhaView(
@@ -100,7 +104,8 @@ struct OnboardingContainerView: View {
 }
 
 private struct OnboardingWelcomeSetupView: View {
-    let name: String?
+    @ObservedObject var viewModel: OnboardingViewModel
+    let isFreeTier: Bool
     let onPrimary: () -> Void
 
     var body: some View {
@@ -109,34 +114,26 @@ private struct OnboardingWelcomeSetupView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     Spacer(minLength: 18)
 
-                    Text(greeting)
-                        .font(ClavisTypography.inter(17, weight: .medium))
-                        .foregroundColor(Color.white.opacity(0.72))
-                        .padding(.bottom, 8)
-
-                    Text("Let’s set up your portfolio.")
+                    Text(title)
                         .font(ClavisTypography.inter(34, weight: .semibold))
                         .tracking(-0.6)
                         .foregroundColor(.textPrimary)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.86)
+                        .lineLimit(3)
+                        .minimumScaleFactor(0.82)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(.bottom, 10)
 
-                    Text("Add at least one holding. Clavix will find your portfolio grade and biggest risk blind spot.")
+                    Text("Enter at least one holding and the shares you own. You can add more positions below.")
                         .font(ClavisTypography.inter(15, weight: .regular))
                         .foregroundColor(Color.white.opacity(0.76))
                         .lineSpacing(2)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(.bottom, 22)
+                        .padding(.bottom, 18)
 
-                    OnboardingSetupVisual()
-                        .padding(.bottom, 20)
-
-                    HStack(spacing: 18) {
-                        setupNote(icon: "clock", text: "About 60 seconds")
-                        setupNote(icon: "lock.shield", text: "No brokerage login")
-                    }
+                    OnboardingHoldingsEntry(
+                        viewModel: viewModel,
+                        isFreeTier: isFreeTier
+                    )
 
                     Spacer(minLength: 18)
                 }
@@ -168,6 +165,8 @@ private struct OnboardingWelcomeSetupView: View {
                     .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
                 }
                 .buttonStyle(.plain)
+                .disabled(!viewModel.canAnalyzeEnteredHoldings)
+                .opacity(viewModel.canAnalyzeEnteredHoldings ? 1 : 0.42)
                 .padding(.horizontal, 24)
                 .padding(.vertical, 12)
             }
@@ -175,76 +174,125 @@ private struct OnboardingWelcomeSetupView: View {
         }
     }
 
-    private var greeting: String {
-        guard let name, !name.isEmpty else { return "Hey," }
-        return "Hey \(name),"
-    }
-
-    private func setupNote(icon: String, text: String) -> some View {
-        HStack(spacing: 7) {
-            Image(systemName: icon)
-                .font(.system(size: 12, weight: .medium))
-            Text(text)
-                .font(ClavisTypography.inter(12, weight: .medium))
+    private var title: String {
+        guard let name = viewModel.welcomeName, !name.isEmpty else {
+            return "Let’s set up your portfolio."
         }
-        .foregroundColor(.textSecondary)
+        return "Hey \(name),\nlet’s set up your portfolio."
     }
 }
 
-private struct OnboardingSetupVisual: View {
+private struct OnboardingHoldingsEntry: View {
+    @ObservedObject var viewModel: OnboardingViewModel
+    let isFreeTier: Bool
+
     var body: some View {
-        HStack(spacing: 18) {
-            VStack(alignment: .leading, spacing: 9) {
+        VStack(spacing: 0) {
+            HStack {
                 Text("YOUR HOLDINGS")
                     .font(ClavisTypography.mono(9))
                     .tracking(0.7)
                     .foregroundColor(.textSecondary)
-
-                ForEach(["AAPL", "MSFT", "NVDA"], id: \.self) { ticker in
-                    HStack {
-                        Text(ticker)
-                            .font(ClavisTypography.mono(13))
-                            .foregroundColor(.textPrimary)
-                        Spacer()
-                        Image(systemName: "checkmark")
-                            .font(.system(size: 10, weight: .bold))
-                            .foregroundColor(.textSecondary)
-                    }
-                    .padding(.horizontal, 11)
-                    .frame(height: 36)
-                    .background(Color.white.opacity(0.04))
-                    .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-                }
-            }
-            .frame(maxWidth: .infinity)
-
-            Image(systemName: "arrow.right")
-                .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.textTertiary)
-
-            VStack(spacing: 8) {
-                Text("?")
-                    .font(ClavisTypography.inter(42, weight: .semibold))
-                    .foregroundColor(.textPrimary)
-                    .frame(width: 84, height: 84)
-                    .overlay(
-                        Circle()
-                            .stroke(Color.white.opacity(0.22), style: StrokeStyle(lineWidth: 2, dash: [5, 5]))
-                    )
-                Text("YOUR GRADE")
+                Spacer()
+                Text("SHARES")
                     .font(ClavisTypography.mono(9))
                     .tracking(0.7)
                     .foregroundColor(.textSecondary)
             }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+
+            AhaHairline()
+
+            ForEach(Array(viewModel.entries.enumerated()), id: \.element.id) { index, entry in
+                WelcomeHoldingRow(
+                    viewModel: viewModel,
+                    entry: entry,
+                    index: index + 1
+                )
+                if index < viewModel.entries.count - 1 {
+                    AhaHairline()
+                }
+            }
+
+            if viewModel.entries.count < viewModel.maxEntries(isFreeTier: isFreeTier) {
+                AhaHairline()
+                Button {
+                    viewModel.addEntry(isFreeTier: isFreeTier)
+                } label: {
+                    HStack(spacing: 7) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 12, weight: .semibold))
+                        Text("Add another holding")
+                            .font(ClavisTypography.inter(14, weight: .medium))
+                    }
+                    .foregroundColor(.textPrimary)
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 46)
+                }
+                .buttonStyle(.plain)
+            }
         }
-        .padding(18)
-        .frame(minHeight: 196)
         .background(Color.surface)
         .overlay(
             RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
                 .stroke(Color.border, lineWidth: 1)
         )
         .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
+    }
+}
+
+private struct WelcomeHoldingRow: View {
+    @ObservedObject var viewModel: OnboardingViewModel
+    let entry: AhaPortfolioEntry
+    let index: Int
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Text(String(format: "%02d", index))
+                .font(ClavisTypography.mono(10))
+                .foregroundColor(.textTertiary)
+                .frame(width: 20, alignment: .leading)
+
+            TextField("Ticker", text: Binding(
+                get: { entry.query },
+                set: { viewModel.updateQuery(entry.id, $0) }
+            ))
+            .font(ClavisTypography.mono(15))
+            .foregroundColor(.textPrimary)
+            .textInputAutocapitalization(.characters)
+            .autocorrectionDisabled()
+            .keyboardType(.asciiCapable)
+
+            Group {
+                if entry.isResolving {
+                    ProgressView()
+                        .tint(.textSecondary)
+                        .scaleEffect(0.72)
+                } else if entry.resolved != nil {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.textSecondary)
+                } else if entry.notFound {
+                    Image(systemName: "exclamationmark.circle")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.warn)
+                }
+            }
+            .frame(width: 18)
+
+            TextField("0", text: Binding(
+                get: { entry.shares },
+                set: { viewModel.updateShares(entry.id, $0) }
+            ))
+            .font(ClavisTypography.mono(15))
+            .foregroundColor(.textPrimary)
+            .keyboardType(.decimalPad)
+            .multilineTextAlignment(.trailing)
+            .frame(width: 78)
+        }
+        .padding(.horizontal, 14)
+        .frame(height: 58)
     }
 }
 

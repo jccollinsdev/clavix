@@ -62,12 +62,7 @@ final class OnboardingViewModel: ObservableObject {
 
     func loadWelcomeName() async {
         guard welcomeName == nil else { return }
-        guard let name = try? await api.fetchPreferences().name?
-            .trimmingCharacters(in: .whitespacesAndNewlines),
-            !name.isEmpty else {
-            return
-        }
-        welcomeName = name.split(separator: " ").first.map(String.init)
+        welcomeName = await SupabaseAuthService.shared.getSocialAccountFirstName()
     }
 
     func nextPage() {
@@ -105,8 +100,20 @@ final class OnboardingViewModel: ObservableObject {
         !resolvedResults.isEmpty
     }
 
-    func maxEntries(isFreeTier: Bool) -> Int {
-        isFreeTier ? 3 : 5
+    var canAnalyzeEnteredHoldings: Bool {
+        !enteredResults.isEmpty
+    }
+
+    private var enteredResults: [TickerSearchResult] {
+        entries.compactMap { entry in
+            guard let resolved = entry.resolved else { return nil }
+            let shares = Double(entry.shares.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+            return shares > 0 ? resolved : nil
+        }
+    }
+
+    func maxEntries(isFreeTier _: Bool) -> Int {
+        5
     }
 
     func addEntry(isFreeTier: Bool) {
@@ -171,7 +178,7 @@ final class OnboardingViewModel: ObservableObject {
     // MARK: - Aha flow: analyze + reveal
 
     func runAnalysis() {
-        let results = resolvedResults
+        let results = enteredResults
         guard !results.isEmpty else { return }
 
         withAnimation(.easeInOut(duration: 0.35)) {
@@ -203,7 +210,10 @@ final class OnboardingViewModel: ObservableObject {
         await withTaskGroup(of: Void.self) { group in
             for result in results {
                 let sharesString = snapEntries.first { $0.resolved?.ticker == result.ticker }?.shares ?? ""
-                let shares = Double(sharesString.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 1
+                guard let shares = Double(sharesString.trimmingCharacters(in: .whitespacesAndNewlines)),
+                      shares > 0 else {
+                    continue
+                }
                 group.addTask {
                     _ = try? await APIService.shared.createHolding(
                         ticker: result.ticker,

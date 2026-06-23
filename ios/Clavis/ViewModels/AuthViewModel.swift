@@ -123,7 +123,11 @@ class AuthViewModel: ObservableObject {
         statusMessage = nil
         do {
             let result = try await appleSignInCoordinator.signIn()
-            try await authService.signInWithApple(idToken: result.idToken, nonce: result.nonce)
+            try await authService.signInWithApple(
+                idToken: result.idToken,
+                nonce: result.nonce,
+                fullName: result.fullName
+            )
             isAuthenticated = true
             await checkOnboardingStatus()
         } catch let error as ASAuthorizationError where error.code == .canceled {

@@ -135,13 +135,19 @@ class SupabaseAuthService {
     }
 
     @MainActor
-    func signInWithApple(idToken: String, nonce: String) async throws {
+    func signInWithApple(idToken: String, nonce: String, fullName: String?) async throws {
         let credentials = OpenIDConnectCredentials(
             provider: .apple,
             idToken: idToken,
             nonce: nonce
         )
         try await supabase.auth.signInWithIdToken(credentials: credentials)
+        if let fullName = fullName?.trimmingCharacters(in: .whitespacesAndNewlines),
+           !fullName.isEmpty {
+            _ = try? await supabase.auth.update(
+                user: UserAttributes(data: ["full_name": .string(fullName)])
+            )
+        }
     }
 
     @MainActor
@@ -250,6 +256,33 @@ class SupabaseAuthService {
             return nil
         }
     }
+
+    @MainActor
+    func getSocialAccountFirstName() async -> String? {
+        do {
+            let user = try await supabase.auth.user()
+            let socialProviders = Set(["apple", "google"])
+            guard user.identities?.contains(where: { socialProviders.contains($0.provider.lowercased()) }) == true else {
+                return nil
+            }
+
+            let metadataSources = [user.userMetadata] + (user.identities ?? []).compactMap(\.identityData)
+            let keys = ["given_name", "first_name", "full_name", "name"]
+            for metadata in metadataSources {
+                for key in keys {
+                    guard let raw = metadata[key]?.stringValue?
+                        .trimmingCharacters(in: .whitespacesAndNewlines),
+                        !raw.isEmpty else {
+                        continue
+                    }
+                    return raw.split(separator: " ").first.map(String.init)
+                }
+            }
+            return nil
+        } catch {
+            return nil
+        }
+    }
 }
 
 // MARK: - Apple Sign In
@@ -259,6 +292,7 @@ final class AppleSignInCoordinator: NSObject {
     struct Result {
         let idToken: String
         let nonce: String
+        let fullName: String?
     }
 
     private var currentNonce: String?
@@ -314,7 +348,10 @@ extension AppleSignInCoordinator: ASAuthorizationControllerDelegate {
                 continuation = nil
                 return
             }
-            continuation?.resume(returning: Result(idToken: idToken, nonce: nonce))
+            let fullName = credential.fullName.map {
+                PersonNameComponentsFormatter().string(from: $0)
+            }
+            continuation?.resume(returning: Result(idToken: idToken, nonce: nonce, fullName: fullName))
             continuation = nil
         }
     }
