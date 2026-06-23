@@ -18,43 +18,33 @@ struct OnboardingContainerView: View {
                     OnboardingIntroSlideView(
                         step: 1,
                         title: "Meet your morning\nrisk briefing.",
-                        bodyCopy: "Clavix helps you understand what changed in your portfolio before the open, without turning your morning into research work.",
+                        bodyCopy: "Know what changed in your portfolio before the open.",
                         supportingCards: [
-                            .init(eyebrow: "Every morning", title: "One book grade", detail: "See whether your portfolio looks sturdier or shakier at a glance."),
-                            .init(eyebrow: "Always inspectable", title: "Evidence shown", detail: "Every grade traces back to the factors behind it, not black-box hype.")
+                            .init(eyebrow: "Every morning", title: "One book grade", detail: "See whether your portfolio looks sturdier or shakier at a glance.")
                         ],
-                        primaryTitle: "Continue",
-                        secondaryTitle: "Sign in with a different account",
-                        onPrimary: { viewModel.nextPage() },
-                        onSecondary: { Task { await authViewModel.signOut() } }
+                        onPrimary: { viewModel.nextPage() }
                     )
                 case .methodology:
                     OnboardingIntroSlideView(
                         step: 2,
                         title: "Clavix grades risk,\nnot momentum.",
-                        bodyCopy: "The app acts more like a compact risk desk than a trading feed. It scores what you own across five dimensions and tells you where the book looks soft.",
+                        bodyCopy: "Five dimensions, one disciplined read on what you own.",
                         supportingCards: [
-                            .init(eyebrow: "Five dimensions", title: "Macro, sector, financials, news, volatility", detail: "You get one consistent framework instead of disconnected headlines."),
-                            .init(eyebrow: "What you will not get", title: "No buy alerts, no fake certainty", detail: "Clavix is informational only. It helps you inspect risk with more discipline.")
+                            .init(eyebrow: "Five dimensions", title: "Macro, sector, financials, news, volatility", detail: "One framework instead of disconnected headlines.")
                         ],
-                        primaryTitle: "How my snapshot works",
-                        secondaryTitle: "Back",
                         onPrimary: { viewModel.nextPage() },
-                        onSecondary: { viewModel.previousPage() }
+                        onBack: { viewModel.previousPage() }
                     )
                 case .preview:
                     OnboardingIntroSlideView(
                         step: 3,
                         title: "We’ll build your first\nportfolio snapshot.",
-                        bodyCopy: "Enter 1 to 3 positions you actually care about. Clavix will grade the book, surface the weakest link, and show the biggest blind spot worth paying attention to.",
+                        bodyCopy: "Enter 1 to 3 positions and get your first risk read.",
                         supportingCards: [
-                            .init(eyebrow: "What you enter", title: "Ticker + shares", detail: "That is enough to build a first-pass risk picture."),
-                            .init(eyebrow: "What you unlock next", title: "A personalized reveal", detail: "Your trial starts after you see why your own portfolio is interesting.")
+                            .init(eyebrow: "What you enter", title: "Ticker + shares", detail: "Enough for a first-pass risk picture.")
                         ],
-                        primaryTitle: "Build my snapshot",
-                        secondaryTitle: "Back",
                         onPrimary: { viewModel.nextPage() },
-                        onSecondary: { viewModel.previousPage() }
+                        onBack: { viewModel.previousPage() }
                     )
                 case .addPortfolio:
                     OnboardingPortfolioAhaView(
@@ -144,79 +134,61 @@ private struct OnboardingIntroSlideView: View {
     let title: String
     let bodyCopy: String
     let supportingCards: [OnboardingIntroCardContent]
-    let primaryTitle: String
-    let secondaryTitle: String
     let onPrimary: () -> Void
-    let onSecondary: () -> Void
+    var onBack: (() -> Void)? = nil
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                Spacer(minLength: 28)
-
-                Text("STEP 0\(step) / 04")
-                    .font(ClavisTypography.mono(11))
-                    .tracking(0.8)
-                    .foregroundColor(.textSecondary)
-                    .padding(.bottom, 14)
-
+                Spacer(minLength: 22)
                 Text(title)
                     .font(ClavisTypography.inter(34, weight: .semibold))
                     .tracking(-0.6)
                     .foregroundColor(.textPrimary)
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.bottom, 12)
+                    .padding(.bottom, 10)
 
                 Text(bodyCopy)
                     .font(ClavisTypography.inter(15, weight: .regular))
                     .foregroundColor(Color.white.opacity(0.72))
                     .fixedSize(horizontal: false, vertical: true)
-                    .padding(.bottom, 24)
+                    .padding(.bottom, 18)
 
-                VStack(spacing: 12) {
+                OnboardingHeroVisual(step: step)
+                    .padding(.bottom, 16)
+
+                VStack(spacing: 10) {
                     ForEach(Array(supportingCards.enumerated()), id: \.offset) { _, card in
                         OnboardingIntroCard(card: card)
                     }
                 }
-                .padding(.bottom, 24)
+                .padding(.bottom, 20)
 
                 OnboardingMiniPreview(step: step)
-                    .padding(.bottom, 28)
+                    .padding(.bottom, 24)
 
-                VStack(spacing: 10) {
-                    AuthStyleActionButton(
-                        title: primaryTitle,
-                        fill: .textPrimary,
-                        foreground: .backgroundPrimary,
-                        action: onPrimary
-                    )
+                HStack {
+                    if let onBack {
+                        Button(action: onBack) {
+                            Text("Back")
+                                .font(ClavisTypography.inter(14, weight: .medium))
+                                .foregroundColor(.textSecondary)
+                        }
+                        .buttonStyle(.plain)
+                    }
 
-                    AuthStyleActionButton(
-                        title: secondaryTitle,
-                        fill: .surface,
-                        foreground: .textPrimary,
-                        bordered: true,
-                        action: onSecondary
-                    )
+                    Spacer()
+
+                    OnboardingArrowButton(action: onPrimary)
                 }
-                .padding(.bottom, 18)
-
-                OnboardingProgressBar(step: step, total: 4)
-                    .padding(.bottom, 18)
-
-                Text("You’ll see your first personalized risk snapshot before anything asks you to commit.")
-                    .font(ClavisTypography.mono(10))
-                    .foregroundColor(Color.white.opacity(0.52))
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity)
-                    .padding(.bottom, 32)
+                .padding(.bottom, 30)
             }
             .padding(.horizontal, 24)
             .frame(maxWidth: 520)
             .frame(maxWidth: .infinity)
         }
         .safeAreaInset(edge: .top, spacing: 0) {
-            OnboardingStickyBar()
+            OnboardingStickyBar(step: step, total: 4)
         }
     }
 }
@@ -225,21 +197,21 @@ private struct OnboardingIntroCard: View {
     let card: OnboardingIntroCardContent
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 6) {
             Text(card.eyebrow.uppercased())
                 .font(ClavisTypography.mono(10))
                 .tracking(0.8)
                 .foregroundColor(Color.white.opacity(0.5))
             Text(card.title)
-                .font(ClavisTypography.inter(17, weight: .semibold))
+                .font(ClavisTypography.inter(16, weight: .semibold))
                 .foregroundColor(.textPrimary)
                 .fixedSize(horizontal: false, vertical: true)
             Text(card.detail)
-                .font(ClavisTypography.inter(14, weight: .regular))
+                .font(ClavisTypography.inter(13, weight: .regular))
                 .foregroundColor(Color.white.opacity(0.72))
                 .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(16)
+        .padding(14)
         .background(Color.white.opacity(0.04))
         .overlay(
             RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
@@ -253,19 +225,19 @@ private struct OnboardingMiniPreview: View {
     let step: Int
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 10) {
             Text("WHAT HAPPENS NEXT")
                 .font(ClavisTypography.mono(10))
                 .tracking(0.8)
                 .foregroundColor(Color.white.opacity(0.5))
 
-            HStack(spacing: 10) {
+            HStack(spacing: 8) {
                 previewCell(label: "Enter", value: "1-3")
                 previewCell(label: "Score", value: "Book")
                 previewCell(label: "Reveal", value: "Blind spot")
             }
         }
-        .padding(16)
+        .padding(14)
         .background(Color.surface)
         .overlay(
             RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
@@ -281,59 +253,163 @@ private struct OnboardingMiniPreview: View {
                 .tracking(0.7)
                 .foregroundColor(.textSecondary)
             Text(value)
-                .font(ClavisTypography.inter(15, weight: .semibold))
+                .font(ClavisTypography.inter(14, weight: .semibold))
                 .foregroundColor(.textPrimary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(12)
+        .padding(10)
         .background(Color.white.opacity(0.03))
         .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
     }
 }
 
-private struct OnboardingProgressBar: View {
+private struct OnboardingHeroVisual: View {
     let step: Int
-    let total: Int
 
     var body: some View {
-        HStack(spacing: 8) {
-            ForEach(0..<total, id: \.self) { index in
-                RoundedRectangle(cornerRadius: 999, style: .continuous)
-                    .fill(index < step ? Color.textPrimary : Color.white.opacity(0.12))
-                    .frame(height: 4)
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top) {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(heroEyebrow)
+                        .font(ClavisTypography.mono(10))
+                        .tracking(0.8)
+                        .foregroundColor(.textSecondary)
+                    Text(heroTitle)
+                        .font(ClavisTypography.inter(18, weight: .semibold))
+                        .foregroundColor(.textPrimary)
+                }
+                Spacer()
+                heroBadge
             }
+
+            HStack(spacing: 8) {
+                ForEach(heroStats, id: \.label) { stat in
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text(stat.label)
+                            .font(ClavisTypography.mono(9))
+                            .tracking(0.7)
+                            .foregroundColor(.textSecondary)
+                        Text(stat.value)
+                            .font(ClavisTypography.inter(15, weight: .semibold))
+                            .foregroundColor(.textPrimary)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 10)
+                    .background(Color.white.opacity(0.03))
+                    .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
+                }
+            }
+        }
+        .padding(16)
+        .background(Color.surface)
+        .overlay(
+            RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
+                .stroke(Color.border, lineWidth: 1)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
+    }
+
+    private var heroEyebrow: String {
+        switch step {
+        case 1: return "Morning workflow"
+        case 2: return "Risk framework"
+        default: return "First snapshot"
+        }
+    }
+
+    private var heroTitle: String {
+        switch step {
+        case 1: return "A calm read before the market opens."
+        case 2: return "One consistent lens for every holding."
+        default: return "A personalized reveal before the paywall."
+        }
+    }
+
+    private var heroBadge: some View {
+        Group {
+            switch step {
+            case 1:
+                Text("7:00 AM")
+            case 2:
+                Text("5D")
+            default:
+                Text("LIVE")
+            }
+        }
+        .font(ClavisTypography.mono(11))
+        .foregroundColor(.backgroundPrimary)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 6)
+        .background(Color.textPrimary)
+        .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
+    }
+
+    private var heroStats: [(label: String, value: String)] {
+        switch step {
+        case 1:
+            return [
+                ("Book", "Grade"),
+                ("Weakest", "Link"),
+                ("Blind spot", "Fast")
+            ]
+        case 2:
+            return [
+                ("Macro", "Rates"),
+                ("News", "Tone"),
+                ("Vol", "Stress")
+            ]
+        default:
+            return [
+                ("Input", "Ticker"),
+                ("Score", "Composite"),
+                ("Unlock", "Breakdown")
+            ]
         }
     }
 }
 
 private struct OnboardingStickyBar: View {
+    let step: Int
+    let total: Int
+
     var body: some View {
-        ZStack {
-            HStack(spacing: 12) {
-                ZStack {
-                    Image("clavix_logo")
-                        .resizable()
-                        .renderingMode(.template)
-                        .scaledToFit()
-                        .frame(width: 28, height: 28)
-                        .foregroundColor(.textPrimary)
-                    Image("clavix_logo")
-                        .resizable()
-                        .renderingMode(.template)
-                        .scaledToFit()
-                        .frame(width: 28, height: 28)
-                        .scaleEffect(1.18)
-                        .foregroundColor(.textPrimary.opacity(0.3))
+        VStack(spacing: 12) {
+            ZStack {
+                HStack(spacing: 12) {
+                    ZStack {
+                        Image("clavix_logo")
+                            .resizable()
+                            .renderingMode(.template)
+                            .scaledToFit()
+                            .frame(width: 28, height: 28)
+                            .foregroundColor(.textPrimary)
+                        Image("clavix_logo")
+                            .resizable()
+                            .renderingMode(.template)
+                            .scaledToFit()
+                            .frame(width: 28, height: 28)
+                            .scaleEffect(1.18)
+                            .foregroundColor(.textPrimary.opacity(0.3))
+                    }
+                    .frame(width: 30, height: 30)
+                    .accessibilityHidden(true)
+                    Spacer(minLength: 8)
                 }
-                .frame(width: 30, height: 30)
-                .accessibilityHidden(true)
-                Spacer(minLength: 8)
+
+                Text("CLAVIX")
+                    .font(ClavisTypography.inter(17, weight: .bold))
+                    .tracking(1.2)
+                    .foregroundColor(.textPrimary)
             }
 
-            Text("CLAVIX")
-                .font(ClavisTypography.inter(17, weight: .bold))
-                .tracking(1.2)
-                .foregroundColor(.textPrimary)
+            HStack(spacing: 8) {
+                ForEach(0..<total, id: \.self) { index in
+                    RoundedRectangle(cornerRadius: 999, style: .continuous)
+                        .fill(index < step ? Color.textPrimary : Color.white.opacity(0.12))
+                        .frame(height: 4)
+                }
+            }
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 12)
@@ -346,26 +422,17 @@ private struct OnboardingStickyBar: View {
     }
 }
 
-private struct AuthStyleActionButton: View {
-    let title: String
-    let fill: Color
-    let foreground: Color
-    var bordered: Bool = false
+private struct OnboardingArrowButton: View {
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            Text(title)
-                .font(ClavisTypography.inter(15, weight: .semibold))
-                .foregroundColor(foreground)
-                .frame(maxWidth: .infinity)
-                .frame(height: 50)
-                .background(fill)
-                .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
-                .overlay(
-                    RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous)
-                        .stroke(bordered ? Color.border : .clear, lineWidth: 1)
-                )
+            Image(systemName: "arrow.right")
+                .font(.system(size: 18, weight: .semibold))
+                .foregroundColor(.backgroundPrimary)
+                .frame(width: 54, height: 54)
+                .background(Color.textPrimary)
+                .clipShape(Circle())
         }
         .buttonStyle(.plain)
     }
