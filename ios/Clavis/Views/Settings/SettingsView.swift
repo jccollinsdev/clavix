@@ -334,7 +334,7 @@ private struct SettingsInputField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             ClavixEyebrow(title)
-            TextField(title, text: $text)
+            TextField(title, text: $text, prompt: Text(title).foregroundColor(.clavixInk3))
                 .font(ClavisTypography.clavixMono(14, weight: .regular))
                 .foregroundColor(.clavixInk)
                 .padding(.horizontal, 12)

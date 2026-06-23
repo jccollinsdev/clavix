@@ -71,7 +71,11 @@ struct SearchView: View {
                 Image(systemName: "magnifyingglass")
                     .font(.system(size: 14, weight: .regular))
                     .foregroundColor(.clavixInk3)
-                TextField("Ticker or company name…", text: $query)
+                TextField(
+                    "Ticker or company name…",
+                    text: $query,
+                    prompt: Text("Ticker or company name…").foregroundColor(.clavixInk3)
+                )
                     .font(ClavisTypography.clavixMono(14, weight: .regular))
                     .tracking(0.2)
                     .foregroundColor(.clavixInk)

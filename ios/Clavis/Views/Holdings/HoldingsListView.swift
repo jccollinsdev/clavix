@@ -1128,7 +1128,7 @@ private struct HoldingsAddSheet: View {
         keyboard: UIKeyboardType,
         autocapitalized: Bool = false
     ) -> some View {
-        TextField(title, text: text)
+        TextField(title, text: text, prompt: Text(title).foregroundColor(.clavixInk3))
             .font(ClavisTypography.inter(15, weight: .regular))
             .foregroundColor(.clavixInk)
             .textInputAutocapitalization(autocapitalized ? .characters : .never)
@@ -1474,8 +1474,13 @@ struct QuickPortfolioSetupSheet: View {
                     VStack(spacing: 8) {
                         ForEach($entries) { $entry in
                             HStack(spacing: 10) {
-                                TextField("AAPL", text: $entry.ticker)
+                                TextField(
+                                    "AAPL",
+                                    text: $entry.ticker,
+                                    prompt: Text("AAPL").foregroundColor(.clavixInk3)
+                                )
                                     .font(ClavisTypography.clavixMono(14, weight: .bold))
+                                    .foregroundColor(.clavixInk)
                                     .textInputAutocapitalization(.characters)
                                     .autocorrectionDisabled()
                                     .keyboardType(.asciiCapable)
@@ -1485,8 +1490,13 @@ struct QuickPortfolioSetupSheet: View {
                                     .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.clavixRule, lineWidth: 1))
                                     .clipShape(RoundedRectangle(cornerRadius: 8))
 
-                                TextField("Shares (optional)", text: $entry.shares)
+                                TextField(
+                                    "Shares (optional)",
+                                    text: $entry.shares,
+                                    prompt: Text("Shares (optional)").foregroundColor(.clavixInk3)
+                                )
                                     .font(ClavisTypography.inter(14, weight: .regular))
+                                    .foregroundColor(.clavixInk)
                                     .keyboardType(.decimalPad)
                                     .frame(maxWidth: .infinity)
                                     .frame(height: 50)

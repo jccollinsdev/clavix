@@ -144,7 +144,7 @@ private struct OnboardingWelcomeSetupView: View {
 
                     Text("Enter at least one holding and the shares you own. You can add more positions below.")
                         .font(ClavisTypography.inter(15, weight: .regular))
-                        .foregroundColor(Color.white.opacity(0.76))
+                        .foregroundColor(.ink2)
                         .lineSpacing(2)
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(.bottom, 18)
@@ -290,7 +290,7 @@ private struct WelcomeHoldingRow: View {
             TextField("Ticker", text: Binding(
                 get: { entry.query },
                 set: { viewModel.updateQuery(entry.id, $0) }
-            ))
+            ), prompt: Text("Ticker").foregroundColor(.textSecondary))
             .font(ClavisTypography.mono(15))
             .foregroundColor(.textPrimary)
             .textInputAutocapitalization(.characters)
@@ -313,7 +313,7 @@ private struct WelcomeHoldingRow: View {
             TextField("0", text: Binding(
                 get: { entry.shares },
                 set: { viewModel.updateShares(entry.id, $0) }
-            ))
+            ), prompt: Text("0").foregroundColor(.textSecondary))
             .font(ClavisTypography.mono(15))
             .foregroundColor(.textPrimary)
             .keyboardType(.decimalPad)
@@ -678,7 +678,7 @@ private struct AhaInputScreen: View {
 
                 Text("Start with one ticker and share count. Add more if you want a fuller portfolio read.")
                     .font(ClavisTypography.inter(15, weight: .regular))
-                    .foregroundColor(Color.white.opacity(0.76))
+                    .foregroundColor(.ink2)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.bottom, 18)
 
@@ -731,7 +731,7 @@ private struct AhaInputScreen: View {
                             .transition(.scale.combined(with: .opacity))
                         Text("Composite \(Int(score.rounded()))")
                             .font(ClavisTypography.mono(13))
-                            .foregroundColor(Color.white.opacity(0.72))
+                            .foregroundColor(.ink2)
                     }
                 } else {
                     Text("Add a ticker to begin")
@@ -826,7 +826,7 @@ private struct AhaLedgerRow: View {
                 TextField("AAPL", text: Binding(
                     get: { entry.query },
                     set: { viewModel.updateQuery(entry.id, $0) }
-                ))
+                ), prompt: Text("AAPL").foregroundColor(.textSecondary))
                 .font(ClavisTypography.mono(15))
                 .foregroundColor(.textPrimary)
                 .textInputAutocapitalization(.characters)
@@ -837,9 +837,9 @@ private struct AhaLedgerRow: View {
                 TextField("—", text: Binding(
                     get: { entry.shares },
                     set: { viewModel.updateShares(entry.id, $0) }
-                ))
+                ), prompt: Text("—").foregroundColor(.textSecondary))
                 .font(ClavisTypography.mono(13))
-                .foregroundColor(Color.white.opacity(0.72))
+                .foregroundColor(.ink2)
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.leading)
                 .frame(width: 76, alignment: .leading)
@@ -927,7 +927,7 @@ private struct AhaAnalyzingScreen: View {
                             .transition(.opacity)
                         Text(checks[index].detail)
                             .font(ClavisTypography.inter(14, weight: .regular))
-                            .foregroundColor(Color.white.opacity(0.88))
+                            .foregroundColor(.ink2)
                             .multilineTextAlignment(.center)
                             .lineLimit(2)
                             .lineSpacing(2)
@@ -1090,7 +1090,7 @@ private struct AhaRevealScreen: View {
 
                         Text(comparisonSentence(reveal))
                             .font(ClavisTypography.inter(15, weight: .regular))
-                            .foregroundColor(Color.white.opacity(0.76))
+                            .foregroundColor(.ink2)
                             .lineSpacing(2)
                             .fixedSize(horizontal: false, vertical: true)
                             .padding(.bottom, 20)

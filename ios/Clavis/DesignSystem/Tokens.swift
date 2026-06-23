@@ -15,60 +15,60 @@ import SwiftUI
 
 extension Color {
     // Ink (foreground)
-    static let cxInk   = Color(cxHex: 0x1A1814)
-    static let cxInk2  = Color(cxHex: 0x3A342B)
-    static let cxInk3  = Color(cxHex: 0x6B6357)
-    static let cxInk4  = Color(cxHex: 0xA39B8D)
-    static let cxInk5  = Color(cxHex: 0xC8C0B0)
+    static let cxInk   = clavixAdaptive(light: "#1A1814", dark: "#E8E6DF")
+    static let cxInk2  = clavixAdaptive(light: "#3A342B", dark: "#BFC0BC")
+    static let cxInk3  = clavixAdaptive(light: "#6B6357", dark: "#9A9C98")
+    static let cxInk4  = clavixAdaptive(light: "#A39B8D", dark: "#5C6068")
+    static let cxInk5  = clavixAdaptive(light: "#C8C0B0", dark: "#44464C")
 
     // Paper (background)
-    static let cxCanvas = Color(cxHex: 0xF0EADB) // outside device
-    static let cxPage   = Color(cxHex: 0xF7F2E6) // screen background
-    static let cxPaper  = Color(cxHex: 0xFFFDF7) // card surface
-    static let cxPaper2 = Color(cxHex: 0xF3EDE0) // sunken / row hover
+    static let cxCanvas = clavixAdaptive(light: "#F0EADB", dark: "#0E0F12")
+    static let cxPage   = clavixAdaptive(light: "#F7F2E6", dark: "#0E0F12")
+    static let cxPaper  = clavixAdaptive(light: "#FFFDF7", dark: "#16181D")
+    static let cxPaper2 = clavixAdaptive(light: "#F3EDE0", dark: "#1E2127")
 
     // Hairlines
-    static let cxRule  = Color(cxHex: 0xD6CEBD)
-    static let cxRule2 = Color(cxHex: 0xE6DFCF)
+    static let cxRule  = clavixAdaptive(light: "#D6CEBD", dark: "#2A2C31")
+    static let cxRule2 = clavixAdaptive(light: "#E6DFCF", dark: "#202227")
 
     // Accent — Ink Blue (default; runtime-swappable via `Theme.accent`)
-    static let cxAccent     = Color(cxHex: 0x1D3A6E)
-    static let cxAccentSoft = Color(cxHex: 0xE3E9F3)
-    static let cxAccentInk  = Color(cxHex: 0x11264A)
+    static let cxAccent     = clavixAdaptive(light: "#1D3A6E", dark: "#E8E6DF")
+    static let cxAccentSoft = clavixAdaptive(light: "#E3E9F3", dark: "#1E2127")
+    static let cxAccentInk  = clavixAdaptive(light: "#11264A", dark: "#E8E6DF")
 
     // Risk — bond-grade, never neon
-    static let cxGood      = Color(cxHex: 0x1F6F43)
-    static let cxGoodSoft  = Color(cxHex: 0xDDE9D8)
-    static let cxGoodInk   = Color(cxHex: 0x0D4A2A)
+    static let cxGood      = clavixAdaptive(light: "#1F6F43", dark: "#3FB984")
+    static let cxGoodSoft  = clavixAdaptive(light: "#DDE9D8", dark: "#10342B")
+    static let cxGoodInk   = clavixAdaptive(light: "#0D4A2A", dark: "#3FB984")
 
-    static let cxWarn      = Color(cxHex: 0x9A6B1A)
-    static let cxWarnSoft  = Color(cxHex: 0xF1E3C2)
-    static let cxWarnInk   = Color(cxHex: 0x5A3E0C)
+    static let cxWarn      = clavixAdaptive(light: "#9A6B1A", dark: "#E0A33E")
+    static let cxWarnSoft  = clavixAdaptive(light: "#F1E3C2", dark: "#3A2B12")
+    static let cxWarnInk   = clavixAdaptive(light: "#5A3E0C", dark: "#E0A33E")
 
-    static let cxBad       = Color(cxHex: 0x8E1F1F)
-    static let cxBadSoft   = Color(cxHex: 0xF0D8D4)
-    static let cxBadInk    = Color(cxHex: 0x5E1313)
+    static let cxBad       = clavixAdaptive(light: "#8E1F1F", dark: "#E2604A")
+    static let cxBadSoft   = clavixAdaptive(light: "#F0D8D4", dark: "#3A1A12")
+    static let cxBadInk    = clavixAdaptive(light: "#5E1313", dark: "#E2604A")
 }
 
 enum ClavixDark {
-    static let ink   = Color(cxHex: 0xF3ECE0)
-    static let ink2  = Color(cxHex: 0xCDC6B8)
-    static let ink3  = Color(cxHex: 0x9A9385)
-    static let ink4  = Color(cxHex: 0x6B6557)
-    static let ink5  = Color(cxHex: 0x4A463E)
+    static let ink   = Color(cxHex: 0xE8E6DF)
+    static let ink2  = Color(cxHex: 0xBFC0BC)
+    static let ink3  = Color(cxHex: 0x9A9C98)
+    static let ink4  = Color(cxHex: 0x5C6068)
+    static let ink5  = Color(cxHex: 0x44464C)
 
-    static let canvas = Color(cxHex: 0x0E0D0A)
-    static let page   = Color(cxHex: 0x15140F)
-    static let paper  = Color(cxHex: 0x1C1A14)
-    static let paper2 = Color(cxHex: 0x23201A)
+    static let canvas = Color(cxHex: 0x0E0F12)
+    static let page   = Color(cxHex: 0x0E0F12)
+    static let paper  = Color(cxHex: 0x16181D)
+    static let paper2 = Color(cxHex: 0x1E2127)
 
-    static let rule   = Color(cxHex: 0x2F2C25)
-    static let rule2  = Color(cxHex: 0x23201A)
+    static let rule   = Color(cxHex: 0x2A2C31)
+    static let rule2  = Color(cxHex: 0x202227)
 
-    static let accentSoft = Color(cxHex: 0x1A2540)
-    static let goodSoft   = Color(cxHex: 0x173324)
-    static let warnSoft   = Color(cxHex: 0x3A2C10)
-    static let badSoft    = Color(cxHex: 0x3A1414)
+    static let accentSoft = Color(cxHex: 0x1E2127)
+    static let goodSoft   = Color(cxHex: 0x10342B)
+    static let warnSoft   = Color(cxHex: 0x3A2B12)
+    static let badSoft    = Color(cxHex: 0x3A1A12)
 }
 
 enum ClavixAccent: String, CaseIterable, Identifiable {
@@ -259,7 +259,7 @@ enum CXMotion {
 @Observable
 final class Theme {
     var accent: ClavixAccent = .inkBlue
-    var isDark: Bool = false
+    var isDark: Bool = true
     var density: Double = 1.0   // 0.9 … 1.1
 
     // Resolved colors — prefer these in views over raw `Color.cx*`.
@@ -272,9 +272,9 @@ final class Theme {
     var paper2: Color { isDark ? ClavixDark.paper2 : .cxPaper2 }
     var rule: Color   { isDark ? ClavixDark.rule  : .cxRule }
     var rule2: Color  { isDark ? ClavixDark.rule2 : .cxRule2 }
-    var accentColor:  Color { accent.accent }
+    var accentColor:  Color { isDark ? ClavixDark.ink : accent.accent }
     var accentSoft:   Color { isDark ? ClavixDark.accentSoft : accent.accentSoft }
-    var accentInk:    Color { accent.accentInk }
+    var accentInk:    Color { isDark ? ClavixDark.ink : accent.accentInk }
 }
 
 private struct ThemeKey: EnvironmentKey {

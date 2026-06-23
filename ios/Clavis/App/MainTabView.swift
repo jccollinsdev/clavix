@@ -1,32 +1,12 @@
 import SwiftUI
-import UIKit
 
 /// Custom tab shell that uses `ClavixTabBar` for the bottom bar, so the
-/// chrome matches `ClavixVisualQA` exactly (cream/paper, no iOS rounded pill).
+/// chrome matches the instrument theme without the system rounded tab pill.
 /// Replaces SwiftUI `TabView` whose chrome can't be styled to the VQA spec.
 struct MainTabView: View {
     @AppStorage("clavix.selectedTab") private var selectedTab = 0
     @State private var pendingTickerDetail: String?
     @State private var mountedTabs: Set<Int> = []
-
-    init() {
-        // Keep nav bar appearance cream/paper for any sheet that does present
-        // a `NavigationStack` title.
-        let navAppearance = UINavigationBarAppearance()
-        navAppearance.configureWithOpaqueBackground()
-        navAppearance.backgroundColor = UIColor(Color.clavixPage)
-        navAppearance.shadowColor = .clear
-        navAppearance.titleTextAttributes = [
-            .foregroundColor: UIColor(Color.clavixInk),
-            .font: UIFont(name: "Inter", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .medium)
-        ]
-        navAppearance.largeTitleTextAttributes = [
-            .foregroundColor: UIColor(Color.clavixInk)
-        ]
-        UINavigationBar.appearance().standardAppearance = navAppearance
-        UINavigationBar.appearance().scrollEdgeAppearance = navAppearance
-        UINavigationBar.appearance().compactAppearance = navAppearance
-    }
 
     var body: some View {
         VStack(spacing: 0) {

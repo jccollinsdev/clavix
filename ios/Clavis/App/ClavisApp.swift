@@ -9,12 +9,20 @@ struct ClavisApp: App {
 
     @StateObject private var authViewModel = AuthViewModel()
     @StateObject private var subscriptionManager = SubscriptionManager.shared
+    @State private var theme: Theme = {
+        let theme = Theme()
+        theme.isDark = true
+        return theme
+    }()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(authViewModel)
                 .environmentObject(subscriptionManager)
+                .environment(\.theme, theme)
+                .preferredColorScheme(.dark)
+                .tint(.textPrimary)
                 .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
                     Task { await subscriptionManager.refresh() }
                 }
@@ -27,8 +35,30 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
+        configureAppearance()
         configureCrashReporting()
         return true
+    }
+
+    private func configureAppearance() {
+        UIWindow.appearance().overrideUserInterfaceStyle = .dark
+
+        let navigationAppearance = UINavigationBarAppearance()
+        navigationAppearance.configureWithOpaqueBackground()
+        navigationAppearance.backgroundColor = UIColor(red: 14 / 255, green: 15 / 255, blue: 18 / 255, alpha: 1)
+        navigationAppearance.shadowColor = .clear
+        navigationAppearance.titleTextAttributes = [
+            .foregroundColor: UIColor(red: 232 / 255, green: 230 / 255, blue: 223 / 255, alpha: 1),
+            .font: UIFont(name: "Inter", size: 17) ?? UIFont.systemFont(ofSize: 17, weight: .semibold)
+        ]
+        navigationAppearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor(red: 232 / 255, green: 230 / 255, blue: 223 / 255, alpha: 1),
+            .font: UIFont(name: "Inter", size: 28) ?? UIFont.systemFont(ofSize: 28, weight: .semibold)
+        ]
+        UINavigationBar.appearance().standardAppearance = navigationAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationAppearance
+        UINavigationBar.appearance().compactAppearance = navigationAppearance
+        UINavigationBar.appearance().tintColor = UIColor(red: 232 / 255, green: 230 / 255, blue: 223 / 255, alpha: 1)
     }
 
     private func configureCrashReporting() {

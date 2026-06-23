@@ -1499,7 +1499,7 @@ private struct TickerAddHoldingSheet: View {
                 Text(title)
                     .font(ClavisTypography.label)
                     .foregroundColor(.clavixInk3)
-                TextField(title, text: text)
+                TextField(title, text: text, prompt: Text(title).foregroundColor(.clavixInk3))
                     .keyboardType(.decimalPad)
                     .font(ClavisTypography.body)
                     .foregroundColor(.clavixInk)
