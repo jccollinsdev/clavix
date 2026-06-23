@@ -128,27 +128,27 @@ struct ClavixStatePanel: View {
     var body: some View {
         VStack(spacing: 16) {
             Image(systemName: glyph)
-                .font(.system(size: 52, weight: .light))
+                .font(.system(size: 40, weight: .regular))
                 .foregroundColor(tone)
             Text(message)
-                .font(ClavisTypography.clavixSerif(17, weight: .regular))
+                .font(ClavisTypography.inter(15, weight: .regular))
                 .foregroundColor(.clavixInk2)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: 320)
             Button(action: action) {
                 Text(cta)
-                    .font(ClavisTypography.clavixMono(11, weight: .semibold))
+                    .font(ClavisTypography.inter(15, weight: .semibold))
                     .foregroundColor(.clavixPaper)
                     .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 18)
-                    .padding(.vertical, 10)
+                    .frame(height: 50)
                     .background(tone)
                     .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
             }
             .buttonStyle(.plain)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 38)
+        .padding(.vertical, 30)
     }
 }
 

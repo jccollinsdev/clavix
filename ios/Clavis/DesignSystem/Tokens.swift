@@ -119,47 +119,16 @@ extension Color {
 
 // MARK: - Typography -------------------------------------------------------
 
-/// Source Serif 4 / Inter / JetBrains Mono are registered via
-/// `Info.plist > UIAppFonts`. Existing ClavisTypography helpers register the
-/// same files; these enums simply offer the bundle's canonical naming.
+/// Inter carries all product copy. JetBrains Mono is reserved for data.
 enum CXFont {
     static func serif(_ size: CGFloat, weight: Font.Weight = .medium) -> Font {
-        .custom("SourceSerif4-\(weight.serifSuffix)", size: size)
+        ClavisTypography.inter(size, weight: weight == .medium ? .semibold : weight)
     }
     static func sans(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        .custom("Inter-\(weight.sansSuffix)", size: size)
+        ClavisTypography.inter(size, weight: weight)
     }
     static func mono(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        .custom("JetBrainsMono-\(weight.monoSuffix)", size: size)
-    }
-}
-
-private extension Font.Weight {
-    var serifSuffix: String {
-        switch self {
-        case .regular:  return "Regular"
-        case .medium:   return "Medium"
-        case .semibold: return "Semibold"
-        case .bold:     return "Bold"
-        default:        return "Regular"
-        }
-    }
-    var sansSuffix: String {
-        switch self {
-        case .regular:  return "Regular"
-        case .medium:   return "Medium"
-        case .semibold: return "SemiBold"
-        case .bold:     return "Bold"
-        default:        return "Regular"
-        }
-    }
-    var monoSuffix: String {
-        switch self {
-        case .regular:  return "Regular"
-        case .medium:   return "Medium"
-        case .semibold: return "SemiBold"
-        default:        return "Regular"
-        }
+        ClavisTypography.mono(size).weight(weight)
     }
 }
 

@@ -25,16 +25,16 @@ struct PriceChartView: View {
             HStack(alignment: .firstTextBaseline) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text("Price History")
-                        .font(.headline)
+                        .font(ClavisTypography.inter(17, weight: .semibold))
                         .foregroundColor(.clavixInk)
                     Text("\(ticker) · last \(days) days")
-                        .font(.caption)
+                        .font(ClavisTypography.inter(12, weight: .regular))
                         .foregroundColor(.clavixInk3)
                 }
                 Spacer()
                 if !chartPrices.isEmpty {
                     Text(priceDirectionLabel)
-                        .font(.caption.weight(.semibold))
+                        .font(ClavisTypography.inter(12, weight: .semibold))
                         .foregroundColor(priceDirectionColor)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
@@ -45,7 +45,7 @@ struct PriceChartView: View {
 
             if chartPrices.isEmpty {
                 Text("No price data available")
-                    .font(.subheadline)
+                    .font(ClavisTypography.inter(15, weight: .regular))
                     .foregroundColor(.clavixInk3)
                     .frame(height: 200)
             } else {
@@ -66,31 +66,28 @@ struct PriceChartView: View {
                 HStack {
                     VStack(alignment: .leading) {
                         Text("Low")
-                            .font(.caption)
+                            .font(ClavisTypography.inter(12, weight: .regular))
                             .foregroundColor(.clavixInk3)
                         Text("$\(Int(chartPrices.map { $0.price }.min() ?? 0))")
-                            .font(.caption)
-                            .fontWeight(.semibold)
+                            .font(ClavisTypography.mono(12).weight(.semibold))
                             .foregroundColor(.clavixInk)
                     }
                     Spacer()
                     VStack {
                         Text("High")
-                            .font(.caption)
+                            .font(ClavisTypography.inter(12, weight: .regular))
                             .foregroundColor(.clavixInk3)
                         Text("$\(Int(chartPrices.map { $0.price }.max() ?? 0))")
-                            .font(.caption)
-                            .fontWeight(.semibold)
+                            .font(ClavisTypography.mono(12).weight(.semibold))
                             .foregroundColor(.clavixInk)
                     }
                     Spacer()
                     VStack {
                         Text("Current")
-                            .font(.caption)
+                            .font(ClavisTypography.inter(12, weight: .regular))
                             .foregroundColor(.clavixInk3)
                         Text("$\(Int(chartPrices.last?.price ?? 0))")
-                            .font(.caption)
-                            .fontWeight(.semibold)
+                            .font(ClavisTypography.mono(12).weight(.semibold))
                             .foregroundColor(.clavixInk)
                     }
                 }

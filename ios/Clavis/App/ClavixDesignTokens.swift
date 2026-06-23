@@ -65,9 +65,9 @@ extension ClavisTypography {
         Font.custom("JetBrainsMono-Regular", size: size).weight(weight)
     }
 
-    /// System serif at the requested size. Used for headlines and editorial copy.
+    /// Compatibility name for legacy call sites. All product copy uses Inter.
     static func clavixSerif(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        Font.system(size: size, weight: weight, design: .serif)
+        inter(size, weight: weight == .medium ? .semibold : weight)
     }
 
     static var clavixCaption: Font { inter(12, weight: .regular) }

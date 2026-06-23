@@ -8,7 +8,7 @@ private extension ClavisTypography {
     }
 
     static func serif(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        Font.system(size: size, weight: weight, design: .serif)
+        inter(size, weight: weight == .medium ? .semibold : weight)
     }
 
     static var vqaCaption: Font { inter(12, weight: .regular) }

@@ -359,7 +359,7 @@ struct GradeBadge: View {
 
     var body: some View {
         Text(grade)
-            .font(.system(size: fontSize, weight: .bold, design: .monospaced))
+            .font(ClavisTypography.mono(fontSize).weight(.bold))
             .foregroundColor(ClavisGradeStyle.gradeBandText(for: grade))
             .frame(width: width, height: height, alignment: .center)
             .background(ClavisGradeStyle.gradeBandBg(for: grade))
@@ -390,7 +390,7 @@ struct RiskDirectionLabel: View {
 
     var body: some View {
         Text(label)
-            .font(.system(size: 12, weight: .semibold, design: .monospaced))
+            .font(ClavisTypography.mono(12).weight(.semibold))
             .foregroundColor(color)
             .accessibilityLabel(label.replacingOccurrences(of: "↑", with: "improving")
                 .replacingOccurrences(of: "↓", with: "worsening")
@@ -462,14 +462,14 @@ struct CX2NavBar: View {
             VStack(spacing: 1) {
                 if let title, !title.isEmpty {
                     Text(title)
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(ClavisTypography.inter(15, weight: .semibold))
                         .foregroundColor(.textPrimary)
                         .lineLimit(1)
                 }
 
                 if let subtitle, !subtitle.isEmpty {
                     Text(subtitle)
-                        .font(.system(size: 11, weight: .regular))
+                        .font(ClavisTypography.inter(11, weight: .regular))
                         .foregroundColor(.textSecondary)
                         .lineLimit(1)
                 }
@@ -507,7 +507,7 @@ struct CX2LargeTitle: View {
     var body: some View {
         HStack(alignment: .lastTextBaseline, spacing: 12) {
             Text(title)
-                .font(.system(size: 28, weight: .semibold))
+                .font(ClavisTypography.inter(28, weight: .semibold))
                 .foregroundColor(.textPrimary)
                 .tracking(-0.3)
 
@@ -548,7 +548,7 @@ struct CX2SectionLabel: View {
 
     var body: some View {
         Text(text.uppercased())
-            .font(.system(size: 11, weight: .semibold))
+            .font(ClavisTypography.mono(11).weight(.semibold))
             .foregroundColor(.textSecondary)
             .tracking(0.8)
     }
@@ -633,7 +633,7 @@ struct ClavisMonogram: View {
                 .frame(width: size, height: size)
 
             Text("C")
-                .font(.system(size: size * 0.46, weight: .bold, design: .monospaced))
+                .font(ClavisTypography.mono(size * 0.46).weight(.bold))
                 .foregroundColor(.brandCream)
         }
         .accessibilityHidden(true)
@@ -664,7 +664,7 @@ struct ClavisPrimaryButton: View {
                         .tint(.backgroundPrimary)
                 } else {
                     Text(title)
-                        .font(.system(size: 16, weight: .semibold))
+                        .font(ClavisTypography.inter(16, weight: .semibold))
                         .foregroundColor(isEnabled ? .backgroundPrimary : .textTertiary)
                 }
             }
@@ -695,7 +695,7 @@ struct ClavisSmallButton: View {
                 }
                 Text(title)
             }
-            .font(.system(size: 12, weight: .medium))
+            .font(ClavisTypography.inter(12, weight: .medium))
             .foregroundColor(foreground)
             .padding(.horizontal, 10)
             .padding(.vertical, 6)
@@ -741,7 +741,7 @@ struct ClavisSecondaryButton: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 15, weight: .medium))
+                .font(ClavisTypography.inter(15, weight: .medium))
                 .foregroundColor(isEnabled ? .textSecondary : .textTertiary)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 12)
@@ -808,13 +808,13 @@ struct ClavixPageHeader<Accessory: View>: View {
             HStack(alignment: .firstTextBaseline, spacing: 12) {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(title)
-                        .font(.system(size: 28, weight: .semibold))
+                        .font(ClavisTypography.inter(28, weight: .semibold))
                         .foregroundColor(.textPrimary)
                         .tracking(-0.3)
 
                     if let subtitle, !subtitle.isEmpty {
                         Text(subtitle)
-                            .font(.system(size: 13, weight: .regular))
+                            .font(ClavisTypography.inter(13, weight: .regular))
                             .foregroundColor(.textSecondary)
                     }
                 }
@@ -830,7 +830,7 @@ struct ClavixPageHeader<Accessory: View>: View {
                 ClavixWordmarkHeader(accessory: { accessory })
 
                 Text(title)
-                    .font(.system(size: 28, weight: .semibold))
+                    .font(ClavisTypography.inter(28, weight: .semibold))
                     .foregroundColor(.textPrimary)
                     .tracking(-0.3)
             }
@@ -1195,17 +1195,17 @@ struct GradeDisplay: View {
                 if let score {
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
                         Text("Score")
-                            .font(.system(size: 11, weight: .medium))
+                            .font(ClavisTypography.inter(11, weight: .medium))
                             .foregroundColor(.textSecondary)
 
                         Text("\(score)")
-                            .font(.system(size: 22, weight: .bold, design: .monospaced))
+                            .font(ClavisTypography.mono(22).weight(.bold))
                             .foregroundColor(.textSecondary)
                             .monospacedDigit()
 
                         if let previousScore {
                             Text("was \(previousScore)")
-                                .font(.system(size: 11, weight: .regular))
+                                .font(ClavisTypography.inter(11, weight: .regular))
                                 .foregroundColor(.textTertiary)
                         }
                     }
@@ -1229,7 +1229,7 @@ struct GradeDisplay: View {
 
                 if let score {
                     Text("\(score)")
-                        .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                        .font(ClavisTypography.mono(15).weight(.semibold))
                         .foregroundColor(.textSecondary)
                         .monospacedDigit()
                 }
@@ -1252,7 +1252,7 @@ struct GradeDisplay: View {
 
                 if let score {
                     Text("\(score)")
-                        .font(.system(size: 13, weight: .semibold, design: .monospaced))
+                        .font(ClavisTypography.mono(13).weight(.semibold))
                         .foregroundColor(.textSecondary)
                         .monospacedDigit()
                 }
@@ -1291,7 +1291,7 @@ struct ScoreSourceChip: View {
     var body: some View {
         if !label.isEmpty {
             Text(label)
-                .font(.system(size: 10, weight: .medium))
+                .font(ClavisTypography.mono(10).weight(.medium))
                 .foregroundColor(isPortfolioSpecific ? .informational : .textSecondary)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 3)
@@ -1336,7 +1336,7 @@ struct FreshnessChip: View {
     var body: some View {
         if !text.isEmpty {
             Text(text)
-                .font(.system(size: 10, weight: .medium))
+                .font(ClavisTypography.mono(10).weight(.medium))
                 .foregroundColor(isStale ? .riskC : .textTertiary)
                 .padding(.horizontal, 6)
                 .padding(.vertical, 3)

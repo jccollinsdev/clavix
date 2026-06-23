@@ -77,7 +77,7 @@ struct ClavisSelectablePill: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .font(.system(size: 11, weight: .semibold, design: .monospaced))
+                .font(ClavisTypography.mono(11).weight(.semibold))
                 .foregroundColor(isSelected ? .clavixCanvas : .clavixInk3)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 7)

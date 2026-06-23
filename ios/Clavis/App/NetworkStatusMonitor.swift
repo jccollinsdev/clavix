@@ -31,10 +31,10 @@ struct OfflineStatusBanner: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 Text("Offline")
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(ClavisTypography.inter(14, weight: .semibold))
                     .foregroundColor(.textPrimary)
                 Text("Showing cached data. Actions will retry when the network returns.")
-                    .font(.system(size: 12, weight: .regular))
+                    .font(ClavisTypography.inter(12, weight: .regular))
                     .foregroundColor(.textSecondary)
                     .fixedSize(horizontal: false, vertical: true)
             }
