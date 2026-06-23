@@ -37,6 +37,7 @@ struct AhaReveal {
     let score: Double
     let positionCount: Int
     let blindSpot: AhaDimensionFinding
+    let dimensions: [AhaDimensionFinding]
     let weakestTicker: String?
     let weakestGrade: String?
     let strongestTicker: String?
@@ -333,6 +334,7 @@ final class OnboardingViewModel: ObservableObject {
             score: avg,
             positionCount: results.count,
             blindSpot: blind,
+            dimensions: findings,
             weakestTicker: weakest?.ticker,
             weakestGrade: weakest?.resolvedGrade,
             strongestTicker: strongest?.ticker,
