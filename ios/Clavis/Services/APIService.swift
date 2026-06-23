@@ -61,32 +61,58 @@ private actor APIResponseCache {
         let cachedAt: Date
     }
 
-    private var store: [String: Entry] = [:]
-    private let ttl: TimeInterval
-
-    init(ttl: TimeInterval = 120) { // 2-minute default
-        self.ttl = ttl
+    enum Freshness {
+        case fresh   // young enough to serve as-is, no revalidation
+        case stale   // still usable, but trigger a background refresh
     }
 
-    func get(_ key: String) -> Data? {
+    private var store: [String: Entry] = [:]
+    private var revalidating: Set<String> = []
+    private let freshTTL: TimeInterval
+    private let staleTTL: TimeInterval
+
+    // freshTTL: serve cached without revalidating (data barely changes second-to-second).
+    // staleTTL: serve cached instantly BUT kick off a background refresh, so the next
+    //   open is fresh while this open stays perceived-instant (stale-while-revalidate).
+    // Beyond staleTTL the entry is dropped and the caller pays a normal network fetch.
+    init(freshTTL: TimeInterval = 120, staleTTL: TimeInterval = 900) {
+        self.freshTTL = freshTTL
+        self.staleTTL = staleTTL
+    }
+
+    func lookup(_ key: String) -> (data: Data, freshness: Freshness)? {
         guard let entry = store[key] else { return nil }
-        guard Date().timeIntervalSince(entry.cachedAt) < ttl else {
-            store.removeValue(forKey: key)
-            return nil
-        }
-        return entry.data
+        let age = Date().timeIntervalSince(entry.cachedAt)
+        if age < freshTTL { return (entry.data, .fresh) }
+        if age < staleTTL { return (entry.data, .stale) }
+        store.removeValue(forKey: key)
+        return nil
     }
 
     func set(_ key: String, data: Data) {
         store[key] = Entry(data: data, cachedAt: Date())
     }
 
+    // Returns true only for the first caller, so we never fire duplicate
+    // concurrent background refreshes for the same path.
+    func beginRevalidation(_ key: String) -> Bool {
+        guard !revalidating.contains(key) else { return false }
+        revalidating.insert(key)
+        return true
+    }
+
+    func endRevalidation(_ key: String) {
+        revalidating.remove(key)
+    }
+
     func invalidate(prefix: String) {
         store = store.filter { !$0.key.hasPrefix(prefix) }
+        revalidating = revalidating.filter { !$0.hasPrefix(prefix) }
     }
 
     func invalidateAll() {
         store.removeAll()
+        revalidating.removeAll()
     }
 }
 
@@ -102,6 +128,7 @@ class APIService {
     // Freshness-critical paths (/today, /alerts, /positions, etc.) are NOT cached.
     private static let cacheablePrefixes: [String] = [
         "/tickers/",      // ticker detail, methodology, score-history, prices
+        "/prices/",       // stored chart history
         "/search",        // search results
         "/tickers",       // ticker list
     ]
@@ -113,8 +140,10 @@ class APIService {
 
     private enum PersistentCacheKey: String {
         case holdings
+        case today
         case todayDigest
         case alerts
+        case universeScreen
 
         var storageKey: String {
             "clavix.api.staleCache.\(rawValue)"
@@ -177,9 +206,15 @@ class APIService {
         suppressSessionExpired: Bool = false
     ) async throws -> Data {
         // Serve cached response for read-only GET requests on cacheable paths.
+        // Stale-while-revalidate: a fresh hit is returned as-is; a stale-but-usable
+        // hit is returned instantly AND triggers a background refresh so the next
+        // open is fresh. Only a true miss pays a blocking network fetch.
         if method == "GET", body == nil, isCacheable(path: path) {
-            if let cached = await responseCache.get(path) {
-                return cached
+            if let hit = await responseCache.lookup(path) {
+                if hit.freshness == .stale {
+                    await revalidateInBackground(path: path, timeoutInterval: timeoutInterval)
+                }
+                return hit.data
             }
             let data = try await _makeRequest(
                 path: path, method: method, body: body,
@@ -311,6 +346,27 @@ class APIService {
         }
     }
 
+    /// Stale-while-revalidate: refresh a cacheable GET in the background so the next
+    /// read is fresh, without blocking the current (already-served) read. Errors are
+    /// swallowed — a failed background refresh just leaves the existing cache entry in
+    /// place. suppressSessionExpired is set so a transient 401 on a background refresh
+    /// never signs the user out.
+    private func revalidateInBackground(path: String, timeoutInterval: TimeInterval) async {
+        guard await responseCache.beginRevalidation(path) else { return }
+        Task.detached { [weak self] in
+            guard let self else { return }
+            let data = try? await self._makeRequest(
+                path: path, method: "GET", body: nil,
+                timeoutInterval: timeoutInterval,
+                suppressSessionExpired: true
+            )
+            if let data {
+                await self.responseCache.set(path, data: data)
+            }
+            await self.responseCache.endRevalidation(path)
+        }
+    }
+
     private func shouldRetryTransportError(_ error: URLError, method: String, didResetTransport: Bool) -> Bool {
         guard !didResetTransport, method == "GET" else { return false }
         switch error.code {
@@ -427,7 +483,13 @@ class APIService {
     func fetchUniverseScreen(timeoutInterval: TimeInterval = 20) async throws -> [UniverseScreenItem] {
         let data = try await makeRequest(path: "/tickers/screen", timeoutInterval: timeoutInterval)
         let response = try decoder.decode(UniverseScreenResponse.self, from: data)
+        storeCachedData(data, for: .universeScreen)
         return response.items
+    }
+
+    func cachedUniverseScreen() -> [UniverseScreenItem]? {
+        guard let data = cachedData(for: .universeScreen) else { return nil }
+        return try? decoder.decode(UniverseScreenResponse.self, from: data).items
     }
 
     func fetchTickerDetail(
@@ -445,7 +507,12 @@ class APIService {
 
     func fetchTickerMethodology(ticker: String, timeoutInterval: TimeInterval = 15) async throws -> MethodologyResponse {
         let data = try await makeRequest(path: "/tickers/\(ticker)/methodology", timeoutInterval: timeoutInterval)
-        return try decoder.decode(MethodologyResponse.self, from: data)
+        do {
+            return try decoder.decode(MethodologyResponse.self, from: data)
+        } catch {
+            print("[API] Methodology decode failed for \(ticker): \(error)")
+            throw APIError.decodingError(error)
+        }
     }
 
     func refreshTicker(ticker: String) async throws -> TickerRefreshResponse {
@@ -928,7 +995,14 @@ class APIService {
 
     func fetchToday(timeoutInterval: TimeInterval = 18) async throws -> TodayResponse {
         let data = try await makeRequest(path: "/today", timeoutInterval: timeoutInterval)
-        return try decoder.decode(TodayResponse.self, from: data)
+        let decoded = try decoder.decode(TodayResponse.self, from: data)
+        storeCachedData(data, for: .today)
+        return decoded
+    }
+
+    func cachedToday() -> TodayResponse? {
+        guard let data = cachedData(for: .today) else { return nil }
+        return try? decoder.decode(TodayResponse.self, from: data)
     }
 
     // MARK: - Device Token

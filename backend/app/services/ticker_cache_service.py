@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date, datetime, timedelta, timezone
 from functools import lru_cache
 import logging
 import math
 from pathlib import Path
 import statistics
+import time
 from typing import Any
 from uuid import uuid4
 
@@ -200,6 +202,42 @@ def _filter_bars_through_date(
         if bar_dt <= cutoff:
             filtered.append(bar)
     return filtered
+
+
+def _persisted_price_bars(
+    supabase,
+    ticker: str,
+    *,
+    target_date: date,
+    days: int,
+) -> list[dict[str, Any]]:
+    """Load stored daily closes in the Polygon bar shape used by scorers."""
+    start = datetime.combine(
+        target_date - timedelta(days=days), datetime.min.time(), tzinfo=timezone.utc
+    )
+    try:
+        rows = (
+            supabase.table("prices")
+            .select("price,recorded_at")
+            .eq("ticker", ticker.upper())
+            .gte("recorded_at", start.isoformat())
+            .lte("recorded_at", _end_of_day_utc(target_date).isoformat())
+            .order("recorded_at", desc=False)
+            .execute()
+            .data
+            or []
+        )
+    except Exception:
+        logger.warning("Stored reference history unavailable for %s", ticker, exc_info=True)
+        return []
+    bars: list[dict[str, Any]] = []
+    for row in rows:
+        recorded_at = _parse_iso_datetime(row.get("recorded_at"))
+        close = _coerce_float(row.get("price"))
+        if recorded_at is None or close is None:
+            continue
+        bars.append({"t": int(recorded_at.timestamp() * 1000), "c": close})
+    return bars
 
 
 def _filter_news_rows_through_date(
@@ -417,14 +455,16 @@ def _profitability_trend_label(metadata: dict[str, Any]) -> str | None:
 def _build_financial_health_inputs(metadata: dict[str, Any]) -> dict[str, Any]:
     d_e = _coerce_float(metadata.get("debt_to_equity"))
     fcf = _coerce_float(metadata.get("fcf_margin"))
-    int_cov = _coerce_float(metadata.get("interest_coverage"))
     curr_r = _coerce_float(metadata.get("current_ratio"))
     rev_growth = _coerce_float(metadata.get("revenue_growth_trend"))
-    ratios_available = sum(1 for v in [d_e, fcf, int_cov, curr_r, rev_growth] if v is not None)
+    # interest_coverage is excluded from V1: neither Finnhub's current plan nor
+    # Polygon exposes interest expense, so it would always be empty. Dropped from
+    # both the audit inputs and the ratios_available count so it never reads as
+    # "missing data" in the UI.
+    ratios_available = sum(1 for v in [d_e, fcf, curr_r, rev_growth] if v is not None)
     return {
         "debt_to_equity": d_e,
         "fcf_margin": fcf,
-        "interest_coverage": int_cov,
         "current_ratio": curr_r,
         "revenue_growth_trend": _normalize_growth_trend_label(
             metadata.get("revenue_growth_trend")
@@ -435,6 +475,153 @@ def _build_financial_health_inputs(metadata: dict[str, Any]) -> dict[str, Any]:
         "ratios_available": ratios_available,
         "limited_data": ratios_available < 2,
     }
+
+
+def build_etf_holdings_inputs(supabase, ticker: str) -> dict[str, Any]:
+    """Build auditable ETF holdings-quality and concentration inputs.
+
+    ETFs do not have company balance-sheet ratios or a single GICS sector. Their
+    first and fourth dimensions are therefore derived from constituent quality
+    and holding concentration instead of being marked as missing.
+    """
+    date_rows = (
+        supabase.table("etf_holdings")
+        .select("as_of")
+        .eq("etf_ticker", ticker.upper())
+        .order("as_of", desc=True)
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    if not date_rows:
+        return {
+            "as_of_date": None,
+            "data_source": "etf_holdings",
+            "limited_data": True,
+            "limited_reason": "No constituent holdings are available for this fund.",
+            "holdings": [],
+        }
+
+    as_of = date_rows[0].get("as_of")
+    holdings = (
+        supabase.table("etf_holdings")
+        .select("holding_ticker,weight_pct,rank")
+        .eq("etf_ticker", ticker.upper())
+        .eq("as_of", as_of)
+        .order("rank")
+        .limit(25)
+        .execute()
+        .data
+        or []
+    )
+    holding_tickers = [
+        str(row.get("holding_ticker") or "").upper()
+        for row in holdings
+        if row.get("holding_ticker")
+    ]
+    score_map: dict[str, float] = {}
+    if holding_tickers:
+        snapshots = get_latest_risk_snapshot_map(supabase, holding_tickers)
+        for holding_ticker, snapshot in snapshots.items():
+            score = _coerce_float(snapshot.get("safety_score"))
+            if score is None:
+                score = _coerce_float(snapshot.get("composite_score"))
+            if score is not None:
+                score_map[holding_ticker] = score
+
+    weighted_sum = 0.0
+    scored_weight = 0.0
+    total_weight = 0.0
+    enriched: list[dict[str, Any]] = []
+    for row in holdings:
+        holding_ticker = str(row.get("holding_ticker") or "").upper()
+        weight = _coerce_float(row.get("weight_pct")) or 0.0
+        score = score_map.get(holding_ticker)
+        total_weight += max(weight, 0.0)
+        if score is not None and weight > 0:
+            weighted_sum += score * weight
+            scored_weight += weight
+        enriched.append(
+            {
+                "ticker": holding_ticker,
+                "weight_pct": round(weight, 3),
+                "score": round(score, 1) if score is not None else None,
+            }
+        )
+
+    quality_score = (
+        round(weighted_sum / scored_weight, 1) if scored_weight > 0 else None
+    )
+    weights = sorted(
+        [max(_coerce_float(row.get("weight_pct")) or 0.0, 0.0) for row in holdings],
+        reverse=True,
+    )
+    top_holding_weight = weights[0] if weights else None
+    top_10_weight = sum(weights[:10]) if weights else None
+    concentration_score = None
+    if top_holding_weight is not None and top_10_weight is not None:
+        concentration_penalty = (
+            max(0.0, top_holding_weight - 5.0) * 2.0
+            + max(0.0, top_10_weight - 35.0) * 0.8
+        )
+        concentration_score = round(max(0.0, min(100.0, 100.0 - concentration_penalty)), 1)
+
+    return {
+        "as_of_date": as_of,
+        "data_source": "etf_holdings",
+        "limited_data": quality_score is None,
+        "limited_reason": None if quality_score is not None else "Constituent scores are not available yet.",
+        "holdings_count": len(holdings),
+        "holdings_scored_count": sum(1 for row in enriched if row.get("score") is not None),
+        "holdings_weight_covered_pct": round(scored_weight, 2),
+        "holdings_quality_score": quality_score,
+        "top_holding_weight_pct": round(top_holding_weight, 2) if top_holding_weight is not None else None,
+        "top_10_weight_pct": round(top_10_weight, 2) if top_10_weight is not None else None,
+        "concentration_score": concentration_score,
+        "holdings": enriched[:10],
+    }
+
+
+def _dimension_input_is_complete(dimension: str, payload: dict[str, Any]) -> bool:
+    if not isinstance(payload, dict) or payload.get("limited_data") or payload.get("limited"):
+        return False
+    if dimension == "macro_exposure":
+        return bool(payload.get("coefficients")) and int(payload.get("trading_days_used") or 0) >= 60
+    if dimension == "sector_exposure":
+        return payload.get("sector_beta") is not None or payload.get("concentration_score") is not None
+    if dimension == "volatility":
+        return payload.get("realized_vol_30d") is not None
+    return True
+
+
+def reuse_previous_dimension_on_transient_failure(
+    dimension: str,
+    current_inputs: dict[str, Any],
+    previous_rows: list[dict[str, Any]],
+) -> tuple[dict[str, Any], float | None]:
+    """Keep the most recent complete structural input when a vendor call fails."""
+    if _dimension_input_is_complete(dimension, current_inputs):
+        return current_inputs, None
+    score_column = _DIMENSION_COLUMN_MAP[dimension]
+    for row in previous_rows:
+        previous_inputs = row.get("dimension_inputs") or {}
+        if not isinstance(previous_inputs, dict):
+            continue
+        candidate = previous_inputs.get(dimension) or {}
+        if not _dimension_input_is_complete(dimension, candidate):
+            continue
+        score = _coerce_float(row.get(score_column))
+        if score is None or score <= 0:
+            continue
+        reused = {
+            **candidate,
+            "limited_data": False,
+            "stale_fallback": True,
+            "fallback_reason": "Latest vendor refresh failed; using the most recent complete observation.",
+        }
+        return reused, score
+    return current_inputs, None
 
 
 def _build_news_sentiment_inputs(news_rows: list[dict[str, Any]]) -> dict[str, Any]:
@@ -488,6 +675,8 @@ def _build_sector_exposure_inputs(
     ticker: str,
     metadata: dict[str, Any],
     ticker_bars: list[dict[str, Any]],
+    *,
+    sector_bars_override: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     sector = str(metadata.get("sector") or "").strip()
     sector_etf = SECTOR_ETF_MAP.get(sector.lower()) if sector else None
@@ -502,7 +691,11 @@ def _build_sector_exposure_inputs(
             "limited_data": True,
         }
 
-    sector_bars = fetch_aggs(sector_etf, days=90)
+    sector_bars = (
+        sector_bars_override
+        if sector_bars_override is not None
+        else fetch_aggs(sector_etf, days=90)
+    )
     ticker_closes = _bars_to_close_series(ticker_bars)
     sector_closes = _bars_to_close_series(sector_bars)
     ticker_returns = _daily_returns_from_closes(ticker_closes)
@@ -3757,33 +3950,97 @@ def get_ticker_detail_bundle(
     ticker: str,
     position_id: str | None = None,
 ) -> dict[str, Any]:
+    started_at = time.perf_counter()
     supported = require_supported_ticker(supabase, ticker)
     ticker = supported["ticker"]
 
-    metadata = get_metadata_map(supabase, [ticker]).get(ticker, {})
-    history = get_latest_risk_snapshot_history_map(
-        supabase, [ticker], per_ticker=10
-    ).get(ticker, [])
+    def load_news():
+        # Fetch a wider window (30) ONCE here so we can derive BOTH the recent-news
+        # list (top 10 by recency) AND the deduped shared-event rows from the same
+        # result. Previously the bundle hit shared_ticker_events twice (this query
+        # plus _get_shared_ticker_events in the second wave); collapsing them removes
+        # a full VPS->Supabase round trip per ticker open.
+        return (
+            supabase.table("shared_ticker_events")
+            .select("*")
+            .eq("ticker", ticker)
+            .order("published_at", desc=True)
+            .order("confidence", desc=True, nullsfirst=False)
+            .limit(30)
+            .execute()
+        )
+
+    def load_positions():
+        return (
+            supabase.table("positions")
+            .select("*")
+            .eq("user_id", user_id)
+            .eq("ticker", ticker)
+            .execute()
+        )
+
+    def load_system_position_rows():
+        return (
+            supabase.table("positions")
+            .select("id")
+            .eq("user_id", SYSTEM_SP500_USER_ID)
+            .eq("ticker", ticker)
+            .limit(1)
+            .execute()
+            .data
+            or []
+        )
+
+    def load_alerts():
+        return (
+            supabase.table("alerts")
+            .select("*")
+            .eq("user_id", user_id)
+            .eq("position_ticker", ticker)
+            .order("created_at", desc=True)
+            .limit(5)
+            .execute()
+        )
+
+    # These reads have no dependencies on one another. Running them in one
+    # bounded wave avoids paying a separate VPS-to-Supabase round trip for each.
+    wave1_started = time.perf_counter()
+    with ThreadPoolExecutor(max_workers=8, thread_name_prefix="ticker-detail") as pool:
+        metadata_future = pool.submit(get_metadata_map, supabase, [ticker])
+        history_future = pool.submit(
+            get_latest_risk_snapshot_history_map,
+            supabase,
+            [ticker],
+            per_ticker=10,
+        )
+        news_future = pool.submit(load_news)
+        refresh_future = pool.submit(get_latest_refresh_job, supabase, ticker)
+        positions_future = pool.submit(load_positions)
+        system_position_future = pool.submit(load_system_position_rows)
+        alerts_future = pool.submit(load_alerts)
+        watchlist_future = pool.submit(get_or_create_default_watchlist, supabase, user_id)
+
+        metadata = metadata_future.result().get(ticker, {})
+        history = history_future.result().get(ticker, [])
+        news_result = news_future.result()
+        latest_refresh_job = refresh_future.result()
+        positions_result = positions_future.result()
+        system_position_rows = system_position_future.result()
+        alerts_result = alerts_future.result()
+        watchlist = watchlist_future.result()
+    wave1_ms = (time.perf_counter() - wave1_started) * 1000
+
+    # Derive recent-news + deduped shared events from the single 30-row fetch above
+    # (no second round trip). recent_news_rows preserves the prior limit-10 recency
+    # window; shared_event_rows matches the prior _get_shared_ticker_events output.
+    news_rows = news_result.data or []
+    recent_news_rows = news_rows[:10]
+    shared_event_rows = _dedup_event_analyses(news_rows)[:10]
+
     history = sorted(history, key=_canonical_snapshot_sort_key, reverse=True)
     snapshot = history[0] if history else None
     previous_snapshot = history[1] if len(history) > 1 else None
-    news_result = (
-        supabase.table("shared_ticker_events")
-        .select("*")
-        .eq("ticker", ticker)
-        .order("published_at", desc=True)
-        .limit(10)
-        .execute()
-    )
-    latest_news_row = news_result.data[0] if news_result.data else None
-    latest_refresh_job = get_latest_refresh_job(supabase, ticker)
-    positions_result = (
-        supabase.table("positions")
-        .select("*")
-        .eq("user_id", user_id)
-        .eq("ticker", ticker)
-        .execute()
-    )
+    latest_news_row = recent_news_rows[0] if recent_news_rows else None
     held_positions = positions_result.data or []
     selected_position = None
     if position_id:
@@ -3796,20 +4053,6 @@ def get_ticker_detail_bundle(
     elif held_positions:
         selected_position = held_positions[0]
     holding_ids = [row["id"] for row in held_positions]
-    latest_analysis_run = _get_latest_analysis_run_for_ids(
-        supabase,
-        [selected_position.get("id")] if selected_position else holding_ids,
-    )
-    system_position_rows = (
-        supabase.table("positions")
-        .select("id")
-        .eq("user_id", SYSTEM_SP500_USER_ID)
-        .eq("ticker", ticker)
-        .limit(1)
-        .execute()
-        .data
-        or []
-    )
     shared_position_id = (
         system_position_rows[0]["id"]
         if system_position_rows
@@ -3818,15 +4061,44 @@ def get_ticker_detail_bundle(
         else None
     )
     shared_position_ids = [shared_position_id] if shared_position_id else []
+
+    wave2_started = time.perf_counter()
+    with ThreadPoolExecutor(max_workers=4, thread_name_prefix="ticker-analysis") as pool:
+        latest_run_future = pool.submit(
+            _get_latest_analysis_run_for_ids,
+            supabase,
+            [selected_position.get("id")] if selected_position else holding_ids,
+        )
+        current_analysis_future = pool.submit(
+            _get_latest_position_analysis_for_ids,
+            supabase,
+            shared_position_ids,
+        )
+        watchlist_items_future = pool.submit(
+            lambda: (
+                supabase.table("watchlist_items")
+                .select("id")
+                .eq("watchlist_id", watchlist["id"])
+                .eq("ticker", ticker)
+                .limit(1)
+                .execute()
+            )
+        )
+
+        latest_analysis_run = latest_run_future.result()
+        stored_current_analysis = current_analysis_future.result()
+        watchlist_items = watchlist_items_future.result()
+    wave2_ms = (time.perf_counter() - wave2_started) * 1000
+
+    assembly_started = time.perf_counter()
     shared_current_analysis = _sanitize_public_analysis_payload(
-        _get_latest_position_analysis_for_ids(supabase, shared_position_ids)
+        stored_current_analysis
         or build_position_analysis_from_snapshot(
             snapshot,
             position_id=shared_position_id or f"virtual:{ticker}",
             ticker=ticker,
         )
     )
-    shared_event_rows = _get_shared_ticker_events(supabase, ticker=ticker, limit=10)
     if not shared_event_rows and shared_position_id:
         shared_event_result = (
             supabase.table("event_analyses")
@@ -3838,15 +4110,6 @@ def get_ticker_detail_bundle(
         )
         shared_event_rows = _dedup_event_analyses(shared_event_result.data or [])
 
-    alerts_result = (
-        supabase.table("alerts")
-        .select("*")
-        .eq("user_id", user_id)
-        .eq("position_ticker", ticker)
-        .order("created_at", desc=True)
-        .limit(5)
-        .execute()
-    )
     base_position = selected_position or {
         "id": f"virtual:{ticker}",
         "user_id": user_id,
@@ -3862,22 +4125,13 @@ def get_ticker_detail_bundle(
         shared_current_analysis,
         base_position,
         shared_event_rows,
-        news_result.data or [],
+        recent_news_rows,
         alerts_result.data or [],
         coverage_state=(shared_current_analysis or {}).get("coverage_state")
         or (snapshot or {}).get("coverage_state")
         or _derive_coverage_state((snapshot or {}).get("source_count")),
     )
 
-    watchlist = get_or_create_default_watchlist(supabase, user_id)
-    watchlist_items = (
-        supabase.table("watchlist_items")
-        .select("id")
-        .eq("watchlist_id", watchlist["id"])
-        .eq("ticker", ticker)
-        .limit(1)
-        .execute()
-    )
     shared_detail = build_shared_ticker_analysis_detail(
         ticker=ticker,
         metadata=metadata,
@@ -3887,7 +4141,7 @@ def get_ticker_detail_bundle(
         latest_refresh_job=latest_refresh_job,
         current_analysis=shared_current_analysis,
         latest_event_analyses=shared_event_rows,
-        recent_news_rows=news_result.data or [],
+        recent_news_rows=recent_news_rows,
         analysis_run_id=(shared_current_analysis or {}).get("analysis_run_id"),
     )
     overlay = build_portfolio_overlay(
@@ -3898,7 +4152,7 @@ def get_ticker_detail_bundle(
         latest_alerts=alerts_result.data or [],
         current_price=metadata.get("price"),
     )
-    return _project_shared_detail_compatibility(
+    result = _project_shared_detail_compatibility(
         supabase=supabase,
         ticker=ticker,
         shared_detail=shared_detail,
@@ -3909,9 +4163,22 @@ def get_ticker_detail_bundle(
         latest_refresh_job=latest_refresh_job,
         latest_analysis_run=latest_analysis_run,
         latest_alerts=alerts_result.data or [],
-        recent_news_rows=news_result.data or [],
+        recent_news_rows=recent_news_rows,
         is_selected_held=bool(selected_position),
     )
+    assembly_ms = (time.perf_counter() - assembly_started) * 1000
+    logger.info(
+        "ticker_detail_bundle ticker=%s duration_ms=%.1f wave1_ms=%.1f wave2_ms=%.1f "
+        "assembly_ms=%.1f held=%d news=%d",
+        ticker,
+        (time.perf_counter() - started_at) * 1000,
+        wave1_ms,
+        wave2_ms,
+        assembly_ms,
+        len(held_positions),
+        len(recent_news_rows),
+    )
+    return result
 
 
 def _upsert_ticker_snapshot(
@@ -4075,7 +4342,7 @@ def refresh_ticker_snapshot(
         existing_ai_snapshot = (
             supabase.table("ticker_risk_snapshots")
             .select(
-                "id, methodology_version, grade, safety_score, composite_score, financial_health, news_sentiment_dim, macro_exposure_dim, sector_exposure, volatility, factor_breakdown"
+                "id, methodology_version, grade, safety_score, composite_score, financial_health, news_sentiment_dim, macro_exposure_dim, sector_exposure, volatility, factor_breakdown,limited_data_dimensions"
             )
             .eq("ticker", ticker)
             .eq("snapshot_date", target_date_iso)
@@ -4094,6 +4361,11 @@ def refresh_ticker_snapshot(
             and row.get("volatility") is not None
             and isinstance(row.get("factor_breakdown"), dict)
             and isinstance(row.get("factor_breakdown").get("macro_regression"), dict)
+            and not {
+                "macro_exposure",
+                "sector_exposure",
+                "volatility",
+            }.intersection(set(row.get("limited_data_dimensions") or []))
         ]
         if existing_ai_snapshot and job_type != "manual_refresh":
             completed_at = _utcnow_iso()
@@ -4129,13 +4401,22 @@ def refresh_ticker_snapshot(
             fetch_aggs(ticker, days=400),
             target_date=target_date,
         )
-        factor_bars_map = {
-            factor_key: _filter_bars_through_date(
-                fetch_aggs(factor_ticker, days=400),
+        factor_bars_map: dict[str, list[dict[str, Any]]] = {}
+        for factor_key, factor_ticker in FACTOR_TICKERS.items():
+            stored_bars = _persisted_price_bars(
+                supabase,
+                factor_ticker,
                 target_date=target_date,
+                days=430,
             )
-            for factor_key, factor_ticker in FACTOR_TICKERS.items()
-        }
+            factor_bars_map[factor_key] = (
+                stored_bars
+                if len(stored_bars) >= 60
+                else _filter_bars_through_date(
+                    fetch_aggs(factor_ticker, days=400),
+                    target_date=target_date,
+                )
+            )
         macro_result = run_macro_regression(
             ticker,
             ticker_bars,
@@ -4145,7 +4426,25 @@ def refresh_ticker_snapshot(
         macro_audit = macro_regression_to_audit_jsonb(macro_result)
         financial_inputs = _build_financial_health_inputs(metadata)
         macro_inputs = _build_macro_exposure_inputs(macro_result, factor_bars_map)
-        sector_inputs = _build_sector_exposure_inputs(ticker, metadata, ticker_bars)
+        sector_etf = SECTOR_ETF_MAP.get(str(metadata.get("sector") or "").strip().lower())
+        stored_sector_bars = (
+            _persisted_price_bars(
+                supabase,
+                sector_etf,
+                target_date=target_date,
+                days=120,
+            )
+            if sector_etf
+            else None
+        )
+        sector_inputs = _build_sector_exposure_inputs(
+            ticker,
+            metadata,
+            ticker_bars,
+            sector_bars_override=(
+                stored_sector_bars if stored_sector_bars and len(stored_sector_bars) >= 30 else None
+            ),
+        )
         volatility_inputs = _build_volatility_inputs(
             supabase,
             ticker,
@@ -4156,16 +4455,38 @@ def refresh_ticker_snapshot(
 
         previous_snapshot_rows = (
             supabase.table("ticker_risk_snapshots")
-            .select("composite_score,safety_score,snapshot_date,grade")
+            .select(
+                "composite_score,safety_score,snapshot_date,analysis_as_of,grade,"
+                "financial_health,news_sentiment_dim,macro_exposure_dim,sector_exposure,"
+                "volatility,dimension_inputs,limited_data_dimensions,factor_breakdown"
+            )
             .eq("ticker", ticker)
             .lt("snapshot_date", target_date_iso)
             .order("snapshot_date", desc=True)
+            .order("analysis_as_of", desc=True)
             .limit(10)
             .execute()
             .data
             or []
         )
         previous_snapshot = previous_snapshot_rows[0] if previous_snapshot_rows else None
+        fallback_scores: dict[str, float] = {}
+        macro_inputs, fallback_macro_score = reuse_previous_dimension_on_transient_failure(
+            "macro_exposure", macro_inputs, previous_snapshot_rows
+        )
+        if fallback_macro_score is not None:
+            fallback_scores["macro_exposure"] = fallback_macro_score
+            macro_audit = {"macro_regression": {**macro_inputs, "limited_data": False}}
+        sector_inputs, fallback_sector_score = reuse_previous_dimension_on_transient_failure(
+            "sector_exposure", sector_inputs, previous_snapshot_rows
+        )
+        if fallback_sector_score is not None:
+            fallback_scores["sector_exposure"] = fallback_sector_score
+        volatility_inputs, fallback_volatility_score = reuse_previous_dimension_on_transient_failure(
+            "volatility", volatility_inputs, previous_snapshot_rows
+        )
+        if fallback_volatility_score is not None:
+            fallback_scores["volatility"] = fallback_volatility_score
         # Build oldest→newest list of historical scores for EMA smoothing
         _history_scores: list[float] = []
         for _row in reversed(previous_snapshot_rows):
@@ -4221,6 +4542,58 @@ def refresh_ticker_snapshot(
             recent_events=recent_events,
             previous_safety_score=prev_score_for_smoothing,
         )
+        if fallback_scores:
+            score = {**score, **fallback_scores}
+            fallback_dimensions = {
+                "financial_health": score.get("financial_health"),
+                "news_sentiment": score.get("news_sentiment"),
+                "macro_exposure": score.get("macro_exposure"),
+                "sector_exposure": score.get("sector_exposure"),
+                "volatility": score.get("volatility"),
+            }
+            fallback_total = round(calculate_weighted_score(fallback_dimensions), 1)
+            score = {
+                **score,
+                "total_score": fallback_total,
+                "safety_score": fallback_total,
+                "composite_score": fallback_total,
+                "grade": score_to_grade(fallback_total),
+            }
+
+        is_etf_asset = str(metadata.get("asset_class") or "").lower() == "etf"
+        etf_inputs = build_etf_holdings_inputs(supabase, ticker) if is_etf_asset else None
+        if etf_inputs and etf_inputs.get("holdings_quality_score") is not None:
+            score["financial_health"] = etf_inputs["holdings_quality_score"]
+            financial_inputs = {**etf_inputs, "dimension_label": "Holdings Quality"}
+        if etf_inputs and etf_inputs.get("concentration_score") is not None:
+            score["sector_exposure"] = etf_inputs["concentration_score"]
+            sector_inputs = {
+                **etf_inputs,
+                "dimension_label": "Concentration",
+                "sector": None,
+                "sector_etf": None,
+                "sector_beta": None,
+                "sector_momentum_30d": None,
+                "sector_breadth": None,
+            }
+        if is_etf_asset and etf_inputs and (
+            etf_inputs.get("holdings_quality_score") is not None
+            or etf_inputs.get("concentration_score") is not None
+        ):
+            etf_dimensions = {
+                "financial_health": score.get("financial_health"),
+                "news_sentiment": score.get("news_sentiment"),
+                "macro_exposure": score.get("macro_exposure"),
+                "sector_exposure": score.get("sector_exposure"),
+                "volatility": score.get("volatility"),
+            }
+            etf_total = round(calculate_weighted_score(etf_dimensions), 1)
+            score.update(
+                total_score=etf_total,
+                safety_score=etf_total,
+                composite_score=etf_total,
+                grade=score_to_grade(etf_total),
+            )
         # Apply 10-day EMA smoothing to prevent "personality shift" swings
         if _history_scores and score.get("total_score") is not None:
             asset_class = (scoring_metadata or {}).get("asset_class")
@@ -4355,17 +4728,13 @@ def refresh_ticker_snapshot(
         dimension_last_refreshed = {
             key: analysis_as_of for key in dimension_inputs
         }
-        def _dim_or_none(value) -> "int | None":
-            """Store None instead of 0 for excluded/missing dimensions.
-
-            The structural scorer and LLM both use 0 to mean 'excluded' or
-            'no data', not a genuine zero score. Storing None keeps the
-            snapshot schema honest for newly generated rows, while the API
-            read path can still preserve legacy rows with explicit zeroes.
-            """
+        def _dim_or_none(value, dimension: str) -> "int | None":
+            """Preserve genuine zero scores while nulling only limited inputs."""
             try:
                 v = int(round(float(value)))
-                return v if v > 0 else None
+                if dimension in limited_data_dimensions:
+                    return None
+                return max(0, min(100, v))
             except (TypeError, ValueError):
                 return None
 
@@ -4375,11 +4744,11 @@ def refresh_ticker_snapshot(
             "snapshot_type": "daily",
             "grade": score["grade"],
             "safety_score": round(score["safety_score"], 1),
-            "financial_health": _dim_or_none(score.get("financial_health")),
-            "news_sentiment_dim": _dim_or_none(score.get("news_sentiment")),
-            "macro_exposure_dim": _dim_or_none(score.get("macro_exposure")),
-            "sector_exposure": _dim_or_none(score.get("sector_exposure")),
-            "volatility": _dim_or_none(score.get("volatility")),
+            "financial_health": _dim_or_none(score.get("financial_health"), "financial_health"),
+            "news_sentiment_dim": _dim_or_none(score.get("news_sentiment"), "news_sentiment"),
+            "macro_exposure_dim": _dim_or_none(score.get("macro_exposure"), "macro_exposure"),
+            "sector_exposure": _dim_or_none(score.get("sector_exposure"), "sector_exposure"),
+            "volatility": _dim_or_none(score.get("volatility"), "volatility"),
             "composite_score": round(score["total_score"], 1),
             "structural_base_score": score["structural_base_score"],
             "macro_adjustment": score["macro_adjustment"],
@@ -4389,6 +4758,9 @@ def refresh_ticker_snapshot(
             "dimension_inputs": dimension_inputs,
             "dimension_last_refreshed": dimension_last_refreshed,
             "limited_data_dimensions": limited_data_dimensions,
+            # Honest coverage signal (was a dead, never-populated column): 'complete'
+            # when all five dimensions scored, 'partial' when one or more is limited.
+            "data_status": "complete" if not limited_data_dimensions else "partial",
             "dimension_rationale": score["dimension_rationale"],
             "reasoning": score["reasoning"],
             "news_summary": (news_rows[0].get("summary") if news_rows else None),

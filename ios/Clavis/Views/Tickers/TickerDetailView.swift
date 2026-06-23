@@ -539,6 +539,7 @@ struct TickerDetailView: View {
                     }
                 }
             }
+
         }
     }
 
@@ -556,19 +557,30 @@ struct TickerDetailView: View {
             }
             .frame(width: 92, alignment: .leading)
 
-            ClavixScoreBar(score: dimension.score.map { Int($0.rounded()) } ?? 0)
-                .frame(height: 5)
-                .opacity(dimension.score == nil ? 0.25 : 1.0)
-
-            Text(dimension.scoreText)
-                .font(ClavisTypography.clavixMono(16, weight: .semibold))
-                .foregroundColor(scoreToneColor(dimension.score))
-                .frame(width: 38, alignment: .trailing)
-
-            Text("—")
-                .font(ClavisTypography.clavixMono(10, weight: .semibold))
+            if let coverageLabel = dimension.coverageLabel {
+                HStack(spacing: 5) {
+                    Image(systemName: "circle.dashed")
+                        .font(.system(size: 10, weight: .semibold))
+                    Text(coverageLabel)
+                        .font(ClavisTypography.inter(11))
+                        .lineLimit(1)
+                }
                 .foregroundColor(.clavixInk3)
-                .frame(width: 18, alignment: .trailing)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            } else {
+                ClavixScoreBar(score: dimension.score.map { Int($0.rounded()) } ?? 0)
+                    .frame(height: 5)
+
+                Text(dimension.scoreText)
+                    .font(ClavisTypography.clavixMono(16, weight: .semibold))
+                    .foregroundColor(scoreToneColor(dimension.score))
+                    .frame(width: 38, alignment: .trailing)
+
+                Text("—")
+                    .font(ClavisTypography.clavixMono(10, weight: .semibold))
+                    .foregroundColor(.clavixInk3)
+                    .frame(width: 18, alignment: .trailing)
+            }
 
             Image(systemName: "chevron.right")
                 .font(.system(size: 11, weight: .semibold))
@@ -870,13 +882,21 @@ struct TickerDetailView: View {
     private func auditDestinationView(for destination: AuditDestination) -> some View {
         switch destination {
         case .financialHealth:
-            FinancialHealthAuditView(ticker: ticker, methodology: methodology)
+            FinancialHealthAuditView(
+                ticker: ticker,
+                methodology: methodology,
+                isETF: detail?.profile.isETF ?? false
+            )
         case .newsSentiment:
             NewsSentimentAuditView(ticker: ticker, methodology: methodology)
         case .macroExposure:
             MacroExposureAuditView(ticker: ticker, methodology: methodology)
         case .sectorExposure:
-            SectorExposureAuditView(ticker: ticker, methodology: methodology)
+            SectorExposureAuditView(
+                ticker: ticker,
+                methodology: methodology,
+                isETF: detail?.profile.isETF ?? false
+            )
         case .volatility:
             VolatilityAuditView(
                 ticker: ticker,
@@ -906,6 +926,19 @@ struct TickerDetailView: View {
             }
 
             Task {
+                do {
+                    let loadedMethodology = try await APIService.shared.fetchTickerMethodology(ticker: ticker, timeoutInterval: 15)
+                    await MainActor.run {
+                        methodology = loadedMethodology
+                    }
+                } catch {
+                    await MainActor.run {
+                        methodology = nil
+                    }
+                }
+            }
+
+            Task {
                 let loadedPrice = try? await APIService.shared.fetchPriceHistory(ticker: ticker, days: 365)
                 let sortedPrices = (loadedPrice?.prices ?? []).sorted { $0.recordedAt < $1.recordedAt }
                 await MainActor.run {
@@ -920,20 +953,6 @@ struct TickerDetailView: View {
                 }
             }
 
-            Task {
-                do {
-                    let loadedMethodology = try await APIService.shared.fetchTickerMethodology(ticker: ticker, timeoutInterval: 15)
-                    await MainActor.run {
-                        methodology = loadedMethodology
-                    }
-                } catch {
-                    // Methodology payload is optional on Ticker Detail; the dimension
-                    // rows fall back to honest "Limited Data" labels when absent.
-                    await MainActor.run {
-                        methodology = nil
-                    }
-                }
-            }
         } catch {
             await MainActor.run {
                 errorMessage = ClavisCopy.Errors.tickerLoad(ticker: ticker, error: error)
@@ -1315,6 +1334,16 @@ private struct TickerDimensionItem {
         score.map { "\(Int($0.rounded()))" } ?? "—"
     }
 
+    /// Honest coverage state when there is no usable score, so the row reads as a
+    /// coverage gap (not a zero / worst rating). nil when a real score should show.
+    /// News uses an explicit limited-data flag even when a suppressed score exists
+    /// (CLAVIX TRUTH §6.2: <3 articles shows "Limited" instead of a score).
+    var coverageLabel: String? {
+        if key == "news_sentiment" && isLimited { return "Limited coverage" }
+        if score == nil { return "Not yet rated" }
+        return nil
+    }
+
     var grade: String {
         guard let score else { return "F" }
         switch score {
@@ -1363,7 +1392,7 @@ private struct HistoryPeriodChips: View {
                     Button(action: { selected = period }) {
                         Text(period.label)
                             .font(ClavisTypography.clavixMono(11, weight: .semibold))
-                            .foregroundColor(selected == period ? .white : .clavixInk3)
+                            .foregroundColor(selected == period ? .clavixCanvas : .clavixInk3)
                             .lineLimit(1)
                             .fixedSize(horizontal: true, vertical: false)
                             .padding(.horizontal, compact ? 8 : 10)

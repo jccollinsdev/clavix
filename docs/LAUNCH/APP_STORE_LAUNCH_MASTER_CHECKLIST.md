@@ -230,11 +230,12 @@ customer never opens the app again.
   `6775920073`.
 - [ ] VERIFY Confirm bundle ID is `com.clavisdev.portfolioassistant`.
 - [ ] VERIFY Confirm Team ID is `GYMG4MQS8F`.
-- [ ] BLOCKER Confirm the latest Paid Apps Agreement is active. Apple requires
-  it for subscriptions and In-App Purchases.
-- [ ] BLOCKER Complete banking information and confirm it is approved.
-- [ ] BLOCKER Complete all required tax forms, including the US W-9 for a
-  US-based account.
+- [x] Confirm the latest Paid Apps Agreement is active. Apple requires
+  it for subscriptions and In-App Purchases. (Signed/active per owner, 2026-06-23.)
+- [x] Complete banking information and confirm it is approved. (Prerequisite of
+  the now-active Paid Apps Agreement; confirm approved status in App Store Connect.)
+- [x] Complete all required tax forms, including the US W-9 for a
+  US-based account. (W-9 completed per owner, 2026-06-23.)
 - [ ] TASK Enroll in the App Store Small Business Program if eligible.
 - [ ] TASK Confirm who is the Account Holder and who has Admin/App Manager
   access.
