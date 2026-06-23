@@ -4432,7 +4432,10 @@ def _sync_ai_scores_to_ticker_snapshots_sync(
     analysis = latest_analysis_rows[0] if latest_analysis_rows else {}
     now_iso = utcnow_iso()
     public_score = ai_score.get("total_score") or ai_score.get("safety_score") or 50
-    grade = score_to_grade(public_score)
+    # This is a synchronization path, not a new scoring pass. Preserve the
+    # canonical snapshot's hysteresis-adjusted grade instead of remapping its
+    # score through the raw thresholds and reintroducing boundary flicker.
+    grade = ai_score.get("grade") or score_to_grade(public_score)
     factor_breakdown = ai_score.get("factor_breakdown") or {}
     if isinstance(factor_breakdown, str):
         import json
@@ -5386,10 +5389,47 @@ def _upsert_ticker_snapshot_from_scores(
     analysis_run_id: str | None = None,
 ) -> None:
     today = current_trading_date()
+    today_iso = today.isoformat()
     composite = ai_scores.get("total_score") or structural_scores.get("safety_score") or 50
     grade = ai_scores.get("grade") or structural_scores.get("grade") or score_to_grade(composite)
 
-    previous_grade = ai_scores.get("previous_grade")
+    # Grade stability. This portfolio-analysis path historically wrote a raw
+    # score_to_grade() with no hysteresis (ai_scores never carries
+    # "previous_grade"), so a user opening their portfolio could clobber the
+    # canonical daily recompute grade and reintroduce A<->BBB boundary flicker.
+    # Two guards:
+    #   1. Never overwrite a complete same-day snapshot. The daily composite
+    #      recompute is authoritative and writes a fuller row (dimension_inputs,
+    #      data_status, limited_data_dimensions); keep one canonical snapshot.
+    #   2. Anchor hysteresis on the most recent prior-day grade fetched from the
+    #      DB, so the grade only flips when the score moves firmly past the band
+    #      boundary regardless of how this function was called.
+    previous_grade = None
+    try:
+        recent_rows = (
+            supabase.table("ticker_risk_snapshots")
+            .select("snapshot_date,grade,composite_score")
+            .eq("ticker", ticker)
+            .order("snapshot_date", desc=True)
+            .order("created_at", desc=True)
+            .limit(5)
+            .execute()
+            .data
+            or []
+        )
+    except Exception as exc:
+        # A portfolio analysis is not authoritative for the shared daily
+        # snapshot. If history cannot be loaded, fail closed rather than risk
+        # overwriting a stable grade with a raw threshold result.
+        logger.warning("ticker snapshot history load failed for %s: %s", ticker, exc)
+        return
+    for row in recent_rows:
+        if row.get("snapshot_date") == today_iso:
+            if row.get("grade") and row.get("composite_score") is not None:
+                # Canonical snapshot for today already exists; do not clobber it.
+                return
+        elif previous_grade is None and row.get("grade"):
+            previous_grade = row.get("grade")
     if previous_grade:
         grade = apply_grade_hysteresis(float(composite), previous_grade)
 
@@ -5430,12 +5470,12 @@ def _upsert_ticker_snapshot_from_scores(
     }
 
     try:
-        supabase.table("ticker_risk_snapshots").upsert(
-            payload,
-            on_conflict="ticker,snapshot_date",
-        ).execute()
+        # Insert-only closes the read/write race with the canonical recompute:
+        # if it creates today's row after our history check, the unique-key
+        # conflict leaves its complete snapshot untouched.
+        supabase.table("ticker_risk_snapshots").insert(payload).execute()
     except Exception as exc:
-        logger.warning("ticker_risk_snapshots upsert failed for %s: %s", ticker, exc)
+        logger.warning("ticker_risk_snapshots insert skipped for %s: %s", ticker, exc)
 
 
 def _cleanup_old_articles() -> None:

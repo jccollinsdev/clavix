@@ -211,20 +211,40 @@ class _TickerSnapshotUpsertResult:
 
 
 class _TickerSnapshotUpsertQuery:
-    def __init__(self):
-        self.upsert_calls = []
+    def __init__(self, recent_rows=None):
+        self.insert_calls = []
+        self._recent_rows = recent_rows or []
+        self._pending = None
 
-    def upsert(self, row, on_conflict=None):
-        self.upsert_calls.append({"row": row, "on_conflict": on_conflict})
+    def select(self, *args, **kwargs):
+        self._pending = "select"
+        return self
+
+    def eq(self, *args, **kwargs):
+        return self
+
+    def order(self, *args, **kwargs):
+        return self
+
+    def limit(self, *args, **kwargs):
+        return self
+
+    def insert(self, row):
+        self.insert_calls.append({"row": row})
+        self._pending = "insert"
         return self
 
     def execute(self):
+        if self._pending == "select":
+            self._pending = None
+            return _TickerSnapshotUpsertResult(list(self._recent_rows))
+        self._pending = None
         return _TickerSnapshotUpsertResult([{"id": "snapshot-1"}])
 
 
 class _TickerSnapshotUpsertSupabase:
-    def __init__(self):
-        self.query = _TickerSnapshotUpsertQuery()
+    def __init__(self, recent_rows=None):
+        self.query = _TickerSnapshotUpsertQuery(recent_rows=recent_rows)
 
     def table(self, table_name):
         assert table_name == "ticker_risk_snapshots"
@@ -259,11 +279,83 @@ def test_upsert_ticker_snapshot_from_scores_serializes_snapshot_date():
         analysis_run_id="run-1",
     )
 
-    assert len(supabase.query.upsert_calls) == 1
-    call = supabase.query.upsert_calls[0]
-    assert call["on_conflict"] == "ticker,snapshot_date"
+    assert len(supabase.query.insert_calls) == 1
+    call = supabase.query.insert_calls[0]
     assert call["row"]["snapshot_date"] == today
     assert call["row"]["ticker"] == "EXPD"
+
+
+def test_upsert_skips_when_canonical_same_day_snapshot_exists():
+    today = current_trading_date().isoformat()
+    supabase = _TickerSnapshotUpsertSupabase(
+        recent_rows=[{"snapshot_date": today, "grade": "A", "composite_score": 71.0}]
+    )
+
+    scheduler._upsert_ticker_snapshot_from_scores(
+        supabase,
+        ticker="MSFT",
+        ai_scores={"grade": "BBB", "total_score": 69.8},
+        structural_scores={"safety_score": 69.8},
+        analysis_run_id="run-skip",
+    )
+
+    assert supabase.query.insert_calls == []
+
+
+def test_upsert_holds_grade_via_hysteresis_from_prior_day():
+    supabase = _TickerSnapshotUpsertSupabase(
+        recent_rows=[{"snapshot_date": "2026-01-02", "grade": "A", "composite_score": 70.0}]
+    )
+
+    scheduler._upsert_ticker_snapshot_from_scores(
+        supabase,
+        ticker="DHI",
+        ai_scores={"grade": "BBB", "total_score": 69.8},
+        structural_scores={"safety_score": 69.8},
+        analysis_run_id="run-hold",
+    )
+
+    assert len(supabase.query.insert_calls) == 1
+    assert supabase.query.insert_calls[0]["row"]["grade"] == "A"
+
+
+def test_upsert_releases_grade_when_score_moves_firmly_past_boundary():
+    supabase = _TickerSnapshotUpsertSupabase(
+        recent_rows=[{"snapshot_date": "2026-01-02", "grade": "A", "composite_score": 72.0}]
+    )
+
+    scheduler._upsert_ticker_snapshot_from_scores(
+        supabase,
+        ticker="BAX",
+        ai_scores={"grade": "BBB", "total_score": 66.0},
+        structural_scores={"safety_score": 66.0},
+        analysis_run_id="run-release",
+    )
+
+    assert len(supabase.query.insert_calls) == 1
+    assert supabase.query.insert_calls[0]["row"]["grade"] == "BBB"
+
+
+def test_upsert_fails_closed_when_grade_history_cannot_be_loaded(monkeypatch):
+    supabase = _TickerSnapshotUpsertSupabase()
+    original_execute = supabase.query.execute
+
+    def _execute():
+        if supabase.query._pending == "select":
+            raise RuntimeError("temporary history read failure")
+        return original_execute()
+
+    monkeypatch.setattr(supabase.query, "execute", _execute)
+
+    scheduler._upsert_ticker_snapshot_from_scores(
+        supabase,
+        ticker="DHI",
+        ai_scores={"grade": "BBB", "total_score": 69.8},
+        structural_scores={"safety_score": 69.8},
+        analysis_run_id="run-read-failure",
+    )
+
+    assert supabase.query.insert_calls == []
 
 
 def test_enqueue_analysis_run_pauses_autonomous_system_child_when_scheduler_paused(monkeypatch):
@@ -812,6 +904,7 @@ def test_sync_ai_scores_retries_transient_snapshot_upsert_disconnect(monkeypatch
 
     assert calls["upsert"] == 2
     assert calls["payload"]["ticker"] == "AMD"
+    assert calls["payload"]["grade"] == "A"
     assert calls["payload"]["safety_score"] == 82.0
     assert calls["payload"]["composite_score"] == 82.0
     assert calls["payload"]["news_sentiment_dim"] == 84
