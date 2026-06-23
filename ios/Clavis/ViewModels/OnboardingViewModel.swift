@@ -49,6 +49,7 @@ final class OnboardingViewModel: ObservableObject {
     @Published var isCompleting = false
     @Published var errorMessage: String?
     @Published private(set) var welcomeName: String?
+    @Published private(set) var isPreparingAnalysis = false
 
     // Aha flow state
     @Published var entries: [AhaPortfolioEntry] = [AhaPortfolioEntry()]
@@ -56,6 +57,7 @@ final class OnboardingViewModel: ObservableObject {
     @Published var reveal: AhaReveal?
 
     private var resolveTasks: [UUID: Task<Void, Never>] = [:]
+    private var revealTask: Task<Void, Never>?
     private let api = APIService.shared
 
     // MARK: - Paging
@@ -113,7 +115,7 @@ final class OnboardingViewModel: ObservableObject {
     }
 
     func maxEntries(isFreeTier _: Bool) -> Int {
-        5
+        20
     }
 
     func addEntry(isFreeTier: Bool) {
@@ -127,6 +129,7 @@ final class OnboardingViewModel: ObservableObject {
 
     func updateQuery(_ id: UUID, _ value: String) {
         guard let idx = entries.firstIndex(where: { $0.id == id }) else { return }
+        errorMessage = nil
         entries[idx].query = value
         entries[idx].resolved = nil
         entries[idx].notFound = false
@@ -135,6 +138,7 @@ final class OnboardingViewModel: ObservableObject {
 
     func updateShares(_ id: UUID, _ value: String) {
         guard let idx = entries.firstIndex(where: { $0.id == id }) else { return }
+        errorMessage = nil
         entries[idx].shares = value
     }
 
@@ -172,10 +176,65 @@ final class OnboardingViewModel: ObservableObject {
         } catch {
             guard let idx = entries.firstIndex(where: { $0.id == id }) else { return }
             entries[idx].isResolving = false
+            #if DEBUG
+            if isDebugOnboardingEnabled,
+               let fixture = debugTickerFixture(query: query) {
+                entries[idx].resolved = fixture
+                entries[idx].notFound = false
+                return
+            }
+            #endif
         }
     }
 
     // MARK: - Aha flow: analyze + reveal
+
+    func continueToAnalysis() async -> Bool {
+        guard !isPreparingAnalysis else { return false }
+        isPreparingAnalysis = true
+        errorMessage = nil
+        defer { isPreparingAnalysis = false }
+
+        let activeEntries = entries.filter {
+            !$0.query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+            !$0.shares.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        }
+
+        guard !activeEntries.isEmpty else {
+            errorMessage = "Add at least one ticker and share count to continue."
+            return false
+        }
+
+        for entry in activeEntries {
+            let ticker = entry.query.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !ticker.isEmpty else {
+                errorMessage = "Enter a ticker for every holding."
+                return false
+            }
+
+            let shares = Double(entry.shares.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+            guard shares > 0 else {
+                errorMessage = "Enter a share count greater than zero for \(ticker.uppercased())."
+                return false
+            }
+
+            if entry.resolved == nil {
+                resolveTasks[entry.id]?.cancel()
+                await performResolve(id: entry.id, query: ticker)
+            }
+        }
+
+        let unresolvedTicker = activeEntries.first { entry in
+            entries.first(where: { $0.id == entry.id })?.resolved == nil
+        }?.query
+        if let unresolvedTicker {
+            errorMessage = "We couldn't load \(unresolvedTicker.uppercased()). Check the ticker and try again."
+            return false
+        }
+
+        runAnalysis()
+        return true
+    }
 
     func runAnalysis() {
         let results = enteredResults
@@ -187,17 +246,24 @@ final class OnboardingViewModel: ObservableObject {
 
         // Persist holdings in the background so the book is populated by the
         // time the user enters the app.
+        #if DEBUG
+        if !isDebugOnboardingEnabled {
+            Task { await self.persistHoldings(results) }
+        }
+        #else
         Task { await self.persistHoldings(results) }
+        #endif
 
-        // Reveal lands after the scoring animation has had time to play.
-        Task {
-            try? await Task.sleep(nanoseconds: 3_400_000_000)
+        // Retain the task so the reveal survives the page transition into the
+        // analyzing screen.
+        revealTask?.cancel()
+        revealTask = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(3.4))
+            guard !Task.isCancelled, let self else { return }
             let built = OnboardingViewModel.buildReveal(results)
-            await MainActor.run {
-                self.reveal = built
-                withAnimation(.easeInOut(duration: 0.4)) {
-                    self.ahaPhase = .reveal
-                }
+            self.reveal = built
+            withAnimation(.easeInOut(duration: 0.4)) {
+                self.ahaPhase = .reveal
             }
         }
     }
@@ -273,6 +339,40 @@ final class OnboardingViewModel: ObservableObject {
             strongestGrade: strongest?.resolvedGrade
         )
     }
+
+    #if DEBUG
+    private var isDebugOnboardingEnabled: Bool {
+        ProcessInfo.processInfo.environment["CLAVIX_DEBUG_ONBOARDING"] == "1"
+    }
+
+    private func debugTickerFixture(query: String) -> TickerSearchResult? {
+        let ticker = query.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        guard !ticker.isEmpty else { return nil }
+        let payload: [String: Any] = [
+            "ticker": ticker,
+            "company_name": ticker == "AAPL" ? "Apple Inc." : "\(ticker) Holdings",
+            "grade": "A",
+            "safety_score": 78,
+            "is_supported": true,
+            "shared_analysis": [
+                "ticker": ticker,
+                "company_name": ticker == "AAPL" ? "Apple Inc." : "\(ticker) Holdings",
+                "current_score": 78,
+                "current_grade": "A",
+                "freshness": ["status": "current"],
+                "risk_dimensions": [
+                    "financial_health": 84,
+                    "news_sentiment": 72,
+                    "macro_exposure": 69,
+                    "sector_exposure": 63,
+                    "volatility": 76
+                ]
+            ]
+        ]
+        guard let data = try? JSONSerialization.data(withJSONObject: payload) else { return nil }
+        return try? JSONDecoder().decode(TickerSearchResult.self, from: data)
+    }
+    #endif
 
     // MARK: - Completion
 

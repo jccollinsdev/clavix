@@ -19,8 +19,11 @@ struct OnboardingContainerView: View {
                         viewModel: viewModel,
                         isFreeTier: !SubscriptionManager.shared.isPro,
                         onPrimary: {
-                            viewModel.runAnalysis()
-                            viewModel.nextPage()
+                            Task {
+                                if await viewModel.continueToAnalysis() {
+                                    viewModel.nextPage()
+                                }
+                            }
                         }
                     )
                 case .addPortfolio:
@@ -135,6 +138,15 @@ private struct OnboardingWelcomeSetupView: View {
                         isFreeTier: isFreeTier
                     )
 
+                    if let errorMessage = viewModel.errorMessage?.sanitizedDisplayText,
+                       !errorMessage.isEmpty {
+                        Text(errorMessage)
+                            .font(ClavisTypography.inter(13, weight: .medium))
+                            .foregroundColor(.warn)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.top, 12)
+                    }
+
                     Spacer(minLength: 18)
                 }
                 .padding(.horizontal, 24)
@@ -152,11 +164,16 @@ private struct OnboardingWelcomeSetupView: View {
                 Rectangle().fill(Color.border).frame(height: 1)
                 Button(action: onPrimary) {
                     HStack {
-                        Text("Grade my portfolio")
+                        Text("Next")
                             .font(ClavisTypography.inter(15, weight: .semibold))
                         Spacer()
-                        Image(systemName: "arrow.right")
-                            .font(.system(size: 14, weight: .semibold))
+                        if viewModel.isPreparingAnalysis {
+                            ProgressView()
+                                .tint(.backgroundPrimary)
+                        } else {
+                            Image(systemName: "arrow.right")
+                                .font(.system(size: 14, weight: .semibold))
+                        }
                     }
                     .foregroundColor(.backgroundPrimary)
                     .padding(.horizontal, 18)
@@ -165,8 +182,7 @@ private struct OnboardingWelcomeSetupView: View {
                     .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
                 }
                 .buttonStyle(.plain)
-                .disabled(!viewModel.canAnalyzeEnteredHoldings)
-                .opacity(viewModel.canAnalyzeEnteredHoldings ? 1 : 0.42)
+                .disabled(viewModel.isPreparingAnalysis)
                 .padding(.horizontal, 24)
                 .padding(.vertical, 12)
             }
@@ -223,7 +239,7 @@ private struct OnboardingHoldingsEntry: View {
                     HStack(spacing: 7) {
                         Image(systemName: "plus")
                             .font(.system(size: 12, weight: .semibold))
-                        Text("Add another holding")
+                        Text("Add position")
                             .font(ClavisTypography.inter(14, weight: .medium))
                     }
                     .foregroundColor(.textPrimary)
@@ -1114,7 +1130,6 @@ private struct AhaRevealScreen: View {
 
     private func blindSpotSentence(_ reveal: AhaReveal) -> String {
         let dim = reveal.blindSpot
-        let nameLower = dim.name.lowercased()
         if dim.weakCount > 0 {
             let coverage = dim.weakCount == dim.total
                 ? "Every scored holding"
