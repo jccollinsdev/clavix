@@ -6,23 +6,28 @@ struct ContentView: View {
     @State private var hasCheckedSession = false
 
     var body: some View {
-        Group {
-            #if DEBUG
-            if hifiReferenceEnabled {
-                ClavixHiFiReferenceView()
-            } else if debugVisualQAEnabled {
-                ClavixVisualQARoot(open: debugVisualQAOpen)
-            } else if debugOnboardingEnabled {
-                OnboardingContainerView()
-            } else if allowDebugBypassLiveEntry {
-                MainTabView()
-            } else {
+        ZStack {
+            Color.backgroundPrimary.ignoresSafeArea()
+
+            Group {
+                #if DEBUG
+                if hifiReferenceEnabled {
+                    ClavixHiFiReferenceView()
+                } else if debugVisualQAEnabled {
+                    ClavixVisualQARoot(open: debugVisualQAOpen)
+                } else if debugOnboardingEnabled {
+                    OnboardingContainerView()
+                } else if allowDebugBypassLiveEntry {
+                    MainTabView()
+                } else {
+                    authRoot
+                }
+                #else
                 authRoot
+                #endif
             }
-            #else
-            authRoot
-            #endif
         }
+        .preferredColorScheme(.dark)
         .onAppear {
             guard !debugVisualQAEnabled, !debugOnboardingEnabled else { return }
             guard !allowDebugBypassLiveEntry else {

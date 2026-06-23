@@ -163,7 +163,7 @@ private struct OnboardingWelcomeSetupView: View {
             VStack(spacing: 0) {
                 Rectangle().fill(Color.border).frame(height: 1)
                 Button(action: onPrimary) {
-                    HStack {
+                    HStack(spacing: 12) {
                         Text("Next")
                             .font(ClavisTypography.inter(15, weight: .semibold))
                         Spacer()
@@ -177,7 +177,7 @@ private struct OnboardingWelcomeSetupView: View {
                     }
                     .foregroundColor(.backgroundPrimary)
                     .padding(.horizontal, 18)
-                    .frame(height: 52)
+                    .frame(width: 132, height: 52)
                     .background(Color.textPrimary)
                     .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
                 }
@@ -185,6 +185,7 @@ private struct OnboardingWelcomeSetupView: View {
                 .disabled(viewModel.isPreparingAnalysis)
                 .padding(.horizontal, 24)
                 .padding(.vertical, 12)
+                .frame(maxWidth: .infinity, alignment: .leading)
             }
             .background(Color.backgroundPrimary.ignoresSafeArea(edges: .bottom))
         }
@@ -317,50 +318,49 @@ private struct OnboardingStickyBar: View {
     let total: Int
 
     var body: some View {
-        VStack(spacing: 12) {
-            ZStack {
-                HStack(spacing: 12) {
-                    ZStack {
-                        Image("clavix_logo")
-                            .resizable()
-                            .renderingMode(.template)
-                            .scaledToFit()
-                            .frame(width: 28, height: 28)
-                            .foregroundColor(.textPrimary)
-                        Image("clavix_logo")
-                            .resizable()
-                            .renderingMode(.template)
-                            .scaledToFit()
-                            .frame(width: 28, height: 28)
-                            .scaleEffect(1.18)
-                            .foregroundColor(.textPrimary.opacity(0.3))
-                    }
-                    .frame(width: 30, height: 30)
-                    .accessibilityHidden(true)
-                    Spacer(minLength: 8)
+        ZStack {
+            HStack(spacing: 12) {
+                ZStack {
+                    Image("clavix_logo")
+                        .resizable()
+                        .renderingMode(.template)
+                        .scaledToFit()
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(.textPrimary)
+                    Image("clavix_logo")
+                        .resizable()
+                        .renderingMode(.template)
+                        .scaledToFit()
+                        .frame(width: 28, height: 28)
+                        .scaleEffect(1.18)
+                        .foregroundColor(.textPrimary.opacity(0.3))
                 }
-
-                Text("CLAVIX")
-                    .font(ClavisTypography.inter(17, weight: .bold))
-                    .tracking(1.2)
-                    .foregroundColor(.textPrimary)
+                .frame(width: 30, height: 30)
+                .accessibilityHidden(true)
+                Spacer(minLength: 8)
             }
 
-            HStack(spacing: 8) {
-                ForEach(0..<total, id: \.self) { index in
-                    RoundedRectangle(cornerRadius: 999, style: .continuous)
-                        .fill(index < step ? Color.textPrimary : Color.white.opacity(0.12))
-                        .frame(height: 4)
-                }
-            }
+            Text("CLAVIX")
+                .font(ClavisTypography.inter(17, weight: .bold))
+                .tracking(1.2)
+                .foregroundColor(.textPrimary)
         }
         .padding(.horizontal, 24)
         .padding(.vertical, 12)
         .background(Color.backgroundPrimary.ignoresSafeArea(edges: .top))
         .overlay(alignment: .bottom) {
-            Rectangle()
-                .fill(Color.border)
+            VStack(spacing: 0) {
+                GeometryReader { proxy in
+                    Rectangle()
+                        .fill(Color.textPrimary)
+                        .frame(width: proxy.size.width * CGFloat(step) / CGFloat(max(total, 1)))
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
                 .frame(height: 1)
+                Rectangle()
+                    .fill(Color.border)
+                    .frame(height: 1)
+            }
         }
     }
 }
@@ -926,75 +926,171 @@ private struct AhaAnalyzingScreen: View {
     @State private var index = 0
     @State private var timer: Timer?
 
-    private let dimensions: [(code: String, name: String)] = [
-        ("FIN", "Financial Health"),
-        ("NEWS", "News Sentiment"),
-        ("MAC", "Macro Exposure"),
-        ("SEC", "Sector Exposure"),
-        ("VOL", "Volatility"),
+    private let checks: [(code: String, title: String, detail: String, icon: String)] = [
+        ("NEWS", "Reading market news", "Scanning recent coverage for sentiment shifts.", "newspaper"),
+        ("FIN", "Checking fundamentals", "Looking at balance sheet and profitability signals.", "chart.bar.xaxis"),
+        ("MAC", "Mapping macro exposure", "Testing sensitivity to rates and broad market stress.", "globe.americas"),
+        ("SEC", "Finding sector concentration", "Measuring where your book is most crowded.", "square.grid.2x2"),
+        ("VOL", "Building risk radar", "Combining volatility and dimension scores.", "scope"),
     ]
 
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer()
-            VStack(spacing: 30) {
-                HStack(spacing: 8) {
-                    Image("clavix_logo").renderingMode(.template).resizable().scaledToFit().foregroundColor(.textPrimary).frame(width: 20, height: 20)
-                    Text("CLAVIX").font(ClavisTypography.mono(11)).tracking(1.6).foregroundColor(.textPrimary)
-                }
+        GeometryReader { proxy in
+            VStack(spacing: 0) {
+                Spacer(minLength: 18)
 
-                VStack(spacing: 8) {
-                    Text("Scoring your positions")
-                        .font(ClavisTypography.inter(30, weight: .semibold))
-                        .tracking(-0.6)
-                        .foregroundColor(.textPrimary)
-                        .multilineTextAlignment(.center)
-                    Text("ACROSS FIVE RISK DIMENSIONS")
-                        .font(ClavisTypography.mono(10))
-                        .tracking(0.8)
-                        .foregroundColor(.textSecondary)
-                }
-
-                VStack(spacing: 14) {
-                    HStack(spacing: 6) {
-                        ForEach(0..<dimensions.count, id: \.self) { i in
-                            Text(dimensions[i].code)
-                                .font(ClavisTypography.mono(9))
-                                .tracking(0.4)
-                                .foregroundColor(i == index ? .backgroundPrimary : .textSecondary)
-                                .padding(.horizontal, 9)
-                                .padding(.vertical, 6)
-                                .background(i == index ? Color.textPrimary : Color.clear)
-                                .overlay(Rectangle().stroke(i == index ? Color.clear : Color.border, lineWidth: 1))
-                                .clipShape(RoundedRectangle(cornerRadius: 3))
-                        }
+                VStack(spacing: 22) {
+                    HStack(spacing: 8) {
+                        Image("clavix_logo")
+                            .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.textPrimary)
+                            .frame(width: 20, height: 20)
+                        Text("CLAVIX")
+                            .font(ClavisTypography.mono(11))
+                            .tracking(1.6)
+                            .foregroundColor(.textPrimary)
                     }
-                    Text(dimensions[index].name)
-                        .font(ClavisTypography.inter(13, weight: .regular))
-                        .foregroundColor(.textSecondary)
-                        .frame(height: 18)
-                        .id(index)
-                        .transition(.opacity)
-                        .animation(.easeInOut(duration: 0.22), value: index)
+
+                    VStack(spacing: 8) {
+                        Text("Building your risk snapshot")
+                            .font(ClavisTypography.inter(28, weight: .semibold))
+                            .tracking(-0.55)
+                            .foregroundColor(.textPrimary)
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
+                            .minimumScaleFactor(0.82)
+                        Text("CHECKING LIVE SIGNALS")
+                            .font(ClavisTypography.mono(10))
+                            .tracking(0.8)
+                            .foregroundColor(.textSecondary)
+                    }
+
+                    analysisCore
+
+                    VStack(spacing: 8) {
+                        Text(checks[index].title)
+                            .font(ClavisTypography.inter(16, weight: .semibold))
+                            .foregroundColor(.textPrimary)
+                            .id("title-\(index)")
+                            .transition(.opacity)
+                        Text(checks[index].detail)
+                            .font(ClavisTypography.inter(13, weight: .regular))
+                            .foregroundColor(Color.white.opacity(0.82))
+                            .multilineTextAlignment(.center)
+                            .lineLimit(2)
+                            .frame(maxWidth: 280)
+                            .id("detail-\(index)")
+                            .transition(.opacity)
+                    }
+                    .animation(.easeInOut(duration: 0.22), value: index)
                 }
+                .padding(.horizontal, 24)
+                .frame(maxWidth: 520)
+                .frame(maxWidth: .infinity)
+
+                Spacer(minLength: 18)
+
+                VStack(spacing: 10) {
+                    segmentedProgress
+                    Text("NO RECOMMENDATIONS · INFORMATIONAL RISK RATING")
+                        .font(ClavisTypography.mono(8))
+                        .tracking(0.6)
+                        .foregroundColor(.textTertiary)
+                }
+                .padding(.horizontal, 44)
+                .padding(.bottom, max(36, proxy.safeAreaInsets.bottom + 24))
             }
-            Spacer()
-            Text("READING THE MARKET ON YOUR BEHALF")
-                .font(ClavisTypography.mono(9))
-                .tracking(0.7)
-                .foregroundColor(.textTertiary)
-                .padding(.bottom, 48)
         }
         .frame(maxWidth: .infinity)
+        .background(Color.backgroundPrimary.ignoresSafeArea())
         .onAppear { start() }
         .onDisappear { timer?.invalidate() }
     }
 
+    private var analysisCore: some View {
+        ZStack {
+            ForEach(0..<checks.count, id: \.self) { i in
+                checkNode(i)
+            }
+
+            progressDial
+        }
+        .frame(width: 230, height: 230)
+    }
+
+    private func checkNode(_ i: Int) -> some View {
+        let check = checks[i]
+        let active = i == index
+        let point = orbitPoint(i)
+        return VStack(spacing: 5) {
+            Image(systemName: check.icon)
+                .font(.system(size: 15, weight: .semibold))
+                .foregroundColor(.textPrimary)
+                .frame(width: 34, height: 34)
+                .background(active ? Color.textPrimary.opacity(0.16) : Color.surface)
+                .overlay(Rectangle().stroke(active ? Color.textPrimary : Color.border, lineWidth: 1))
+            Text(check.code)
+                .font(ClavisTypography.mono(10))
+                .tracking(0.5)
+                .foregroundColor(active ? .textPrimary : .textTertiary)
+        }
+        .offset(x: point.x, y: point.y)
+        .opacity(active ? 1 : 0.48)
+        .animation(.easeInOut(duration: 0.24), value: index)
+    }
+
+    private var progressDial: some View {
+        ZStack {
+            Circle()
+                .stroke(Color.border, lineWidth: 1)
+                .frame(width: 88, height: 88)
+            Circle()
+                .trim(from: 0, to: CGFloat(index + 1) / CGFloat(checks.count))
+                .stroke(Color.textPrimary, style: StrokeStyle(lineWidth: 2, lineCap: .round))
+                .rotationEffect(.degrees(-90))
+                .frame(width: 88, height: 88)
+            VStack(spacing: 2) {
+                Text("\(index + 1)")
+                    .font(ClavisTypography.mono(24))
+                    .foregroundColor(.textPrimary)
+                Text("OF \(checks.count)")
+                    .font(ClavisTypography.mono(8))
+                    .tracking(0.6)
+                    .foregroundColor(.textSecondary)
+            }
+        }
+    }
+
+    private func orbitPoint(_ i: Int) -> CGPoint {
+        let angle = (Double(i) / Double(checks.count) * 2 * .pi) - .pi / 2
+        let radius: CGFloat = 78
+        return CGPoint(
+            x: CGFloat(cos(angle)) * radius,
+            y: CGFloat(sin(angle)) * radius
+        )
+    }
+
+    private var segmentedProgress: some View {
+        HStack(spacing: 6) {
+            ForEach(0..<checks.count, id: \.self) { i in
+                Rectangle()
+                    .fill(i <= index ? Color.textPrimary : Color.border)
+                    .frame(height: 2)
+                    .animation(.easeInOut(duration: 0.2), value: index)
+            }
+        }
+    }
+
     private func start() {
         var tick = 0
-        timer = Timer.scheduledTimer(withTimeInterval: 0.6, repeats: true) { _ in
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 0.7, repeats: true) { _ in
             tick += 1
-            withAnimation(.easeInOut(duration: 0.22)) { index = tick % dimensions.count }
+            withAnimation(.easeInOut(duration: 0.24)) {
+                index = tick % checks.count
+            }
         }
     }
 }
