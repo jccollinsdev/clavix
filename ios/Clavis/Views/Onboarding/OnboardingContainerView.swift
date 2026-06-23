@@ -1050,110 +1050,114 @@ private struct AhaAnalyzingScreen: View {
     }
 }
 
-// MARK: - Reveal ("the risk dossier")
+// MARK: - Reveal (the first personalized insight)
 
 private struct AhaRevealScreen: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ObservedObject var viewModel: OnboardingViewModel
     let onFinish: () -> Void
+    @State private var revealSignals = false
 
     var body: some View {
         if let reveal = viewModel.reveal {
             GeometryReader { proxy in
-                VStack(alignment: .leading, spacing: 14) {
-                    Text("YOUR RISK SNAPSHOT")
-                        .font(ClavisTypography.mono(10))
-                        .tracking(0.9)
-                        .foregroundColor(.textSecondary)
-
-                    HStack(alignment: .center, spacing: 14) {
-                        ClavixGradeBadge(reveal.grade, size: 68)
-                        VStack(alignment: .leading, spacing: 5) {
-                            Text("Portfolio grade \(reveal.grade)")
-                                .font(ClavisTypography.inter(25, weight: .semibold))
-                                .tracking(-0.45)
-                                .foregroundColor(.textPrimary)
-                                .lineLimit(2)
-                                .minimumScaleFactor(0.86)
-                            Text("\(reveal.positionCount) POSITION\(reveal.positionCount == 1 ? "" : "S") · SCORE \(Int(reveal.score.rounded()))")
-                                .font(ClavisTypography.mono(10))
-                                .tracking(0.6)
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack(spacing: 8) {
+                            ClavixGradeBadge(reveal.grade, size: 28)
+                            Text("\(reveal.positionCount) position\(reveal.positionCount == 1 ? "" : "s") analyzed")
+                                .font(ClavisTypography.inter(13, weight: .medium))
                                 .foregroundColor(.textSecondary)
                         }
-                        Spacer(minLength: 0)
-                    }
+                        .padding(.bottom, 16)
 
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            Text("BIGGEST BLIND SPOT")
-                                .font(ClavisTypography.mono(9))
-                                .tracking(0.8)
-                                .foregroundColor(.warn)
-                            Spacer()
-                            Text("AVG \(Int(reveal.blindSpot.average.rounded()))")
-                                .font(ClavisTypography.mono(10))
-                                .foregroundColor(.warn)
-                        }
-                        Text(reveal.blindSpot.name)
-                            .font(ClavisTypography.inter(23, weight: .semibold))
-                            .tracking(-0.35)
+                        Text("Your portfolio has one clear weak spot.")
+                            .font(ClavisTypography.inter(30, weight: .semibold))
+                            .tracking(-0.55)
                             .foregroundColor(.textPrimary)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.86)
-                        Text(blindSpotSentence(reveal))
-                            .font(ClavisTypography.inter(13, weight: .regular))
-                            .foregroundColor(Color.white.opacity(0.76))
                             .lineLimit(2)
-                            .lineSpacing(1)
-                    }
-                    .padding(14)
-                    .background(Color.warnSoft)
-                    .overlay(Rectangle().stroke(Color.warn.opacity(0.35), lineWidth: 1))
+                            .minimumScaleFactor(0.88)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.bottom, 9)
 
-                    LockedPortfolioRadar(reveal: reveal)
-                        .frame(height: min(210, max(176, proxy.size.height * 0.26)))
+                        Text(comparisonSentence(reveal))
+                            .font(ClavisTypography.inter(15, weight: .regular))
+                            .foregroundColor(Color.white.opacity(0.76))
+                            .lineSpacing(2)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.bottom, 20)
 
-                    AhaPrimaryButton(title: "Start trial to unlock", enabled: !viewModel.isCompleting, action: onFinish)
+                        AhaSignalComparison(
+                            reveal: reveal,
+                            valuesVisible: revealSignals,
+                            reduceMotion: reduceMotion
+                        )
+                        .padding(.bottom, 16)
 
-                    if let error = viewModel.errorMessage {
-                        Text(error)
-                            .font(ClavisTypography.clavixCaption)
-                            .foregroundColor(.bad)
+                        AhaLockedDetail(reveal: reveal)
+                            .padding(.bottom, 16)
+
+                        AhaPrimaryButton(
+                            title: "Continue to 14-day trial",
+                            enabled: !viewModel.isCompleting,
+                            action: onFinish
+                        )
+
+                        if let error = viewModel.errorMessage {
+                            Text(error)
+                                .font(ClavisTypography.clavixCaption)
+                                .foregroundColor(.bad)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.top, 10)
+                        }
+
+                        Text("FREE FOR 14 DAYS · CANCEL ANYTIME")
+                            .font(ClavisTypography.mono(8))
+                            .tracking(0.6)
+                            .foregroundColor(.textTertiary)
                             .frame(maxWidth: .infinity, alignment: .center)
+                            .padding(.top, 13)
+                            .padding(.bottom, 18)
                     }
-
-                    Text("14 DAYS FREE · INFORMATIONAL ONLY")
-                        .font(ClavisTypography.mono(8))
-                        .tracking(0.6)
-                        .foregroundColor(.textTertiary)
-                        .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 24)
+                    .frame(maxWidth: 520)
+                    .frame(maxWidth: .infinity)
+                    .frame(minHeight: proxy.size.height, alignment: .top)
                 }
-                .padding(.horizontal, 22)
-                .padding(.top, 24)
-                .padding(.bottom, 18)
-                .frame(maxWidth: 520)
-                .frame(maxWidth: .infinity)
-                .frame(minHeight: proxy.size.height, alignment: .top)
             }
             .safeAreaInset(edge: .top, spacing: 0) {
                 OnboardingStickyBar(step: 2, total: 2)
+            }
+            .task {
+                guard !revealSignals else { return }
+                if !reduceMotion {
+                    try? await Task.sleep(for: .milliseconds(180))
+                }
+                revealSignals = true
             }
         } else {
             ProgressView().tint(.textPrimary)
         }
     }
 
-    private func blindSpotSentence(_ reveal: AhaReveal) -> String {
-        let dim = reveal.blindSpot
-        if dim.weakCount > 0 {
-            return "\(dim.weakCount) of \(dim.total) holdings need a closer read here."
-        } else {
-            return "Your lowest dimension. The trial opens the stock-by-stock breakdown."
+    private func comparisonSentence(_ reveal: AhaReveal) -> String {
+        guard let strongest = reveal.dimensions.max(by: { $0.average < $1.average }) else {
+            return "\(reveal.blindSpot.name) is the first signal worth a closer look."
         }
+
+        let gap = max(0, Int((strongest.average - reveal.blindSpot.average).rounded()))
+        guard gap > 0, strongest.key != reveal.blindSpot.key else {
+            return "\(reveal.blindSpot.name) is the first signal worth a closer look."
+        }
+        return "\(reveal.blindSpot.name) trails \(strongest.name.lowercased()) by \(gap) points."
     }
 }
 
-private struct LockedPortfolioRadar: View {
+private struct AhaSignalComparison: View {
     let reveal: AhaReveal
+    let valuesVisible: Bool
+    let reduceMotion: Bool
 
     private var dimensions: [AhaDimensionFinding] {
         let fallback = [reveal.blindSpot]
@@ -1161,118 +1165,137 @@ private struct LockedPortfolioRadar: View {
     }
 
     var body: some View {
-        HStack(spacing: 14) {
-            ZStack {
-                RadarShape(values: dimensions.map(\.average))
-                    .blur(radius: 3.2)
-                    .opacity(0.86)
-                Circle()
-                    .fill(Color.backgroundPrimary.opacity(0.82))
-                    .frame(width: 54, height: 54)
-                    .overlay(
-                        Image(systemName: "lock.fill")
-                            .font(.system(size: 17, weight: .semibold))
-                            .foregroundColor(.textPrimary)
-                    )
-            }
-            .frame(width: 132, height: 132)
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text("PORTFOLIO RADAR LOCKED")
-                    .font(ClavisTypography.mono(9))
-                    .tracking(0.8)
-                    .foregroundColor(.textSecondary)
-                Text("See every stock across all five risk dimensions.")
-                    .font(ClavisTypography.inter(17, weight: .semibold))
-                    .tracking(-0.15)
-                    .foregroundColor(.textPrimary)
-                    .lineLimit(3)
-                    .fixedSize(horizontal: false, vertical: true)
-                HStack(spacing: 8) {
-                    if let ticker = reveal.weakestTicker, let grade = reveal.weakestGrade {
-                        Text("\(ticker) \(grade)")
-                            .font(ClavisTypography.mono(10))
-                            .foregroundColor(.warn)
-                    }
-                    Text("14-day trial")
+        VStack(alignment: .leading, spacing: 16) {
+            HStack(alignment: .firstTextBaseline) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Weakest signal")
+                        .font(ClavisTypography.inter(13, weight: .medium))
+                        .foregroundColor(.warn)
+                    Text(reveal.blindSpot.name)
+                        .font(ClavisTypography.inter(24, weight: .semibold))
+                        .tracking(-0.35)
+                        .foregroundColor(.textPrimary)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.82)
+                }
+                Spacer(minLength: 12)
+                HStack(alignment: .firstTextBaseline, spacing: 2) {
+                    Text("\(Int(reveal.blindSpot.average.rounded()))")
+                        .font(ClavisTypography.mono(34))
+                        .foregroundColor(.warn)
+                    Text("/100")
                         .font(ClavisTypography.mono(10))
                         .foregroundColor(.textSecondary)
                 }
             }
+
+            VStack(spacing: 11) {
+                ForEach(Array(dimensions.enumerated()), id: \.element.key) { index, dimension in
+                    AhaSignalRow(
+                        dimension: dimension,
+                        isBlindSpot: dimension.key == reveal.blindSpot.key,
+                        valuesVisible: valuesVisible,
+                        animationDelay: Double(index) * 0.07,
+                        reduceMotion: reduceMotion
+                    )
+                }
+            }
         }
-        .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
         .background(Color.surface)
-        .overlay(Rectangle().stroke(Color.border, lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
     }
 }
 
-private struct RadarShape: View {
-    let values: [Double]
+private struct AhaSignalRow: View {
+    let dimension: AhaDimensionFinding
+    let isBlindSpot: Bool
+    let valuesVisible: Bool
+    let animationDelay: Double
+    let reduceMotion: Bool
 
     var body: some View {
-        GeometryReader { proxy in
-            let count = max(values.count, 3)
-            let side = min(proxy.size.width, proxy.size.height)
-            let center = CGPoint(x: proxy.size.width / 2, y: proxy.size.height / 2)
-            let radius = side * 0.42
+        HStack(spacing: 10) {
+            Text(shortName)
+                .font(ClavisTypography.inter(12, weight: isBlindSpot ? .semibold : .medium))
+                .foregroundColor(isBlindSpot ? .textPrimary : .textSecondary)
+                .frame(width: 72, alignment: .leading)
 
-            ZStack {
-                ForEach(1...3, id: \.self) { ring in
-                    radarPolygon(count: count, center: center, radius: radius * CGFloat(ring) / 3)
-                        .stroke(Color.border.opacity(0.8), lineWidth: 1)
+            GeometryReader { proxy in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(Color.surfaceElevated)
+                    Capsule()
+                        .fill(isBlindSpot ? Color.warn : Color.textPrimary.opacity(0.62))
+                        .frame(width: valuesVisible ? proxy.size.width * normalizedScore : 4)
                 }
-                ForEach(0..<count, id: \.self) { index in
-                    Path { path in
-                        path.move(to: center)
-                        path.addLine(to: point(index: index, count: count, center: center, radius: radius))
-                    }
-                    .stroke(Color.border.opacity(0.55), lineWidth: 1)
-                }
-                radarPolygon(values: normalizedValues(count: count), center: center, radius: radius)
-                    .fill(Color.good.opacity(0.22))
-                radarPolygon(values: normalizedValues(count: count), center: center, radius: radius)
-                    .stroke(Color.good, lineWidth: 2)
             }
-        }
-    }
-
-    private func normalizedValues(count: Int) -> [Double] {
-        guard !values.isEmpty else { return Array(repeating: 0.56, count: count) }
-        return (0..<count).map { index in
-            let raw = values[index % values.count]
-            return min(1, max(0.18, raw / 100))
-        }
-    }
-
-    private func radarPolygon(count: Int, center: CGPoint, radius: CGFloat) -> Path {
-        radarPolygon(values: Array(repeating: 1, count: count), center: center, radius: radius)
-    }
-
-    private func radarPolygon(values: [Double], center: CGPoint, radius: CGFloat) -> Path {
-        var path = Path()
-        for index in values.indices {
-            let point = point(
-                index: index,
-                count: values.count,
-                center: center,
-                radius: radius * CGFloat(values[index])
+            .frame(height: 7)
+            .animation(
+                reduceMotion ? nil : .timingCurve(0.22, 1, 0.36, 1, duration: 0.72).delay(animationDelay),
+                value: valuesVisible
             )
-            if index == values.startIndex {
-                path.move(to: point)
-            } else {
-                path.addLine(to: point)
-            }
+
+            Text("\(Int(dimension.average.rounded()))")
+                .font(ClavisTypography.mono(11))
+                .foregroundColor(isBlindSpot ? .warn : .textSecondary)
+                .frame(width: 24, alignment: .trailing)
         }
-        path.closeSubpath()
-        return path
+        .frame(height: 18)
     }
 
-    private func point(index: Int, count: Int, center: CGPoint, radius: CGFloat) -> CGPoint {
-        let angle = (Double(index) / Double(count) * 2 * .pi) - (.pi / 2)
-        return CGPoint(
-            x: center.x + CGFloat(cos(angle)) * radius,
-            y: center.y + CGFloat(sin(angle)) * radius
+    private var normalizedScore: CGFloat {
+        min(1, max(0.04, dimension.average / 100))
+    }
+
+    private var shortName: String {
+        switch dimension.key {
+        case "FIN": return "Financials"
+        case "NEWS": return "News"
+        case "MAC": return "Macro"
+        case "SEC": return "Sector"
+        case "VOL": return "Volatility"
+        default: return dimension.name
+        }
+    }
+}
+
+private struct AhaLockedDetail: View {
+    let reveal: AhaReveal
+
+    var body: some View {
+        HStack(spacing: 13) {
+            ZStack {
+                Circle()
+                    .fill(Color.surfaceElevated)
+                    .frame(width: 42, height: 42)
+                Image(systemName: "lock.fill")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(.textPrimary)
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(detailTitle)
+                    .font(ClavisTypography.inter(15, weight: .semibold))
+                    .foregroundColor(.textPrimary)
+                Text("Unlock the stock-by-stock breakdown and daily monitoring.")
+                    .font(ClavisTypography.inter(12, weight: .regular))
+                    .foregroundColor(.textSecondary)
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(14)
+        .background(Color.surface.opacity(0.72))
+        .overlay(
+            RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
+                .stroke(Color.border, lineWidth: 1)
         )
+        .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
+    }
+
+    private var detailTitle: String {
+        guard let ticker = reveal.weakestTicker else { return "See what is driving the gap" }
+        return "See what is driving the gap in \(ticker)"
     }
 }
