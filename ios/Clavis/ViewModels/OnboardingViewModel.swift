@@ -3,9 +3,7 @@ import SwiftUI
 
 enum OnboardingPage: Int, CaseIterable {
     case welcome = 0
-    case methodology = 1
-    case preview = 2
-    case addPortfolio = 3
+    case addPortfolio = 1
 }
 
 // MARK: - Aha flow types
@@ -50,9 +48,10 @@ final class OnboardingViewModel: ObservableObject {
     @Published var currentPage: OnboardingPage = .welcome
     @Published var isCompleting = false
     @Published var errorMessage: String?
+    @Published private(set) var welcomeName: String?
 
     // Aha flow state
-    @Published var entries: [AhaPortfolioEntry] = [AhaPortfolioEntry(), AhaPortfolioEntry(), AhaPortfolioEntry()]
+    @Published var entries: [AhaPortfolioEntry] = [AhaPortfolioEntry()]
     @Published var ahaPhase: AhaPhase = .input
     @Published var reveal: AhaReveal?
 
@@ -60,6 +59,16 @@ final class OnboardingViewModel: ObservableObject {
     private let api = APIService.shared
 
     // MARK: - Paging
+
+    func loadWelcomeName() async {
+        guard welcomeName == nil else { return }
+        guard let name = try? await api.fetchPreferences().name?
+            .trimmingCharacters(in: .whitespacesAndNewlines),
+            !name.isEmpty else {
+            return
+        }
+        welcomeName = name.split(separator: " ").first.map(String.init)
+    }
 
     func nextPage() {
         withAnimation(.easeInOut(duration: 0.2)) {

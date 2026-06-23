@@ -12,6 +12,8 @@ struct ContentView: View {
                 ClavixHiFiReferenceView()
             } else if debugVisualQAEnabled {
                 ClavixVisualQARoot(open: debugVisualQAOpen)
+            } else if debugOnboardingEnabled {
+                OnboardingContainerView()
             } else if allowDebugBypassLiveEntry {
                 MainTabView()
             } else {
@@ -22,7 +24,7 @@ struct ContentView: View {
             #endif
         }
         .onAppear {
-            guard !debugVisualQAEnabled else { return }
+            guard !debugVisualQAEnabled, !debugOnboardingEnabled else { return }
             guard !allowDebugBypassLiveEntry else {
                 hasCheckedSession = true
                 return
@@ -42,7 +44,7 @@ struct ContentView: View {
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: .supabaseAuthCallbackReceived)) { notification in
-            guard !debugVisualQAEnabled else { return }
+            guard !debugVisualQAEnabled, !debugOnboardingEnabled else { return }
             guard let url = notification.object as? URL else { return }
             Task { await authViewModel.handleAuthDeepLink(url: url) }
         }
@@ -102,6 +104,14 @@ struct ContentView: View {
         ProcessInfo.processInfo.environment["CLAVIX_DEBUG_OPEN"]
         #else
         nil
+        #endif
+    }
+
+    private var debugOnboardingEnabled: Bool {
+        #if DEBUG
+        ProcessInfo.processInfo.environment["CLAVIX_DEBUG_ONBOARDING"] == "1"
+        #else
+        false
         #endif
     }
 
