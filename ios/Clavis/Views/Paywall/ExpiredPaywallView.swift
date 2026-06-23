@@ -23,32 +23,12 @@ enum SubscriptionRequiredReason {
 }
 
 struct SubscriptionRequiredView: View {
-    @EnvironmentObject private var authViewModel: AuthViewModel
     let reason: SubscriptionRequiredReason
 
     var body: some View {
         PaywallView(triggerContext: triggerContext, showsCloseButton: false)
             .onAppear { reason.clearPendingContextIfNeeded() }
             .preferredColorScheme(.dark)
-            .safeAreaInset(edge: .bottom) {
-                VStack(spacing: 10) {
-                    Text(statusMessage)
-                        .font(ClavisTypography.inter(13, weight: .semibold))
-                        .foregroundColor(.textPrimary)
-
-                    Button("Sign out") {
-                        Task { await authViewModel.signOut() }
-                    }
-                    .font(ClavisTypography.inter(13, weight: .regular))
-                    .foregroundColor(.textSecondary)
-                    .buttonStyle(.plain)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, ClavixLayout.pad)
-                .padding(.top, 12)
-                .padding(.bottom, 16)
-                .background(Color.backgroundPrimary)
-            }
     }
 
     private var triggerContext: PaywallTrigger {
@@ -62,14 +42,4 @@ struct SubscriptionRequiredView: View {
         }
     }
 
-    private var statusMessage: String {
-        switch reason {
-        case .expired:
-            return "Your free trial or subscription has ended"
-        case .onboardingReveal:
-            return "Your first Clavix snapshot is ready"
-        case .notSubscribed:
-            return "Start your 14-day free trial to continue"
-        }
-    }
 }
