@@ -259,7 +259,7 @@ final class OnboardingViewModel: ObservableObject {
         // analyzing screen.
         revealTask?.cancel()
         revealTask = Task { [weak self] in
-            try? await Task.sleep(for: .seconds(3.4))
+            try? await Task.sleep(for: .seconds(7.8))
             guard !Task.isCancelled, let self else { return }
             let built = OnboardingViewModel.buildReveal(results)
             self.reveal = built

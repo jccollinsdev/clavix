@@ -185,7 +185,7 @@ private struct OnboardingWelcomeSetupView: View {
                 .disabled(viewModel.isPreparingAnalysis)
                 .padding(.horizontal, 24)
                 .padding(.vertical, 12)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .trailing)
             }
             .background(Color.backgroundPrimary.ignoresSafeArea(edges: .bottom))
         }
@@ -286,10 +286,6 @@ private struct WelcomeHoldingRow: View {
                     ProgressView()
                         .tint(.textSecondary)
                         .scaleEffect(0.72)
-                } else if entry.resolved != nil {
-                    Image(systemName: "checkmark.circle.fill")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(.textSecondary)
                 } else if entry.notFound {
                     Image(systemName: "exclamationmark.circle")
                         .font(.system(size: 14, weight: .medium))
@@ -870,16 +866,20 @@ private struct AhaLedgerRow: View {
 // MARK: - Analyzing
 
 private struct AhaAnalyzingScreen: View {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var index = 0
-    @State private var timer: Timer?
+    @State private var progress: CGFloat = 0.03
 
     private let checks: [(code: String, title: String, detail: String, icon: String)] = [
-        ("NEWS", "Reading market news", "Scanning recent coverage for sentiment shifts.", "newspaper"),
-        ("FIN", "Checking fundamentals", "Looking at balance sheet and profitability signals.", "chart.bar.xaxis"),
-        ("MAC", "Mapping macro exposure", "Testing sensitivity to rates and broad market stress.", "globe.americas"),
-        ("SEC", "Finding sector concentration", "Measuring where your book is most crowded.", "square.grid.2x2"),
-        ("VOL", "Building risk radar", "Combining volatility and dimension scores.", "scope"),
+        ("NEWS", "Reading recent news", "Reviewing headlines and sentiment for each holding.", "newspaper"),
+        ("FIN", "Measuring financial strength", "Comparing profitability, balance sheets, and earnings quality.", "chart.bar.xaxis"),
+        ("MAC", "Testing market sensitivity", "Checking exposure to rates and broad market stress.", "globe.americas"),
+        ("SEC", "Measuring concentration", "Finding repeated sector and factor exposure in your portfolio.", "square.grid.2x2"),
+        ("VOL", "Assembling your risk map", "Combining all five dimensions into one portfolio snapshot.", "scope"),
     ]
+
+    private let phaseProgress: [CGFloat] = [0.18, 0.38, 0.58, 0.78, 0.97]
+    private let phaseHolds: [Double] = [1.35, 1.45, 1.55, 1.35, 1.60]
 
     var body: some View {
         GeometryReader { proxy in
@@ -905,20 +905,21 @@ private struct AhaAnalyzingScreen: View {
 
                     VStack(spacing: 8) {
                         Text(checks[index].title)
-                            .font(ClavisTypography.inter(16, weight: .semibold))
+                            .font(ClavisTypography.inter(17, weight: .semibold))
                             .foregroundColor(.textPrimary)
                             .id("title-\(index)")
                             .transition(.opacity)
                         Text(checks[index].detail)
-                            .font(ClavisTypography.inter(13, weight: .regular))
-                            .foregroundColor(Color.white.opacity(0.82))
+                            .font(ClavisTypography.inter(14, weight: .regular))
+                            .foregroundColor(Color.white.opacity(0.88))
                             .multilineTextAlignment(.center)
                             .lineLimit(2)
-                            .frame(maxWidth: 280)
+                            .lineSpacing(2)
+                            .frame(maxWidth: 300)
                             .id("detail-\(index)")
                             .transition(.opacity)
                     }
-                    .animation(.easeInOut(duration: 0.22), value: index)
+                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.36), value: index)
                 }
                 .padding(.horizontal, 24)
                 .frame(maxWidth: 520)
@@ -942,8 +943,7 @@ private struct AhaAnalyzingScreen: View {
         .safeAreaInset(edge: .top, spacing: 0) {
             OnboardingStickyBar(step: 2, total: 2)
         }
-        .onAppear { start() }
-        .onDisappear { timer?.invalidate() }
+        .task { await playSequence() }
     }
 
     private var analysisCore: some View {
@@ -975,7 +975,8 @@ private struct AhaAnalyzingScreen: View {
         }
         .offset(x: point.x, y: point.y)
         .opacity(active ? 1 : 0.48)
-        .animation(.easeInOut(duration: 0.24), value: index)
+        .scaleEffect(active ? 1 : 0.96)
+        .animation(reduceMotion ? nil : .timingCurve(0.22, 1, 0.36, 1, duration: 0.42), value: index)
     }
 
     private var progressDial: some View {
@@ -984,14 +985,16 @@ private struct AhaAnalyzingScreen: View {
                 .stroke(Color.border, lineWidth: 1)
                 .frame(width: 88, height: 88)
             Circle()
-                .trim(from: 0, to: CGFloat(index + 1) / CGFloat(checks.count))
+                .trim(from: 0, to: progress)
                 .stroke(Color.textPrimary, style: StrokeStyle(lineWidth: 2, lineCap: .round))
                 .rotationEffect(.degrees(-90))
                 .frame(width: 88, height: 88)
+                .animation(reduceMotion ? nil : .timingCurve(0.22, 1, 0.36, 1, duration: 0.82), value: progress)
             VStack(spacing: 2) {
                 Text("\(index + 1)")
                     .font(ClavisTypography.mono(24))
                     .foregroundColor(.textPrimary)
+                    .contentTransition(.numericText())
                 Text("OF \(checks.count)")
                     .font(ClavisTypography.mono(8))
                     .tracking(0.6)
@@ -1015,19 +1018,34 @@ private struct AhaAnalyzingScreen: View {
                 Rectangle()
                     .fill(i <= index ? Color.textPrimary : Color.border)
                     .frame(height: 2)
-                    .animation(.easeInOut(duration: 0.2), value: index)
+                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.35), value: index)
             }
         }
     }
 
-    private func start() {
-        var tick = 0
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.7, repeats: true) { _ in
-            tick += 1
-            withAnimation(.easeInOut(duration: 0.24)) {
-                index = tick % checks.count
+    @MainActor
+    private func playSequence() async {
+        index = 0
+        progress = 0.03
+
+        for phase in checks.indices {
+            guard !Task.isCancelled else { return }
+            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.36)) {
+                index = phase
             }
+            withAnimation(reduceMotion ? nil : .timingCurve(0.22, 1, 0.36, 1, duration: 0.82)) {
+                progress = phaseProgress[phase]
+            }
+
+            do {
+                try await Task.sleep(for: .seconds(phaseHolds[phase]))
+            } catch {
+                return
+            }
+        }
+
+        withAnimation(reduceMotion ? nil : .easeOut(duration: 0.3)) {
+            progress = 1
         }
     }
 }
