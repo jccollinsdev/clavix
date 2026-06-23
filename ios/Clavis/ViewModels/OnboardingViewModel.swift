@@ -3,7 +3,9 @@ import SwiftUI
 
 enum OnboardingPage: Int, CaseIterable {
     case welcome = 0
-    case addPortfolio = 1
+    case methodology = 1
+    case preview = 2
+    case addPortfolio = 3
 }
 
 // MARK: - Aha flow types
@@ -61,13 +63,15 @@ final class OnboardingViewModel: ObservableObject {
 
     func nextPage() {
         withAnimation(.easeInOut(duration: 0.2)) {
-            currentPage = .addPortfolio
+            let nextIndex = min(currentPage.rawValue + 1, OnboardingPage.allCases.count - 1)
+            currentPage = OnboardingPage(rawValue: nextIndex) ?? .addPortfolio
         }
     }
 
     func previousPage() {
         withAnimation(.easeInOut(duration: 0.2)) {
-            currentPage = .welcome
+            let previousIndex = max(currentPage.rawValue - 1, 0)
+            currentPage = OnboardingPage(rawValue: previousIndex) ?? .welcome
         }
     }
 

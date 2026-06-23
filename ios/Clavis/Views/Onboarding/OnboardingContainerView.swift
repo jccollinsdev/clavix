@@ -10,14 +10,51 @@ struct OnboardingContainerView: View {
 
     var body: some View {
         ZStack {
-            Color.clavixPage.ignoresSafeArea()
+            Color.backgroundPrimary.ignoresSafeArea()
 
             Group {
                 switch viewModel.currentPage {
                 case .welcome:
-                    OnboardingWelcomeView(
-                        onContinue: { viewModel.nextPage() },
-                        onSignIn: { Task { await authViewModel.signOut() } }
+                    OnboardingIntroSlideView(
+                        step: 1,
+                        title: "Meet your morning\nrisk briefing.",
+                        bodyCopy: "Clavix helps you understand what changed in your portfolio before the open, without turning your morning into research work.",
+                        supportingCards: [
+                            .init(eyebrow: "Every morning", title: "One book grade", detail: "See whether your portfolio looks sturdier or shakier at a glance."),
+                            .init(eyebrow: "Always inspectable", title: "Evidence shown", detail: "Every grade traces back to the factors behind it, not black-box hype.")
+                        ],
+                        primaryTitle: "Continue",
+                        secondaryTitle: "Sign in with a different account",
+                        onPrimary: { viewModel.nextPage() },
+                        onSecondary: { Task { await authViewModel.signOut() } }
+                    )
+                case .methodology:
+                    OnboardingIntroSlideView(
+                        step: 2,
+                        title: "Clavix grades risk,\nnot momentum.",
+                        bodyCopy: "The app acts more like a compact risk desk than a trading feed. It scores what you own across five dimensions and tells you where the book looks soft.",
+                        supportingCards: [
+                            .init(eyebrow: "Five dimensions", title: "Macro, sector, financials, news, volatility", detail: "You get one consistent framework instead of disconnected headlines."),
+                            .init(eyebrow: "What you will not get", title: "No buy alerts, no fake certainty", detail: "Clavix is informational only. It helps you inspect risk with more discipline.")
+                        ],
+                        primaryTitle: "How my snapshot works",
+                        secondaryTitle: "Back",
+                        onPrimary: { viewModel.nextPage() },
+                        onSecondary: { viewModel.previousPage() }
+                    )
+                case .preview:
+                    OnboardingIntroSlideView(
+                        step: 3,
+                        title: "We’ll build your first\nportfolio snapshot.",
+                        bodyCopy: "Enter 1 to 3 positions you actually care about. Clavix will grade the book, surface the weakest link, and show the biggest blind spot worth paying attention to.",
+                        supportingCards: [
+                            .init(eyebrow: "What you enter", title: "Ticker + shares", detail: "That is enough to build a first-pass risk picture."),
+                            .init(eyebrow: "What you unlock next", title: "A personalized reveal", detail: "Your trial starts after you see why your own portfolio is interesting.")
+                        ],
+                        primaryTitle: "Build my snapshot",
+                        secondaryTitle: "Back",
+                        onPrimary: { viewModel.nextPage() },
+                        onSecondary: { viewModel.previousPage() }
                     )
                 case .addPortfolio:
                     OnboardingPortfolioAhaView(
@@ -57,7 +94,7 @@ struct OnboardingContainerView: View {
             guard let url = notification.object as? URL else { return }
             Task { await brokerageViewModel.handleCallback(url: url) }
         }
-        .preferredColorScheme(.light)
+        .preferredColorScheme(.dark)
     }
 
     private func handleConnectBrokerage() {
@@ -84,12 +121,253 @@ struct OnboardingContainerView: View {
     /// re-opening the add sheet.
     private func completeAfterAha() {
         if !SubscriptionManager.shared.isPro {
+            if let reveal = viewModel.reveal {
+                OnboardingPaywallContext.store(from: reveal)
+            }
             SubscriptionRequiredReason.markPendingOnboardingReveal()
         }
         viewModel.completeOnboarding {
             authViewModel.markOnboardingComplete()
             UserDefaults.standard.set(1, forKey: "clavix.selectedTab")
         }
+    }
+}
+
+private struct OnboardingIntroCardContent {
+    let eyebrow: String
+    let title: String
+    let detail: String
+}
+
+private struct OnboardingIntroSlideView: View {
+    let step: Int
+    let title: String
+    let bodyCopy: String
+    let supportingCards: [OnboardingIntroCardContent]
+    let primaryTitle: String
+    let secondaryTitle: String
+    let onPrimary: () -> Void
+    let onSecondary: () -> Void
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                Spacer(minLength: 28)
+
+                Text("STEP 0\(step) / 04")
+                    .font(ClavisTypography.mono(11))
+                    .tracking(0.8)
+                    .foregroundColor(.textSecondary)
+                    .padding(.bottom, 14)
+
+                Text(title)
+                    .font(ClavisTypography.inter(34, weight: .semibold))
+                    .tracking(-0.6)
+                    .foregroundColor(.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.bottom, 12)
+
+                Text(bodyCopy)
+                    .font(ClavisTypography.inter(15, weight: .regular))
+                    .foregroundColor(Color.white.opacity(0.72))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.bottom, 24)
+
+                VStack(spacing: 12) {
+                    ForEach(Array(supportingCards.enumerated()), id: \.offset) { _, card in
+                        OnboardingIntroCard(card: card)
+                    }
+                }
+                .padding(.bottom, 24)
+
+                OnboardingMiniPreview(step: step)
+                    .padding(.bottom, 28)
+
+                VStack(spacing: 10) {
+                    AuthStyleActionButton(
+                        title: primaryTitle,
+                        fill: .textPrimary,
+                        foreground: .backgroundPrimary,
+                        action: onPrimary
+                    )
+
+                    AuthStyleActionButton(
+                        title: secondaryTitle,
+                        fill: .surface,
+                        foreground: .textPrimary,
+                        bordered: true,
+                        action: onSecondary
+                    )
+                }
+                .padding(.bottom, 18)
+
+                OnboardingProgressBar(step: step, total: 4)
+                    .padding(.bottom, 18)
+
+                Text("You’ll see your first personalized risk snapshot before anything asks you to commit.")
+                    .font(ClavisTypography.mono(10))
+                    .foregroundColor(Color.white.opacity(0.52))
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity)
+                    .padding(.bottom, 32)
+            }
+            .padding(.horizontal, 24)
+            .frame(maxWidth: 520)
+            .frame(maxWidth: .infinity)
+        }
+        .safeAreaInset(edge: .top, spacing: 0) {
+            OnboardingStickyBar()
+        }
+    }
+}
+
+private struct OnboardingIntroCard: View {
+    let card: OnboardingIntroCardContent
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(card.eyebrow.uppercased())
+                .font(ClavisTypography.mono(10))
+                .tracking(0.8)
+                .foregroundColor(Color.white.opacity(0.5))
+            Text(card.title)
+                .font(ClavisTypography.inter(17, weight: .semibold))
+                .foregroundColor(.textPrimary)
+                .fixedSize(horizontal: false, vertical: true)
+            Text(card.detail)
+                .font(ClavisTypography.inter(14, weight: .regular))
+                .foregroundColor(Color.white.opacity(0.72))
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(16)
+        .background(Color.white.opacity(0.04))
+        .overlay(
+            RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
+                .stroke(Color.white.opacity(0.10), lineWidth: 1)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
+    }
+}
+
+private struct OnboardingMiniPreview: View {
+    let step: Int
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("WHAT HAPPENS NEXT")
+                .font(ClavisTypography.mono(10))
+                .tracking(0.8)
+                .foregroundColor(Color.white.opacity(0.5))
+
+            HStack(spacing: 10) {
+                previewCell(label: "Enter", value: "1-3")
+                previewCell(label: "Score", value: "Book")
+                previewCell(label: "Reveal", value: "Blind spot")
+            }
+        }
+        .padding(16)
+        .background(Color.surface)
+        .overlay(
+            RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
+                .stroke(Color.border, lineWidth: 1)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
+    }
+
+    private func previewCell(label: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text(label.uppercased())
+                .font(ClavisTypography.mono(9))
+                .tracking(0.7)
+                .foregroundColor(.textSecondary)
+            Text(value)
+                .font(ClavisTypography.inter(15, weight: .semibold))
+                .foregroundColor(.textPrimary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(Color.white.opacity(0.03))
+        .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
+    }
+}
+
+private struct OnboardingProgressBar: View {
+    let step: Int
+    let total: Int
+
+    var body: some View {
+        HStack(spacing: 8) {
+            ForEach(0..<total, id: \.self) { index in
+                RoundedRectangle(cornerRadius: 999, style: .continuous)
+                    .fill(index < step ? Color.textPrimary : Color.white.opacity(0.12))
+                    .frame(height: 4)
+            }
+        }
+    }
+}
+
+private struct OnboardingStickyBar: View {
+    var body: some View {
+        ZStack {
+            HStack(spacing: 12) {
+                ZStack {
+                    Image("clavix_logo")
+                        .resizable()
+                        .renderingMode(.template)
+                        .scaledToFit()
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(.textPrimary)
+                    Image("clavix_logo")
+                        .resizable()
+                        .renderingMode(.template)
+                        .scaledToFit()
+                        .frame(width: 28, height: 28)
+                        .scaleEffect(1.18)
+                        .foregroundColor(.textPrimary.opacity(0.3))
+                }
+                .frame(width: 30, height: 30)
+                .accessibilityHidden(true)
+                Spacer(minLength: 8)
+            }
+
+            Text("CLAVIX")
+                .font(ClavisTypography.inter(17, weight: .bold))
+                .tracking(1.2)
+                .foregroundColor(.textPrimary)
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 12)
+        .background(Color.backgroundPrimary.ignoresSafeArea(edges: .top))
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(Color.border)
+                .frame(height: 1)
+        }
+    }
+}
+
+private struct AuthStyleActionButton: View {
+    let title: String
+    let fill: Color
+    let foreground: Color
+    var bordered: Bool = false
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(ClavisTypography.inter(15, weight: .semibold))
+                .foregroundColor(foreground)
+                .frame(maxWidth: .infinity)
+                .frame(height: 50)
+                .background(fill)
+                .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous)
+                        .stroke(bordered ? Color.border : .clear, lineWidth: 1)
+                )
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -424,7 +702,7 @@ private struct OnboardingPortfolioAhaView: View {
 
     var body: some View {
         ZStack {
-            Color.clavixPage.ignoresSafeArea()
+            Color.backgroundPrimary.ignoresSafeArea()
             switch viewModel.ahaPhase {
             case .input:
                 AhaInputScreen(viewModel: viewModel, isFreeTier: isFreeTier, onBack: onBack, onSkip: onSkip)
@@ -441,7 +719,7 @@ private struct OnboardingPortfolioAhaView: View {
 // MARK: - Shared atoms
 
 private struct AhaHairline: View {
-    var color: Color = .clavixRule
+    var color: Color = .border
     var body: some View { Rectangle().fill(color).frame(height: 1) }
 }
 
@@ -458,12 +736,12 @@ private struct AhaPrimaryButton: View {
                 Image(systemName: "arrow.right")
                     .font(.system(size: 12, weight: .semibold))
             }
-            .foregroundColor(enabled ? .clavixPaper : .clavixInk4)
+            .foregroundColor(enabled ? .backgroundPrimary : .textTertiary)
             .frame(maxWidth: .infinity)
             .frame(height: 52)
-            .background(enabled ? Color.clavixInk : Color.clavixPaper2)
+            .background(enabled ? Color.textPrimary : Color.surfaceElevated)
             .overlay(
-                Rectangle().stroke(enabled ? Color.clear : Color.clavixRule, lineWidth: 1)
+                Rectangle().stroke(enabled ? Color.clear : Color.border, lineWidth: 1)
             )
             .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
         }
@@ -486,21 +764,21 @@ private struct AhaInputScreen: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
 
-                Text("BUILD YOUR BOOK")
-                    .font(ClavisTypography.clavixMono(10, weight: .bold))
+                Text("BUILD YOUR FIRST SNAPSHOT")
+                    .font(ClavisTypography.mono(11))
                     .tracking(0.8)
-                    .foregroundColor(.clavixAccent)
+                    .foregroundColor(.textSecondary)
                     .padding(.bottom, 10)
 
-                Text("Add your positions")
-                    .font(ClavisTypography.clavixSerif(32, weight: .medium))
-                    .tracking(-0.5)
-                    .foregroundColor(.clavixInk)
+                Text("Enter 1 to 3 positions.")
+                    .font(ClavisTypography.inter(30, weight: .semibold))
+                    .tracking(-0.6)
+                    .foregroundColor(.textPrimary)
                     .padding(.bottom, 8)
 
-                Text("Your book grade forms as you go. Clavix scores every name across five risk dimensions.")
-                    .font(ClavisTypography.inter(14, weight: .regular))
-                    .foregroundColor(.clavixInk2)
+                Text("Clavix will grade the book as you type, then show the weakest link and the biggest blind spot worth watching.")
+                    .font(ClavisTypography.inter(15, weight: .regular))
+                    .foregroundColor(Color.white.opacity(0.72))
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.bottom, 22)
 
@@ -517,7 +795,7 @@ private struct AhaInputScreen: View {
 
                 Button("I'll add positions later", action: onSkip)
                     .font(ClavisTypography.inter(13, weight: .regular))
-                    .foregroundColor(.clavixInk3)
+                    .foregroundColor(.textSecondary)
                     .buttonStyle(.plain)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(.bottom, 36)
@@ -531,22 +809,22 @@ private struct AhaInputScreen: View {
                 HStack {
                     Button(action: onBack) {
                         Text("BACK")
-                            .font(ClavisTypography.clavixMono(10, weight: .bold))
+                            .font(ClavisTypography.mono(11))
                             .tracking(0.8)
-                            .foregroundColor(.clavixAccent)
+                            .foregroundColor(.textPrimary)
                     }
                     .buttonStyle(.plain)
                     Spacer()
-                    Text("STEP 02 / 02")
-                        .font(ClavisTypography.clavixMono(10, weight: .bold))
+                    Text("STEP 04 / 04")
+                        .font(ClavisTypography.mono(11))
                         .tracking(0.8)
-                        .foregroundColor(.clavixInk3)
+                        .foregroundColor(.textSecondary)
                 }
                 .padding(.horizontal, 22)
                 .padding(.vertical, 14)
                 AhaHairline()
             }
-            .background(Color.clavixPage.ignoresSafeArea(edges: .top))
+            .background(Color.backgroundPrimary.ignoresSafeArea(edges: .top))
         }
     }
 
@@ -558,9 +836,9 @@ private struct AhaInputScreen: View {
 
             VStack(alignment: .leading, spacing: 10) {
                 Text("PROVISIONAL BOOK GRADE")
-                    .font(ClavisTypography.clavixMono(9, weight: .bold))
+                    .font(ClavisTypography.mono(10))
                     .tracking(0.7)
-                    .foregroundColor(.clavixInk3)
+                    .foregroundColor(.textSecondary)
 
                 if let grade = viewModel.liveGrade, let score = viewModel.liveScore {
                     HStack(spacing: 12) {
@@ -568,31 +846,31 @@ private struct AhaInputScreen: View {
                             .id(grade)
                             .transition(.scale.combined(with: .opacity))
                         Text("composite \(Int(score.rounded()))")
-                            .font(ClavisTypography.clavixMono(13, weight: .regular))
-                            .foregroundColor(.clavixInk2)
+                            .font(ClavisTypography.mono(13))
+                            .foregroundColor(Color.white.opacity(0.72))
                     }
                 } else {
                     HStack(spacing: 12) {
                         Text("—")
-                            .font(ClavisTypography.clavixMono(22, weight: .semibold))
-                            .foregroundColor(.clavixInk4)
+                            .font(ClavisTypography.mono(22))
+                            .foregroundColor(.textTertiary)
                             .frame(width: 40, height: 40)
-                            .overlay(Rectangle().stroke(Color.clavixRule, style: StrokeStyle(lineWidth: 1, dash: [3, 3])))
-                        Text("Add a ticker to begin")
+                            .overlay(Rectangle().stroke(Color.border, style: StrokeStyle(lineWidth: 1, dash: [3, 3])))
+                        Text("Add a ticker to start your first read")
                             .font(ClavisTypography.inter(13, weight: .regular))
-                            .foregroundColor(.clavixInk3)
+                            .foregroundColor(.textSecondary)
                     }
                 }
             }
             Spacer(minLength: 8)
 
             Text("\(scoredCount) / \(viewModel.entries.count)")
-                .font(ClavisTypography.clavixMono(11, weight: .bold))
-                .foregroundColor(.clavixInk3)
+                .font(ClavisTypography.mono(11))
+                .foregroundColor(.textSecondary)
         }
         .padding(14)
-        .background(Color.clavixPaper2)
-        .overlay(Rectangle().stroke(Color.clavixRule, lineWidth: 1))
+        .background(Color.surface)
+        .overlay(Rectangle().stroke(Color.border, lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
         .animation(.easeInOut(duration: 0.3), value: viewModel.liveGrade)
     }
@@ -602,15 +880,15 @@ private struct AhaInputScreen: View {
         VStack(spacing: 0) {
             // column header
             HStack(spacing: 8) {
-                Text("#").font(ClavisTypography.clavixMono(9, weight: .bold)).foregroundColor(.clavixInk4).frame(width: 18, alignment: .leading)
-                Text("TICKER").font(ClavisTypography.clavixMono(9, weight: .bold)).tracking(0.6).foregroundColor(.clavixInk3)
+                Text("#").font(ClavisTypography.mono(10)).foregroundColor(.textTertiary).frame(width: 18, alignment: .leading)
+                Text("TICKER").font(ClavisTypography.mono(10)).tracking(0.6).foregroundColor(.textSecondary)
                 Spacer()
-                Text("SHARES").font(ClavisTypography.clavixMono(9, weight: .bold)).tracking(0.6).foregroundColor(.clavixInk3).frame(width: 76, alignment: .leading)
-                Text("GRADE").font(ClavisTypography.clavixMono(9, weight: .bold)).tracking(0.6).foregroundColor(.clavixInk3).frame(width: 40, alignment: .center)
+                Text("SHARES").font(ClavisTypography.mono(10)).tracking(0.6).foregroundColor(.textSecondary).frame(width: 76, alignment: .leading)
+                Text("GRADE").font(ClavisTypography.mono(10)).tracking(0.6).foregroundColor(.textSecondary).frame(width: 40, alignment: .center)
             }
             .padding(.horizontal, 14)
             .padding(.vertical, 10)
-            .background(Color.clavixPaper2)
+            .background(Color.surfaceElevated)
             AhaHairline()
 
             ForEach(Array(viewModel.entries.enumerated()), id: \.element.id) { idx, entry in
@@ -627,24 +905,24 @@ private struct AhaInputScreen: View {
                 } label: {
                     HStack(spacing: 6) {
                         Image(systemName: "plus").font(.system(size: 11, weight: .bold))
-                        Text("ADD POSITION").font(ClavisTypography.clavixMono(10, weight: .bold)).tracking(0.6)
+                        Text("ADD POSITION").font(ClavisTypography.mono(10)).tracking(0.6)
                     }
-                    .foregroundColor(.clavixAccent)
+                    .foregroundColor(.textPrimary)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 13)
                 }
                 .buttonStyle(.plain)
             } else if isFreeTier {
                 Text("FREE COVERS 3 POSITIONS · PRO UNLOCKS YOUR BOOK")
-                    .font(ClavisTypography.clavixMono(9, weight: .bold))
+                    .font(ClavisTypography.mono(10))
                     .tracking(0.5)
-                    .foregroundColor(.clavixInk3)
+                    .foregroundColor(.textSecondary)
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 13)
             }
         }
-        .background(Color.clavixPaper)
-        .overlay(Rectangle().stroke(Color.clavixRule, lineWidth: 1))
+        .background(Color.surface)
+        .overlay(Rectangle().stroke(Color.border, lineWidth: 1))
         .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
     }
 }
@@ -658,16 +936,16 @@ private struct AhaLedgerRow: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 8) {
                 Text(String(format: "%02d", index))
-                    .font(ClavisTypography.clavixMono(11, weight: .regular))
-                    .foregroundColor(.clavixInk4)
+                    .font(ClavisTypography.mono(11))
+                    .foregroundColor(.textTertiary)
                     .frame(width: 18, alignment: .leading)
 
                 TextField("AAPL", text: Binding(
                     get: { entry.query },
                     set: { viewModel.updateQuery(entry.id, $0) }
                 ))
-                .font(ClavisTypography.clavixMono(15, weight: .bold))
-                .foregroundColor(.clavixInk)
+                .font(ClavisTypography.mono(15))
+                .foregroundColor(.textPrimary)
                 .textInputAutocapitalization(.characters)
                 .autocorrectionDisabled()
                 .keyboardType(.asciiCapable)
@@ -677,19 +955,19 @@ private struct AhaLedgerRow: View {
                     get: { entry.shares },
                     set: { viewModel.updateShares(entry.id, $0) }
                 ))
-                .font(ClavisTypography.clavixMono(13, weight: .regular))
-                .foregroundColor(.clavixInk2)
+                .font(ClavisTypography.mono(13))
+                .foregroundColor(Color.white.opacity(0.72))
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.leading)
                 .frame(width: 76, alignment: .leading)
 
                 Group {
                     if entry.isResolving {
-                        ProgressView().tint(.clavixInk3).scaleEffect(0.8)
+                        ProgressView().tint(.textSecondary).scaleEffect(0.8)
                     } else if let resolved = entry.resolved, let grade = resolved.resolvedGrade {
                         ClavixGradeBadge(grade, size: 32)
                     } else {
-                        Text("—").font(ClavisTypography.clavixMono(13, weight: .regular)).foregroundColor(.clavixInk4)
+                        Text("—").font(ClavisTypography.mono(13)).foregroundColor(.textTertiary)
                     }
                 }
                 .frame(width: 40, height: 32)
@@ -699,18 +977,18 @@ private struct AhaLedgerRow: View {
 
             if let resolved = entry.resolved {
                 Text((resolved.resolvedCompanyName ?? resolved.ticker).uppercased())
-                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .font(ClavisTypography.mono(9))
                     .tracking(0.4)
-                    .foregroundColor(.clavixInk3)
+                    .foregroundColor(.textSecondary)
                     .lineLimit(1)
                     .padding(.leading, 40)
                     .padding(.bottom, 11)
                     .padding(.trailing, 14)
             } else if entry.notFound {
                 Text("NO MATCH FOUND")
-                    .font(ClavisTypography.clavixMono(9, weight: .bold))
+                    .font(ClavisTypography.mono(9))
                     .tracking(0.4)
-                    .foregroundColor(.clavixWarn)
+                    .foregroundColor(.warn)
                     .padding(.leading, 40)
                     .padding(.bottom, 11)
             }
@@ -737,39 +1015,39 @@ private struct AhaAnalyzingScreen: View {
             Spacer()
             VStack(spacing: 30) {
                 HStack(spacing: 8) {
-                    Image("clavix_logo").renderingMode(.template).resizable().scaledToFit().foregroundColor(.clavixInk).frame(width: 20, height: 20)
-                    Text("CLAVIX").font(ClavisTypography.clavixMono(11, weight: .bold)).tracking(1.6).foregroundColor(.clavixInk)
+                    Image("clavix_logo").renderingMode(.template).resizable().scaledToFit().foregroundColor(.textPrimary).frame(width: 20, height: 20)
+                    Text("CLAVIX").font(ClavisTypography.mono(11)).tracking(1.6).foregroundColor(.textPrimary)
                 }
 
                 VStack(spacing: 8) {
                     Text("Scoring your positions")
-                        .font(ClavisTypography.clavixSerif(28, weight: .medium))
-                        .tracking(-0.4)
-                        .foregroundColor(.clavixInk)
+                        .font(ClavisTypography.inter(30, weight: .semibold))
+                        .tracking(-0.6)
+                        .foregroundColor(.textPrimary)
                         .multilineTextAlignment(.center)
                     Text("ACROSS FIVE RISK DIMENSIONS")
-                        .font(ClavisTypography.clavixMono(10, weight: .bold))
+                        .font(ClavisTypography.mono(10))
                         .tracking(0.8)
-                        .foregroundColor(.clavixInk3)
+                        .foregroundColor(.textSecondary)
                 }
 
                 VStack(spacing: 14) {
                     HStack(spacing: 6) {
                         ForEach(0..<dimensions.count, id: \.self) { i in
                             Text(dimensions[i].code)
-                                .font(ClavisTypography.clavixMono(9, weight: .bold))
+                                .font(ClavisTypography.mono(9))
                                 .tracking(0.4)
-                                .foregroundColor(i == index ? .clavixPaper : .clavixInk3)
+                                .foregroundColor(i == index ? .backgroundPrimary : .textSecondary)
                                 .padding(.horizontal, 9)
                                 .padding(.vertical, 6)
-                                .background(i == index ? Color.clavixInk : Color.clear)
-                                .overlay(Rectangle().stroke(i == index ? Color.clear : Color.clavixRule, lineWidth: 1))
+                                .background(i == index ? Color.textPrimary : Color.clear)
+                                .overlay(Rectangle().stroke(i == index ? Color.clear : Color.border, lineWidth: 1))
                                 .clipShape(RoundedRectangle(cornerRadius: 3))
                         }
                     }
                     Text(dimensions[index].name)
                         .font(ClavisTypography.inter(13, weight: .regular))
-                        .foregroundColor(.clavixInk3)
+                        .foregroundColor(.textSecondary)
                         .frame(height: 18)
                         .id(index)
                         .transition(.opacity)
@@ -778,9 +1056,9 @@ private struct AhaAnalyzingScreen: View {
             }
             Spacer()
             Text("READING THE MARKET ON YOUR BEHALF")
-                .font(ClavisTypography.clavixMono(9, weight: .bold))
+                .font(ClavisTypography.mono(9))
                 .tracking(0.7)
-                .foregroundColor(.clavixInk4)
+                .foregroundColor(.textTertiary)
                 .padding(.bottom, 48)
         }
         .frame(maxWidth: .infinity)
@@ -810,27 +1088,27 @@ private struct AhaRevealScreen: View {
 
                     // Masthead
                     HStack {
-                        Text("CLAVIX").font(ClavisTypography.clavixMono(11, weight: .bold)).tracking(1.6).foregroundColor(.clavixInk)
+                        Text("CLAVIX").font(ClavisTypography.mono(11)).tracking(1.6).foregroundColor(.textPrimary)
                         Spacer()
-                        Text("RISK SNAPSHOT").font(ClavisTypography.clavixMono(10, weight: .bold)).tracking(0.9).foregroundColor(.clavixInk3)
+                        Text("RISK SNAPSHOT").font(ClavisTypography.mono(10)).tracking(0.9).foregroundColor(.textSecondary)
                     }
                     .padding(.bottom, 10)
-                    Rectangle().fill(Color.clavixInk).frame(height: 2)
+                    Rectangle().fill(Color.textPrimary).frame(height: 2)
                         .padding(.bottom, 22)
 
                     // Hero grade
                     HStack(alignment: .center, spacing: 16) {
                         ClavixGradeBadge(reveal.grade, size: 68)
                         VStack(alignment: .leading, spacing: 5) {
-                            Text("Your book grades \(reveal.grade)")
-                                .font(ClavisTypography.clavixSerif(25, weight: .medium))
-                                .tracking(-0.4)
-                                .foregroundColor(.clavixInk)
+                            Text("Your portfolio grades \(reveal.grade).")
+                                .font(ClavisTypography.inter(28, weight: .semibold))
+                                .tracking(-0.6)
+                                .foregroundColor(.textPrimary)
                                 .fixedSize(horizontal: false, vertical: true)
                             Text("\(reveal.positionCount) POSITION\(reveal.positionCount == 1 ? "" : "S") · COMPOSITE \(Int(reveal.score.rounded()))")
-                                .font(ClavisTypography.clavixMono(10, weight: .bold))
+                                .font(ClavisTypography.mono(10))
                                 .tracking(0.6)
-                                .foregroundColor(.clavixInk3)
+                                .foregroundColor(.textSecondary)
                         }
                         Spacer(minLength: 0)
                     }
@@ -843,18 +1121,18 @@ private struct AhaRevealScreen: View {
                             VStack(alignment: .leading, spacing: 12) {
                                 HStack {
                                     Text("BIGGEST BLIND SPOT")
-                                        .font(ClavisTypography.clavixMono(9, weight: .bold)).tracking(0.8).foregroundColor(.clavixWarnInk)
+                                        .font(ClavisTypography.mono(9)).tracking(0.8).foregroundColor(.warn)
                                     Spacer()
                                     Text("AVG \(Int(reveal.blindSpot.average.rounded()))")
-                                        .font(ClavisTypography.clavixMono(10, weight: .bold)).foregroundColor(.clavixWarnInk)
+                                        .font(ClavisTypography.mono(10)).foregroundColor(.warn)
                                 }
                                 Text(reveal.blindSpot.name)
-                                    .font(ClavisTypography.clavixSerif(26, weight: .medium))
-                                    .tracking(-0.4)
-                                    .foregroundColor(.clavixInk)
+                                    .font(ClavisTypography.inter(26, weight: .semibold))
+                                    .tracking(-0.5)
+                                    .foregroundColor(.textPrimary)
                                 Text(blindSpotSentence(reveal))
                                     .font(ClavisTypography.inter(14, weight: .regular))
-                                    .foregroundColor(.clavixInk2)
+                                    .foregroundColor(Color.white.opacity(0.72))
                                     .lineSpacing(2)
                                     .fixedSize(horizontal: false, vertical: true)
                             }
@@ -862,13 +1140,13 @@ private struct AhaRevealScreen: View {
                             .padding(.trailing, 16)
                         }
                     }
-                    .background(Color.clavixWarnSoft)
+                    .background(Color.warnSoft)
                     .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                     .padding(.bottom, 22)
 
                     // Position ledger
                     Text("POSITION LEDGER")
-                        .font(ClavisTypography.clavixMono(9, weight: .bold)).tracking(0.8).foregroundColor(.clavixInk3)
+                        .font(ClavisTypography.mono(9)).tracking(0.8).foregroundColor(.textSecondary)
                         .padding(.bottom, 8)
 
                     VStack(spacing: 0) {
@@ -880,41 +1158,41 @@ private struct AhaRevealScreen: View {
                             AhaLedgerStatRow(label: "YOUR ANCHOR", ticker: t, grade: g, note: "Steadiest name in the book")
                         }
                     }
-                    .background(Color.clavixPaper)
-                    .overlay(Rectangle().stroke(Color.clavixRule, lineWidth: 1))
+                    .background(Color.surface)
+                    .overlay(Rectangle().stroke(Color.border, lineWidth: 1))
                     .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                     .padding(.bottom, 14)
 
                     // Locked teaser
                     HStack(spacing: 10) {
-                        Image(systemName: "lock.fill").font(.system(size: 12, weight: .semibold)).foregroundColor(.clavixAccent)
-                        Text("Start your 14-day free trial to unlock the full five-dimension breakdown for every position.")
-                            .font(ClavisTypography.inter(13, weight: .regular)).foregroundColor(.clavixInk2)
+                        Image(systemName: "lock.fill").font(.system(size: 12, weight: .semibold)).foregroundColor(.textPrimary)
+                        Text("The full five-dimension breakdown is ready for your book. Start your 14-day trial to unlock each position, trend history, and morning monitoring.")
+                            .font(ClavisTypography.inter(13, weight: .regular)).foregroundColor(Color.white.opacity(0.72))
                             .fixedSize(horizontal: false, vertical: true)
                         Spacer(minLength: 0)
                     }
                     .padding(14)
-                    .background(Color.clavixAccentSoft)
+                    .background(Color.surface)
                     .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                     .padding(.bottom, 26)
 
                     AhaPrimaryButton(title: "Unlock my full breakdown", enabled: !viewModel.isCompleting, action: onFinish)
 
-                    Text("Next: start your 14-day free trial to enter Clavix with your full portfolio breakdown unlocked.")
+                    Text("Next, start your 14-day trial and walk into the app with this snapshot fully unlocked.")
                         .font(ClavisTypography.inter(12, weight: .regular))
-                        .foregroundColor(.clavixInk3)
+                        .foregroundColor(.textSecondary)
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, 10)
 
                     if let error = viewModel.errorMessage {
                         Text(error)
-                            .font(ClavisTypography.clavixCaption).foregroundColor(.clavixBadInk)
+                            .font(ClavisTypography.clavixCaption).foregroundColor(.bad)
                             .frame(maxWidth: .infinity, alignment: .center).padding(.top, 10)
                     }
 
                     Text("INFORMATIONAL ONLY · NOT INVESTMENT ADVICE")
-                        .font(ClavisTypography.clavixMono(8, weight: .bold)).tracking(0.6).foregroundColor(.clavixInk4)
+                        .font(ClavisTypography.mono(8)).tracking(0.6).foregroundColor(.textTertiary)
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, 18).padding(.bottom, 36)
                 }
@@ -922,7 +1200,7 @@ private struct AhaRevealScreen: View {
                 .padding(.top, 28)
             }
         } else {
-            ProgressView().tint(.clavixInk)
+            ProgressView().tint(.textPrimary)
         }
     }
 
@@ -950,12 +1228,12 @@ private struct AhaLedgerStatRow: View {
         HStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(label)
-                    .font(ClavisTypography.clavixMono(9, weight: .bold)).tracking(0.6).foregroundColor(.clavixInk3)
+                    .font(ClavisTypography.mono(9)).tracking(0.6).foregroundColor(.textSecondary)
                 HStack(spacing: 8) {
                     Text(ticker)
-                        .font(ClavisTypography.clavixMono(16, weight: .bold)).foregroundColor(.clavixInk)
+                        .font(ClavisTypography.mono(16)).foregroundColor(.textPrimary)
                     Text(note)
-                        .font(ClavisTypography.inter(12, weight: .regular)).foregroundColor(.clavixInk3)
+                        .font(ClavisTypography.inter(12, weight: .regular)).foregroundColor(.textSecondary)
                 }
             }
             Spacer(minLength: 0)

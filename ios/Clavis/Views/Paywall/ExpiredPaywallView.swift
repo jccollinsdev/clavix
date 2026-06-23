@@ -29,25 +29,25 @@ struct SubscriptionRequiredView: View {
     var body: some View {
         PaywallView(triggerContext: triggerContext, showsCloseButton: false)
             .onAppear { reason.clearPendingContextIfNeeded() }
-            .preferredColorScheme(.light)
+            .preferredColorScheme(.dark)
             .safeAreaInset(edge: .bottom) {
                 VStack(spacing: 10) {
                     Text(statusMessage)
                         .font(ClavisTypography.inter(13, weight: .semibold))
-                        .foregroundColor(.clavixInk2)
+                        .foregroundColor(.textPrimary)
 
                     Button("Sign out") {
                         Task { await authViewModel.signOut() }
                     }
                     .font(ClavisTypography.inter(13, weight: .regular))
-                    .foregroundColor(.clavixInk3)
+                    .foregroundColor(.textSecondary)
                     .buttonStyle(.plain)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, ClavixLayout.pad)
                 .padding(.top, 12)
                 .padding(.bottom, 16)
-                .background(Color.clavixPage)
+                .background(Color.backgroundPrimary)
             }
     }
 

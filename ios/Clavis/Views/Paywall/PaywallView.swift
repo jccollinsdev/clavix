@@ -1,6 +1,36 @@
 import SwiftUI
 import StoreKit
 
+struct OnboardingPaywallContext: Codable {
+    let grade: String
+    let score: Int
+    let positionCount: Int
+    let blindSpotName: String
+    let blindSpotAverage: Int
+    let weakestTicker: String?
+
+    private static let storageKey = "clavix.onboardingPaywallContext"
+
+    static func store(from reveal: AhaReveal) {
+        let payload = OnboardingPaywallContext(
+            grade: reveal.grade,
+            score: Int(reveal.score.rounded()),
+            positionCount: reveal.positionCount,
+            blindSpotName: reveal.blindSpot.name,
+            blindSpotAverage: Int(reveal.blindSpot.average.rounded()),
+            weakestTicker: reveal.weakestTicker
+        )
+        if let data = try? JSONEncoder().encode(payload) {
+            UserDefaults.standard.set(data, forKey: storageKey)
+        }
+    }
+
+    static func load() -> OnboardingPaywallContext? {
+        guard let data = UserDefaults.standard.data(forKey: storageKey) else { return nil }
+        return try? JSONDecoder().decode(OnboardingPaywallContext.self, from: data)
+    }
+}
+
 // MARK: - PaywallView
 // Presented whenever a user hits a Pro-gated feature.
 // Requires SubscriptionManager to be in the environment.
@@ -10,6 +40,23 @@ struct PaywallView: View {
 
     let triggerContext: PaywallTrigger
     var showsCloseButton: Bool = true
+
+    private var onboardingContext: OnboardingPaywallContext? {
+        guard triggerContext == .onboardingReveal else { return nil }
+        return OnboardingPaywallContext.load()
+    }
+
+    private var featureList: [PaywallFeature] {
+        if let onboardingContext {
+            return [
+                .init(icon: "chart.bar.doc.horizontal", title: "Full breakdown for all \(onboardingContext.positionCount) positions", description: "Unlock each position’s five-dimension read instead of stopping at the portfolio headline."),
+                .init(icon: "exclamationmark.triangle.fill", title: "\(onboardingContext.blindSpotName) monitoring", description: "Keep tracking the weakest dimension in your book with daily updates and clearer context."),
+                .init(icon: "bell.badge.fill", title: "\(onboardingContext.weakestTicker ?? "Weakest names") alerts", description: "Get notified when the riskiest part of the book deteriorates instead of discovering it late."),
+                .init(icon: "clock.arrow.2.circlepath", title: "90-day score history", description: "See whether this portfolio is stabilizing or drifting into more fragile territory.")
+            ]
+        }
+        return PaywallFeature.all
+    }
 
     var body: some View {
         NavigationStack {
@@ -25,20 +72,20 @@ struct PaywallView: View {
                 }
                 .padding(.bottom, ClavixLayout.bottomPad)
             }
-            .background(Color.clavixPage.ignoresSafeArea())
+            .background(Color.backgroundPrimary.ignoresSafeArea())
             .toolbar {
                 if showsCloseButton {
                     ToolbarItem(placement: .cancellationAction) {
                         Button("Close") { dismiss() }
                             .font(ClavisTypography.clavixMono(11, weight: .semibold))
-                            .foregroundColor(.clavixInk3)
+                            .foregroundColor(.textSecondary)
                     }
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Clavix Pro")
         }
-        .preferredColorScheme(.light)
+        .preferredColorScheme(.dark)
         .onAppear {
             AnalyticsService.track(
                 AnalyticsEventName.paywallViewed,
@@ -58,18 +105,43 @@ struct PaywallView: View {
     // MARK: - Header
 
     private var headerSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            ClavixEyebrow("Clavix Pro")
-            Text("Depth, history,\nand your whole book.")
-                .font(ClavisTypography.clavixSerif(30, weight: .medium))
-                .tracking(-0.5)
-                .foregroundColor(.clavixInk)
+        VStack(alignment: .leading, spacing: 16) {
+            Text(triggerContext == .onboardingReveal ? "YOUR SNAPSHOT IS READY" : "CLAVIX PRO")
+                .font(ClavisTypography.mono(10))
+                .tracking(0.8)
+                .foregroundColor(.textSecondary)
+
+            Text(headerTitle)
+                .font(ClavisTypography.inter(32, weight: .semibold))
+                .tracking(-0.6)
+                .foregroundColor(.textPrimary)
                 .fixedSize(horizontal: false, vertical: true)
-            if let context = triggerContext.message {
-                Text(context)
-                    .font(ClavisTypography.inter(14, weight: .regular))
-                    .foregroundColor(.clavixInk2)
-                    .fixedSize(horizontal: false, vertical: true)
+
+            Text(headerBody)
+                .font(ClavisTypography.inter(15, weight: .regular))
+                .foregroundColor(Color.white.opacity(0.72))
+                .fixedSize(horizontal: false, vertical: true)
+
+            if let onboardingContext {
+                HStack(spacing: 10) {
+                    ClavixGradeBadge(onboardingContext.grade, size: 40)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("\(onboardingContext.positionCount) POSITION\(onboardingContext.positionCount == 1 ? "" : "S") · COMPOSITE \(onboardingContext.score)")
+                            .font(ClavisTypography.mono(10))
+                            .tracking(0.7)
+                            .foregroundColor(.textSecondary)
+                        Text("\(onboardingContext.blindSpotName) is your weakest dimension right now.")
+                            .font(ClavisTypography.inter(14, weight: .medium))
+                            .foregroundColor(.textPrimary)
+                    }
+                }
+                .padding(14)
+                .background(Color.surface)
+                .overlay(
+                    RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
+                        .stroke(Color.border, lineWidth: 1)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
             }
         }
         .padding(.horizontal, ClavixLayout.pad)
@@ -85,12 +157,12 @@ struct PaywallView: View {
                 .padding(.horizontal, ClavixLayout.pad)
                 .padding(.top, 20)
                 .padding(.bottom, 12)
-            ClavixCard(padding: 0) {
+            ClavixCard(padding: 0, fill: .surface) {
                 VStack(spacing: 0) {
-                    ForEach(Array(PaywallFeature.all.enumerated()), id: \.element.title) { index, feature in
+                    ForEach(Array(featureList.enumerated()), id: \.element.title) { index, feature in
                         PaywallFeatureRow(feature: feature)
-                        if index < PaywallFeature.all.count - 1 {
-                            Rectangle().fill(Color.clavixRule).frame(height: 1)
+                        if index < featureList.count - 1 {
+                            Rectangle().fill(Color.border).frame(height: 1)
                         }
                     }
                 }
@@ -131,19 +203,19 @@ struct PaywallView: View {
             ClavixEyebrow("Pricing")
                 .padding(.horizontal, ClavixLayout.pad)
                 .padding(.top, 20)
-            ClavixCard(fill: .clavixAccentSoft) {
+            ClavixCard(fill: .surface) {
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(alignment: .firstTextBaseline, spacing: 4) {
                         Text(subscriptionManager.proDisplayPrice)
-                            .font(ClavisTypography.clavixMono(24, weight: .bold))
-                            .foregroundColor(.clavixAccentInk)
+                            .font(ClavisTypography.mono(24))
+                            .foregroundColor(.textPrimary)
                         Text("/ month")
                             .font(ClavisTypography.inter(14, weight: .regular))
-                            .foregroundColor(.clavixAccentInk)
+                            .foregroundColor(.textPrimary)
                     }
                     Text(trialSubtitle)
                         .font(ClavisTypography.inter(12, weight: .regular))
-                        .foregroundColor(.clavixAccentInk)
+                        .foregroundColor(Color.white.opacity(0.72))
                 }
             }
             .padding(.horizontal, ClavixLayout.pad)
@@ -155,23 +227,22 @@ struct PaywallView: View {
 
     private var ctaSection: some View {
         VStack(spacing: 12) {
-            ClavisPrimaryButton(title: ctaTitle) {
+            PaywallPrimaryButton(title: ctaTitle, isLoading: subscriptionManager.isLoading, isEnabled: subscriptionManager.proProduct != nil) {
                 Task { await subscriptionManager.purchase() }
             }
-            .disabled(subscriptionManager.isLoading || subscriptionManager.proProduct == nil)
 
             Button("Restore purchases") {
                 Task { await subscriptionManager.restorePurchases() }
             }
             .font(ClavisTypography.inter(13, weight: .regular))
-            .foregroundColor(.clavixInk3)
+            .foregroundColor(.textSecondary)
             .buttonStyle(.plain)
             .disabled(subscriptionManager.isLoading)
 
             if subscriptionManager.proProduct == nil && !subscriptionManager.isLoading {
                 Text("Subscription product is loading. Please try again in a moment.")
                     .font(ClavisTypography.inter(12, weight: .regular))
-                    .foregroundColor(.clavixWarn)
+                    .foregroundColor(.warn)
                     .multilineTextAlignment(.center)
             }
         }
@@ -187,19 +258,33 @@ struct PaywallView: View {
                  ? "No charge for 14 days. Then \(subscriptionManager.proDisplayPrice)/month, automatically renewing unless cancelled at least 24 hours before the trial or current billing period ends. Manage or cancel in Settings > Apple ID > Subscriptions. Clavix is informational only — not investment advice."
                  : "Payment is charged to your Apple ID at purchase and renews at \(subscriptionManager.proDisplayPrice)/month unless cancelled at least 24 hours before the current billing period ends. Manage or cancel in Settings > Apple ID > Subscriptions. Clavix is informational only — not investment advice.")
                 .font(ClavisTypography.inter(11, weight: .regular))
-                .foregroundColor(.clavixInk4)
+                .foregroundColor(.textTertiary)
                 .multilineTextAlignment(.center)
             HStack(spacing: 20) {
                 Link("Terms of Use", destination: URL(string: "https://getclavix.com/terms")!)
                     .font(ClavisTypography.inter(11, weight: .medium))
-                    .foregroundColor(.clavixInk3)
+                    .foregroundColor(.textSecondary)
                 Link("Privacy Policy", destination: URL(string: "https://getclavix.com/privacy")!)
                     .font(ClavisTypography.inter(11, weight: .medium))
-                    .foregroundColor(.clavixInk3)
+                    .foregroundColor(.textSecondary)
             }
         }
         .padding(.horizontal, ClavixLayout.pad)
         .padding(.bottom, 12)
+    }
+
+    private var headerTitle: String {
+        if let onboardingContext {
+            return "Your \(onboardingContext.grade) book has more depth waiting behind it."
+        }
+        return "Depth, history,\nand your whole book."
+    }
+
+    private var headerBody: String {
+        if onboardingContext != nil {
+            return "You already saw the headline read. Start your 14-day trial to unlock the full five-dimension breakdown, keep this portfolio live, and let Clavix monitor what actually looks vulnerable."
+        }
+        return triggerContext.message ?? "Clavix Pro unlocks the full portfolio view, historical context, and the deeper daily brief."
     }
 }
 
@@ -275,21 +360,54 @@ private struct PaywallFeatureRow: View {
         HStack(alignment: .top, spacing: 14) {
             Image(systemName: feature.icon)
                 .font(.system(size: 16, weight: .regular))
-                .foregroundColor(.clavixAccent)
+                .foregroundColor(.textPrimary)
                 .frame(width: 22)
                 .padding(.top, 1)
             VStack(alignment: .leading, spacing: 2) {
                 Text(feature.title)
                     .font(ClavisTypography.inter(13, weight: .semibold))
-                    .foregroundColor(.clavixInk)
+                    .foregroundColor(.textPrimary)
                 Text(feature.description)
                     .font(ClavisTypography.inter(12, weight: .regular))
-                    .foregroundColor(.clavixInk3)
+                    .foregroundColor(Color.white.opacity(0.72))
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer()
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)
+    }
+}
+
+private struct PaywallPrimaryButton: View {
+    let title: String
+    var isLoading: Bool = false
+    var isEnabled: Bool = true
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            ZStack {
+                RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous)
+                    .fill(isEnabled ? Color.textPrimary : Color.white.opacity(0.04))
+                    .frame(height: 50)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous)
+                            .stroke(isEnabled ? Color.clear : Color.white.opacity(0.12), lineWidth: 1)
+                    )
+
+                if isLoading {
+                    ProgressView()
+                        .tint(.backgroundPrimary)
+                } else {
+                    Text(title)
+                        .font(ClavisTypography.inter(15, weight: .semibold))
+                        .foregroundColor(isEnabled ? .backgroundPrimary : Color.white.opacity(0.32))
+                }
+            }
+            .opacity(isEnabled ? 1 : 0.7)
+        }
+        .buttonStyle(.plain)
+        .disabled(!isEnabled || isLoading)
     }
 }
