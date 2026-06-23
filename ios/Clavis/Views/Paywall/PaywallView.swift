@@ -40,6 +40,7 @@ struct PaywallView: View {
 
     let triggerContext: PaywallTrigger
     var showsCloseButton: Bool = true
+    var onEntitlementActivated: (() -> Void)? = nil
 
     private var onboardingContext: OnboardingPaywallContext? {
         guard triggerContext == .onboardingReveal else { return nil }
@@ -228,11 +229,19 @@ struct PaywallView: View {
     private var ctaSection: some View {
         VStack(spacing: 12) {
             PaywallPrimaryButton(title: ctaTitle, isLoading: subscriptionManager.isLoading, isEnabled: subscriptionManager.proProduct != nil) {
-                Task { await subscriptionManager.purchase() }
+                Task {
+                    if await subscriptionManager.purchase() {
+                        onEntitlementActivated?()
+                    }
+                }
             }
 
             Button("Restore purchases") {
-                Task { await subscriptionManager.restorePurchases() }
+                Task {
+                    if await subscriptionManager.restorePurchases() {
+                        onEntitlementActivated?()
+                    }
+                }
             }
             .font(ClavisTypography.inter(13, weight: .regular))
             .foregroundColor(.textSecondary)

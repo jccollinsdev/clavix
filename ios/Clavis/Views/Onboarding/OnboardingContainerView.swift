@@ -3,10 +3,12 @@ import UniformTypeIdentifiers
 
 struct OnboardingContainerView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
+    @EnvironmentObject private var subscriptionManager: SubscriptionManager
     @StateObject private var viewModel = OnboardingViewModel()
     @StateObject private var brokerageViewModel = BrokerageViewModel()
     @State private var showUpgradeSheet = false
     @State private var showCSVSheet = false
+    @State private var showOnboardingPaywall = false
 
     var body: some View {
         ZStack {
@@ -17,7 +19,7 @@ struct OnboardingContainerView: View {
                 case .welcome:
                     OnboardingWelcomeSetupView(
                         viewModel: viewModel,
-                        isFreeTier: !SubscriptionManager.shared.isPro,
+                        isFreeTier: !subscriptionManager.isPro,
                         onPrimary: {
                             Task {
                                 if await viewModel.continueToAnalysis() {
@@ -29,7 +31,7 @@ struct OnboardingContainerView: View {
                 case .addPortfolio:
                     OnboardingPortfolioAhaView(
                         viewModel: viewModel,
-                        isFreeTier: !SubscriptionManager.shared.isPro,
+                        isFreeTier: !subscriptionManager.isPro,
                         onBack: { viewModel.previousPage() },
                         onFinish: completeAfterAha,
                         onSkip: completeAndOpenHoldings
@@ -58,7 +60,14 @@ struct OnboardingContainerView: View {
         }
         .sheet(isPresented: $showUpgradeSheet) {
             PaywallView(triggerContext: .holdingLimit)
-                .environmentObject(SubscriptionManager.shared)
+                .environmentObject(subscriptionManager)
+        }
+        .sheet(isPresented: $showOnboardingPaywall) {
+            PaywallView(
+                triggerContext: .onboardingReveal,
+                onEntitlementActivated: finishOnboardingAfterEntitlement
+            )
+                .environmentObject(subscriptionManager)
         }
         .onReceive(NotificationCenter.default.publisher(for: .snapTradeCallbackReceived)) { notification in
             guard let url = notification.object as? URL else { return }
@@ -93,12 +102,19 @@ struct OnboardingContainerView: View {
     /// analyzing phase, so route straight to the populated Holdings tab without
     /// re-opening the add sheet.
     private func completeAfterAha() {
-        if !SubscriptionManager.shared.isPro {
+        if !subscriptionManager.isPro {
             if let reveal = viewModel.reveal {
                 OnboardingPaywallContext.store(from: reveal)
             }
-            SubscriptionRequiredReason.markPendingOnboardingReveal()
+            showOnboardingPaywall = true
+            return
         }
+
+        finishOnboardingAfterEntitlement()
+    }
+
+    private func finishOnboardingAfterEntitlement() {
+        showOnboardingPaywall = false
         viewModel.completeOnboarding {
             authViewModel.markOnboardingComplete()
             UserDefaults.standard.set(1, forKey: "clavix.selectedTab")
@@ -1063,14 +1079,6 @@ private struct AhaRevealScreen: View {
             GeometryReader { proxy in
                 ScrollView(showsIndicators: false) {
                     VStack(alignment: .leading, spacing: 0) {
-                        HStack(spacing: 8) {
-                            ClavixGradeBadge(reveal.grade, size: 28)
-                            Text("\(reveal.positionCount) position\(reveal.positionCount == 1 ? "" : "s") analyzed")
-                                .font(ClavisTypography.inter(13, weight: .medium))
-                                .foregroundColor(.textSecondary)
-                        }
-                        .padding(.bottom, 16)
-
                         Text("Your portfolio has one clear weak spot.")
                             .font(ClavisTypography.inter(30, weight: .semibold))
                             .tracking(-0.55)
@@ -1166,19 +1174,18 @@ private struct AhaSignalComparison: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack(alignment: .firstTextBaseline) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Weakest signal")
-                        .font(ClavisTypography.inter(13, weight: .medium))
-                        .foregroundColor(.warn)
-                    Text(reveal.blindSpot.name)
-                        .font(ClavisTypography.inter(24, weight: .semibold))
-                        .tracking(-0.35)
-                        .foregroundColor(.textPrimary)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.82)
-                }
-                Spacer(minLength: 12)
+            VStack(alignment: .leading, spacing: 8) {
+                Text(reveal.blindSpot.name)
+                    .font(ClavisTypography.inter(24, weight: .semibold))
+                    .tracking(-0.35)
+                    .foregroundColor(.textPrimary)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.82)
+
+                Text("Your score")
+                    .font(ClavisTypography.inter(13, weight: .medium))
+                    .foregroundColor(.warn)
+
                 HStack(alignment: .firstTextBaseline, spacing: 2) {
                     Text("\(Int(reveal.blindSpot.average.rounded()))")
                         .font(ClavisTypography.mono(34))

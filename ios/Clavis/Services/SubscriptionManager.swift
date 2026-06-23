@@ -56,21 +56,22 @@ final class SubscriptionManager: ObservableObject {
         proProduct?.displayPrice ?? "$19.99"
     }
 
-    func purchase() async {
+    @discardableResult
+    func purchase() async -> Bool {
         guard let product = proProduct else {
             purchaseError = "Subscription product not available right now. Please try again."
-            return
+            return false
         }
         isLoading = true
         purchaseError = nil
+        defer { isLoading = false }
         do {
             guard
                 let userID = await SupabaseAuthService.shared.getUserId(),
                 let appAccountToken = UUID(uuidString: userID)
             else {
                 purchaseError = "Please sign in again before starting your subscription."
-                isLoading = false
-                return
+                return false
             }
             await APIService.shared.recordAnalyticsEvent(
                 name: AnalyticsEventName.purchaseTapped,
@@ -91,34 +92,48 @@ final class SubscriptionManager: ObservableObject {
                         name: AnalyticsEventName.purchaseSuccess,
                         properties: ["product_id": transaction.productID]
                     )
+                    return true
                 } else {
                     purchaseError = "Your trial started, but account access is still syncing. Reopen the app in a moment."
+                    return false
                 }
             case .userCancelled:
-                break
+                return false
             case .pending:
                 purchaseError = "Purchase is pending approval. Check back soon."
+                return false
             @unknown default:
-                break
+                return false
             }
         } catch {
             purchaseError = "Purchase failed. Please try again."
+            return false
         }
-        isLoading = false
     }
 
-    func restorePurchases() async {
+    @discardableResult
+    func restorePurchases() async -> Bool {
         isLoading = true
         purchaseError = nil
+        defer { isLoading = false }
         do {
             await APIService.shared.recordAnalyticsEvent(name: AnalyticsEventName.restoreTapped)
             try await AppStore.sync()
             await refresh()
-            await syncCurrentStoreKitEntitlementToBackend()
+            let backendSynced = await syncCurrentStoreKitEntitlementToBackend()
+            guard isPro else {
+                purchaseError = "No active Clavix subscription was found for this Apple ID."
+                return false
+            }
+            guard backendSynced else {
+                purchaseError = "Your subscription was restored, but account access is still syncing. Please try again in a moment."
+                return false
+            }
+            return true
         } catch {
             purchaseError = "Restore failed. Please try again."
+            return false
         }
-        isLoading = false
     }
 
     func refresh() async {
@@ -221,15 +236,15 @@ final class SubscriptionManager: ObservableObject {
         }
     }
 
-    private func syncCurrentStoreKitEntitlementToBackend() async {
+    private func syncCurrentStoreKitEntitlementToBackend() async -> Bool {
         for await result in Transaction.currentEntitlements {
             guard let transaction = try? checkVerified(result) else { continue }
             guard ClavixProduct.all.contains(transaction.productID) else { continue }
-            _ = await syncTierToBackend(
+            return await syncTierToBackend(
                 signedTransaction: result.jwsRepresentation
             )
-            return
         }
+        return false
     }
 
     nonisolated private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
