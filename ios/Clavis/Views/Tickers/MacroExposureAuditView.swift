@@ -32,8 +32,8 @@ struct MacroExposureAuditView: View {
                         ForEach(factors, id: \.self) { factor in
                             AuditValueRow(
                                 label: factor.uppercased(),
-                                value: format(dimension?.coefficients?[factor], places: 4),
-                                status: format(dimension?.currentFactorLevels?[factor], places: 2)
+                                value: format(dimension?.coefficients?[factor] ?? nil, places: 4),
+                                status: format(dimension?.currentFactorLevels?[factor] ?? nil, places: 2)
                             )
                         }
                     }

@@ -3,6 +3,7 @@ import SwiftUI
 struct FinancialHealthAuditView: View {
     let ticker: String
     let methodology: MethodologyResponse?
+    var isETF: Bool = false
 
     private var dimension: MethodologyFinancialHealth? { methodology?.dimensions.financialHealth }
     private var isReferenceMode: Bool { methodology == nil }
@@ -12,15 +13,17 @@ struct FinancialHealthAuditView: View {
             VStack(alignment: .leading, spacing: ClavisTheme.sectionSpacing) {
                 if isReferenceMode {
                     AuditReferenceContextView(
-                        dimensionName: "Financial Health",
-                        message: "Open a ticker from Search, Holdings, Alerts, or the Morning Report to inspect live balance-sheet and cash-flow inputs for that company."
+                        dimensionName: isETF ? "Holdings Quality" : "Financial Health",
+                        message: isETF
+                            ? "Open a fund to inspect the weighted risk quality of its underlying holdings."
+                            : "Open a ticker from Search, Holdings, Alerts, or the Morning Report to inspect live balance-sheet and cash-flow inputs for that company."
                     )
                 } else {
                     AuditHeaderCard(
-                        title: "Financial Health",
+                        title: isETF ? "Holdings Quality" : "Financial Health",
                         ticker: ticker,
                         score: dimension?.score,
-                        subtitle: "Source: Finnhub, updated \(AuditSupport.formattedAsOfDate(dimension?.asOfDate))"
+                        subtitle: "Source: \(isETF ? "ETF holdings" : "Finnhub"), updated \(AuditSupport.formattedAsOfDate(dimension?.asOfDate))"
                     )
 
                     if dimension?.limitedData == true {
@@ -36,10 +39,46 @@ struct FinancialHealthAuditView: View {
                         )
                     }
 
+                    if isETF {
+                        AuditSectionCard(title: "Holdings Coverage") {
+                            AuditValueRow(
+                                label: "Holdings scored",
+                                value: "\(dimension?.holdingsScoredCount ?? 0) of \(dimension?.holdingsCount ?? 0)",
+                                status: "Coverage"
+                            )
+                            AuditValueRow(
+                                label: "Weight covered",
+                                value: dimension?.holdingsWeightCoveredPct.map { String(format: "%.1f%%", $0) } ?? "Unavailable",
+                                status: "Coverage"
+                            )
+                            AuditValueRow(
+                                label: "Top holding",
+                                value: dimension?.topHoldingWeightPct.map { String(format: "%.1f%%", $0) } ?? "Unavailable",
+                                status: "Weight"
+                            )
+                            AuditValueRow(
+                                label: "Top 10 holdings",
+                                value: dimension?.top10WeightPct.map { String(format: "%.1f%%", $0) } ?? "Unavailable",
+                                status: "Weight"
+                            )
+                        }
+
+                        let holdings = dimension?.holdings ?? []
+                        if !holdings.isEmpty {
+                            AuditSectionCard(title: "Top Holdings") {
+                                ForEach(holdings) { holding in
+                                    AuditValueRow(
+                                        label: holding.ticker,
+                                        value: holding.score.map { String(format: "%.0f", $0) } ?? "Unscored",
+                                        status: holding.weightPct.map { String(format: "%.1f%%", $0) } ?? "—"
+                                    )
+                                }
+                            }
+                        }
+                    } else {
                     AuditSectionCard(title: "Ratio Table") {
                         AuditValueRow(label: "D/E", value: decimal(dimension?.debtToEquity), status: status(for: dimension?.debtToEquity, lowIsGood: true))
                         AuditValueRow(label: "FCF Margin", value: percent(dimension?.fcfMargin), status: status(for: dimension?.fcfMargin, lowIsGood: false))
-                        AuditValueRow(label: "Interest Coverage", value: decimal(dimension?.interestCoverage), status: status(for: dimension?.interestCoverage, lowIsGood: false))
                         AuditValueRow(label: "Current Ratio", value: decimal(dimension?.currentRatio), status: status(for: dimension?.currentRatio, lowIsGood: false))
                         AuditValueRow(label: "Revenue Growth Trend", value: dimension?.revenueGrowthTrend?.humanizedTitleCasedDisplayText ?? "Unavailable", status: "Trend")
                         AuditValueRow(label: "Profitability Trend", value: dimension?.profitabilityTrend?.humanizedTitleCasedDisplayText ?? "Unavailable", status: "Trend")
@@ -72,10 +111,13 @@ struct FinancialHealthAuditView: View {
                                 .foregroundColor(.clavixInk)
                         }
                     }
+                    }
                 }
 
                 AuditSectionCard(title: "Methodology") {
-                    Text("Financial Health measures the structural strength of the company. It uses balance-sheet and cash-flow inputs such as debt-to-equity ratio, free cash flow margin, interest coverage, current ratio, revenue growth trend, and profitability trend.")
+                    Text(isETF
+                         ? "Holdings Quality is the constituent-weighted Clavix score of the fund's latest available top holdings. It does not use company balance-sheet ratios for the ETF shell."
+                         : "Financial Health measures the structural strength of the company. It uses balance-sheet and cash-flow inputs such as debt-to-equity ratio, free cash flow margin, current ratio, revenue growth trend, and profitability trend.")
                         .font(ClavisTypography.body)
                         .foregroundColor(.clavixInk3)
                         .fixedSize(horizontal: false, vertical: true)
@@ -85,7 +127,7 @@ struct FinancialHealthAuditView: View {
             .padding(.vertical, ClavisTheme.sectionSpacing)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .navigationTitle("Financial Health")
+        .navigationTitle(isETF ? "Holdings Quality" : "Financial Health")
         .navigationBarTitleDisplayMode(.inline)
     }
 

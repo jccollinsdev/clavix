@@ -3,6 +3,7 @@ import SwiftUI
 struct SectorExposureAuditView: View {
     let ticker: String
     let methodology: MethodologyResponse?
+    var isETF: Bool = false
 
     private var dimension: MethodologySectorExposure? { methodology?.dimensions.sectorExposure }
     private var isReferenceMode: Bool { methodology == nil }
@@ -12,18 +13,27 @@ struct SectorExposureAuditView: View {
             VStack(alignment: .leading, spacing: ClavisTheme.sectionSpacing) {
                 if isReferenceMode {
                     AuditReferenceContextView(
-                        dimensionName: "Sector Exposure",
-                        message: "Open a ticker from Search, Holdings, Alerts, or the Morning Report to inspect live sector beta, momentum, breadth, and narrative context for that stock."
+                        dimensionName: isETF ? "Concentration" : "Sector Exposure",
+                        message: isETF
+                            ? "Open a fund to inspect top-holding concentration from its latest constituent file."
+                            : "Open a ticker from Search, Holdings, Alerts, or the Morning Report to inspect live sector beta, momentum, breadth, and narrative context for that stock."
                     )
                 } else {
                     AuditHeaderCard(
-                        title: "Sector Exposure",
+                        title: isETF ? "Concentration" : "Sector Exposure",
                         ticker: ticker,
                         score: dimension?.score,
-                        subtitle: "\(dimension?.sector ?? "Sector unavailable") · \(dimension?.sectorEtf ?? "ETF unavailable")"
+                        subtitle: isETF
+                            ? "\(dimension?.holdingsCount ?? 0) reported holdings"
+                            : "\(dimension?.sector ?? "Sector unavailable") · \(dimension?.sectorEtf ?? "ETF unavailable")"
                     )
 
                     AuditSectionCard(title: "Metrics") {
+                        if isETF {
+                            AuditValueRow(label: "Top holding", value: plainPercent(dimension?.topHoldingWeightPct), status: "Weight")
+                            AuditValueRow(label: "Top 10 holdings", value: plainPercent(dimension?.top10WeightPct), status: "Weight")
+                            AuditValueRow(label: "Concentration score", value: format(dimension?.concentrationScore), status: "Score")
+                        } else {
                         AuditValueRow(label: "Sector Beta", value: format(dimension?.sectorBeta), status: "Metric")
                         AuditValueRow(label: "Sector Momentum (30d)", value: percent(dimension?.sectorMomentum30d), status: "Metric")
                         AuditValueRow(label: "Sector Breadth", value: percent(dimension?.sectorBreadth), status: "Metric")
@@ -31,18 +41,23 @@ struct SectorExposureAuditView: View {
                         Text("Sparklines will appear once historical sector metric series are returned.")
                             .font(ClavisTypography.footnote)
                             .foregroundColor(.clavixInk3)
+                        }
                     }
 
+                    if !isETF {
                     AuditSectionCard(title: "Narrative") {
                         Text(dimension?.narrative ?? "Sector narrative unavailable.")
                             .font(ClavisTypography.body)
                             .foregroundColor(.clavixInk3)
                             .fixedSize(horizontal: false, vertical: true)
                     }
+                    }
                 }
 
                 AuditSectionCard(title: "Methodology") {
-                    Text("Sector Exposure measures how vulnerable a ticker is to its sector's current state. It considers sector beta, sector momentum versus the S&P 500, sector breadth, and sector-specific news.")
+                    Text(isETF
+                         ? "Concentration measures how much of the fund is controlled by its largest reported holdings. Lower concentration generally improves diversification resilience."
+                         : "Sector Exposure measures how vulnerable a ticker is to its sector's current state. It considers sector beta, sector momentum versus the S&P 500, sector breadth, and sector-specific news.")
                         .font(ClavisTypography.body)
                         .foregroundColor(.clavixInk3)
                         .fixedSize(horizontal: false, vertical: true)
@@ -52,7 +67,7 @@ struct SectorExposureAuditView: View {
             .padding(.vertical, ClavisTheme.sectionSpacing)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .navigationTitle("Sector Exposure")
+        .navigationTitle(isETF ? "Concentration" : "Sector Exposure")
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -64,5 +79,10 @@ struct SectorExposureAuditView: View {
     private func percent(_ value: Double?) -> String {
         guard let value else { return "—" }
         return String(format: "%.1f%%", value * 100)
+    }
+
+    private func plainPercent(_ value: Double?) -> String {
+        guard let value else { return "—" }
+        return String(format: "%.1f%%", value)
     }
 }

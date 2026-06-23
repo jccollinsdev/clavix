@@ -96,8 +96,10 @@ struct AlertsView: View {
     }
 
     private var alertsEyebrow: String {
-        let unread = viewModel.unreadCount
-        let total = viewModel.alerts.count
+        let unread = displayAlerts.filter {
+            $0.isUnread(seenAt: viewModel.lastSeenAtPublic)
+        }.count
+        let total = displayAlerts.count
         if total == 0 { return "Alert center" }
         return "\(unread) unread · \(total) in 7D"
     }
@@ -109,7 +111,7 @@ struct AlertsView: View {
         if viewModel.alerts.isEmpty {
             return "No captured alerts yet"
         }
-        let count = viewModel.alerts.count
+        let count = displayAlerts.count
         return "\(count) alert\(count == 1 ? "" : "s") ready for review"
     }
 
@@ -151,6 +153,19 @@ struct AlertsView: View {
         let alerts: [Alert]
     }
 
+    private var displayAlerts: [Alert] {
+        var seen = Set<String>()
+        return viewModel.alerts.filter { alert in
+            let key = [
+                alert.type.rawValue,
+                alert.positionTicker ?? "",
+                alert.message.sanitizedDisplayText,
+                alert.newGrade ?? "",
+            ].joined(separator: "|")
+            return seen.insert(key).inserted
+        }
+    }
+
     private var dayGroupedAlerts: [DayGroup] {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE MMM d"
@@ -159,7 +174,7 @@ struct AlertsView: View {
         var groups: [(key: String, value: [Alert])] = []
         var lookup: [String: Int] = [:]
 
-        for alert in viewModel.alerts {
+        for alert in displayAlerts {
             let label: String
             if calendar.isDateInToday(alert.createdAt) {
                 label = "Today · \(formatter.string(from: alert.createdAt))"

@@ -47,7 +47,6 @@ struct ContentView: View {
             guard let url = notification.object as? URL else { return }
             Task { await authViewModel.handleAuthDeepLink(url: url) }
         }
-        .preferredColorScheme(.light)
     }
 
     @ViewBuilder
@@ -64,7 +63,7 @@ struct ContentView: View {
                 case .unknown:
                     LoadingView()
                 case .notSubscribed:
-                    SubscriptionRequiredView(reason: .notSubscribed)
+                    SubscriptionRequiredView(reason: .resolveInitialNotSubscribedReason())
                 case .expired:
                     SubscriptionRequiredView(reason: .expired)
                 case .trial, .active:
@@ -123,8 +122,10 @@ struct LoadingView: View {
             Color.clavixPage.ignoresSafeArea()
             VStack(spacing: 24) {
                 Image("clavix_logo")
+                    .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
+                    .foregroundColor(.white)
                     .frame(width: 44, height: 44)
                 ProgressView()
                     .tint(.clavixInk3)

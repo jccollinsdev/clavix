@@ -69,77 +69,77 @@ enum ClavisTypography {
 // MARK: - Color Palette
 
 extension Color {
-    // MARK: V2 dark surfaces
-    static let backgroundPrimary = Color(hex: "#0B0D12")
-    static let surface           = Color(hex: "#14171E")
-    static let surfaceElevated   = Color(hex: "#1B1F28")
-    static let surfaceMuted      = Color(hex: "#101319")
-    static let border            = Color(hex: "#242934")
-    static let borderSubtleTone  = Color(hex: "#1E232D")
+    // MARK: Instrument dark surfaces (2026-06-22 redesign)
+    static let backgroundPrimary = clavixAdaptive(light: "#F0EADB", dark: "#0E0F12")
+    static let surface           = clavixAdaptive(light: "#F3ECE0", dark: "#16181D")
+    static let surfaceElevated   = clavixAdaptive(light: "#E8E0CC", dark: "#1E2127")
+    static let surfaceMuted      = clavixAdaptive(light: "#EEE7D8", dark: "#121317")
+    static let border            = clavixAdaptive(light: "#D6CEBD", dark: "#2A2C31")
+    static let borderSubtleTone  = clavixAdaptive(light: "#E6DFCF", dark: "#202227")
 
-    // MARK: V2 typography colors
-    static let textPrimary   = Color(hex: "#EEF1F5")
-    static let textSecondary = Color(hex: "#8A93A3")
-    static let textTertiary  = Color(hex: "#5A6374")
+    // MARK: Typography colors
+    static let textPrimary   = clavixAdaptive(light: "#1A1814", dark: "#E8E6DF")
+    static let textSecondary = clavixAdaptive(light: "#777777", dark: "#9A9C98")
+    static let textTertiary  = clavixAdaptive(light: "#999999", dark: "#5C6068")
 
     // MARK: Wireframe token aliases
     static let ink        = textPrimary
-    static let ink2       = Color(hex: "#CDD3DD")
+    static let ink2       = clavixAdaptive(light: "#3A342B", dark: "#BFC0BC")
     static let ink3       = textSecondary
-    static let ink4       = Color(hex: "#9AA1AB")
+    static let ink4       = clavixAdaptive(light: "#999999", dark: "#5C6068")
     static let rule       = border
     static let rule2      = borderSubtleTone
     static let paper      = surface
     static let paper2     = surfaceElevated
 
-    // MARK: V2 accent + semantic states
-    static let accentBurnt = Color(hex: "#C2410C")
-    static let accentSoft  = Color(hex: "#3D241A")
-    static let accentInk   = Color(hex: "#F7E5D8")
-    static let good        = Color(hex: "#1F6F43")
-    static let goodSoft    = Color(hex: "#173124")
-    static let warn        = Color(hex: "#A35A00")
-    static let warnSoft    = Color(hex: "#382714")
-    static let bad         = Color(hex: "#9A1D1D")
-    static let badSoft     = Color(hex: "#341719")
-    static let brandCream  = accentBurnt
+    // MARK: Accent (cream interactive) + semantic states
+    static let accentBurnt = Color(hex: "#E8E6DF")
+    static let accentSoft  = Color(hex: "#1E2127")
+    static let accentInk   = Color(hex: "#E8E6DF")
+    static let good        = Color(hex: "#3FB984")
+    static let goodSoft    = Color(hex: "#10342B")
+    static let warn        = Color(hex: "#E0A33E")
+    static let warnSoft    = Color(hex: "#3A2B12")
+    static let bad         = Color(hex: "#E2604A")
+    static let badSoft     = Color(hex: "#3A1A12")
+    static let brandCream  = Color(hex: "#E8E6DF")
 
-    // MARK: Informational (non-risk blue — never near score displays)
-    static let informational = Color(hex: "#3B82C4")
+    // MARK: Informational (non-risk, muted blue — never near score displays)
+    static let informational = Color(hex: "#6E93B0")
 
-    // MARK: Risk Scale — 10-grade bond-rating closed set
-    static let gradeCAAA = Color(hex: "#0C5E3A")  // Deep green  — AAA
-    static let gradeCAA  = Color(hex: "#1D9E75")  // Green       — AA
-    static let gradeCA   = Color(hex: "#45B88E")  // Light green — A
-    static let gradeCBBB = Color(hex: "#3B8C8C")  // Teal        — BBB
-    static let gradeCBB  = Color(hex: "#B39229")  // Amber       — BB
-    static let gradeCB   = Color(hex: "#BA7517")  // Dark amber  — B
-    static let gradeCCCC = Color(hex: "#D86A20")  // Orange      — CCC
-    static let gradeCCC  = Color(hex: "#D85A30")  // Deep orange — CC
-    static let gradeCC   = Color(hex: "#C83B30")  // Red         — C
-    static let gradeCF   = Color(hex: "#A02020")  // Deep red    — F
+    // MARK: Risk Scale — 10-grade ramp on the instrument palette (green → grey → amber → coral)
+    static let gradeCAAA = Color(hex: "#2FB783")  // AAA
+    static let gradeCAA  = Color(hex: "#3FB984")  // AA
+    static let gradeCA   = Color(hex: "#57C293")  // A
+    static let gradeCBBB = Color(hex: "#D2A53B")  // BBB (investment-grade amber)
+    static let gradeCBB  = Color(hex: "#E1843B")  // BB (watch orange)
+    static let gradeCB   = Color(hex: "#DE6B38")  // B
+    static let gradeCCCC = Color(hex: "#E2604A")  // CCC (alarm coral)
+    static let gradeCCC  = Color(hex: "#DE5742")  // CC
+    static let gradeCC   = Color(hex: "#D24B38")  // C
+    static let gradeCF   = Color(hex: "#C03A30")  // F
 
-    // MARK: Grade Tag Surfaces — 10-grade background/text pairs
-    static let gradeAAABg   = Color(hex: "#D4EFE3")
-    static let gradeAAAText = Color(hex: "#085041")
-    static let gradeAABg    = Color(hex: "#DCF5E6")
-    static let gradeAAText  = Color(hex: "#085041")
-    static let gradeABg     = Color(hex: "#E1F5EE")
-    static let gradeAText   = Color(hex: "#126B5C")
-    static let gradeBBBBg   = Color(hex: "#DFF0EF")
-    static let gradeBBBText = Color(hex: "#10555A")
-    static let gradeBBBg    = Color(hex: "#FCF2E2")
-    static let gradeBBText  = Color(hex: "#634B10")
-    static let gradeBBg     = Color(hex: "#FAEEDA")
-    static let gradeBText   = Color(hex: "#633806")
-    static let gradeCCCBg   = Color(hex: "#FDEBDE")
-    static let gradeCCCText = Color(hex: "#783A14")
-    static let gradeCCBg    = Color(hex: "#FAECE7")
-    static let gradeCCText  = Color(hex: "#712B13")
-    static let gradeCBg     = Color(hex: "#FCEBEB")
-    static let gradeCText   = Color(hex: "#791F1F")
-    static let gradeFBg     = Color(hex: "#FADEDE")
-    static let gradeFText   = Color(hex: "#6B1515")
+    // MARK: Grade Tag Surfaces — dark tint fill + bright text per band
+    static let gradeAAABg   = gradeCAAA.opacity(0.16)
+    static let gradeAAAText = gradeCAAA
+    static let gradeAABg    = gradeCAA.opacity(0.16)
+    static let gradeAAText  = gradeCAA
+    static let gradeABg     = gradeCA.opacity(0.16)
+    static let gradeAText   = gradeCA
+    static let gradeBBBBg   = gradeCBBB.opacity(0.18)
+    static let gradeBBBText = gradeCBBB
+    static let gradeBBBg    = gradeCBB.opacity(0.16)
+    static let gradeBBText  = gradeCBB
+    static let gradeBBg     = gradeCB.opacity(0.16)
+    static let gradeBText   = gradeCB
+    static let gradeCCCBg   = gradeCCCC.opacity(0.16)
+    static let gradeCCCText = gradeCCCC
+    static let gradeCCBg    = gradeCCC.opacity(0.16)
+    static let gradeCCText  = gradeCCC
+    static let gradeCBg     = gradeCC.opacity(0.16)
+    static let gradeCText   = gradeCC
+    static let gradeFBg     = gradeCF.opacity(0.16)
+    static let gradeFText   = gradeCF
 
     // MARK: Backward-compat aliases — legacy 5-state names
     static let riskA = gradeCAA   // old A → AA green
@@ -607,8 +607,10 @@ struct RiskBar: View {
 struct ClavisBrandMark: View {
     var body: some View {
         Image("AppLogo")
+            .renderingMode(.template)
             .resizable()
             .scaledToFit()
+            .foregroundColor(.clavixInk)
             .accessibilityHidden(true)
     }
 }

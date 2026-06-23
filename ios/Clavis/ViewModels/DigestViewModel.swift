@@ -43,6 +43,13 @@ final class DigestViewModel: ObservableObject {
         async let todayTask = try? await api.fetchToday()
 
         do {
+            // Apply the small Today envelope as soon as it arrives. Digest history
+            // and report generation are slower and must not hold the dashboard on
+            // stale cached dimensions.
+            if let freshToday = await todayTask {
+                self.today = freshToday
+            }
+
             let holdings = try await holdingsTask
             self.holdings = holdings
 
@@ -61,8 +68,6 @@ final class DigestViewModel: ObservableObject {
             self.digestHistory = history.sorted { $0.generatedAt < $1.generatedAt }
 
             self.alerts = (await alertsTask) ?? []
-            self.today = await todayTask
-
             if digestResponse == nil, !holdings.isEmpty {
                 if !isGenerating {
                     _ = try? await api.triggerAnalysis()
@@ -95,6 +100,10 @@ final class DigestViewModel: ObservableObject {
         }
         if alerts.isEmpty, let cachedAlerts = api.cachedAlerts() {
             alerts = cachedAlerts
+            hydrated = true
+        }
+        if today == nil, let cachedToday = api.cachedToday() {
+            today = cachedToday
             hydrated = true
         }
         return hydrated

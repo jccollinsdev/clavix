@@ -2,8 +2,15 @@ import Foundation
 
 struct MethodologyResponse: Codable {
     let ticker: String
+    let assetClass: String?
     let dimensions: MethodologyDimensions
     let composite: MethodologyComposite
+
+    enum CodingKeys: String, CodingKey {
+        case ticker
+        case assetClass = "asset_class"
+        case dimensions, composite
+    }
 }
 
 struct MethodologyDimensions: Codable {
@@ -41,6 +48,14 @@ struct MethodologyFinancialHealth: Codable, MethodologyDimensionProtocol {
     let sectorMedianComparison: [String: MethodologySectorMedian]?
     let ratiosAvailable: Int?
     let limitedData: Bool?
+    let dimensionLabel: String?
+    let holdingsCount: Int?
+    let holdingsScoredCount: Int?
+    let holdingsWeightCoveredPct: Double?
+    let holdingsQualityScore: Double?
+    let topHoldingWeightPct: Double?
+    let top10WeightPct: Double?
+    let holdings: [MethodologyETFHolding]?
 
     var label: String { "Financial Health" }
 
@@ -58,6 +73,14 @@ struct MethodologyFinancialHealth: Codable, MethodologyDimensionProtocol {
         case sectorMedianComparison = "sector_median_comparison"
         case ratiosAvailable = "ratios_available"
         case limitedData = "limited_data"
+        case dimensionLabel = "dimension_label"
+        case holdingsCount = "holdings_count"
+        case holdingsScoredCount = "holdings_scored_count"
+        case holdingsWeightCoveredPct = "holdings_weight_covered_pct"
+        case holdingsQualityScore = "holdings_quality_score"
+        case topHoldingWeightPct = "top_holding_weight_pct"
+        case top10WeightPct = "top_10_weight_pct"
+        case holdings
     }
 }
 
@@ -91,9 +114,9 @@ struct MethodologyMacroExposure: Codable, MethodologyDimensionProtocol {
     let tradingDaysUsed: Int?
     let limitedData: Bool?
     let asOfDate: String?
-    let coefficients: [String: Double]?
-    let currentFactorLevels: [String: Double]?
-    let factorLevels: [String: Double]?
+    let coefficients: [String: Double?]?
+    let currentFactorLevels: [String: Double?]?
+    let factorLevels: [String: Double?]?
     let narrative: String?
 
     var label: String { "Macro Exposure" }
@@ -121,6 +144,11 @@ struct MethodologySectorExposure: Codable, MethodologyDimensionProtocol {
     let narrative: String?
     let peerComparisons: [MethodologyPeerComparison]?
     let sectorMedianComparison: [String: MethodologySectorMedian]?
+    let dimensionLabel: String?
+    let holdingsCount: Int?
+    let topHoldingWeightPct: Double?
+    let top10WeightPct: Double?
+    let concentrationScore: Double?
 
     var label: String { "Sector Exposure" }
 
@@ -134,6 +162,24 @@ struct MethodologySectorExposure: Codable, MethodologyDimensionProtocol {
         case narrative
         case peerComparisons = "peer_comparisons"
         case sectorMedianComparison = "sector_median_comparison"
+        case dimensionLabel = "dimension_label"
+        case holdingsCount = "holdings_count"
+        case topHoldingWeightPct = "top_holding_weight_pct"
+        case top10WeightPct = "top_10_weight_pct"
+        case concentrationScore = "concentration_score"
+    }
+}
+
+struct MethodologyETFHolding: Codable, Identifiable {
+    let ticker: String
+    let weightPct: Double?
+    let score: Double?
+
+    var id: String { ticker }
+
+    enum CodingKeys: String, CodingKey {
+        case ticker, score
+        case weightPct = "weight_pct"
     }
 }
 

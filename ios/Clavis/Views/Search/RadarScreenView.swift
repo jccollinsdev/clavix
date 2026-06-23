@@ -60,6 +60,10 @@ final class RadarScreenViewModel: ObservableObject {
 
     init() {
         thresholds = Dictionary(uniqueKeysWithValues: RadarAxis.allCases.map { ($0, 0.0) })
+        if let cached = APIService.shared.cachedUniverseScreen(), !cached.isEmpty {
+            allItems = cached
+            hasLoaded = true
+        }
     }
 
     var total: Int { allItems.count }
@@ -119,7 +123,7 @@ struct RadarScreenSection: View {
         let matches = vm.matches
         let shown = Array(matches.prefix(maxRows))
 
-        ClavixSection(eyebrow: "Screen the S&P 500", title: "Risk radar") {
+        ClavixSection(eyebrow: "Screen the tracked universe", title: "Risk radar") {
             VStack(alignment: .leading, spacing: 16) {
                 Text("Drag each point outward to set a minimum on that dimension. Names matching your shape appear below.")
                     .font(ClavisTypography.clavixCaption)
@@ -450,6 +454,10 @@ private struct ScreenResultRow: View {
 
     private var grade: String { item.grade ?? "—" }
     private var compositeText: String { "\(Int(item.compositeScore.rounded()))" }
+    private var limitedCount: Int {
+        item.limitedDimensions?.count
+            ?? RadarAxis.allCases.filter { item.score(for: $0) == nil }.count
+    }
 
     var body: some View {
         HStack(spacing: 10) {
@@ -470,6 +478,12 @@ private struct ScreenResultRow: View {
                         .tracking(0.4)
                         .foregroundColor(.clavixInk4)
                         .lineLimit(1)
+                }
+                if limitedCount > 0 {
+                    Text("\(limitedCount) LIMITED")
+                        .font(ClavisTypography.clavixMono(8, weight: .bold))
+                        .tracking(0.4)
+                        .foregroundColor(.clavixWarn)
                 }
             }
             Spacer()

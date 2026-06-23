@@ -74,7 +74,7 @@ struct OnboardingContainerView: View {
     private func completeAndOpenHoldings() {
         viewModel.completeOnboarding {
             authViewModel.markOnboardingComplete()
-            UserDefaults.standard.set(1, forKey: "clavix.selectedTab")
+            UserDefaults.standard.set(0, forKey: "clavix.selectedTab")
             NotificationCenter.default.post(name: .openAddHoldingFromOnboarding, object: nil)
         }
     }
@@ -83,6 +83,9 @@ struct OnboardingContainerView: View {
     /// analyzing phase, so route straight to the populated Holdings tab without
     /// re-opening the add sheet.
     private func completeAfterAha() {
+        if !SubscriptionManager.shared.isPro {
+            SubscriptionRequiredReason.markPendingOnboardingReveal()
+        }
         viewModel.completeOnboarding {
             authViewModel.markOnboardingComplete()
             UserDefaults.standard.set(1, forKey: "clavix.selectedTab")
@@ -100,8 +103,10 @@ private struct OnboardingWelcomeView: View {
 
             HStack(spacing: 10) {
                 Image("clavix_logo")
+                    .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
+                    .foregroundColor(.clavixInk)
                     .frame(width: 32, height: 32)
                     .accessibilityHidden(true)
                 Text("CLAVIX")
@@ -732,7 +737,7 @@ private struct AhaAnalyzingScreen: View {
             Spacer()
             VStack(spacing: 30) {
                 HStack(spacing: 8) {
-                    Image("clavix_logo").resizable().scaledToFit().frame(width: 20, height: 20)
+                    Image("clavix_logo").renderingMode(.template).resizable().scaledToFit().foregroundColor(.clavixInk).frame(width: 20, height: 20)
                     Text("CLAVIX").font(ClavisTypography.clavixMono(11, weight: .bold)).tracking(1.6).foregroundColor(.clavixInk)
                 }
 
@@ -883,7 +888,7 @@ private struct AhaRevealScreen: View {
                     // Locked teaser
                     HStack(spacing: 10) {
                         Image(systemName: "lock.fill").font(.system(size: 12, weight: .semibold)).foregroundColor(.clavixAccent)
-                        Text("Unlock the full five-dimension breakdown for every position.")
+                        Text("Start your 14-day free trial to unlock the full five-dimension breakdown for every position.")
                             .font(ClavisTypography.inter(13, weight: .regular)).foregroundColor(.clavixInk2)
                             .fixedSize(horizontal: false, vertical: true)
                         Spacer(minLength: 0)
@@ -893,7 +898,14 @@ private struct AhaRevealScreen: View {
                     .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
                     .padding(.bottom, 26)
 
-                    AhaPrimaryButton(title: "See my full breakdown", enabled: !viewModel.isCompleting, action: onFinish)
+                    AhaPrimaryButton(title: "Unlock my full breakdown", enabled: !viewModel.isCompleting, action: onFinish)
+
+                    Text("Next: start your 14-day free trial to enter Clavix with your full portfolio breakdown unlocked.")
+                        .font(ClavisTypography.inter(12, weight: .regular))
+                        .foregroundColor(.clavixInk3)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.top, 10)
 
                     if let error = viewModel.errorMessage {
                         Text(error)

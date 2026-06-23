@@ -52,7 +52,7 @@ struct MainTabView: View {
             ClavixTabBar(selectedTab: $selectedTab)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .preferredColorScheme(.light)
+        .preferredColorScheme(.dark)
         .onAppear {
             mountedTabs.insert(selectedTab)
         }

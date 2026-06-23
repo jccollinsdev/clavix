@@ -7,6 +7,7 @@ extension Notification.Name {
 }
 
 private enum HoldingsSortKey {
+    case risk
     case weight
     case grade
     case dayChange
@@ -24,7 +25,7 @@ struct HoldingsListView: View {
     @State private var showUpgradeSheet = false
     @State private var showAddHoldingSheet = false
     @State private var showQuickSetupSheet = false
-    @State private var sortKey: HoldingsSortKey = .weight
+    @State private var sortKey: HoldingsSortKey = .risk
 
     // First-run getting-started checklist (interactive launcher)
     @AppStorage("clavix.checklist.openedBreakdown") private var clOpenedBreakdown = false
@@ -39,10 +40,14 @@ struct HoldingsListView: View {
     private var sortedHoldings: [Position] {
         viewModel.holdings.sorted { lhs, rhs in
             switch sortKey {
+            case .risk:
+                let lhsContribution = (lhs.currentValue ?? 0) * max(0, 100 - (lhs.resolvedTotalScore ?? 50))
+                let rhsContribution = (rhs.currentValue ?? 0) * max(0, 100 - (rhs.resolvedTotalScore ?? 50))
+                return lhsContribution > rhsContribution
             case .weight:
                 return (lhs.currentValue ?? 0) > (rhs.currentValue ?? 0)
             case .grade:
-                return (lhs.resolvedTotalScore ?? 0) > (rhs.resolvedTotalScore ?? 0)
+                return (lhs.resolvedTotalScore ?? 0) < (rhs.resolvedTotalScore ?? 0)
             case .dayChange:
                 return abs(lhs.sharedAnalysis?.dayChangePct ?? 0) > abs(rhs.sharedAnalysis?.dayChangePct ?? 0)
             case .profitLoss:
@@ -83,7 +88,6 @@ struct HoldingsListView: View {
                     if showGettingStarted { gettingStartedCard }
                     positionsSection
                     watchlistSection
-                    sectorCompositionSection
                 }
                 .padding(.horizontal, ClavisTheme.screenPadding)
                 .padding(.top, ClavisTheme.sectionSpacing)
@@ -250,10 +254,10 @@ struct HoldingsListView: View {
 
     private var holdingsToolbar: some View {
         HStack(spacing: 4) {
+            toolbarPill(label: "Risk", key: .risk)
             toolbarPill(label: "Weight", key: .weight)
             toolbarPill(label: "Grade", key: .grade)
             toolbarPill(label: "Δ Today", key: .dayChange)
-            toolbarPill(label: "P&L", key: .profitLoss)
             Spacer()
         }
     }
@@ -1566,8 +1570,10 @@ struct QuickPortfolioSetupSheet: View {
                 // Wordmark
                 HStack(spacing: 8) {
                     Image("clavix_logo")
+                        .renderingMode(.template)
                         .resizable()
                         .scaledToFit()
+                        .foregroundColor(.clavixInk)
                         .frame(width: 22, height: 22)
                     Text("CLAVIX")
                         .font(ClavisTypography.clavixMono(12, weight: .bold))

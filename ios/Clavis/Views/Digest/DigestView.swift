@@ -85,10 +85,8 @@ struct DigestView: View {
                     portfolioHero
                     morningReportCard
                     dimensionSnapshot
-                    sectorExposure
+                    riskTreemap
                     attention
-                    bookPreview
-                    calendar
                 }
                 .padding(.horizontal, ClavixLayout.pad)
                 .padding(.top, 8)
@@ -101,26 +99,19 @@ struct DigestView: View {
 
     private var portfolioHero: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Today's Digest")
+            Text("This Morning")
                 .font(ClavisTypography.clavixSerif(34, weight: .medium))
                 .tracking(-0.6)
                 .foregroundColor(.clavixInk)
 
             HStack(alignment: .bottom, spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Portfolio value")
-                        .font(ClavisTypography.clavixCaption)
-                        .foregroundColor(.clavixInk3)
                     Text(portfolioValueText)
                         .font(ClavisTypography.clavixMono(29, weight: .semibold))
                         .tracking(-0.6)
                         .foregroundColor(.clavixInk)
                         .lineLimit(1)
                         .minimumScaleFactor(0.76)
-                    Text(headerDateText)
-                        .font(ClavisTypography.clavixMono(10, weight: .regular))
-                        .tracking(0.7)
-                        .foregroundColor(.clavixInk3)
                     Text(portfolioDayChangeText)
                         .font(ClavisTypography.clavixMono(12, weight: .regular))
                         .foregroundColor(portfolioDayChangeColor)
@@ -133,6 +124,11 @@ struct DigestView: View {
                         .foregroundColor(.clavixInk3)
                 }
             }
+
+            Text(portfolioVerdict)
+                .font(ClavisTypography.inter(14, weight: .medium))
+                .foregroundColor(.clavixInk2)
+                .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.bottom, 14)
         .overlay(alignment: .bottom) { Rectangle().fill(Color.clavixRule).frame(height: 1) }
@@ -141,11 +137,26 @@ struct DigestView: View {
     // MARK: - Five-axis snapshot
 
     private var dimensionSnapshot: some View {
-        simpleSection(title: "Five-axis snapshot") {
+        simpleSection(title: "Portfolio dimensions") {
             HStack(spacing: 8) {
                 ForEach(dimensionTuples, id: \.0) { code, score in
                     AxisSnapshotCard(code: code, score: score)
                 }
+            }
+        }
+    }
+
+    private var riskTreemap: some View {
+        simpleSection(title: "Risk map") {
+            if viewModel.holdings.isEmpty {
+                ClavixCard {
+                    Text("Position risk will appear after your holdings finish loading.")
+                        .font(ClavisTypography.clavixCaption)
+                        .foregroundColor(.clavixInk3)
+                }
+            } else {
+                RiskTreemap(positions: viewModel.holdings)
+                    .frame(height: viewModel.holdings.count > 2 ? 190 : 104)
             }
         }
     }
@@ -328,7 +339,7 @@ struct DigestView: View {
     // MARK: - Your Positions
 
     private var bookPreview: some View {
-        simpleSection(title: "Your Positions", trailing: AnyView(Button("Holdings →") { selectedTab = 1 }
+        simpleSection(title: "What to do today", trailing: AnyView(Button("The book →") { selectedTab = 1 }
             .font(ClavisTypography.clavixCaption)
             .foregroundColor(.clavixAccent)
         )) {
@@ -371,6 +382,16 @@ struct DigestView: View {
                 }
             }
         }
+    }
+
+    private var closure: some View {
+        Text(topMovers.contains(where: { ($0.scoreDelta ?? 0) != 0 })
+             ? "Everything else in your book is unchanged."
+             : "Nothing else changed.")
+            .font(ClavisTypography.clavixMono(11, weight: .semibold))
+            .foregroundColor(.clavixInk3)
+            .frame(maxWidth: .infinity, alignment: .center)
+            .padding(.vertical, 10)
     }
 
     /// VQABookRow 1:1 — ticker + grade + delta + today%.
@@ -559,6 +580,16 @@ struct DigestView: View {
             ?? "—"
     }
 
+    private var portfolioVerdict: String {
+        guard let mover = topMovers.first,
+              let delta = mover.scoreDelta,
+              delta != 0 else {
+            return "No material portfolio risk change is visible this morning."
+        }
+        let direction = delta < 0 ? "raised" : "reduced"
+        return "\(mover.ticker) \(direction) the largest share of your overnight risk change."
+    }
+
     private var compositeLine: String {
         if let score = viewModel.today?.portfolio.compositeScore {
             return "Composite \(Int(score.rounded()))"
@@ -639,6 +670,9 @@ struct DigestView: View {
         }
         if !isDigestFromToday(digest) {
             return "Generated \(digestCardDateLabel(digest)). This saved briefing may not reflect the latest holdings, watchlist, or score changes."
+        }
+        if let grade = viewModel.today?.portfolio.grade, !grade.isEmpty {
+            return "Your portfolio is rated \(grade) today."
         }
         if let line = digest.structuredSections?.header?.summaryLine,
            !line.isEmpty {
@@ -731,6 +765,9 @@ struct DigestView: View {
             case "communication services",
                  "media", "interactive media", "entertainment":  return "XLC"
             case "us total market":                              return "VTI"
+            case "diversified":                                  return "BROAD"
+            case "fixed income":                                 return "BONDS"
+            case "commodities":                                  return "CMDTY"
             default:
                 return String(normalizedSector.prefix(3)).uppercased()
             }
@@ -748,6 +785,9 @@ struct DigestView: View {
             case "communication services",
                  "media", "interactive media", "entertainment":  return "Comm Svcs"
             case "us total market":                              return "US Total"
+            case "diversified":                                  return "Diversified"
+            case "fixed income":                                 return "Fixed Income"
+            case "commodities":                                  return "Commodities"
             default: return normalizedSector
             }
         }

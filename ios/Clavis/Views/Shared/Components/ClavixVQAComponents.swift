@@ -230,9 +230,13 @@ struct ClavixGradeBadge: View {
         Text(grade)
             .font(ClavisTypography.clavixMono(metrics.font, weight: .bold))
             .tracking(0.4)
-            .foregroundColor(foreground)
+            .foregroundColor(color)
             .frame(width: metrics.width, height: metrics.height)
-            .background(color)
+            .background(grade == "—" ? Color.clear : color.opacity(0.16))
+            .overlay(
+                Rectangle()
+                    .stroke(color, lineWidth: 1)
+            )
     }
 
     private var gradeMetrics: (width: CGFloat, height: CGFloat, font: CGFloat) {
@@ -246,21 +250,7 @@ struct ClavixGradeBadge: View {
     }
 
     private var color: Color {
-        switch grade {
-        case "AAA", "AA": return .clavixGood
-        case "A":         return .clavixGoodSoft
-        case "BBB", "BB": return .clavixWarn
-        case "—":         return .clavixInk4
-        default:           return .clavixBad
-        }
-    }
-
-    private var foreground: Color {
-        switch grade {
-        case "AAA", "AA", "BBB", "BB": return .white
-        case "A":                       return .clavixGoodInk
-        default:                        return .white
-        }
+        grade == "—" ? .clavixInk4 : ClavisGradeStyle.riskColor(for: grade)
     }
 }
 

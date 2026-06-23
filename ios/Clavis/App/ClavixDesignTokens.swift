@@ -9,42 +9,53 @@ import SwiftUI
 // docs/design/clavix-hifi-v2.html (the design source of truth).
 // Editorial ink-on-cream, bond-rating fills, mono numerics.
 extension Color {
-    // Ink ramp (text & primary fills)
-    static let clavixInk    = Color(hex: "#1A1814")
-    static let clavixInk2   = Color(hex: "#3A342B")
-    static let clavixInk3   = Color(hex: "#777777")  // muted body/meta (HTML cx.ink3)
-    static let clavixInk4   = Color(hex: "#999999")  // ghost / icon disabled
-    static let clavixInk5   = Color(hex: "#C8C0B0")
+    static func clavixAdaptive(light: String, dark: String) -> Color {
+        Color(
+            UIColor { traits in
+                UIColor(Color(hex: traits.userInterfaceStyle == .dark ? dark : light))
+            }
+        )
+    }
 
-    // Cream paper system
-    static let clavixCanvas = Color(hex: "#F0EADB")  // canvas / background scroll
-    static let clavixPage   = Color(hex: "#F0EADB")  // page surface (= canvas in v2)
-    static let clavixPaper  = Color(hex: "#F3ECE0")  // card surface (warmer)
-    static let clavixPaper2 = Color(hex: "#E8E0CC")  // ledger header / inset row
+    // Dark "calm instrument" theme (2026-06-22 redesign).
+    // See docs/design/mockups/README.md for the token spec.
 
-    // Rules / dividers
-    static let clavixRule   = Color(hex: "#D6CEBD")
-    static let clavixRule2  = Color(hex: "#E6DFCF")
+    // Ink ramp (light text on dark)
+    static let clavixInk    = clavixAdaptive(light: "#1A1814", dark: "#E8E6DF")
+    static let clavixInk2   = clavixAdaptive(light: "#3A342B", dark: "#BFC0BC")
+    static let clavixInk3   = clavixAdaptive(light: "#777777", dark: "#9A9C98")
+    static let clavixInk4   = clavixAdaptive(light: "#999999", dark: "#5C6068")
+    static let clavixInk5   = clavixAdaptive(light: "#C8C0B0", dark: "#44464C")
 
-    // Accent: Ink Blue (cx.accent)
-    static let clavixAccent     = Color(hex: "#1D3A6E")
-    static let clavixAccentSoft = Color(hex: "#E3E9F3")
-    static let clavixAccentInk  = Color(hex: "#11264A")
+    // Instrument surfaces
+    static let clavixCanvas = clavixAdaptive(light: "#F0EADB", dark: "#0E0F12")
+    static let clavixPage   = clavixAdaptive(light: "#F0EADB", dark: "#0E0F12")
+    static let clavixPaper  = clavixAdaptive(light: "#F3ECE0", dark: "#16181D")
+    static let clavixPaper2 = clavixAdaptive(light: "#E8E0CC", dark: "#1E2127")
 
-    // Good: Forest (cx.good)
-    static let clavixGood     = Color(hex: "#1F5B3A")
-    static let clavixGoodSoft = Color(hex: "#DDE9D8")
-    static let clavixGoodInk  = Color(hex: "#0D3A22")
+    // Rules / dividers (hairlines)
+    static let clavixRule   = clavixAdaptive(light: "#D6CEBD", dark: "#2A2C31")
+    static let clavixRule2  = clavixAdaptive(light: "#E6DFCF", dark: "#202227")
 
-    // Warn: Burnt orange (cx.warn — used for Pro accent / pressure)
-    static let clavixWarn     = Color(hex: "#B34A14")
-    static let clavixWarnSoft = Color(hex: "#F4DCC4")
-    static let clavixWarnInk  = Color(hex: "#6E2C09")
+    // Accent: cream (interactive / active states)
+    static let clavixAccent     = clavixAdaptive(light: "#1D3A6E", dark: "#E8E6DF")
+    static let clavixAccentSoft = clavixAdaptive(light: "#E3E9F3", dark: "#1E2127")
+    static let clavixAccentInk  = clavixAdaptive(light: "#11264A", dark: "#E8E6DF")
 
-    // Bad: Bordeaux (cx.bad)
-    static let clavixBad     = Color(hex: "#7A1E2C")
-    static let clavixBadSoft = Color(hex: "#F0D8D4")
-    static let clavixBadInk  = Color(hex: "#5C2B2E")
+    // Strong (teal) — risk: low
+    static let clavixGood     = clavixAdaptive(light: "#1F5B3A", dark: "#3FB984")
+    static let clavixGoodSoft = clavixAdaptive(light: "#DDE9D8", dark: "#10342B")
+    static let clavixGoodInk  = clavixAdaptive(light: "#0D3A22", dark: "#3FB984")
+
+    // Watch (amber) — risk: rising
+    static let clavixWarn     = clavixAdaptive(light: "#B34A14", dark: "#E0A33E")
+    static let clavixWarnSoft = clavixAdaptive(light: "#F4DCC4", dark: "#3A2B12")
+    static let clavixWarnInk  = clavixAdaptive(light: "#6E2C09", dark: "#E0A33E")
+
+    // Alarm (coral) — risk: high
+    static let clavixBad     = clavixAdaptive(light: "#7A1E2C", dark: "#E2604A")
+    static let clavixBadSoft = clavixAdaptive(light: "#F0D8D4", dark: "#3A1A12")
+    static let clavixBadInk  = clavixAdaptive(light: "#5C2B2E", dark: "#E2604A")
 }
 
 extension ClavisTypography {

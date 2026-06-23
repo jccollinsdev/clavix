@@ -3,6 +3,23 @@ import SwiftUI
 enum SubscriptionRequiredReason {
     case notSubscribed
     case expired
+    case onboardingReveal
+
+    private static let pendingInitialPaywallContextKey = "clavix.pendingInitialPaywallContext"
+
+    static func markPendingOnboardingReveal() {
+        UserDefaults.standard.set("onboarding_reveal", forKey: pendingInitialPaywallContextKey)
+    }
+
+    static func resolveInitialNotSubscribedReason() -> SubscriptionRequiredReason {
+        let stored = UserDefaults.standard.string(forKey: pendingInitialPaywallContextKey)
+        return stored == "onboarding_reveal" ? .onboardingReveal : .notSubscribed
+    }
+
+    func clearPendingContextIfNeeded() {
+        guard self == .onboardingReveal else { return }
+        UserDefaults.standard.removeObject(forKey: Self.pendingInitialPaywallContextKey)
+    }
 }
 
 struct SubscriptionRequiredView: View {
@@ -11,6 +28,8 @@ struct SubscriptionRequiredView: View {
 
     var body: some View {
         PaywallView(triggerContext: triggerContext, showsCloseButton: false)
+            .onAppear { reason.clearPendingContextIfNeeded() }
+            .preferredColorScheme(.light)
             .safeAreaInset(edge: .bottom) {
                 VStack(spacing: 10) {
                     Text(statusMessage)
@@ -33,12 +52,24 @@ struct SubscriptionRequiredView: View {
     }
 
     private var triggerContext: PaywallTrigger {
-        reason == .expired ? .expiredTrial : .generic
+        switch reason {
+        case .expired:
+            return .expiredTrial
+        case .onboardingReveal:
+            return .onboardingReveal
+        case .notSubscribed:
+            return .generic
+        }
     }
 
     private var statusMessage: String {
-        reason == .expired
-            ? "Your free trial or subscription has ended"
-            : "Start your 14-day free trial to continue"
+        switch reason {
+        case .expired:
+            return "Your free trial or subscription has ended"
+        case .onboardingReveal:
+            return "Your first Clavix snapshot is ready"
+        case .notSubscribed:
+            return "Start your 14-day free trial to continue"
+        }
     }
 }

@@ -22,8 +22,6 @@ struct SearchView: View {
                         queryResultsSection
                     } else {
                         RadarScreenSection()
-                        recentSection
-                        searchPrimerSection
                     }
                 }
                 .padding(.horizontal, ClavixLayout.pad)

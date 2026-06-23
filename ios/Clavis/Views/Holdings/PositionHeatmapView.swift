@@ -49,32 +49,103 @@ struct PositionHeatmapView: View {
     }
 
     private func gradeBackground(_ grade: String) -> Color {
-        switch grade {
-        case "AAA": return Color(hex: "#D4EFE3")
-        case "AA":  return Color(hex: "#DCF5E6")
-        case "A":   return Color(hex: "#E1F5EE")
-        case "BBB": return Color(hex: "#DFF0EF")
-        case "BB":  return Color(hex: "#FCF2E2")
-        case "B":   return Color(hex: "#FDE8CC")
-        case "CCC": return Color(hex: "#FAE0CC")
-        case "CC":  return Color(hex: "#F9D5CC")
-        case "C":   return Color(hex: "#F5CACA")
-        case "F":   return Color(hex: "#F0BCBC")
-        default:    return Color.clavixPaper
-        }
+        ClavisGradeStyle.riskColor(for: grade).opacity(0.18)
     }
 
     private func gradeForeground(_ grade: String) -> Color {
-        switch grade {
-        case "AAA", "AA": return Color(hex: "#085041")
-        case "A":         return Color(hex: "#126B5C")
-        case "BBB":       return Color(hex: "#10555A")
-        case "BB":        return Color(hex: "#7A5C00")
-        case "B":         return Color(hex: "#7A3A00")
-        case "CCC":       return Color(hex: "#7A3000")
-        case "CC", "C":   return Color(hex: "#7A1A1A")
-        case "F":         return Color(hex: "#601010")
-        default:          return .clavixInk3
+        grade == "—" ? .clavixInk3 : ClavisGradeStyle.riskColor(for: grade)
+    }
+}
+
+struct RiskTreemap: View {
+    let positions: [Position]
+
+    private var ranked: [Position] {
+        positions
+            .filter { ($0.currentValue ?? 0) > 0 }
+            .sorted { riskContribution($0) > riskContribution($1) }
+            .prefix(6)
+            .map { $0 }
+    }
+
+    var body: some View {
+        GeometryReader { proxy in
+            let rows = splitRows(ranked)
+            VStack(spacing: 2) {
+                ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
+                    HStack(spacing: 2) {
+                        let total = max(row.reduce(0) { $0 + layoutWeight($1) }, 1)
+                        ForEach(row) { position in
+                            cell(position)
+                                .frame(
+                                    width: (proxy.size.width - CGFloat(max(row.count - 1, 0)) * 2)
+                                        * layoutWeight(position) / total
+                                )
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    private func splitRows(_ positions: [Position]) -> [[Position]] {
+        guard positions.count > 2 else { return [positions] }
+        let total = positions.reduce(0) { $0 + layoutWeight($1) }
+        var first: [Position] = []
+        var firstWeight = 0.0
+        for position in positions {
+            if firstWeight < total / 2 || first.isEmpty {
+                first.append(position)
+                firstWeight += layoutWeight(position)
+            }
+        }
+        let firstIDs = Set(first.map(\.id))
+        let second = positions.filter { !firstIDs.contains($0.id) }
+        return second.isEmpty ? [first] : [first, second]
+    }
+
+    private func cell(_ position: Position) -> some View {
+        let grade = position.resolvedRiskGrade ?? "—"
+        return VStack(alignment: .leading, spacing: 4) {
+            Text(position.ticker)
+                .font(ClavisTypography.clavixMono(13, weight: .bold))
+                .foregroundColor(.clavixInk)
+            Spacer()
+            HStack(alignment: .bottom) {
+                Text(grade)
+                    .font(ClavisTypography.clavixMono(17, weight: .bold))
+                    .foregroundColor(ClavisGradeStyle.riskColor(for: grade))
+                Spacer()
+                Text(position.currentValue.map(shortCurrency) ?? "—")
+                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .foregroundColor(.clavixInk3)
+            }
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(ClavisGradeStyle.riskColor(for: grade).opacity(0.20))
+        .overlay(
+            Rectangle()
+                .stroke(ClavisGradeStyle.riskColor(for: grade).opacity(0.55), lineWidth: 1)
+        )
+    }
+
+    private func positionValue(_ position: Position) -> Double {
+        max(position.currentValue ?? 0, 1)
+    }
+
+    private func layoutWeight(_ position: Position) -> Double {
+        sqrt(positionValue(position))
+    }
+
+    private func riskContribution(_ position: Position) -> Double {
+        let risk = max(0, 100 - (position.totalScore ?? 50))
+        return positionValue(position) * risk
+    }
+
+    private func shortCurrency(_ value: Double) -> String {
+        if value >= 1_000_000 { return String(format: "$%.1fM", value / 1_000_000) }
+        if value >= 1_000 { return String(format: "$%.0fK", value / 1_000) }
+        return String(format: "$%.0f", value)
     }
 }

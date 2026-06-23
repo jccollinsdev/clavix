@@ -38,6 +38,7 @@ struct PaywallView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("Clavix Pro")
         }
+        .preferredColorScheme(.light)
         .onAppear {
             AnalyticsService.track(
                 AnalyticsEventName.paywallViewed,
@@ -209,6 +210,7 @@ enum PaywallTrigger {
     case watchlistLimit
     case advancedAlerts
     case expiredTrial
+    case onboardingReveal
     case generic
 
     var message: String? {
@@ -223,6 +225,8 @@ enum PaywallTrigger {
             return "Advanced alerts (watchlist grade changes, macro-shock signals, and portfolio-level risk triggers) are Pro features."
         case .expiredTrial:
             return "Your free trial has ended. Subscribe to keep tracking your full portfolio risk picture."
+        case .onboardingReveal:
+            return "Your first Clavix snapshot is ready. Start your 14-day trial to unlock the full five-dimension breakdown for every position and keep this portfolio live inside the app."
         case .generic:
             return nil
         }
@@ -240,6 +244,8 @@ enum PaywallTrigger {
             return "advanced_alerts"
         case .expiredTrial:
             return "expired_trial"
+        case .onboardingReveal:
+            return "onboarding_reveal"
         case .generic:
             return "generic"
         }

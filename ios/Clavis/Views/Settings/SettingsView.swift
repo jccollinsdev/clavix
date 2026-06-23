@@ -4,6 +4,7 @@ struct SettingsView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     @StateObject private var viewModel = SettingsViewModel()
     @StateObject private var brokerageViewModel = BrokerageViewModel()
+    @ObservedObject private var subscriptionManager = SubscriptionManager.shared
     @State private var hasLoaded = false
 
     var body: some View {
@@ -188,7 +189,16 @@ struct SettingsView: View {
     }
 
     private var planSummary: String {
-        isFreeTier ? "Free" : viewModel.subscriptionTier.uppercased()
+        switch subscriptionManager.status {
+        case .trial(let expiresAt):
+            return "TRIAL · \(expiresAt.formatted(date: .abbreviated, time: .omitted))"
+        case .active:
+            return "PRO"
+        case .unknown:
+            return "CHECKING"
+        case .notSubscribed, .expired:
+            return "INACTIVE"
+        }
     }
 
     private var deliveryTimeValue: String {
@@ -218,9 +228,7 @@ struct SettingsView: View {
         return "CLAVIX · VERSION \(short)"
     }
 
-    private var isFreeTier: Bool {
-        !SubscriptionManager.shared.isPro
-    }
+    private var isFreeTier: Bool { false }
 
 }
 
