@@ -58,7 +58,9 @@ struct PaywallView: View {
                     heroSection(compact: compact)
                     benefitsSection(compact: compact)
                     offerSection(compact: compact)
+                    Spacer(minLength: compact ? 2 : 8)
                     purchaseSection(compact: compact)
+                    legalFooter(compact: compact)
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, compact ? 6 : 12)
@@ -117,6 +119,10 @@ struct PaywallView: View {
 
     private func benefitsSection(compact: Bool) -> some View {
         VStack(alignment: .leading, spacing: compact ? 8 : 11) {
+            Text("What you get")
+                .font(ClavisTypography.inter(compact ? 15 : 16, weight: .semibold))
+                .foregroundColor(.textPrimary)
+
             ForEach(Array(benefits.enumerated()), id: \.offset) { _, benefit in
                 HStack(spacing: 11) {
                     Image(systemName: benefit.icon)
@@ -224,7 +230,11 @@ struct PaywallView: View {
             Text(purchaseCaption)
                 .font(ClavisTypography.inter(12, weight: .medium))
                 .foregroundColor(.textSecondary)
+        }
+    }
 
+    private func legalFooter(compact: Bool) -> some View {
+        VStack(spacing: compact ? 6 : 8) {
             HStack(spacing: 18) {
                 Button("Restore") {
                     Task {
@@ -248,6 +258,7 @@ struct PaywallView: View {
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
         }
+        .frame(maxWidth: .infinity)
     }
 
     private var headline: String {
@@ -345,8 +356,8 @@ private struct PaywallLockedRiskMap: View {
         HStack(spacing: compact ? 10 : 14) {
             ZStack {
                 PaywallRadarGraphic(values: scores)
-                    .blur(radius: 2.2)
-                    .opacity(0.76)
+                    .blur(radius: 1.25)
+                    .opacity(0.9)
 
                 Circle()
                     .fill(Color.backgroundPrimary.opacity(0.9))
