@@ -270,7 +270,7 @@ struct LoginView: View {
 
     private var formSubtitle: String? {
         switch mode {
-        case .signUp: return "Free for your first 3 positions."
+        case .signUp: return "Start your 14-day trial, then $19.99/month."
         case .signIn: return "Welcome back."
         case .forgotPassword: return "Enter your email and we'll send a reset link."
         case .welcome: return nil
