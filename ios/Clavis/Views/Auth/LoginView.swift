@@ -124,7 +124,7 @@ struct LoginView: View {
             .frame(maxWidth: .infinity)
         }
         .safeAreaInset(edge: .top, spacing: 0) {
-            AuthStickyBar()
+            ClavixAuthStickyBar()
         }
     }
 
@@ -289,7 +289,7 @@ struct LoginView: View {
             .scrollDismissesKeyboard(.interactively)
         }
         .safeAreaInset(edge: .top, spacing: 0) {
-            AuthStickyBar()
+            ClavixAuthStickyBar()
         }
     }
 
@@ -658,7 +658,7 @@ private struct AuthCard<Content: View>: View {
     }
 }
 
-private struct AuthStickyBar: View {
+struct ClavixAuthStickyBar: View {
     var body: some View {
         ZStack {
             HStack(spacing: 12) {

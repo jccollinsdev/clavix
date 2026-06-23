@@ -318,49 +318,15 @@ private struct OnboardingStickyBar: View {
     let total: Int
 
     var body: some View {
-        ZStack {
-            HStack(spacing: 12) {
-                ZStack {
-                    Image("clavix_logo")
-                        .resizable()
-                        .renderingMode(.template)
-                        .scaledToFit()
-                        .frame(width: 28, height: 28)
-                        .foregroundColor(.textPrimary)
-                    Image("clavix_logo")
-                        .resizable()
-                        .renderingMode(.template)
-                        .scaledToFit()
-                        .frame(width: 28, height: 28)
-                        .scaleEffect(1.18)
-                        .foregroundColor(.textPrimary.opacity(0.3))
-                }
-                .frame(width: 30, height: 30)
-                .accessibilityHidden(true)
-                Spacer(minLength: 8)
-            }
-
-            Text("CLAVIX")
-                .font(ClavisTypography.inter(17, weight: .bold))
-                .tracking(1.2)
-                .foregroundColor(.textPrimary)
-        }
-        .padding(.horizontal, 24)
-        .padding(.vertical, 12)
-        .background(Color.backgroundPrimary.ignoresSafeArea(edges: .top))
+        ClavixAuthStickyBar()
         .overlay(alignment: .bottom) {
-            VStack(spacing: 0) {
-                GeometryReader { proxy in
-                    Rectangle()
-                        .fill(Color.textPrimary)
-                        .frame(width: proxy.size.width * CGFloat(step) / CGFloat(max(total, 1)))
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .frame(height: 1)
+            GeometryReader { proxy in
                 Rectangle()
-                    .fill(Color.border)
-                    .frame(height: 1)
+                    .fill(Color.textPrimary)
+                    .frame(width: proxy.size.width * CGFloat(step) / CGFloat(max(total, 1)))
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .frame(height: 1)
         }
     }
 }
@@ -722,26 +688,7 @@ private struct AhaInputScreen: View {
         }
         .scrollDismissesKeyboard(.interactively)
         .safeAreaInset(edge: .top, spacing: 0) {
-            VStack(spacing: 0) {
-                HStack {
-                    Button(action: onBack) {
-                        Text("BACK")
-                            .font(ClavisTypography.mono(11))
-                            .tracking(0.8)
-                            .foregroundColor(.textPrimary)
-                    }
-                    .buttonStyle(.plain)
-                    Spacer()
-                    Text("STEP 2 OF 2")
-                        .font(ClavisTypography.mono(11))
-                        .tracking(0.8)
-                        .foregroundColor(.textSecondary)
-                }
-                .padding(.horizontal, 22)
-                .padding(.vertical, 14)
-                AhaHairline()
-            }
-            .background(Color.backgroundPrimary.ignoresSafeArea(edges: .top))
+            OnboardingStickyBar(step: 2, total: 2)
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
             VStack(spacing: 0) {
@@ -940,19 +887,6 @@ private struct AhaAnalyzingScreen: View {
                 Spacer(minLength: 18)
 
                 VStack(spacing: 22) {
-                    HStack(spacing: 8) {
-                        Image("clavix_logo")
-                            .renderingMode(.template)
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(.textPrimary)
-                            .frame(width: 20, height: 20)
-                        Text("CLAVIX")
-                            .font(ClavisTypography.mono(11))
-                            .tracking(1.6)
-                            .foregroundColor(.textPrimary)
-                    }
-
                     VStack(spacing: 8) {
                         Text("Building your risk snapshot")
                             .font(ClavisTypography.inter(28, weight: .semibold))
@@ -1005,6 +939,9 @@ private struct AhaAnalyzingScreen: View {
         }
         .frame(maxWidth: .infinity)
         .background(Color.backgroundPrimary.ignoresSafeArea())
+        .safeAreaInset(edge: .top, spacing: 0) {
+            OnboardingStickyBar(step: 2, total: 2)
+        }
         .onAppear { start() }
         .onDisappear { timer?.invalidate() }
     }
@@ -1105,21 +1042,10 @@ private struct AhaRevealScreen: View {
         if let reveal = viewModel.reveal {
             GeometryReader { proxy in
                 VStack(alignment: .leading, spacing: 14) {
-                    HStack {
-                        Text("CLAVIX")
-                            .font(ClavisTypography.mono(11))
-                            .tracking(1.6)
-                            .foregroundColor(.textPrimary)
-                        Spacer()
-                        Text("RISK SNAPSHOT")
-                            .font(ClavisTypography.mono(10))
-                            .tracking(0.9)
-                            .foregroundColor(.textSecondary)
-                    }
-
-                    Rectangle()
-                        .fill(Color.textPrimary)
-                        .frame(height: 2)
+                    Text("YOUR RISK SNAPSHOT")
+                        .font(ClavisTypography.mono(10))
+                        .tracking(0.9)
+                        .foregroundColor(.textSecondary)
 
                     HStack(alignment: .center, spacing: 14) {
                         ClavixGradeBadge(reveal.grade, size: 68)
@@ -1189,6 +1115,9 @@ private struct AhaRevealScreen: View {
                 .frame(maxWidth: 520)
                 .frame(maxWidth: .infinity)
                 .frame(minHeight: proxy.size.height, alignment: .top)
+            }
+            .safeAreaInset(edge: .top, spacing: 0) {
+                OnboardingStickyBar(step: 2, total: 2)
             }
         } else {
             ProgressView().tint(.textPrimary)
