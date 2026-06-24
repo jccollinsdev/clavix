@@ -3,21 +3,41 @@ import SwiftUI
 struct SectorExposureAuditView: View {
     let ticker: String
     let methodology: MethodologyResponse?
+    let isETF: Bool
 
     private var dimension: MethodologySectorExposure? { methodology?.dimensions.sectorExposure }
     private var isReferenceMode: Bool { methodology == nil }
+    private var screenTitle: String { isETF ? "Concentration" : "Sector Exposure" }
+    private var referenceMessage: String {
+        if isETF {
+            return "Open an ETF from Search, Holdings, Alerts, or the Morning Report to inspect how concentrated the fund is across sectors, top holdings, and correlated narratives."
+        }
+        return "Open a ticker from Search, Holdings, Alerts, or the Morning Report to inspect live sector beta, momentum, breadth, and narrative context for that stock."
+    }
+    private var methodologyDescription: String {
+        if isETF {
+            return "Concentration measures how exposed an ETF is to narrow pockets of risk. Clavix looks at the sector ETF mapping, concentration signals, and narrative pressure around the fund's main exposures."
+        }
+        return "Sector Exposure measures how vulnerable a ticker is to its sector's current state. It considers sector beta, sector momentum versus the S&P 500, sector breadth, and sector-specific news."
+    }
+
+    init(ticker: String, methodology: MethodologyResponse?, isETF: Bool = false) {
+        self.ticker = ticker
+        self.methodology = methodology
+        self.isETF = isETF
+    }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: ClavisTheme.sectionSpacing) {
                 if isReferenceMode {
                     AuditReferenceContextView(
-                        dimensionName: "Sector Exposure",
-                        message: "Open a ticker from Search, Holdings, Alerts, or the Morning Report to inspect live sector beta, momentum, breadth, and narrative context for that stock."
+                        dimensionName: screenTitle,
+                        message: referenceMessage
                     )
                 } else {
                     AuditHeaderCard(
-                        title: "Sector Exposure",
+                        title: screenTitle,
                         ticker: ticker,
                         score: dimension?.score,
                         subtitle: "\(dimension?.sector ?? "Sector unavailable") · \(dimension?.sectorEtf ?? "ETF unavailable")"
@@ -42,7 +62,7 @@ struct SectorExposureAuditView: View {
                 }
 
                 AuditSectionCard(title: "Methodology") {
-                    Text("Sector Exposure measures how vulnerable a ticker is to its sector's current state. It considers sector beta, sector momentum versus the S&P 500, sector breadth, and sector-specific news.")
+                    Text(methodologyDescription)
                         .font(ClavisTypography.body)
                         .foregroundColor(.clavixInk3)
                         .fixedSize(horizontal: false, vertical: true)
@@ -52,7 +72,7 @@ struct SectorExposureAuditView: View {
             .padding(.vertical, ClavisTheme.sectionSpacing)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .navigationTitle("Sector Exposure")
+        .navigationTitle(screenTitle)
         .navigationBarTitleDisplayMode(.inline)
     }
 

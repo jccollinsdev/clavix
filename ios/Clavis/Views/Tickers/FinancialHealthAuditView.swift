@@ -3,21 +3,41 @@ import SwiftUI
 struct FinancialHealthAuditView: View {
     let ticker: String
     let methodology: MethodologyResponse?
+    let isETF: Bool
 
     private var dimension: MethodologyFinancialHealth? { methodology?.dimensions.financialHealth }
     private var isReferenceMode: Bool { methodology == nil }
+    private var screenTitle: String { isETF ? "Holdings Quality" : "Financial Health" }
+    private var referenceMessage: String {
+        if isETF {
+            return "Open an ETF from Search, Holdings, Alerts, or the Morning Report to inspect the live quality signals Clavix is using for the fund's underlying basket."
+        }
+        return "Open a ticker from Search, Holdings, Alerts, or the Morning Report to inspect live balance-sheet and cash-flow inputs for that company."
+    }
+    private var methodologyDescription: String {
+        if isETF {
+            return "Holdings Quality measures the structural quality of an ETF's underlying basket using the financial-health signals Clavix can aggregate across its tracked constituents. Treat it as a directional read on the fund's core holdings rather than a fund-level accounting statement."
+        }
+        return "Financial Health measures the structural strength of the company. It uses balance-sheet and cash-flow inputs such as debt-to-equity ratio, free cash flow margin, interest coverage, current ratio, revenue growth trend, and profitability trend."
+    }
+
+    init(ticker: String, methodology: MethodologyResponse?, isETF: Bool = false) {
+        self.ticker = ticker
+        self.methodology = methodology
+        self.isETF = isETF
+    }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: ClavisTheme.sectionSpacing) {
                 if isReferenceMode {
                     AuditReferenceContextView(
-                        dimensionName: "Financial Health",
-                        message: "Open a ticker from Search, Holdings, Alerts, or the Morning Report to inspect live balance-sheet and cash-flow inputs for that company."
+                        dimensionName: screenTitle,
+                        message: referenceMessage
                     )
                 } else {
                     AuditHeaderCard(
-                        title: "Financial Health",
+                        title: screenTitle,
                         ticker: ticker,
                         score: dimension?.score,
                         subtitle: "Source: Finnhub, updated \(AuditSupport.formattedAsOfDate(dimension?.asOfDate))"
@@ -75,7 +95,7 @@ struct FinancialHealthAuditView: View {
                 }
 
                 AuditSectionCard(title: "Methodology") {
-                    Text("Financial Health measures the structural strength of the company. It uses balance-sheet and cash-flow inputs such as debt-to-equity ratio, free cash flow margin, interest coverage, current ratio, revenue growth trend, and profitability trend.")
+                    Text(methodologyDescription)
                         .font(ClavisTypography.body)
                         .foregroundColor(.clavixInk3)
                         .fixedSize(horizontal: false, vertical: true)
@@ -85,7 +105,7 @@ struct FinancialHealthAuditView: View {
             .padding(.vertical, ClavisTheme.sectionSpacing)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .navigationTitle("Financial Health")
+        .navigationTitle(screenTitle)
         .navigationBarTitleDisplayMode(.inline)
     }
 

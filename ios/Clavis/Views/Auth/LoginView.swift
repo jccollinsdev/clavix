@@ -36,10 +36,19 @@ struct LoginView: View {
         return hasEmail
     }
 
+    private var authFieldText: Color { Color.white.opacity(0.96) }
+    private var authFieldPrompt: Color { Color.white.opacity(0.52) }
+    private var authFieldFill: Color { Color.white.opacity(0.07) }
+    private var authFieldBorder: Color { Color.white.opacity(0.18) }
+    private var authSecondaryText: Color { Color.white.opacity(0.72) }
+    private var authTertiaryText: Color { Color.white.opacity(0.56) }
+    private var authDividerTone: Color { Color.white.opacity(0.12) }
+    private var authLinkTone: Color { Color.white.opacity(0.82) }
+
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.clavixPage.ignoresSafeArea()
+                Color.backgroundPrimary.ignoresSafeArea()
 
                 switch mode {
                 case .welcome:
@@ -55,19 +64,27 @@ struct LoginView: View {
     private var welcomeSurface: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                Spacer(minLength: 28)
+                Spacer(minLength: 32)
+
+                Text("Daily portfolio risk intelligence")
+                    .font(ClavisTypography.mono(11))
+                    .foregroundColor(.textSecondary)
+                    .tracking(0.8)
+                    .textCase(.uppercase)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 14)
 
                 Text("Portfolio risk,\nmeasured.")
-                    .font(ClavisTypography.clavixSerif(40, weight: .medium))
-                    .tracking(-0.5)
-                    .foregroundColor(.clavixInk)
+                    .font(ClavisTypography.inter(34, weight: .semibold))
+                    .tracking(-0.6)
+                    .foregroundColor(.textPrimary)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 12)
 
                 Text("Every morning, Clavix scores your positions across five risk dimensions: macro, sector, financials, news, and volatility. The reasoning is always shown.")
                     .font(ClavisTypography.inter(15, weight: .regular))
-                    .foregroundColor(.clavixInk2)
+                    .foregroundColor(authSecondaryText)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal, 24)
                     .padding(.bottom, 24)
@@ -78,8 +95,8 @@ struct LoginView: View {
                 VStack(spacing: 10) {
                     AuthActionButton(
                         title: "Create account",
-                        fill: .clavixInk,
-                        foreground: .clavixPaper
+                        fill: .textPrimary,
+                        foreground: .backgroundPrimary
                     ) {
                         mode = .signUp
                         focusedField = .email
@@ -87,8 +104,8 @@ struct LoginView: View {
 
                     AuthActionButton(
                         title: "Sign in",
-                        fill: .clear,
-                        foreground: .clavixInk,
+                        fill: .surface,
+                        foreground: .textPrimary,
                         bordered: true
                     ) {
                         mode = .signIn
@@ -106,13 +123,13 @@ struct LoginView: View {
             .frame(maxWidth: .infinity)
         }
         .safeAreaInset(edge: .top, spacing: 0) {
-            ClavixStickyBar()
+            AuthStickyBar()
         }
     }
 
     private var formSurface: some View {
         ZStack {
-            Color.clavixPage.ignoresSafeArea()
+            Color.backgroundPrimary.ignoresSafeArea()
 
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
@@ -128,7 +145,7 @@ struct LoginView: View {
                                 Text("Back")
                                     .font(ClavisTypography.inter(15, weight: .medium))
                             }
-                            .foregroundColor(.clavixAccent)
+                            .foregroundColor(.textPrimary)
                             .padding(.vertical, 6)
                         }
                         .buttonStyle(.plain)
@@ -136,16 +153,15 @@ struct LoginView: View {
                         .padding(.bottom, 16)
                     }
 
-                    // Title — big serif, no eyebrow
                     Text(formTitle)
-                        .font(ClavisTypography.clavixSerif(36, weight: .medium))
-                        .foregroundColor(.clavixInk)
+                        .font(ClavisTypography.inter(30, weight: .semibold))
+                        .foregroundColor(.textPrimary)
                         .padding(.bottom, 8)
 
                     if let subtitle = formSubtitle {
                         Text(subtitle)
                             .font(ClavisTypography.inter(15, weight: .regular))
-                            .foregroundColor(.clavixInk2)
+                            .foregroundColor(authSecondaryText)
                             .padding(.bottom, 28)
                     } else {
                         Spacer(minLength: 28)
@@ -157,67 +173,75 @@ struct LoginView: View {
                     }
 
                     // Email / password form
-                    ClavixCard {
-                        VStack(spacing: 12) {
-                            AuthInputField(
-                                title: "Email",
-                                text: $email,
-                                focusedField: $focusedField,
-                                field: .email,
-                                submitLabel: requiresPassword ? .next : .go
-                            ) {
-                                if requiresPassword { focusedField = .password } else { submit() }
-                            }
+                    VStack(spacing: 12) {
+                        AuthInputField(
+                            title: "Email",
+                            text: $email,
+                            textColor: authFieldText,
+                            promptColor: authFieldPrompt,
+                            fillColor: authFieldFill,
+                            borderTone: authFieldBorder,
+                            focusedField: $focusedField,
+                            field: .email,
+                            submitLabel: requiresPassword ? .next : .go
+                        ) {
+                            if requiresPassword { focusedField = .password } else { submit() }
+                        }
 
-                            if requiresPassword {
-                                VStack(alignment: .trailing, spacing: 10) {
-                                    SecureField("Password", text: $password)
-                                        .font(ClavisTypography.inter(15, weight: .regular))
-                                        .foregroundColor(.clavixInk)
-                                        .textContentType(mode == .signUp ? .newPassword : .password)
-                                        .submitLabel(mode == .signUp ? .join : .go)
-                                        .focused($focusedField, equals: .password)
-                                        .onSubmit { submit() }
-                                        .padding(.horizontal, 12)
-                                        .frame(height: 48)
-                                        .background(Color.clavixPaper2)
-                                        .overlay(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius).stroke(Color.clavixRule, lineWidth: 1))
-                                        .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
+                        if requiresPassword {
+                            VStack(alignment: .trailing, spacing: 10) {
+                                SecureField(
+                                    text: $password,
+                                    prompt: Text("Password")
+                                        .foregroundColor(authFieldPrompt)
+                                ) {
+                                    Text("")
+                                }
+                                    .font(ClavisTypography.inter(15, weight: .medium))
+                                    .foregroundColor(authFieldText)
+                                    .textContentType(mode == .signUp ? .newPassword : .password)
+                                    .submitLabel(mode == .signUp ? .join : .go)
+                                    .focused($focusedField, equals: .password)
+                                    .onSubmit { submit() }
+                                    .padding(.horizontal, 12)
+                                    .frame(height: 48)
+                                    .background(authFieldFill)
+                                    .overlay(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius).stroke(authFieldBorder, lineWidth: 1))
+                                    .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
 
-                                    if mode == .signIn {
-                                        Button("Forgot password?") {
-                                            withAnimation(.easeInOut(duration: 0.15)) {
-                                                mode = .forgotPassword
-                                                focusedField = .email
-                                            }
+                                if mode == .signIn {
+                                    Button("Forgot password?") {
+                                        withAnimation(.easeInOut(duration: 0.15)) {
+                                            mode = .forgotPassword
+                                            focusedField = .email
                                         }
-                                        .font(ClavisTypography.clavixCaption)
-                                        .foregroundColor(.clavixAccent)
-                                        .buttonStyle(.plain)
                                     }
+                                    .font(ClavisTypography.clavixCaption)
+                                    .foregroundColor(authSecondaryText)
+                                    .buttonStyle(.plain)
                                 }
                             }
-
-                            AuthActionButton(
-                                title: submitTitle,
-                                fill: .clavixInk,
-                                foreground: .clavixPaper,
-                                isLoading: authViewModel.isLoading,
-                                isEnabled: isFormValid
-                            ) { submit() }
                         }
+
+                        AuthActionButton(
+                            title: submitTitle,
+                            fill: .textPrimary,
+                            foreground: .backgroundPrimary,
+                            isLoading: authViewModel.isLoading,
+                            isEnabled: isFormValid
+                        ) { submit() }
                     }
                     .padding(.bottom, 20)
 
                     // "or" divider + social — sign in + sign up only
                     if mode == .signUp || mode == .signIn {
                         HStack(spacing: 12) {
-                            Rectangle().fill(Color.clavixRule).frame(height: 1)
+                            Rectangle().fill(authDividerTone).frame(height: 1)
                             Text("or")
                                 .font(ClavisTypography.clavixMono(10, weight: .regular))
-                                .foregroundColor(.clavixInk3)
+                                .foregroundColor(authTertiaryText)
                                 .fixedSize()
-                            Rectangle().fill(Color.clavixRule).frame(height: 1)
+                            Rectangle().fill(authDividerTone).frame(height: 1)
                         }
                         .padding(.bottom, 16)
 
@@ -226,11 +250,11 @@ struct LoginView: View {
                                 logoView: AnyView(
                                     Image(systemName: "apple.logo")
                                         .font(.system(size: 17, weight: .medium))
-                                        .foregroundColor(.clavixPaper)
+                                        .foregroundColor(.backgroundPrimary)
                                 ),
                                 label: "Continue with Apple",
-                                fill: .clavixInk,
-                                foreground: .clavixPaper,
+                                fill: .textPrimary,
+                                foreground: .backgroundPrimary,
                                 bordered: false
                             ) {
                                 Task { await authViewModel.signInWithApple() }
@@ -243,8 +267,8 @@ struct LoginView: View {
                                         .foregroundColor(Color(red: 0.26, green: 0.52, blue: 0.96))
                                 ),
                                 label: "Continue with Google",
-                                fill: Color.clavixPaper,
-                                foreground: .clavixInk,
+                                fill: .surface,
+                                foreground: .textPrimary,
                                 bordered: true
                             ) {
                                 Task { await authViewModel.signInWithGoogle() }
@@ -264,7 +288,7 @@ struct LoginView: View {
             .scrollDismissesKeyboard(.interactively)
         }
         .safeAreaInset(edge: .top, spacing: 0) {
-            ClavixStickyBar()
+            AuthStickyBar()
         }
     }
 
@@ -288,7 +312,7 @@ struct LoginView: View {
                 }
             }
             .font(ClavisTypography.inter(14, weight: .semibold))
-            .foregroundColor(.clavixInk)
+            .foregroundColor(authLinkTone)
             .buttonStyle(.plain)
         case .signUp:
             Button("Already have an account? Sign in") {
@@ -298,7 +322,7 @@ struct LoginView: View {
                 }
             }
             .font(ClavisTypography.inter(14, weight: .semibold))
-            .foregroundColor(.clavixInk)
+            .foregroundColor(authLinkTone)
             .buttonStyle(.plain)
         case .forgotPassword:
             Button("Back to sign in") {
@@ -308,7 +332,7 @@ struct LoginView: View {
                 }
             }
             .font(ClavisTypography.inter(14, weight: .semibold))
-            .foregroundColor(.clavixInk)
+            .foregroundColor(authLinkTone)
             .buttonStyle(.plain)
         case .welcome:
             EmptyView()
@@ -356,17 +380,17 @@ struct LoginView: View {
 
     private var statusCard: AnyView? {
         if let error = authViewModel.errorMessage?.sanitizedDisplayText, !error.isEmpty {
-            return AnyView(ClavixCard(fill: .clavixBadSoft) {
+            return AnyView(AuthCard(fill: .badSoft) {
                 Text(error)
                     .font(ClavisTypography.inter(14, weight: .regular))
-                    .foregroundColor(.clavixInk2)
+                    .foregroundColor(Color.white.opacity(0.94))
                     .fixedSize(horizontal: false, vertical: true)
             })
         } else if let status = authViewModel.statusMessage?.sanitizedDisplayText, !status.isEmpty {
-            return AnyView(ClavixCard(fill: .clavixAccentSoft) {
+            return AnyView(AuthCard(fill: .accentSoft) {
                 Text(status)
                     .font(ClavisTypography.inter(14, weight: .regular))
-                    .foregroundColor(.clavixAccentInk)
+                    .foregroundColor(.accentInk)
                     .fixedSize(horizontal: false, vertical: true)
             })
         }
@@ -378,14 +402,14 @@ struct LoginView: View {
             Text("By continuing you agree to our")
             HStack(spacing: 4) {
                 Link("Terms of Service", destination: URL(string: "https://getclavix.com/terms")!)
-                    .foregroundColor(.clavixAccent)
+                    .foregroundColor(authLinkTone)
                 Text("and")
                 Link("Privacy Policy", destination: URL(string: "https://getclavix.com/privacy")!)
-                    .foregroundColor(.clavixAccent)
+                    .foregroundColor(authLinkTone)
             }
         }
         .font(ClavisTypography.clavixMono(10, weight: .regular))
-        .foregroundColor(.clavixInk3)
+        .foregroundColor(authTertiaryText)
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity)
     }
@@ -453,9 +477,9 @@ private struct WelcomeFeatureCarousel: View {
                             .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
                             .overlay(
                                 RoundedRectangle(cornerRadius: 18, style: .continuous)
-                                    .stroke(Color.clavixRule, lineWidth: 1)
+                                    .stroke(Color.border, lineWidth: 1)
                             )
-                            .shadow(color: Color.clavixInk.opacity(0.14), radius: 12, x: 0, y: 5)
+                            .shadow(color: Color.black.opacity(0.22), radius: 16, x: 0, y: 8)
                             .scaleEffect(index == currentIndex ? 1 : 0.93)
                             .opacity(index == currentIndex ? 1 : 0.55)
                             .animation(.spring(response: 0.45, dampingFraction: 0.8), value: currentIndex)
@@ -470,10 +494,10 @@ private struct WelcomeFeatureCarousel: View {
             VStack(spacing: 3) {
                 Text(slides[currentIndex].caption)
                     .font(ClavisTypography.inter(14, weight: .semibold))
-                    .foregroundColor(.clavixInk)
+                    .foregroundColor(.textPrimary)
                 Text(slides[currentIndex].subcaption)
                     .font(ClavisTypography.inter(12, weight: .regular))
-                    .foregroundColor(.clavixInk3)
+                    .foregroundColor(.textSecondary)
             }
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
@@ -482,7 +506,7 @@ private struct WelcomeFeatureCarousel: View {
             HStack(spacing: 5) {
                 ForEach(0..<slides.count, id: \.self) { i in
                     Circle()
-                        .fill(i == currentIndex ? Color.clavixInk : Color.clavixRule)
+                        .fill(i == currentIndex ? Color.textPrimary : Color.border)
                         .frame(width: i == currentIndex ? 6 : 4, height: i == currentIndex ? 6 : 4)
                         .animation(.easeInOut(duration: 0.2), value: currentIndex)
                 }
@@ -519,7 +543,7 @@ private struct SocialAuthButton: View {
             .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous)
-                    .stroke(bordered ? Color.clavixRule : Color.clear, lineWidth: 1)
+                    .stroke(bordered ? Color.border : Color.clear, lineWidth: 1)
             )
         }
         .buttonStyle(.plain)
@@ -552,7 +576,7 @@ private struct AuthActionButton: View {
                 } else {
                     Text(title)
                         .font(ClavisTypography.inter(15, weight: .semibold))
-                        .foregroundColor(isEnabled ? foreground : .clavixInk4)
+                        .foregroundColor(isEnabled ? foreground : Color.white.opacity(0.32))
                 }
             }
             .opacity(isEnabled ? 1 : 0.7)
@@ -563,14 +587,14 @@ private struct AuthActionButton: View {
 
     private var backgroundFill: Color {
         if !isEnabled {
-            return .clavixPaper2
+            return Color.white.opacity(0.04)
         }
         return fill
     }
 
     private var borderColor: Color {
         if bordered || !isEnabled {
-            return .clavixRule
+            return Color.white.opacity(0.12)
         }
         return .clear
     }
@@ -579,15 +603,25 @@ private struct AuthActionButton: View {
 private struct AuthInputField: View {
     let title: String
     @Binding var text: String
+    let textColor: Color
+    let promptColor: Color
+    let fillColor: Color
+    let borderTone: Color
     var focusedField: FocusState<LoginView.Field?>.Binding
     let field: LoginView.Field
     let submitLabel: SubmitLabel
     let onSubmit: () -> Void
 
     var body: some View {
-        TextField(title, text: $text)
-            .font(ClavisTypography.inter(15, weight: .regular))
-            .foregroundColor(.clavixInk)
+        TextField(
+            text: $text,
+            prompt: Text(title)
+                .foregroundColor(promptColor)
+        ) {
+            Text("")
+        }
+            .font(ClavisTypography.inter(15, weight: .medium))
+            .foregroundColor(textColor)
             .textContentType(.emailAddress)
             .textInputAutocapitalization(.never)
             .autocorrectionDisabled()
@@ -597,11 +631,68 @@ private struct AuthInputField: View {
             .onSubmit(onSubmit)
             .padding(.horizontal, 12)
             .frame(height: 48)
-            .background(Color.clavixPaper2)
+            .background(fillColor)
             .overlay(
                 RoundedRectangle(cornerRadius: ClavixLayout.controlRadius)
-                    .stroke(Color.clavixRule, lineWidth: 1)
+                    .stroke(borderTone, lineWidth: 1)
             )
             .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
+    }
+}
+
+private struct AuthCard<Content: View>: View {
+    var fill: Color = .surface
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        content
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(fill)
+            .overlay(
+                RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
+                    .stroke(Color.border, lineWidth: 1)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
+    }
+}
+
+private struct AuthStickyBar: View {
+    var body: some View {
+        ZStack {
+            HStack(spacing: 12) {
+                ZStack {
+                    Image("clavix_logo")
+                        .resizable()
+                        .renderingMode(.template)
+                        .scaledToFit()
+                        .frame(width: 28, height: 28)
+                        .foregroundColor(.textPrimary)
+                    Image("clavix_logo")
+                        .resizable()
+                        .renderingMode(.template)
+                        .scaledToFit()
+                        .frame(width: 28, height: 28)
+                        .scaleEffect(1.18)
+                        .foregroundColor(.textPrimary.opacity(0.3))
+                }
+                .frame(width: 30, height: 30)
+                .accessibilityHidden(true)
+                Spacer(minLength: 8)
+            }
+
+            Text("CLAVIX")
+                .font(ClavisTypography.inter(17, weight: .bold))
+                .tracking(1.2)
+                .foregroundColor(.textPrimary)
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 12)
+        .background(Color.backgroundPrimary.ignoresSafeArea(edges: .top))
+        .overlay(alignment: .bottom) {
+            Rectangle()
+                .fill(Color.border)
+                .frame(height: 1)
+        }
     }
 }
