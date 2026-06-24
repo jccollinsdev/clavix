@@ -422,40 +422,10 @@ struct LoginView: View {
 
 private struct WelcomeHeroIllustration: View {
     var body: some View {
-        ZStack {
-            RadialGradient(
-                colors: [Color.white.opacity(0.05), .clear],
-                center: .center,
-                startRadius: 20,
-                endRadius: 200
-            )
-
-            HeroPositionCard(
-                ticker: "NVDA", grade: "B",
-                sparkValues: [0.60, 0.45, 0.50, 0.35, 0.40, 0.38, 0.35],
-                dimValues: [0.50, 0.60, 0.40, 0.35, 0.70]
-            )
-            .rotationEffect(.degrees(-11))
-            .offset(x: -78, y: 18)
-            .opacity(0.36)
-
-            HeroPositionCard(
-                ticker: "TSLA", grade: "C",
-                sparkValues: [0.75, 0.60, 0.55, 0.50, 0.45, 0.40, 0.38],
-                dimValues: [0.35, 0.50, 0.30, 0.40, 0.55]
-            )
-            .rotationEffect(.degrees(7))
-            .offset(x: 70, y: 10)
-            .opacity(0.56)
-
-            HeroPositionCard(
-                ticker: "AAPL", grade: "A",
-                sparkValues: [0.35, 0.45, 0.50, 0.62, 0.68, 0.74, 0.80],
-                dimValues: [0.85, 0.72, 0.78, 0.65, 0.82]
-            )
-            .shadow(color: .white.opacity(0.07), radius: 28, x: 0, y: 10)
-        }
-        .frame(maxWidth: .infinity)
+        Image("splash_hero")
+            .resizable()
+            .scaledToFit()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
