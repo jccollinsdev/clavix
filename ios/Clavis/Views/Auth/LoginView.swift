@@ -66,14 +66,6 @@ struct LoginView: View {
         VStack(alignment: .leading, spacing: 0) {
             Spacer(minLength: 14)
 
-            Text("Daily portfolio risk intelligence")
-                .font(ClavisTypography.mono(11))
-                .foregroundColor(.textSecondary)
-                .tracking(0.8)
-                .textCase(.uppercase)
-                .padding(.horizontal, 24)
-                .padding(.bottom, 10)
-
             Text("Portfolio risk,\nmeasured.")
                 .font(ClavisTypography.inter(30, weight: .semibold))
                 .tracking(-0.6)
@@ -82,17 +74,16 @@ struct LoginView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 8)
 
-            Text("Every morning, Clavix scores your positions across five risk dimensions: macro, sector, financials, news, and volatility. The reasoning is always shown.")
+            Text("Know which positions are exposed — and why — before the market opens.")
                 .font(ClavisTypography.inter(14, weight: .regular))
                 .foregroundColor(authSecondaryText)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, 24)
 
-            Spacer(minLength: 12)
+            Spacer(minLength: 16)
 
             WelcomeFeatureCarousel()
-
-            Spacer(minLength: 12)
+                .padding(.bottom, 24)
 
             VStack(spacing: 10) {
                 AuthActionButton(
@@ -459,7 +450,7 @@ private struct WelcomeFeatureCarousel: View {
     private let timer = Timer.publish(every: 3.5, on: .main, in: .common).autoconnect()
 
     private let cardSpacing: CGFloat = 16
-    private let cardHeight: CGFloat = 210
+    private let cardHeight: CGFloat = 240
 
     var body: some View {
         VStack(spacing: 12) {
