@@ -64,7 +64,8 @@ struct LoginView: View {
 
     private var welcomeSurface: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Spacer(minLength: 14)
+            WelcomeHeroIllustration()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
 
             Text("Portfolio risk,\nmeasured.")
                 .font(ClavisTypography.inter(30, weight: .semibold))
@@ -74,15 +75,11 @@ struct LoginView: View {
                 .padding(.horizontal, 24)
                 .padding(.bottom, 8)
 
-            Text("Know which positions are exposed — and why — before the market opens.")
+            Text("Know which positions are exposed and why, before the market opens.")
                 .font(ClavisTypography.inter(14, weight: .regular))
                 .foregroundColor(authSecondaryText)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.horizontal, 24)
-
-            Spacer(minLength: 16)
-
-            WelcomeFeatureCarousel()
                 .padding(.bottom, 24)
 
             VStack(spacing: 10) {
@@ -423,89 +420,131 @@ struct LoginView: View {
     }
 }
 
-private struct WelcomeFeatureCarousel: View {
-    private struct Slide: Identifiable {
-        let id = UUID()
-        let imageName: String
-        let caption: String
-        let subcaption: String
+private struct WelcomeHeroIllustration: View {
+    var body: some View {
+        ZStack {
+            RadialGradient(
+                colors: [Color.white.opacity(0.05), .clear],
+                center: .center,
+                startRadius: 20,
+                endRadius: 200
+            )
+
+            HeroPositionCard(
+                ticker: "NVDA", grade: "B",
+                sparkValues: [0.60, 0.45, 0.50, 0.35, 0.40, 0.38, 0.35],
+                dimValues: [0.50, 0.60, 0.40, 0.35, 0.70]
+            )
+            .rotationEffect(.degrees(-11))
+            .offset(x: -78, y: 18)
+            .opacity(0.36)
+
+            HeroPositionCard(
+                ticker: "TSLA", grade: "C",
+                sparkValues: [0.75, 0.60, 0.55, 0.50, 0.45, 0.40, 0.38],
+                dimValues: [0.35, 0.50, 0.30, 0.40, 0.55]
+            )
+            .rotationEffect(.degrees(7))
+            .offset(x: 70, y: 10)
+            .opacity(0.56)
+
+            HeroPositionCard(
+                ticker: "AAPL", grade: "A",
+                sparkValues: [0.35, 0.45, 0.50, 0.62, 0.68, 0.74, 0.80],
+                dimValues: [0.85, 0.72, 0.78, 0.65, 0.82]
+            )
+            .shadow(color: .white.opacity(0.07), radius: 28, x: 0, y: 10)
+        }
+        .frame(maxWidth: .infinity)
     }
+}
 
-    private let slides: [Slide] = [
-        Slide(imageName: "screen_today_live",
-              caption: "Your daily risk briefing",
-              subcaption: "Five dimensions. One morning view."),
-        Slide(imageName: "screen_holdings_live",
-              caption: "Your whole portfolio, graded",
-              subcaption: "Bond-style ratings for every position."),
-        Slide(imageName: "screen_search_live",
-              caption: "Screen any ticker",
-              subcaption: "Drag the radar to filter by risk profile."),
-        Slide(imageName: "screen_alerts_live",
-              caption: "Know when risk shifts",
-              subcaption: "Grade-change alerts before the open."),
-    ]
+private struct HeroPositionCard: View {
+    let ticker: String
+    let grade: String
+    let sparkValues: [Double]
+    let dimValues: [Double]
 
-    @State private var currentIndex = 0
-    private let timer = Timer.publish(every: 3.5, on: .main, in: .common).autoconnect()
-
-    private let cardSpacing: CGFloat = 16
-    private let cardHeight: CGFloat = 240
+    private let dimLabels = ["MAC", "SEC", "FIN", "NWS", "VOL"]
 
     var body: some View {
-        VStack(spacing: 12) {
-            GeometryReader { geo in
-                let cardWidth = geo.size.width * 0.55
-                let centerOffset = (geo.size.width - cardWidth) / 2
-                let advance = cardWidth + cardSpacing
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .center) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(ticker)
+                        .font(ClavisTypography.inter(13, weight: .semibold))
+                        .foregroundColor(.white)
+                    Text("Risk score")
+                        .font(ClavisTypography.mono(8))
+                        .foregroundColor(.white.opacity(0.36))
+                }
+                Spacer()
+                Text(grade)
+                    .font(ClavisTypography.mono(24))
+                    .foregroundColor(.white.opacity(0.88))
+                    .frame(width: 44, height: 44)
+                    .background(.white.opacity(0.08))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            .stroke(.white.opacity(0.16), lineWidth: 1)
+                    )
+                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+            }
 
-                HStack(spacing: cardSpacing) {
-                    ForEach(Array(slides.enumerated()), id: \.offset) { index, slide in
-                        Image(slide.imageName)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: cardWidth, height: cardHeight)
-                            .clipped()
-                            .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                                    .stroke(Color.border, lineWidth: 1)
-                            )
-                            .shadow(color: Color.black.opacity(0.22), radius: 16, x: 0, y: 8)
-                            .scaleEffect(index == currentIndex ? 1 : 0.93)
-                            .opacity(index == currentIndex ? 1 : 0.55)
-                            .animation(.spring(response: 0.45, dampingFraction: 0.8), value: currentIndex)
+            HeroSparkline(values: sparkValues)
+                .frame(height: 28)
+
+            HStack(alignment: .bottom, spacing: 0) {
+                ForEach(0..<5, id: \.self) { i in
+                    VStack(spacing: 3) {
+                        RoundedRectangle(cornerRadius: 2)
+                            .fill(.white.opacity(dimValues[i] * 0.70))
+                            .frame(height: CGFloat(dimValues[i]) * 26)
+                        Text(dimLabels[i])
+                            .font(.system(size: 6, weight: .semibold, design: .monospaced))
+                            .foregroundColor(.white.opacity(0.28))
                     }
-                }
-                .offset(x: centerOffset - CGFloat(currentIndex) * advance)
-                .animation(.spring(response: 0.45, dampingFraction: 0.8), value: currentIndex)
-            }
-            .frame(height: cardHeight)
-            .clipped()
-
-            VStack(spacing: 3) {
-                Text(slides[currentIndex].caption)
-                    .font(ClavisTypography.inter(14, weight: .semibold))
-                    .foregroundColor(.textPrimary)
-                Text(slides[currentIndex].subcaption)
-                    .font(ClavisTypography.inter(12, weight: .regular))
-                    .foregroundColor(.textSecondary)
-            }
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity)
-            .animation(.easeInOut(duration: 0.2), value: currentIndex)
-
-            HStack(spacing: 5) {
-                ForEach(0..<slides.count, id: \.self) { i in
-                    Circle()
-                        .fill(i == currentIndex ? Color.textPrimary : Color.border)
-                        .frame(width: i == currentIndex ? 6 : 4, height: i == currentIndex ? 6 : 4)
-                        .animation(.easeInOut(duration: 0.2), value: currentIndex)
+                    .frame(maxWidth: .infinity, alignment: .bottom)
                 }
             }
+            .frame(height: 38)
         }
-        .onReceive(timer) { _ in
-            currentIndex = (currentIndex + 1) % slides.count
+        .padding(14)
+        .frame(width: 188, height: 158)
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(.white.opacity(0.065))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .stroke(.white.opacity(0.12), lineWidth: 1)
+        )
+    }
+}
+
+private struct HeroSparkline: View {
+    let values: [Double]
+
+    var body: some View {
+        GeometryReader { geo in
+            let w = geo.size.width
+            let h = geo.size.height
+            let step = w / CGFloat(max(values.count - 1, 1))
+
+            Path { path in
+                for (i, val) in values.enumerated() {
+                    let pt = CGPoint(x: CGFloat(i) * step, y: h - CGFloat(val) * h)
+                    if i == 0 { path.move(to: pt) } else { path.addLine(to: pt) }
+                }
+            }
+            .stroke(
+                LinearGradient(
+                    colors: [.white.opacity(0.20), .white.opacity(0.55)],
+                    startPoint: .leading,
+                    endPoint: .trailing
+                ),
+                style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round)
+            )
         }
     }
 }
