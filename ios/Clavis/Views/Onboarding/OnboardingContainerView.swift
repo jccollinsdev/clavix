@@ -131,7 +131,9 @@ private struct OnboardingWelcomeSetupView: View {
         GeometryReader { proxy in
             ScrollView(showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 0) {
-                    Spacer(minLength: 18)
+                    OnboardingLogoGrid()
+                        .padding(.horizontal, -24)
+                        .padding(.bottom, 36)
 
                     Text(title)
                         .font(ClavisTypography.inter(34, weight: .semibold))
@@ -147,12 +149,7 @@ private struct OnboardingWelcomeSetupView: View {
                         .foregroundColor(.ink2)
                         .lineSpacing(2)
                         .fixedSize(horizontal: false, vertical: true)
-                        .padding(.bottom, 18)
-
-                    OnboardingHoldingsEntry(
-                        viewModel: viewModel,
-                        isFreeTier: isFreeTier
-                    )
+                        .padding(.bottom, viewModel.errorMessage != nil ? 10 : 18)
 
                     if let errorMessage = viewModel.errorMessage?.sanitizedDisplayText,
                        !errorMessage.isEmpty {
@@ -160,8 +157,13 @@ private struct OnboardingWelcomeSetupView: View {
                             .font(ClavisTypography.inter(13, weight: .medium))
                             .foregroundColor(.warn)
                             .fixedSize(horizontal: false, vertical: true)
-                            .padding(.top, 12)
+                            .padding(.bottom, 12)
                     }
+
+                    OnboardingHoldingsEntry(
+                        viewModel: viewModel,
+                        isFreeTier: isFreeTier
+                    )
 
                     Spacer(minLength: 18)
                 }
@@ -176,33 +178,26 @@ private struct OnboardingWelcomeSetupView: View {
             OnboardingStickyBar(step: 1, total: 2)
         }
         .safeAreaInset(edge: .bottom, spacing: 0) {
-            VStack(spacing: 0) {
-                Rectangle().fill(Color.border).frame(height: 1)
-                Button(action: onPrimary) {
-                    HStack(spacing: 12) {
-                        Text("Next")
-                            .font(ClavisTypography.inter(15, weight: .semibold))
-                        Spacer()
-                        if viewModel.isPreparingAnalysis {
-                            ProgressView()
-                                .tint(.backgroundPrimary)
-                        } else {
-                            Image(systemName: "arrow.right")
-                                .font(.system(size: 14, weight: .semibold))
-                        }
+            Button(action: onPrimary) {
+                Group {
+                    if viewModel.isPreparingAnalysis {
+                        ProgressView().tint(.backgroundPrimary).scaleEffect(0.8)
+                    } else {
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 15, weight: .semibold))
                     }
-                    .foregroundColor(.backgroundPrimary)
-                    .padding(.horizontal, 18)
-                    .frame(width: 132, height: 52)
-                    .background(Color.textPrimary)
-                    .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
                 }
-                .buttonStyle(.plain)
-                .disabled(viewModel.isPreparingAnalysis)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 12)
-                .frame(maxWidth: .infinity, alignment: .trailing)
+                .foregroundColor(.backgroundPrimary)
+                .frame(width: 44, height: 44)
+                .background(Color.textPrimary)
+                .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.controlRadius, style: .continuous))
             }
+            .buttonStyle(.plain)
+            .disabled(viewModel.isPreparingAnalysis)
+            .padding(.horizontal, 24)
+            .padding(.top, 6)
+            .padding(.bottom, 4)
+            .frame(maxWidth: .infinity, alignment: .trailing)
             .background(Color.backgroundPrimary.ignoresSafeArea(edges: .bottom))
         }
     }
@@ -212,6 +207,125 @@ private struct OnboardingWelcomeSetupView: View {
             return "Let’s set up your portfolio."
         }
         return "Hey \(name),\nlet’s set up your portfolio."
+    }
+}
+
+private struct OnboardingLogoGrid: View {
+    private struct LogoEntry: Identifiable {
+        let id: String
+        let domain: String
+    }
+    private struct Row {
+        let entries: [LogoEntry]
+        let brick: Bool
+    }
+
+    private let gap: CGFloat = 8
+    private let brickExtraShift: CGFloat = 10
+
+    // Tiles are sized to fit 5.5 per row so 6 tiles always overflow the
+    // container on both sides — clips create partial tiles at each edge.
+    private var tileW: CGFloat { (UIScreen.main.bounds.width - 5 * gap) / 5.5 }
+    // Centers overflow for even rows; brick rows shift right by brickExtraShift.
+    private var baseShift: CGFloat {
+        let rowW = 6 * tileW + 5 * gap
+        return -(rowW - UIScreen.main.bounds.width) / 2
+    }
+    private var gridHeight: CGFloat { (4 * tileW + 3 * gap) * 0.8 }
+
+    // All rows: 6 tiles. Even rows centered (equal partial tiles at both edges).
+    // Brick rows shifted +10pt right → left tile shows more, right tile shows less.
+    private let rows: [Row] = [
+        Row(entries: [
+            .init(id: "AAPL", domain: "apple.com"),
+            .init(id: "MSFT", domain: "microsoft.com"),
+            .init(id: "NVDA", domain: "nvidia.com"),
+            .init(id: "GOOGL", domain: "google.com"),
+            .init(id: "AMZN", domain: "amazon.com"),
+            .init(id: "DIS",  domain: "disney.com"),
+        ], brick: false),
+        Row(entries: [
+            .init(id: "V",    domain: "visa.com"),
+            .init(id: "META", domain: "meta.com"),
+            .init(id: "TSLA", domain: "tesla.com"),
+            .init(id: "JPM",  domain: "jpmorgan.com"),
+            .init(id: "NFLX", domain: "netflix.com"),
+            .init(id: "COIN", domain: "coinbase.com"),
+        ], brick: true),
+        Row(entries: [
+            .init(id: "INTC", domain: "intel.com"),
+            .init(id: "JNJ",  domain: "jnj.com"),
+            .init(id: "WMT",  domain: "walmart.com"),
+            .init(id: "BAC",  domain: "bankofamerica.com"),
+            .init(id: "PYPL", domain: "paypal.com"),
+            .init(id: "UNH",  domain: "unitedhealthgroup.com"),
+        ], brick: false),
+        Row(entries: [
+            .init(id: "COST", domain: "costco.com"),
+            .init(id: "AMD",  domain: "amd.com"),
+            .init(id: "SBUX", domain: "starbucks.com"),
+            .init(id: "SPOT", domain: "spotify.com"),
+            .init(id: "UBER", domain: "uber.com"),
+            .init(id: "SHOP", domain: "shopify.com"),
+        ], brick: true),
+    ]
+
+    var body: some View {
+        GeometryReader { geo in
+            let tW = (geo.size.width - 5 * gap) / 5.5
+            let rowW = 6 * tW + 5 * gap
+            let base = -(rowW - geo.size.width) / 2
+
+            VStack(spacing: gap) {
+                ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
+                    HStack(spacing: gap) {
+                        ForEach(row.entries) { entry in
+                            OnboardingLogoTile(ticker: entry.id, domain: entry.domain)
+                                .frame(width: tW, height: tW)
+                        }
+                    }
+                    .offset(x: row.brick ? base + brickExtraShift : base)
+                }
+            }
+            .clipShape(Rectangle())
+            .mask(
+                LinearGradient(
+                    stops: [
+                        .init(color: .black.opacity(0), location: 0.0),
+                        .init(color: .black, location: 0.12),
+                        .init(color: .black, location: 0.50),
+                        .init(color: .clear, location: 0.76),
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
+        }
+        .frame(height: gridHeight)
+    }
+}
+
+private struct OnboardingLogoTile: View {
+    let ticker: String
+    let domain: String
+
+    var body: some View {
+        ZStack {
+            Color.white
+            AsyncImage(
+                url: URL(string: "https://t3.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://\(domain)&size=128"),
+                content: { image in
+                    image.resizable().scaledToFit().padding(9)
+                },
+                placeholder: {
+                    Text(ticker)
+                        .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                        .foregroundColor(.black.opacity(0.45))
+                }
+            )
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+        .shadow(color: .black.opacity(0.25), radius: 6, x: 0, y: 2)
     }
 }
 
@@ -297,19 +411,6 @@ private struct WelcomeHoldingRow: View {
             .autocorrectionDisabled()
             .keyboardType(.asciiCapable)
 
-            Group {
-                if entry.isResolving {
-                    ProgressView()
-                        .tint(.textSecondary)
-                        .scaleEffect(0.72)
-                } else if entry.notFound {
-                    Image(systemName: "exclamationmark.circle")
-                        .font(.system(size: 14, weight: .medium))
-                        .foregroundColor(.warn)
-                }
-            }
-            .frame(width: 18)
-
             TextField("0", text: Binding(
                 get: { entry.shares },
                 set: { viewModel.updateShares(entry.id, $0) }
@@ -318,7 +419,18 @@ private struct WelcomeHoldingRow: View {
             .foregroundColor(.textPrimary)
             .keyboardType(.decimalPad)
             .multilineTextAlignment(.trailing)
-            .frame(width: 78)
+            .frame(width: 62)
+
+            Button {
+                viewModel.removeEntry(entry.id)
+            } label: {
+                Image(systemName: "minus.circle")
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundColor(.textTertiary)
+            }
+            .buttonStyle(.plain)
+            .opacity(viewModel.entries.count > 1 ? 1 : 0)
+            .disabled(viewModel.entries.count <= 1)
         }
         .padding(.horizontal, 14)
         .frame(height: 58)

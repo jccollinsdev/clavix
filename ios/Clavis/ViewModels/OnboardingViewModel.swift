@@ -126,6 +126,15 @@ final class OnboardingViewModel: ObservableObject {
         }
     }
 
+    func removeEntry(_ id: UUID) {
+        guard entries.count > 1 else { return }
+        resolveTasks[id]?.cancel()
+        resolveTasks.removeValue(forKey: id)
+        withAnimation(.easeInOut(duration: 0.2)) {
+            entries.removeAll { $0.id == id }
+        }
+    }
+
     // MARK: - Aha flow: ticker resolution (debounced)
 
     func updateQuery(_ id: UUID, _ value: String) {
@@ -219,7 +228,14 @@ final class OnboardingViewModel: ObservableObject {
                 return false
             }
 
-            if entry.resolved == nil {
+            // Fast-path: debounce already determined this ticker is not supported.
+            if entry.notFound {
+                errorMessage = "\(ticker.uppercased()) is currently unsupported. Try a different ticker."
+                return false
+            }
+
+            // Only hit the network if the entry hasn't resolved yet and isn't mid-resolve.
+            if entry.resolved == nil && !entry.isResolving {
                 resolveTasks[entry.id]?.cancel()
                 await performResolve(id: entry.id, query: ticker)
             }
@@ -229,7 +245,7 @@ final class OnboardingViewModel: ObservableObject {
             entries.first(where: { $0.id == entry.id })?.resolved == nil
         }?.query
         if let unresolvedTicker {
-            errorMessage = "We couldn't load \(unresolvedTicker.uppercased()). Check the ticker and try again."
+            errorMessage = "\(unresolvedTicker.uppercased()) is currently unsupported. Try a different ticker."
             return false
         }
 

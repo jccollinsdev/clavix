@@ -120,6 +120,7 @@ struct LoginView: View {
         ZStack {
             Color.backgroundPrimary.ignoresSafeArea()
 
+            GeometryReader { geo in
             ScrollView {
                 VStack(alignment: .leading, spacing: 0) {
 
@@ -222,6 +223,8 @@ struct LoginView: View {
                     }
                     .padding(.bottom, 20)
 
+                    Spacer(minLength: 8)
+
                     // "or" divider + social — sign in + sign up only
                     if mode == .signUp || mode == .signIn {
                         HStack(spacing: 12) {
@@ -266,15 +269,19 @@ struct LoginView: View {
                         .padding(.bottom, 20)
                     }
 
+                    Spacer(minLength: 8)
+
                     secondaryActions
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 16)
 
                     termsFooter
                         .padding(.bottom, 40)
                 }
                 .padding(.horizontal, 24)
+                .frame(minHeight: geo.size.height)
             }
             .scrollDismissesKeyboard(.interactively)
+            } // GeometryReader
         }
         .safeAreaInset(edge: .top, spacing: 0) {
             ClavixAuthStickyBar()
@@ -283,7 +290,7 @@ struct LoginView: View {
 
     private var formSubtitle: String? {
         switch mode {
-        case .signUp: return "Start your 14-day trial, then $19.99/month."
+        case .signUp: return "Get a clearer picture of your portfolio."
         case .signIn: return "Welcome back."
         case .forgotPassword: return "Enter your email and we'll send a reset link."
         case .welcome: return nil
@@ -577,10 +584,9 @@ private struct AuthActionButton: View {
                 } else {
                     Text(title)
                         .font(ClavisTypography.inter(15, weight: .semibold))
-                        .foregroundColor(isEnabled ? foreground : Color.white.opacity(0.32))
+                        .foregroundColor(isEnabled ? foreground : Color.white.opacity(0.55))
                 }
             }
-            .opacity(isEnabled ? 1 : 0.7)
         }
         .buttonStyle(.plain)
         .disabled(!isEnabled || isLoading)
@@ -588,7 +594,7 @@ private struct AuthActionButton: View {
 
     private var backgroundFill: Color {
         if !isEnabled {
-            return Color.white.opacity(0.04)
+            return Color.white.opacity(0.12)
         }
         return fill
     }
