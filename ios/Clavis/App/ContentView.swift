@@ -59,8 +59,6 @@ struct ContentView: View {
     private var authRoot: some View {
         if allowDebugBypassLiveEntry && authViewModel.isAuthenticated {
             MainTabView()
-        } else if authViewModel.isLoadingPreferences && !hasCheckedSession {
-            LoadingView()
         } else if authViewModel.isAuthenticated && authViewModel.isLoadingPreferences {
             LoadingView()
         } else if authViewModel.isAuthenticated {
