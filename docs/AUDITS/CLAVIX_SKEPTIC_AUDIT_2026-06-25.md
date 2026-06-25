@@ -227,6 +227,14 @@ These are the things I would still point at, with the honest reason each remains
    low coverage and fails loudly in job_runs, but there is no PagerDuty/email yet. Adequate for a
    closed beta; wire a real channel before scale.
 
+7. **The host has only ~2 GB RAM.** Two heavy batch jobs running at once (observed when a manual
+   eod-price capture and a manual news refresh were launched simultaneously) can trip the kernel
+   OOM-killer and silently kill a child process, leaving a job_runs row stuck "running". The
+   scheduled jobs are staggered across the day so they do not normally collide, and ops_monitor now
+   surfaces a stuck row, but the box is memory-constrained and should be sized up (or jobs
+   memory-capped) before adding load. Verified harmless to the data (the recompute, run alone,
+   completed 546/546).
+
 None of these are the kind of defect the morning audit found (a fake number shown as real, or a
 null score sitting on real data). They are either free-tier physics or honest in-progress
 convergence, and every one is now visible to the daily monitor.
