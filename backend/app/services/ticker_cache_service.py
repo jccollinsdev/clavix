@@ -391,6 +391,14 @@ def _is_article_relevant_to_ticker(row: dict, ticker: str, company_name: str | N
     if tldr and any(p in tldr for p in _no_info_phrases):
         return False
 
+    # These rows are already ticker-scoped (fetched via .eq("ticker", ...)) and the
+    # candidate_ranker guards ingestion, so an article that was LLM-enriched for this
+    # ticker (carries a real sentiment_score) and was not flagged "no info" above is
+    # relevant. The previous title-only check discarded ~110 tickers' worth of real,
+    # enriched coverage and forced their news dimension to NULL.
+    if _coerce_float(row.get("sentiment_score")) is not None:
+        return True
+
     title_upper = title.upper()
     if ticker.upper() in title_upper:
         return True
@@ -401,7 +409,7 @@ def _is_article_relevant_to_ticker(row: dict, ticker: str, company_name: str | N
         if len(first_word) >= 4 and first_word in title.lower():
             return True
 
-    return False  # ticker absent from title → likely off-ticker
+    return False  # un-enriched and ticker absent from title → likely off-ticker
 
 
 def _filter_news_rows_by_relevance(
@@ -627,41 +635,67 @@ def reuse_previous_dimension_on_transient_failure(
 def _build_news_sentiment_inputs(news_rows: list[dict[str, Any]]) -> dict[str, Any]:
     now = datetime.now(timezone.utc)
     article_count_7d = 0
-    weighted_total = 0.0
-    total_weight = 0.0
     article_count_28d = 0
+    weighted_total_7d = 0.0
+    total_weight_7d = 0.0
+    weighted_total_28d = 0.0
+    total_weight_28d = 0.0
 
     for row in news_rows:
         published_at = _parse_iso_datetime(row.get("published_at"))
         if not published_at:
             continue
         age_days = (now - published_at).total_seconds() / 86400.0
-        if age_days <= 28:
-            article_count_28d += 1
-        if age_days > 7:
+        if age_days > 28:
             continue
-        article_count_7d += 1
         sentiment_score = _coerce_float(row.get("sentiment_score"))
-        if sentiment_score is None:
-            continue
         recency_weight = _coerce_float(row.get("recency_weight")) or 1.0
         source_weight = _coerce_float(row.get("source_weight")) or 1.0
         weight = recency_weight * source_weight
-        weighted_total += sentiment_score * weight
-        total_weight += weight
+        article_count_28d += 1
+        if sentiment_score is not None:
+            weighted_total_28d += sentiment_score * weight
+            total_weight_28d += weight
+        if age_days <= 7:
+            article_count_7d += 1
+            if sentiment_score is not None:
+                weighted_total_7d += sentiment_score * weight
+                total_weight_7d += weight
 
+    score_7d = round(weighted_total_7d / total_weight_7d, 1) if total_weight_7d > 0 else None
+    score_28d = round(weighted_total_28d / total_weight_28d, 1) if total_weight_28d > 0 else None
     baseline = article_count_28d / 4.0 if article_count_28d else 0.0
-    weighted_score = round(weighted_total / total_weight, 1) if total_weight > 0 else None
+
+    # Prefer the last 7 days; fall back to a 28-day window when the recent week is
+    # thin. The corpus only fully cycles every ~4.7 days, so a strict 7-day floor
+    # forced ~190 universe tickers that DO have real recent coverage to a NULL news
+    # dimension. The fallback is still recency-weighted (older events already carry a
+    # lower recency_weight), so it down-weights staleness rather than ignoring it.
+    if article_count_7d >= 3 and score_7d is not None:
+        weighted_score = score_7d
+        scoring_window_days = 7
+        effective_count = article_count_7d
+    elif article_count_28d >= 3 and score_28d is not None:
+        weighted_score = score_28d
+        scoring_window_days = 28
+        effective_count = article_count_28d
+    else:
+        weighted_score = score_7d if score_7d is not None else score_28d
+        scoring_window_days = 7
+        effective_count = article_count_7d
+
     result = {
         "article_count_7d": article_count_7d,
+        "article_count_28d": article_count_28d,
+        "scoring_window_days": scoring_window_days,
         "volume_signal": bool(article_count_7d and baseline and article_count_7d > baseline * 1.25),
         "weighted_score": weighted_score,
     }
-    if article_count_7d < 3:
+    if effective_count < 3:
         result["limited_data"] = True
         result["limited_reason"] = (
-            f"Only {article_count_7d} shared ticker event(s) were available in the last 7 days; "
-            "at least 3 are required for a scored news sentiment dimension."
+            f"Only {article_count_7d} article(s) in the last 7 days and {article_count_28d} "
+            "in the last 28 days; at least 3 are required for a scored news sentiment dimension."
         )
     elif weighted_score is None:
         result["limited_data"] = True
@@ -4725,8 +4759,13 @@ def refresh_ticker_snapshot(
                 or inputs.get("limited")
             )
         ]
+        # Only stamp a refresh time for dimensions that actually produced a value.
+        # Stamping a limited/NULL dimension as "fresh" was a freshness lie that let
+        # the daily recompute skip a ticker that still had no usable data for a dim.
         dimension_last_refreshed = {
-            key: analysis_as_of for key in dimension_inputs
+            key: analysis_as_of
+            for key in dimension_inputs
+            if key not in limited_data_dimensions
         }
         def _dim_or_none(value, dimension: str) -> "int | None":
             """Preserve genuine zero scores while nulling only limited inputs."""

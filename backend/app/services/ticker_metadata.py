@@ -343,17 +343,39 @@ def fetch_ticker_details_from_finnhub(ticker: str) -> dict | None:
         rev = _metric_as_float(metric_values, "revenueAnnual")
         if fcf is not None and rev and rev > 0:
             fcf_margin = fcf / rev
+        if fcf_margin is None:
+            # Finnhub's free basic-financials does NOT expose freeCashFlowAnnual/revenueAnnual,
+            # but it does expose P/FCF-per-share and revenue-per-share. Derive the margin as
+            # fcf_per_share / revenue_per_share, where fcf_per_share = price / pfcfShare.
+            price_for_fcf = _safe_metric_float(quote_data.get("c")) or _safe_metric_float(
+                profile_data.get("price")
+            )
+            pfcf = _metric_as_float(metric_values, "pfcfShareTTM") or _metric_as_float(
+                metric_values, "pfcfShareAnnual"
+            )
+            rev_ps = _metric_as_float(metric_values, "revenuePerShareTTM") or _metric_as_float(
+                metric_values, "revenuePerShareAnnual"
+            )
+            if price_for_fcf and pfcf and pfcf != 0 and rev_ps and rev_ps > 0:
+                fcf_per_share = price_for_fcf / pfcf
+                fcf_margin = round(fcf_per_share / rev_ps, 4)
 
-        # Use Finnhub's direct interest coverage ratio; fall back to EBIT/interest-expense
+        # Finnhub free tier exposes interest coverage as netInterestCoverage{Annual,TTM};
+        # the older interestCoverageAnnual key does not exist (it was 100% NULL). Try the
+        # real keys first, then fall back to EBIT/interest-expense.
         interest_coverage = None
-        interest_cov_raw = metric_values.get("interestCoverageAnnual")
-        interest_cov_raw2 = metric_values.get("interestCoverageQuarterly")
-        if interest_cov_raw is not None:
-            interest_coverage = _safe_metric_float(interest_cov_raw)
-        elif interest_cov_raw2 is not None:
-            interest_coverage = _safe_metric_float(interest_cov_raw2)
+        for _ic_key in (
+            "netInterestCoverageAnnual",
+            "netInterestCoverageTTM",
+            "interestCoverageAnnual",
+            "interestCoverageQuarterly",
+        ):
+            raw = metric_values.get(_ic_key)
+            if raw is not None:
+                interest_coverage = _safe_metric_float(raw)
+                if interest_coverage is not None:
+                    break
         if interest_coverage is None:
-            # Compute EBIT / interest expense directly from raw metrics
             ebit_raw = _metric_as_float(metric_values, "ebitAnnual")
             int_exp_raw = _metric_as_float(metric_values, "interestExpenseAnnual")
             if ebit_raw is not None and int_exp_raw is not None and int_exp_raw > 0:
@@ -583,6 +605,20 @@ def build_ticker_metadata(ticker: str, finnhub_data: dict | None = None) -> dict
 
     now_iso = datetime.now(timezone.utc).isoformat()
 
+    # Only stamp fundamentals as freshly-updated when the refetch produced at least one
+    # real fundamental value. A blank refetch used to stamp the row "fresh" anyway, which
+    # masked an empty pull and suppressed future backfill (false freshness).
+    _has_real_fundamentals = any(
+        finnhub_data.get(k) is not None
+        for k in (
+            "debt_to_equity",
+            "fcf_margin",
+            "interest_coverage",
+            "current_ratio",
+            "revenue_growth_trend",
+        )
+    )
+
     return {
         "ticker": ticker.upper(),
         "company_name": finnhub_data.get("company_name"),
@@ -614,7 +650,7 @@ def build_ticker_metadata(ticker: str, finnhub_data: dict | None = None) -> dict
         "interest_coverage": finnhub_data.get("interest_coverage"),
         "current_ratio": finnhub_data.get("current_ratio"),
         "revenue_growth_trend": finnhub_data.get("revenue_growth_trend"),
-        "fundamentals_updated_at": now_iso,
+        "fundamentals_updated_at": now_iso if _has_real_fundamentals else None,
         "macro_sensitivity": finnhub_data.get("macro_sensitivity"),
         "spread_proxy": spread_proxy,
         "is_supported": True,

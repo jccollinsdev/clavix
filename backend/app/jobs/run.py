@@ -109,6 +109,18 @@ def _tldr_backfill() -> dict:
     return run_from_env()
 
 
+def _eod_price_capture() -> dict:
+    from app.jobs.eod_price_capture import run_from_env
+
+    return run_from_env()
+
+
+def _ops_monitor() -> dict:
+    from app.jobs.ops_monitor import run_from_env
+
+    return run_from_env()
+
+
 JOB_REGISTRY: dict[str, JobSpec] = {
     "daily_macro_snapshot": JobSpec("daily_macro_snapshot", "daily", _macro_snapshot),
     "daily_sector_snapshot": JobSpec("daily_sector_snapshot", "daily", _sector_snapshot),
@@ -147,6 +159,10 @@ JOB_REGISTRY: dict[str, JobSpec] = {
         "weekly_fundamentals_sweep", "weekly", _fundamentals_sweep
     ),
     "tldr_backfill": JobSpec("tldr_backfill", "manual", _tldr_backfill),
+    "daily_eod_price_capture": JobSpec(
+        "daily_eod_price_capture", "daily", _eod_price_capture
+    ),
+    "daily_ops_monitor": JobSpec("daily_ops_monitor", "daily", _ops_monitor),
     # Volatility is computed per-ticker as part of composite_recompute.
     # weekly_volatility_recompute aliases it so the Saturday cron entry works.
     "weekly_volatility_recompute": JobSpec(

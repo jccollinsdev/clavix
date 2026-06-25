@@ -7,6 +7,7 @@ fetch_company_news and fetch_market_news are kept for backward compat.
 from __future__ import annotations
 
 import asyncio
+import os
 import finnhub
 from datetime import datetime, timedelta, timezone
 from typing import List
@@ -14,6 +15,13 @@ from typing import List
 from ..config import get_settings
 
 settings = get_settings()
+
+# Finnhub free tier allows ~60 calls/minute. The universe refresh fetches news for
+# every active ticker serially, so without throttling it 429-ed after ~60 (alphabetical)
+# tickers and silently dropped the rest of the universe. Pace at ~1.1s/call and back off
+# on 429 so every ticker actually gets fetched.
+FINNHUB_MIN_CALL_INTERVAL = float(os.getenv("FINNHUB_MIN_CALL_INTERVAL", "1.1"))
+FINNHUB_MAX_RETRIES = int(os.getenv("FINNHUB_MAX_RETRIES", "3"))
 
 
 def get_finnhub_client() -> finnhub.Client:
@@ -57,7 +65,7 @@ async def fetch_finnhub_ticker_news(
     tickers: list[str],
     *,
     days: int = 7,
-    limit_per_ticker: int = 10,
+    limit_per_ticker: int = 15,
 ) -> tuple[dict[str, list[dict]], dict]:
     """Fetch Finnhub company news for the trailing `days` window.
 
@@ -86,20 +94,30 @@ async def fetch_finnhub_ticker_news(
         client = get_finnhub_client()
         return client.company_news(ticker, _from=from_date, to=to_date) or []
 
-    for ticker in tickers:
-        metrics["calls"] += 1
-        try:
-            raw = await asyncio.to_thread(_sync_fetch, ticker)
-        except Exception as exc:
-            msg = str(exc).lower()
-            if "429" in msg or "rate" in msg or "too many" in msg:
-                metrics["rate_limited"] += 1
-                metrics["errors"][ticker] = "rate_limited"
-            else:
-                metrics["errors"][ticker] = str(exc)[:80]
-            per_ticker[ticker] = []
-            metrics["per_ticker_raw"][ticker] = 0
-            continue
+    for idx, ticker in enumerate(tickers):
+        # Pace calls so we stay under the free-tier 60/min ceiling.
+        if idx > 0 and FINNHUB_MIN_CALL_INTERVAL > 0:
+            await asyncio.sleep(FINNHUB_MIN_CALL_INTERVAL)
+
+        raw: list = []
+        for attempt in range(FINNHUB_MAX_RETRIES):
+            metrics["calls"] += 1
+            try:
+                raw = await asyncio.to_thread(_sync_fetch, ticker)
+                break
+            except Exception as exc:
+                msg = str(exc).lower()
+                if "429" in msg or "rate" in msg or "too many" in msg:
+                    metrics["rate_limited"] += 1
+                    if attempt < FINNHUB_MAX_RETRIES - 1:
+                        # Exponential backoff before retrying this ticker.
+                        await asyncio.sleep(FINNHUB_MIN_CALL_INTERVAL * (2 ** (attempt + 1)))
+                        continue
+                    metrics["errors"][ticker] = "rate_limited"
+                else:
+                    metrics["errors"][ticker] = str(exc)[:80]
+                raw = []
+                break
 
         metrics["articles_raw"] += len(raw)
         metrics["per_ticker_raw"][ticker] = len(raw)

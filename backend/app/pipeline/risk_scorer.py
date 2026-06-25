@@ -668,12 +668,16 @@ def _score_financial_health(metadata: dict) -> int:
         elif current_ratio < 0.5:
             score -= 5
 
-    if rev_growth:
-        if rev_growth >= 0.30:
+    if rev_growth is not None and rev_growth != 0:
+        # revenue_growth_trend is stored as a PERCENT (e.g. 15.55 == 15.55%, max ~260),
+        # but the thresholds below are fractions (0.30 == 30%). Without this conversion
+        # ~89% of tickers tripped the top bonus and the input stopped discriminating.
+        rev_growth_frac = rev_growth / 100.0
+        if rev_growth_frac >= 0.30:
             score += 8
-        elif rev_growth >= 0.10:
+        elif rev_growth_frac >= 0.10:
             score += 4
-        elif rev_growth >= 0.0:
+        elif rev_growth_frac >= 0.0:
             score += 1
         else:
             score -= 5
@@ -709,7 +713,14 @@ def _score_macro_exposure(metadata: dict) -> int:
         except Exception:
             factor_breakdown = {}
     reg = factor_breakdown.get("macro_regression") or {}
-    if isinstance(reg, dict) and not reg.get("limited_data"):
+    _reg_r2 = _safe_float(reg.get("r_squared"), 0.0) if isinstance(reg, dict) else 0.0
+    # A regression with R^2 < 0.10 has no real explanatory power. Across the whole
+    # universe the per-ticker fit sat at ~0.02, so the regression path collapsed to a
+    # near-constant ~90 that inflated every macro score (and every grade). Only trust
+    # the regression when it actually fits; otherwise fall through to the beta-based
+    # macro-sensitivity heuristic, which discriminates by how much the name moves with
+    # the market.
+    if isinstance(reg, dict) and not reg.get("limited_data") and _reg_r2 >= 0.10:
         sensitivity_score = reg.get("sensitivity_score")
         if sensitivity_score is None:
             coefficients = reg.get("coefficients") or {}
@@ -755,7 +766,12 @@ def _macro_rationale(metadata: dict, score: int) -> str:
         except Exception:
             factor_breakdown = {}
     reg = factor_breakdown.get("macro_regression") or {}
-    if isinstance(reg, dict) and reg.get("r_squared") is not None and not reg.get("limited_data"):
+    if (
+        isinstance(reg, dict)
+        and reg.get("r_squared") is not None
+        and not reg.get("limited_data")
+        and _safe_float(reg.get("r_squared"), 0.0) >= 0.10
+    ):
         coef = reg.get("coefficients", {})
         top_factor = max(coef.items(), key=lambda x: abs(x[1])) if coef else ("market", 0.0)
         return (

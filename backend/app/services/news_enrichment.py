@@ -11,7 +11,9 @@ from typing import Any
 # Finnhub-first pipeline settings
 NEWS_PRIMARY_PROVIDER: str = "finnhub"
 GOOGLE_NEWS_FALLBACK_ENABLED: bool = os.getenv("GOOGLE_NEWS_FALLBACK_ENABLED", "true").lower() not in {"0", "false", "no", "off"}
-GOOGLE_FALLBACK_MIN_USABLE_ARTICLES: int = int(os.getenv("GOOGLE_FALLBACK_MIN_USABLE_ARTICLES", "3"))
+# Per-ticker usable-article floor. The product target is >=10 fully-usable articles per
+# ticker, so any ticker below this gets topped up from the Google News fallback.
+GOOGLE_FALLBACK_MIN_USABLE_ARTICLES: int = int(os.getenv("GOOGLE_FALLBACK_MIN_USABLE_ARTICLES", "10"))
 
 from .article_scraper import (
     _extract_with_trafilatura,
@@ -368,7 +370,7 @@ async def enrich_and_store_article(
                 supabase,
                 ticker=ticker,
                 event_hash=event_hash,
-                columns="sentiment_score,sentiment_reason,impact_tag,tldr,what_it_means,key_implications",
+                columns="sentiment_score,sentiment_reason,impact_tag,tldr,what_it_means,key_implications,risk_direction",
             )
             if existing_row:
                 existing_llm = existing_row
@@ -378,10 +380,27 @@ async def enrich_and_store_article(
     is_paywalled = is_paywalled_domain(canonical_url)
     is_blocked = is_blocked_domain(canonical_url)
 
+    # Extraction recovery: when full-article extraction yields nothing usable (failed,
+    # blocked, or a navigation shell), fall back to the provider-supplied summary so the
+    # article can still be enriched (TLDR + implications + a body-scored sentiment) instead
+    # of being permanently headline-only. ~27% of rows used to die at extraction; this is the
+    # single biggest lever on the "10 fully-enriched articles per ticker" target.
+    summary_text = str(article.get("summary") or "").strip()
+    used_summary = False
+    if (
+        not is_paywalled
+        and ((not body) or len(body.split()) < 30 or _is_navigation_heavy(body))
+        and len(summary_text.split()) >= 12
+    ):
+        body = summary_text
+        used_summary = True
+
     if is_paywalled or (body and body.startswith("[Paywalled]")):
         body = "[Paywalled] " + headline
         extraction_status = "paywalled"
         is_paywalled = True
+    elif used_summary:
+        extraction_status = "summary"
     elif is_blocked and (not body or len(body.split()) < 30):
         body = "[Blocked] " + headline
         extraction_status = "blocked"
@@ -411,6 +430,10 @@ async def enrich_and_store_article(
     tldr: str | None = existing_llm.get("tldr")
     what_it_means: str | None = existing_llm.get("what_it_means")
     key_implications: list | None = existing_llm.get("key_implications")
+    # Preserve a real (deep-tier) risk_direction if one already exists; otherwise we
+    # derive one from sentiment below so the news dimension carries direction instead
+    # of defaulting to neutral.
+    risk_direction: str | None = existing_llm.get("risk_direction") or None
 
     need_sentiment = sentiment_score is None
     # BUG FIX: key_implications was not included in the need_tldr check.
@@ -431,7 +454,9 @@ async def enrich_and_store_article(
         and not is_paywalled
         and not body.startswith("[No body extracted]")
         and not body.startswith("[Navigation only]")
-        and len(body.split()) >= 40
+        and not body.startswith("[Blocked]")
+        # Summary-sourced bodies are short but real; let them through at a lower bar.
+        and len(body.split()) >= (12 if extraction_status == "summary" else 40)
     )
     headline_only = not body_has_content and bool(headline)
     scoring_text = body if body_has_content else headline
@@ -467,6 +492,32 @@ async def enrich_and_store_article(
             except Exception as exc:
                 logger.warning("TLDR generation failed for %s: %s", ticker, exc)
 
+    # Derive a directional signal from sentiment when none was set by the deep-analysis
+    # tier. Sentiment is a 0-100 scale (50 == neutral): <40 worsening, >60 improving.
+    if not risk_direction and sentiment_score is not None:
+        try:
+            _ss = float(sentiment_score)
+            risk_direction = (
+                "worsening" if _ss < 40 else ("improving" if _ss > 60 else "neutral")
+            )
+        except (TypeError, ValueError):
+            risk_direction = None
+
+    # Row-level completeness flag so partial enrichment can resume and "fully enriched"
+    # is queryable (previously analysis_status was 100% NULL across the corpus).
+    _ki_done = bool(key_implications) and len(key_implications) > 0
+    if extraction_status in {"paywalled", "blocked", "failed", "navigation_only", "empty"} and not (
+        body_has_content
+    ):
+        analysis_status = "headline_only"
+    elif sentiment_score is None:
+        analysis_status = "incomplete"
+    elif tldr and what_it_means and _ki_done:
+        analysis_status = "complete"
+    else:
+        analysis_status = "partial"
+    data_status = "complete" if analysis_status == "complete" else "partial"
+
     payload = {
         "ticker": ticker,
         "event_hash": event_hash,
@@ -491,6 +542,9 @@ async def enrich_and_store_article(
         "tldr": tldr,
         "what_it_means": what_it_means,
         "key_implications": key_implications or [],
+        "risk_direction": risk_direction,
+        "analysis_status": analysis_status,
+        "data_status": data_status,
         "tags": article.get("tags") or [],
         "analysis_run_id": analysis_run_id,
         "factored_into_score": False,

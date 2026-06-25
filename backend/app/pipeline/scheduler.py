@@ -5506,6 +5506,42 @@ def _load_active_tickers_sync(supabase) -> list[str]:
     )
 
 
+def _load_active_ticker_news_counts_sync(supabase, cutoff: str) -> dict[str, int]:
+    """Per-ticker count of fresh, sentiment-scored (usable) articles since `cutoff`.
+
+    Paginates because the PostgREST default max-rows would otherwise silently cap the
+    result and corrupt the neediness ordering. Used to refresh the tickers with the
+    fewest usable articles first.
+    """
+    counts: dict[str, int] = {}
+    page = 0
+    page_size = 1000
+    while page <= 50:
+        try:
+            rows = (
+                supabase.table("shared_ticker_events")
+                .select("ticker")
+                .gte("published_at", cutoff)
+                .not_.is_("sentiment_score", "null")
+                .range(page * page_size, page * page_size + page_size - 1)
+                .execute()
+                .data
+                or []
+            )
+        except Exception:
+            break
+        if not rows:
+            break
+        for row in rows:
+            t = str(row.get("ticker") or "").strip().upper()
+            if t:
+                counts[t] = counts.get(t, 0) + 1
+        if len(rows) < page_size:
+            break
+        page += 1
+    return counts
+
+
 def _load_unenriched_articles_sync(
     supabase,
     *,
@@ -5539,25 +5575,85 @@ async def _run_active_ticker_news_refresh() -> None:
 
     from ..services.supabase import get_supabase
     from ..services.news_enrichment import ingest_and_enrich_ticker_news
+    from ..services.job_runs import start_job_run, finish_job_run
 
     supabase = get_supabase()
+
+    # Log start/finish to job_runs so this in-process job is observable (a real news
+    # outage would otherwise be invisible — historically it showed "running" for 26h).
+    run_id = None
+    try:
+        run_row = await asyncio.to_thread(
+            start_job_run, supabase, job_id="active_ticker_news_refresh", tier="intraday"
+        )
+        run_id = run_row.get("id") if isinstance(run_row, dict) else None
+    except Exception:
+        run_id = None
+
     try:
         active_tickers = await asyncio.to_thread(_load_active_tickers_sync, supabase)
         if not active_tickers:
             logger.info("[NEWS_REFRESH] No active tickers found, skipping.")
+            if run_id:
+                await asyncio.to_thread(
+                    finish_job_run, supabase, run_id, status="skipped", items_skipped=1
+                )
             return
 
-        logger.info("[NEWS_REFRESH] Refreshing news for %d active tickers.", len(active_tickers))
+        # Refresh the neediest tickers first (fewest fresh usable articles), bounded to a
+        # batch that comfortably fits the 4h window. Replaces the blind alphabetical pass
+        # that 429-died after ~60 tickers and starved the rest of the universe.
+        cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+        try:
+            usable_counts = await asyncio.to_thread(
+                _load_active_ticker_news_counts_sync, supabase, cutoff
+            )
+        except Exception:
+            usable_counts = {}
+        active_tickers.sort(key=lambda t: (usable_counts.get(t, 0), t))
+        batch_size = int(os.getenv("NEWS_REFRESH_BATCH_SIZE", "150"))
+        batch = active_tickers[:batch_size]
+
+        logger.info(
+            "[NEWS_REFRESH] Refreshing news for %d/%d tickers (neediest first).",
+            len(batch),
+            len(active_tickers),
+        )
         counts = await ingest_and_enrich_ticker_news(
             supabase,
-            active_tickers,
-            limit_per_ticker=8,
+            batch,
+            limit_per_ticker=15,
             max_concurrency=4,
         )
         total = sum(counts.values())
         logger.info("[NEWS_REFRESH] Stored %d new articles across %d tickers.", total, len(counts))
+        if run_id:
+            await asyncio.to_thread(
+                finish_job_run,
+                supabase,
+                run_id,
+                status="completed",
+                items_processed=len(batch),
+                metadata={
+                    "stored": total,
+                    "batch_size": len(batch),
+                    "universe": len(active_tickers),
+                },
+            )
     except Exception as exc:
         logger.error("[NEWS_REFRESH] Active ticker news refresh failed: %s", exc, exc_info=True)
+        if run_id:
+            try:
+                await asyncio.to_thread(
+                    finish_job_run,
+                    supabase,
+                    run_id,
+                    status="failed",
+                    items_failed=1,
+                    error_json={"message": str(exc)[:300]},
+                )
+            except Exception:
+                pass
 
 
 async def _run_bulk_sentiment_enrichment() -> None:

@@ -11,6 +11,22 @@ POLYGON_OPTIONS_SNAPSHOT_URL = "https://api.polygon.io/v3/snapshot/options"
 DEFAULT_PAGE_LIMIT = 250
 MAX_PAGES = 3
 
+# Free Polygon tiers return HTTP 403 (plan-restricted) for the options-snapshot
+# endpoint on EVERY ticker. Without a circuit breaker the universe recompute fired
+# 546 doomed requests per run, each 403 followed by rate-limit (429) thrash that
+# wasted ~hours and flooded the logs. Once we see the first 403 we stop calling the
+# endpoint for the lifetime of this process; the next fresh job process re-probes.
+_OPTIONS_ENTITLEMENT_BLOCKED = False
+
+
+def _options_endpoint_blocked() -> bool:
+    return _OPTIONS_ENTITLEMENT_BLOCKED
+
+
+def _mark_options_endpoint_blocked() -> None:
+    global _OPTIONS_ENTITLEMENT_BLOCKED
+    _OPTIONS_ENTITLEMENT_BLOCKED = True
+
 
 def _parse_date(value: Any) -> date | None:
     if not value:
@@ -72,6 +88,10 @@ def fetch_near_term_implied_vol_30d(
     if not api_key:
         return None
 
+    # Skip the call entirely once the account has proven it lacks options entitlement.
+    if _options_endpoint_blocked():
+        return None
+
     upper = ticker.upper()
     as_of = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
     target_expiration = as_of.date() + timedelta(days=30)
@@ -91,6 +111,10 @@ def fetch_near_term_implied_vol_30d(
     while next_url and page_count < MAX_PAGES:
         response = polygon_get(next_url, params=next_params, timeout=15)
         if response is None or response.status_code != 200:
+            # 403 == plan does not include options data. Trip the breaker so the rest
+            # of this run (and every other ticker) stops re-requesting a doomed endpoint.
+            if response is not None and response.status_code == 403:
+                _mark_options_endpoint_blocked()
             return None
         payload = response.json() or {}
         results = payload.get("results") or []

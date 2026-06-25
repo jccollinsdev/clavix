@@ -13,10 +13,14 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 0 10 * * 1-5 root docker exec clavis-backend-1 python -m app.jobs.run daily_composite_recompute_universe >> /var/log/clavix/cron.log 2>&1
 45 10 * * 1-5 root docker exec clavis-backend-1 python -m app.jobs.run daily_portfolio_rollup_per_user >> /var/log/clavix/cron.log 2>&1
 15 20 * * 1-5 root docker exec clavis-backend-1 python -m app.jobs.run daily_eod_price_capture >> /var/log/clavix/cron.log 2>&1
-0 21 * * 1-5 root docker exec clavis-backend-1 python -m app.jobs.run daily_alert_evaluation >> /var/log/clavix/cron.log 2>&1
+# daily_alert_evaluation removed: alert evaluation + APNs run in-process per-user during
+# each user's scheduled digest (see scheduler.trigger_scheduled_digest), so a separate
+# universe job here only risked double-sending. Kept as a note rather than a dead cron line.
+30 12 * * 1-5 root docker exec clavis-backend-1 python -m app.jobs.run daily_ops_monitor >> /var/log/clavix/cron.log 2>&1
 30 5 * * 6 root docker exec clavis-backend-1 python -m app.jobs.run weekly_peer_groups_recompute >> /var/log/clavix/cron.log 2>&1
 45 5 * * 6 root docker exec clavis-backend-1 python -m app.jobs.run weekly_sector_medians_recompute >> /var/log/clavix/cron.log 2>&1
 0 6 * * 6 root docker exec clavis-backend-1 python -m app.jobs.run weekly_volatility_recompute >> /var/log/clavix/cron.log 2>&1
+15 6 * * 6 root docker exec clavis-backend-1 python -m app.jobs.run weekly_fundamentals_sweep >> /var/log/clavix/cron.log 2>&1
 # P8 — operational polish
 30 8 * * 1-5 root docker exec clavis-backend-1 python -m app.jobs.run event_fundamentals_pull >> /var/log/clavix/cron.log 2>&1
 0 7 * * 0 root docker exec clavis-backend-1 python -m app.jobs.run weekly_universe_audit >> /var/log/clavix/cron.log 2>&1
