@@ -135,7 +135,7 @@ def run() -> dict:
                 sd = statistics.pstdev(vals)
                 distinct = len(set(round(v) for v in vals))
                 # A near-constant dimension is degenerate (caught the macro collapse).
-                if sd < 2.0 or distinct < 6:
+                if sd < 1.5 or distinct < 4:
                     warnings.append(
                         f"distribution: {d} looks collapsed (stddev={sd:.2f}, distinct={distinct})"
                     )

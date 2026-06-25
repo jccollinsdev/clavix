@@ -734,17 +734,15 @@ def _score_macro_exposure(metadata: dict) -> int:
     beta = abs(_safe_float(metadata.get("beta"), 0.0))
     macro_sens = str(metadata.get("macro_sensitivity") or "moderate").lower()
 
-    score = 65.0
-
     if beta > 0:
-        if beta <= 0.8:
-            score += 8
-        elif beta <= 1.2:
-            score += 2
-        elif beta <= 1.8:
-            score -= 6
-        else:
-            score -= 14
+        # Market beta is the macro-sensitivity proxy when a real multi-factor regression
+        # is unavailable (free data tier has no credit-spread / real DXY / real 10Y). Map
+        # it CONTINUOUSLY so the dimension discriminates smoothly instead of collapsing to
+        # a handful of buckets: beta 0.5->72, 1.0->63, 1.5->54, 2.0->45, 2.5->36. Lower
+        # beta == less macro-sensitive == more resilient == higher score.
+        score = 81.0 - (beta * 18.0)
+    else:
+        score = 65.0
 
     if macro_sens == "low":
         score += 5
