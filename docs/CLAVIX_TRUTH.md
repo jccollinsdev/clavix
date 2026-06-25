@@ -298,10 +298,12 @@ The legacy schema has a fourth dimension `position_sizing` and a fifth `thesis_i
 
 ### Dimension 2: News Sentiment (0-100)
 
-**What it measures:** The tone and severity of news coverage about this ticker over the trailing 7 days.
+**What it measures:** The tone and severity of news coverage about this ticker over the trailing 7 days (falling back to a recency-weighted 28-day window when the last week is thin).
+
+**Coverage target:** We aim for at least 10 usable (sentiment-scored) articles per active ticker. Tickers below that floor are topped up from the fallback source on each refresh.
 
 **Inputs:**
-- Every article ingested for this ticker in the last 7 days
+- Every article ingested for this ticker in the last 7 days (or the last 28 days when the 7-day count is below the floor)
 - Each article gets a sentiment score (0-100) by the LLM
 - Articles are weighted by recency (last 24h = 3x weight, 24-72h = 2x weight, 72h-7d = 1x weight)
 - Articles are weighted by source quality (Tier 1 sources = Reuters, WSJ, Bloomberg, FT, AP = 1.5x; Tier 2 = MarketWatch, Yahoo Finance, Investing.com, Seeking Alpha free = 1x; Tier 3 = aggregators, blogs = 0.5x)
@@ -309,9 +311,9 @@ The legacy schema has a fourth dimension `position_sizing` and a fifth `thesis_i
 
 **Update cadence:** Every 4 hours for tickers in any user's portfolio or watchlist. Every 24 hours for dormant tickers.
 
-**Source:** Google News RSS for discovery → Jina AI Reader (or trafilatura/newspaper4k as fallback) for article body extraction → MiniMax LLM for sentiment scoring.
+**Source:** Finnhub company-news for primary discovery (rate-limited so the whole universe is covered), topped up by Google News RSS for any ticker below the coverage target → trafilatura/newspaper4k for article body extraction, with the provider summary used as the body when full extraction fails → MiniMax LLM for sentiment + TLDR + key implications.
 
-**Special handling:** If fewer than 3 articles in 7 days, news sentiment shows "Limited Data" instead of a score, and is excluded from composite calculation (composite is rescaled to the four remaining dimensions).
+**Special handling:** If fewer than 3 usable articles exist even over the 28-day fallback window, news sentiment shows "Limited Data" instead of a score, and is excluded from composite calculation (composite is rescaled to the remaining dimensions). A ticker with 3-9 usable articles still receives a real score; the 10-article figure is the coverage target, not the scoring floor.
 
 ### Dimension 3: Macro Exposure (0-100)
 
