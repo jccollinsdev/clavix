@@ -161,8 +161,8 @@ def _extract_fundamentals(facts: dict[str, Any], ticker: str) -> dict[str, Any]:
     if current_assets is not None and current_liabilities is not None and current_liabilities > 0:
         current_ratio = round(current_assets / current_liabilities, 4)
 
-    # ── Revenue growth trend ──────────────────────────────────────────────────
-    revenue_growth_trend: str | None = None
+    # ── Revenue growth trend (numeric YoY rate, e.g. 0.15 = 15% growth) ────
+    revenue_growth_trend: float | None = None
     if revenues is not None:
         try:
             us_gaap = (facts.get("facts") or {}).get("us-gaap") or {}
@@ -179,15 +179,7 @@ def _extract_fundamentals(facts: dict[str, Any], ticker: str) -> dict[str, Any]:
                 latest_rev = float(annual_rows[0]["val"])
                 prior_rev = float(annual_rows[1]["val"])
                 if prior_rev > 0:
-                    yoy_growth = (latest_rev - prior_rev) / prior_rev
-                    if yoy_growth > 0.10:
-                        revenue_growth_trend = "strong"
-                    elif yoy_growth > 0.03:
-                        revenue_growth_trend = "moderate"
-                    elif yoy_growth > -0.02:
-                        revenue_growth_trend = "flat"
-                    else:
-                        revenue_growth_trend = "declining"
+                    revenue_growth_trend = round((latest_rev - prior_rev) / prior_rev, 4)
         except Exception:
             pass
 
