@@ -52,7 +52,8 @@ async def ingest_tickertick_for_tickers(
             a for a in articles
             if len(str(a.get("body") or "").split()) >= _MIN_DESCRIPTION_WORDS
         ]
-        all_candidates.extend(usable)
+        # Cap per-ticker to avoid excessive LLM calls (target: 15+ articles/ticker)
+        all_candidates.extend(usable[:20])
 
     if not all_candidates:
         logger.info("[TICKERTICK_INGEST] No usable candidates for %d tickers", len(tickers))

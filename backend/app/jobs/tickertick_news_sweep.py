@@ -58,7 +58,7 @@ async def _run_async() -> dict[str, Any]:
             results = await ingest_tickertick_for_tickers(
                 supabase,
                 batch,
-                n_per_ticker=200,
+                n_per_ticker=30,   # Tickertick paginates; 30 is enough to hit 10-article target
                 max_concurrency=4,
             )
             all_results.update(results)
