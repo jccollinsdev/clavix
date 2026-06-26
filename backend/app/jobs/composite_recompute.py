@@ -27,7 +27,25 @@ def _send_job_failure_alert(result: dict) -> None:
     if not items_failed:
         return
 
-    failure_rate = items_failed / max(result.get("items_processed", 0) + items_failed, 1)
+    # Rate against EVERYTHING we looked at (processed + failed + skipped-fresh), not just
+    # processed+failed. Otherwise a day where most tickers were already fresh makes a
+    # handful of transient Polygon resets look like a double-digit failure rate.
+    processed = result.get("items_processed", 0)
+    skipped = result.get("items_skipped", 0)
+    failure_rate = items_failed / max(processed + items_failed + skipped, 1)
+
+    # Don't page on transient single-digit network blips. Only escalate when failures are
+    # material in absolute or relative terms; otherwise just log and move on.
+    abs_threshold = int(os.getenv("RECOMPUTE_ALERT_ABS_THRESHOLD", "25"))
+    rate_threshold = float(os.getenv("RECOMPUTE_ALERT_RATE_THRESHOLD", "0.05"))
+    if items_failed < abs_threshold and failure_rate < rate_threshold:
+        logger.warning(
+            "composite_recompute: %d transient failures (%.1f%% of %d) — below alert "
+            "threshold, not paging.",
+            items_failed, failure_rate * 100, processed + items_failed + skipped,
+        )
+        return
+
     subject = (
         f"[Clavix] composite_recompute: {items_failed} failures "
         f"({failure_rate:.0%}) on {date.today().isoformat()}"

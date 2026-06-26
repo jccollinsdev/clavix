@@ -458,7 +458,10 @@ async def enrich_and_store_article(
         and not body.startswith("[Navigation only]")
         and not body.startswith("[Blocked]")
         # Summary-sourced bodies are short but real; let them through at a lower bar.
-        and len(body.split()) >= (12 if extraction_status == "summary" else 40)
+        # The non-summary bar matches the 30-word used_summary swap threshold above so
+        # 30-39 word real bodies (common for Tickertick descriptions) become enrichable
+        # instead of being stranded as "partial" (sentiment set, no TLDR).
+        and len(body.split()) >= (12 if extraction_status == "summary" else 30)
     )
     headline_only = not body_has_content and bool(headline)
     scoring_text = body if body_has_content else headline

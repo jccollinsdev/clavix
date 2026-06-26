@@ -34,11 +34,13 @@ JOB_CADENCE_HOURS: dict[str, float] = {
     "daily_ops_monitor": 30,  # self-check: a skipped monitor run is itself an issue
     "event_fundamentals_pull": 30,
     "active_ticker_news_refresh": 8,  # 4h interval; alert if no run in 8h
+    "edgar_events_sweep": 30,  # daily 8-K material-events pull
     "weekly_peer_groups_recompute": 24 * 8,
     "weekly_sector_medians_recompute": 24 * 8,
     "weekly_volatility_recompute": 24 * 8,
     "weekly_universe_audit": 24 * 8,
     "weekly_fundamentals_sweep": 24 * 8,
+    "edgar_fundamentals_sweep": 24 * 8,  # weekly primary-source XBRL sweep
     "monthly_macro_regression_refresh": 24 * 32,
     "monthly_etf_holdings_refresh": 24 * 32,
 }
@@ -266,6 +268,49 @@ def run() -> dict:
             f"({len(usable)} tickers measured)"
         )
 
+    # ── 3b. Enrichment completeness rate (target: >=85% of recent articles) ──────
+    try:
+        recent_total, recent_complete = _enrichment_complete_rate(supabase, cutoff)
+        if recent_total >= 200:
+            pct = 100.0 * recent_complete / recent_total
+            if pct < 70.0:
+                issues.append(
+                    f"enrichment: only {pct:.0f}% of last-7d articles are 'complete' "
+                    f"({recent_complete}/{recent_total}); target >=85%"
+                )
+            elif pct < 85.0:
+                warnings.append(
+                    f"enrichment: {pct:.0f}% of last-7d articles 'complete' "
+                    f"({recent_complete}/{recent_total}); target >=85%"
+                )
+    except Exception:
+        logger.warning("[OPS_MONITOR] enrichment-rate check failed", exc_info=True)
+
+    # ── 3c. Fundamentals primary-source coverage (target: >=95% non-ETF on EDGAR) ─
+    try:
+        edgar_n, non_etf_n = _edgar_fundamentals_coverage(supabase)
+        if non_etf_n >= 100:
+            cov = 100.0 * edgar_n / non_etf_n
+            if cov < 90.0:
+                issues.append(
+                    f"fundamentals: only {cov:.0f}% of non-ETF tickers on EDGAR XBRL "
+                    f"({edgar_n}/{non_etf_n}); target >=95%"
+                )
+            elif cov < 95.0:
+                warnings.append(
+                    f"fundamentals: {cov:.0f}% of non-ETF tickers on EDGAR XBRL "
+                    f"({edgar_n}/{non_etf_n}); target >=95%"
+                )
+    except Exception:
+        logger.warning("[OPS_MONITOR] fundamentals-coverage check failed", exc_info=True)
+
+    # ── 3d. 8-K material events freshness ────────────────────────────────────────
+    try:
+        if not _sec_events_recent(supabase, now - timedelta(days=4)):
+            warnings.append("events: no SEC 8-K events ingested in the last 4 days")
+    except Exception:
+        logger.warning("[OPS_MONITOR] 8-K freshness check failed", exc_info=True)
+
     # ── 4. Source-vs-snapshot consistency ───────────────────────────────────────
     # A dimension that reads non-null across most of the universe while its source
     # table has gone cold is a freshness lie in the making. Catch the divergence.
@@ -331,6 +376,60 @@ def run() -> dict:
         "items_failed": len(issues),
         "metadata": {"issues": issues, "warnings": warnings},
     }
+
+
+def _enrichment_complete_rate(supabase, cutoff: str) -> tuple[int, int]:
+    """(total, complete) shared_ticker_events created since cutoff."""
+    total = (
+        supabase.table("shared_ticker_events")
+        .select("id", count="exact")
+        .gte("created_at", cutoff)
+        .limit(1)
+        .execute()
+    )
+    complete = (
+        supabase.table("shared_ticker_events")
+        .select("id", count="exact")
+        .gte("created_at", cutoff)
+        .eq("analysis_status", "complete")
+        .limit(1)
+        .execute()
+    )
+    return int(total.count or 0), int(complete.count or 0)
+
+
+def _edgar_fundamentals_coverage(supabase) -> tuple[int, int]:
+    """(edgar_count, non_etf_count) from ticker_metadata."""
+    non_etf = (
+        supabase.table("ticker_metadata")
+        .select("id", count="exact")
+        .neq("asset_class", "etf")
+        .limit(1)
+        .execute()
+    )
+    edgar = (
+        supabase.table("ticker_metadata")
+        .select("id", count="exact")
+        .neq("asset_class", "etf")
+        .eq("fundamentals_source", "edgar")
+        .limit(1)
+        .execute()
+    )
+    return int(edgar.count or 0), int(non_etf.count or 0)
+
+
+def _sec_events_recent(supabase, cutoff: datetime) -> bool:
+    rows = (
+        supabase.table("shared_ticker_events")
+        .select("id")
+        .eq("source", "sec.gov")
+        .gte("created_at", cutoff.isoformat())
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    return bool(rows)
 
 
 def _usable_counts(supabase, cutoff: str) -> dict[str, int]:

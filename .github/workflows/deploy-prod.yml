@@ -89,6 +89,11 @@ jobs:
           sudo touch /var/log/clavix/cron.log
           sudo install -m 0644 scripts/cron/clavix.crontab /etc/cron.d/clavix
           sudo systemctl restart cron || sudo service cron restart || true
+          # Retire the legacy systemd backfill timer: its ExecStart (nightly_refresh.sh)
+          # no longer exists and it fails daily (status=203/EXEC). All real jobs now run
+          # via /etc/cron.d/clavix above. Mask so it can never run or re-enable.
+          sudo systemctl disable --now clavix-universe-backfill.timer 2>/dev/null || true
+          sudo systemctl mask clavix-universe-backfill.service 2>/dev/null || true
           docker compose ps
           SCRIPT
 

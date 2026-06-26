@@ -1264,6 +1264,71 @@ def _upsert_position_analysis(
         supabase.table("position_analyses").insert(payload).execute()
 
 
+def _load_company_articles_from_shared_events(
+    supabase,
+    tickers: list[str],
+    *,
+    limit_per_ticker: int = 15,
+    window_days: int = 45,
+) -> list[dict]:
+    """Compliant company-news source for the analysis path.
+
+    Reads the Tickertick-backed `shared_ticker_events` pool instead of scraping
+    Google News RSS / Finnhub. Returns raw dicts shaped for `normalize_news_batch`
+    (title/summary/body/source/source_url/published_at/ticker), newest first, capped
+    per ticker. No free/unlicensed feed is touched.
+    """
+    if not tickers:
+        return []
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=window_days)).isoformat()
+    upper = [t.upper() for t in tickers]
+    try:
+        rows = (
+            supabase.table("shared_ticker_events")
+            .select(
+                "ticker,title,summary,body,source,source_url,resolved_url,"
+                "canonical_url,published_at,event_hash,tldr,what_it_means,"
+                "sentiment_score,analysis_status"
+            )
+            .in_("ticker", upper)
+            .gte("published_at", cutoff)
+            .order("published_at", desc=True)
+            .limit(limit_per_ticker * max(1, len(upper)) * 4)
+            .execute()
+            .data
+            or []
+        )
+    except Exception as exc:  # pragma: no cover - network/db best effort
+        logger.warning("shared-events company news load failed: %s", exc)
+        return []
+
+    per_ticker: dict[str, int] = {}
+    out: list[dict] = []
+    for row in rows:
+        t = str(row.get("ticker") or "").upper()
+        if not t:
+            continue
+        if per_ticker.get(t, 0) >= limit_per_ticker:
+            continue
+        per_ticker[t] = per_ticker.get(t, 0) + 1
+        url = row.get("resolved_url") or row.get("canonical_url") or row.get("source_url") or ""
+        out.append(
+            {
+                "ticker": t,
+                "title": row.get("title") or "",
+                "summary": row.get("summary") or row.get("tldr") or "",
+                "body": row.get("body") or "",
+                "source": row.get("source") or "",
+                "source_url": row.get("source_url") or url,
+                "resolved_url": row.get("resolved_url") or url,
+                "url": url,
+                "published_at": row.get("published_at"),
+                "event_hash": row.get("event_hash"),
+            }
+        )
+    return out
+
+
 def _store_relevant_articles(
     supabase,
     *,
@@ -1336,14 +1401,8 @@ async def _build_shared_news_payload(
         timings[name] = time.monotonic() - fetch_started_at
         return result
 
-    from .finnhub_news import fetch_market_news
     from .macro_classifier import summarize_sector_overview
-    from .rss_ingest import (
-        fetch_cnbc_macro_rss,
-        fetch_cnbc_sector_rss,
-        fetch_google_company_rss,
-        fetch_google_sector_rss,
-    )
+    from ..services.news_enrichment import USE_TICKERTICK
 
     sector_names = sorted(
         {
@@ -1353,32 +1412,54 @@ async def _build_shared_news_payload(
         }
     )
 
-    macro_task = asyncio.create_task(
-        _time_fetch("macro", fetch_cnbc_macro_rss(limit=12))
-    )
-    cnbc_sector_task = asyncio.create_task(
-        _time_fetch(
-            "cnbc_sector", fetch_cnbc_sector_rss(sector_names, limit_per_sector=10)
-        )
-    )
-    google_sector_task = asyncio.create_task(
-        _time_fetch(
-            "google_sector", fetch_google_sector_rss(sector_names, limit_per_sector=6)
-        )
-    )
-    company_task = asyncio.create_task(
-        _time_fetch(
-            "company",
-            fetch_google_company_rss(tickers, ticker_metadata_map, limit_per_ticker=4),
-        )
-    )
-    market_task = asyncio.create_task(_time_fetch("market", fetch_market_news()))
+    if USE_TICKERTICK:
+        # Compliant path: company news from the Tickertick shared_ticker_events pool.
+        # No Google RSS / Finnhub / CNBC free feeds. Macro/sector context already
+        # flows into the score via macro_regime + sector snapshots.
+        from ..services.supabase import get_supabase
 
-    macro_articles = await macro_task
-    cnbc_sector_articles = await cnbc_sector_task
-    google_sector_articles = await google_sector_task
-    company_articles = await company_task
-    market_articles = await market_task
+        company_articles = await asyncio.to_thread(
+            _load_company_articles_from_shared_events, get_supabase(), tickers
+        )
+        macro_articles = []
+        cnbc_sector_articles = []
+        google_sector_articles = []
+        market_articles = []
+    else:
+        from .finnhub_news import fetch_market_news
+        from .rss_ingest import (
+            fetch_cnbc_macro_rss,
+            fetch_cnbc_sector_rss,
+            fetch_google_company_rss,
+            fetch_google_sector_rss,
+        )
+
+        macro_task = asyncio.create_task(
+            _time_fetch("macro", fetch_cnbc_macro_rss(limit=12))
+        )
+        cnbc_sector_task = asyncio.create_task(
+            _time_fetch(
+                "cnbc_sector", fetch_cnbc_sector_rss(sector_names, limit_per_sector=10)
+            )
+        )
+        google_sector_task = asyncio.create_task(
+            _time_fetch(
+                "google_sector", fetch_google_sector_rss(sector_names, limit_per_sector=6)
+            )
+        )
+        company_task = asyncio.create_task(
+            _time_fetch(
+                "company",
+                fetch_google_company_rss(tickers, ticker_metadata_map, limit_per_ticker=4),
+            )
+        )
+        market_task = asyncio.create_task(_time_fetch("market", fetch_market_news()))
+
+        macro_articles = await macro_task
+        cnbc_sector_articles = await cnbc_sector_task
+        google_sector_articles = await google_sector_task
+        company_articles = await company_task
+        market_articles = await market_task
 
     sector_articles = cnbc_sector_articles + google_sector_articles
     sector_articles_by_name: dict[str, list[dict]] = {}
@@ -1930,6 +2011,7 @@ async def execute_analysis_run(
     from .risk_scorer import score_position_structural
     from ..services.ticker_cache_service import get_latest_risk_snapshot_history_map
     from ..services.supabase import get_supabase
+    from ..services.news_enrichment import USE_TICKERTICK
     from .finnhub_news import fetch_market_news
     from .notifier import (
         notify_digest,
@@ -2094,7 +2176,25 @@ async def execute_analysis_run(
                 f"company_scoped={len(company_articles)}/{len(shared_company_articles)} "
                 f"macro={len(macro_articles)} sector={len(sector_articles)} market={len(market_articles)}"
             )
+        elif USE_TICKERTICK:
+            # Compliant path: company news comes from the Tickertick-backed
+            # shared_ticker_events pool (commercially licensed, already enriched).
+            # No Google News RSS / Finnhub / CNBC free feeds are touched. Macro and
+            # sector context already flow into the score via macro_regime + sector
+            # snapshots, so we intentionally pass empty narrative-feed lists here.
+            company_articles = await asyncio.to_thread(
+                _load_company_articles_from_shared_events, supabase, tickers
+            )
+            macro_articles = []
+            sector_articles = []
+            market_articles = []
+            sector_context = {}
+            print(
+                f"[NEWS] Tickertick analysis path: {len(company_articles)} company "
+                f"articles for {len(tickers)} tickers (no free feeds)"
+            )
         else:
+            # Legacy free-feed path. Only reachable with USE_TICKERTICK=false.
             macro_articles = await fetch_cnbc_macro_rss()
             cnbc_sector_articles = await fetch_cnbc_sector_rss(sector_names)
             google_sector_articles = await fetch_google_sector_rss(sector_names)
@@ -5548,11 +5648,21 @@ def _load_unenriched_articles_sync(
     cutoff: str,
     limit: int,
 ) -> list[dict[str, Any]]:
+    """Load enrichable rows that are not yet 'complete'.
+
+    Targets the completable backlog: rows whose extraction yielded a real body
+    (extraction_status in success/summary) but whose analysis_status is still
+    partial/incomplete/null (e.g. sentiment set but TLDR/implications missing, or
+    sentiment never scored). Previously this only selected sentiment_score IS NULL,
+    which permanently stranded 'partial' rows. Paywalled/blocked/failed/headline-only
+    rows have no usable body and are intentionally excluded (cannot reach complete).
+    """
     return (
         supabase.table("shared_ticker_events")
         .select("*")
         .gte("published_at", cutoff)
-        .is_("sentiment_score", "null")
+        .in_("extraction_status", ["success", "summary"])
+        .neq("analysis_status", "complete")
         .order("published_at", desc=True)
         .limit(limit)
         .execute()
@@ -5596,11 +5706,12 @@ def _save_news_rotation_cursor_sync(supabase, last_attempted: dict[str, str]) ->
 
 
 async def _run_active_ticker_news_refresh() -> None:
-    """Fetch Google News RSS for all active tickers (any user's portfolio/watchlist)
-    and write articles to shared_ticker_events with full LLM enrichment.
+    """Ingest news for all active tickers (any user's portfolio/watchlist) via the
+    Tickertick pipeline (commercially licensed; USE_TICKERTICK default) and write
+    articles to shared_ticker_events with full LLM enrichment. No Google/Finnhub feeds.
 
     Per Clavix Truth §10 / §17: news articles for active tickers refresh every 4 hours.
-    This is the direct ingest path that does NOT require a full analysis pipeline run.
+    Neediest-first rotation guarantees full-universe coverage within ceil(N/batch) runs.
     Set DISABLE_NEWS_ENRICHMENT=true to kill both this job and bulk enrichment.
     """
     if os.getenv("DISABLE_NEWS_ENRICHMENT", "").strip().lower() in {"1", "true", "yes", "on"}:
@@ -5737,17 +5848,17 @@ async def _run_bulk_sentiment_enrichment() -> None:
             _load_unenriched_articles_sync,
             supabase,
             cutoff=cutoff,
-            limit=200,
+            limit=int(os.getenv("BULK_ENRICH_LIMIT", "400")),
         )
         if not rows:
-            logger.info("[BULK_ENRICH] No unenriched articles found.")
+            logger.info("[BULK_ENRICH] No enrichable backlog found.")
             return
 
-        logger.info("[BULK_ENRICH] Enriching %d articles missing sentiment.", len(rows))
+        logger.info("[BULK_ENRICH] Enriching %d non-complete enrichable articles.", len(rows))
         stored = await enrich_and_store_articles_batch(
             supabase,
             rows,
-            max_concurrency=3,
+            max_concurrency=4,
             skip_existing=False,
         )
         logger.info("[BULK_ENRICH] Enrichment complete: %d articles updated.", len(stored))
@@ -5773,11 +5884,11 @@ def _schedule_bulk_sentiment_enrichment() -> None:
         scheduler.remove_job(BULK_SENTIMENT_ENRICHMENT_JOB_ID)
     scheduler.add_job(
         _run_bulk_sentiment_enrichment,
-        trigger=IntervalTrigger(hours=2),
+        trigger=IntervalTrigger(hours=1),
         id=BULK_SENTIMENT_ENRICHMENT_JOB_ID,
         replace_existing=True,
         misfire_grace_time=3600,
-        next_run_time=datetime.now(timezone.utc) + timedelta(minutes=10),
+        next_run_time=datetime.now(timezone.utc) + timedelta(minutes=3),
     )
 
 
@@ -5831,6 +5942,16 @@ def start_scheduler():
     supabase = get_supabase()
     _fail_stale_runs(supabase)
     _fail_orphaned_runs(supabase)
+    try:
+        from ..services.job_runs import reap_orphaned_job_runs
+
+        reaped = reap_orphaned_job_runs(
+            supabase, older_than_iso=PROCESS_STARTED_AT.isoformat()
+        )
+        if reaped:
+            logger.info("Reaped %d orphaned job_runs left 'running' by a prior process.", reaped)
+    except Exception as exc:  # pragma: no cover - best effort
+        logger.warning("job_runs reaper failed: %s", exc)
 
     if not scheduler.running:
         scheduler.start()

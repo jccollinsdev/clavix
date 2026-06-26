@@ -186,6 +186,10 @@ def test_force_refresh_digest_uses_shared_pipeline_inputs(monkeypatch):
         alerts_created.append(payload)
         return True
 
+    # This test exercises the legacy free-feed macro/sector narrative path. In
+    # production USE_TICKERTICK=true gates those RSS calls off (compliance); flip the
+    # flag here so the legacy path under test is actually reached.
+    monkeypatch.setattr(digest, "USE_TICKERTICK", False)
     monkeypatch.setattr(digest, "fetch_cnbc_macro_rss", fake_fetch_cnbc_macro_rss)
     monkeypatch.setattr(
         digest, "classify_overnight_macro", fake_classify_overnight_macro
@@ -362,6 +366,10 @@ def test_force_refresh_digest_defaults_summary_length_to_standard_for_current_us
     ):
         return True
 
+    # This test exercises the legacy free-feed macro/sector narrative path. In
+    # production USE_TICKERTICK=true gates those RSS calls off (compliance); flip the
+    # flag here so the legacy path under test is actually reached.
+    monkeypatch.setattr(digest, "USE_TICKERTICK", False)
     monkeypatch.setattr(digest, "fetch_cnbc_macro_rss", fake_fetch_cnbc_macro_rss)
     monkeypatch.setattr(
         digest, "classify_overnight_macro", fake_classify_overnight_macro

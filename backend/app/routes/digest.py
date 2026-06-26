@@ -15,6 +15,7 @@ from .analysis_runs import _enrich_run
 from ..pipeline.portfolio_compiler import compile_portfolio_digest
 from ..pipeline.macro_classifier import classify_overnight_macro
 from ..pipeline.rss_ingest import fetch_cnbc_macro_rss, fetch_cnbc_sector_rss
+from ..services.news_enrichment import USE_TICKERTICK
 from ..pipeline.macro_classifier import summarize_sector_overview
 from ..pipeline.portfolio_risk import calculate_portfolio_risk_score
 from ..pipeline.analysis_utils import score_to_grade
@@ -308,11 +309,14 @@ async def _build_force_refresh_digest(
     )
 
     macro_context = None
-    try:
-        macro_articles = await fetch_cnbc_macro_rss(limit=12)
-        macro_context = await classify_overnight_macro(macro_articles, positions)
-    except Exception:
-        macro_context = None
+    # USE_TICKERTICK=true (production default): do not touch free CNBC/Google RSS feeds.
+    # Macro/sector context already flows into the score via macro_regime + sector snapshots.
+    if not USE_TICKERTICK:
+        try:
+            macro_articles = await fetch_cnbc_macro_rss(limit=12)
+            macro_context = await classify_overnight_macro(macro_articles, positions)
+        except Exception:
+            macro_context = None
 
     sector_context = None
     try:
@@ -323,7 +327,7 @@ async def _build_force_refresh_digest(
                 if str(position.get("sector") or "").strip()
             }
         )
-        if sector_names:
+        if sector_names and not USE_TICKERTICK:
             sector_articles = await fetch_cnbc_sector_rss(
                 sector_names, limit_per_sector=8
             )

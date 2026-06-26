@@ -11,6 +11,55 @@ def utcnow_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def reap_orphaned_job_runs(supabase, *, older_than_iso: str, stuck_hours: float = 6.0) -> int:
+    """Mark job_runs stuck in 'running' as 'failed'.
+
+    Two cases are reaped:
+      1. rows started before ``older_than_iso`` (i.e. before this process started) — they
+         belong to a previous container instance that was replaced, so they can never be
+         finished (no writer is left).
+      2. rows older than ``stuck_hours`` regardless — covers a job that crashed without a
+         restart.
+    Returns the count reaped. Best-effort; never raises.
+    """
+    from datetime import timedelta
+
+    reaped = 0
+    try:
+        cutoff_stuck = (
+            datetime.now(timezone.utc) - timedelta(hours=stuck_hours)
+        ).isoformat()
+        rows = (
+            supabase.table(JOB_RUNS_TABLE)
+            .select("id, started_at")
+            .eq("status", "running")
+            .execute()
+            .data
+            or []
+        )
+        stale_ids = [
+            r["id"]
+            for r in rows
+            if r.get("id")
+            and (
+                str(r.get("started_at") or "") < older_than_iso
+                or str(r.get("started_at") or "") < cutoff_stuck
+            )
+        ]
+        for rid in stale_ids:
+            supabase.table(JOB_RUNS_TABLE).update(
+                {
+                    "status": "failed",
+                    "completed_at": utcnow_iso(),
+                    "error_json": {"reason": "orphaned: reaped on scheduler startup"},
+                }
+            ).eq("id", rid).execute()
+            reaped += 1
+    except Exception:
+        return reaped
+    return reaped
+
+
 def start_job_run(
     supabase,
     *,

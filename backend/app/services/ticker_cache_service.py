@@ -477,8 +477,12 @@ def _build_financial_health_inputs(metadata: dict[str, Any]) -> dict[str, Any]:
             metadata.get("revenue_growth_trend")
         ),
         "profitability_trend": _profitability_trend_label(metadata),
-        "as_of_date": metadata.get("price_as_of") or metadata.get("updated_at"),
-        "data_source": "finnhub",
+        "as_of_date": metadata.get("fundamentals_updated_at")
+        or metadata.get("price_as_of")
+        or metadata.get("updated_at"),
+        # Reflect the real source: fundamentals are now primary-source SEC EDGAR XBRL
+        # for the vast majority of tickers; only the EDGAR-miss fallback uses Finnhub.
+        "data_source": metadata.get("fundamentals_source") or "edgar",
         "ratios_available": ratios_available,
         "limited_data": ratios_available < 2,
     }

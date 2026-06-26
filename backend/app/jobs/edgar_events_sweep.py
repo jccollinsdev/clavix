@@ -46,7 +46,7 @@ async def _run_async() -> dict[str, Any]:
         batch = tickers[i : i + BATCH_SIZE]
         logger.info("[EDGAR_EVENTS] Batch %d: %d tickers", i // BATCH_SIZE + 1, len(batch))
         try:
-            articles = await fetch_edgar_8k_events(batch, cik_map, lookback_days=7)
+            articles = await fetch_edgar_8k_events(batch, cik_map, lookback_days=10)
             if articles:
                 stored = await enrich_and_store_articles_batch(
                     supabase,

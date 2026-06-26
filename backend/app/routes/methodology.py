@@ -290,7 +290,9 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
                 "revenue_growth_trend": financial_inputs.get("revenue_growth_trend"),
                 "profitability_trend": financial_inputs.get("profitability_trend"),
                 "as_of_date": financial_inputs.get("as_of_date") or _isoformat_or_none(metadata.get("updated_at")),
-                "data_source": financial_inputs.get("data_source") or "finnhub",
+                "data_source": financial_inputs.get("data_source")
+                or metadata.get("fundamentals_source")
+                or "edgar",
                 "peer_comparisons": peers,
                 "sector_median_comparison": {
                     metric: sector_medians.get(metric)

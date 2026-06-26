@@ -28,3 +28,14 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 0 7 * * 0 root docker exec clavis-backend-1 python -m app.jobs.run weekly_universe_audit >> /var/log/clavix/cron.log 2>&1
 0 7 1 * * root docker exec clavis-backend-1 python -m app.jobs.run monthly_macro_regression_refresh >> /var/log/clavix/cron.log 2>&1
 0 8 1 * * root docker exec clavis-backend-1 python -m app.jobs.run monthly_etf_holdings_refresh >> /var/log/clavix/cron.log 2>&1
+# ── Perpetual-freshness guarantees ───────────────────────────────────────────
+# Weekend incremental recomputes so snapshots never read >2d stale on Monday
+# (markets are closed, so these are cheap cache-backed passes).
+0 10 * * 6 root docker exec clavis-backend-1 python -m app.jobs.run daily_composite_recompute_universe >> /var/log/clavix/cron.log 2>&1
+0 10 * * 0 root docker exec clavis-backend-1 python -m app.jobs.run daily_composite_recompute_universe >> /var/log/clavix/cron.log 2>&1
+# Weekly FULL from-source rebuild (force_refresh) so derived scores never silently
+# drift from their inputs. Runs Saturday after the weekly sweeps + EDGAR fundamentals.
+0 9 * * 6 root docker exec -e COMPOSITE_RECOMPUTE_FORCE_REFRESH=true clavis-backend-1 python -m app.jobs.run daily_composite_recompute_universe >> /var/log/clavix/cron.log 2>&1
+# Weekly full-universe Tickertick sweep so no ticker is ever starved by the 4h
+# neediest-first rotation (belt-and-suspenders on top of active_ticker_news_refresh).
+0 3 * * 0 root docker exec clavis-backend-1 python -m app.jobs.run tickertick_news_sweep >> /var/log/clavix/cron.log 2>&1
