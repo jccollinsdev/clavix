@@ -10,8 +10,58 @@ enum OnboardingPage: Int, CaseIterable {
 
 enum AhaPhase {
     case input
-    case analyzing
+    case questions
     case reveal
+}
+
+// MARK: - Onboarding personalization (presentation only — never affects grade/score)
+
+enum OnboardingPriority: String, CaseIterable, Identifiable {
+    case financials, news, macro, sector, volatility
+    var id: String { rawValue }
+    /// Maps to the dimension keys used in `buildReveal`.
+    var dimensionKey: String {
+        switch self {
+        case .financials: return "FIN"
+        case .news:       return "NEWS"
+        case .macro:      return "MAC"
+        case .sector:     return "SEC"
+        case .volatility: return "VOL"
+        }
+    }
+    var label: String {
+        switch self {
+        case .financials: return "Financial health"
+        case .news:       return "News & headlines"
+        case .macro:      return "The economy"
+        case .sector:     return "Sector concentration"
+        case .volatility: return "Price swings"
+        }
+    }
+}
+
+enum OnboardingTimeline: String, CaseIterable, Identifiable {
+    case short, medium, long
+    var id: String { rawValue }
+    var label: String {
+        switch self {
+        case .short:  return "Less than 1 year"
+        case .medium: return "1 to 5 years"
+        case .long:   return "More than 5 years"
+        }
+    }
+}
+
+enum OnboardingRiskTolerance: String, CaseIterable, Identifiable {
+    case conservative, balanced, aggressive
+    var id: String { rawValue }
+    var label: String {
+        switch self {
+        case .conservative: return "Conservative"
+        case .balanced:     return "Balanced"
+        case .aggressive:   return "Aggressive"
+        }
+    }
 }
 
 struct AhaPortfolioEntry: Identifiable {
@@ -32,6 +82,13 @@ struct AhaDimensionFinding {
     let total: Int
 }
 
+/// One holding's real score on a given metric (the components behind a portfolio average).
+struct MetricContribution: Identifiable {
+    let id = UUID()
+    let ticker: String
+    let value: Double
+}
+
 struct AhaReveal {
     let grade: String
     let score: Double
@@ -42,6 +99,18 @@ struct AhaReveal {
     let weakestGrade: String?
     let strongestTicker: String?
     let strongestGrade: String?
+
+    // Presentation-only personalization (does not affect grade/score).
+    let focus: AhaDimensionFinding        // the dimension the radar emphasizes (user's concern)
+    let focusIsConcern: Bool              // true when it came from the user's stated priority
+    let strongest: AhaDimensionFinding?   // highest-average dimension
+    let weakestCulpritTicker: String?     // holding lowest on the weakest metric
+    let weakestCulpritValue: Double?
+    let strongestLeaderTicker: String?    // holding highest on the strongest metric
+    let strongestLeaderValue: Double?
+    let weakestBreakdown: [MetricContribution]   // per-holding scores on the weakest metric
+    let strongestBreakdown: [MetricContribution] // per-holding scores on the strongest metric
+    let sourceCount: Int?                 // total real sources scanned across holdings
 }
 
 @MainActor
@@ -51,14 +120,35 @@ final class OnboardingViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published private(set) var welcomeName: String?
     @Published private(set) var isPreparingAnalysis = false
+    @Published private(set) var isPreparingHoldings = false
 
     // Aha flow state
     @Published var entries: [AhaPortfolioEntry] = [AhaPortfolioEntry()]
     @Published var ahaPhase: AhaPhase = .input
     @Published var reveal: AhaReveal?
 
+    // Personalization answers (presentation only)
+    @Published var priorities: Set<OnboardingPriority> = []   // up to 3
+    @Published var timeline: OnboardingTimeline?
+    @Published var riskTolerance: OnboardingRiskTolerance?
+
+    static let maxPriorities = 3
+
+    var questionsComplete: Bool {
+        !priorities.isEmpty && timeline != nil && riskTolerance != nil
+    }
+
+    func togglePriority(_ p: OnboardingPriority) {
+        if priorities.contains(p) {
+            priorities.remove(p)
+        } else if priorities.count < Self.maxPriorities {
+            priorities.insert(p)
+        }
+    }
+
     private var resolveTasks: [UUID: Task<Void, Never>] = [:]
-    private var revealTask: Task<Void, Never>?
+    private var prepareTask: Task<Void, Never>?
+    private var isFinishing = false
     private let api = APIService.shared
 
     // MARK: - Paging
@@ -113,6 +203,18 @@ final class OnboardingViewModel: ObservableObject {
             let shares = Double(entry.shares.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
             return shares > 0 ? resolved : nil
         }
+    }
+
+    /// Tickers the user actually entered (resolved, shares > 0), in order.
+    /// Drives the "reading your holdings" pass on the analyzing screen.
+    var analyzedTickers: [String] {
+        enteredResults.map { $0.ticker }
+    }
+
+    /// Resolved holdings (shares > 0) with full per-ticker analysis attached.
+    /// Drives the streaming dossier on the analyzing screen.
+    var analyzedResults: [TickerSearchResult] {
+        enteredResults
     }
 
     func maxEntries(isFreeTier _: Bool) -> Int {
@@ -199,11 +301,11 @@ final class OnboardingViewModel: ObservableObject {
 
     // MARK: - Aha flow: analyze + reveal
 
-    func continueToAnalysis() async -> Bool {
-        guard !isPreparingAnalysis else { return false }
-        isPreparingAnalysis = true
+    /// Validate the entered holdings synchronously, advance to the questions
+    /// immediately, and resolve/score the tickers in the background while the
+    /// user answers, so there is no wait between the two screens.
+    func continueToAnalysis() -> Bool {
         errorMessage = nil
-        defer { isPreparingAnalysis = false }
 
         let activeEntries = entries.filter {
             !$0.query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
@@ -221,45 +323,78 @@ final class OnboardingViewModel: ObservableObject {
                 errorMessage = "Enter a ticker for every holding."
                 return false
             }
-
             let shares = Double(entry.shares.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
             guard shares > 0 else {
                 errorMessage = "Enter a share count greater than zero for \(ticker.uppercased())."
                 return false
             }
-
-            // Fast-path: debounce already determined this ticker is not supported.
             if entry.notFound {
                 errorMessage = "\(ticker.uppercased()) is currently unsupported. Try a different ticker."
                 return false
             }
-
-            // Only hit the network if the entry hasn't resolved yet and isn't mid-resolve.
-            if entry.resolved == nil && !entry.isResolving {
-                resolveTasks[entry.id]?.cancel()
-                await performResolve(id: entry.id, query: ticker)
-            }
         }
 
-        let unresolvedTicker = activeEntries.first { entry in
-            entries.first(where: { $0.id == entry.id })?.resolved == nil
-        }?.query
-        if let unresolvedTicker {
-            errorMessage = "\(unresolvedTicker.uppercased()) is currently unsupported. Try a different ticker."
-            return false
-        }
-
-        runAnalysis()
+        enterQuestions()
+        startPreparingHoldings(activeEntries)
         return true
+    }
+
+    /// Advance to the quick personalization questions.
+    func enterQuestions() {
+        withAnimation(.easeInOut(duration: 0.35)) {
+            ahaPhase = .questions
+        }
+    }
+
+    /// Resolve any not-yet-resolved holdings in the background so the score is
+    /// ready by the time the user finishes the questions.
+    private func startPreparingHoldings(_ activeEntries: [AhaPortfolioEntry]) {
+        prepareTask?.cancel()
+        isPreparingHoldings = true
+        prepareTask = Task { [weak self] in
+            guard let self else { return }
+            for entry in activeEntries {
+                if Task.isCancelled { break }
+                let ticker = entry.query.trimmingCharacters(in: .whitespacesAndNewlines)
+                if self.entries.first(where: { $0.id == entry.id })?.resolved == nil {
+                    self.resolveTasks[entry.id]?.cancel()
+                    await self.performResolve(id: entry.id, query: ticker)
+                }
+            }
+            self.isPreparingHoldings = false
+        }
+    }
+
+    /// Called when the user taps through the questions. Waits for any in-flight
+    /// background resolution, surfaces an unsupported ticker, else runs the analysis.
+    func finishQuestions() {
+        guard ahaPhase == .questions, !isFinishing else { return }
+        isFinishing = true
+        Task { [weak self] in
+            guard let self else { return }
+            await self.prepareTask?.value
+            if let unresolved = self.entries.first(where: {
+                !$0.query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && $0.resolved == nil
+            }) {
+                self.errorMessage = "\(unresolved.query.uppercased()) is currently unsupported. Try a different ticker."
+                self.isFinishing = false
+                return
+            }
+            self.errorMessage = nil
+            self.isFinishing = false
+            self.runAnalysis()
+        }
     }
 
     func runAnalysis() {
         let results = enteredResults
         guard !results.isEmpty else { return }
 
-        withAnimation(.easeInOut(duration: 0.35)) {
-            ahaPhase = .analyzing
-        }
+        // Build the reveal, leading with the area(s) the user cares about
+        // (presentation only — grade/score math is untouched), then go straight
+        // to the reveal. No interstitial animation.
+        reveal = OnboardingViewModel.buildReveal(results, priorities: priorities, timeline: timeline)
+        persistAnswers()
 
         // Persist holdings in the background so the book is populated by the
         // time the user enters the app.
@@ -271,17 +406,8 @@ final class OnboardingViewModel: ObservableObject {
         Task { await self.persistHoldings(results) }
         #endif
 
-        // Retain the task so the reveal survives the page transition into the
-        // analyzing screen.
-        revealTask?.cancel()
-        revealTask = Task { [weak self] in
-            try? await Task.sleep(for: .seconds(7.8))
-            guard !Task.isCancelled, let self else { return }
-            let built = OnboardingViewModel.buildReveal(results)
-            self.reveal = built
-            withAnimation(.easeInOut(duration: 0.4)) {
-                self.ahaPhase = .reveal
-            }
+        withAnimation(.easeInOut(duration: 0.4)) {
+            ahaPhase = .reveal
         }
     }
 
@@ -309,7 +435,16 @@ final class OnboardingViewModel: ObservableObject {
         }
     }
 
-    static func buildReveal(_ results: [TickerSearchResult]) -> AhaReveal? {
+    private func persistAnswers() {
+        let d = UserDefaults.standard
+        d.set(priorities.map(\.rawValue), forKey: "clavix.onboarding.priorities")
+        d.set(timeline?.rawValue, forKey: "clavix.onboarding.timeline")
+        d.set(riskTolerance?.rawValue, forKey: "clavix.onboarding.riskTolerance")
+    }
+
+    static func buildReveal(_ results: [TickerSearchResult],
+                            priorities: Set<OnboardingPriority> = [],
+                            timeline _: OnboardingTimeline? = nil) -> AhaReveal? {
         guard !results.isEmpty else { return nil }
 
         let scores = results.compactMap { $0.resolvedSafetyScore }
@@ -317,15 +452,17 @@ final class OnboardingViewModel: ObservableObject {
         let grade = PortfolioMath.grade(forScore: avg)
 
         let dims: [(key: String, name: String, expl: String, get: (SharedRiskDimensions) -> Double?)] = [
-            ("FIN",  "Financial Health", "balance-sheet strength and profitability", { $0.financialHealth }),
-            ("NEWS", "News Sentiment",   "the tone of recent coverage",              { $0.newsSentiment }),
-            ("MAC",  "Macro Exposure",   "sensitivity to interest rates and the broad market", { $0.macroExposure }),
-            ("SEC",  "Sector Exposure",  "concentration in a single sector",         { $0.sectorExposure }),
-            ("VOL",  "Volatility",       "how sharply these prices can swing",        { $0.volatility }),
+            ("FIN",  "Financial Health",   "balance-sheet strength and profitability",   { $0.financialHealth }),
+            ("NEWS", "News Sentiment",     "the tone of recent coverage",                { $0.newsSentiment }),
+            ("MAC",  "Macro Resilience",   "how well it holds up against rates and the broad market", { $0.macroExposure }),
+            ("SEC",  "Sector Resilience",  "how diversified it is across sectors",       { $0.sectorExposure }),
+            ("VOL",  "Price Stability",    "how steady the price tends to be",           { $0.volatility }),
         ]
 
         var findings: [AhaDimensionFinding] = []
+        var getters: [String: (SharedRiskDimensions) -> Double?] = [:]
         for d in dims {
+            getters[d.key] = d.get
             let vals = results.compactMap { r -> Double? in
                 guard let dims = r.sharedAnalysis?.riskDimensions else { return nil }
                 return d.get(dims)
@@ -341,9 +478,37 @@ final class OnboardingViewModel: ObservableObject {
 
         guard let blind = findings.min(by: { $0.average < $1.average }) else { return nil }
 
+        // Presentation-only focus: among the user's stated concerns, lead with the
+        // one that scores lowest (the most worth flagging); otherwise the weakest
+        // dimension overall.
+        let concernKeys = Set(priorities.map { $0.dimensionKey })
+        let concernFindings = findings.filter { concernKeys.contains($0.key) }
+        let focus = concernFindings.min(by: { $0.average < $1.average }) ?? blind
+        let focusIsConcern = !concernFindings.isEmpty
+
+        // Strongest dimension (distinct from the weakest when possible).
+        let strongestDim = findings.filter { $0.key != blind.key }.max(by: { $0.average < $1.average })
+            ?? findings.max(by: { $0.average < $1.average })
+
+        // Per-holding breakdown of a single metric (the real components of its average).
+        func breakdown(forKey key: String) -> [MetricContribution] {
+            guard let getter = getters[key] else { return [] }
+            return results.compactMap { r -> MetricContribution? in
+                guard let rd = r.sharedAnalysis?.riskDimensions, let v = getter(rd) else { return nil }
+                return MetricContribution(ticker: r.ticker, value: v)
+            }
+        }
+        // Weakest worst-first, strongest best-first.
+        let weakestBreakdown = breakdown(forKey: blind.key).sorted { $0.value < $1.value }
+        let strongestBreakdown = strongestDim.map { breakdown(forKey: $0.key).sorted { $0.value > $1.value } } ?? []
+        let weakestEx = weakestBreakdown.first.map { ($0.ticker, $0.value) }
+        let strongestEx = strongestBreakdown.first.map { ($0.ticker, $0.value) }
+
         let sorted = results.sorted { ($0.resolvedSafetyScore ?? 999) < ($1.resolvedSafetyScore ?? 999) }
-        let weakest = sorted.first
-        let strongest = sorted.count > 1 ? sorted.last : nil
+        let weakestStock = sorted.first
+        let strongestStock = sorted.count > 1 ? sorted.last : nil
+
+        let totalSources = results.compactMap { $0.sharedAnalysis?.sourceCount }.reduce(0, +)
 
         return AhaReveal(
             grade: grade,
@@ -351,10 +516,20 @@ final class OnboardingViewModel: ObservableObject {
             positionCount: results.count,
             blindSpot: blind,
             dimensions: findings,
-            weakestTicker: weakest?.ticker,
-            weakestGrade: weakest?.resolvedGrade,
-            strongestTicker: strongest?.ticker,
-            strongestGrade: strongest?.resolvedGrade
+            weakestTicker: weakestStock?.ticker,
+            weakestGrade: weakestStock?.resolvedGrade,
+            strongestTicker: strongestStock?.ticker,
+            strongestGrade: strongestStock?.resolvedGrade,
+            focus: focus,
+            focusIsConcern: focusIsConcern,
+            strongest: strongestDim,
+            weakestCulpritTicker: weakestEx?.0,
+            weakestCulpritValue: weakestEx?.1,
+            strongestLeaderTicker: strongestEx?.0,
+            strongestLeaderValue: strongestEx?.1,
+            weakestBreakdown: weakestBreakdown,
+            strongestBreakdown: strongestBreakdown,
+            sourceCount: totalSources > 0 ? totalSources : nil
         )
     }
 

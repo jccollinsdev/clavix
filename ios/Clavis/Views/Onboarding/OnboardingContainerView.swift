@@ -21,10 +21,8 @@ struct OnboardingContainerView: View {
                         viewModel: viewModel,
                         isFreeTier: !subscriptionManager.isPro,
                         onPrimary: {
-                            Task {
-                                if await viewModel.continueToAnalysis() {
-                                    viewModel.nextPage()
-                                }
+                            if viewModel.continueToAnalysis() {
+                                viewModel.nextPage()
                             }
                         }
                     )
@@ -726,8 +724,8 @@ private struct OnboardingPortfolioAhaView: View {
             case .input:
                 AhaInputScreen(viewModel: viewModel, isFreeTier: isFreeTier, onBack: onBack, onSkip: onSkip)
                     .transition(.opacity)
-            case .analyzing:
-                AhaAnalyzingScreen().transition(.opacity)
+            case .questions:
+                AhaQuestionsScreen(viewModel: viewModel).transition(.opacity)
             case .reveal:
                 AhaRevealScreen(viewModel: viewModel, onFinish: onFinish).transition(.opacity)
             }
@@ -755,12 +753,13 @@ private struct AhaPrimaryButton: View {
                 Image(systemName: "arrow.right")
                     .font(.system(size: 12, weight: .semibold))
             }
-            .foregroundColor(enabled ? .backgroundPrimary : .textTertiary)
+            .foregroundColor(enabled ? .backgroundPrimary : .textSecondary)
             .frame(maxWidth: .infinity)
             .frame(height: 52)
             .background(enabled ? Color.textPrimary : Color.surfaceElevated)
             .overlay(
-                Rectangle().stroke(enabled ? Color.clear : Color.border, lineWidth: 1)
+                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    .stroke(enabled ? Color.clear : Color.border, lineWidth: 1.5)
             )
             .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
         }
@@ -818,7 +817,7 @@ private struct AhaInputScreen: View {
             VStack(spacing: 0) {
                 AhaHairline()
                 AhaPrimaryButton(title: "Grade my portfolio", enabled: viewModel.canAnalyze) {
-                    viewModel.runAnalysis()
+                    viewModel.enterQuestions()
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 12)
@@ -991,189 +990,168 @@ private struct AhaLedgerRow: View {
     }
 }
 
-// MARK: - Analyzing
+// MARK: - Questions (quick personalization, presentation only)
 
-private struct AhaAnalyzingScreen: View {
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var index = 0
-    @State private var progress: CGFloat = 0.03
-
-    private let checks: [(code: String, title: String, detail: String, icon: String)] = [
-        ("NEWS", "Reading recent news", "Reviewing headlines and sentiment for each holding.", "newspaper"),
-        ("FIN", "Measuring financial strength", "Comparing profitability, balance sheets, and earnings quality.", "chart.bar.xaxis"),
-        ("MAC", "Testing market sensitivity", "Checking exposure to rates and broad market stress.", "globe.americas"),
-        ("SEC", "Measuring concentration", "Finding repeated sector and factor exposure in your portfolio.", "square.grid.2x2"),
-        ("VOL", "Assembling your risk map", "Combining all five dimensions into one portfolio snapshot.", "scope"),
-    ]
-
-    private let phaseProgress: [CGFloat] = [0.18, 0.38, 0.58, 0.78, 0.97]
-    private let phaseHolds: [Double] = [1.35, 1.45, 1.55, 1.35, 1.60]
+private struct AhaQuestionsScreen: View {
+    @ObservedObject var viewModel: OnboardingViewModel
 
     var body: some View {
         GeometryReader { proxy in
             VStack(spacing: 0) {
-                Spacer(minLength: 18)
+                ScrollView(showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 24) {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("YOUR PROFILE")
+                                .font(ClavisTypography.label)
+                                .tracking(1.6)
+                                .foregroundColor(.textSecondary)
+                            Text("How you invest.")
+                                .font(ClavisTypography.inter(26, weight: .semibold))
+                                .tracking(-0.4)
+                                .foregroundColor(.textPrimary)
+                            Text("A few details so your rating speaks to how you actually invest.")
+                                .font(ClavisTypography.inter(14))
+                                .foregroundColor(.textSecondary)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
 
-                VStack(spacing: 22) {
-                    VStack(spacing: 8) {
-                        Text("Building your risk snapshot")
-                            .font(ClavisTypography.inter(28, weight: .semibold))
-                            .tracking(-0.55)
-                            .foregroundColor(.textPrimary)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
-                            .minimumScaleFactor(0.82)
-                        Text("CHECKING LIVE SIGNALS")
-                            .font(ClavisTypography.mono(10))
-                            .tracking(0.8)
-                            .foregroundColor(.textSecondary)
+                        questionBlock("What matters to you?", caption: "Pick up to \(OnboardingViewModel.maxPriorities).") {
+                            FlowLayout(spacing: 8) {
+                                ForEach(OnboardingPriority.allCases) { option in
+                                    let isSelected = viewModel.priorities.contains(option)
+                                    let atCap = viewModel.priorities.count >= OnboardingViewModel.maxPriorities
+                                    OnboardingChoiceChip(label: option.label, selected: isSelected, dimmed: !isSelected && atCap) {
+                                        viewModel.togglePriority(option)
+                                    }
+                                }
+                            }
+                        }
+
+                        questionBlock("What's your investment horizon?") {
+                            FlowLayout(spacing: 8) {
+                                ForEach(OnboardingTimeline.allCases) { option in
+                                    OnboardingChoiceChip(label: option.label, selected: viewModel.timeline == option) {
+                                        viewModel.timeline = option
+                                    }
+                                }
+                            }
+                        }
+
+                        questionBlock("What's your risk tolerance?") {
+                            FlowLayout(spacing: 8) {
+                                ForEach(OnboardingRiskTolerance.allCases) { option in
+                                    OnboardingChoiceChip(label: option.label, selected: viewModel.riskTolerance == option) {
+                                        viewModel.riskTolerance = option
+                                    }
+                                }
+                            }
+                        }
                     }
+                    .frame(maxWidth: 520)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
+                    .padding(.bottom, 24)
+                }
 
-                    analysisCore
-
-                    VStack(spacing: 8) {
-                        Text(checks[index].title)
-                            .font(ClavisTypography.inter(17, weight: .semibold))
-                            .foregroundColor(.textPrimary)
-                            .id("title-\(index)")
-                            .transition(.opacity)
-                        Text(checks[index].detail)
-                            .font(ClavisTypography.inter(14, weight: .regular))
-                            .foregroundColor(.ink2)
-                            .multilineTextAlignment(.center)
-                            .lineLimit(2)
-                            .lineSpacing(2)
-                            .frame(maxWidth: 300)
-                            .id("detail-\(index)")
-                            .transition(.opacity)
-                    }
-                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.36), value: index)
+                AhaPrimaryButton(title: "See my rating", enabled: viewModel.questionsComplete) {
+                    viewModel.finishQuestions()
                 }
                 .padding(.horizontal, 24)
+                .padding(.top, 12)
+                .padding(.bottom, max(16, proxy.safeAreaInsets.bottom + 8))
                 .frame(maxWidth: 520)
                 .frame(maxWidth: .infinity)
-
-                Spacer(minLength: 18)
-
-                VStack(spacing: 10) {
-                    segmentedProgress
-                    Text("NO RECOMMENDATIONS · INFORMATIONAL RISK RATING")
-                        .font(ClavisTypography.mono(8))
-                        .tracking(0.6)
-                        .foregroundColor(.textTertiary)
-                }
-                .padding(.horizontal, 44)
-                .padding(.bottom, max(36, proxy.safeAreaInsets.bottom + 24))
+                .background(Color.backgroundPrimary)
             }
         }
-        .frame(maxWidth: .infinity)
         .background(Color.backgroundPrimary.ignoresSafeArea())
         .safeAreaInset(edge: .top, spacing: 0) {
             OnboardingStickyBar(step: 2, total: 2)
         }
-        .task { await playSequence() }
     }
 
-    private var analysisCore: some View {
-        ZStack {
-            ForEach(0..<checks.count, id: \.self) { i in
-                checkNode(i)
-            }
-
-            progressDial
-        }
-        .frame(width: 230, height: 230)
-    }
-
-    private func checkNode(_ i: Int) -> some View {
-        let check = checks[i]
-        let active = i == index
-        let point = orbitPoint(i)
-        return VStack(spacing: 5) {
-            Image(systemName: check.icon)
-                .font(.system(size: 15, weight: .semibold))
-                .foregroundColor(.textPrimary)
-                .frame(width: 34, height: 34)
-                .background(active ? Color.textPrimary.opacity(0.16) : Color.surface)
-                .overlay(Rectangle().stroke(active ? Color.textPrimary : Color.border, lineWidth: 1))
-            Text(check.code)
-                .font(ClavisTypography.mono(10))
-                .tracking(0.5)
-                .foregroundColor(active ? .textPrimary : .textTertiary)
-        }
-        .offset(x: point.x, y: point.y)
-        .opacity(active ? 1 : 0.48)
-        .scaleEffect(active ? 1 : 0.96)
-        .animation(reduceMotion ? nil : .timingCurve(0.22, 1, 0.36, 1, duration: 0.42), value: index)
-    }
-
-    private var progressDial: some View {
-        ZStack {
-            Circle()
-                .stroke(Color.border, lineWidth: 1)
-                .frame(width: 88, height: 88)
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(Color.textPrimary, style: StrokeStyle(lineWidth: 2, lineCap: .round))
-                .rotationEffect(.degrees(-90))
-                .frame(width: 88, height: 88)
-                .animation(reduceMotion ? nil : .timingCurve(0.22, 1, 0.36, 1, duration: 0.82), value: progress)
-            VStack(spacing: 2) {
-                Text("\(index + 1)")
-                    .font(ClavisTypography.mono(24))
+    @ViewBuilder private func questionBlock<Content: View>(_ title: String, caption: String? = nil, @ViewBuilder content: () -> Content) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Text(title)
+                    .font(ClavisTypography.inter(15, weight: .semibold))
                     .foregroundColor(.textPrimary)
-                    .contentTransition(.numericText())
-                Text("OF \(checks.count)")
-                    .font(ClavisTypography.mono(8))
-                    .tracking(0.6)
-                    .foregroundColor(.textSecondary)
+                if let caption {
+                    Text(caption)
+                        .font(ClavisTypography.inter(12, weight: .regular))
+                        .foregroundColor(.textTertiary)
+                }
             }
+            content()
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+private struct OnboardingChoiceChip: View {
+    let label: String
+    let selected: Bool
+    var dimmed: Bool = false
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(label)
+                .font(ClavisTypography.inter(13, weight: .medium))
+                .foregroundColor(selected ? .backgroundPrimary : (dimmed ? .textTertiary : .textPrimary))
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .background(selected ? Color.textPrimary : Color.surface)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4, style: .continuous)
+                        .stroke(selected ? Color.clear : Color.border, lineWidth: 1)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                .opacity(dimmed ? 0.55 : 1)
+        }
+        .buttonStyle(.plain)
+        .animation(.easeOut(duration: 0.15), value: selected)
+    }
+}
+
+/// Minimal wrapping layout for chips (iOS 16+ Layout).
+private struct FlowLayout: Layout {
+    var spacing: CGFloat = 8
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let maxWidth = proposal.width ?? .infinity
+        var x: CGFloat = 0
+        var rowHeight: CGFloat = 0
+        var totalHeight: CGFloat = 0
+        for sv in subviews {
+            let size = sv.sizeThatFits(.unspecified)
+            if x + size.width > maxWidth, x > 0 {
+                totalHeight += rowHeight + spacing
+                x = 0
+                rowHeight = 0
+            }
+            x += size.width + spacing
+            rowHeight = max(rowHeight, size.height)
+        }
+        totalHeight += rowHeight
+        return CGSize(width: maxWidth.isFinite ? maxWidth : x, height: totalHeight)
     }
 
-    private func orbitPoint(_ i: Int) -> CGPoint {
-        let angle = (Double(i) / Double(checks.count) * 2 * .pi) - .pi / 2
-        let radius: CGFloat = 78
-        return CGPoint(
-            x: CGFloat(cos(angle)) * radius,
-            y: CGFloat(sin(angle)) * radius
-        )
-    }
-
-    private var segmentedProgress: some View {
-        HStack(spacing: 6) {
-            ForEach(0..<checks.count, id: \.self) { i in
-                Rectangle()
-                    .fill(i <= index ? Color.textPrimary : Color.border)
-                    .frame(height: 2)
-                    .animation(reduceMotion ? nil : .easeInOut(duration: 0.35), value: index)
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        var x: CGFloat = bounds.minX
+        var y: CGFloat = bounds.minY
+        var rowHeight: CGFloat = 0
+        for sv in subviews {
+            let size = sv.sizeThatFits(.unspecified)
+            if x + size.width > bounds.minX + bounds.width, x > bounds.minX {
+                x = bounds.minX
+                y += rowHeight + spacing
+                rowHeight = 0
             }
-        }
-    }
-
-    @MainActor
-    private func playSequence() async {
-        index = 0
-        progress = 0.03
-
-        for phase in checks.indices {
-            guard !Task.isCancelled else { return }
-            withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.36)) {
-                index = phase
-            }
-            withAnimation(reduceMotion ? nil : .timingCurve(0.22, 1, 0.36, 1, duration: 0.82)) {
-                progress = phaseProgress[phase]
-            }
-
-            do {
-                try await Task.sleep(for: .seconds(phaseHolds[phase]))
-            } catch {
-                return
-            }
-        }
-
-        withAnimation(reduceMotion ? nil : .easeOut(duration: 0.3)) {
-            progress = 1
+            sv.place(at: CGPoint(x: x, y: y), anchor: .topLeading, proposal: ProposedViewSize(size))
+            x += size.width + spacing
+            rowHeight = max(rowHeight, size.height)
         }
     }
 }
@@ -1184,151 +1162,527 @@ private struct AhaRevealScreen: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @ObservedObject var viewModel: OnboardingViewModel
     let onFinish: () -> Void
-    @State private var revealSignals = false
+    @State private var analysisDone = false
 
     var body: some View {
         if let reveal = viewModel.reveal {
             GeometryReader { proxy in
                 ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Your portfolio has one clear weak spot.")
-                            .font(ClavisTypography.inter(30, weight: .semibold))
-                            .tracking(-0.55)
-                            .foregroundColor(.textPrimary)
-                            .lineLimit(2)
-                            .minimumScaleFactor(0.88)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding(.bottom, 9)
+                    VStack(alignment: .leading, spacing: 16) {
+                        header(reveal)
 
-                        Text(comparisonSentence(reveal))
-                            .font(ClavisTypography.inter(15, weight: .regular))
-                            .foregroundColor(.ink2)
-                            .lineSpacing(2)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .padding(.bottom, 20)
-
-                        AhaSignalComparison(
-                            reveal: reveal,
-                            valuesVisible: revealSignals,
-                            reduceMotion: reduceMotion
-                        )
-                        .padding(.bottom, 16)
-
-                        AhaLockedDetail(reveal: reveal)
-                            .padding(.bottom, 16)
-
-                        AhaPrimaryButton(
-                            title: "Continue to 14-day trial",
-                            enabled: !viewModel.isCompleting,
-                            action: onFinish
-                        )
-
-                        if let error = viewModel.errorMessage {
-                            Text(error)
-                                .font(ClavisTypography.clavixCaption)
-                                .foregroundColor(.bad)
-                                .frame(maxWidth: .infinity, alignment: .center)
-                                .padding(.top, 10)
+                        AhaRiskProfileCard(reveal: reveal, reduceMotion: reduceMotion) {
+                            withAnimation(.easeInOut(duration: 0.4)) { analysisDone = true }
                         }
 
-                        Text("FREE FOR 14 DAYS · CANCEL ANYTIME")
-                            .font(ClavisTypography.mono(8))
-                            .tracking(0.6)
-                            .foregroundColor(.textTertiary)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding(.top, 13)
-                            .padding(.bottom, 18)
+                        if analysisDone {
+                            weakestCard(reveal)
+                                .transition(.opacity.combined(with: .offset(y: 8)))
+
+                            if let strongest = reveal.strongest, strongest.key != reveal.blindSpot.key {
+                                strongestCard(reveal, metric: strongest)
+                                    .transition(.opacity.combined(with: .offset(y: 8)))
+                            }
+
+                            AhaLockedDetail(reveal: reveal)
+                                .transition(.opacity)
+
+                            VStack(spacing: 0) {
+                                AhaPrimaryButton(
+                                    title: "Continue to 14-day trial",
+                                    enabled: !viewModel.isCompleting,
+                                    action: onFinish
+                                )
+
+                                if let error = viewModel.errorMessage {
+                                    Text(error)
+                                        .font(ClavisTypography.clavixCaption)
+                                        .foregroundColor(.bad)
+                                        .frame(maxWidth: .infinity, alignment: .center)
+                                        .padding(.top, 10)
+                                }
+
+                                Text("FREE FOR 14 DAYS · CANCEL ANYTIME")
+                                    .font(ClavisTypography.mono(8))
+                                    .tracking(0.6)
+                                    .foregroundColor(.textTertiary)
+                                    .frame(maxWidth: .infinity, alignment: .center)
+                                    .padding(.top, 13)
+                            }
+                            .transition(.opacity)
+                        }
                     }
                     .padding(.horizontal, 24)
-                    .padding(.top, 24)
+                    .padding(.top, 20)
+                    .padding(.bottom, 24)
                     .frame(maxWidth: 520)
                     .frame(maxWidth: .infinity)
                     .frame(minHeight: proxy.size.height, alignment: .top)
+                    .animation(.easeInOut(duration: 0.35), value: analysisDone)
                 }
             }
             .safeAreaInset(edge: .top, spacing: 0) {
                 OnboardingStickyBar(step: 2, total: 2)
-            }
-            .task {
-                guard !revealSignals else { return }
-                if !reduceMotion {
-                    try? await Task.sleep(for: .milliseconds(180))
-                }
-                revealSignals = true
             }
         } else {
             ProgressView().tint(.textPrimary)
         }
     }
 
-    private func comparisonSentence(_ reveal: AhaReveal) -> String {
-        guard let strongest = reveal.dimensions.max(by: { $0.average < $1.average }) else {
-            return "\(reveal.blindSpot.name) is the first signal worth a closer look."
-        }
+    // MARK: Header (swaps from "building" to the finished profile)
 
-        let gap = max(0, Int((strongest.average - reveal.blindSpot.average).rounded()))
-        guard gap > 0, strongest.key != reveal.blindSpot.key else {
-            return "\(reveal.blindSpot.name) is the first signal worth a closer look."
+    @ViewBuilder private func header(_ reveal: AhaReveal) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if analysisDone {
+                Text("RISK PROFILE")
+                    .font(ClavisTypography.label).tracking(1.6).foregroundColor(.textSecondary)
+                Text("Your portfolio's results.")
+                    .font(ClavisTypography.inter(26, weight: .semibold)).tracking(-0.4)
+                    .foregroundColor(.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                HStack(alignment: .center, spacing: 12) {
+                    ClavixGradeBadge(reveal.grade, size: 44)
+                    HStack(alignment: .firstTextBaseline, spacing: 3) {
+                        Text("\(Int(reveal.score.rounded()))")
+                            .font(ClavisTypography.mono(32)).foregroundColor(.textPrimary)
+                        Text("/100").font(ClavisTypography.mono(12)).foregroundColor(.textSecondary)
+                    }
+                    Spacer(minLength: 8)
+                    Text(gradeTier(reveal.grade).uppercased())
+                        .font(ClavisTypography.label).tracking(0.8)
+                        .foregroundColor(gradeTierColor(reveal.grade))
+                }
+                .padding(.top, 4)
+
+                Text(gradeDescriptor(reveal))
+                    .font(ClavisTypography.inter(14)).foregroundColor(.ink2)
+                    .lineSpacing(2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 2)
+            } else {
+                Text("ANALYZING")
+                    .font(ClavisTypography.label).tracking(1.6).foregroundColor(.textSecondary)
+                Text("Analyzing your portfolio.")
+                    .font(ClavisTypography.inter(26, weight: .semibold)).tracking(-0.4)
+                    .foregroundColor(.textPrimary)
+                Text(buildSubtitle(reveal))
+                    .font(ClavisTypography.inter(14)).foregroundColor(.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
-        return "\(reveal.blindSpot.name) trails \(strongest.name.lowercased()) by \(gap) points."
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
+
+    private func buildSubtitle(_ reveal: AhaReveal) -> String {
+        let n = reveal.positionCount
+        let holdings = "\(n) holding\(n == 1 ? "" : "s")"
+        return "Scoring your \(holdings) across five risk metrics."
+    }
+
+    // MARK: Grade meaning
+
+    private func gradeTier(_ grade: String) -> String {
+        switch grade {
+        case "AAA", "AA": return "Very low risk"
+        case "A":         return "Low risk"
+        case "BBB":       return "Moderate risk"
+        case "BB":        return "Elevated risk"
+        case "B":         return "High risk"
+        default:          return "Very high risk"
+        }
+    }
+
+    private func gradeTierColor(_ grade: String) -> Color {
+        switch grade {
+        case "AAA", "AA", "A": return .good
+        case "BBB", "BB":      return .warn
+        default:               return .bad
+        }
+    }
+
+    private func gradeDescriptor(_ reveal: AhaReveal) -> String {
+        let n = reveal.dimensions.filter { $0.average < 55 }.count
+        let risks: String
+        switch n {
+        case 0:  risks = "no major weak spots"
+        case 1:  risks = "one key risk to watch"
+        case 2:  risks = "two key risks to watch"
+        case 3:  risks = "three key risks to watch"
+        default: risks = "\(n) key risks to watch"
+        }
+        let shape: String
+        switch reveal.grade {
+        case "AAA", "AA": shape = "A very resilient, well-balanced portfolio"
+        case "A":         shape = "A resilient, balanced portfolio"
+        case "BBB":       shape = "A balanced portfolio that leans steady"
+        case "BB":        shape = "A balanced but exposed portfolio"
+        case "B":         shape = "A higher-risk portfolio"
+        default:          shape = "A high-risk portfolio"
+        }
+        return "\(shape) with \(risks)."
+    }
+
+    // MARK: Weakest / strongest metric callouts (with a per-holding deep dive)
+
+    @ViewBuilder private func weakestCard(_ reveal: AhaReveal) -> some View {
+        metricCard(eyebrow: "WEAKEST METRIC", tone: .warn, metric: reveal.blindSpot,
+                   breakdown: reveal.weakestBreakdown, narrative: weakNarrative(reveal))
+    }
+
+    @ViewBuilder private func strongestCard(_ reveal: AhaReveal, metric: AhaDimensionFinding) -> some View {
+        metricCard(eyebrow: "STRONGEST METRIC", tone: .good, metric: metric,
+                   breakdown: reveal.strongestBreakdown, narrative: strongNarrative(reveal, metric: metric))
+    }
+
+    @ViewBuilder private func metricCard(eyebrow: String, tone: Color, metric: AhaDimensionFinding,
+                                         breakdown: [MetricContribution], narrative: String) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .firstTextBaseline) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(eyebrow)
+                        .font(ClavisTypography.label).tracking(1.2).foregroundColor(tone)
+                    Text(metric.name)
+                        .font(ClavisTypography.inter(20, weight: .semibold)).tracking(-0.3)
+                        .foregroundColor(.textPrimary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Spacer(minLength: 8)
+                HStack(alignment: .firstTextBaseline, spacing: 2) {
+                    Text("\(Int(metric.average.rounded()))")
+                        .font(ClavisTypography.mono(28)).foregroundColor(tone)
+                    Text("/100").font(ClavisTypography.mono(10)).foregroundColor(.textSecondary)
+                }
+            }
+
+            Text(metricMeaning(metric))
+                .font(ClavisTypography.inter(13)).foregroundColor(.ink2)
+                .lineSpacing(2).fixedSize(horizontal: false, vertical: true)
+
+            if breakdown.count > 1 {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("BY HOLDING")
+                        .font(ClavisTypography.label).tracking(1.0).foregroundColor(.textTertiary)
+                    ForEach(breakdown) { c in
+                        HStack(spacing: 10) {
+                            Text(c.ticker)
+                                .font(ClavisTypography.mono(12)).foregroundColor(.textPrimary)
+                                .frame(width: 56, alignment: .leading)
+                            GeometryReader { p in
+                                ZStack(alignment: .leading) {
+                                    Capsule().fill(Color.surfaceElevated)
+                                    Capsule().fill(tone.opacity(0.7))
+                                        .frame(width: max(4, p.size.width * CGFloat(max(0, min(100, c.value)) / 100)))
+                                }
+                            }
+                            .frame(height: 6)
+                            Text("\(Int(c.value.rounded()))")
+                                .font(ClavisTypography.mono(12)).foregroundColor(.textSecondary)
+                                .frame(width: 28, alignment: .trailing)
+                        }
+                        .frame(height: 16)
+                    }
+                }
+            }
+
+            Text(narrative)
+                .font(ClavisTypography.inter(13)).foregroundColor(.textSecondary)
+                .lineSpacing(2).fixedSize(horizontal: false, vertical: true)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(16)
+        .background(Color.surface)
+        .overlay(
+            RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
+                .stroke(Color.border, lineWidth: 1)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
+    }
+
+    private func metricMeaning(_ metric: AhaDimensionFinding) -> String {
+        "Measures \(metric.explanation). Each holding is scored 0 to 100, where higher is stronger, then averaged."
+    }
+
+    private func weakNarrative(_ reveal: AhaReveal) -> String {
+        let m = reveal.blindSpot
+        if reveal.positionCount > 1, let t = reveal.weakestCulpritTicker, let v = reveal.weakestCulpritValue {
+            return "\(t) is the main drag at \(score(v)), pulling the average into the \(band(m.average)) band at \(score(m.average))."
+        }
+        return "At \(score(m.average)), that sits in the \(band(m.average)) band, your lowest metric."
+    }
+
+    private func strongNarrative(_ reveal: AhaReveal, metric: AhaDimensionFinding) -> String {
+        if reveal.positionCount > 1, let t = reveal.strongestLeaderTicker, let v = reveal.strongestLeaderValue {
+            return "\(t) leads at \(score(v)), lifting the average into the \(band(metric.average)) band at \(score(metric.average))."
+        }
+        return "At \(score(metric.average)), that sits in the \(band(metric.average)) band, your highest metric."
+    }
+
+    private func band(_ v: Double) -> String {
+        switch v {
+        case ..<40:  return "weak"
+        case ..<55:  return "below-average"
+        case ..<70:  return "moderate"
+        case ..<85:  return "solid"
+        default:     return "strong"
+        }
+    }
+
+    private func score(_ v: Double) -> String { "\(Int(v.rounded()))" }
 }
 
-private struct AhaSignalComparison: View {
-    let reveal: AhaReveal
-    let valuesVisible: Bool
-    let reduceMotion: Bool
+// MARK: - Risk profile card (radar assembles signal by signal)
 
-    private var dimensions: [AhaDimensionFinding] {
-        let fallback = [reveal.blindSpot]
-        return reveal.dimensions.isEmpty ? fallback : reveal.dimensions
+private struct AhaRiskProfileCard: View {
+    let reveal: AhaReveal
+    let reduceMotion: Bool
+    let onComplete: () -> Void
+
+    @State private var displayed: [Double]
+    @State private var activeIndex: Int? = nil
+    @State private var finished = false
+    @State private var started = false
+
+    private var dims: [AhaDimensionFinding] { reveal.dimensions }
+
+    /// When finished, emphasize both extremes: weakest in amber, strongest in green.
+    /// During the build, emphasize the metric currently being analyzed.
+    private var highlightMap: [String: Color] {
+        if finished {
+            var map: [String: Color] = [reveal.blindSpot.key: .warn]
+            if let s = reveal.strongest, s.key != reveal.blindSpot.key { map[s.key] = .good }
+            return map
+        }
+        if let i = activeIndex, dims.indices.contains(i) {
+            return [dims[i].key: .textPrimary]
+        }
+        return [:]
+    }
+
+    init(reveal: AhaReveal, reduceMotion: Bool, onComplete: @escaping () -> Void) {
+        self.reveal = reveal
+        self.reduceMotion = reduceMotion
+        self.onComplete = onComplete
+        _displayed = State(initialValue: Array(repeating: 0, count: reveal.dimensions.count))
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(reveal.blindSpot.name)
-                    .font(ClavisTypography.inter(24, weight: .semibold))
-                    .tracking(-0.35)
-                    .foregroundColor(.textPrimary)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.82)
-
-                Text("Your score")
-                    .font(ClavisTypography.inter(13, weight: .medium))
-                    .foregroundColor(.warn)
-
-                HStack(alignment: .firstTextBaseline, spacing: 2) {
-                    Text("\(Int(reveal.blindSpot.average.rounded()))")
-                        .font(ClavisTypography.mono(34))
-                        .foregroundColor(.warn)
-                    Text("/100")
-                        .font(ClavisTypography.mono(10))
-                        .foregroundColor(.textSecondary)
+        VStack(spacing: 14) {
+            if dims.count >= 3 {
+                AhaRiskRadar(
+                    dimensions: dims,
+                    values: displayed,
+                    highlights: highlightMap
+                )
+                .frame(height: 250)
+                .frame(maxWidth: .infinity)
+            } else {
+                VStack(spacing: 11) {
+                    ForEach(Array(dims.enumerated()), id: \.element.key) { _, d in
+                        AhaSignalRow(dimension: d, isFocus: d.key == reveal.blindSpot.key,
+                                     highlightColor: .warn, valuesVisible: true,
+                                     animationDelay: 0, reduceMotion: reduceMotion)
+                    }
                 }
             }
 
-            VStack(spacing: 11) {
-                ForEach(Array(dimensions.enumerated()), id: \.element.key) { index, dimension in
-                    AhaSignalRow(
-                        dimension: dimension,
-                        isBlindSpot: dimension.key == reveal.blindSpot.key,
-                        valuesVisible: valuesVisible,
-                        animationDelay: Double(index) * 0.07,
-                        reduceMotion: reduceMotion
-                    )
-                }
-            }
+            Divider().overlay(Color.border)
+
+            statusArea
         }
         .padding(16)
         .background(Color.surface)
+        .overlay(
+            RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous)
+                .stroke(Color.border, lineWidth: 1)
+        )
         .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
+        .task {
+            guard !started else { return }
+            started = true
+            await run()
+        }
+    }
+
+    @ViewBuilder private var statusArea: some View {
+        if let i = activeIndex, dims.indices.contains(i) {
+            HStack(spacing: 10) {
+                Circle().fill(Color.good).frame(width: 6, height: 6)
+                VStack(alignment: .leading, spacing: 1) {
+                    Text("Analyzing \(dims[i].name.lowercased())")
+                        .font(ClavisTypography.inter(13, weight: .semibold))
+                        .foregroundColor(.textPrimary)
+                    Text(dims[i].explanation)
+                        .font(ClavisTypography.inter(11))
+                        .foregroundColor(.textSecondary)
+                        .lineLimit(1)
+                }
+                Spacer(minLength: 8)
+                Text("\(Int(displayed[i].rounded()))")
+                    .font(ClavisTypography.mono(15))
+                    .monospacedDigit()
+                    .foregroundColor(.textPrimary)
+            }
+            .frame(height: 30)
+        } else {
+            HStack {
+                Text("Each holding scored across five risk metrics, then weighed into one score.")
+                    .font(ClavisTypography.inter(11))
+                    .foregroundColor(.textTertiary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 0)
+            }
+        }
+    }
+
+    // MARK: Sequencing — analyze one signal at a time
+
+    @MainActor private func run() async {
+        guard dims.count >= 3, !reduceMotion else {
+            displayed = dims.map { $0.average }
+            finished = true
+            onComplete()
+            return
+        }
+
+        await sleep(0.35)
+        for i in dims.indices {
+            withAnimation(.easeInOut(duration: 0.2)) { activeIndex = i }
+            await scanAxis(i)
+            await sleep(0.08)
+        }
+        withAnimation(.easeInOut(duration: 0.25)) {
+            activeIndex = nil
+            finished = true
+        }
+        await sleep(0.15)
+        onComplete()
+    }
+
+    /// Scan a single axis: jump around with wide, narrowing swings (so it reads as
+    /// real computation), lightly damped so it isn't pure static, then settle.
+    @MainActor private func scanAxis(_ i: Int) async {
+        let target = dims[i].average
+        var current = displayed[i]
+        let scanFrames = 16
+        for f in 0..<scanFrames {
+            let t = Double(f) / Double(scanFrames - 1)          // 0 → 1
+            let center = target * min(1, 0.3 + t * 0.8)
+            let spread = (1 - t * t) * 48                         // big early, narrows fast
+            let jumpTarget = max(3, min(98, center + Double.random(in: -spread...spread)))
+            current += (jumpTarget - current) * 0.46             // more damping = smoother
+            displayed[i] = current
+            await sleep(0.044)
+        }
+        // overshoot, then settle smoothly onto the real value
+        displayed[i] = min(100, target + 7)
+        await sleep(0.05)
+        let from = displayed[i]
+        for s in 1...4 {
+            displayed[i] = from + (target - from) * Double(s) / 4
+            await sleep(0.03)
+        }
+        displayed[i] = target
+    }
+
+    private func sleep(_ s: Double) async {
+        try? await Task.sleep(nanoseconds: UInt64(s * 1_000_000_000))
+    }
+}
+
+/// A five-axis risk radar. Pure renderer: it draws whatever `values` it is given,
+/// so the parent can grow it signal by signal. `highlights` maps a dimension key to
+/// the color it should be emphasized with (e.g. weakest amber, strongest green).
+private struct AhaRiskRadar: View {
+    let dimensions: [AhaDimensionFinding]
+    let values: [Double]
+    let highlights: [String: Color]
+
+    var body: some View {
+        GeometryReader { geo in
+            let n = dimensions.count
+            let labelInset: CGFloat = 80
+            let radius = max(24, (min(geo.size.width, geo.size.height) - labelInset) / 2)
+            let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
+
+            ZStack {
+                Canvas { ctx, _ in
+                    // concentric grid rings
+                    for ring in stride(from: 0.25, through: 1.0, by: 0.25) {
+                        var path = Path()
+                        for i in 0..<n {
+                            let p = vertex(i, n, center, radius * CGFloat(ring))
+                            if i == 0 { path.move(to: p) } else { path.addLine(to: p) }
+                        }
+                        path.closeSubpath()
+                        ctx.stroke(path, with: .color(Color.border), lineWidth: ring == 1.0 ? 1 : 0.75)
+                    }
+                    // spokes
+                    for i in 0..<n {
+                        var s = Path()
+                        s.move(to: center)
+                        s.addLine(to: vertex(i, n, center, radius))
+                        ctx.stroke(s, with: .color(Color.border.opacity(0.6)), lineWidth: 0.75)
+                    }
+                    // data polygon
+                    var data = Path()
+                    for i in 0..<n {
+                        let p = vertex(i, n, center, radius * unit(i))
+                        if i == 0 { data.move(to: p) } else { data.addLine(to: p) }
+                    }
+                    data.closeSubpath()
+                    ctx.fill(data, with: .color(Color.textPrimary.opacity(0.10)))
+                    ctx.stroke(data, with: .color(Color.textPrimary.opacity(0.85)), lineWidth: 1.5)
+                    // vertex dots (highlighted keys get their accent color + a larger dot)
+                    for i in 0..<n {
+                        let p = vertex(i, n, center, radius * unit(i))
+                        let hi = highlights[dimensions[i].key]
+                        let r: CGFloat = hi != nil ? 4.5 : 2.5
+                        let rect = CGRect(x: p.x - r, y: p.y - r, width: r * 2, height: r * 2)
+                        ctx.fill(Path(ellipseIn: rect), with: .color(hi ?? Color.textPrimary))
+                    }
+                }
+
+                ForEach(Array(dimensions.enumerated()), id: \.element.key) { i, dim in
+                    let p = vertex(i, n, center, radius + 22)
+                    let hi = highlights[dim.key]
+                    VStack(spacing: 1) {
+                        Text(shortName(dim))
+                            .font(ClavisTypography.inter(10, weight: hi != nil ? .semibold : .medium))
+                            .foregroundColor(hi ?? .textSecondary)
+                        Text("\(Int(value(i).rounded()))")
+                            .font(ClavisTypography.mono(11))
+                            .foregroundColor(hi ?? .textPrimary)
+                    }
+                    .fixedSize()
+                    .position(x: p.x, y: p.y)
+                }
+            }
+        }
+    }
+
+    private func value(_ i: Int) -> Double { values.indices.contains(i) ? values[i] : 0 }
+    private func unit(_ i: Int) -> CGFloat { CGFloat(max(0, min(100, value(i))) / 100) }
+    private func vertex(_ i: Int, _ n: Int, _ center: CGPoint, _ r: CGFloat) -> CGPoint {
+        let angle = -CGFloat.pi / 2 + CGFloat(i) * (2 * .pi / CGFloat(n))
+        return CGPoint(x: center.x + r * cos(angle), y: center.y + r * sin(angle))
+    }
+    private func shortName(_ d: AhaDimensionFinding) -> String {
+        switch d.key {
+        case "FIN": return "Financials"
+        case "NEWS": return "News"
+        case "MAC": return "Macro"
+        case "SEC": return "Sector"
+        case "VOL": return "Stability"
+        default: return d.name
+        }
     }
 }
 
 private struct AhaSignalRow: View {
     let dimension: AhaDimensionFinding
-    let isBlindSpot: Bool
+    let isFocus: Bool
+    let highlightColor: Color
     let valuesVisible: Bool
     let animationDelay: Double
     let reduceMotion: Bool
@@ -1336,15 +1690,15 @@ private struct AhaSignalRow: View {
     var body: some View {
         HStack(spacing: 10) {
             Text(shortName)
-                .font(ClavisTypography.inter(12, weight: isBlindSpot ? .semibold : .medium))
-                .foregroundColor(isBlindSpot ? .textPrimary : .textSecondary)
+                .font(ClavisTypography.inter(12, weight: isFocus ? .semibold : .medium))
+                .foregroundColor(isFocus ? .textPrimary : .textSecondary)
                 .frame(width: 72, alignment: .leading)
 
             GeometryReader { proxy in
                 ZStack(alignment: .leading) {
                     Capsule().fill(Color.surfaceElevated)
                     Capsule()
-                        .fill(isBlindSpot ? Color.warn : Color.textPrimary.opacity(0.62))
+                        .fill(isFocus ? highlightColor : Color.textPrimary.opacity(0.62))
                         .frame(width: valuesVisible ? proxy.size.width * normalizedScore : 4)
                 }
             }
@@ -1356,7 +1710,7 @@ private struct AhaSignalRow: View {
 
             Text("\(Int(dimension.average.rounded()))")
                 .font(ClavisTypography.mono(11))
-                .foregroundColor(isBlindSpot ? .warn : .textSecondary)
+                .foregroundColor(isFocus ? highlightColor : .textSecondary)
                 .frame(width: 24, alignment: .trailing)
         }
         .frame(height: 18)
@@ -1372,7 +1726,7 @@ private struct AhaSignalRow: View {
         case "NEWS": return "News"
         case "MAC": return "Macro"
         case "SEC": return "Sector"
-        case "VOL": return "Volatility"
+        case "VOL": return "Stability"
         default: return dimension.name
         }
     }
@@ -1414,7 +1768,10 @@ private struct AhaLockedDetail: View {
     }
 
     private var detailTitle: String {
-        guard let ticker = reveal.weakestTicker else { return "See what is driving the gap" }
-        return "See what is driving the gap in \(ticker)"
+        let area = reveal.blindSpot.name.lowercased()
+        if let ticker = reveal.weakestCulpritTicker {
+            return "See what's driving \(area) in \(ticker)"
+        }
+        return "See the stock-by-stock \(area) breakdown"
     }
 }
