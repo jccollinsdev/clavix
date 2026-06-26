@@ -119,6 +119,7 @@ async def test_methodology_response_includes_audit_depth(monkeypatch):
                         "volatility": {
                             "realized_vol_30d": 0.24,
                             "realized_vol_90d": 0.20,
+                            "vol_ratio": 1.2,
                         },
                     },
                 }
