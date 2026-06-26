@@ -71,11 +71,15 @@ async def ingest_tickertick_for_tickers(
         len(tickers),
     )
 
+    # Use skip_existing=False so Tickertick summaries can update articles that
+    # previously had extraction_status='failed'/'paywalled' from the old Finnhub path.
+    # The existing LLM fields (sentiment_score, tldr, etc.) are seeded from the DB row
+    # when present, so we only re-call the LLM for articles without prior enrichment.
     stored = await enrich_and_store_articles_batch(
         supabase,
         filtered,
         max_concurrency=max_concurrency,
-        skip_existing=True,
+        skip_existing=False,
     )
 
     results: dict[str, int] = {}
