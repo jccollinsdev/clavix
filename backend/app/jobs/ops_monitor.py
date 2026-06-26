@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import logging
 import statistics
-from datetime import datetime, timezone, timedelta
+from datetime import date, datetime, timezone, timedelta
 
 from app.services.alerting import ping_heartbeat, send_alert
 from app.services.supabase import get_supabase
@@ -71,20 +71,60 @@ def _parse_ts(value: str):
         return None
 
 
-def _today_snapshots(supabase) -> list[dict]:
-    today = datetime.now(timezone.utc).date().isoformat()
+def _latest_snapshot_date(supabase) -> str | None:
+    rows = (
+        supabase.table("ticker_risk_snapshots")
+        .select("snapshot_date")
+        .order("snapshot_date", desc=True)
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    return str(rows[0]["snapshot_date"]) if rows else None
+
+
+def _snapshots_for_date(supabase, snapshot_date: str) -> list[dict]:
     return (
         supabase.table("ticker_risk_snapshots")
         .select(
             "ticker,snapshot_date,financial_health,news_sentiment_dim,"
             "macro_exposure_dim,sector_exposure,volatility,safety_score"
         )
-        .eq("snapshot_date", today)
+        .eq("snapshot_date", snapshot_date)
         .limit(2000)
         .execute()
         .data
         or []
     )
+
+
+def _news_source_touched_recently(supabase, cutoff: datetime) -> bool:
+    rows = (
+        supabase.table("shared_ticker_events")
+        .select("id")
+        .gte("created_at", cutoff.isoformat())
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    return bool(rows)
+
+
+def _latest_macro_status(supabase) -> tuple[str | None, str | None]:
+    rows = (
+        supabase.table("macro_regime_snapshots")
+        .select("as_of_date,data_status")
+        .order("as_of_date", desc=True)
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    if not rows:
+        return None, None
+    return rows[0].get("data_status"), rows[0].get("as_of_date")
 
 
 def run() -> dict:
@@ -110,10 +150,27 @@ def run() -> dict:
             )
 
     # ── 2. Recompute completeness + distribution collapse ───────────────────────
-    snaps = _today_snapshots(supabase)
+    # Check the LATEST snapshot batch, not "today": between UTC midnight and the
+    # daily recompute, today has no rows yet — a literal-today check false-alarms
+    # every morning. Instead require the most recent batch to be both full and fresh.
+    latest_date = _latest_snapshot_date(supabase)
+    snaps = _snapshots_for_date(supabase, latest_date) if latest_date else []
     n = len(snaps)
-    if n < 540:
-        issues.append(f"completeness: only {n} snapshots dated today (expected ~546)")
+    if not latest_date:
+        issues.append("completeness: no ticker_risk_snapshots exist at all")
+    else:
+        try:
+            age_days = (now.date() - date.fromisoformat(latest_date[:10])).days
+        except Exception:
+            age_days = 0
+        if n < 540:
+            issues.append(
+                f"completeness: latest batch {latest_date} has only {n} snapshots (expected ~546)"
+            )
+        if age_days > 2:
+            issues.append(
+                f"completeness: latest snapshot batch is {age_days}d stale ({latest_date})"
+            )
 
     if n:
         dims = {
@@ -150,6 +207,36 @@ def run() -> dict:
         warnings.append(
             f"news: {below10} active tickers below 10 usable fresh articles "
             f"({len(usable)} tickers measured)"
+        )
+
+    # ── 4. Source-vs-snapshot consistency ───────────────────────────────────────
+    # A dimension that reads non-null across most of the universe while its source
+    # table has gone cold is a freshness lie in the making. Catch the divergence.
+    news_non_null = sum(1 for row in snaps if row.get("news_sentiment_dim") is not None)
+    try:
+        news_fresh = _news_source_touched_recently(supabase, now - timedelta(hours=24))
+    except Exception:
+        news_fresh = True  # never false-alarm on a query hiccup
+    if news_non_null > 500 and not news_fresh:
+        issues.append(
+            "consistency: news dimension non-null on >500 tickers but shared_ticker_events "
+            "has no rows ingested in 24h (stale source stamped fresh)"
+        )
+
+    try:
+        macro_status, macro_as_of = _latest_macro_status(supabase)
+    except Exception:
+        macro_status, macro_as_of = None, None
+    if macro_as_of:
+        try:
+            macro_age = (now.date() - date.fromisoformat(str(macro_as_of)[:10])).days
+        except Exception:
+            macro_age = 0
+        if macro_age > 4:
+            issues.append(f"consistency: macro snapshot stale ({macro_age}d old, {macro_as_of})")
+    if macro_status == "price_only":
+        warnings.append(
+            "consistency: macro snapshot is price_only (proxy levels, no real factor regression)"
         )
 
     # ── verdict ─────────────────────────────────────────────────────────────────

@@ -290,12 +290,12 @@ def run(
     skipped = 0
     failed: list[dict[str, str]] = []
     batch_size = max(1, int(batch_size))
+    concurrency = max(1, int(os.getenv("COMPOSITE_RECOMPUTE_CONCURRENCY", "4")))
 
-    for index, ticker in enumerate(tickers):
+    def _process_ticker(ticker: str) -> tuple[str, str, str | None]:
+        """Return (outcome, ticker, error); outcome in {processed, skipped, failed}."""
         if not force_refresh and snapshot_dimensions_fresh(date_snapshots.get(ticker)):
-            skipped += 1
-            continue
-
+            return ("skipped", ticker, None)
         last_exc: Exception | None = None
         for attempt in range(_MAX_RETRIES + 1):
             try:
@@ -305,28 +305,45 @@ def run(
                     job_type=effective_job_type,
                     snapshot_date=snapshot_date,
                 )
-                last_exc = None
-                break
+                return ("processed", ticker, None)
             except Exception as exc:
                 last_exc = exc
                 if attempt < _MAX_RETRIES:
                     time.sleep(_RETRY_BASE_DELAY_SECONDS * (2 ** attempt))
+        return ("failed", ticker, str(last_exc))
 
-        if last_exc is not None:
-            failed.append({"ticker": ticker, "error": str(last_exc)})
-            logger.error(
-                "composite_recompute: ticker %s failed after %d attempts: %s",
-                ticker, _MAX_RETRIES + 1, last_exc,
-            )
-        else:
+    def _record(outcome: str, ticker: str, error: str | None) -> None:
+        nonlocal processed, skipped
+        if outcome == "processed":
             processed += 1
+        elif outcome == "skipped":
+            skipped += 1
+        else:
+            failed.append({"ticker": ticker, "error": error or "unknown"})
+            logger.error("composite_recompute: ticker %s failed: %s", ticker, error)
 
-        if (
-            inter_batch_delay_seconds > 0
-            and (index + 1) % batch_size == 0
-            and index + 1 < len(tickers)
-        ):
-            time.sleep(inter_batch_delay_seconds)
+    if concurrency <= 1:
+        for index, ticker in enumerate(tickers):
+            _record(*_process_ticker(ticker))
+            if (
+                inter_batch_delay_seconds > 0
+                and (index + 1) % batch_size == 0
+                and index + 1 < len(tickers)
+            ):
+                time.sleep(inter_batch_delay_seconds)
+    else:
+        # refresh_ticker_snapshot is I/O-bound (Supabase + cached Polygon) and LLM-free,
+        # so bounded threads cut wall-clock ~Nx. ThreadPoolExecutor.map yields results to
+        # this (main) thread in order, so the counters update single-threaded; the
+        # container mem_limit caps blast radius on the 2 GB host.
+        from concurrent.futures import ThreadPoolExecutor
+
+        logger.info(
+            "composite_recompute: %d tickers at concurrency=%d", len(tickers), concurrency
+        )
+        with ThreadPoolExecutor(max_workers=concurrency) as executor:
+            for outcome, ticker, error in executor.map(_process_ticker, tickers):
+                _record(outcome, ticker, error)
 
     if failed:
         failure_rate = len(failed) / max(len(tickers), 1)

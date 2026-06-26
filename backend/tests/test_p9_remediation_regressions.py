@@ -196,3 +196,51 @@ def test_ops_monitor_flags_missing_job_history(monkeypatch):
     result = ops_monitor.run()
     warnings = result["metadata"]["warnings"]
     assert any("has no job_runs history" in w for w in warnings)
+
+
+# ── 6. FRED macro regression recovers real factor betas ──────────────────────
+def test_fred_macro_regression_recovers_betas(monkeypatch):
+    import math
+    import time as _time
+    from datetime import date, timedelta
+
+    from app.services import macro_regression as mr
+
+    days = []
+    d = date(2025, 9, 1)
+    for _ in range(180):
+        days.append(d.isoformat())
+        d += timedelta(days=1)
+
+    def seq(seed, scale):
+        # deterministic pseudo-random without Math.random/Date — index-driven
+        return [(dd, scale * math.sin(seed + i * 0.7)) for i, dd in enumerate(days)]
+
+    changes = {
+        "spy": seq(1.0, 0.01),
+        "ust10y": seq(2.0, 0.03),
+        "credit": seq(3.0, 0.02),
+        "dxy": seq(4.0, 0.004),
+        "vix": seq(5.0, 0.8),
+    }
+    spy_map = dict(changes["spy"])
+    ust_map = dict(changes["ust10y"])
+    mr._FRED_CACHE.update(
+        {"ts": _time.monotonic(), "changes": changes,
+         "levels": {"spy": 5000.0, "ust10y": 4.5, "credit": 3.2, "dxy": 100.0, "vix": 15.0}}
+    )
+
+    # ticker return = 1.3*spy - 0.5*ust (exact, no noise) -> betas recoverable, R^2 ~ 1
+    price, bars = 100.0, []
+    for i, dd in enumerate(days):
+        if i > 0:
+            price *= 1 + (1.3 * spy_map[dd] - 0.5 * ust_map[dd])
+        bars.append({"t": dd, "c": price})
+
+    res = mr.run_macro_regression("TEST", bars)
+    assert res["limited_data"] is False
+    assert res["data_source"] == "fred"
+    assert res["r_squared"] > 0.9
+    assert abs(res["coefficients"]["spy"] - 1.3) < 0.15
+    assert abs(res["coefficients"]["ust10y"] + 0.5) < 0.15
+    assert 0 <= res["sensitivity_score"] <= 100

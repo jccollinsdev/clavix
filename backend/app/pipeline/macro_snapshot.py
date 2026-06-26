@@ -1,15 +1,19 @@
 """Daily macro factor snapshot job.
 
-Captures daily levels of the macro factors that CLAVIX_TRUTH §6 uses for the
-Macro Exposure dimension and for the digest "Overnight Macro" prose:
+Captures daily levels of the REAL macro factors that CLAVIX_TRUTH §6 uses for the
+Macro Exposure dimension and the digest "Overnight Macro" prose, pulled key-free
+from FRED (replaces the old TLT/UUP/USO/VIXY ETF proxies):
 
-- TLT  → 20+ year Treasury bond ETF (10Y rate proxy via inverse)
-- UUP  → US dollar index ETF
-- USO  → WTI crude ETF
-- VIXY → short-term VIX futures ETF (VIX-level proxy)
-- SPY  → S&P 500 ETF (beta reference)
+- DGS10        → 10-Year Treasury yield (%)
+- BAMLH0A0HYM2 → ICE BofA US High Yield OAS (%), the credit-risk factor
+- DTWEXBGS     → broad trade-weighted USD index
+- VIXCLS       → CBOE VIX close
+- DCOILWTICO   → WTI crude spot ($/bbl)
+- SP500        → S&P 500 index level (market reference)
 
-Writes one row per (as_of_date) into `macro_regime_snapshots`.
+Writes one row per (as_of_date) into `macro_regime_snapshots` with
+data_status='real_factors'. Falls back to a price-only row from Polygon SPY/VIX
+proxies only if FRED is unavailable.
 
 Usage:
     from app.pipeline.macro_snapshot import refresh_macro_snapshot
@@ -21,44 +25,28 @@ from __future__ import annotations
 import logging
 from datetime import datetime, timezone
 
+from ..services.fred import SERIES as FRED_SERIES, fetch_fred_series
 from ..services.polygon import fetch_aggs
 from ..services.supabase import get_supabase
 
 logger = logging.getLogger(__name__)
 
-# Polygon doesn't surface yields or the raw VIX index on the basic plan; we
-# use ETF proxies whose daily aggregates are reliably available.
-MACRO_FACTORS: dict[str, str] = {
-    "ust10y": "TLT",
-    "dxy":    "UUP",
-    "wti":    "USO",
-    "vix":    "VIXY",
-    "spy":    "SPY",
-}
 
-
-def _latest_close_and_change(ticker: str) -> tuple[float | None, float | None, float | None, str | None]:
-    """Return (close, day_change_amount, day_change_pct, snapshot_date)."""
-    bars = fetch_aggs(ticker, days=7) or []
-    if not bars:
+def _fred_level_and_change(
+    series_id: str,
+) -> tuple[float | None, float | None, float | None, str | None]:
+    """Return (latest_level, day_level_change, day_pct_change, observation_date)."""
+    series = fetch_fred_series(series_id, lookback_days=20)
+    if not series:
         return (None, None, None, None)
-    latest = bars[-1]
-    prior = bars[-2] if len(bars) >= 2 else bars[-1]
-    close = latest.get("c")
-    prev_close = prior.get("c")
+    obs_date, level = series[-1]
+    prev = series[-2][1] if len(series) >= 2 else level
     try:
-        amount = float(close) - float(prev_close)
-        pct = (amount / float(prev_close)) * 100.0 if prev_close else None
+        amount = float(level) - float(prev)
+        pct = (amount / float(prev)) * 100.0 if prev else None
     except (TypeError, ValueError):
-        amount = None
-        pct = None
-
-    ts = latest.get("t")
-    if isinstance(ts, int):
-        snapshot_date = datetime.fromtimestamp(ts / 1000, tz=timezone.utc).date().isoformat()
-    else:
-        snapshot_date = datetime.now(timezone.utc).date().isoformat()
-    return (close, amount, pct, snapshot_date)
+        amount, pct = None, None
+    return (float(level), amount, pct, obs_date)
 
 
 def _regime_from_signals(spy_pct: float | None, vix_close: float | None) -> str:
@@ -72,26 +60,49 @@ def _regime_from_signals(spy_pct: float | None, vix_close: float | None) -> str:
     return "neutral"
 
 
+def _rates_signal(change: float | None) -> str | None:
+    if change is None:
+        return None
+    if change > 0.03:
+        return "rising"
+    if change < -0.03:
+        return "falling"
+    return "stable"
+
+
+def _credit_signal(level: float | None) -> str | None:
+    if level is None:
+        return None
+    if level >= 5.0:
+        return "stressed"
+    if level >= 3.5:
+        return "elevated"
+    return "calm"
+
+
 def refresh_macro_snapshot() -> bool:
-    """Pull macro factor levels and upsert today's `macro_regime_snapshots` row."""
+    """Pull real FRED macro levels and upsert today's `macro_regime_snapshots` row."""
     supabase = get_supabase()
 
     values: dict[str, tuple[float | None, float | None, float | None, str | None]] = {}
     snapshot_date: str | None = None
-    for code, etf in MACRO_FACTORS.items():
+    for code in ("spx", "ust10y", "credit", "dxy", "vix", "wti"):
         try:
-            close, amount, pct, dt = _latest_close_and_change(etf)
-            values[code] = (close, amount, pct, dt)
-            snapshot_date = snapshot_date or dt
+            level, amount, pct, dt = _fred_level_and_change(FRED_SERIES[code])
+            values[code] = (level, amount, pct, dt)
+            if dt and snapshot_date is None and code in ("spx", "ust10y"):
+                snapshot_date = dt
         except Exception:
-            logger.exception("Failed to pull %s (%s)", code, etf)
+            logger.exception("Failed to pull FRED series for %s", code)
             values[code] = (None, None, None, None)
 
-    if snapshot_date is None:
-        logger.warning("No macro data returned by any factor; aborting snapshot")
-        return False
+    # Require the two anchor factors (market + rates) to call this real.
+    have_real = values.get("spx", (None,))[0] is not None and values.get("ust10y", (None,))[0] is not None
+    if not have_real:
+        return _refresh_macro_snapshot_price_only(supabase)
 
-    spy_pct = values["spy"][2]
+    snapshot_date = snapshot_date or datetime.now(timezone.utc).date().isoformat()
+    spy_pct = values["spx"][2]
     vix_close = values["vix"][0]
     regime = _regime_from_signals(spy_pct, vix_close)
 
@@ -106,10 +117,13 @@ def refresh_macro_snapshot() -> bool:
         "dxy_day_change":     values["dxy"][1],
         "wti_level":          values["wti"][0],
         "wti_day_change":     values["wti"][1],
-        "spy_close":          values["spy"][0],
-        "spy_day_change_pct": values["spy"][2],
+        "spy_close":          values["spx"][0],
+        "spy_day_change_pct": values["spx"][2],
+        "credit_spread_level": values["credit"][0],
+        "rates_signal":       _rates_signal(values["ust10y"][1]),
+        "credit_signal":      _credit_signal(values["credit"][0]),
         "generated_at":       datetime.now(timezone.utc).isoformat(),
-        "data_status":        "price_only",
+        "data_status":        "real_factors",
     }
 
     existing = (
@@ -131,5 +145,59 @@ def refresh_macro_snapshot() -> bool:
     except Exception:
         logger.exception("Failed to write macro snapshot for %s", snapshot_date)
         return False
-    logger.info("refresh_macro_snapshot wrote row for %s (regime=%s)", snapshot_date, regime)
+    logger.info("refresh_macro_snapshot wrote REAL row for %s (regime=%s)", snapshot_date, regime)
+    return True
+
+
+def _polygon_close_change(ticker: str) -> tuple[float | None, float | None, float | None, str | None]:
+    bars = fetch_aggs(ticker, days=7) or []
+    if not bars:
+        return (None, None, None, None)
+    latest = bars[-1]
+    prior = bars[-2] if len(bars) >= 2 else bars[-1]
+    close, prev_close = latest.get("c"), prior.get("c")
+    try:
+        amount = float(close) - float(prev_close)
+        pct = (amount / float(prev_close)) * 100.0 if prev_close else None
+    except (TypeError, ValueError):
+        amount, pct = None, None
+    ts = latest.get("t")
+    dt = (
+        datetime.fromtimestamp(ts / 1000, tz=timezone.utc).date().isoformat()
+        if isinstance(ts, int)
+        else datetime.now(timezone.utc).date().isoformat()
+    )
+    return (close, amount, pct, dt)
+
+
+def _refresh_macro_snapshot_price_only(supabase) -> bool:
+    """Fallback when FRED is unreachable: a price-only row from Polygon SPY/VIX."""
+    spy_close, _spy_amt, spy_pct, dt = _polygon_close_change("SPY")
+    vix_close, vix_amt, _vix_pct, _ = _polygon_close_change("VIXY")
+    if dt is None:
+        logger.warning("Macro snapshot: FRED and Polygon both unavailable; aborting")
+        return False
+    row = {
+        "as_of_date":         dt,
+        "regime_state":       _regime_from_signals(spy_pct, vix_close),
+        "vix_level":          vix_close,
+        "vix_day_change":     vix_amt,
+        "spy_close":          spy_close,
+        "spy_day_change_pct": spy_pct,
+        "generated_at":       datetime.now(timezone.utc).isoformat(),
+        "data_status":        "price_only",
+    }
+    try:
+        existing = (
+            supabase.table("macro_regime_snapshots")
+            .select("id").eq("as_of_date", dt).limit(1).execute().data
+        )
+        if existing:
+            supabase.table("macro_regime_snapshots").update(row).eq("id", existing[0]["id"]).execute()
+        else:
+            supabase.table("macro_regime_snapshots").insert(row).execute()
+    except Exception:
+        logger.exception("Failed to write price-only macro snapshot for %s", dt)
+        return False
+    logger.warning("refresh_macro_snapshot wrote PRICE-ONLY row for %s (FRED unavailable)", dt)
     return True

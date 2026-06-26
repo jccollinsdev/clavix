@@ -874,10 +874,20 @@ def _build_macro_exposure_inputs(
     macro_result: dict[str, Any],
     factor_bars_map: dict[str, list[dict[str, Any]]],
 ) -> dict[str, Any]:
-    current_factor_levels = _current_factor_levels(factor_bars_map)
+    # Prefer real FRED factor levels (10Y/HY OAS/DXY/VIX/SPX) over ETF-proxy bars.
+    current_factor_levels = (
+        macro_result.get("current_factor_levels") or _current_factor_levels(factor_bars_map)
+    )
     coefficients = macro_result.get("coefficients") or {}
     narrative_parts: list[str] = []
-    if coefficients:
+    # Use the unit-aware top contributor when present (raw betas have mixed units, so
+    # max-abs-beta would mislabel the dominant driver).
+    top_key = macro_result.get("top_factor")
+    if top_key and coefficients.get(top_key) is not None:
+        narrative_parts.append(
+            f"Largest sensitivity is to {top_key.upper()} ({coefficients[top_key]:.3f})"
+        )
+    elif coefficients:
         top_factor = max(coefficients.items(), key=lambda item: abs(item[1]))
         narrative_parts.append(
             f"Largest sensitivity is to {top_factor[0].upper()} ({top_factor[1]:.3f})"
@@ -890,6 +900,11 @@ def _build_macro_exposure_inputs(
         "limited_data": macro_result.get("limited_data", False),
         "as_of_date": macro_result.get("as_of_date"),
         "coefficients": coefficients,
+        "contributions": macro_result.get("contributions"),
+        "sensitivity_score": macro_result.get("sensitivity_score"),
+        "top_factor": top_key,
+        "macro_daily_vol": macro_result.get("macro_daily_vol"),
+        "data_source": macro_result.get("data_source", "fred"),
         "current_factor_levels": current_factor_levels,
         "narrative": ". ".join(narrative_parts) + "." if narrative_parts else None,
     }
@@ -4457,10 +4472,19 @@ def refresh_ticker_snapshot(
         if not metadata:
             raise RuntimeError(f"Unable to refresh ticker metadata for {ticker}")
 
-        ticker_bars = _filter_bars_through_date(
-            fetch_aggs(ticker, days=400),
-            target_date=target_date,
+        # Prefer stored daily closes (filled by daily_eod_price_capture) over a live
+        # Polygon aggs call. On the free tier each fetch_aggs is rate-limited to ~12s,
+        # so a 546-ticker recompute was Polygon-bound at ~110min; reading the prices
+        # table instead makes the loop Supabase-bound and parallelizable. Fall back to
+        # Polygon only when stored history is too short for the scorers (~60 days).
+        ticker_bars = _persisted_price_bars(
+            supabase, ticker, target_date=target_date, days=420
         )
+        if len(ticker_bars) < 60:
+            ticker_bars = _filter_bars_through_date(
+                fetch_aggs(ticker, days=400),
+                target_date=target_date,
+            )
         factor_bars_map: dict[str, list[dict[str, Any]]] = {}
         for factor_key, factor_ticker in FACTOR_TICKERS.items():
             stored_bars = _persisted_price_bars(
