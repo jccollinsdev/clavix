@@ -235,25 +235,30 @@ def fetch_aggs(ticker: str, days: int = 30) -> list[dict]:
         return []
 
 
-def fetch_grouped_daily(date_str: str) -> list[dict]:
+def fetch_grouped_daily(date_str: str, *, timeout: int = 20) -> list[dict]:
     """Whole-market daily bars for one date in ONE call (Polygon grouped aggs).
 
     Far more rate-efficient than per-ticker fetch_aggs for backfilling history:
     one request returns every US stock's close for `date_str` (YYYY-MM-DD). Each
-    item has 'T' (ticker), 'c' (close), 't' (epoch ms). Returns [] on non-trading
-    days / errors.
+    item has 'T' (ticker), 'c' (close), 't' (epoch ms).
+
+    Uses a DIRECT request (not polygon_get) deliberately: the most-recent trading
+    day's grouped aggregate is sometimes not finalized and returns 403, which would
+    otherwise trip the shared 5-minute auth cooldown and cascade-empty every
+    subsequent day. Here a 403/429 just means "skip this day" with no global effect.
+    Caller is responsible for pacing (see prices_backfill).
     """
     api_key = get_polygon_client()
     if not api_key:
         return []
-    url = (
-        f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/{date_str}"
-    )
+    url = f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/{date_str}"
     try:
-        resp = polygon_get(url, params={"apiKey": api_key, "adjusted": "true"}, timeout=20)
-        if resp is None or resp.status_code != 200:
-            return []
-        return resp.json().get("results") or []
+        resp = requests.get(
+            url, params={"apiKey": api_key, "adjusted": "true"}, timeout=timeout
+        )
+        if resp.status_code == 200:
+            return resp.json().get("results") or []
+        return []
     except Exception as e:
         print(f"Error fetching grouped daily for {date_str}: {e}")
         return []

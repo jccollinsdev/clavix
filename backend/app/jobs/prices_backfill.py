@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import logging
 import os
+import time
 from datetime import datetime, timedelta, timezone
 
 from app.services.polygon import fetch_grouped_daily
@@ -76,11 +77,18 @@ def run(*, days_back: int | None = None) -> dict:
     trading_days = 0
     empty_days = 0
 
+    # Self-pace to ~Polygon's free 5/min (this job bypasses the global limiter).
+    call_spacing = float(os.getenv("PRICES_BACKFILL_CALL_SPACING", "12"))
+    first_call = True
+
     for offset in range(1, days_back + 1):
         day = today - timedelta(days=offset)
         if day.weekday() >= 5:  # skip weekends (no grouped data)
             continue
         day_iso = day.isoformat()
+        if not first_call:
+            time.sleep(call_spacing)
+        first_call = False
         results = fetch_grouped_daily(day_iso)
         if not results:
             empty_days += 1
