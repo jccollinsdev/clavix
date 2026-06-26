@@ -30,7 +30,11 @@ jobs:
           ssh "${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }}" bash -s <<'SCRIPT'
           set -euo pipefail
           sudo mkdir -p /opt/clavis/backend/apns
-          sudo chown -R sansar:sansar /opt/clavis
+          # Rollback snapshots live OUTSIDE the rsync dest (so --delete can't touch
+          # them) but under sudo since /opt is root-owned; hand ownership to the deploy
+          # user so the snapshot step can write without sudo.
+          sudo mkdir -p /opt/clavis_backups
+          sudo chown -R sansar:sansar /opt/clavis /opt/clavis_backups
           find /opt/clavis/backend -type d -name '__pycache__' -exec chmod 777 {} + 2>/dev/null || true
           find /opt/clavis/backend -name '*.pyc' -exec chmod 666 {} + 2>/dev/null || true
           SCRIPT
@@ -54,14 +58,12 @@ jobs:
           fi
           SCRIPT
 
-      # --delete keeps the droplet a clean mirror of the repo (source of truth),
-      # but --backup-dir moves any deleted/overwritten file into a dated trash
-      # dir instead of unlinking it, so an accidental wipe is always recoverable.
+      # --delete keeps the droplet a clean mirror of the repo (source of truth).
+      # The pre-deploy tarball snapshot above is the recovery artifact if a sync
+      # ever wipes something it should not have.
       - name: Sync repository to droplet
         run: |
-          TRASH="/opt/clavis_trash/$(date -u +%Y%m%d_%H%M%S)"
           rsync -az --delete \
-            --backup --backup-dir="$TRASH" \
             --no-owner --no-group --omit-dir-times \
             --exclude '.git/' \
             --exclude '.github/' \
@@ -87,8 +89,6 @@ jobs:
           sudo touch /var/log/clavix/cron.log
           sudo install -m 0644 scripts/cron/clavix.crontab /etc/cron.d/clavix
           sudo systemctl restart cron || sudo service cron restart || true
-          # Prune rollback trash older than the last 5 deploys.
-          ls -1dt /opt/clavis_trash/* 2>/dev/null | tail -n +6 | xargs -r rm -rf
           docker compose ps
           SCRIPT
 
