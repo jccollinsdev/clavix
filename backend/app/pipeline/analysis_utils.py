@@ -550,20 +550,33 @@ def grade_to_risk_level(grade: str) -> str:
     return _RISK_LEVELS.get(grade.upper(), "Elevated Risk")
 
 
-def calculate_weighted_score(scores: dict) -> float:
-    values = [clamp_score(scores.get(key), 0) for key in V2_DIMENSION_KEYS]
+def calculate_weighted_score(scores: dict, weights: dict | None = None) -> float:
+    """Average the available dimension scores.
+
+    When `weights` is provided (a per-dimension confidence map), dimensions are combined
+    as a confidence-weighted mean so a high-confidence input (e.g. news with 10 articles,
+    a real-R^2 macro fit) counts more than a thin proxy. Limited/NULL dimensions are
+    always excluded. With `weights=None` this is the original equal-weight mean.
+    """
     limited_dimensions = [
         key for key in V2_DIMENSION_KEYS
         if key not in scores or scores.get(key) is None
     ]
-    available = [v for v in values if v > 0 or (v == 0 and len(values) - len(limited_dimensions) > 1)]
-    if limited_dimensions:
-        valid_keys = [k for k in V2_DIMENSION_KEYS if k not in limited_dimensions]
-        valid_values = [clamp_score(scores.get(k), 0) for k in valid_keys]
-        if valid_values:
-            return sum(valid_values) / len(valid_values)
+    valid_keys = [k for k in V2_DIMENSION_KEYS if k not in limited_dimensions]
+    if not valid_keys:
         return 50.0
-    return sum(values) / len(values)
+    if weights:
+        numerator = 0.0
+        denominator = 0.0
+        for key in valid_keys:
+            value = clamp_score(scores.get(key), 0)
+            weight = max(0.0, float(weights.get(key, 1.0)))
+            numerator += value * weight
+            denominator += weight
+        if denominator > 0:
+            return numerator / denominator
+    valid_values = [clamp_score(scores.get(k), 0) for k in valid_keys]
+    return sum(valid_values) / len(valid_values)
 
 
 def grade_direction(current_score: Optional[float], previous_score: Optional[float]) -> str:

@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import logging
 import math
+import os
 from datetime import datetime, timezone
 
 from ..services.minimax import chatcompletion_text
@@ -1072,6 +1073,52 @@ async def score_position(
     }
 
 
+def _dimension_confidence_weights(
+    metadata: dict, normalized: dict, article_count: int
+) -> dict[str, float]:
+    """Per-dimension confidence in [0,1]: a thin proxy counts less than a real signal.
+
+    - financial: completeness of the fundamental inputs.
+    - news: number of usable articles (10+ == full confidence).
+    - macro: real regression R^2 vs the beta-proxy fallback (free tier).
+    - sector / volatility: real computed beta / realized vol vs heuristic.
+    Floors keep every present dimension meaningful (never below 0.5) so the weighting
+    tilts the mean toward better-supported inputs without letting any one dominate.
+    """
+    weights: dict[str, float] = {}
+
+    fund_keys = (
+        "debt_to_equity", "fcf_margin", "interest_coverage",
+        "current_ratio", "revenue_growth_trend",
+    )
+    present = sum(1 for k in fund_keys if metadata.get(k) is not None)
+    weights["financial_health"] = 0.5 + 0.5 * (present / len(fund_keys))
+
+    weights["news_sentiment"] = (
+        max(0.0, min(1.0, 0.3 + 0.07 * article_count))
+        if normalized.get("news_sentiment") is not None else 0.0
+    )
+
+    factor_breakdown = metadata.get("factor_breakdown") or {}
+    if isinstance(factor_breakdown, str):
+        import json
+
+        try:
+            factor_breakdown = json.loads(factor_breakdown)
+        except Exception:
+            factor_breakdown = {}
+    reg = factor_breakdown.get("macro_regression") or {} if isinstance(factor_breakdown, dict) else {}
+    r2 = _safe_float(reg.get("r_squared"), 0.0) if isinstance(reg, dict) else 0.0
+    if isinstance(reg, dict) and not reg.get("limited_data") and r2 >= 0.10:
+        weights["macro_exposure"] = min(1.0, 0.6 + r2)
+    else:
+        weights["macro_exposure"] = 0.5  # beta proxy: real but lower-confidence
+
+    weights["sector_exposure"] = 0.8 if metadata.get("sector_beta") is not None else 0.5
+    weights["volatility"] = 0.85 if metadata.get("realized_vol_30d") is not None else 0.6
+    return weights
+
+
 def score_position_structural(
     position: dict,
     ticker_metadata: dict | None = None,
@@ -1127,7 +1174,15 @@ def score_position_structural(
         "sector_exposure": sector,
         "volatility": vol,
     }
-    weighted = calculate_weighted_score(normalized)
+    # Quality-weighted mean: weight each dimension by signal confidence so a thin proxy
+    # counts less than a real signal. Gated off via env for easy A/B / rollback.
+    if os.getenv("DISABLE_QUALITY_WEIGHTING", "").lower() in ("1", "true", "yes"):
+        weighted = calculate_weighted_score(normalized)
+    else:
+        weighted = calculate_weighted_score(
+            normalized,
+            weights=_dimension_confidence_weights(ticker_metadata, normalized, article_count),
+        )
     total = round(
         smooth_score_change(
             new_score=weighted,

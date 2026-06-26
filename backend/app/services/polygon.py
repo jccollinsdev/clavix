@@ -235,6 +235,30 @@ def fetch_aggs(ticker: str, days: int = 30) -> list[dict]:
         return []
 
 
+def fetch_grouped_daily(date_str: str) -> list[dict]:
+    """Whole-market daily bars for one date in ONE call (Polygon grouped aggs).
+
+    Far more rate-efficient than per-ticker fetch_aggs for backfilling history:
+    one request returns every US stock's close for `date_str` (YYYY-MM-DD). Each
+    item has 'T' (ticker), 'c' (close), 't' (epoch ms). Returns [] on non-trading
+    days / errors.
+    """
+    api_key = get_polygon_client()
+    if not api_key:
+        return []
+    url = (
+        f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/{date_str}"
+    )
+    try:
+        resp = polygon_get(url, params={"apiKey": api_key, "adjusted": "true"}, timeout=20)
+        if resp is None or resp.status_code != 200:
+            return []
+        return resp.json().get("results") or []
+    except Exception as e:
+        print(f"Error fetching grouped daily for {date_str}: {e}")
+        return []
+
+
 def update_position_prices(positions: list[dict]) -> None:
     supabase: Client = create_client(
         os.environ.get("SUPABASE_URL"), os.environ.get("SUPABASE_SERVICE_ROLE_KEY")

@@ -290,7 +290,7 @@ def run(
     skipped = 0
     failed: list[dict[str, str]] = []
     batch_size = max(1, int(batch_size))
-    concurrency = max(1, int(os.getenv("COMPOSITE_RECOMPUTE_CONCURRENCY", "4")))
+    concurrency = max(1, int(os.getenv("COMPOSITE_RECOMPUTE_CONCURRENCY", "6")))
 
     def _process_ticker(ticker: str) -> tuple[str, str, str | None]:
         """Return (outcome, ticker, error); outcome in {processed, skipped, failed}."""

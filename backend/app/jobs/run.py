@@ -115,6 +115,12 @@ def _eod_price_capture() -> dict:
     return run_from_env()
 
 
+def _prices_history_backfill() -> dict:
+    from app.jobs.prices_backfill import run_from_env
+
+    return run_from_env()
+
+
 def _ops_monitor() -> dict:
     from app.jobs.ops_monitor import run_from_env
 
@@ -159,6 +165,9 @@ JOB_REGISTRY: dict[str, JobSpec] = {
         "weekly_fundamentals_sweep", "weekly", _fundamentals_sweep
     ),
     "tldr_backfill": JobSpec("tldr_backfill", "manual", _tldr_backfill),
+    "prices_history_backfill": JobSpec(
+        "prices_history_backfill", "manual", _prices_history_backfill
+    ),
     "daily_eod_price_capture": JobSpec(
         "daily_eod_price_capture", "daily", _eod_price_capture
     ),

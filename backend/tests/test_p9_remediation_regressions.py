@@ -244,3 +244,33 @@ def test_fred_macro_regression_recovers_betas(monkeypatch):
     assert abs(res["coefficients"]["spy"] - 1.3) < 0.15
     assert abs(res["coefficients"]["ust10y"] + 0.5) < 0.15
     assert 0 <= res["sensitivity_score"] <= 100
+
+
+# ── 7. Quality-weighted averaging ────────────────────────────────────────────
+def test_calculate_weighted_score_weights_and_backcompat():
+    from app.pipeline.analysis_utils import calculate_weighted_score
+
+    scores = {
+        "financial_health": 80,
+        "news_sentiment": 40,
+        "macro_exposure": 60,
+        "sector_exposure": 60,
+        "volatility": 60,
+    }
+    # weights=None preserves the equal-weight mean (back-compat).
+    assert calculate_weighted_score(scores) == sum(scores.values()) / 5
+
+    # Down-weighting the low (news) dimension must raise the blended score above the
+    # equal-weight mean; zero weight must drop it entirely.
+    eq = calculate_weighted_score(scores)
+    down = calculate_weighted_score(scores, weights={"news_sentiment": 0.1})
+    assert down > eq
+    dropped = calculate_weighted_score(scores, weights={"news_sentiment": 0.0})
+    # news fully dropped -> mean of the other four (all 80/60/60/60 = 65)
+    assert dropped == (80 + 60 + 60 + 60) / 4
+
+    # NULL dimensions are still excluded regardless of weights.
+    partial = {**scores, "news_sentiment": None}
+    assert calculate_weighted_score(partial, weights={"financial_health": 1.0}) == (
+        (80 + 60 + 60 + 60) / 4
+    )
