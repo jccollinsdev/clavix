@@ -3225,9 +3225,9 @@ def _build_article_aware_reasoning(
         caveat_parts.append("New developments would change this rating.")
 
     if coverage_state == "provisional":
-        caveat_parts.append("Limited data — fundamentals dominate until fuller data arrives.")
+        caveat_parts.append("Limited data: fundamentals dominate until fuller data arrives.")
     elif coverage_state == "thin":
-        caveat_parts.append("Thin data — one new development could change the rating.")
+        caveat_parts.append("Limited data: one new development could change the rating.")
 
     # Assemble: rating paragraph + caveat paragraph
     rating = " ".join(rating_parts)
@@ -3241,27 +3241,27 @@ def _investor_coverage_note(coverage_state: str, source_count: Any) -> str:
     sc = int(source_count or 0)
     word = "source" if sc == 1 else "sources"
     if coverage_state == "provisional":
-        return "Limited data — based on fundamentals pending fuller data."
+        return "Limited data: based on fundamentals pending fuller data."
     if coverage_state == "thin":
-        return f"Thin data ({sc} {word}); more news would sharpen the rating."
-    return f"{sc} {word} reviewed."
+        return f"Limited data ({sc} {word}); more news would sharpen the rating."
+    return f"Based on {sc} {word}."
 
 
 def _investor_fallback_reasoning(coverage_state: str, source_count: Any) -> str:
     if coverage_state == "provisional":
         return (
-            "This ticker has limited recent data — the rating leans on fundamentals "
+            "This ticker has limited recent data, so the rating leans on fundamentals "
             "and sector context until fuller news sharpens the assessment."
         )
     if coverage_state == "thin":
         sc = int(source_count or 0)
         word = "source" if sc == 1 else "sources"
         return (
-            f"Only {sc} {word} reviewed — the rating defaults to structural factors. "
+            f"Based on only {sc} {word}, the rating defaults to structural factors. "
             f"One new earnings report, guidance update, or macro shift could change the rating."
         )
     return (
-        "The rating rests on structural and sector factors right now — "
+        "The rating rests on structural and sector factors right now; "
         "new company-specific news would be needed to change it."
     )
 
@@ -4293,6 +4293,32 @@ def _get_peer_etf_news_sentiment(
         return None
 
 
+def compute_limited_dimensions(dimension_inputs: dict[str, Any]) -> list[str]:
+    """Dimensions whose inputs are flagged limited/NULL (no real value produced)."""
+    return [
+        dimension
+        for dimension, inputs in dimension_inputs.items()
+        if isinstance(inputs, dict) and (inputs.get("limited_data") or inputs.get("limited"))
+    ]
+
+
+def compute_dimension_last_refreshed(
+    dimension_inputs: dict[str, Any],
+    analysis_as_of: str,
+    *,
+    limited: list[str] | None = None,
+) -> dict[str, str]:
+    """Stamp a refresh time ONLY for dimensions that actually produced a value.
+
+    Stamping a limited/NULL dimension as "fresh" was a freshness lie that let the
+    daily recompute skip a ticker that still had no usable data for that dimension.
+    Kept as a pure module-level helper so the honesty rule is unit-testable.
+    """
+    if limited is None:
+        limited = compute_limited_dimensions(dimension_inputs)
+    return {key: analysis_as_of for key in dimension_inputs if key not in limited}
+
+
 def refresh_ticker_snapshot(
     supabase,
     *,
@@ -4750,23 +4776,10 @@ def refresh_ticker_snapshot(
             "sector_exposure": sector_inputs,
             "volatility": volatility_inputs,
         }
-        limited_data_dimensions = [
-            dimension
-            for dimension, inputs in dimension_inputs.items()
-            if isinstance(inputs, dict)
-            and (
-                inputs.get("limited_data")
-                or inputs.get("limited")
-            )
-        ]
-        # Only stamp a refresh time for dimensions that actually produced a value.
-        # Stamping a limited/NULL dimension as "fresh" was a freshness lie that let
-        # the daily recompute skip a ticker that still had no usable data for a dim.
-        dimension_last_refreshed = {
-            key: analysis_as_of
-            for key in dimension_inputs
-            if key not in limited_data_dimensions
-        }
+        limited_data_dimensions = compute_limited_dimensions(dimension_inputs)
+        dimension_last_refreshed = compute_dimension_last_refreshed(
+            dimension_inputs, analysis_as_of, limited=limited_data_dimensions
+        )
         def _dim_or_none(value, dimension: str) -> "int | None":
             """Preserve genuine zero scores while nulling only limited inputs."""
             try:

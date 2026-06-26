@@ -9,6 +9,12 @@ services:
       - ./backend/app:/app/app
       - ./backend/apns:/app/apns:ro
     restart: unless-stopped
+    # 2 GB host: cap the container (web API + all `docker exec` job children share
+    # this cgroup) so a runaway/concurrent heavy job is OOM-killed inside the
+    # container instead of the host killing SSH/cron. memswap == mem disables
+    # swap thrashing. Leaves ~450 MB headroom for the OS.
+    mem_limit: 1500m
+    memswap_limit: 1500m
     networks:
       - clavis-network
 

@@ -35,9 +35,33 @@ jobs:
           find /opt/clavis/backend -name '*.pyc' -exec chmod 666 {} + 2>/dev/null || true
           SCRIPT
 
+      # Capture the currently-running code as a rollback point BEFORE we overwrite it.
+      # The running release just passed its own health gate, so it is known-good.
+      - name: Snapshot current release (rollback point)
+        run: |
+          ssh "${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }}" bash -s <<'SCRIPT'
+          set -uo pipefail
+          mkdir -p /opt/clavis_backups
+          ts=$(date -u +%Y%m%d_%H%M%S)
+          if tar czf "/opt/clavis_backups/release_${ts}.tar.gz" -C /opt/clavis \
+              backend/app backend/Dockerfile backend/requirements.txt \
+              docker-compose.yml scripts 2>/dev/null; then
+            ln -sfn "/opt/clavis_backups/release_${ts}.tar.gz" /opt/clavis_backups/last_stable.tar.gz
+            ls -1t /opt/clavis_backups/release_*.tar.gz | tail -n +6 | xargs -r rm -f
+            echo "Rollback snapshot saved: release_${ts}.tar.gz"
+          else
+            echo "WARNING: rollback snapshot failed; deploy will proceed without a fresh rollback point."
+          fi
+          SCRIPT
+
+      # --delete keeps the droplet a clean mirror of the repo (source of truth),
+      # but --backup-dir moves any deleted/overwritten file into a dated trash
+      # dir instead of unlinking it, so an accidental wipe is always recoverable.
       - name: Sync repository to droplet
         run: |
+          TRASH="/opt/clavis_trash/$(date -u +%Y%m%d_%H%M%S)"
           rsync -az --delete \
+            --backup --backup-dir="$TRASH" \
             --no-owner --no-group --omit-dir-times \
             --exclude '.git/' \
             --exclude '.github/' \
@@ -48,6 +72,7 @@ jobs:
             --exclude 'ios/' \
             --exclude 'backend/.env' \
             --exclude 'backend/apns/' \
+            --exclude 'RELEASE_SHA' \
             --exclude '__pycache__/' \
             --exclude '*.pyc' \
             ./ "${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }}:/opt/clavis/"
@@ -62,6 +87,8 @@ jobs:
           sudo touch /var/log/clavix/cron.log
           sudo install -m 0644 scripts/cron/clavix.crontab /etc/cron.d/clavix
           sudo systemctl restart cron || sudo service cron restart || true
+          # Prune rollback trash older than the last 5 deploys.
+          ls -1dt /opt/clavis_trash/* 2>/dev/null | tail -n +6 | xargs -r rm -rf
           docker compose ps
           SCRIPT
 
@@ -78,3 +105,38 @@ jobs:
           done
           echo "Backend did not become healthy after 100s"
           exit 1
+
+      # Stamp the deployed commit only after the health gate passes, so
+      # RELEASE_SHA always reflects a known-good running release.
+      - name: Record deployed release
+        if: success()
+        run: |
+          ssh "${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }}" \
+            "printf '%s\n%s\n' '${{ github.sha }}' \"deployed $(date -u +%FT%TZ)\" > /opt/clavis/RELEASE_SHA"
+
+      # If anything above failed (build error, unhealthy backend), restore the
+      # last known-good code and rebuild so production is never left broken.
+      - name: Roll back on failure
+        if: failure()
+        run: |
+          ssh "${{ secrets.PROD_SSH_USER }}@${{ secrets.PROD_SSH_HOST }}" bash -s <<'SCRIPT'
+          set -uo pipefail
+          cd /opt/clavis
+          SNAP=/opt/clavis_backups/last_stable.tar.gz
+          if [ -f "$SNAP" ]; then
+            echo "Deploy failed; rolling back to last stable release..."
+            tar xzf "$SNAP" -C /opt/clavis
+            docker compose up -d --build --remove-orphans
+            for i in $(seq 1 12); do
+              if curl -fsS http://127.0.0.1:8000/health >/dev/null 2>&1; then
+                echo "Rollback healthy on attempt $i"; exit 0
+              fi
+              sleep 5
+            done
+            echo "Rollback completed but health still failing; manual intervention required."
+            exit 1
+          else
+            echo "No rollback snapshot found; manual intervention required."
+            exit 1
+          fi
+          SCRIPT

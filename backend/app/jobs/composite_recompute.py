@@ -45,10 +45,22 @@ def _send_job_failure_alert(result: dict) -> None:
         body_lines.append(f"  {entry.get('ticker')}: {entry.get('error')}")
     body = "\n".join(body_lines)
 
-    # Sentry alert (no extra config needed if DSN is set)
+    # Sentry + Slack via the centralized alerting module (no-ops if unconfigured).
     try:
-        import sentry_sdk
-        sentry_sdk.capture_message(subject, level="error", extras={"result": result})
+        from app.services.alerting import send_alert
+
+        send_alert(
+            subject,
+            level="error",
+            context={
+                "processed": result.get("items_processed", 0),
+                "failed": items_failed,
+                "failure_rate": f"{failure_rate:.0%}",
+                "first_failed": [
+                    e.get("ticker") for e in (result.get("metadata") or {}).get("failed", [])[:10]
+                ],
+            },
+        )
     except Exception:
         pass
 
@@ -155,6 +167,68 @@ def _latest_snapshots_for_date(
     return latest
 
 
+# Upstream snapshots may legitimately lag a few calendar days (weekends/holidays
+# have no new market bars), so the guard only fires when inputs are STALE beyond
+# this window, not merely "not today".
+DEPENDENCY_MAX_STALENESS_DAYS = 4
+
+
+def _check_upstream_dependencies(
+    supabase, snapshot_date: date, *, max_staleness_days: int = DEPENDENCY_MAX_STALENESS_DAYS
+) -> tuple[bool, str]:
+    """Assert macro + sector snapshot inputs exist and are fresh before recompute.
+
+    Without this, a failed macro/sector snapshot job silently produces composite
+    snapshots built on stale inputs but stamped fresh — exactly the silent-corruption
+    class the audit flagged. Returns (ok, reason).
+    """
+    issues: list[str] = []
+
+    def _latest_date(table: str, date_col: str) -> date | None:
+        try:
+            rows = (
+                supabase.table(table)
+                .select(date_col)
+                .order(date_col, desc=True)
+                .limit(1)
+                .execute()
+                .data
+                or []
+            )
+        except Exception as exc:  # pragma: no cover - network dependent
+            issues.append(f"{table}: query failed ({exc})")
+            return None
+        if not rows:
+            issues.append(f"{table}: no rows at all")
+            return None
+        raw = rows[0].get(date_col)
+        try:
+            return date.fromisoformat(str(raw)[:10])
+        except Exception:
+            issues.append(f"{table}: unparseable {date_col}={raw!r}")
+            return None
+
+    macro_date = _latest_date("macro_regime_snapshots", "as_of_date")
+    if macro_date is not None:
+        age = (snapshot_date - macro_date).days
+        if age > max_staleness_days:
+            issues.append(
+                f"macro snapshot stale: latest as_of_date {macro_date} is {age}d "
+                f"before target {snapshot_date}"
+            )
+
+    sector_date = _latest_date("sector_regime_snapshots", "snapshot_date")
+    if sector_date is not None:
+        age = (snapshot_date - sector_date).days
+        if age > max_staleness_days:
+            issues.append(
+                f"sector snapshot stale: latest snapshot_date {sector_date} is {age}d "
+                f"before target {snapshot_date}"
+            )
+
+    return (not issues, "; ".join(issues))
+
+
 def run(
     *,
     limit: int | None = None,
@@ -165,6 +239,41 @@ def run(
 ) -> dict:
     snapshot_date = _coerce_target_date(target_date)
     supabase = get_supabase()
+
+    # ── Dependency guard ────────────────────────────────────────────────────────
+    # Only enforced for "today" runs (historical backfills legitimately have old
+    # inputs); bypassable via env for deliberate backfills.
+    guard_skipped = os.getenv(
+        "COMPOSITE_RECOMPUTE_SKIP_DEPENDENCY_GUARD", ""
+    ).lower() in ("1", "true", "yes")
+    if not guard_skipped and snapshot_date >= date.today():
+        ok, reason = _check_upstream_dependencies(supabase, snapshot_date)
+        if not ok:
+            logger.critical(
+                "composite_recompute ABORTED: upstream dependency check failed: %s", reason
+            )
+            try:
+                from app.services.alerting import send_alert
+
+                send_alert(
+                    "composite_recompute aborted: stale upstream inputs",
+                    level="critical",
+                    context={"reason": reason, "target_date": snapshot_date.isoformat()},
+                )
+            except Exception:
+                pass
+            return {
+                "status": "failed",
+                "items_processed": 0,
+                "items_skipped": 0,
+                "items_failed": 0,
+                "metadata": {
+                    "aborted": "dependency_guard",
+                    "reason": reason,
+                    "target_date": snapshot_date.isoformat(),
+                },
+            }
+
     tickers = list_active_sp500_tickers(supabase, limit=limit)
     date_snapshots = _latest_snapshots_for_date(
         supabase,

@@ -18,6 +18,7 @@ import logging
 import statistics
 from datetime import datetime, timezone, timedelta
 
+from app.services.alerting import ping_heartbeat, send_alert
 from app.services.supabase import get_supabase
 
 logger = logging.getLogger(__name__)
@@ -30,6 +31,7 @@ JOB_CADENCE_HOURS: dict[str, float] = {
     "daily_portfolio_rollup_per_user": 30,
     "daily_earnings_calendar_refresh": 30,
     "daily_eod_price_capture": 30,
+    "daily_ops_monitor": 30,  # self-check: a skipped monitor run is itself an issue
     "event_fundamentals_pull": 30,
     "active_ticker_news_refresh": 8,  # 4h interval; alert if no run in 8h
     "weekly_peer_groups_recompute": 24 * 8,
@@ -157,6 +159,22 @@ def run() -> dict:
         logger.error("[OPS_MONITOR] CRITICAL %s", i)
 
     status = "failed" if issues else "completed"
+
+    # External alert only on CRITICAL issues (warnings would page on every run and
+    # train the operator to ignore them). Heartbeat fires every run so the monitor's
+    # OWN silence is what a dead-man's switch catches.
+    if issues:
+        send_alert(
+            f"ops_monitor: {len(issues)} critical issue(s)",
+            level="error",
+            context={
+                "issues": issues[:10],
+                "warnings": warnings[:10],
+                "checked_at": now.isoformat(),
+            },
+        )
+    ping_heartbeat(failed=bool(issues))
+
     return {
         "status": status,
         "items_processed": len(JOB_CADENCE_HOURS),

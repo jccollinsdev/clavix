@@ -5561,6 +5561,40 @@ def _load_unenriched_articles_sync(
     )
 
 
+NEWS_ROTATION_CURSOR_KEY = "active_ticker_news_refresh:last_attempted"
+
+
+def _load_news_rotation_cursor_sync(supabase) -> dict[str, str]:
+    """Per-ticker last-attempted timestamps used to guarantee round-robin fairness."""
+    try:
+        rows = (
+            supabase.table("job_config")
+            .select("value")
+            .eq("key", NEWS_ROTATION_CURSOR_KEY)
+            .limit(1)
+            .execute()
+            .data
+            or []
+        )
+    except Exception:
+        return {}
+    if rows and isinstance(rows[0].get("value"), dict):
+        return {str(k): str(v) for k, v in rows[0]["value"].items()}
+    return {}
+
+
+def _save_news_rotation_cursor_sync(supabase, last_attempted: dict[str, str]) -> None:
+    payload = {
+        "key": NEWS_ROTATION_CURSOR_KEY,
+        "value": last_attempted,
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+    }
+    try:
+        supabase.table("job_config").upsert(payload, on_conflict="key").execute()
+    except Exception:
+        logger.warning("[NEWS_REFRESH] failed to persist rotation cursor", exc_info=True)
+
+
 async def _run_active_ticker_news_refresh() -> None:
     """Fetch Google News RSS for all active tickers (any user's portfolio/watchlist)
     and write articles to shared_ticker_events with full LLM enrichment.
@@ -5610,14 +5644,27 @@ async def _run_active_ticker_news_refresh() -> None:
             )
         except Exception:
             usable_counts = {}
-        active_tickers.sort(key=lambda t: (usable_counts.get(t, 0), t))
+
+        # Persistent rotation cursor: sort neediest-first, and among equally-needy
+        # tickers, least-recently-attempted first. This guarantees every ticker is
+        # revisited within ceil(N/batch) runs even if some are permanently news-scarce
+        # (count stuck at 0) — the stateless count-only sort could starve mid-tier
+        # tickers forever by re-picking the same zero-count set every cycle.
+        last_attempted = await asyncio.to_thread(_load_news_rotation_cursor_sync, supabase)
+        active_tickers.sort(key=lambda t: (usable_counts.get(t, 0), last_attempted.get(t, "")))
         batch_size = int(os.getenv("NEWS_REFRESH_BATCH_SIZE", "150"))
         batch = active_tickers[:batch_size]
 
+        # Coverage distribution across the FULL universe (zero-count tickers are absent
+        # from usable_counts, so measure against active_tickers, not the dict's values).
+        below_10 = sum(1 for t in active_tickers if usable_counts.get(t, 0) < 10)
+        below_3 = sum(1 for t in active_tickers if usable_counts.get(t, 0) < 3)
+        zero_usable = sum(1 for t in active_tickers if usable_counts.get(t, 0) == 0)
+
         logger.info(
-            "[NEWS_REFRESH] Refreshing news for %d/%d tickers (neediest first).",
-            len(batch),
-            len(active_tickers),
+            "[NEWS_REFRESH] Refreshing %d/%d tickers (neediest+oldest first); "
+            "coverage: %d below 10, %d below 3, %d at zero usable.",
+            len(batch), len(active_tickers), below_10, below_3, zero_usable,
         )
         counts = await ingest_and_enrich_ticker_news(
             supabase,
@@ -5627,6 +5674,16 @@ async def _run_active_ticker_news_refresh() -> None:
         )
         total = sum(counts.values())
         logger.info("[NEWS_REFRESH] Stored %d new articles across %d tickers.", total, len(counts))
+
+        # Advance the cursor: stamp every ticker we just attempted, then prune the map
+        # back to the active universe so it cannot grow unbounded.
+        now_iso = datetime.now(timezone.utc).isoformat()
+        for t in batch:
+            last_attempted[t] = now_iso
+        active_set = set(active_tickers)
+        last_attempted = {k: v for k, v in last_attempted.items() if k in active_set}
+        await asyncio.to_thread(_save_news_rotation_cursor_sync, supabase, last_attempted)
+
         if run_id:
             await asyncio.to_thread(
                 finish_job_run,
@@ -5638,6 +5695,9 @@ async def _run_active_ticker_news_refresh() -> None:
                     "stored": total,
                     "batch_size": len(batch),
                     "universe": len(active_tickers),
+                    "coverage_below_10": below_10,
+                    "coverage_below_3": below_3,
+                    "coverage_zero": zero_usable,
                 },
             )
     except Exception as exc:
