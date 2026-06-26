@@ -10,6 +10,7 @@ from __future__ import annotations
 import csv
 import io
 import logging
+import time
 from datetime import datetime, timedelta, timezone
 
 import requests
@@ -17,6 +18,12 @@ import requests
 logger = logging.getLogger(__name__)
 
 FRED_CSV_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv"
+
+# A single keep-alive session: FRED's Akamai edge intermittently tarpits a burst of
+# fresh connections from the container (read-timeout), but reuses cleanly over one
+# pooled connection. Session reuse + retries makes the fetch reliable.
+_SESSION = requests.Session()
+_SESSION.headers.update({"User-Agent": "clavix-macro/1.0"})
 
 # Canonical real macro series IDs (all daily, all key-free on fredgraph.csv).
 SERIES = {
@@ -30,23 +37,31 @@ SERIES = {
 
 
 def fetch_fred_series(
-    series_id: str, *, lookback_days: int = 470, timeout: int = 25
+    series_id: str, *, lookback_days: int = 470, timeout: int = 15, retries: int = 4
 ) -> list[tuple[str, float]]:
-    """Return [(YYYY-MM-DD, value), ...] ascending for the series. Empty on any failure.
+    """Return [(YYYY-MM-DD, value), ...] ascending for the series. Empty on total failure.
 
-    Missing observations (FRED emits an empty cell or '.') are skipped, so the caller
-    sees only real data points and can align series on their common dates.
+    Retries with backoff over a pooled session: cold-start / tarpit read-timeouts are
+    transient and clear within a couple of attempts. Missing observations (FRED emits an
+    empty cell or '.') are skipped so the caller sees only real data points.
     """
     start = (datetime.now(timezone.utc).date() - timedelta(days=lookback_days)).isoformat()
     url = f"{FRED_CSV_URL}?id={series_id}&cosd={start}"
-    try:
-        # requests (not urllib): urllib read-stalls against FRED's Akamai edge from the
-        # container even with the MTU fix in place, while requests succeeds.
-        resp = requests.get(url, headers={"User-Agent": "clavix-macro/1.0"}, timeout=timeout)
-        resp.raise_for_status()
-        raw = resp.text
-    except Exception as exc:  # pragma: no cover - network dependent
-        logger.warning("FRED fetch failed for %s: %s", series_id, exc)
+    raw = None
+    last_exc: Exception | None = None
+    for attempt in range(retries):
+        try:
+            resp = _SESSION.get(url, timeout=timeout)
+            resp.raise_for_status()
+            raw = resp.text
+            break
+        except Exception as exc:  # pragma: no cover - network dependent
+            last_exc = exc
+            time.sleep(1.5 * (attempt + 1))
+    if raw is None:
+        logger.warning(
+            "FRED fetch failed for %s after %d attempts: %s", series_id, retries, last_exc
+        )
         return []
 
     out: list[tuple[str, float]] = []
