@@ -108,7 +108,8 @@ async def fetch_tickertick_news(
                     continue
 
                 data = resp.json()
-                feed = data.get("feed") or []
+                # Tickertick API returns "stories" key (not "feed")
+                feed = data.get("stories") or data.get("feed") or []
                 articles = [
                     _parse_article(item, ticker)
                     for item in feed
