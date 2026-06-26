@@ -14,10 +14,10 @@ To actually receive pages, the operator provisions (all free):
 """
 from __future__ import annotations
 
-import json
 import logging
 import os
-import urllib.request
+
+import requests
 
 logger = logging.getLogger(__name__)
 
@@ -39,10 +39,7 @@ def send_alert(title: str, *, level: str = "error", context: dict | None = None)
     # 1. Always log loudly — this is the one channel that needs no provisioning and
     #    is visible in `docker logs` and job_runs investigations.
     log_fn = logger.error if level in _ERROR_LEVELS else logger.warning
-    try:
-        ctx_str = json.dumps(context, default=str)[:1000]
-    except Exception:
-        ctx_str = str(context)[:1000]
+    ctx_str = str(context)[:1000]
     log_fn("[ALERT] %s | %s", title, ctx_str)
 
     # 2. Sentry — no-op if the SDK is absent or SENTRY_DSN is unset.
@@ -63,12 +60,7 @@ def send_alert(title: str, *, level: str = "error", context: dict | None = None)
             lines.append(f"• {key}: {value}")
         text = "\n".join(lines)[:3500]
         try:
-            req = urllib.request.Request(
-                url,
-                data=json.dumps({"text": text}).encode("utf-8"),
-                headers={"Content-Type": "application/json"},
-            )
-            urllib.request.urlopen(req, timeout=8).read()
+            requests.post(url, json={"text": text}, timeout=8)
         except Exception as exc:  # pragma: no cover - network dependent
             logger.warning("[ALERT] Slack webhook POST failed: %s", exc)
 
@@ -85,6 +77,6 @@ def ping_heartbeat(*, failed: bool = False) -> None:
         return
     url = base.rstrip("/") + "/fail" if failed else base
     try:
-        urllib.request.urlopen(url, timeout=8).read()
+        requests.get(url, timeout=8)
     except Exception as exc:  # pragma: no cover - network dependent
         logger.warning("[ALERT] heartbeat ping failed: %s", exc)

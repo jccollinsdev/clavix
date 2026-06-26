@@ -10,8 +10,9 @@ from __future__ import annotations
 import csv
 import io
 import logging
-import urllib.request
 from datetime import datetime, timedelta, timezone
+
+import requests
 
 logger = logging.getLogger(__name__)
 
@@ -39,9 +40,11 @@ def fetch_fred_series(
     start = (datetime.now(timezone.utc).date() - timedelta(days=lookback_days)).isoformat()
     url = f"{FRED_CSV_URL}?id={series_id}&cosd={start}"
     try:
-        req = urllib.request.Request(url, headers={"User-Agent": "clavix-macro/1.0"})
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            raw = resp.read().decode("utf-8", errors="replace")
+        # requests (not urllib): urllib read-stalls against FRED's Akamai edge from the
+        # container even with the MTU fix in place, while requests succeeds.
+        resp = requests.get(url, headers={"User-Agent": "clavix-macro/1.0"}, timeout=timeout)
+        resp.raise_for_status()
+        raw = resp.text
     except Exception as exc:  # pragma: no cover - network dependent
         logger.warning("FRED fetch failed for %s: %s", series_id, exc)
         return []

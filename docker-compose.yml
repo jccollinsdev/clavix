@@ -21,3 +21,9 @@ services:
 networks:
   clavis-network:
     driver: bridge
+    # Some upstreams (Akamai-served FRED) blackhole PMTU on the NAT'd bridge path:
+    # the TLS handshake completes but full-size response packets are silently dropped,
+    # so reads hang until timeout. Capping the bridge MTU keeps the advertised MSS
+    # small enough that responses get through. (Confirmed fix for FRED read timeouts.)
+    driver_opts:
+      com.docker.network.driver.mtu: "1400"
