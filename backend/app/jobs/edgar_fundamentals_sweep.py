@@ -24,8 +24,8 @@ logger = logging.getLogger(__name__)
 BATCH_SIZE = 50
 
 
-def run() -> dict[str, Any]:
-    return asyncio.run(_run_async())
+async def run() -> dict[str, Any]:
+    return await _run_async()
 
 
 async def _run_async() -> dict[str, Any]:
@@ -98,5 +98,5 @@ async def _run_async() -> dict[str, Any]:
     }
 
 
-def run_from_env() -> dict:
-    return run()
+async def run_from_env() -> dict:
+    return await run()

@@ -139,6 +139,12 @@ def _edgar_fundamentals_sweep() -> dict:
     return run_from_env()
 
 
+def _edgar_events_sweep() -> dict:
+    from app.jobs.edgar_events_sweep import run_from_env
+
+    return run_from_env()
+
+
 JOB_REGISTRY: dict[str, JobSpec] = {
     "daily_macro_snapshot": JobSpec("daily_macro_snapshot", "daily", _macro_snapshot),
     "daily_sector_snapshot": JobSpec("daily_sector_snapshot", "daily", _sector_snapshot),
@@ -191,6 +197,7 @@ JOB_REGISTRY: dict[str, JobSpec] = {
     ),
     "tickertick_news_sweep": JobSpec("tickertick_news_sweep", "manual", _tickertick_news_sweep),
     "edgar_fundamentals_sweep": JobSpec("edgar_fundamentals_sweep", "weekly", _edgar_fundamentals_sweep),
+    "edgar_events_sweep": JobSpec("edgar_events_sweep", "daily", _edgar_events_sweep),
 }
 
 
