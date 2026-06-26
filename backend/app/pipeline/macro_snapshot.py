@@ -70,14 +70,15 @@ def _rates_signal(change: float | None) -> str | None:
     return "stable"
 
 
-def _credit_signal(level: float | None) -> str | None:
-    if level is None:
+def _credit_signal(day_change: float | None) -> str | None:
+    """Map the day-over-day HY OAS move to the allowed enum (widening == tightening)."""
+    if day_change is None:
         return None
-    if level >= 5.0:
-        return "stressed"
-    if level >= 3.5:
-        return "elevated"
-    return "calm"
+    if day_change > 0.05:
+        return "tightening"
+    if day_change < -0.05:
+        return "easing"
+    return "stable"
 
 
 def refresh_macro_snapshot() -> bool:
@@ -105,6 +106,8 @@ def refresh_macro_snapshot() -> bool:
     spy_pct = values["spx"][2]
     vix_close = values["vix"][0]
     regime = _regime_from_signals(spy_pct, vix_close)
+    if regime == "unknown":  # not an allowed regime_state enum value
+        regime = "neutral"
 
     row = {
         "as_of_date":         snapshot_date,
@@ -121,7 +124,7 @@ def refresh_macro_snapshot() -> bool:
         "spy_day_change_pct": values["spx"][2],
         "credit_spread_level": values["credit"][0],
         "rates_signal":       _rates_signal(values["ust10y"][1]),
-        "credit_signal":      _credit_signal(values["credit"][0]),
+        "credit_signal":      _credit_signal(values["credit"][1]),
         "generated_at":       datetime.now(timezone.utc).isoformat(),
         "data_status":        "real_factors",
     }
