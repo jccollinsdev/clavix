@@ -99,6 +99,63 @@ def _snapshots_for_date(supabase, snapshot_date: str) -> list[dict]:
     )
 
 
+def _latest_run(supabase, job_id: str) -> dict | None:
+    rows = (
+        supabase.table("job_runs")
+        .select("status,items_processed,items_failed,metadata,started_at")
+        .eq("job_id", job_id)
+        .order("started_at", desc=True)
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    return rows[0] if rows else None
+
+
+def _provider_degradation_issues(supabase) -> list[str]:
+    """Detect provider sweeps that returned abnormally few successes.
+
+    The recurring live incidents (Finnhub 429 storms, the Polygon auth cascade where
+    one 403 trips a 5-min global block) all surface as a sweep that silently processes
+    almost nothing. Flag them rather than let a near-empty sweep read as success.
+    """
+    issues: list[str] = []
+
+    recompute = _latest_run(supabase, "daily_composite_recompute_universe")
+    if recompute:
+        processed = int(recompute.get("items_processed") or 0)
+        failed = int(recompute.get("items_failed") or 0)
+        total = processed + failed
+        if total >= 50 and failed / max(total, 1) > 0.10:
+            issues.append(
+                f"provider: last composite_recompute failed {failed}/{total} "
+                f"({100*failed/max(total,1):.0f}%) — likely provider degradation"
+            )
+
+    news = _latest_run(supabase, "active_ticker_news_refresh")
+    if news:
+        meta = news.get("metadata") or {}
+        batch = int(meta.get("batch_size") or 0)
+        stored = int(meta.get("stored") or 0)
+        if batch >= 50 and stored == 0:
+            issues.append(
+                f"provider: last news refresh stored 0 across a {batch}-ticker batch "
+                "(Finnhub/Google sweep returned nothing)"
+            )
+
+    fundamentals = _latest_run(supabase, "weekly_fundamentals_sweep")
+    if fundamentals and fundamentals.get("status") != "skipped":
+        processed = int(fundamentals.get("items_processed") or 0)
+        if 0 < processed < 100:
+            issues.append(
+                f"provider: last fundamentals sweep updated only {processed} tickers "
+                "(<100 — possible Finnhub throttle)"
+            )
+
+    return issues
+
+
 def _news_source_touched_recently(supabase, cutoff: datetime) -> bool:
     rows = (
         supabase.table("shared_ticker_events")
@@ -238,6 +295,12 @@ def run() -> dict:
         warnings.append(
             "consistency: macro snapshot is price_only (proxy levels, no real factor regression)"
         )
+
+    # ── 5. Provider degradation ─────────────────────────────────────────────────
+    try:
+        issues.extend(_provider_degradation_issues(supabase))
+    except Exception:
+        logger.warning("[OPS_MONITOR] provider-degradation check failed", exc_info=True)
 
     # ── verdict ─────────────────────────────────────────────────────────────────
     for w in warnings:
