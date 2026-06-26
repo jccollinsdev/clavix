@@ -58,9 +58,9 @@ async def ingest_tickertick_for_tickers(
         logger.info("[TICKERTICK_INGEST] No usable candidates for %d tickers", len(tickers))
         return {}
 
-    # Use a lower skip threshold than Finnhub since Tickertick articles are pre-tagged
-    # to the ticker and less likely to be noise
-    filtered = rank_and_filter_candidates(all_candidates, skip_score_below=10.0)
+    # For Tickertick, body is pre-populated from description so domain policy (blocked/paywalled)
+    # doesn't apply. Set threshold to 0 to pass all articles except spam (score=0).
+    filtered = rank_and_filter_candidates(all_candidates, skip_score_below=0.0)
     if not filtered:
         return {}
 

@@ -18,7 +18,7 @@ import httpx
 logger = logging.getLogger(__name__)
 
 TICKERTICK_BASE_URL = "https://api.tickertick.com/feed"
-_TICKERTICK_MIN_CALL_INTERVAL = 6.2  # 5 req/30s safe pacing
+_TICKERTICK_MIN_CALL_INTERVAL = 7.0  # 5 req/30s safe pacing with margin (~4.3 req/30s)
 _last_call_ts: float = 0.0
 
 
