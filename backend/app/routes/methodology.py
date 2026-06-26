@@ -6,7 +6,6 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, Request
 
-from ..pipeline.structural_scorer import estimate_iv_rank_from_realized_vol
 from ..services.personalisation import attach_latest_personalisation
 from ..services.supabase import get_supabase
 from ..services.ticker_cache_service import (
@@ -223,15 +222,6 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
         )
 
     factor_exposures = _factor_exposures(macro_inputs, macro_regression)
-    iv_rank = volatility_inputs.get("iv_rank")
-    iv_source = volatility_inputs.get("iv_source")
-    if iv_rank is None:
-        iv_rank = estimate_iv_rank_from_realized_vol(
-            volatility_inputs.get("realized_vol_30d"),
-            volatility_inputs.get("realized_vol_90d"),
-        )
-        if iv_rank is not None:
-            iv_source = "estimated"
 
     if news_inputs.get("weighted_score") is None:
         weighted_total = 0.0
@@ -379,18 +369,13 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
                 "vol_ratio": volatility_inputs.get("vol_ratio"),
                 "max_drawdown_252d": volatility_inputs.get("max_drawdown_252d"),
                 "beta_to_spy": volatility_inputs.get("beta_to_spy"),
-                "iv_rank": iv_rank,
-                "implied_volatility": (
-                    volatility_inputs.get("implied_vol_30d")
-                    if volatility_inputs.get("implied_vol_30d") is not None
-                    else volatility_inputs.get("implied_volatility")
-                ),
-                "iv_source": iv_source,
+                "iv_rank": None,
+                "implied_volatility": None,
+                "iv_source": None,
                 "factor_levels": {
                     "realized_vol_30d": volatility_inputs.get("realized_vol_30d"),
                     "realized_vol_90d": volatility_inputs.get("realized_vol_90d"),
-                    "implied_vol_30d": volatility_inputs.get("implied_vol_30d"),
-                    "iv_rank": iv_rank,
+                    "vol_ratio": volatility_inputs.get("vol_ratio"),
                 },
                 "as_of_date": volatility_inputs.get("as_of_date"),
             },

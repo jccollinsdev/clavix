@@ -8,11 +8,13 @@ import logging
 from datetime import datetime, timezone, timedelta
 from typing import Any
 
-# Finnhub-first pipeline settings
-NEWS_PRIMARY_PROVIDER: str = "finnhub"
-GOOGLE_NEWS_FALLBACK_ENABLED: bool = os.getenv("GOOGLE_NEWS_FALLBACK_ENABLED", "true").lower() not in {"0", "false", "no", "off"}
-# Per-ticker usable-article floor. The product target is >=10 fully-usable articles per
-# ticker, so any ticker below this gets topped up from the Google News fallback.
+# News pipeline provider settings.
+# USE_TICKERTICK=true (default) routes ingest_and_enrich_ticker_news through Tickertick,
+# which has a commercially permissive license and no web scraping required.
+# Set USE_TICKERTICK=false to fall back to the legacy Finnhub + Google RSS path.
+USE_TICKERTICK: bool = os.getenv("USE_TICKERTICK", "true").lower() not in {"0", "false", "no", "off"}
+NEWS_PRIMARY_PROVIDER: str = "tickertick" if USE_TICKERTICK else "finnhub"
+GOOGLE_NEWS_FALLBACK_ENABLED: bool = os.getenv("GOOGLE_NEWS_FALLBACK_ENABLED", "false").lower() not in {"0", "false", "no", "off"}
 GOOGLE_FALLBACK_MIN_USABLE_ARTICLES: int = int(os.getenv("GOOGLE_FALLBACK_MIN_USABLE_ARTICLES", "10"))
 
 from .article_scraper import (
@@ -595,35 +597,41 @@ async def ingest_and_enrich_ticker_news(
     limit_per_ticker: int = 10,
     max_concurrency: int = 3,
 ) -> dict[str, int]:
-    """Finnhub-first news ingestion: fetch → filter → extract → score → store.
+    """News ingestion dispatcher: fetch → filter → store → LLM enrich.
 
-    Primary: Finnhub company-news (7-day window) with inline body extraction.
-    Fallback: Google News RSS, only for tickers with < GOOGLE_FALLBACK_MIN_USABLE_ARTICLES
-    usable 7-day articles after Finnhub enrichment.
+    Routes through Tickertick (USE_TICKERTICK=true, default) which provides
+    commercially-licensed summaries for all tickers with no web scraping required.
+    Set USE_TICKERTICK=false to revert to the legacy Finnhub + Google RSS path.
 
     Returns: dict of {ticker: articles_stored}.
     """
+    if not tickers:
+        return {}
+
+    if USE_TICKERTICK:
+        from ..pipeline.tickertick_ingest import ingest_tickertick_for_tickers
+        return await ingest_tickertick_for_tickers(
+            supabase,
+            tickers,
+            n_per_ticker=200,
+            max_concurrency=max_concurrency,
+        )
+
+    # ── Legacy Finnhub + Google RSS path (USE_TICKERTICK=false) ──────────────
     from ..pipeline.finnhub_news import fetch_finnhub_ticker_news
     from ..pipeline.news_normalizer import normalize_news_batch
     from .article_scraper import enrich_articles_content
     from .candidate_ranker import rank_and_filter_candidates
     from .ticker_cache_service import get_metadata_map
 
-    if not tickers:
-        return {}
-
     results: dict[str, int] = {}
 
-    # ── 1. Finnhub primary ────────────────────────────────────────────────────
     per_ticker_raw, _ = await fetch_finnhub_ticker_news(
         tickers, days=7, limit_per_ticker=limit_per_ticker
     )
     all_finnhub = [a for arts in per_ticker_raw.values() for a in arts]
-
-    # Filter by domain policy before spending extraction budget
     filtered_finnhub = rank_and_filter_candidates(all_finnhub, skip_score_below=15.0)
 
-    # Extract article bodies from Finnhub URLs
     if filtered_finnhub:
         extracted_finnhub = await enrich_articles_content(
             filtered_finnhub, max_concurrency=max_concurrency
@@ -631,7 +639,6 @@ async def ingest_and_enrich_ticker_news(
     else:
         extracted_finnhub = []
 
-    # Store + LLM score
     finnhub_stored = await enrich_and_store_articles_batch(
         supabase, extracted_finnhub, max_concurrency=max_concurrency, skip_existing=True
     )
@@ -640,11 +647,9 @@ async def ingest_and_enrich_ticker_news(
         if t in tickers:
             results[t] = results.get(t, 0) + 1
 
-    # ── 2. Google fallback ────────────────────────────────────────────────────
     if not GOOGLE_NEWS_FALLBACK_ENABLED:
         return results
 
-    # Query DB for usable 7-day counts per ticker
     cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
     try:
         rows = await asyncio.to_thread(
@@ -673,11 +678,6 @@ async def ingest_and_enrich_ticker_news(
 
     if not fallback_tickers:
         return results
-
-    logger.info(
-        "[NEWS] Google fallback for %d tickers (need more usable): %s",
-        len(fallback_tickers), fallback_tickers,
-    )
 
     from ..pipeline.rss_ingest import fetch_google_company_rss
 

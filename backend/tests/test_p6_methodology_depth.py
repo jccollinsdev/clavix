@@ -164,8 +164,9 @@ async def test_methodology_response_includes_audit_depth(monkeypatch):
     assert fin["sector_median_comparison"]["debt_to_equity"]["median"] == 0.4
     assert sum(row["count"] for row in news["article_histogram_14d"]) == 1
     assert news["sentiment_distribution"][0]["bucket"] == "positive"
-    assert vol["iv_rank"] is not None
-    assert vol["iv_source"] == "estimated"
+    assert vol["iv_rank"] is None
+    assert vol["iv_source"] is None
+    assert vol["vol_ratio"] is not None
 
 
 @pytest.mark.asyncio

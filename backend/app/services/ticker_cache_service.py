@@ -16,12 +16,11 @@ from fastapi import HTTPException
 
 from ..pipeline.risk_scorer import score_position_structural
 from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength, sanitize_text_field, normalize_event_analysis_payload, calculate_weighted_score, apply_grade_hysteresis
-from ..pipeline.structural_scorer import estimate_iv_rank_from_realized_vol, percentile_rank, smooth_score_with_history
+from ..pipeline.structural_scorer import percentile_rank, smooth_score_with_history
 from ..pipeline.position_report_builder import _build_driver_cards
 from .alert_payloads import enrich_alert_rows
 from .macro_regression import FACTOR_TICKERS, macro_regression_to_audit_jsonb, run_macro_regression
 from .polygon import fetch_aggs
-from .polygon_options import fetch_near_term_implied_vol_30d
 from .ticker_metadata import upsert_ticker_metadata
 
 
@@ -789,32 +788,13 @@ def _build_volatility_inputs(
     )
     beta_to_spy = _beta_from_returns(ticker_returns, spy_returns)
     max_drawdown_252d = _max_drawdown(ticker_closes, 252)
-    options_snapshot = fetch_near_term_implied_vol_30d(ticker)
-    implied_vol_30d = (
-        options_snapshot.get("implied_vol_30d")
-        if isinstance(options_snapshot, dict)
-        else None
-    )
-    historical_iv = _historical_implied_vol_history(supabase, ticker)
-    if implied_vol_30d is not None and not historical_iv:
-        historical_iv = _rolling_realized_vol_history(ticker_closes)
-    iv_rank = percentile_rank(implied_vol_30d, historical_iv)
-    iv_source = "polygon" if implied_vol_30d is not None else "estimated"
-    if iv_rank is None:
-        iv_rank = estimate_iv_rank_from_realized_vol(realized_vol_30d, realized_vol_90d)
-        if iv_rank is not None:
-            iv_source = "estimated"
     return {
         "realized_vol_30d": round(realized_vol_30d, 4) if realized_vol_30d is not None else None,
         "realized_vol_90d": round(realized_vol_90d, 4) if realized_vol_90d is not None else None,
         "vol_ratio": round(vol_ratio, 4) if vol_ratio is not None else None,
         "max_drawdown_252d": round(max_drawdown_252d, 4) if max_drawdown_252d is not None else None,
         "beta_to_spy": round(beta_to_spy, 4) if beta_to_spy is not None else None,
-        "implied_vol_30d": implied_vol_30d,
-        "iv_rank": iv_rank,
-        "iv_source": iv_source,
         "as_of_date": as_of_date,
-        # Mark limited when both realized vol and SPY beta are absent (bars unavailable)
         "limited_data": realized_vol_30d is None and beta_to_spy is None,
     }
 
