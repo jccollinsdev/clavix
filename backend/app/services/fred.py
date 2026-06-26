@@ -19,11 +19,11 @@ logger = logging.getLogger(__name__)
 
 FRED_CSV_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv"
 
-# A single keep-alive session: FRED's Akamai edge intermittently tarpits a burst of
-# fresh connections from the container (read-timeout), but reuses cleanly over one
-# pooled connection. Session reuse + retries makes the fetch reliable.
+# A single keep-alive session for connection reuse. IMPORTANT: do NOT set a custom
+# User-Agent. FRED's Akamai edge silently tarpits requests carrying a custom UA from
+# this host (confirmed: "clavix-macro/1.0" and browser UAs read-time-out, the default
+# python-requests UA succeeds every time).
 _SESSION = requests.Session()
-_SESSION.headers.update({"User-Agent": "clavix-macro/1.0"})
 
 # Canonical real macro series IDs (all daily, all key-free on fredgraph.csv).
 SERIES = {
