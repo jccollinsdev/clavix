@@ -127,6 +127,12 @@ def _ops_monitor() -> dict:
     return run_from_env()
 
 
+def _tickertick_news_sweep() -> dict:
+    from app.jobs.tickertick_news_sweep import run_from_env
+
+    return run_from_env()
+
+
 JOB_REGISTRY: dict[str, JobSpec] = {
     "daily_macro_snapshot": JobSpec("daily_macro_snapshot", "daily", _macro_snapshot),
     "daily_sector_snapshot": JobSpec("daily_sector_snapshot", "daily", _sector_snapshot),
@@ -177,6 +183,7 @@ JOB_REGISTRY: dict[str, JobSpec] = {
     "weekly_volatility_recompute": JobSpec(
         "weekly_volatility_recompute", "weekly", _composite_recompute
     ),
+    "tickertick_news_sweep": JobSpec("tickertick_news_sweep", "manual", _tickertick_news_sweep),
 }
 
 
