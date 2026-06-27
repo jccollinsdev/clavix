@@ -498,7 +498,10 @@ def build_what_to_watch(
         reason = _short_reason(imp.get("impact_summary"))
         grade = position.get("grade")
         prev = position.get("previous_grade")
-        graded = bool(str(prev or "").strip()) and bool(str(grade or "").strip())
+        # Only trust a grade move when both grades are unambiguously academic, so
+        # a vocabulary mismatch (old 'BBB' vs new 'B') is not read as a real
+        # up/downgrade (see _is_academic_grade).
+        graded = _is_academic_grade(grade) and _is_academic_grade(prev)
         grade_down = graded and _grade_ord(prev) > _grade_ord(grade)
         grade_up = graded and _grade_ord(grade) > _grade_ord(prev)
         if not reason:
