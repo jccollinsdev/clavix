@@ -703,7 +703,10 @@ def _factor_brief(snapshot: dict, headlines: list[str]) -> str:
     bits: list[str] = []
     spy = _num(s.get("spy_day_change_pct"))
     if spy is not None:
-        bits.append(f"the S&P {'rose' if spy >= 0 else 'fell'} {abs(spy):.1f}%")
+        if abs(spy) < 0.05:
+            bits.append("the S&P was roughly flat")
+        else:
+            bits.append(f"the S&P {'rose' if spy > 0 else 'fell'} {abs(spy):.1f}%")
     ust = _num(s.get("ust10y_day_change"))
     if ust is not None and abs(ust) >= 0.02:
         bits.append(f"the 10-year yield {'rose' if ust > 0 else 'eased'} to {s.get('ust10y_level')}%")
@@ -713,7 +716,9 @@ def _factor_brief(snapshot: dict, headlines: list[str]) -> str:
     factor_sentence = (
         "Overnight, " + ", ".join(bits) + "." if bits else "Markets were broadly quiet overnight."
     )
-    lead = headlines[0] if headlines else ""
+    lead = str(headlines[0]).strip() if headlines else ""
+    if lead and lead[-1] not in ".?!":
+        lead += "."
     return f"{lead} {factor_sentence}".strip() if lead else factor_sentence
 
 

@@ -144,16 +144,67 @@ def _recent_company_events(
     return out
 
 
+def _sectors_from_metadata(supabase, tickers: list[str]) -> dict[str, str]:
+    norm = sorted({_normalize_ticker(t) for t in tickers if _normalize_ticker(t)})
+    if not norm or supabase is None:
+        return {}
+    try:
+        rows = (
+            supabase.table("ticker_metadata")
+            .select("ticker,sector")
+            .in_("ticker", norm)
+            .execute()
+            .data
+            or []
+        )
+    except Exception:
+        logger.exception("ticker_metadata sector read failed")
+        return {}
+    return {
+        _normalize_ticker(r.get("ticker")): str(r.get("sector") or "").strip()
+        for r in rows
+        if _normalize_ticker(r.get("ticker"))
+    }
+
+
+def _position_sector_map(supabase, positions: list[dict]) -> dict[str, str]:
+    """ticker -> sector, using the position's own field first, then ticker_metadata.
+
+    position_payloads from the analysis pipeline often lack `sector`, so we fall
+    back to ticker_metadata (which is where the canonical GICS sector lives).
+    """
+    out: dict[str, str] = {}
+    missing: list[str] = []
+    for position in positions:
+        ticker = _normalize_ticker(position.get("ticker"))
+        if not ticker:
+            continue
+        sector = str(position.get("sector") or "").strip()
+        if sector and sector.lower() not in _INVALID_SECTORS:
+            out[ticker] = sector
+        else:
+            missing.append(ticker)
+    if missing:
+        meta = _sectors_from_metadata(supabase, missing)
+        for ticker in missing:
+            sector = meta.get(ticker, "")
+            out[ticker] = (
+                sector if sector and sector.lower() not in _INVALID_SECTORS else "Unclassified"
+            )
+    return out
+
+
 def build_sector_by_ticker(supabase, positions: list[dict]) -> dict[str, dict]:
     """ticker -> {sector, etf, etf_change_pct, headlines} for dot-connecting."""
     etf_changes = latest_sector_changes(supabase) if supabase is not None else {}
+    sector_map = _position_sector_map(supabase, positions)
     events = _recent_company_events(supabase, [p.get("ticker") for p in positions])
     out: dict[str, dict] = {}
     for position in positions:
         ticker = _normalize_ticker(position.get("ticker"))
         if not ticker:
             continue
-        sector = str(position.get("sector") or "").strip() or "Unclassified"
+        sector = sector_map.get(ticker, "Unclassified")
         etf = etf_for_sector(sector)
         heads = [h for h in (_event_headline(e) for e in events.get(ticker, [])) if h][:2]
         out[ticker] = {
@@ -216,12 +267,13 @@ async def build_sector_context(
 ) -> dict:
     """Per-owned-sector directional briefs from ETF moves + CNBC + holdings' events."""
     etf_changes = latest_sector_changes(supabase) if supabase is not None else {}
+    sector_map = _position_sector_map(supabase, positions)
     by_sector: dict[str, dict] = {}
     for position in positions:
         ticker = _normalize_ticker(position.get("ticker"))
         if not ticker:
             continue
-        sector = str(position.get("sector") or "").strip()
+        sector = sector_map.get(ticker, "Unclassified")
         if sector.lower() in _INVALID_SECTORS:
             continue
         entry = by_sector.setdefault(

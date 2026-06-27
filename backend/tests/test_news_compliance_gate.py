@@ -1,9 +1,14 @@
 """Compliance regression guards.
 
-Production runs USE_TICKERTICK=true. In that mode the digest / analysis paths must NOT
-touch free, non-commercial feeds (Google News RSS, CNBC RSS, Finnhub market-news).
-Company news must come from the Tickertick-backed shared_ticker_events pool instead.
-These tests fail loudly if a future change reintroduces a free feed into the live path.
+Production runs USE_TICKERTICK=true. COMPANY news must come from the
+Tickertick-backed shared_ticker_events pool, never from free company feeds
+(Google News RSS, Finnhub company news).
+
+Policy update (2026-06-27, product decision): the MACRO and SECTOR sections of
+the digest may use FRED factor snapshots plus CNBC macro/sector *headlines* for
+higher-level context. That headline use is intentional and is routed through the
+digest_inputs builders, not through per-company free feeds. These tests guard the
+remaining hard line: company news stays compliant.
 """
 import inspect
 
@@ -12,20 +17,22 @@ from app.pipeline import scheduler
 
 
 def test_digest_default_is_tickertick():
-    # The module default must keep free feeds off in production.
+    # The module default must keep free COMPANY feeds off in production.
     from app.services.news_enrichment import USE_TICKERTICK
 
     assert USE_TICKERTICK is True
 
 
-def test_digest_macro_sector_rss_is_gated_behind_use_tickertick():
+def test_digest_macro_sector_use_factor_and_headline_builders():
     src = inspect.getsource(digest_route)
-    # The free-feed calls must be guarded by `not USE_TICKERTICK`.
-    assert "if not USE_TICKERTICK:" in src
-    # and the gate must precede the macro RSS call.
-    gate_idx = src.index("if not USE_TICKERTICK:")
-    macro_idx = src.index("fetch_cnbc_macro_rss(limit=12)")
-    assert gate_idx < macro_idx
+    # Macro and sector context are built from the compliant digest_inputs
+    # builders (FRED factor snapshots + CNBC macro/sector headlines), not from
+    # per-company free feeds.
+    assert "build_factor_macro_context" in src
+    assert "build_sector_context" in src
+    # The digest route must NOT pull free-feed COMPANY news.
+    assert "fetch_google_company_rss" not in src
+    assert "fetch_company_news" not in src
 
 
 def test_analysis_path_has_tickertick_company_news_branch():

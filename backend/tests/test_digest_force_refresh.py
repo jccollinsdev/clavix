@@ -186,27 +186,44 @@ def test_force_refresh_digest_uses_shared_pipeline_inputs(monkeypatch):
         alerts_created.append(payload)
         return True
 
-    # This test exercises the legacy free-feed macro/sector narrative path. In
-    # production USE_TICKERTICK=true gates those RSS calls off (compliance); flip the
-    # flag here so the legacy path under test is actually reached.
-    monkeypatch.setattr(digest, "USE_TICKERTICK", False)
-    monkeypatch.setattr(digest, "fetch_cnbc_macro_rss", fake_fetch_cnbc_macro_rss)
+    # The force-refresh path now builds macro/sector/watchlist/earnings from the
+    # compliant digest_inputs builders (FRED factor snapshots + CNBC macro/sector
+    # headlines + shared_ticker_events). Patch those at their source modules.
+    import app.pipeline.digest_inputs as digest_inputs
+    import app.services.earnings_calendar as earnings_calendar_svc
+
+    async def fake_build_factor_macro_context(_supabase, _positions):
+        return {
+            "overnight_macro": {
+                "headlines": ["headline"],
+                "themes": ["theme"],
+                "brief": "Macro brief.",
+            },
+            "position_impacts": [],
+            "what_matters_today": ["Fed speakers"],
+        }
+
+    async def fake_build_sector_context(_supabase, _positions):
+        return {"sector_overview": [{"sector": "financials", "brief": "Sector brief."}]}
+
+    def fake_build_event_watchlist_alerts(_supabase, _tickers, **_kwargs):
+        return ["HOOD — beat Q3 estimates -> Upward pressure"]
+
+    def fake_fetch_upcoming(_supabase, _tickers, **_kwargs):
+        return [{"ticker": "HOOD", "report_date": "2026-05-01", "time_of_day": "amc"}]
+
     monkeypatch.setattr(
-        digest, "classify_overnight_macro", fake_classify_overnight_macro
+        digest_inputs, "build_factor_macro_context", fake_build_factor_macro_context
     )
-    monkeypatch.setattr(digest, "fetch_cnbc_sector_rss", fake_fetch_cnbc_sector_rss)
+    monkeypatch.setattr(digest_inputs, "build_sector_context", fake_build_sector_context)
     monkeypatch.setattr(
-        digest, "summarize_sector_overview", fake_summarize_sector_overview
+        digest_inputs, "build_event_watchlist_alerts", fake_build_event_watchlist_alerts
     )
+    monkeypatch.setattr(earnings_calendar_svc, "fetch_upcoming", fake_fetch_upcoming)
     monkeypatch.setattr(
         digest,
         "get_default_watchlist_detail",
         lambda _supabase, _user_id: {"items": [{"ticker": "HOOD"}]},
-    )
-    monkeypatch.setattr(
-        digest,
-        "_build_watchlist_alerts",
-        lambda _alerts, _tickers: ["HOOD — Major Event: HOOD moved on earnings"],
     )
     monkeypatch.setattr(
         digest, "_compute_portfolio_grade", lambda current_positions: (68.4, "B")
@@ -262,10 +279,14 @@ def test_force_refresh_digest_uses_shared_pipeline_inputs(monkeypatch):
     assert compiled_calls["portfolio_risk"]["concentration_risk"] == 55
     assert compiled_calls["summary_length"] == "brief"
     assert compiled_calls["macro_context"]["overnight_macro"]["brief"] == "Macro brief."
-    assert compiled_calls["sector_context"]["tech"]["brief"] == "Sector brief."
+    assert (
+        compiled_calls["sector_context"]["sector_overview"][0]["brief"]
+        == "Sector brief."
+    )
     assert compiled_calls["watchlist_alerts"] == [
-        "HOOD — Major Event: HOOD moved on earnings"
+        "HOOD — beat Q3 estimates -> Upward pressure"
     ]
+    assert compiled_calls["earnings_calendar"][0]["ticker"] == "HOOD"
     assert response["analysis_run"]["id"] == "run-new"
     assert response["overall_grade"] == "B"
     assert response["overall_score"] == 68.4
