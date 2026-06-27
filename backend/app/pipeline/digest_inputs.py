@@ -407,7 +407,7 @@ def _short_reason(text: str, limit: int = 120) -> str:
             break
         start = idx + 2
     if len(t) > limit:
-        t = t[:limit].rsplit(" ", 1)[0] + "…"
+        t = t[:limit].rsplit(" ", 1)[0].rstrip(" ,;:") + "…"
     return t.rstrip(".")
 
 
@@ -503,8 +503,10 @@ def build_what_to_watch(
 
     def _watch_item(entry: dict, idx: int, actions: tuple) -> dict:
         action = actions[idx % len(actions)]
+        reason = str(entry["reason"]).rstrip()
+        sep = " " if reason.endswith(("…", ".", "!", "?")) else ". "
         return {
-            "catalyst": f"{entry['ticker']}: {entry['reason']}. {action}",
+            "catalyst": f"{entry['ticker']}: {reason}{sep}{action}",
             "impacted_positions": [entry["ticker"]],
             "urgency": entry["urgency"],
         }
