@@ -443,6 +443,19 @@ _WATCH_POSITIVE_ACTIONS = (
 )
 
 
+_NEGATIVE_CUES = (
+    "under pressure", "pulled lower", "pulled down", "dragged", "selloff",
+    "sell-off", "slid", "sliding", "slipping", "slipped", "falling", " fell ",
+    "declin", "headwind", "weaken", "weighed", "weighing", "slump", "tumbl",
+    "sank", "sinking", "plunge", "pressured", "downward", "losing ground",
+)
+
+
+def _looks_negative(reason: str) -> bool:
+    low = " " + str(reason or "").lower() + " "
+    return any(cue in low for cue in _NEGATIVE_CUES)
+
+
 def build_what_to_watch(
     supabase,
     positions: list[dict],
@@ -490,7 +503,14 @@ def build_what_to_watch(
         grade_up = graded and _grade_ord(grade) > _grade_ord(prev)
         if not reason:
             continue
-        if rel == "contradicts" or grade_down:
+        is_concern = rel == "contradicts" or grade_down
+        is_positive = rel == "supports" or grade_up
+        # A 'supports' tag paired with clearly bearish wording is an LLM mislabel.
+        # Don't hand the user a "trim into strength" line over a decline; treat it
+        # as something to watch instead. A real grade upgrade overrides the prose.
+        if is_positive and not is_concern and not grade_up and _looks_negative(reason):
+            is_positive, is_concern = False, True
+        if is_concern:
             concerning.append(
                 {
                     "ticker": ticker,
@@ -499,7 +519,7 @@ def build_what_to_watch(
                     "_rank": 0 if grade_down else 1,
                 }
             )
-        elif rel == "supports" or grade_up:
+        elif is_positive:
             positive.append(
                 {
                     "ticker": ticker,
