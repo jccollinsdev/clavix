@@ -222,7 +222,7 @@ final class OnboardingViewModel: ObservableObject {
         case .shares:
             return Double(entry.shares.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
         case .amount:
-            return Double(entry.amount.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+            return Self.dollarValue(entry.amount)
         }
     }
 
@@ -278,8 +278,33 @@ final class OnboardingViewModel: ObservableObject {
     func updateAmount(_ id: UUID, _ value: String) {
         guard let idx = entries.firstIndex(where: { $0.id == id }) else { return }
         errorMessage = nil
-        entries[idx].amount = value
+        entries[idx].amount = Self.formatDollarInput(value)
     }
+
+    /// Sanitize raw keystrokes into a grouped whole-dollar string, e.g.
+    /// "1000000" -> "1,000,000". Strips every non-digit (so a malformed entry
+    /// like "300.00.0" can never form) and caps at 7 digits ($9,999,999), since
+    /// no single holding in our ICP exceeds that.
+    static func formatDollarInput(_ raw: String) -> String {
+        let digits = raw.filter(\.isNumber)
+        let capped = String(digits.prefix(7))
+        guard let value = Int(capped), value > 0 else { return "" }
+        return dollarGroupingFormatter.string(from: NSNumber(value: value)) ?? capped
+    }
+
+    /// Parse a grouped dollar string back to its numeric value.
+    static func dollarValue(_ formatted: String) -> Double {
+        Double(formatted.filter(\.isNumber)) ?? 0
+    }
+
+    private static let dollarGroupingFormatter: NumberFormatter = {
+        let f = NumberFormatter()
+        f.numberStyle = .decimal
+        f.usesGroupingSeparator = true
+        f.groupingSeparator = ","
+        f.maximumFractionDigits = 0
+        return f
+    }()
 
     func setEntryMode(_ mode: OnboardingEntryMode) {
         guard entryMode != mode else { return }
@@ -475,7 +500,7 @@ final class OnboardingViewModel: ObservableObject {
                     shares = raw
                     purchasePrice = 0
                 case .amount:
-                    let dollars = Double(entry.amount.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+                    let dollars = OnboardingViewModel.dollarValue(entry.amount)
                     guard dollars > 0, let price = result.resolvedPrice, price > 0 else { continue }
                     shares = dollars / price
                     purchasePrice = price

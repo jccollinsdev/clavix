@@ -388,6 +388,7 @@ private struct WelcomeHoldingRow: View {
     @ObservedObject var viewModel: OnboardingViewModel
     let entry: AhaPortfolioEntry
     let index: Int
+    @FocusState private var amountFocused: Bool
 
     var body: some View {
         HStack(spacing: 10) {
@@ -407,7 +408,11 @@ private struct WelcomeHoldingRow: View {
             .keyboardType(.asciiCapable)
 
             if viewModel.entryMode == .amount {
+                // Currency field: the "$" hugs the number and the pair is
+                // right-aligned, sized for the $9,999,999 max so the sign sits
+                // beside the value instead of stranded at the far left.
                 HStack(spacing: 1) {
+                    Spacer(minLength: 0)
                     Text("$")
                         .font(ClavisTypography.mono(15))
                         .foregroundColor(.textSecondary)
@@ -417,10 +422,14 @@ private struct WelcomeHoldingRow: View {
                     ), prompt: Text("0").foregroundColor(.textSecondary))
                     .font(ClavisTypography.mono(15))
                     .foregroundColor(.textPrimary)
-                    .keyboardType(.decimalPad)
+                    .keyboardType(.numberPad)
                     .multilineTextAlignment(.trailing)
+                    .fixedSize()
+                    .focused($amountFocused)
                 }
-                .frame(width: 86)
+                .frame(width: 104)
+                .contentShape(Rectangle())
+                .onTapGesture { amountFocused = true }
             } else {
                 TextField("0", text: Binding(
                     get: { entry.shares },
