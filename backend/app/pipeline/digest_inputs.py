@@ -393,17 +393,20 @@ async def build_position_impacts(
     return impacts
 
 
-def _short_reason(text: str, limit: int = 120) -> str:
+def _short_reason(text: str, limit: int = 300) -> str:
     t = " ".join(str(text or "").split())
-    # First sentence, but skip ". " before index 30 so abbreviations like
-    # "U.S." or "Inc." don't truncate the reason to a fragment.
+    # Use the COMPLETE first sentence (skip ". " before index 30 so abbreviations
+    # like "U.S." or "Inc." don't cut it to a fragment). We deliberately do not
+    # cap to a small width any more, so the reason never ends mid-thought; the
+    # generous limit below only guards against a pathological run-on with no
+    # sentence break at all.
     start = 0
     while True:
         idx = t.find(". ", start)
         if idx == -1:
             break
         if idx >= 30:
-            t = t[:idx]
+            t = t[: idx + 1]
             break
         start = idx + 2
     if len(t) > limit:
@@ -412,15 +415,19 @@ def _short_reason(text: str, limit: int = 120) -> str:
 
 
 # Varied closing actions so the watch list never reads like the same robotic
-# line repeated. Picked by position index, so the items in one digest never
-# repeat the same phrasing.
+# line. Selected by (day-of-year + position index), so the items in one digest
+# never repeat a phrasing and the wording also rotates day to day.
 _WATCH_CONCERN_ACTIONS = (
     "Worth a closer look to decide whether your thesis still holds.",
     "Take a moment with the latest numbers before you add or trim.",
-    "Reassess whether it still fits the risk you want to carry.",
-    "Check what is driving this and decide if the setup has changed.",
-    "Give it a second look and weigh whether to keep holding.",
-    "A name to keep honest until the picture gets clearer.",
+    "Reassess whether it still fits the risk you are willing to carry.",
+    "Worth understanding what is really driving this before your next move.",
+    "Give it a second read and weigh whether you still want to hold.",
+    "One to keep honest until the picture gets a little clearer.",
+    "Sit with the details and decide if anything has actually changed.",
+    "Might be worth revisiting your conviction here while it is fresh.",
+    "Keep an eye on this and decide if the story still works for you.",
+    "Worth a quick gut-check on whether the setup has shifted.",
 )
 _WATCH_POSITIVE_ACTIONS = (
     "If you are sitting on gains, consider trimming into the strength.",
@@ -428,7 +435,11 @@ _WATCH_POSITIVE_ACTIONS = (
     "Worth reviewing whether to lock in part of the upside.",
     "Consider whether to right-size the position after the move.",
     "With the move in your favor, weigh trimming versus holding on.",
-    "Check whether you would rather bank some gains or stay the course.",
+    "Strength like this is a good prompt to check your sizing.",
+    "Worth deciding whether to ride it or take a little off the table.",
+    "A chance to revisit your target and bank some of the win.",
+    "Momentum is on your side, so think about whether to take some off.",
+    "Nice run here; decide whether to protect it or let it work.",
 )
 
 
@@ -501,8 +512,11 @@ def build_what_to_watch(
     concerning.sort(key=lambda x: x.get("_rank", 1))
     positive.sort(key=lambda x: x.get("_rank", 1))
 
+    # Rotate the phrasing day to day; +idx keeps items within one digest distinct.
+    day_offset = datetime.now(timezone.utc).timetuple().tm_yday
+
     def _watch_item(entry: dict, idx: int, actions: tuple) -> dict:
-        action = actions[idx % len(actions)]
+        action = actions[(day_offset + idx) % len(actions)]
         reason = str(entry["reason"]).rstrip()
         sep = " " if reason.endswith(("…", ".", "!", "?")) else ". "
         return {
