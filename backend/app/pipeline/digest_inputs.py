@@ -443,19 +443,19 @@ _WATCH_POSITIVE_ACTIONS = (
 )
 
 
-# Cues that the TICKER ITSELF is under negative pressure. Deliberately excludes
-# context-dependent macro words ("shortage", "squeeze", "crisis") that can be the
-# CAUSE of an up move for a defensive name (e.g. a chip shortage fueling a
-# rotation INTO pharma), which would wrongly flip a genuinely positive holding.
+# HIGH-PRECISION cues that THIS company is in trouble, used only to override a
+# clearly-wrong "supports" tag. Deliberately narrow: it excludes macro-condition
+# words (selloff, shortage, headwind, decline) because those routinely describe
+# the BACKDROP that lifts a defensive name (e.g. "a haven from the tech selloff"),
+# and flipping on them wrongly turns a genuinely positive holding negative.
 _NEGATIVE_CUES = (
-    "under pressure", "pulled lower", "pulled down", "dragged down", "dragging",
-    "selloff", "sell-off", "slid", "sliding", "slipping", "slipped", "falling",
-    " fell ", "declin", "headwind", "weaken", "weighed", "weighing", "slump",
-    "tumbl", "sank", "sinking", "plunge", "pressured", "downward",
-    # competitive / personnel losses the model often mislabels as "supports"
-    "talent drain", "brain drain", "attrition", "exodus", "loss of",
-    "stepping down", "resign", "departure", "defection", "poach",
-    "losing ground", "losing share", "losing its",
+    # the ticker itself moving down (strong, unambiguous)
+    "under pressure", "pulled lower", "pulled down", "dragged down",
+    "tumbl", "plunge", "slump", "sank", "sinking", "cratered", "nosediv",
+    # competitive / personnel losses (always bad for the named company)
+    "talent drain", "brain drain", "attrition", "exodus", "defection",
+    "stepping down", "resign", "departure", "poach", "losing talent",
+    "losing key", "losing senior",
 )
 
 
