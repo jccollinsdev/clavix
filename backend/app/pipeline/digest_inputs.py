@@ -531,7 +531,11 @@ def build_event_watchlist_alerts(
     norm = sorted({_normalize_ticker(t) for t in tickers if _normalize_ticker(t)})
     if not norm or supabase is None:
         return []
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).date()
     try:
+        # Constrain to the window IN the query and scale the row budget by the
+        # number of tickers, so a chatty name (lots of recent JNJ items) can't
+        # crowd quieter holdings out of the candidate set entirely.
         rows = (
             supabase.table("shared_ticker_events")
             .select(
@@ -539,8 +543,9 @@ def build_event_watchlist_alerts(
                 "risk_direction,published_at,significance"
             )
             .in_("ticker", norm)
+            .gte("published_at", cutoff.isoformat())
             .order("published_at", desc=True)
-            .limit(max(limit * 4, 24))
+            .limit(max(len(norm) * 15, 60))
             .execute()
             .data
             or []
@@ -548,8 +553,6 @@ def build_event_watchlist_alerts(
     except Exception:
         logger.exception("watchlist alerts read failed")
         return []
-
-    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).date()
 
     # Pick the single most meaningful recent MATERIAL event per ticker. A clear
     # direction outranks a major-but-neutral event; newer breaks ties.
