@@ -417,7 +417,7 @@ private struct WelcomeHoldingRow: View {
                         .font(ClavisTypography.mono(15))
                         .foregroundColor(.textSecondary)
                     TextField("0", text: Binding(
-                        get: { entry.amount },
+                        get: { viewModel.amountText(for: entry.id) },
                         set: { viewModel.updateAmount(entry.id, $0) }
                     ), prompt: Text("0").foregroundColor(.textSecondary))
                     .font(ClavisTypography.mono(15))
@@ -432,12 +432,12 @@ private struct WelcomeHoldingRow: View {
                 .onTapGesture { amountFocused = true }
             } else {
                 TextField("0", text: Binding(
-                    get: { entry.shares },
+                    get: { viewModel.sharesText(for: entry.id) },
                     set: { viewModel.updateShares(entry.id, $0) }
                 ), prompt: Text("0").foregroundColor(.textSecondary))
                 .font(ClavisTypography.mono(15))
                 .foregroundColor(.textPrimary)
-                .keyboardType(.decimalPad)
+                .keyboardType(.numberPad)
                 .multilineTextAlignment(.trailing)
                 .frame(width: 62)
             }
@@ -1341,22 +1341,31 @@ private struct AhaRevealScreen: View {
 
     // MARK: Grade meaning
 
+    // Canonical quality ladder — must match ClavisDesignSystem.gradeBandLabel and the
+    // backend _RISK_LEVELS map so the same grade never reads two different ways.
     private func gradeTier(_ grade: String) -> String {
         switch grade {
-        case "AAA", "AA": return "Very low risk"
-        case "A":         return "Low risk"
-        case "BBB":       return "Moderate risk"
-        case "BB":        return "Elevated risk"
-        case "B":         return "High risk"
-        default:          return "Very high risk"
+        case "A+": return "Exceptional"
+        case "A":  return "Excellent"
+        case "A-": return "Very Strong"
+        case "B+": return "Strong"
+        case "B":  return "Solid"
+        case "B-": return "Above Average"
+        case "C+": return "Average"
+        case "C":  return "Below Average"
+        case "C-": return "Watch"
+        case "D+": return "Elevated Risk"
+        case "D":  return "High Risk"
+        case "D-": return "Severe Risk"
+        default:   return "Distressed"
         }
     }
 
     private func gradeTierColor(_ grade: String) -> Color {
         switch grade {
-        case "AAA", "AA", "A": return .good
-        case "BBB", "BB":      return .warn
-        default:               return .bad
+        case "A+", "A", "A-", "B+", "B": return .good
+        case "B-", "C+", "C", "C-":      return .warn
+        default:                         return .bad
         }
     }
 
@@ -1372,12 +1381,12 @@ private struct AhaRevealScreen: View {
         }
         let shape: String
         switch reveal.grade {
-        case "AAA", "AA": shape = "A very resilient, well-balanced portfolio"
-        case "A":         shape = "A resilient, balanced portfolio"
-        case "BBB":       shape = "A balanced portfolio that leans steady"
-        case "BB":        shape = "A balanced but exposed portfolio"
-        case "B":         shape = "A higher-risk portfolio"
-        default:          shape = "A high-risk portfolio"
+        case "A+", "A":  shape = "A very resilient, well-balanced portfolio"
+        case "A-", "B+": shape = "A resilient, balanced portfolio"
+        case "B":        shape = "A balanced portfolio that leans steady"
+        case "B-", "C+": shape = "A balanced but exposed portfolio"
+        case "C", "C-":  shape = "A higher-risk portfolio"
+        default:         shape = "A high-risk portfolio"
         }
         return "\(shape) with \(risks)."
     }

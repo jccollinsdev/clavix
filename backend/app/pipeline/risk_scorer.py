@@ -46,13 +46,13 @@ Scoring criteria:
 How to write "reasoning" — the investor-facing rationale:
 FORMAT: Header line + max 2 driver lines. No paragraphs. No hedging.
 Example:
-BBB — Stable, Watch Points (↑ worsening)
+C+ — Average (↑ worsening)
 Earnings miss on revenue weakness
 Sector rotation into defensives
 
 Rules:
 1. First line: [GRADE] — [Risk Level] ([arrow direction])
-   - Risk Level per the bond-rating scale: AAA=Treasury-Grade, AA=Investment-Grade Safe, A=Solid, BBB=Stable Watch Points, BB=Mixed Signals, B=Elevated Risk, CCC=High Risk, CC=Severe Risk, C=Distressed, F=Failure Mode
+   - Risk Level per the academic scale: A+=Exceptional, A=Excellent, A-=Very Strong, B+=Strong, B=Solid, B-=Above Average, C+=Average, C=Below Average, C-=Watch, D+=Elevated Risk, D=High Risk, D-=Severe Risk, F=Distressed
    - Arrow: ↓ improving if score improved >2pts, ↑ worsening if score dropped >2pts, → stable otherwise
 2. Next 1-2 lines: specific, causal risk drivers. Each driver ≤60 chars.
 3. Each driver MUST name a concrete event, metric change, or sector theme:
@@ -79,7 +79,7 @@ How to write "dimension_rationale" — one short phrase per dimension:
 Forbidden language: dimension scores, "the model", "the score reflects", "based on the dimension", "data across N sources", internal evidence labels, implementation jargon. Avoid returning 50 for every dimension unless the evidence is genuinely neutral.
 
 Respond in this exact JSON format (no markdown, no explanation):
-{{"financial_health": 0-100, "news_sentiment": 0-100, "macro_exposure": 0-100, "sector_exposure": 0-100, "volatility": 0-100, "grade": "AAA|AA|A|BBB|BB|B|CCC|CC|C|F", "reasoning": "concise risk rationale per rules above", "dimension_rationale": {{"financial_health": "...", "news_sentiment": "...", "macro_exposure": "...", "sector_exposure": "...", "volatility": "..."}}}}"""
+{{"financial_health": 0-100, "news_sentiment": 0-100, "macro_exposure": 0-100, "sector_exposure": 0-100, "volatility": 0-100, "grade": "A+|A|A-|B+|B|B-|C+|C|C-|D+|D|D-|F", "reasoning": "concise risk rationale per rules above", "dimension_rationale": {{"financial_health": "...", "news_sentiment": "...", "macro_exposure": "...", "sector_exposure": "...", "volatility": "..."}}}}"""
 
 DIMENSION_KEYS = V2_DIMENSION_KEYS
 
@@ -104,13 +104,13 @@ Scoring criteria for ETFs:
 How to write "reasoning" — credit-rating format:
 FORMAT: Header line + max 2 driver lines. No paragraphs.
 Example:
-A — Solid (→ stable)
+B — Solid (→ stable)
 Broad diversification limits single-name risk
 Rate sensitivity moderate for this duration
 
 Rules:
 1. First line: [GRADE] — [Risk Level] ([arrow])
-   - Risk Level: AAA=Treasury-Grade, AA=Investment-Grade Safe, A=Solid, BBB=Stable Watch Points, BB=Mixed Signals, B=Elevated Risk, CCC=High Risk
+   - Risk Level per the academic scale: A+=Exceptional, A=Excellent, A-=Very Strong, B+=Strong, B=Solid, B-=Above Average, C+=Average, C=Below Average, C-=Watch, D+=Elevated Risk, D=High Risk, D-=Severe Risk, F=Distressed
    - Arrow: ↓ improving, ↑ worsening, → stable
 2. Next 1-2 lines: specific, causal fund-level risk drivers. Each ≤60 chars.
 3. No individual stock names. No "may", "could", "suggests", "sentiment", "thesis".
@@ -119,7 +119,7 @@ Rules:
 Write like a credit rating bulletin. Direct, specific, concrete.
 
 Respond in this exact JSON format (no markdown, no explanation):
-{{"financial_health": 0-100, "news_sentiment": 0-100, "macro_exposure": 0-100, "sector_exposure": 0-100, "volatility": 0-100, "grade": "AAA|AA|A|BBB|BB|B|CCC|CC|C|F", "reasoning": "concise risk rationale per rules above", "dimension_rationale": {{"financial_health": "Holdings quality and fund composition risk", "news_sentiment": "Fund flow and category rotation signal", "macro_exposure": "Rate and cycle sensitivity", "sector_exposure": "Sector/asset class breadth and strength", "volatility": "Realized volatility and drawdown profile"}}}}"""
+{{"financial_health": 0-100, "news_sentiment": 0-100, "macro_exposure": 0-100, "sector_exposure": 0-100, "volatility": 0-100, "grade": "A+|A|A-|B+|B|B-|C+|C|C-|D+|D|D-|F", "reasoning": "concise risk rationale per rules above", "dimension_rationale": {{"financial_health": "Holdings quality and fund composition risk", "news_sentiment": "Fund flow and category rotation signal", "macro_exposure": "Rate and cycle sensitivity", "sector_exposure": "Sector/asset class breadth and strength", "volatility": "Realized volatility and drawdown profile"}}}}"""
 
 # Display labels for ETF dimensions (overrides generic stock labels in iOS)
 ETF_DIMENSION_LABELS = {
@@ -730,7 +730,10 @@ def _score_macro_exposure(metadata: dict) -> int:
             )
             sensitivity_score = 100.0 * (1.0 - min(1.0, sensitivity / 5.0))
         if sensitivity_score is not None:
-            return clamp_score(round(sensitivity_score), 0)
+            # Floor at 30: even a maximally market-sensitive name is not "zero" on macro.
+            # A 0 here (high-beta semis: huge SPY coefficient -> sensitivity>=5 -> score 0)
+            # double-counts beta with the volatility dimension and cratered fin-strong names.
+            return clamp_score(round(max(sensitivity_score, 30.0)), 0)
 
     beta = abs(_safe_float(metadata.get("beta"), 0.0))
     macro_sens = str(metadata.get("macro_sensitivity") or "moderate").lower()
@@ -738,10 +741,13 @@ def _score_macro_exposure(metadata: dict) -> int:
     if beta > 0:
         # Market beta is the macro-sensitivity proxy when a real multi-factor regression
         # is unavailable (free data tier has no credit-spread / real DXY / real 10Y). Map
-        # it CONTINUOUSLY so the dimension discriminates smoothly instead of collapsing to
-        # a handful of buckets: beta 0.5->72, 1.0->63, 1.5->54, 2.0->45, 2.5->36. Lower
-        # beta == less macro-sensitive == more resilient == higher score.
-        score = 81.0 - (beta * 18.0)
+        # it CONTINUOUSLY so the dimension discriminates smoothly: beta 0.5->72, 1.0->63,
+        # 1.5->54, 2.0->45. Lower beta == less macro-sensitive == more resilient.
+        # CAP the penalty at beta 2.0 (floor 45): a genuinely high-beta cyclical (semis run
+        # beta 3-5) must not be floored to ~0 on a single proxy — beta cyclicality is already
+        # reflected in the volatility dimension, so an unbounded penalty here double-counts it
+        # and unfairly cratered financially-strong names (MU/AVGO/NVDA) to an F.
+        score = 81.0 - (min(beta, 2.0) * 18.0)
     else:
         score = 65.0
 
@@ -752,7 +758,8 @@ def _score_macro_exposure(metadata: dict) -> int:
     elif macro_sens == "high":
         score -= 5
 
-    return clamp_score(round(score), 0)
+    # Floor at 30 (same rationale as the regression path): macro must not crater to 0.
+    return clamp_score(round(max(score, 30.0)), 0)
 
 
 def _macro_rationale(metadata: dict, score: int) -> str:
@@ -787,42 +794,57 @@ def _macro_rationale(metadata: dict, score: int) -> str:
 def _score_sector_exposure(metadata: dict) -> int:
     # Prefer real computed inputs (sector_beta, momentum, breadth from Polygon bars)
     sector_inputs = metadata.get("sector_inputs") or {}
-    sector_beta = _safe_float(sector_inputs.get("sector_beta"))
-    sector_momentum = _safe_float(sector_inputs.get("sector_momentum_30d"))
-    sector_breadth = _safe_float(sector_inputs.get("sector_breadth"))
 
-    if sector_beta is not None or sector_momentum is not None:
-        # Real data path: use measured sector dynamics
-        score = 65.0
-        # High sector beta → more exposure to sector moves → lower score (more risk)
-        if sector_beta is not None:
-            score -= (sector_beta - 1.0) * 8.0
-        # Positive momentum → sector supporting → slightly better
-        if sector_momentum is not None:
-            score += max(-10.0, min(10.0, sector_momentum * 80.0))
-        # Broader breadth → more supportive → slightly better
-        if sector_breadth is not None:
-            score += (sector_breadth - 0.5) * 10.0
+    # Asset-class fallback for diversified/bond/commodity funds (no GICS sector tape):
+    # a precomputed, honest score (not a NULL). See _build_sector_exposure_inputs.
+    # NOTE: read raw values and test None BEFORE coercing — `_safe_float` defaults to
+    # 0.0 (never None), so coercing first would make every "missing" key look present.
+    raw_fallback = sector_inputs.get("fallback_score")
+    if raw_fallback is not None:
+        return clamp_score(round(_safe_float(raw_fallback)), 0)
+
+    raw_beta = sector_inputs.get("sector_beta")
+    raw_momentum = sector_inputs.get("sector_momentum_30d")
+    raw_breadth = sector_inputs.get("sector_breadth")
+    raw_rel = sector_inputs.get("relative_strength_30d")
+
+    if raw_beta is not None or raw_momentum is not None or raw_rel is not None:
+        # Real data path. De-inflated baseline (was 65) + per-ticker terms so names in
+        # the same sector no longer collapse to one shared value.
+        score = 60.0
+        # Per-ticker sector beta (now real & date-aligned, WS-A): higher beta = more
+        # cyclical sector exposure = more risk. Steeper than the old *8.
+        if raw_beta is not None:
+            score -= (_safe_float(raw_beta) - 1.0) * 14.0
+        # Per-ticker relative strength vs its sector: outperformance = resilience.
+        if raw_rel is not None:
+            score += max(-14.0, min(14.0, _safe_float(raw_rel) * 70.0))
+        # Shared sector momentum: SMALL weight (identical across a sector).
+        if raw_momentum is not None:
+            score += max(-5.0, min(5.0, _safe_float(raw_momentum) * 30.0))
+        # Shared breadth: small weight.
+        if raw_breadth is not None:
+            score += (_safe_float(raw_breadth) - 0.5) * 8.0
         return clamp_score(round(score), 0)
 
-    # Fallback: heuristic based on sector class + market cap (unchanged legacy path)
+    # Fallback: heuristic based on sector class + market cap (de-inflated baseline).
     sector = str(metadata.get("sector") or "").strip().lower()
     market_cap = _safe_float(metadata.get("market_cap"))
 
-    score = 65.0
+    score = 60.0
 
     defensive = {"healthcare", "consumer staples", "utilities"}
     cyclical = {"financials", "energy", "real estate", "realestate", "materials", "industrials"}
 
     if sector in defensive:
-        score += 5
+        score += 6
     elif sector in cyclical:
-        score -= 4
+        score -= 6
 
     if market_cap and market_cap >= 200e9:
-        score += 3
+        score += 4
     elif market_cap and market_cap < 2e9:
-        score -= 4
+        score -= 6
 
     return clamp_score(round(score), 0)
 
@@ -842,15 +864,18 @@ def _score_volatility(metadata: dict, worsening_major: int, improving_major: int
     max_drawdown = _safe_float(vol_inputs.get("max_drawdown_252d"))
 
     if realized_vol_30d is not None or beta_to_spy is not None:
-        # Real data path
-        # Base starts at 78; realized vol and beta pull it down
-        # Calibration: SPY rv30~0.12 → score≈84; TSLA rv30~0.80 → score≈42
-        score = 78.0
+        # Real data path. De-inflated baseline (was 78 → avg score 81 hugged the ceiling);
+        # realized vol and the now-real beta_to_spy (WS-A/WS-C) pull it down.
+        # Calibration: SPY rv30~0.12,beta~1.0 → ~67; TSLA rv30~0.55,beta~1.7 → ~38
+        score = 62.0
         if realized_vol_30d is not None:
-            # 0.20 (20% ann vol) = neutral; each 1% above costs ~0.6 pts
-            score -= (realized_vol_30d - 0.20) * 60.0
-        if beta_to_spy is not None:
-            score -= min(18.0, max(0.0, (abs(beta_to_spy) - 1.0) * 10.0))
+            # 0.20 (20% ann vol) = neutral; gentler slope (was 60) so an ultra-volatile
+            # but financially-sound name is not driven to ~0.
+            score -= (realized_vol_30d - 0.20) * 50.0
+        # NOTE: beta_to_spy intentionally NOT penalized here. Systematic-beta risk is already
+        # captured by the macro dimension; penalizing it again in volatility double-counted it
+        # (macro/vol correlated ~0.80) and floored high-beta semis to F. Volatility is now
+        # realized-vol + drawdown driven (idiosyncratic), de-correlated from macro.
         if max_drawdown is not None:
             # max_drawdown is negative (e.g. -0.40 = 40% peak-to-trough)
             # Larger drawdown = lower score; each 10% drawdown costs 3 pts
@@ -1149,22 +1174,26 @@ def score_position_structural(
     weighted_news = 0.0
     total_weight = 0.0
     article_count = len(recent_events)
+    scorable_count = 0
     for e in recent_events:
         recency_w = _safe_float(e.get("recency_weight"), 1.0)
         source_w = _safe_float(e.get("source_weight"), 1.0)
-        sent = _safe_float(e.get("sentiment_score") or e.get("confidence"))
-        if sent is not None:
+        # WS-D: ONLY real sentiment scores count. Do not fall back to event confidence
+        # (a different concept) and do not manufacture a 50 for unscorable articles —
+        # both reintroduce the neutral-50 pileup this fix removes. Read the RAW value and
+        # test None BEFORE coercing: _safe_float(None) returns 0.0, which would otherwise
+        # count every unscored article as a sentiment of 0 and collapse the dimension.
+        raw_sent = e.get("sentiment_score")
+        if raw_sent is not None:
+            sent = _safe_float(raw_sent)
             w = recency_w * source_w
             weighted_news += sent * w
             total_weight += w
-    if total_weight > 0 and article_count >= 3:
+            scorable_count += 1
+    if total_weight > 0 and scorable_count >= 3:
         news = clamp_score(round(weighted_news / total_weight), 0)
-    elif article_count >= 3:
-        news = clamp_score(round(50 + sum(
-            _risk_direction_value(e.get("risk_direction")) * 7
-            for e in recent_events
-        )), 0)
     else:
+        # Not enough genuinely-scorable articles → honest limited-data NULL, never 50.
         news = None
 
     normalized = {
@@ -1183,13 +1212,20 @@ def score_position_structural(
             normalized,
             weights=_dimension_confidence_weights(ticker_metadata, normalized, article_count),
         )
-    total = round(
-        smooth_score_change(
-            new_score=weighted,
-            previous_score=previous_safety_score,
-        ),
-        1,
-    )
+    # WS-E: on the one-time re-spread run, bypass the daily-move cap so the freshly
+    # stretched composite is written in full instead of being throttled back toward the
+    # old compressed score (the cap would otherwise limit each name to ~+/-cap per day,
+    # collapsing the new spread). Normal runs keep the cap for day-over-day stability.
+    if os.getenv("COMPOSITE_RESPREAD_BYPASS_SMOOTHING", "").lower() in ("1", "true", "yes"):
+        total = round(weighted, 1)
+    else:
+        total = round(
+            smooth_score_change(
+                new_score=weighted,
+                previous_score=previous_safety_score,
+            ),
+            1,
+        )
     grade = score_to_grade(total)
 
     source_count = len(recent_events)
@@ -1233,7 +1269,9 @@ def score_position_structural(
         "structural_base_score": total,
         "macro_adjustment": 0.0,
         "event_adjustment": 0.0,
-        "confidence": 0.75,
+        # WS-G: the risk-score `confidence` was a hard-coded 0.75 with no meaning. A
+        # facts product has no place for a fabricated confidence figure, so it is gone.
+        # (Per-article and portfolio confidence are different concepts and remain.)
         "grade": grade,
         "grade_direction": grade_direction(total, previous_safety_score),
         "score_delta": int(round(total - previous_safety_score)) if previous_safety_score is not None else None,
@@ -1325,7 +1363,7 @@ async def score_positions_batch(
         )
         evidence_block = "\n\n".join(evidence_texts)
         score_example = ", ".join(
-            f'"{ticker}": {{"financial_health": 50, "news_sentiment": 50, "macro_exposure": 50, "sector_exposure": 50, "volatility": 50, "grade": "BBB", "reasoning": "...", "dimension_rationale": {{"financial_health": "...", "news_sentiment": "...", "macro_exposure": "...", "sector_exposure": "...", "volatility": "..."}}, "evidence_summary": "..."}}'
+            f'"{ticker}": {{"financial_health": 50, "news_sentiment": 50, "macro_exposure": 50, "sector_exposure": 50, "volatility": 50, "grade": "C-", "reasoning": "...", "dimension_rationale": {{"financial_health": "...", "news_sentiment": "...", "macro_exposure": "...", "sector_exposure": "...", "volatility": "..."}}, "evidence_summary": "..."}}'
             for ticker in tickers
         )
         prompt = f"""Score each position across 5 dimensions (0-100) and assign a grade.
@@ -1345,13 +1383,13 @@ Return EXACTLY this JSON format (no markdown, no explanation, no thinking):
         - macro_exposure: less macro-sensitive=high (70-100), more macro-sensitive=low (0-40)
         - sector_exposure: strong sector with broad participation=high (70-100), weak/concentrated sector=low (0-40)
         - volatility: low/stable/falling volatility=high (70-100), high/rising volatility=low (0-40)
-        - Grade bands: AAA (90-100), AA (80-89), A (70-79), BBB (60-69), BB (50-59), B (40-49), CCC (30-39), CC (20-29), C (10-19), F (0-9)
+        - Grade bands: A+ (90-100), A (85-89), A- (80-84), B+ (75-79), B (70-74), B- (65-69), C+ (60-64), C (55-59), C- (50-54), D+ (45-49), D (40-44), D- (35-39), F (0-34)
 
         How to write "reasoning" — strict credit-rating format:
         FORMAT: [GRADE] — [Risk Level] ([arrow]) + max 2 driver lines. Each driver ≤60 chars.
         Arrows: ↓ improving if score improved, ↑ worsening if score dropped, → stable
         Example:
-        BBB — Stable, Watch Points (↑ worsening)
+        C+ — Average (↑ worsening)
         Earnings miss on revenue weakness
         Sector rotation into defensives
 
