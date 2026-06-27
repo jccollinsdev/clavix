@@ -500,15 +500,55 @@ def _event_is_material(row: dict) -> bool:
     return direction in ("improving", "worsening")
 
 
+_SOURCE_TAILS = (
+    "Yahoo Finance", "Bloomberg.com", "Bloomberg", "Reuters", "Seeking Alpha",
+    "The Motley Fool", "Motley Fool", "MarketWatch", "Barron's", "Benzinga",
+    "Investing.com", "Insider Monkey", "GuruFocus", "TipRanks", "Zacks",
+    "Business Insider", "The Wall Street Journal", "CNBC", "Forbes", "Yahoo",
+)
+
+
+def _strip_source_tail(text: str) -> str:
+    """Drop a trailing outlet attribution ('... to Buy Yahoo Finance')."""
+    t = str(text or "").strip()
+    changed = True
+    while changed:
+        changed = False
+        for s in _SOURCE_TAILS:
+            if t.lower().endswith(s.lower()):
+                t = t[: len(t) - len(s)].rstrip(" -–—|:·.")
+                changed = True
+    return t
+
+
+def _strip_boilerplate(text: str) -> str:
+    """Drop the analyst-template tail ('This is direct company news ...')."""
+    t = str(text or "").strip()
+    idx = t.lower().find("this is direct")
+    return t[:idx].rstrip() if idx > 20 else t
+
+
+def _leads_with_ticker(body: str, ticker: str) -> bool:
+    """True only when the line opens with the ticker as a whole word, so 'GOOG'
+    is not considered already-present in 'Google ...'."""
+    b, t = body.upper(), ticker.upper()
+    if not b.startswith(t):
+        return False
+    rest = b[len(t):]
+    return rest == "" or not rest[0].isalpha()
+
+
 def _event_alert_text(row: dict, ticker: str) -> str | None:
-    """Statement + interpretation: 'what happened. what it means.'"""
+    """Statement + interpretation: 'TICKER: what happened. what it means.'"""
     happened = _trim(
-        str(row.get("what_happened") or row.get("tldr") or row.get("title") or "").strip(),
+        _strip_source_tail(
+            str(row.get("what_happened") or row.get("tldr") or row.get("title") or "").strip()
+        ),
         150,
     )
     if not happened:
         return None
-    means = _trim(str(row.get("what_it_means") or "").strip(), 150)
+    means = _trim(_strip_boilerplate(str(row.get("what_it_means") or "").strip()), 150)
     if means and means.lower().rstrip(".").strip() in happened.lower():
         means = ""  # don't echo the headline back as its own interpretation
     body = happened
@@ -516,7 +556,7 @@ def _event_alert_text(row: dict, ticker: str) -> str | None:
         if body and body[-1] not in ".!?":
             body += "."
         body = f"{body} {means}"
-    if not body.upper().startswith(ticker.upper()):
+    if not _leads_with_ticker(body, ticker):
         body = f"{ticker}: {body}"
     if body and body[-1] not in ".!?":
         body += "."
