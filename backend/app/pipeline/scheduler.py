@@ -3525,10 +3525,12 @@ async def execute_analysis_run(
             try:
                 from .digest_inputs import (
                     build_event_watchlist_alerts,
+                    build_grade_change_alerts,
                     build_position_impacts,
                     build_sector_by_ticker,
                     build_sector_context,
                     build_what_to_watch,
+                    merge_watchlist_alerts,
                 )
                 from ..services.earnings_calendar import fetch_upcoming
 
@@ -3543,8 +3545,9 @@ async def execute_analysis_run(
                 )
                 if isinstance(macro_context, dict):
                     macro_context["position_impacts"] = position_impacts
-                digest_watchlist_alerts = build_event_watchlist_alerts(
-                    supabase, digest_tickers
+                digest_watchlist_alerts = merge_watchlist_alerts(
+                    build_grade_change_alerts(position_payloads),
+                    build_event_watchlist_alerts(supabase, digest_tickers),
                 )
                 digest_earnings = fetch_upcoming(supabase, digest_tickers)
                 digest_what_to_watch = build_what_to_watch(

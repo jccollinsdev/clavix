@@ -491,17 +491,53 @@ def build_what_to_watch(
     return items[:6]
 
 
+def _event_is_material(row: dict) -> bool:
+    """An alert is a thing that HAPPENED and matters: a clear directional move
+    or a major event. Mundane neutral/minor filings (8-Ks, 13F nibbles, generic
+    valuation blog posts) are noise and do not earn a watchlist alert."""
+    direction = str(row.get("risk_direction") or "").strip().lower()
+    sig = str(row.get("significance") or "").strip().lower()
+    return direction in ("improving", "worsening") or sig in ("major", "high")
+
+
+def _event_alert_text(row: dict, ticker: str) -> str | None:
+    """Statement + interpretation: 'what happened. what it means.'"""
+    happened = _trim(
+        str(row.get("what_happened") or row.get("tldr") or row.get("title") or "").strip(),
+        150,
+    )
+    if not happened:
+        return None
+    means = _trim(str(row.get("what_it_means") or "").strip(), 150)
+    if means and means.lower().rstrip(".").strip() in happened.lower():
+        means = ""  # don't echo the headline back as its own interpretation
+    body = happened
+    if means:
+        if body and body[-1] not in ".!?":
+            body += "."
+        body = f"{body} {means}"
+    if not body.upper().startswith(ticker.upper()):
+        body = f"{ticker}: {body}"
+    if body and body[-1] not in ".!?":
+        body += "."
+    return body
+
+
 def build_event_watchlist_alerts(
     supabase, tickers: list[str], *, days: int = 5, limit: int = 6
 ) -> list[str]:
-    """Event-driven alerts: 'TICKER — what happened -> Up/Down pressure'."""
+    """Event-driven alerts: only real, material events, written as
+    'TICKER: what happened. what it means.' Returns [] when nothing happened."""
     norm = sorted({_normalize_ticker(t) for t in tickers if _normalize_ticker(t)})
     if not norm or supabase is None:
         return []
     try:
         rows = (
             supabase.table("shared_ticker_events")
-            .select("ticker,title,tldr,what_happened,risk_direction,published_at,significance")
+            .select(
+                "ticker,title,tldr,what_happened,what_it_means,"
+                "risk_direction,published_at,significance"
+            )
             .in_("ticker", norm)
             .order("published_at", desc=True)
             .limit(max(limit * 4, 24))
@@ -515,9 +551,8 @@ def build_event_watchlist_alerts(
 
     cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).date()
 
-    # Pick the most meaningful recent event per ticker: prefer a clear
-    # direction (worsening/improving) and major significance over a mundane
-    # most-recent filing/13F.
+    # Pick the single most meaningful recent MATERIAL event per ticker. A clear
+    # direction outranks a major-but-neutral event; newer breaks ties.
     def _score(row: dict, order_idx: int) -> tuple:
         direction = str(row.get("risk_direction") or "").strip().lower()
         sig = str(row.get("significance") or "").strip().lower()
@@ -532,7 +567,9 @@ def build_event_watchlist_alerts(
         ticker = _normalize_ticker(row.get("ticker"))
         if not ticker or not _within_days(row.get("published_at"), cutoff):
             continue
-        if not _event_headline(row):
+        if not _event_is_material(row):
+            continue
+        if not _event_alert_text(row, ticker):
             continue
         score = _score(row, idx)
         if ticker not in best or score > best[ticker][0]:
@@ -542,9 +579,75 @@ def build_event_watchlist_alerts(
     alerts: list[str] = []
     for _score_val, row in ranked[:limit]:
         ticker = _normalize_ticker(row.get("ticker"))
-        what = _event_headline(row)
-        direction = _DIRECTION.get(
-            str(row.get("risk_direction") or "").strip().lower(), "Mixed/neutral read"
-        )
-        alerts.append(f"{ticker} — {what} -> {direction}")
+        text = _event_alert_text(row, ticker)
+        if text:
+            alerts.append(text)
     return alerts
+
+
+def _grade_band(grade: object) -> str:
+    """First letter of a grade (academic ladder) = its whole-letter band.
+    AAA/AA -> A, BBB/BB -> B, etc."""
+    g = str(grade or "").strip().upper()
+    return g[0] if g else ""
+
+
+def build_grade_change_alerts(positions: list[dict] | None) -> list[str]:
+    """Watchlist alert when a holding's overall grade (the roll-up of the five
+    dimension metrics) crosses a WHOLE letter band vs the prior snapshot. We
+    only fire on a full-band move (B -> A, B -> C) so day-to-day grade flicker
+    inside a band (B+ -> B) never spams an alert."""
+    alerts: list[str] = []
+    for position in positions or []:
+        ticker = _normalize_ticker(position.get("ticker"))
+        grade = str(position.get("grade") or "").strip()
+        prev = str(position.get("previous_grade") or "").strip()
+        if not ticker or not grade or not prev:
+            continue
+        if _grade_band(grade) == _grade_band(prev):
+            continue
+        if _grade_ord(grade) > _grade_ord(prev):
+            alerts.append(
+                f"{ticker}: risk grade upgraded a full letter from {prev} to {grade} as its "
+                f"overall profile strengthened. A constructive shift worth a closer look."
+            )
+        elif _grade_ord(grade) < _grade_ord(prev):
+            alerts.append(
+                f"{ticker}: risk grade slipped a full letter from {prev} to {grade} as its "
+                f"overall profile weakened. Worth reviewing whether your thesis still holds."
+            )
+    return alerts
+
+
+def _alert_lead_ticker(text: str) -> str:
+    head = str(text or "").strip()
+    for sep in (":", " — ", " "):
+        if sep in head:
+            head = head.split(sep, 1)[0]
+            break
+    return head.strip().upper()
+
+
+def merge_watchlist_alerts(
+    grade_alerts: list[str] | None,
+    news_alerts: list[str] | None,
+    *,
+    limit: int = 6,
+) -> list[str]:
+    """Combine grade-band changes (most material, listed first) with news
+    events, one alert per ticker."""
+    out: list[str] = []
+    seen: set[str] = set()
+    for text in list(grade_alerts or []) + list(news_alerts or []):
+        t = str(text or "").strip()
+        if not t:
+            continue
+        ticker = _alert_lead_ticker(t)
+        if ticker and ticker in seen:
+            continue
+        if ticker:
+            seen.add(ticker)
+        out.append(t)
+        if len(out) >= limit:
+            break
+    return out

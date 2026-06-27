@@ -913,9 +913,16 @@ Positions:
     normalized_watch_list = _sanitize_watch_list(
         sections.get("watch_list") or fallback["sections"]["watch_list"]
     )
-    normalized_watchlist_alerts = _sanitize_watchlist_alerts(
-        watchlist_alerts or sections.get("watchlist_alerts") or []
-    )
+    # When the caller supplies watchlist_alerts (even an empty list) it is the
+    # source of truth: an empty list means nothing happened, so the section
+    # stays empty rather than letting the main LLM invent forward-looking
+    # "things to watch for" and pass them off as alerts.
+    if watchlist_alerts is not None:
+        normalized_watchlist_alerts = _sanitize_watchlist_alerts(watchlist_alerts)
+    else:
+        normalized_watchlist_alerts = _sanitize_watchlist_alerts(
+            sections.get("watchlist_alerts") or []
+        )
     monitoring_notes = (
         sections.get("monitoring_notes")
         or sections.get("portfolio_advice")

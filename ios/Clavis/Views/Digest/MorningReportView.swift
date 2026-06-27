@@ -3,6 +3,8 @@ import SwiftUI
 struct MorningReportView: View {
     @ObservedObject var viewModel: DigestViewModel
     @Environment(\.dismiss) private var dismiss
+    @State private var expandedPosition: DigestPositionImpact?
+    @State private var expandedSector: DigestSectorOverviewItem?
 
     var body: some View {
         ScrollView {
@@ -47,6 +49,8 @@ struct MorningReportView: View {
             .padding(.bottom, ClavixLayout.bottomPad)
         }
         .background(Color.clavixPage.ignoresSafeArea())
+        .sheet(item: $expandedPosition) { positionDetailSheet($0) }
+        .sheet(item: $expandedSector) { sectorDetailSheet($0) }
         .safeAreaInset(edge: .top, spacing: 0) {
             morningReportBar
         }
@@ -121,15 +125,21 @@ struct MorningReportView: View {
         let sectorBriefs = sectorHeat.filter {
             !$0.brief.sanitizedDisplayText.trimmingCharacters(in: .whitespaces).isEmpty
         }
+        let briefs = Array(sectorBriefs.prefix(8))
         return ReportRomanSection("II", "Your sectors") {
-            if !sectorBriefs.isEmpty {
-                VStack(alignment: .leading, spacing: 10) {
-                    ForEach(Array(sectorBriefs.prefix(8).enumerated()), id: \.element.id) { _, item in
-                        Text(item.brief.sanitizedDisplayText)
-                            .font(ClavisTypography.clavixSerif(16))
-                            .foregroundColor(.clavixInk)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .frame(maxWidth: .infinity, alignment: .leading)
+            if !briefs.isEmpty {
+                ClavixCard {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(Array(briefs.enumerated()), id: \.element.id) { index, item in
+                            Button { expandedSector = item } label: {
+                                sectorBriefRow(item)
+                            }
+                            .buttonStyle(.plain)
+                            if index < briefs.count - 1 {
+                                Rectangle().fill(Color.clavixRule).frame(height: 1)
+                                    .padding(.vertical, 10)
+                            }
+                        }
                     }
                 }
             }
@@ -195,7 +205,7 @@ struct MorningReportView: View {
                 }
             } else {
                 ForEach(positions, id: \.id) { item in
-                    NavigationLink(destination: TickerDetailView(ticker: item.ticker)) {
+                    Button { expandedPosition = item } label: {
                         positionCard(item)
                     }
                     .buttonStyle(.plain)
@@ -205,7 +215,8 @@ struct MorningReportView: View {
     }
 
     private func positionCard(_ item: DigestPositionImpact) -> some View {
-        ClavixCard(padding: 14) {
+        let (preview, isTruncated) = truncatedText(fullBlurb(item), limit: 100)
+        return ClavixCard(padding: 14) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .center) {
                     Text(item.ticker)
@@ -220,12 +231,17 @@ struct MorningReportView: View {
                             .frame(width: 32, alignment: .trailing)
                     }
                 }
-                Text(fullBlurb(item))
+                Text(preview)
                     .font(ClavisTypography.clavixCaption)
                     .foregroundColor(.clavixInk2)
                     .fixedSize(horizontal: false, vertical: true)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                if isTruncated {
+                    Text("Read more →")
+                        .font(ClavisTypography.clavixMono(11, weight: .semibold))
+                        .foregroundColor(.clavixAccent)
+                }
             }
         }
     }
@@ -240,23 +256,22 @@ struct MorningReportView: View {
 
     // MARK: - Watchlist alerts
 
+    // Only real events: a holding crossing a whole letter grade, or material
+    // news. When nothing happened we hide the whole section (header included)
+    // rather than showing a placeholder.
+    @ViewBuilder
     private func watchlistSection(_ digest: Digest) -> some View {
-        let items = trackedTickerItems(digest)
-        return ReportRomanSection("IV", "Watchlist alerts") {
-            if items.isEmpty {
-                ClavixCard {
-                    Text("No watchlist updates in this briefing.")
-                        .font(ClavisTypography.clavixCaption)
-                        .foregroundColor(.clavixInk3)
-                }
-            } else {
+        let items = watchlistAlertItems(digest)
+        if !items.isEmpty {
+            ReportRomanSection("IV", "Watchlist alerts") {
                 ClavixCard {
                     VStack(alignment: .leading, spacing: 10) {
                         ForEach(Array(items.enumerated()), id: \.offset) { index, item in
-                            Text(item.sanitizedDisplayText)
+                            Text(item)
                                 .font(ClavisTypography.clavixSerif(15))
                                 .foregroundColor(.clavixInk)
                                 .fixedSize(horizontal: false, vertical: true)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             if index < items.count - 1 {
                                 Rectangle().fill(Color.clavixRule).frame(height: 1)
                             }
@@ -271,7 +286,9 @@ struct MorningReportView: View {
 
     private func whatToWatchSection(_ digest: Digest) -> some View {
         let items = digest.structuredSections?.whatToWatchToday?.catalysts ?? []
-        return ReportRomanSection("V", "What to Watch") {
+        // Keep the section numbers contiguous when the watchlist is hidden.
+        let roman = watchlistAlertItems(digest).isEmpty ? "IV" : "V"
+        return ReportRomanSection(roman, "What to Watch") {
             if items.isEmpty {
                 ClavixCard {
                     Text("No scheduled events surfaced for your portfolio today.")
@@ -280,20 +297,40 @@ struct MorningReportView: View {
                 }
             } else {
                 ClavixCard {
-                    VStack(alignment: .leading, spacing: 10) {
+                    VStack(alignment: .leading, spacing: 0) {
                         ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
-                            Text(cleanWatchText(item))
-                                .font(ClavisTypography.clavixSerif(15))
-                                .foregroundColor(.clavixInk)
-                                .fixedSize(horizontal: false, vertical: true)
-                                .frame(maxWidth: .infinity, alignment: .leading)
+                            whatToWatchRow(item)
                             if index < items.count - 1 {
-                                Rectangle().fill(Color.clavixRule).frame(height: 1)
+                                Rectangle()
+                                    .fill(Color.clavixInk4)
+                                    .frame(height: 2)
+                                    .padding(.vertical, 12)
                             }
                         }
                     }
                 }
             }
+        }
+    }
+
+    private func whatToWatchRow(_ item: DigestWhatMattersItem) -> some View {
+        let ticker = whatToWatchTicker(item)
+        return VStack(alignment: .leading, spacing: 8) {
+            if let ticker {
+                HStack(spacing: 8) {
+                    Text(ticker)
+                        .font(ClavisTypography.clavixMono(14, weight: .bold))
+                        .foregroundColor(.clavixInk)
+                    ClavixGradeBadge(viewModel.grade(for: ticker), size: 22)
+                    Spacer()
+                }
+                Rectangle().fill(Color.clavixRule).frame(height: 1)
+            }
+            Text(whatToWatchBody(item, ticker: ticker))
+                .font(ClavisTypography.clavixSerif(15))
+                .foregroundColor(.clavixInk)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
@@ -370,11 +407,117 @@ struct MorningReportView: View {
         return delta > 0 ? .clavixGood : .clavixBad
     }
 
-    private func trackedTickerItems(_ digest: Digest) -> [String] {
-        let structured = digest.structuredSections?.watchlistUpdates
-        let watchList = structured?.watchList ?? []
-        if !watchList.isEmpty { return watchList }
-        return structured?.alerts ?? []
+    private func watchlistAlertItems(_ digest: Digest) -> [String] {
+        (digest.structuredSections?.watchlistUpdates?.alerts ?? [])
+            .map { $0.sanitizedDisplayText }
+            .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+    }
+
+    private func whatToWatchTicker(_ item: DigestWhatMattersItem) -> String? {
+        guard let raw = item.impactedPositions.first?
+            .trimmingCharacters(in: .whitespaces), !raw.isEmpty else { return nil }
+        let upper = raw.uppercased()
+        if upper == "FED" || upper == "MACRO" { return nil }
+        return upper
+    }
+
+    private func whatToWatchBody(_ item: DigestWhatMattersItem, ticker: String?) -> String {
+        var text = cleanWatchText(item)
+        if let ticker {
+            for prefix in ["\(ticker): ", "\(ticker) — ", "\(ticker) - "] where text.hasPrefix(prefix) {
+                text = String(text.dropFirst(prefix.count))
+                break
+            }
+        }
+        return text.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// Cut a blurb to a preview length on a word boundary. Returns the preview
+    /// and whether anything was trimmed off.
+    private func truncatedText(_ text: String, limit: Int) -> (String, Bool) {
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.count > limit else { return (trimmed, false) }
+        let endIdx = trimmed.index(trimmed.startIndex, offsetBy: limit)
+        var cut = String(trimmed[..<endIdx])
+        if let lastSpace = cut.lastIndex(of: " ") {
+            cut = String(cut[..<lastSpace])
+        }
+        return (cut.trimmingCharacters(in: .whitespaces) + "…", true)
+    }
+
+    private func sectorBriefRow(_ item: DigestSectorOverviewItem) -> some View {
+        let (preview, isTruncated) = truncatedText(item.brief.sanitizedDisplayText, limit: 100)
+        return VStack(alignment: .leading, spacing: 4) {
+            Text(preview)
+                .font(ClavisTypography.clavixSerif(16))
+                .foregroundColor(.clavixInk)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            if isTruncated {
+                Text("Read more →")
+                    .font(ClavisTypography.clavixMono(11, weight: .semibold))
+                    .foregroundColor(.clavixAccent)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // MARK: - Detail sheets (tap to read the full write-up)
+
+    private func positionDetailSheet(_ item: DigestPositionImpact) -> some View {
+        let ticker = item.ticker
+        return ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                ClavixEyebrow("Position change")
+                HStack(alignment: .center, spacing: 12) {
+                    Text(ticker)
+                        .font(ClavisTypography.clavixMono(28, weight: .bold))
+                        .foregroundColor(.clavixInk)
+                    ClavixGradeBadge(viewModel.grade(for: ticker), size: 28)
+                    Spacer()
+                    Text(deltaText(ticker))
+                        .font(ClavisTypography.clavixMono(14, weight: .bold))
+                        .foregroundColor(deltaTone(ticker))
+                }
+                Rectangle().fill(Color.clavixRule).frame(height: 1)
+                Text(fullBlurb(item))
+                    .font(ClavisTypography.clavixSerif(18))
+                    .foregroundColor(.clavixInk)
+                    .lineSpacing(5)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer(minLength: 0)
+            }
+            .padding(ClavixLayout.pad)
+            .padding(.top, 12)
+        }
+        .background(Color.clavixPage.ignoresSafeArea())
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
+    }
+
+    private func sectorDetailSheet(_ item: DigestSectorOverviewItem) -> some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                ClavixEyebrow("Sector")
+                Text(item.sector.humanizedTitleCasedDisplayText)
+                    .font(ClavisTypography.clavixSerif(26, weight: .medium))
+                    .foregroundColor(.clavixInk)
+                Rectangle().fill(Color.clavixRule).frame(height: 1)
+                Text(item.brief.sanitizedDisplayText)
+                    .font(ClavisTypography.clavixSerif(18))
+                    .foregroundColor(.clavixInk)
+                    .lineSpacing(5)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Spacer(minLength: 0)
+            }
+            .padding(ClavixLayout.pad)
+            .padding(.top, 12)
+        }
+        .background(Color.clavixPage.ignoresSafeArea())
+        .presentationDetents([.medium, .large])
+        .presentationDragIndicator(.visible)
     }
 
     private func cleanWatchText(_ item: DigestWhatMattersItem) -> String {

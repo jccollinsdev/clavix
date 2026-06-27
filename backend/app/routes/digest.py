@@ -356,10 +356,16 @@ async def _build_force_refresh_digest(
     except Exception:
         pass
 
-    # Event-driven watchlist alerts from shared_ticker_events (real events only).
+    # Watchlist alerts = things that HAPPENED: a whole-letter grade move or a
+    # real, material news event. Empty when nothing happened (the app then hides
+    # the section entirely).
     watchlist_alerts: list[str] = []
     try:
-        from ..pipeline.digest_inputs import build_event_watchlist_alerts
+        from ..pipeline.digest_inputs import (
+            build_event_watchlist_alerts,
+            build_grade_change_alerts,
+            merge_watchlist_alerts,
+        )
 
         watchlist_detail = get_default_watchlist_detail(supabase, user_id)
         watchlist_tickers = [
@@ -368,7 +374,10 @@ async def _build_force_refresh_digest(
             if str(item.get("ticker") or "").strip()
         ]
         alert_tickers = sorted(set(digest_tickers) | set(watchlist_tickers))
-        watchlist_alerts = build_event_watchlist_alerts(supabase, alert_tickers)
+        watchlist_alerts = merge_watchlist_alerts(
+            build_grade_change_alerts(positions),
+            build_event_watchlist_alerts(supabase, alert_tickers),
+        )
     except Exception:
         watchlist_alerts = []
 
