@@ -492,12 +492,12 @@ def build_what_to_watch(
 
 
 def _event_is_material(row: dict) -> bool:
-    """An alert is a thing that HAPPENED and matters: a clear directional move
-    or a major event. Mundane neutral/minor filings (8-Ks, 13F nibbles, generic
-    valuation blog posts) are noise and do not earn a watchlist alert."""
+    """An alert is a thing that HAPPENED with a clear bullish or bearish read.
+    A neutral event is NOT an alert no matter how 'major' it is tagged: that is
+    exactly how routine valuation/DCF write-ups ("our calculation of intrinsic
+    value", "the acquirer's multiple") sneak in. So we require a direction."""
     direction = str(row.get("risk_direction") or "").strip().lower()
-    sig = str(row.get("significance") or "").strip().lower()
-    return direction in ("improving", "worsening") or sig in ("major", "high")
+    return direction in ("improving", "worsening")
 
 
 def _event_alert_text(row: dict, ticker: str) -> str | None:
@@ -586,23 +586,35 @@ def build_event_watchlist_alerts(
 
 
 def _grade_band(grade: object) -> str:
-    """First letter of a grade (academic ladder) = its whole-letter band.
-    AAA/AA -> A, BBB/BB -> B, etc."""
+    """First letter of a grade = its whole-letter band (A+/A/A- -> A)."""
     g = str(grade or "").strip().upper()
     return g[0] if g else ""
+
+
+def _is_academic_grade(grade: object) -> bool:
+    """True only for grades unambiguously on the new academic ladder: a +/-
+    modifier, or the D tier (the old AAA/BBB/CCC ladder had neither). Bare
+    A/B/C/F exist on BOTH ladders, so during and right after the grade-vocabulary
+    migration we refuse to compare them: an old 'BBB' read against a new 'B-'
+    would otherwise look like a downgrade that never happened."""
+    g = str(grade or "").strip().upper()
+    return ("+" in g) or ("-" in g) or g.startswith("D")
 
 
 def build_grade_change_alerts(positions: list[dict] | None) -> list[str]:
     """Watchlist alert when a holding's overall grade (the roll-up of the five
     dimension metrics) crosses a WHOLE letter band vs the prior snapshot. We
     only fire on a full-band move (B -> A, B -> C) so day-to-day grade flicker
-    inside a band (B+ -> B) never spams an alert."""
+    inside a band (B+ -> B) never spams an alert, and only when BOTH grades are
+    unambiguously academic so a vocabulary mismatch never reads as a real move."""
     alerts: list[str] = []
     for position in positions or []:
         ticker = _normalize_ticker(position.get("ticker"))
         grade = str(position.get("grade") or "").strip()
         prev = str(position.get("previous_grade") or "").strip()
         if not ticker or not grade or not prev:
+            continue
+        if not (_is_academic_grade(grade) and _is_academic_grade(prev)):
             continue
         if _grade_band(grade) == _grade_band(prev):
             continue
