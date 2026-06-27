@@ -393,84 +393,97 @@ async def build_position_impacts(
     return impacts
 
 
+def _short_reason(text: str, limit: int = 120) -> str:
+    t = " ".join(str(text or "").split())
+    # First sentence, but skip ". " before index 30 so abbreviations like
+    # "U.S." or "Inc." don't truncate the reason to a fragment.
+    start = 0
+    while True:
+        idx = t.find(". ", start)
+        if idx == -1:
+            break
+        if idx >= 30:
+            t = t[:idx]
+            break
+        start = idx + 2
+    if len(t) > limit:
+        t = t[:limit].rsplit(" ", 1)[0] + "…"
+    return t.rstrip(".")
+
+
 def build_what_to_watch(
     supabase,
     positions: list[dict],
     earnings: list[dict] | None,
     sector_by_ticker: dict[str, dict] | None = None,
+    position_impacts: list[dict] | None = None,
 ) -> list[dict]:
-    """Actionable watch items: dated earnings + concerning/positive developments.
-
-    Concerning (grade drop / worsening event) -> research-before-you-hold prompt.
-    Positive (grade up / improving event / new high) -> trim-into-gains prompt.
-    Deterministic so it is always reliable.
+    """Actionable watch items. Direction comes from the per-ticker position note
+    (supports = up -> consider trimming; contradicts = down -> research before
+    you hold); the reason is that note's lead sentence. Plus dated earnings.
     """
     sector_by_ticker = sector_by_ticker or {}
-    items: list[dict] = []
+    imp_by_ticker = {
+        _normalize_ticker(i.get("ticker")): i
+        for i in (position_impacts or [])
+        if _normalize_ticker(i.get("ticker"))
+    }
 
-    # 1) Dated catalysts.
+    earnings_items: list[dict] = []
     try:
         from ..services.earnings_calendar import format_earnings_line
     except Exception:
         format_earnings_line = None
-    for row in (earnings or [])[:3]:
+    for row in (earnings or [])[:2]:
         ticker = _normalize_ticker(row.get("ticker"))
         line = format_earnings_line(row) if format_earnings_line else None
         if ticker and line:
-            items.append(
+            earnings_items.append(
                 {"catalyst": f"{line} — watch the print.", "impacted_positions": [ticker], "urgency": "medium"}
             )
 
-    # 2) Concerning / positive developments per holding.
-    events = _recent_company_events(
-        supabase, [p.get("ticker") for p in positions], per_ticker=2
-    )
+    concerning: list[dict] = []
+    positive: list[dict] = []
     for position in positions:
         ticker = _normalize_ticker(position.get("ticker"))
         if not ticker:
             continue
+        imp = imp_by_ticker.get(ticker) or {}
+        rel = str(imp.get("macro_relevance") or "").lower()
+        reason = _short_reason(imp.get("impact_summary"))
         grade = position.get("grade")
         prev = position.get("previous_grade")
-        delta = _num(position.get("score_delta"))
-        ev = events.get(ticker, [])
-        risk_dir = str((ev[0].get("risk_direction") if ev else "") or "").lower()
-        headline = _event_headline(ev[0]) if ev else ""
-        sector = (sector_by_ticker.get(ticker) or {}).get("sector") or "its sector"
-
         graded = bool(str(prev or "").strip()) and bool(str(grade or "").strip())
-        worse = (
-            (graded and _grade_ord(prev) > _grade_ord(grade))
-            or (delta is not None and delta <= -3)
-            or risk_dir == "worsening"
-        )
-        better = (
-            (graded and _grade_ord(grade) > _grade_ord(prev))
-            or (delta is not None and delta >= 3)
-            or risk_dir == "improving"
-        )
-        if worse:
-            driver = headline or f"{sector} is under pressure"
-            items.append(
+        grade_down = graded and _grade_ord(prev) > _grade_ord(grade)
+        grade_up = graded and _grade_ord(grade) > _grade_ord(prev)
+        if not reason:
+            continue
+        if rel == "contradicts" or grade_down:
+            concerning.append(
                 {
-                    "catalyst": f"{ticker}: {driver} — dig into this and decide whether it changes your thesis before you keep holding.",
+                    "catalyst": f"{ticker}: {reason}. Dig in and decide whether it changes your thesis before you keep holding.",
                     "impacted_positions": [ticker],
-                    "urgency": "medium",
+                    "urgency": "high" if grade_down else "medium",
+                    "_rank": 0 if grade_down else 1,
                 }
             )
-        elif better:
-            driver = headline or f"{sector} is strong today"
-            items.append(
+        elif rel == "supports" or grade_up:
+            positive.append(
                 {
-                    "catalyst": f"{ticker}: {driver} — check whether you want to trim into the gains.",
+                    "catalyst": f"{ticker}: {reason}. If you're sitting on gains here, consider whether to trim.",
                     "impacted_positions": [ticker],
                     "urgency": "low",
+                    "_rank": 0 if grade_up else 1,
                 }
             )
 
+    concerning.sort(key=lambda x: x.pop("_rank", 1))
+    positive.sort(key=lambda x: x.pop("_rank", 1))
+    items = earnings_items + concerning[:3] + positive[:2]
     if not items:
         items = [
             {
-                "catalyst": "No dated catalysts or notable score/news changes today; nothing urgent to watch.",
+                "catalyst": "No dated catalysts or notable moves today; nothing urgent to watch.",
                 "impacted_positions": [],
                 "urgency": "low",
             }
@@ -501,22 +514,37 @@ def build_event_watchlist_alerts(
         return []
 
     cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).date()
-    alerts: list[str] = []
-    seen: set[str] = set()
-    for row in rows:
+
+    # Pick the most meaningful recent event per ticker: prefer a clear
+    # direction (worsening/improving) and major significance over a mundane
+    # most-recent filing/13F.
+    def _score(row: dict, order_idx: int) -> tuple:
+        direction = str(row.get("risk_direction") or "").strip().lower()
+        sig = str(row.get("significance") or "").strip().lower()
+        return (
+            1 if direction in ("worsening", "improving") else 0,
+            1 if sig in ("major", "high") else 0,
+            -order_idx,  # newer first as a tiebreak
+        )
+
+    best: dict[str, tuple] = {}
+    for idx, row in enumerate(rows):
         ticker = _normalize_ticker(row.get("ticker"))
-        if not ticker or ticker in seen:
+        if not ticker or not _within_days(row.get("published_at"), cutoff):
             continue
-        if not _within_days(row.get("published_at"), cutoff):
+        if not _event_headline(row):
             continue
+        score = _score(row, idx)
+        if ticker not in best or score > best[ticker][0]:
+            best[ticker] = (score, row)
+
+    ranked = sorted(best.values(), key=lambda sr: sr[0], reverse=True)
+    alerts: list[str] = []
+    for _score_val, row in ranked[:limit]:
+        ticker = _normalize_ticker(row.get("ticker"))
         what = _event_headline(row)
-        if not what:
-            continue
         direction = _DIRECTION.get(
             str(row.get("risk_direction") or "").strip().lower(), "Mixed/neutral read"
         )
         alerts.append(f"{ticker} — {what} -> {direction}")
-        seen.add(ticker)
-        if len(alerts) >= limit:
-            break
     return alerts

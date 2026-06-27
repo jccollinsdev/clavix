@@ -3548,7 +3548,11 @@ async def execute_analysis_run(
                 )
                 digest_earnings = fetch_upcoming(supabase, digest_tickers)
                 digest_what_to_watch = build_what_to_watch(
-                    supabase, position_payloads, digest_earnings, sbt
+                    supabase,
+                    position_payloads,
+                    digest_earnings,
+                    sbt,
+                    (macro_context or {}).get("position_impacts"),
                 )
             except Exception:
                 logger.exception("digest input enrichment failed")

@@ -381,7 +381,11 @@ async def _build_force_refresh_digest(
 
         earnings_calendar = fetch_upcoming(supabase, digest_tickers)
         what_to_watch_items = build_what_to_watch(
-            supabase, positions, earnings_calendar, sbt
+            supabase,
+            positions,
+            earnings_calendar,
+            sbt,
+            (macro_context or {}).get("position_impacts"),
         )
     except Exception:
         earnings_calendar = []
