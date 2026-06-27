@@ -672,7 +672,7 @@ struct DigestView: View {
             return "Generated \(digestCardDateLabel(digest)). This saved briefing may not reflect the latest holdings, watchlist, or score changes."
         }
         if let grade = viewModel.today?.portfolio.grade, !grade.isEmpty {
-            return "Your portfolio is rated \(grade) today."
+            return "Your portfolio is rated \(ClavisGradeStyle.displayGrade(grade)) today."
         }
         if let line = digest.structuredSections?.header?.summaryLine,
            !line.isEmpty {
@@ -775,15 +775,15 @@ struct DigestView: View {
 
         var shortName: String {
             switch normalizedSector.lowercased() {
-            case "tech", "technology":                           return "Technology"
-            case "information technology":                       return "Tech"
-            case "semiconductors", "semis":                      return "Semis"
-            case "health care", "healthcare":                    return "Health"
+            case "tech", "technology", "information technology":  return "Technology"
+            case "semiconductors", "semis":                      return "Semiconductors"
+            case "health care", "healthcare":                    return "Health Care"
             case "financials", "financial services":             return "Financials"
-            case "consumer discretionary":                       return "Consumer D"
-            case "consumer staples":                             return "Consumer S"
+            case "energy":                                       return "Energy"
+            case "consumer discretionary":                       return "Consumer Disc."
+            case "consumer staples":                             return "Consumer Staples"
             case "communication services",
-                 "media", "interactive media", "entertainment":  return "Comm Svcs"
+                 "media", "interactive media", "entertainment":  return "Comm. Services"
             case "us total market":                              return "US Total"
             case "diversified":                                  return "Diversified"
             case "fixed income":                                 return "Fixed Income"

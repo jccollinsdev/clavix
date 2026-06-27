@@ -44,20 +44,24 @@ struct SectorHeatmapView: View {
 
     private func tile(_ item: SectorHeatmapItem, size: CGSize) -> some View {
         let minSide = min(size.width, size.height)
-        let symbolSize = max(9, min(minSide * 0.30, 22))
+        // Sector names are longer than 3-letter tickers, so cap the label size
+        // lower and allow two lines to wrap inside the tile.
+        let labelSize = max(9, min(minSide * 0.24, 16))
         let showChange = size.height > 36 && size.width > 46
         let showWeight = size.height > 58 && size.width > 60
         let ink = textColor(item.changePct)
+        let label = item.name.isEmpty ? item.symbol : item.name
 
         return VStack(spacing: 2) {
-            Text(item.symbol)
-                .font(ClavisTypography.clavixMono(symbolSize, weight: .bold))
+            Text(label)
+                .font(ClavisTypography.clavixMono(labelSize, weight: .bold))
                 .foregroundColor(ink)
-                .lineLimit(1)
-                .minimumScaleFactor(0.6)
+                .lineLimit(2)
+                .minimumScaleFactor(0.5)
+                .multilineTextAlignment(.center)
             if showChange, let pct = item.changePct {
                 Text(formatPct(pct))
-                    .font(ClavisTypography.clavixMono(max(8, symbolSize * 0.5), weight: .semibold))
+                    .font(ClavisTypography.clavixMono(max(8, labelSize * 0.6), weight: .semibold))
                     .foregroundColor(ink.opacity(0.95))
                     .lineLimit(1)
             }

@@ -62,12 +62,7 @@ struct MorningReportView: View {
                         .foregroundColor(.clavixInk)
                 }
                 .buttonStyle(.plain)
-                Spacer(minLength: 8)
-                NavigationLink(destination: MethodologyView()) {
-                    Image(systemName: "doc")
-                        .foregroundColor(.clavixInk)
-                }
-                .buttonStyle(.plain)
+                Spacer()
             }
             Text("CLAVIX")
                 .font(ClavisTypography.clavixMono(21, weight: .bold))
@@ -83,28 +78,24 @@ struct MorningReportView: View {
     // MARK: - Portfolio rating hero
 
     private func masthead(_ digest: Digest) -> some View {
-        HStack(alignment: .bottom, spacing: 12) {
-            VStack(alignment: .leading, spacing: 4) {
-                ClavixEyebrow("Portfolio rating")
+        VStack(alignment: .leading, spacing: 6) {
+            ClavixEyebrow("Portfolio rating")
+            HStack(alignment: .center, spacing: 12) {
                 ClavixGradeBadge(portfolioGrade(digest), size: 44)
-                Text(mastheadDateLabel(digest))
-                    .font(ClavisTypography.clavixMono(10, weight: .regular))
-                    .tracking(0.7)
-                    .foregroundColor(.clavixInk3)
-                Text("Composite score \(compositeScoreDisplay(digest))")
-                    .font(ClavisTypography.clavixMono(12, weight: .regular))
-                    .foregroundColor(.clavixInk2)
+                HStack(alignment: .firstTextBaseline, spacing: 3) {
+                    Text(compositeScoreDisplay(digest))
+                        .font(ClavisTypography.clavixMono(32, weight: .semibold))
+                        .foregroundColor(.clavixInk)
+                    Text("/100")
+                        .font(ClavisTypography.clavixMono(12, weight: .regular))
+                        .foregroundColor(.clavixInk3)
+                }
+                Spacer(minLength: 8)
             }
-            Spacer()
-            VStack(alignment: .trailing, spacing: 2) {
-                Text(portfolioDeltaText(digest))
-                    .font(ClavisTypography.clavixMono(30, weight: .semibold))
-                    .foregroundColor(portfolioDeltaColor(digest))
-                    .lineLimit(1)
-                Text("day delta")
-                    .font(ClavisTypography.clavixMono(9, weight: .regular))
-                    .foregroundColor(.clavixInk3)
-            }
+            Text(mastheadDateLabel(digest))
+                .font(ClavisTypography.clavixMono(10, weight: .regular))
+                .tracking(0.7)
+                .foregroundColor(.clavixInk3)
         }
         .padding(.bottom, 14)
         .overlay(alignment: .bottom) { Rectangle().fill(Color.clavixRule).frame(height: 1) }
@@ -142,7 +133,7 @@ struct MorningReportView: View {
                             SectorHeatmapItem(
                                 id: s.sector,
                                 symbol: s.etf ?? "—",
-                                name: s.sector,
+                                name: s.sector.humanizedTitleCasedDisplayText,
                                 weight: s.portfolioWeightPct / 100.0,
                                 changePct: s.etfDayChangePct
                             )
@@ -209,17 +200,9 @@ struct MorningReportView: View {
         ClavixCard(padding: 14) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(alignment: .center) {
-                    HStack(spacing: 8) {
-                        Text(item.ticker)
-                            .font(ClavisTypography.clavixMono(14, weight: .bold))
-                            .foregroundColor(.clavixInk)
-                        if let urgency = item.urgency?.sanitizedDisplayText, !urgency.isEmpty {
-                            Text(urgency.uppercased())
-                                .font(ClavisTypography.clavixMono(9, weight: .bold))
-                                .tracking(0.4)
-                                .foregroundColor(urgencyTone(item.urgency))
-                        }
-                    }
+                    Text(item.ticker)
+                        .font(ClavisTypography.clavixMono(14, weight: .bold))
+                        .foregroundColor(.clavixInk)
                     Spacer()
                     HStack(spacing: 8) {
                         ClavixGradeBadge(viewModel.grade(for: item.ticker), size: 22)
@@ -294,8 +277,8 @@ struct MorningReportView: View {
                     VStack(alignment: .leading, spacing: 10) {
                         ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
                             Text(cleanWatchText(item))
-                                .font(ClavisTypography.clavixCaption)
-                                .foregroundColor(.clavixInk2)
+                                .font(ClavisTypography.clavixSerif(15))
+                                .foregroundColor(.clavixInk)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             if index < items.count - 1 {
@@ -347,35 +330,6 @@ struct MorningReportView: View {
         return "\(Int(score.rounded()))"
     }
 
-    private func portfolioDeltaText(_ digest: Digest) -> String {
-        if let delta = viewModel.today?.portfolio.scoreDelta {
-            let rounded = Int(delta.rounded())
-            if rounded == 0 { return "—" }
-            return rounded > 0 ? "+\(rounded)" : "\(rounded)"
-        }
-        if let previous = viewModel.today?.portfolio.previousScore,
-           let current = portfolioScoreValue(digest) {
-            let delta = Int((current - previous).rounded())
-            if delta == 0 { return "—" }
-            return delta > 0 ? "+\(delta)" : "\(delta)"
-        }
-        return "—"
-    }
-
-    private func portfolioDeltaColor(_ digest: Digest) -> Color {
-        if let delta = viewModel.today?.portfolio.scoreDelta {
-            if delta > 0 { return .clavixGood }
-            if delta < 0 { return .clavixBad }
-        }
-        if let previous = viewModel.today?.portfolio.previousScore,
-           let current = portfolioScoreValue(digest) {
-            let diff = current - previous
-            if diff > 0 { return .clavixGood }
-            if diff < 0 { return .clavixBad }
-        }
-        return .clavixInk3
-    }
-
     private func mastheadDateLabel(_ digest: Digest) -> String {
         let f = DateFormatter()
         f.dateFormat = "MMM d, yyyy"
@@ -384,7 +338,7 @@ struct MorningReportView: View {
     }
 
     private func reportTitle(for digest: Digest) -> String {
-        isDigestFromToday(digest) ? "Today's Morning Digest" : "Latest Morning Digest"
+        isDigestFromToday(digest) ? "Morning Digest" : "Latest Morning Digest"
     }
 
     private func latestDigestMessage(for digest: Digest) -> String? {
@@ -408,15 +362,6 @@ struct MorningReportView: View {
         guard let delta = viewModel.scoreDelta(for: ticker) else { return .clavixInk3 }
         if delta == 0 { return .clavixInk3 }
         return delta > 0 ? .clavixGood : .clavixBad
-    }
-
-    private func urgencyTone(_ urgency: String?) -> Color {
-        switch urgency?.lowercased() {
-        case "high", "elevated", "urgent": return .clavixBad
-        case "medium", "moderate": return .clavixWarn
-        case "low", "stable": return .clavixGood
-        default: return .clavixInk3
-        }
     }
 
     private func trackedTickerItems(_ digest: Digest) -> [String] {
