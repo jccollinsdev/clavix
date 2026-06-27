@@ -308,79 +308,62 @@ async def _build_force_refresh_digest(
         regime_state="neutral",
     )
 
-    macro_context = None
-    # USE_TICKERTICK=true (production default): do not touch free CNBC/Google RSS feeds.
-    # Macro/sector context already flows into the score via macro_regime + sector snapshots.
-    if not USE_TICKERTICK:
-        try:
-            macro_articles = await fetch_cnbc_macro_rss(limit=12)
-            macro_context = await classify_overnight_macro(macro_articles, positions)
-        except Exception:
-            macro_context = None
+    # Enrich positions with sector from metadata so the sector-aware digest
+    # inputs (macro impacts, sector briefs) have what they need.
+    for position in positions:
+        if not position.get("sector"):
+            position["sector"] = (
+                sector_map.get(str(position.get("ticker") or "").upper()) or "unknown"
+            )
 
+    digest_tickers = [
+        str(position.get("ticker") or "").upper()
+        for position in positions
+        if position.get("ticker")
+    ]
+
+    # Macro readout from FRED factors + CNBC macro headlines.
+    macro_context = None
+    try:
+        from ..pipeline.digest_inputs import build_factor_macro_context
+
+        macro_context = await build_factor_macro_context(supabase, positions)
+    except Exception:
+        macro_context = None
+
+    # Per-owned-sector directional briefs (sector ETF moves + CNBC sector RSS).
     sector_context = None
     try:
-        sector_names = sorted(
-            {
-                str(position.get("sector") or "").strip()
-                for position in positions
-                if str(position.get("sector") or "").strip()
-            }
-        )
-        if sector_names and not USE_TICKERTICK:
-            sector_articles = await fetch_cnbc_sector_rss(
-                sector_names, limit_per_sector=8
-            )
-            sector_articles_by_name: dict[str, list[dict]] = {}
-            for article in sector_articles:
-                if isinstance(article, dict):
-                    sector_name = (
-                        str(article.get("sector_hint") or article.get("sector") or "")
-                        .strip()
-                        .lower()
-                    )
-                else:
-                    sector_name = sector_names[0].strip().lower()
-                if sector_name and sector_name not in {
-                    "unknown",
-                    "none",
-                    "null",
-                    "n/a",
-                }:
-                    sector_articles_by_name.setdefault(sector_name, []).append(article)
-            if not sector_articles_by_name and sector_articles and sector_names:
-                sector_articles_by_name[sector_names[0].strip().lower()] = list(
-                    sector_articles
-                )
-            sector_context = await summarize_sector_overview(sector_articles_by_name)
+        from ..pipeline.digest_inputs import build_sector_context
+
+        sector_context = await build_sector_context(supabase, positions)
     except Exception:
         sector_context = None
 
+    # Event-driven watchlist alerts from shared_ticker_events (real events only).
     watchlist_alerts: list[str] = []
     try:
+        from ..pipeline.digest_inputs import build_event_watchlist_alerts
+
         watchlist_detail = get_default_watchlist_detail(supabase, user_id)
-        watchlist_tickers = {
+        watchlist_tickers = [
             str(item.get("ticker") or "").strip().upper()
             for item in watchlist_detail.get("items", [])
             if str(item.get("ticker") or "").strip()
-        }
-        if watchlist_tickers:
-            recent_watchlist_alerts = (
-                supabase.table("alerts")
-                .select("*")
-                .eq("user_id", user_id)
-                .in_("position_ticker", list(watchlist_tickers))
-                .order("created_at", desc=True)
-                .limit(20)
-                .execute()
-                .data
-                or []
-            )
-            watchlist_alerts = _build_watchlist_alerts(
-                recent_watchlist_alerts, watchlist_tickers
-            )
+        ]
+        alert_tickers = sorted(set(digest_tickers) | set(watchlist_tickers))
+        watchlist_alerts = build_event_watchlist_alerts(supabase, alert_tickers)
     except Exception:
         watchlist_alerts = []
+
+    # Real, dated earnings catalysts for "What to Watch".
+    earnings_calendar: list[dict] = []
+    try:
+        from ..services.earnings_calendar import fetch_upcoming
+
+        earnings_calendar = fetch_upcoming(supabase, digest_tickers)
+    except Exception:
+        earnings_calendar = []
 
     portfolio_score, overall_grade = _compute_portfolio_grade(positions)
     digest = await compile_portfolio_digest(
@@ -394,6 +377,7 @@ async def _build_force_refresh_digest(
         supabase=supabase,
         user_id=user_id,
         event_ids=_top_personalisation_event_ids(supabase, positions),
+        earnings_calendar=earnings_calendar,
     )
     structured_sections = dict(digest["sections"])
     structured_sections["digest_version"] = DIGEST_VERSION

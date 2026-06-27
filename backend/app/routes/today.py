@@ -33,26 +33,6 @@ def get_user_id(request: Request) -> str:
     return request.state.user_id
 
 
-# Sector ETF map used to attach day-change to portfolio sectors when
-# sector_regime_snapshots are populated. Mirrors CLAVIX_TRUTH §6.
-SECTOR_ETF_MAP = {
-    "technology": "XLK",
-    "information technology": "XLK",
-    "health care": "XLV",
-    "healthcare": "XLV",
-    "financials": "XLF",
-    "financial services": "XLF",
-    "energy": "XLE",
-    "consumer discretionary": "XLY",
-    "consumer staples": "XLP",
-    "industrials": "XLI",
-    "utilities": "XLU",
-    "materials": "XLB",
-    "real estate": "XLRE",
-    "communication services": "XLC",
-}
-
-
 def _grade_for_score(score: float | None) -> str:
     # Single source of truth — the academic ladder used everywhere else.
     if score is None:

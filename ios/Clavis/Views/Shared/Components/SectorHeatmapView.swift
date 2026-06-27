@@ -44,21 +44,18 @@ struct SectorHeatmapView: View {
 
     private func tile(_ item: SectorHeatmapItem, size: CGSize) -> some View {
         let minSide = min(size.width, size.height)
-        // Sector names are longer than 3-letter tickers, so cap the label size
-        // lower and allow two lines to wrap inside the tile.
-        let labelSize = max(9, min(minSide * 0.24, 16))
+        let labelSize = max(9, min(minSide * 0.30, 20))
         let showChange = size.height > 36 && size.width > 46
         let showWeight = size.height > 58 && size.width > 60
         let ink = textColor(item.changePct)
-        let label = item.name.isEmpty ? item.symbol : item.name
+        let label = Self.shortSectorLabel(item.name.isEmpty ? item.symbol : item.name)
 
         return VStack(spacing: 2) {
             Text(label)
                 .font(ClavisTypography.clavixMono(labelSize, weight: .bold))
                 .foregroundColor(ink)
-                .lineLimit(2)
-                .minimumScaleFactor(0.5)
-                .multilineTextAlignment(.center)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
             if showChange, let pct = item.changePct {
                 Text(formatPct(pct))
                     .font(ClavisTypography.clavixMono(max(8, labelSize * 0.6), weight: .semibold))
@@ -202,5 +199,34 @@ struct SectorHeatmapView: View {
 
     private func formatWeight(_ w: Double) -> String {
         "\(String(format: "%.0f", w * 100))%"
+    }
+
+    /// Compact sector label (<= 7 characters) for heatmap tiles. Accepts either
+    /// a full GICS sector, a pre-shortened name, or an ETF ticker fallback.
+    static func shortSectorLabel(_ raw: String) -> String {
+        let key = raw.lowercased()
+        func has(_ s: String) -> Bool { key.contains(s) }
+        if has("semico") || has("semis") || key == "semi" || key == "soxx" { return "Semi" }
+        if has("pharma") { return "Pharma" }
+        if has("biotech") { return "Biotech" }
+        if has("health") { return "Health" }
+        if has("technology") || key == "tech" || key == "xlk" { return "Tech" }
+        if has("financ") || key == "xlf" { return "Finance" }
+        if has("energy") || has("oil") || key == "xle" { return "Energy" }
+        if has("communication") || has("comm.") || has("media") || has("entertain")
+            || has("telecom") || key == "xlc" { return "Comm" }
+        if has("consumer disc") || has("cons d") || key == "xly" { return "Cons D" }
+        if has("consumer stap") || has("cons s") || key == "xlp" { return "Cons S" }
+        if has("industrial") || key == "xli" { return "Indust" }
+        if has("utilit") || key == "xlu" { return "Util" }
+        if has("material") || key == "xlb" { return "Matrls" }
+        if has("real est") || has("realty") || key == "xlre" { return "Realty" }
+        if has("us total") || has("market") || key == "vti" { return "Market" }
+        if has("divers") { return "Divers" }
+        if has("fixed income") || has("bond") { return "Bonds" }
+        if has("commodit") { return "Cmdty" }
+        if has("unclass") || has("other") || raw.isEmpty || raw == "—" { return "Other" }
+        let firstWord = raw.split(separator: " ").first.map(String.init) ?? raw
+        return String(firstWord.prefix(7))
     }
 }

@@ -2578,7 +2578,7 @@ async def execute_analysis_run(
             "overnight_macro": {
                 "headlines": [],
                 "themes": [],
-                "brief": "Macro analysis unavailable.",
+                "brief": "No major overnight macro moves to flag.",
             },
             "position_impacts": [],
             "what_matters_today": [],
@@ -2589,6 +2589,16 @@ async def execute_analysis_run(
             macro_context = await classify_overnight_macro(
                 macro_articles[-20:], positions
             )
+        else:
+            # No live macro articles (compliant Tickertick path): build the macro
+            # readout from FRED factor snapshots + top CNBC macro headlines instead
+            # of leaving a blank "Macro analysis unavailable." placeholder.
+            from .digest_inputs import build_factor_macro_context
+
+            try:
+                macro_context = await build_factor_macro_context(supabase, positions)
+            except Exception:
+                logger.exception("build_factor_macro_context failed; using empty macro")
         if artifact_enabled:
             write_named_json("stages/macro_context.json", macro_context)
 
@@ -3499,12 +3509,43 @@ async def execute_analysis_run(
                             else payload.get("previous_grade")
                         )
             portfolio_score, overall_grade = _compute_portfolio_grade(position_payloads)
+
+            digest_tickers = [
+                payload.get("ticker")
+                for payload in position_payloads
+                if payload.get("ticker")
+            ]
+            # Build the remaining digest inputs from compliant, daily-refreshed
+            # data: per-owned-sector directional briefs (sector ETF moves + CNBC
+            # sector RSS + holdings' events), event-driven watchlist alerts
+            # (shared_ticker_events), and real earnings dates (earnings_calendar).
+            digest_watchlist_alerts: list[str] = []
+            digest_earnings: list[dict] = []
+            try:
+                from .digest_inputs import (
+                    build_event_watchlist_alerts,
+                    build_sector_context,
+                )
+                from ..services.earnings_calendar import fetch_upcoming
+
+                if not (sector_context or {}).get("sector_overview"):
+                    sector_context = await build_sector_context(
+                        supabase, position_payloads
+                    )
+                digest_watchlist_alerts = build_event_watchlist_alerts(
+                    supabase, digest_tickers
+                )
+                digest_earnings = fetch_upcoming(supabase, digest_tickers)
+            except Exception:
+                logger.exception("digest input enrichment failed")
+
             digest = await compile_portfolio_digest(
                 position_payloads,
                 overall_grade,
                 portfolio_risk,
                 macro_context=macro_context,
                 sector_context=sector_context,
+                watchlist_alerts=digest_watchlist_alerts,
                 summary_length=summary_length,
                 supabase=supabase,
                 user_id=user_id,
@@ -3513,6 +3554,7 @@ async def execute_analysis_run(
                     [payload.get("ticker") for payload in position_payloads],
                     limit=5,
                 ),
+                earnings_calendar=digest_earnings,
             )
             previous_digest = (
                 supabase.table("digests")

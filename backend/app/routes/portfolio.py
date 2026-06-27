@@ -16,28 +16,7 @@ def get_user_id(request: Request) -> str:
     return request.state.user_id
 
 
-SECTOR_ETF_MAP = {
-    "technology": "XLK",
-    "information technology": "XLK",
-    "semiconductors": "SOXX",
-    "semiconductor": "SOXX",
-    "semis": "SOXX",
-    "health care": "XLV",
-    "healthcare": "XLV",
-    "financials": "XLF",
-    "financial services": "XLF",
-    "energy": "XLE",
-    "consumer discretionary": "XLY",
-    "consumer staples": "XLP",
-    "industrials": "XLI",
-    "utilities": "XLU",
-    "materials": "XLB",
-    "real estate": "XLRE",
-    "communication services": "XLC",
-    "media": "XLC",
-    "interactive media": "XLC",
-    "entertainment": "XLC",
-}
+from ..pipeline.sector_constants import SECTOR_ETF_MAP  # single source of truth
 
 
 def _float(value: Any) -> float | None:

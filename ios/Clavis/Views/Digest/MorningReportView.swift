@@ -118,12 +118,20 @@ struct MorningReportView: View {
     private func sectorSection(_ digest: Digest) -> some View {
         let sectorHeat = digest.structuredSections?.sectorHeat ?? []
         let todaySectors = viewModel.today?.sectorExposure ?? []
+        let sectorBriefs = sectorHeat.filter {
+            !$0.brief.sanitizedDisplayText.trimmingCharacters(in: .whitespaces).isEmpty
+        }
         return ReportRomanSection("II", "Your sectors") {
-            if let opening = sectorHeat.first?.brief.sanitizedDisplayText, !opening.isEmpty {
-                Text(opening)
-                    .font(ClavisTypography.clavixSerif(16))
-                    .foregroundColor(.clavixInk)
-                    .fixedSize(horizontal: false, vertical: true)
+            if !sectorBriefs.isEmpty {
+                VStack(alignment: .leading, spacing: 10) {
+                    ForEach(Array(sectorBriefs.prefix(8).enumerated()), id: \.element.id) { _, item in
+                        Text(item.brief.sanitizedDisplayText)
+                            .font(ClavisTypography.clavixSerif(16))
+                            .foregroundColor(.clavixInk)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
             }
 
             if !todaySectors.isEmpty {
@@ -223,13 +231,11 @@ struct MorningReportView: View {
     }
 
     private func fullBlurb(_ item: DigestPositionImpact) -> String {
+        // Just the connected-dots impact summary. We no longer staple a raw
+        // forward-looking watch-item fragment onto the end (it read as an
+        // incomplete sentence). Watch items live in their own sections now.
         let main = item.impactSummary.sanitizedDisplayText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard let watch = item.watchItems.first?.sanitizedDisplayText.trimmingCharacters(in: .whitespacesAndNewlines),
-              !watch.isEmpty else { return main }
-        if main.hasSuffix(".") || main.hasSuffix("?") || main.hasSuffix("!") {
-            return "\(main) \(watch)"
-        }
-        return "\(main). \(watch)"
+        return main.isEmpty ? "No standout change for this holding today." : main
     }
 
     // MARK: - Watchlist alerts

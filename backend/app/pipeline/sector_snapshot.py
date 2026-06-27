@@ -21,26 +21,9 @@ from typing import Iterable
 
 from ..services.polygon import fetch_aggs
 from ..services.supabase import get_supabase
+from .sector_constants import SECTOR_ETFS  # single source of truth (incl. SOXX)
 
 logger = logging.getLogger(__name__)
-
-# CLAVIX_TRUTH §6 / §6 sector mapping. Keep in sync with the iOS sector
-# normalization in `ClavixTodayView`.
-SECTOR_ETFS: list[tuple[str, str]] = [
-    ("Technology",             "XLK"),
-    ("Health Care",            "XLV"),
-    ("Financials",             "XLF"),
-    ("Energy",                 "XLE"),
-    ("Consumer Discretionary", "XLY"),
-    ("Consumer Staples",       "XLP"),
-    ("Industrials",            "XLI"),
-    ("Utilities",              "XLU"),
-    ("Materials",              "XLB"),
-    ("Real Estate",            "XLRE"),
-    ("Communication Services", "XLC"),
-    # VTI is the broad-market reference shown in the Today sector grid.
-    ("US Total Market",        "VTI"),
-]
 
 
 def _latest_two_bars(ticker: str) -> tuple[dict, dict] | None:

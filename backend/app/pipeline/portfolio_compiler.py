@@ -69,9 +69,8 @@ Digest structure for content field:
 - Under **Per Position**, cover each holding in descending order of urgency.
 - Each position entry should be 1-3 short sentences.
 - **Overnight Macro** should be brief if no significant macro happened; don't pad
-- **What Matters Today** should be specific: earnings, data releases, Fed speakers, etc.
-- If nothing is urgent, include one low-urgency **What Matters Today** item that says there is no immediate portfolio-level risk driver today and names the holdings to monitor.
-- **Watchlist Alerts** should only include watchlist names with real new information, and each line should be plain English.
+- **What Matters Today** must be a concrete, dated, directional catalyst. When the EARNINGS CALENDAR input lists a holding, cite the exact date ("SMCI reports earnings Jul 30 after the close"). If, and only if, no dated catalyst exists, emit one short low-urgency item naming the single holding worth watching and what to watch, in one sentence. Never append "keep the rest of the book on watch for earnings, filings, or macro shocks" or any filler tail.
+- **Watchlist Alerts** must describe a REAL, RECENT event that HAPPENED (earnings, an upgrade/downgrade, a filing, a regulatory action, a contract), stated in plain past tense, with an explicit Upward/Downward/Neutral pressure direction and one clause on why it matters. Never write a hypothetical ("could face", "risk of", "potential", "if X happens"). Use only the supplied "Watchlist Alerts:" evidence; if there is none, leave the section empty.
 - **Monitoring Notes** should be a short checklist with ticker-specific observations, not generic portfolio filler.
 - If a holding is fine, say "no material change" in plain English and name the ticker.
 
@@ -248,14 +247,15 @@ def _fallback_sector_overview(
 
     fallback_sections: list[dict] = []
     for sector, entry in sorted(sector_map.items()):
+        tickers = [h.split(":", 1)[0].strip() for h in entry["headlines"] if ":" in h]
+        who = ", ".join(dict.fromkeys(t for t in tickers if t)) or "your holdings"
         lead_text = (
-            entry["headlines"][0].split(": ", 1)[-1]
-            if entry["headlines"]
-            else "No material overnight change."
+            entry["headlines"][0].split(": ", 1)[-1] if entry["headlines"] else None
         )
-        entry["brief"] = (
-            f"{len(entry['headlines']) or 1} holding(s) tied to this sector. {lead_text}"
-        )
+        if lead_text:
+            entry["brief"] = f"{sector.title()}: {lead_text} (watch {who})."
+        else:
+            entry["brief"] = f"{sector.title()} is quiet today, no clear driver for {who}."
         fallback_sections.append(entry)
 
     return fallback_sections
@@ -317,7 +317,7 @@ def _normalize_position_impacts(
             {
                 "ticker": ticker,
                 "macro_relevance": "neutral",
-                "impact_summary": "No clear overnight macro change for this holding; keep the focus on company-specific developments and any follow-through in its sector.",
+                "impact_summary": f"No standout macro, sector, or company catalyst for {ticker} this morning; its own news flow is the thing to watch.",
                 "watch_items": _clean_text_list(position.get("watch_items")),
                 "top_risks": _clean_text_list(position.get("top_risks")),
                 "dimension_breakdown": _sanitize_dimension_breakdown(
@@ -504,7 +504,31 @@ def _what_matters_text(macro_context: dict | None) -> str:
     return "\n".join(lines)
 
 
-def _fallback_what_matters_today(position_data: list[dict]) -> list[dict]:
+def _fallback_what_matters_today(
+    position_data: list[dict],
+    earnings_calendar: list[dict] | None = None,
+) -> list[dict]:
+    # Prefer concrete, dated catalysts: a real earnings date the user can act on.
+    if earnings_calendar:
+        try:
+            from ..services.earnings_calendar import format_earnings_line
+        except Exception:
+            format_earnings_line = None
+        dated: list[dict] = []
+        for row in earnings_calendar[:3]:
+            ticker = _normalize_ticker(row.get("ticker"))
+            line = format_earnings_line(row) if format_earnings_line else None
+            if ticker and line:
+                dated.append(
+                    {
+                        "catalyst": f"{line} — watch the print.",
+                        "impacted_positions": [ticker],
+                        "urgency": "medium",
+                    }
+                )
+        if dated:
+            return dated
+
     ranked_positions = sorted(position_data, key=_position_urgency, reverse=True)
     if not ranked_positions:
         return []
@@ -515,18 +539,12 @@ def _fallback_what_matters_today(position_data: list[dict]) -> list[dict]:
     if primary_watch in {"no urgent change.", ""}:
         primary_watch = "company-specific news"
 
-    impacted_positions = [
-        _normalize_ticker(position.get("ticker"))
-        for position in ranked_positions[:3]
-        if _normalize_ticker(position.get("ticker"))
-    ]
     return [
         {
             "catalyst": (
-                f"No immediate portfolio-level risk driver found today. Monitor {lead_ticker} "
-                f"for {primary_watch} and keep the rest of the book on watch for earnings, filings, or macro shocks."
+                f"No dated catalyst on the calendar today. Keep an eye on {lead_ticker} for {primary_watch}."
             ),
-            "impacted_positions": impacted_positions,
+            "impacted_positions": [lead_ticker] if lead_ticker != "the portfolio" else [],
             "urgency": "low",
         }
     ]
@@ -542,6 +560,25 @@ def _watchlist_alerts_text(watchlist_alerts: list[str] | None) -> str:
         if text:
             lines.append(f"- {text}")
     return "\n".join(lines) if len(lines) > 1 else ""
+
+
+def _earnings_calendar_text(earnings_calendar: list[dict] | None) -> str:
+    if not earnings_calendar:
+        return "EARNINGS CALENDAR: none scheduled in the next 14 days."
+    try:
+        from ..services.earnings_calendar import format_earnings_line
+    except Exception:
+        return "EARNINGS CALENDAR: none scheduled in the next 14 days."
+    lines = []
+    for row in earnings_calendar[:8]:
+        if str(row.get("ticker") or "").strip():
+            lines.append(f"- {format_earnings_line(row)}")
+    if not lines:
+        return "EARNINGS CALENDAR: none scheduled in the next 14 days."
+    return (
+        "EARNINGS CALENDAR (next 14 days, held tickers; cite these dates verbatim when relevant):\n"
+        + "\n".join(lines)
+    )
 
 
 def _sanitize_watch_list(items: list[str] | None) -> list[str]:
@@ -581,6 +618,7 @@ def _fallback_portfolio_digest(
     position_data: list[dict],
     overall_grade: str,
     watchlist_alerts: list[str] | None = None,
+    earnings_calendar: list[dict] | None = None,
 ) -> dict:
     ranked_positions = sorted(position_data, key=_position_urgency, reverse=True)
     lead = ranked_positions[0] if ranked_positions else None
@@ -603,7 +641,9 @@ def _fallback_portfolio_digest(
         for position in ranked_positions
     ]
     fallback_advice = _build_portfolio_advice(ranked_positions, fallback_impacts)
-    fallback_what_matters = _fallback_what_matters_today(ranked_positions)
+    fallback_what_matters = _fallback_what_matters_today(
+        ranked_positions, earnings_calendar
+    )
 
     opening = (
         f"Today is {date_context['day']}, {date_context['date_text']}. {date_context['trading_note']} Your portfolio opens the day at grade {overall_grade}."
@@ -634,16 +674,11 @@ def _fallback_portfolio_digest(
     fallback_watchlist_alerts = _sanitize_watchlist_alerts(watchlist_alerts)
     if fallback_watchlist_alerts:
         watchlist_alerts_block = "**Watchlist Alerts**\n" + "\n".join(
-            f"- {item}" for item in fallback_watchlist_alerts[:4]
+            f"- {item}" for item in fallback_watchlist_alerts[:6]
         )
-    elif ranked_positions:
-        alert_lines = []
-        for position in ranked_positions[:4]:
-            watch_item = _short_watch_item(position)
-            if watch_item:
-                alert_lines.append(f"- {position['ticker']} — {watch_item}")
-        if alert_lines:
-            watchlist_alerts_block = "**Watchlist Alerts**\n" + "\n".join(alert_lines)
+    # No event-driven alerts means nothing actually happened: leave the section
+    # empty rather than recycling forward-looking risk drivers (watch_items) as
+    # if they were events.
 
     sector_overview_lines = _fallback_sector_overview(position_data)
     if sector_overview_lines:
@@ -730,6 +765,7 @@ async def compile_portfolio_digest(
     supabase=None,
     user_id: str | None = None,
     event_ids: list[str] | None = None,
+    earnings_calendar: list[dict] | None = None,
 ) -> dict:
     ranked_positions = sorted(position_data, key=_position_urgency, reverse=True)
     date_context = _digest_date_context()
@@ -759,6 +795,7 @@ Portfolio Risk Analysis:
     position_impacts_info = _position_impacts_text(macro_context)
     what_matters_info = _what_matters_text(macro_context)
     watchlist_alerts_info = _watchlist_alerts_text(watchlist_alerts)
+    earnings_info = _earnings_calendar_text(earnings_calendar)
 
     position_summary = "\n".join(
         [
@@ -799,6 +836,7 @@ Average portfolio safety score: {avg_safety:.1f}/100{portfolio_risk_info}{macro_
 {sector_info}
 {position_impacts_info}
 {portfolio_impact_text}
+{earnings_info}
 {what_matters_info}
 {watchlist_alerts_info}
 
@@ -812,10 +850,9 @@ Important instruction:
 - Flag any concentration or cluster risks.
 - Use the overnight macro section to set context before diving into positions.
 - Use the sector overview to show which groups are driving the tape for this portfolio.
-- Use "what_matters_today" for forward-looking items (earnings, data releases, Fed speakers).
-- If there is no real urgent driver, return a single low-urgency item that explicitly says there is no immediate portfolio-level risk driver today and points to the main holdings to monitor.
-- Use "watchlist_alerts" only for watchlist names that have real news or risk changes.
-- Base watchlist items on the article evidence already captured on each company, not generic market language.
+- Use "what_matters_today" for forward-looking, dated catalysts. When the EARNINGS CALENDAR lists a holding, cite the exact date (e.g. "AMD reports earnings Aug 5 after close"). Do not write "earnings" without a date when a date is available.
+- If no holding has a dated catalyst, return exactly ONE low-urgency item naming the single most relevant holding and what to watch, in one sentence. No trailing "monitor the rest of the book for earnings, filings, or macro shocks" boilerplate, no filler.
+- "watchlist_alerts": ONLY use the event lines supplied in the "Watchlist Alerts:" evidence block, lightly cleaned. Each must read "TICKER — <event that happened> -> Upward|Downward|Neutral pressure: <why it matters>". Never turn a risk driver, a "what would change the rating", or a "thing to watch" into an alert: if it did not already happen, it is not an alert. Do not add tickers that have no supplied event. If the block is empty, return an empty watchlist_alerts array.
 - Preserve structured watch_items, top_risks, and dimension_breakdown data on each position when available.
 - Build "watch_list" from each holding's own watch items or news-driven changes first, then fall back to risk notes only if needed.
 - Keep watch list items concise and avoid repeating the same ticker or company name more than once.
@@ -847,8 +884,14 @@ Positions:
     except Exception:
         parsed = {}
     fallback = _fallback_portfolio_digest(
-        ranked_positions, overall_grade, watchlist_alerts=watchlist_alerts
+        ranked_positions,
+        overall_grade,
+        watchlist_alerts=watchlist_alerts,
+        earnings_calendar=earnings_calendar,
     )
+    # Defined here in compile scope (the assignment in _fallback_portfolio_digest
+    # is a separate scope); used by the what_matters_today merge below.
+    fallback_what_matters = fallback["sections"].get("what_matters_today") or []
     sections = parsed.get("sections") or {}
     normalized_sector_overview = _sanitize_sector_overview(
         sections.get("sector_overview")
