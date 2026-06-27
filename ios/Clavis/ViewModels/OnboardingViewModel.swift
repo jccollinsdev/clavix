@@ -9,7 +9,6 @@ enum OnboardingPage: Int, CaseIterable {
 // MARK: - Aha flow types
 
 enum AhaPhase {
-    case input
     case questions
     case reveal
 }
@@ -64,10 +63,19 @@ enum OnboardingRiskTolerance: String, CaseIterable, Identifiable {
     }
 }
 
+/// How the user expresses the size of each holding during onboarding.
+/// `shares` is the exact share count; `amount` is an estimated dollar value
+/// that we convert to shares using the ticker's latest price at persist time.
+enum OnboardingEntryMode {
+    case shares
+    case amount
+}
+
 struct AhaPortfolioEntry: Identifiable {
     let id = UUID()
     var query: String = ""
     var shares: String = ""
+    var amount: String = ""
     var resolved: TickerSearchResult? = nil
     var isResolving: Bool = false
     var notFound: Bool = false
@@ -124,7 +132,8 @@ final class OnboardingViewModel: ObservableObject {
 
     // Aha flow state
     @Published var entries: [AhaPortfolioEntry] = [AhaPortfolioEntry()]
-    @Published var ahaPhase: AhaPhase = .input
+    @Published var entryMode: OnboardingEntryMode = .shares
+    @Published var ahaPhase: AhaPhase = .questions
     @Published var reveal: AhaReveal?
 
     // Personalization answers (presentation only)
@@ -200,8 +209,20 @@ final class OnboardingViewModel: ObservableObject {
     private var enteredResults: [TickerSearchResult] {
         entries.compactMap { entry in
             guard let resolved = entry.resolved else { return nil }
-            let shares = Double(entry.shares.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
-            return shares > 0 ? resolved : nil
+            return enteredQuantity(for: entry) > 0 ? resolved : nil
+        }
+    }
+
+    /// The raw quantity the user typed for this entry in the active mode:
+    /// a share count in `.shares` mode, a dollar amount in `.amount` mode.
+    /// The reveal grade is equal-weighted, so this only gates "is it entered"
+    /// for scoring; the precise share count is derived at persist time.
+    func enteredQuantity(for entry: AhaPortfolioEntry) -> Double {
+        switch entryMode {
+        case .shares:
+            return Double(entry.shares.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+        case .amount:
+            return Double(entry.amount.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
         }
     }
 
@@ -252,6 +273,20 @@ final class OnboardingViewModel: ObservableObject {
         guard let idx = entries.firstIndex(where: { $0.id == id }) else { return }
         errorMessage = nil
         entries[idx].shares = value
+    }
+
+    func updateAmount(_ id: UUID, _ value: String) {
+        guard let idx = entries.firstIndex(where: { $0.id == id }) else { return }
+        errorMessage = nil
+        entries[idx].amount = value
+    }
+
+    func setEntryMode(_ mode: OnboardingEntryMode) {
+        guard entryMode != mode else { return }
+        errorMessage = nil
+        withAnimation(.easeInOut(duration: 0.18)) {
+            entryMode = mode
+        }
     }
 
     private func scheduleResolve(_ id: UUID) {
@@ -309,11 +344,14 @@ final class OnboardingViewModel: ObservableObject {
 
         let activeEntries = entries.filter {
             !$0.query.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
-            !$0.shares.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+            !$0.shares.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+            !$0.amount.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         }
 
         guard !activeEntries.isEmpty else {
-            errorMessage = "Add at least one ticker and share count to continue."
+            errorMessage = entryMode == .amount
+                ? "Add at least one ticker and dollar amount to continue."
+                : "Add at least one ticker and share count to continue."
             return false
         }
 
@@ -323,9 +361,10 @@ final class OnboardingViewModel: ObservableObject {
                 errorMessage = "Enter a ticker for every holding."
                 return false
             }
-            let shares = Double(entry.shares.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
-            guard shares > 0 else {
-                errorMessage = "Enter a share count greater than zero for \(ticker.uppercased())."
+            guard enteredQuantity(for: entry) > 0 else {
+                errorMessage = entryMode == .amount
+                    ? "Enter a dollar amount greater than zero for \(ticker.uppercased())."
+                    : "Enter a share count greater than zero for \(ticker.uppercased())."
                 return false
             }
             if entry.notFound {
@@ -412,22 +451,41 @@ final class OnboardingViewModel: ObservableObject {
     }
 
     private func persistHoldings(_ results: [TickerSearchResult]) async {
-        // Capture entries snapshot before concurrent work begins (actor isolation).
+        // Capture entries + mode snapshot before concurrent work begins (actor isolation).
         let snapEntries = entries
+        let mode = entryMode
         // Fire all creates in parallel — sequential saves caused later tickers to
         // be missed when the user navigated to holdings before the loop finished.
         await withTaskGroup(of: Void.self) { group in
             for result in results {
-                let sharesString = snapEntries.first { $0.resolved?.ticker == result.ticker }?.shares ?? ""
-                guard let shares = Double(sharesString.trimmingCharacters(in: .whitespacesAndNewlines)),
-                      shares > 0 else {
+                guard let entry = snapEntries.first(where: { $0.resolved?.ticker == result.ticker }) else {
                     continue
                 }
+
+                // Resolve a (shares, purchasePrice) pair from whichever mode the
+                // user used. In amount mode we convert the dollar estimate to a
+                // fractional share count at the latest price and record that price
+                // as the cost basis so the position opens at break-even.
+                let shares: Double
+                let purchasePrice: Double
+                switch mode {
+                case .shares:
+                    let raw = Double(entry.shares.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+                    guard raw > 0 else { continue }
+                    shares = raw
+                    purchasePrice = 0
+                case .amount:
+                    let dollars = Double(entry.amount.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+                    guard dollars > 0, let price = result.resolvedPrice, price > 0 else { continue }
+                    shares = dollars / price
+                    purchasePrice = price
+                }
+
                 group.addTask {
                     _ = try? await APIService.shared.createHolding(
                         ticker: result.ticker,
                         shares: shares,
-                        purchasePrice: 0,
+                        purchasePrice: purchasePrice,
                         allowOutsideUniverse: true
                     )
                 }

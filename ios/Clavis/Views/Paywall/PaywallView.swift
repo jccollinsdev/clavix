@@ -44,7 +44,7 @@ struct PaywallView: View {
     var showsCloseButton: Bool = true
     var onEntitlementActivated: (() -> Void)? = nil
 
-    private var onboardingContext: OnboardingPaywallContext? {
+    private var ctx: OnboardingPaywallContext? {
         guard triggerContext == .onboardingReveal else { return nil }
         return OnboardingPaywallContext.load()
     }
@@ -52,19 +52,18 @@ struct PaywallView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { proxy in
-                let compact = proxy.size.height < 700
+                let compact = proxy.size.height < 740
 
-                VStack(alignment: .leading, spacing: compact ? 12 : 18) {
+                VStack(alignment: .leading, spacing: compact ? 14 : 18) {
                     heroSection(compact: compact)
                     benefitsSection(compact: compact)
-                    offerSection(compact: compact)
-                    Spacer(minLength: compact ? 2 : 8)
+                    Spacer(minLength: compact ? 8 : 16)
                     purchaseSection(compact: compact)
                     legalFooter(compact: compact)
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, compact ? 6 : 12)
-                .padding(.bottom, compact ? 6 : 12)
+                .padding(.top, compact ? 6 : 10)
+                .padding(.bottom, compact ? 20 : 34)
                 .frame(maxWidth: 520)
                 .frame(maxWidth: .infinity)
                 .frame(height: proxy.size.height, alignment: .top)
@@ -103,30 +102,41 @@ struct PaywallView: View {
         }
     }
 
+    // MARK: - Hero (personalized to the user's weakest signal)
+
     private func heroSection(compact: Bool) -> some View {
-        VStack(alignment: .leading, spacing: compact ? 8 : 12) {
+        VStack(alignment: .leading, spacing: compact ? 10 : 13) {
             Text(headline)
                 .font(ClavisTypography.inter(compact ? 27 : 30, weight: .semibold))
                 .tracking(-0.55)
                 .foregroundColor(.textPrimary)
                 .lineLimit(2)
-                .minimumScaleFactor(0.88)
+                .minimumScaleFactor(0.85)
                 .fixedSize(horizontal: false, vertical: true)
 
-            PaywallLockedRiskMap(context: onboardingContext, compact: compact)
+            Text(subhead)
+                .font(ClavisTypography.inter(compact ? 14 : 15, weight: .regular))
+                .foregroundColor(.textSecondary)
+                .lineLimit(3)
+                .fixedSize(horizontal: false, vertical: true)
+
+            PaywallBlindSpotCard(context: ctx, compact: compact)
+                .padding(.top, compact ? 4 : 6)
         }
     }
 
+    // MARK: - Benefits (outcome-framed)
+
     private func benefitsSection(compact: Bool) -> some View {
         VStack(alignment: .leading, spacing: compact ? 8 : 11) {
-            Text("What you get")
+            Text("With Pro")
                 .font(ClavisTypography.inter(compact ? 15 : 16, weight: .semibold))
                 .foregroundColor(.textPrimary)
 
             ForEach(Array(benefits.enumerated()), id: \.offset) { _, benefit in
                 HStack(spacing: 11) {
                     Image(systemName: benefit.icon)
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.system(size: 12, weight: .semibold))
                         .foregroundColor(.backgroundPrimary)
                         .frame(width: 25, height: 25)
                         .background(Color.textPrimary)
@@ -134,91 +144,17 @@ struct PaywallView: View {
                     Text(benefit.title)
                         .font(ClavisTypography.inter(14, weight: .medium))
                         .foregroundColor(.textPrimary)
+                        .fixedSize(horizontal: false, vertical: true)
                     Spacer(minLength: 0)
                 }
             }
         }
     }
 
-    // MARK: - Computed helpers
-
-    private var hasIntroductoryOffer: Bool {
-        subscriptionManager.isEligibleForIntroOffer
-            && subscriptionManager.proProduct?.subscription?.introductoryOffer != nil
-    }
-
-    private var ctaTitle: String {
-        if subscriptionManager.isLoading || subscriptionManager.proProduct == nil {
-            return "Loading App Store offer…"
-        }
-        if case .trial = subscriptionManager.status {
-            return "Subscribe for \(subscriptionManager.proDisplayPrice)/month"
-        }
-        return hasIntroductoryOffer
-            ? "Start my 14 days free"
-            : "Subscribe for \(subscriptionManager.proDisplayPrice)/month"
-    }
-
-    @ViewBuilder
-    private func offerSection(compact: Bool) -> some View {
-        if subscriptionManager.proProduct == nil {
-            HStack(spacing: 10) {
-                ProgressView().tint(.textSecondary)
-                Text("Checking your App Store offer")
-                    .font(ClavisTypography.inter(14, weight: .medium))
-                    .foregroundColor(.textSecondary)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .frame(height: compact ? 70 : 84)
-            .padding(.horizontal, compact ? 12 : 16)
-            .background(Color.surface)
-            .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
-        } else if hasIntroductoryOffer {
-            VStack(alignment: .leading, spacing: compact ? 9 : 12) {
-                Text("How your free trial works")
-                    .font(ClavisTypography.inter(compact ? 16 : 17, weight: .semibold))
-                    .foregroundColor(.textPrimary)
-
-                PaywallTimelineRow(
-                    marker: "1",
-                    title: "Today",
-                    detail: "Full access, no charge"
-                )
-                PaywallTimelineRow(
-                    marker: "2",
-                    title: "Day 14",
-                    detail: "\(subscriptionManager.proDisplayPrice)/month"
-                )
-                PaywallTimelineRow(
-                    marker: "3",
-                    title: "Anytime",
-                    detail: "Cancel in Apple ID settings"
-                )
-            }
-            .padding(compact ? 12 : 16)
-            .background(Color.surface)
-            .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
-        } else {
-            HStack(alignment: .firstTextBaseline) {
-                Text("Monthly")
-                    .font(ClavisTypography.inter(15, weight: .semibold))
-                    .foregroundColor(.textPrimary)
-                Spacer()
-                Text(subscriptionManager.proDisplayPrice)
-                    .font(ClavisTypography.mono(22))
-                    .foregroundColor(.textPrimary)
-                Text("/ month")
-                    .font(ClavisTypography.inter(12, weight: .regular))
-                    .foregroundColor(.textSecondary)
-            }
-            .padding(16)
-            .background(Color.surface)
-            .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
-        }
-    }
+    // MARK: - Purchase (CTA + price)
 
     private func purchaseSection(compact: Bool) -> some View {
-        VStack(spacing: compact ? 7 : 10) {
+        VStack(spacing: compact ? 8 : 10) {
             PaywallPrimaryButton(title: ctaTitle, isLoading: subscriptionManager.isLoading, isEnabled: subscriptionManager.proProduct != nil) {
                 Task {
                     if await subscriptionManager.purchase() {
@@ -228,7 +164,7 @@ struct PaywallView: View {
             }
 
             Text(purchaseCaption)
-                .font(ClavisTypography.inter(12, weight: .medium))
+                .font(ClavisTypography.inter(13, weight: .medium))
                 .foregroundColor(.textSecondary)
         }
     }
@@ -251,45 +187,73 @@ struct PaywallView: View {
             .font(ClavisTypography.inter(11, weight: .medium))
             .foregroundColor(.textSecondary)
             .buttonStyle(.plain)
-
-            Text(legalCopy)
-                .font(ClavisTypography.inter(compact ? 10 : 11, weight: .regular))
-                .foregroundColor(.textSecondary)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity)
     }
 
+    // MARK: - Computed helpers
+
+    private var hasIntroductoryOffer: Bool {
+        subscriptionManager.isEligibleForIntroOffer
+            && subscriptionManager.proProduct?.subscription?.introductoryOffer != nil
+    }
+
+    private var ctaTitle: String {
+        if subscriptionManager.isLoading || subscriptionManager.proProduct == nil {
+            return "Loading App Store offer…"
+        }
+        if case .trial = subscriptionManager.status {
+            return "Subscribe for \(subscriptionManager.proDisplayPrice)/month"
+        }
+        return hasIntroductoryOffer
+            ? "Start my 14-day trial"
+            : "Subscribe for \(subscriptionManager.proDisplayPrice)/month"
+    }
+
+    // The user's weakest signal, lowercased for mid-sentence use ("macro resilience").
+    private var blindSpotLower: String {
+        (ctx?.blindSpotName ?? "macro resilience").lowercased()
+    }
+
     private var headline: String {
+        if ctx != nil {
+            let name = blindSpotLower
+            return "\(name.prefix(1).uppercased())\(name.dropFirst()) is your blind spot."
+        }
         switch triggerContext {
-        case .onboardingReveal:
-            return "Unlock your full risk map."
         case .expiredTrial:
             return "Keep your risk monitoring live."
+        case .onboardingReveal:
+            return "Unlock your full risk map."
         default:
             return "See the risk behind every position."
         }
     }
 
-    private var benefits: [(icon: String, title: String)] {
-        [
-            ("chart.bar.fill", "Every holding across five risk signals"),
-            ("newspaper.fill", "Daily scores, news, and reasoning"),
-            ("bell.fill", "Alerts when your risk picture changes")
-        ]
+    private var subhead: String {
+        if ctx != nil {
+            return "Pro reveals the \(blindSpotLower) behind every holding, plus four more risk signals built from thousands of data points."
+        }
+        return "See every holding across five risk signals, built from thousands of data points."
     }
 
-    private var legalCopy: String {
-        if hasIntroductoryOffer {
-            return "After 14 days, renews at \(subscriptionManager.proDisplayPrice)/month unless canceled at least 24 hours before renewal."
-        }
-        return "Payment is charged at purchase and renews at \(subscriptionManager.proDisplayPrice)/month unless canceled at least 24 hours before renewal."
+    private var benefits: [(icon: String, title: String)] {
+        let name = ctx != nil ? blindSpotLower : "your weakest signal"
+        return [
+            ("scope", "Understand where your portfolio risk comes from"),
+            ("doc.text.magnifyingglass", "See what's dragging \(name) down, holding by holding"),
+            ("magnifyingglass", "Look up any company's risk rating before you invest"),
+            ("newspaper.fill", "Get a daily digest of what improved or worsened"),
+            ("bell.badge.fill", "Get notified when stock or portfolio grades change")
+        ]
     }
 
     private var purchaseCaption: String {
         guard subscriptionManager.proProduct != nil else { return "This usually takes a moment." }
-        return hasIntroductoryOffer ? "No charge today" : "Renews monthly. Cancel anytime."
+        let price = subscriptionManager.proDisplayPrice
+        return hasIntroductoryOffer
+            ? "$0 today, then \(price)/mo · cancel anytime"
+            : "\(price)/mo · cancel anytime"
     }
 }
 
@@ -342,7 +306,9 @@ enum PaywallTrigger {
     }
 }
 
-private struct PaywallLockedRiskMap: View {
+// MARK: - Personalized blind-spot card
+
+private struct PaywallBlindSpotCard: View {
     let context: OnboardingPaywallContext?
     let compact: Bool
 
@@ -352,48 +318,115 @@ private struct PaywallLockedRiskMap: View {
         return stored.map(Double.init)
     }
 
+    private var blindSpotValue: Int { context?.blindSpotAverage ?? 44 }
+
     var body: some View {
-        HStack(spacing: compact ? 10 : 14) {
-            ZStack {
+        VStack(alignment: .leading, spacing: compact ? 9 : 11) {
+            HStack(spacing: compact ? 13 : 16) {
                 PaywallRadarGraphic(values: scores)
-                    .blur(radius: 1.25)
-                    .opacity(0.9)
+                    .frame(width: compact ? 82 : 96, height: compact ? 74 : 86)
 
-                Circle()
-                    .fill(Color.backgroundPrimary.opacity(0.9))
-                    .frame(width: compact ? 36 : 42, height: compact ? 36 : 42)
-                    .overlay(
-                        Image(systemName: "lock.fill")
-                            .font(.system(size: compact ? 12 : 14, weight: .semibold))
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(blindSpotLabel)
+                        .font(ClavisTypography.inter(compact ? 13 : 14, weight: .semibold))
+                        .foregroundColor(.textPrimary)
+
+                    HStack(alignment: .firstTextBaseline, spacing: 3) {
+                        Text("\(blindSpotValue)")
+                            .font(ClavisTypography.mono(compact ? 24 : 28))
+                            .foregroundColor(.warn)
+                        Text("/100")
+                            .font(ClavisTypography.inter(13, weight: .regular))
+                            .foregroundColor(.textSecondary)
+                    }
+
+                    ProgressBar(value: Double(blindSpotValue) / 100)
+                        .frame(height: 4)
+                }
+                Spacer(minLength: 0)
+            }
+
+            // Locked breakdown: the sub-factors that feed this score.
+            // Bars are visible; labels and values are blurred behind the lock.
+            VStack(alignment: .leading, spacing: compact ? 6 : 7) {
+                ForEach(Array(factorRows.enumerated()), id: \.offset) { _, row in
+                    HStack(spacing: 10) {
+                        Text(row.label)
+                            .font(ClavisTypography.inter(11, weight: .medium))
+                            .foregroundColor(.textSecondary)
+                            .lineLimit(1)
+                            .frame(width: compact ? 96 : 112, alignment: .leading)
+
+                        ProgressBar(value: row.frac)
+                            .frame(height: 5)
+
+                        Text("\(row.score)")
+                            .font(ClavisTypography.mono(11))
                             .foregroundColor(.textPrimary)
-                    )
+                            .frame(width: 20, alignment: .trailing)
+                    }
+                }
             }
-            .frame(width: compact ? 84 : 100, height: compact ? 72 : 88)
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(context?.weakestTicker ?? "YOUR PORTFOLIO")
-                    .font(ClavisTypography.mono(9))
-                    .tracking(0.6)
-                    .foregroundColor(.textSecondary)
-                Text("Full five-signal map")
-                    .font(ClavisTypography.inter(compact ? 15 : 16, weight: .semibold))
-                    .foregroundColor(.textPrimary)
-                Text(detail)
-                    .font(ClavisTypography.inter(compact ? 11 : 12, weight: .regular))
-                    .foregroundColor(.textSecondary)
-                    .lineLimit(2)
-            }
-            Spacer(minLength: 0)
+            .padding(.top, compact ? 2 : 3)
+            .blur(radius: compact ? 2.7 : 3.1)
+            .overlay(
+                HStack(spacing: 6) {
+                    Image(systemName: "lock.fill")
+                        .font(.system(size: 11, weight: .semibold))
+                    Text("Get Pro to unlock data")
+                        .font(ClavisTypography.inter(13, weight: .semibold))
+                }
+                .foregroundColor(.textPrimary)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 7)
+                .background(Color.backgroundPrimary.opacity(0.9))
+                .clipShape(Capsule())
+                .overlay(Capsule().stroke(Color.border.opacity(0.85), lineWidth: 1))
+            )
         }
-        .padding(.horizontal, compact ? 10 : 12)
-        .padding(.vertical, compact ? 8 : 10)
+        .padding(.horizontal, compact ? 14 : 16)
+        .padding(.vertical, compact ? 12 : 14)
         .background(Color.surface)
         .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
     }
 
-    private var detail: String {
-        guard let context else { return "Every holding, refreshed daily" }
-        return "\(context.blindSpotName) is currently \(context.blindSpotAverage)/100"
+    private var blindSpotLabel: String {
+        let raw = (context?.blindSpotName ?? "Macro resilience")
+        let lower = raw.lowercased()
+        return "\(lower.prefix(1).uppercased())\(lower.dropFirst())"
+    }
+
+    // Synthesized sub-factor teaser. Values are derived from the blind-spot
+    // score so the bars look related to the real number; they're blurred, so
+    // they read as "there's real detail here, locked" rather than exact data.
+    private var factorRows: [(label: String, frac: Double, score: Int)] {
+        let base = Double(blindSpotValue)
+        let specs: [(String, Double)] = [
+            ("Rate sensitivity", 0.74),
+            ("Cyclical exposure", 1.22),
+            ("Balance-sheet strength", 0.56),
+            ("Demand durability", 1.08)
+        ]
+        return specs.prefix(compact ? 3 : 4).map { spec in
+            let v = min(94, max(8, base * spec.1))
+            return (spec.0, v / 100, Int(v.rounded()))
+        }
+    }
+}
+
+private struct ProgressBar: View {
+    let value: Double
+
+    var body: some View {
+        GeometryReader { proxy in
+            ZStack(alignment: .leading) {
+                Capsule()
+                    .fill(Color.border.opacity(0.6))
+                Capsule()
+                    .fill(Color.warn)
+                    .frame(width: max(4, proxy.size.width * min(1, max(0, value))))
+            }
+        }
     }
 }
 
@@ -425,9 +458,9 @@ private struct PaywallRadarGraphic: View {
                 }
 
                 polygon(values: normalizedValues(count: count), center: center, radius: radius)
-                    .fill(Color.good.opacity(0.24))
+                    .fill(Color.warn.opacity(0.26))
                 polygon(values: normalizedValues(count: count), center: center, radius: radius)
-                    .stroke(Color.good, lineWidth: 2)
+                    .stroke(Color.warn, lineWidth: 2)
             }
         }
     }
@@ -460,31 +493,6 @@ private struct PaywallRadarGraphic: View {
             x: center.x + CGFloat(cos(angle)) * radius,
             y: center.y + CGFloat(sin(angle)) * radius
         )
-    }
-}
-
-private struct PaywallTimelineRow: View {
-    let marker: String
-    let title: String
-    let detail: String
-
-    var body: some View {
-        HStack(spacing: 12) {
-            Text(marker)
-                .font(ClavisTypography.mono(10))
-                .foregroundColor(.backgroundPrimary)
-                .frame(width: 24, height: 24)
-                .background(Color.textPrimary)
-                .clipShape(Circle())
-            Text(title)
-                .font(ClavisTypography.inter(13, weight: .semibold))
-                .foregroundColor(.textPrimary)
-            Spacer()
-            Text(detail)
-                .font(ClavisTypography.inter(13, weight: .regular))
-                .foregroundColor(.textSecondary)
-                .multilineTextAlignment(.trailing)
-        }
     }
 }
 

@@ -1181,6 +1181,12 @@ struct TickerSearchResult: Identifiable, Codable, Hashable {
     var resolvedCompanyName: String? {
         sharedAnalysis?.companyName ?? companyName
     }
+
+    /// Latest known price, preferring the shared-analysis snapshot over the
+    /// top-level search price. Used to convert a dollar amount into shares.
+    var resolvedPrice: Double? {
+        sharedAnalysis?.latestPrice ?? price
+    }
 }
 
 struct TickerDetailResponse: Codable {

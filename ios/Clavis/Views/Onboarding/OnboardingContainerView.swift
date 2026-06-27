@@ -142,7 +142,7 @@ private struct OnboardingWelcomeSetupView: View {
                         .fixedSize(horizontal: false, vertical: true)
                         .padding(.bottom, 10)
 
-                    Text("Enter at least one holding and the shares you own. You can add more positions below.")
+                    Text("Enter at least one holding and how much you own, by share count or dollar amount. Add more positions below.")
                         .font(ClavisTypography.inter(15, weight: .regular))
                         .foregroundColor(.ink2)
                         .lineSpacing(2)
@@ -339,13 +339,10 @@ private struct OnboardingHoldingsEntry: View {
                     .tracking(0.7)
                     .foregroundColor(.textSecondary)
                 Spacer()
-                Text("SHARES")
-                    .font(ClavisTypography.mono(9))
-                    .tracking(0.7)
-                    .foregroundColor(.textSecondary)
+                EntryModeToggle(viewModel: viewModel)
             }
             .padding(.horizontal, 14)
-            .padding(.vertical, 12)
+            .padding(.vertical, 10)
 
             AhaHairline()
 
@@ -409,15 +406,32 @@ private struct WelcomeHoldingRow: View {
             .autocorrectionDisabled()
             .keyboardType(.asciiCapable)
 
-            TextField("0", text: Binding(
-                get: { entry.shares },
-                set: { viewModel.updateShares(entry.id, $0) }
-            ), prompt: Text("0").foregroundColor(.textSecondary))
-            .font(ClavisTypography.mono(15))
-            .foregroundColor(.textPrimary)
-            .keyboardType(.decimalPad)
-            .multilineTextAlignment(.trailing)
-            .frame(width: 62)
+            if viewModel.entryMode == .amount {
+                HStack(spacing: 1) {
+                    Text("$")
+                        .font(ClavisTypography.mono(15))
+                        .foregroundColor(.textSecondary)
+                    TextField("0", text: Binding(
+                        get: { entry.amount },
+                        set: { viewModel.updateAmount(entry.id, $0) }
+                    ), prompt: Text("0").foregroundColor(.textSecondary))
+                    .font(ClavisTypography.mono(15))
+                    .foregroundColor(.textPrimary)
+                    .keyboardType(.decimalPad)
+                    .multilineTextAlignment(.trailing)
+                }
+                .frame(width: 86)
+            } else {
+                TextField("0", text: Binding(
+                    get: { entry.shares },
+                    set: { viewModel.updateShares(entry.id, $0) }
+                ), prompt: Text("0").foregroundColor(.textSecondary))
+                .font(ClavisTypography.mono(15))
+                .foregroundColor(.textPrimary)
+                .keyboardType(.decimalPad)
+                .multilineTextAlignment(.trailing)
+                .frame(width: 62)
+            }
 
             Button {
                 viewModel.removeEntry(entry.id)
@@ -432,6 +446,42 @@ private struct WelcomeHoldingRow: View {
         }
         .padding(.horizontal, 14)
         .frame(height: 58)
+    }
+}
+
+/// Compact segmented control letting the user size each holding by share
+/// count or by an estimated dollar amount. Matches the onboarding chip
+/// aesthetic: mono labels, filled selected segment, capsule frame.
+private struct EntryModeToggle: View {
+    @ObservedObject var viewModel: OnboardingViewModel
+
+    var body: some View {
+        HStack(spacing: 2) {
+            segment("SHARES", mode: .shares)
+            segment("AMOUNT", mode: .amount)
+        }
+        .padding(2)
+        .background(Color.surfaceElevated)
+        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                .stroke(Color.border, lineWidth: 1)
+        )
+    }
+
+    private func segment(_ label: String, mode: OnboardingEntryMode) -> some View {
+        let selected = viewModel.entryMode == mode
+        let shape = RoundedRectangle(cornerRadius: 4, style: .continuous)
+        return Text(label)
+            .font(ClavisTypography.mono(9))
+            .tracking(0.7)
+            .foregroundColor(selected ? .backgroundPrimary : .textSecondary)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 5)
+            .background(selected ? Color.textPrimary : Color.clear)
+            .clipShape(shape)
+            .contentShape(shape)
+            .onTapGesture { viewModel.setEntryMode(mode) }
     }
 }
 
@@ -721,9 +771,6 @@ private struct OnboardingPortfolioAhaView: View {
         ZStack {
             Color.backgroundPrimary.ignoresSafeArea()
             switch viewModel.ahaPhase {
-            case .input:
-                AhaInputScreen(viewModel: viewModel, isFreeTier: isFreeTier, onBack: onBack, onSkip: onSkip)
-                    .transition(.opacity)
             case .questions:
                 AhaQuestionsScreen(viewModel: viewModel).transition(.opacity)
             case .reveal:
@@ -817,7 +864,7 @@ private struct AhaInputScreen: View {
             VStack(spacing: 0) {
                 AhaHairline()
                 AhaPrimaryButton(title: "Grade my portfolio", enabled: viewModel.canAnalyze) {
-                    viewModel.enterQuestions()
+                    viewModel.finishQuestions()
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 12)
@@ -1067,7 +1114,7 @@ private struct AhaQuestionsScreen: View {
         }
         .background(Color.backgroundPrimary.ignoresSafeArea())
         .safeAreaInset(edge: .top, spacing: 0) {
-            OnboardingStickyBar(step: 2, total: 2)
+            OnboardingStickyBar(step: 1, total: 2)
         }
     }
 
@@ -1104,10 +1151,10 @@ private struct OnboardingChoiceChip: View {
                 .padding(.vertical, 10)
                 .background(selected ? Color.textPrimary : Color.surface)
                 .overlay(
-                    RoundedRectangle(cornerRadius: 4, style: .continuous)
+                    Capsule()
                         .stroke(selected ? Color.clear : Color.border, lineWidth: 1)
                 )
-                .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+                .clipShape(Capsule())
                 .opacity(dimmed ? 0.55 : 1)
         }
         .buttonStyle(.plain)
@@ -1172,16 +1219,20 @@ private struct AhaRevealScreen: View {
                         header(reveal)
 
                         AhaRiskProfileCard(reveal: reveal, reduceMotion: reduceMotion) {
-                            withAnimation(.easeInOut(duration: 0.4)) { analysisDone = true }
+                            withAnimation(.spring(response: 0.5, dampingFraction: 0.86)) { analysisDone = true }
                         }
 
                         if analysisDone {
                             weakestCard(reveal)
-                                .transition(.opacity.combined(with: .offset(y: 8)))
+                                .transition(.asymmetric(
+                                    insertion: .opacity.combined(with: .offset(y: 14)),
+                                    removal: .opacity))
 
                             if let strongest = reveal.strongest, strongest.key != reveal.blindSpot.key {
                                 strongestCard(reveal, metric: strongest)
-                                    .transition(.opacity.combined(with: .offset(y: 8)))
+                                    .transition(.asymmetric(
+                                        insertion: .opacity.combined(with: .offset(y: 14)),
+                                        removal: .opacity))
                             }
 
                             AhaLockedDetail(reveal: reveal)
@@ -1218,7 +1269,6 @@ private struct AhaRevealScreen: View {
                     .frame(maxWidth: 520)
                     .frame(maxWidth: .infinity)
                     .frame(minHeight: proxy.size.height, alignment: .top)
-                    .animation(.easeInOut(duration: 0.35), value: analysisDone)
                 }
             }
             .safeAreaInset(edge: .top, spacing: 0) {
@@ -1338,21 +1388,13 @@ private struct AhaRevealScreen: View {
     @ViewBuilder private func metricCard(eyebrow: String, tone: Color, metric: AhaDimensionFinding,
                                          breakdown: [MetricContribution], narrative: String) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .firstTextBaseline) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(eyebrow)
-                        .font(ClavisTypography.label).tracking(1.2).foregroundColor(tone)
-                    Text(metric.name)
-                        .font(ClavisTypography.inter(20, weight: .semibold)).tracking(-0.3)
-                        .foregroundColor(.textPrimary)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-                Spacer(minLength: 8)
-                HStack(alignment: .firstTextBaseline, spacing: 2) {
-                    Text("\(Int(metric.average.rounded()))")
-                        .font(ClavisTypography.mono(28)).foregroundColor(tone)
-                    Text("/100").font(ClavisTypography.mono(10)).foregroundColor(.textSecondary)
-                }
+            VStack(alignment: .leading, spacing: 4) {
+                Text(eyebrow)
+                    .font(ClavisTypography.label).tracking(1.2).foregroundColor(tone)
+                Text(metric.name)
+                    .font(ClavisTypography.inter(20, weight: .semibold)).tracking(-0.3)
+                    .foregroundColor(.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
 
             Text(metricMeaning(metric))
@@ -1442,6 +1484,7 @@ private struct AhaRiskProfileCard: View {
     @State private var activeIndex: Int? = nil
     @State private var finished = false
     @State private var started = false
+    @State private var scanProgress: Double = 0
 
     private var dims: [AhaDimensionFinding] { reveal.dimensions }
 
@@ -1506,33 +1549,71 @@ private struct AhaRiskProfileCard: View {
 
     @ViewBuilder private var statusArea: some View {
         if let i = activeIndex, dims.indices.contains(i) {
-            HStack(spacing: 10) {
-                Circle().fill(Color.good).frame(width: 6, height: 6)
-                VStack(alignment: .leading, spacing: 1) {
-                    Text("Analyzing \(dims[i].name.lowercased())")
-                        .font(ClavisTypography.inter(13, weight: .semibold))
-                        .foregroundColor(.textPrimary)
-                    Text(dims[i].explanation)
-                        .font(ClavisTypography.inter(11))
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(spacing: 7) {
+                    Circle().fill(Color.good).frame(width: 5, height: 5)
+                    Text("ANALYZING \(dims[i].name.uppercased())")
+                        .font(ClavisTypography.label)
+                        .tracking(1.0)
                         .foregroundColor(.textSecondary)
-                        .lineLimit(1)
+                    Spacer(minLength: 0)
                 }
-                Spacer(minLength: 8)
-                Text("\(Int(displayed[i].rounded()))")
-                    .font(ClavisTypography.mono(15))
-                    .monospacedDigit()
+                Text(streamLine1(dims[i]))
+                    .font(ClavisTypography.inter(15, weight: .semibold))
                     .foregroundColor(.textPrimary)
+                    .monospacedDigit()
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(streamLine2(dims[i]))
+                    .font(ClavisTypography.inter(13))
+                    .foregroundColor(.textSecondary)
+                    .monospacedDigit()
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .frame(height: 30)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(minHeight: 68, alignment: .top)
         } else {
             HStack {
-                Text("Each holding scored across five risk metrics, then weighed into one score.")
+                Text("Each holding scored across five risk dimensions, weighted into one portfolio score.")
                     .font(ClavisTypography.inter(11))
                     .foregroundColor(.textTertiary)
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer(minLength: 0)
             }
         }
+    }
+
+    private func streamLine1(_ dim: AhaDimensionFinding) -> String {
+        let p = scanProgress
+        switch dim.key {
+        case "FIN":  return "Scanning \(sc(14, p)) financial statements"
+        case "NEWS": return "Reading \(sc(18, p)) news sources"
+        case "MAC":  return "Correlating \(sc(34, p)) macro indicators"
+        case "SEC":  return "Mapping \(sc(312, p)) sector metrics"
+        case "VOL":  return "Sampling \(sc(252, p)) trading sessions"
+        default:     return "Processing \(sc(200, p)) data points"
+        }
+    }
+
+    private func streamLine2(_ dim: AhaDimensionFinding) -> String {
+        let p = scanProgress
+        switch dim.key {
+        case "FIN":  return "across \(scf(2847, p)) data points"
+        case "NEWS": return "and \(sc(127, p)) articles analyzed"
+        case "MAC":  return "across \(sc(12, p)) FRED economic series"
+        case "SEC":  return "across \(scf(487, p)) comparative benchmarks"
+        case "VOL":  return "across \(scf(3024, p)) historical price points"
+        default:     return ""
+        }
+    }
+
+    private func sc(_ max: Int, _ progress: Double) -> String {
+        "\(Int(Double(max) * min(1.0, progress)))"
+    }
+
+    private func scf(_ max: Int, _ progress: Double) -> String {
+        let n = Int(Double(max) * min(1.0, progress))
+        if n >= 1000 { return "\(n / 1000),\(String(format: "%03d", n % 1000))" }
+        return "\(n)"
     }
 
     // MARK: Sequencing — analyze one signal at a time
@@ -1565,8 +1646,10 @@ private struct AhaRiskProfileCard: View {
         let target = dims[i].average
         var current = displayed[i]
         let scanFrames = 16
+        scanProgress = 0
         for f in 0..<scanFrames {
             let t = Double(f) / Double(scanFrames - 1)          // 0 → 1
+            scanProgress = t
             let center = target * min(1, 0.3 + t * 0.8)
             let spread = (1 - t * t) * 48                         // big early, narrows fast
             let jumpTarget = max(3, min(98, center + Double.random(in: -spread...spread)))
@@ -1575,6 +1658,7 @@ private struct AhaRiskProfileCard: View {
             await sleep(0.044)
         }
         // overshoot, then settle smoothly onto the real value
+        scanProgress = 1.0
         displayed[i] = min(100, target + 7)
         await sleep(0.05)
         let from = displayed[i]
