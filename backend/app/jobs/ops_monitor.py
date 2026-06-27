@@ -45,6 +45,45 @@ JOB_CADENCE_HOURS: dict[str, float] = {
     "monthly_etf_holdings_refresh": 24 * 32,
 }
 
+# Jobs scheduled Mon-Fri only (see scripts/cron/clavix.crontab). Markets are closed on
+# weekends so these legitimately do not run Sat/Sun. ops_monitor now runs 7 days a week so
+# the healthchecks.io dead-man's switch is fed daily (it previously went DOWN every weekend
+# because the only heartbeat came from this Mon-Fri job). A naive "hours since last run"
+# check would then flag every weekday-only job as stale all weekend and Monday morning, so
+# _weekend_hours_in_window() relaxes their limit by the weekend time inside the gap; a real
+# weekday miss is still caught. daily_composite_recompute_universe runs 7 days, so it is
+# deliberately NOT in this set.
+_WEEKDAY_ONLY_JOBS: frozenset[str] = frozenset({
+    "daily_earnings_calendar_refresh",
+    "daily_macro_snapshot",
+    "daily_sector_snapshot",
+    "daily_portfolio_rollup_per_user",
+    "daily_eod_price_capture",
+    "event_fundamentals_pull",
+    "edgar_events_sweep",
+})
+
+
+def _weekend_hours_in_window(start: datetime, end: datetime) -> float:
+    """Hours within [start, end] that fall on Sat/Sun (UTC), stepping day by day."""
+    if end <= start:
+        return 0.0
+    total = 0.0
+    cur = start
+    # A weekday-only daily gap spans at most a long weekend; cap iterations defensively
+    # so a job with no recent run can never spin here.
+    for _ in range(400):
+        if cur >= end:
+            break
+        midnight_next = cur.replace(
+            hour=0, minute=0, second=0, microsecond=0
+        ) + timedelta(days=1)
+        day_end = min(end, midnight_next)
+        if cur.weekday() >= 5:  # 5 = Saturday, 6 = Sunday
+            total += (day_end - cur).total_seconds() / 3600.0
+        cur = day_end
+    return total
+
 
 def _latest_run_per_job(supabase) -> dict[str, str]:
     """Most recent started_at per job_id from the last ~2000 job_runs rows."""
@@ -203,7 +242,12 @@ def run() -> dict:
         if not parsed:
             continue
         age_h = (now - parsed).total_seconds() / 3600.0
-        if age_h > max_hours:
+        # Weekday-only jobs do not run Sat/Sun; relax their limit by the weekend time
+        # inside the gap so a Fri->Mon span is not flagged while ops_monitor runs daily.
+        effective_limit = max_hours
+        if job_id in _WEEKDAY_ONLY_JOBS:
+            effective_limit += _weekend_hours_in_window(parsed, now)
+        if age_h > effective_limit:
             issues.append(
                 f"cadence: {job_id} last ran {age_h:.1f}h ago (limit {max_hours:.0f}h)"
             )

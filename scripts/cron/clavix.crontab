@@ -16,7 +16,11 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 # daily_alert_evaluation removed: alert evaluation + APNs run in-process per-user during
 # each user's scheduled digest (see scheduler.trigger_scheduled_digest), so a separate
 # universe job here only risked double-sending. Kept as a note rather than a dead cron line.
-30 12 * * 1-5 root docker exec clavis-backend-1 python -m app.jobs.run daily_ops_monitor >> /var/log/clavix/cron.log 2>&1
+# Runs 7 days a week (not just 1-5): this job pings the healthchecks.io dead-man's
+# switch, so a weekday-only schedule made the check go DOWN every weekend even though
+# the box was healthy. ops_monitor's cadence checks are weekend-aware (see ops_monitor.py
+# _WEEKDAY_ONLY_JOBS) so the weekend runs do not false-alarm on Mon-Fri-only jobs.
+30 12 * * * root docker exec clavis-backend-1 python -m app.jobs.run daily_ops_monitor >> /var/log/clavix/cron.log 2>&1
 30 5 * * 6 root docker exec clavis-backend-1 python -m app.jobs.run weekly_peer_groups_recompute >> /var/log/clavix/cron.log 2>&1
 45 5 * * 6 root docker exec clavis-backend-1 python -m app.jobs.run weekly_sector_medians_recompute >> /var/log/clavix/cron.log 2>&1
 0 6 * * 6 root docker exec clavis-backend-1 python -m app.jobs.run weekly_volatility_recompute >> /var/log/clavix/cron.log 2>&1
