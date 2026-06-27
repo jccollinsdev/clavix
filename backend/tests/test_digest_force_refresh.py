@@ -207,7 +207,9 @@ def test_force_refresh_digest_uses_shared_pipeline_inputs(monkeypatch):
         return {"sector_overview": [{"sector": "financials", "brief": "Sector brief."}]}
 
     def fake_build_event_watchlist_alerts(_supabase, _tickers, **_kwargs):
-        return ["HOOD — beat Q3 estimates -> Upward pressure"]
+        # Echo the tickers it is given so the test verifies that holdings are
+        # excluded and only watchlist-only tickers reach this builder.
+        return [f"{t}: event" for t in (_tickers or [])]
 
     def fake_fetch_upcoming(_supabase, _tickers, **_kwargs):
         return [{"ticker": "HOOD", "report_date": "2026-05-01", "time_of_day": "amc"}]
@@ -220,10 +222,11 @@ def test_force_refresh_digest_uses_shared_pipeline_inputs(monkeypatch):
         digest_inputs, "build_event_watchlist_alerts", fake_build_event_watchlist_alerts
     )
     monkeypatch.setattr(earnings_calendar_svc, "fetch_upcoming", fake_fetch_upcoming)
+    # HOOD is also a holding (must be excluded); NVDA is watchlist-only (kept).
     monkeypatch.setattr(
         digest,
         "get_default_watchlist_detail",
-        lambda _supabase, _user_id: {"items": [{"ticker": "HOOD"}]},
+        lambda _supabase, _user_id: {"items": [{"ticker": "HOOD"}, {"ticker": "NVDA"}]},
     )
     monkeypatch.setattr(
         digest, "_compute_portfolio_grade", lambda current_positions: (68.4, "B")
@@ -283,9 +286,8 @@ def test_force_refresh_digest_uses_shared_pipeline_inputs(monkeypatch):
         compiled_calls["sector_context"]["sector_overview"][0]["brief"]
         == "Sector brief."
     )
-    assert compiled_calls["watchlist_alerts"] == [
-        "HOOD — beat Q3 estimates -> Upward pressure"
-    ]
+    # Holdings (HOOD) are excluded; only the watchlist-only ticker (NVDA) surfaces.
+    assert compiled_calls["watchlist_alerts"] == ["NVDA: event"]
     assert compiled_calls["earnings_calendar"][0]["ticker"] == "HOOD"
     assert response["analysis_run"]["id"] == "run-new"
     assert response["overall_grade"] == "B"

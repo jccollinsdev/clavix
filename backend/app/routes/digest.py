@@ -356,27 +356,30 @@ async def _build_force_refresh_digest(
     except Exception:
         pass
 
-    # Watchlist alerts = things that HAPPENED: a whole-letter grade move or a
-    # real, material news event. Empty when nothing happened (the app then hides
-    # the section entirely).
+    # Watchlist alerts are about the user's WATCHLIST (stocks they track but do
+    # not own), NOT their holdings. Holdings already get the Position changes
+    # section, so we exclude anything held to avoid duplicating it here. An empty
+    # watchlist => no alerts => the app hides the section entirely.
     watchlist_alerts: list[str] = []
     try:
         from ..pipeline.digest_inputs import (
             build_event_watchlist_alerts,
-            build_grade_change_alerts,
+            build_grade_change_alerts_for_tickers,
             merge_watchlist_alerts,
         )
 
+        held = {str(t or "").strip().upper() for t in digest_tickers if str(t or "").strip()}
         watchlist_detail = get_default_watchlist_detail(supabase, user_id)
-        watchlist_tickers = [
-            str(item.get("ticker") or "").strip().upper()
-            for item in watchlist_detail.get("items", [])
-            if str(item.get("ticker") or "").strip()
-        ]
-        alert_tickers = sorted(set(digest_tickers) | set(watchlist_tickers))
+        watchlist_tickers = sorted(
+            {
+                tk
+                for item in watchlist_detail.get("items", [])
+                if (tk := str(item.get("ticker") or "").strip().upper()) and tk not in held
+            }
+        )
         watchlist_alerts = merge_watchlist_alerts(
-            build_grade_change_alerts(positions),
-            build_event_watchlist_alerts(supabase, alert_tickers),
+            build_grade_change_alerts_for_tickers(supabase, watchlist_tickers),
+            build_event_watchlist_alerts(supabase, watchlist_tickers),
         )
     except Exception:
         watchlist_alerts = []

@@ -3525,7 +3525,7 @@ async def execute_analysis_run(
             try:
                 from .digest_inputs import (
                     build_event_watchlist_alerts,
-                    build_grade_change_alerts,
+                    build_grade_change_alerts_for_tickers,
                     build_position_impacts,
                     build_sector_by_ticker,
                     build_sector_context,
@@ -3533,6 +3533,9 @@ async def execute_analysis_run(
                     merge_watchlist_alerts,
                 )
                 from ..services.earnings_calendar import fetch_upcoming
+                from ..services.ticker_cache_service import (
+                    get_default_watchlist_detail,
+                )
 
                 sbt = build_sector_by_ticker(supabase, position_payloads)
                 if not (sector_context or {}).get("sector_overview"):
@@ -3545,9 +3548,27 @@ async def execute_analysis_run(
                 )
                 if isinstance(macro_context, dict):
                     macro_context["position_impacts"] = position_impacts
+                # Watchlist alerts cover the user's WATCHLIST (tracked, not owned),
+                # not holdings; holdings are the Position changes section. Exclude
+                # anything held so we never duplicate it here.
+                held_tickers = {
+                    str(t or "").strip().upper() for t in digest_tickers if str(t or "").strip()
+                }
+                try:
+                    wl_detail = get_default_watchlist_detail(supabase, user_id)
+                    watchlist_only = sorted(
+                        {
+                            tk
+                            for item in wl_detail.get("items", [])
+                            if (tk := str(item.get("ticker") or "").strip().upper())
+                            and tk not in held_tickers
+                        }
+                    )
+                except Exception:
+                    watchlist_only = []
                 digest_watchlist_alerts = merge_watchlist_alerts(
-                    build_grade_change_alerts(position_payloads),
-                    build_event_watchlist_alerts(supabase, digest_tickers),
+                    build_grade_change_alerts_for_tickers(supabase, watchlist_only),
+                    build_event_watchlist_alerts(supabase, watchlist_only),
                 )
                 digest_earnings = fetch_upcoming(supabase, digest_tickers)
                 digest_what_to_watch = build_what_to_watch(

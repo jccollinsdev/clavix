@@ -745,11 +745,13 @@ def _is_academic_grade(grade: object) -> bool:
 
 
 def build_grade_change_alerts(positions: list[dict] | None) -> list[str]:
-    """Watchlist alert when a holding's overall grade (the roll-up of the five
+    """Alert when a tracked ticker's overall grade (the roll-up of the five
     dimension metrics) crosses a WHOLE letter band vs the prior snapshot. We
     only fire on a full-band move (B -> A, B -> C) so day-to-day grade flicker
     inside a band (B+ -> B) never spams an alert, and only when BOTH grades are
-    unambiguously academic so a vocabulary mismatch never reads as a real move."""
+    unambiguously academic so a vocabulary mismatch never reads as a real move.
+
+    Each entry needs `ticker`, `grade`, and `previous_grade`."""
     alerts: list[str] = []
     for position in positions or []:
         ticker = _normalize_ticker(position.get("ticker"))
@@ -772,6 +774,51 @@ def build_grade_change_alerts(positions: list[dict] | None) -> list[str]:
                 f"overall profile weakened. Worth reviewing whether your thesis still holds."
             )
     return alerts
+
+
+def _grade_history_map(supabase, tickers: list[str]) -> dict[str, tuple]:
+    """{ticker: (latest_grade, previous_grade)} from ticker_risk_snapshots.
+
+    Watchlist tickers are not in the user's position payloads, so we read their
+    last two graded snapshots directly to detect a whole-letter move."""
+    norm = sorted({_normalize_ticker(t) for t in tickers if _normalize_ticker(t)})
+    if not norm or supabase is None:
+        return {}
+    try:
+        rows = (
+            supabase.table("ticker_risk_snapshots")
+            .select("ticker,grade,created_at")
+            .in_("ticker", norm)
+            .order("created_at", desc=True)
+            .limit(max(len(norm) * 5, 20))
+            .execute()
+            .data
+            or []
+        )
+    except Exception:
+        logger.exception("grade history read failed")
+        return {}
+    by_ticker: dict[str, list] = {}
+    for row in rows:
+        ticker = _normalize_ticker(row.get("ticker"))
+        grade = str(row.get("grade") or "").strip()
+        if ticker and grade:
+            by_ticker.setdefault(ticker, []).append(grade)
+    return {
+        ticker: (grades[0], grades[1] if len(grades) > 1 else None)
+        for ticker, grades in by_ticker.items()
+    }
+
+
+def build_grade_change_alerts_for_tickers(supabase, tickers: list[str]) -> list[str]:
+    """Whole-letter grade-change alerts for arbitrary tickers (e.g. watchlist
+    names that the user does not hold), sourced from snapshot history."""
+    history = _grade_history_map(supabase, tickers)
+    pseudo = [
+        {"ticker": ticker, "grade": grade, "previous_grade": prev}
+        for ticker, (grade, prev) in history.items()
+    ]
+    return build_grade_change_alerts(pseudo)
 
 
 def _alert_lead_ticker(text: str) -> str:
