@@ -148,7 +148,8 @@ def test_compile_portfolio_digest_falls_back_to_structured_sector_and_position_f
     }
     assert digest["sections"]["what_to_watch_today"]["catalysts"]
     assert digest["sections"]["what_to_watch_today"]["catalysts"][0]["urgency"] == "low"
-    assert "No immediate portfolio-level risk driver found today" in digest["content"]
+    # With no earnings on the calendar, the fallback is one tight line (no filler tail).
+    assert "No dated catalyst on the calendar today" in digest["content"]
 
 
 def test_compile_portfolio_digest_preserves_real_urgent_items():
