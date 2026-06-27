@@ -878,20 +878,24 @@ async def _sector_note(entry: dict) -> str:
         lines.append(f"- {title}" + (f": {summary}" if summary else ""))
     if not arts:
         lines.append("- (no specific sector or holding news today)")
-    try:
-        raw = chatcompletion_text(
-            messages=[
-                {"role": "system", "content": SECTOR_NOTE_PROMPT},
-                {"role": "user", "content": "\n".join(lines)},
-            ],
-            temperature=0.2,
-            max_tokens=1200,
-        )
-        brief = str(extract_json_object(raw, {}).get("brief") or "").strip()
-        if brief:
-            return brief
-    except Exception:
-        logger.exception("sector note LLM failed for %s", sector)
+    # The reasoning model intermittently returns an empty answer (whole budget
+    # spent in <think>); one retry recovers nearly all of those.
+    for _ in range(2):
+        try:
+            raw = chatcompletion_text(
+                messages=[
+                    {"role": "system", "content": SECTOR_NOTE_PROMPT},
+                    {"role": "user", "content": "\n".join(lines)},
+                ],
+                temperature=0.2,
+                max_tokens=1300,
+            )
+            brief = str(extract_json_object(raw, {}).get("brief") or "").strip()
+            if brief:
+                return brief
+        except Exception:
+            logger.exception("sector note LLM failed for %s", sector)
+            break
     return _fallback_owned_sector_brief(entry)
 
 
@@ -967,26 +971,32 @@ async def analyze_position_note(
         lines.extend(f"- {n}" for n in news)
     else:
         lines.append(f"Recent {ticker} news: none in the last few days.")
-    try:
-        raw = chatcompletion_text(
-            messages=[
-                {"role": "system", "content": POSITION_NOTE_PROMPT},
-                {"role": "user", "content": "\n".join(lines)},
-            ],
-            temperature=0.2,
-            max_tokens=1400,
-        )
-        parsed = extract_json_object(raw, {})
-        summary = str(parsed.get("impact_summary") or "").strip()
-        if summary:
-            relevance = str(parsed.get("macro_relevance") or "neutral").strip().lower() or "neutral"
-            return {
-                "ticker": _normalize_ticker(ticker),
-                "macro_relevance": relevance,
-                "impact_summary": summary,
-            }
-    except Exception:
-        logger.exception("position note LLM failed for %s", ticker)
+    # Retry once: the reasoning model intermittently returns an empty answer
+    # (whole token budget consumed in its hidden <think> block).
+    for _ in range(2):
+        try:
+            raw = chatcompletion_text(
+                messages=[
+                    {"role": "system", "content": POSITION_NOTE_PROMPT},
+                    {"role": "user", "content": "\n".join(lines)},
+                ],
+                temperature=0.2,
+                max_tokens=1500,
+            )
+            parsed = extract_json_object(raw, {})
+            summary = str(parsed.get("impact_summary") or "").strip()
+            if summary:
+                relevance = (
+                    str(parsed.get("macro_relevance") or "neutral").strip().lower() or "neutral"
+                )
+                return {
+                    "ticker": _normalize_ticker(ticker),
+                    "macro_relevance": relevance,
+                    "impact_summary": summary,
+                }
+        except Exception:
+            logger.exception("position note LLM failed for %s", ticker)
+            break
     return None
 
 
