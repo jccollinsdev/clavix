@@ -411,6 +411,27 @@ def _short_reason(text: str, limit: int = 120) -> str:
     return t.rstrip(".")
 
 
+# Varied closing actions so the watch list never reads like the same robotic
+# line repeated. Picked by position index, so the items in one digest never
+# repeat the same phrasing.
+_WATCH_CONCERN_ACTIONS = (
+    "Worth a closer look to decide whether your thesis still holds.",
+    "Take a moment with the latest numbers before you add or trim.",
+    "Reassess whether it still fits the risk you want to carry.",
+    "Check what is driving this and decide if the setup has changed.",
+    "Give it a second look and weigh whether to keep holding.",
+    "A name to keep honest until the picture gets clearer.",
+)
+_WATCH_POSITIVE_ACTIONS = (
+    "If you are sitting on gains, consider trimming into the strength.",
+    "A good moment to decide whether to take some profit or let it run.",
+    "Worth reviewing whether to lock in part of the upside.",
+    "Consider whether to right-size the position after the move.",
+    "With the move in your favor, weigh trimming versus holding on.",
+    "Check whether you would rather bank some gains or stay the course.",
+)
+
+
 def build_what_to_watch(
     supabase,
     positions: list[dict],
@@ -461,8 +482,8 @@ def build_what_to_watch(
         if rel == "contradicts" or grade_down:
             concerning.append(
                 {
-                    "catalyst": f"{ticker}: {reason}. Dig in and decide whether it changes your thesis before you keep holding.",
-                    "impacted_positions": [ticker],
+                    "ticker": ticker,
+                    "reason": reason,
                     "urgency": "high" if grade_down else "medium",
                     "_rank": 0 if grade_down else 1,
                 }
@@ -470,16 +491,29 @@ def build_what_to_watch(
         elif rel == "supports" or grade_up:
             positive.append(
                 {
-                    "catalyst": f"{ticker}: {reason}. If you're sitting on gains here, consider whether to trim.",
-                    "impacted_positions": [ticker],
+                    "ticker": ticker,
+                    "reason": reason,
                     "urgency": "low",
                     "_rank": 0 if grade_up else 1,
                 }
             )
 
-    concerning.sort(key=lambda x: x.pop("_rank", 1))
-    positive.sort(key=lambda x: x.pop("_rank", 1))
-    items = earnings_items + concerning[:3] + positive[:2]
+    concerning.sort(key=lambda x: x.get("_rank", 1))
+    positive.sort(key=lambda x: x.get("_rank", 1))
+
+    def _watch_item(entry: dict, idx: int, actions: tuple) -> dict:
+        action = actions[idx % len(actions)]
+        return {
+            "catalyst": f"{entry['ticker']}: {entry['reason']}. {action}",
+            "impacted_positions": [entry["ticker"]],
+            "urgency": entry["urgency"],
+        }
+
+    items = (
+        earnings_items
+        + [_watch_item(c, i, _WATCH_CONCERN_ACTIONS) for i, c in enumerate(concerning[:3])]
+        + [_watch_item(p, i, _WATCH_POSITIVE_ACTIONS) for i, p in enumerate(positive[:2])]
+    )
     if not items:
         items = [
             {
@@ -538,24 +572,43 @@ def _leads_with_ticker(body: str, ticker: str) -> bool:
     return rest == "" or not rest[0].isalpha()
 
 
+def _trim_sentence(text: str, limit: int) -> str:
+    """Trim to <= limit, preferring a clean sentence boundary so a line never
+    ends mid-word ('...overhan…')."""
+    text = " ".join(str(text or "").split())
+    if len(text) <= limit:
+        return text
+    window = text[:limit]
+    for end in (". ", "! ", "? "):
+        idx = window.rfind(end)
+        if idx >= limit * 0.5:
+            return window[: idx + 1].rstrip()
+    space = window.rfind(" ")
+    if space > 0:
+        window = window[:space]
+    return window.rstrip(" ,;:") + "…"
+
+
 def _event_alert_text(row: dict, ticker: str) -> str | None:
-    """Statement + interpretation: 'TICKER: what happened. what it means.'"""
-    happened = _trim(
-        _strip_source_tail(
-            str(row.get("what_happened") or row.get("tldr") or row.get("title") or "").strip()
-        ),
-        150,
+    """One clean AI-written line, led by the ticker. We use what_it_means (the
+    model's read of the event) rather than what_happened (which is often the raw
+    article headline), so the alert is the analyst's take and not a headline
+    stapled onto a summary."""
+    text = _strip_source_tail(
+        _strip_boilerplate(
+            str(
+                row.get("what_it_means")
+                or row.get("tldr")
+                or row.get("summary")
+                or row.get("what_happened")
+                or row.get("title")
+                or ""
+            ).strip()
+        )
     )
-    if not happened:
+    body = _trim_sentence(text, 240)
+    if not body:
         return None
-    means = _trim(_strip_boilerplate(str(row.get("what_it_means") or "").strip()), 150)
-    if means and means.lower().rstrip(".").strip() in happened.lower():
-        means = ""  # don't echo the headline back as its own interpretation
-    body = happened
-    if means:
-        if body and body[-1] not in ".!?":
-            body += "."
-        body = f"{body} {means}"
     if not _leads_with_ticker(body, ticker):
         body = f"{ticker}: {body}"
     if body and body[-1] not in ".!?":

@@ -492,7 +492,7 @@ struct MorningReportView: View {
             .padding(.top, 12)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.fraction(0.85), .large])
         .presentationDragIndicator(.visible)
     }
 
@@ -516,7 +516,7 @@ struct MorningReportView: View {
             .padding(.top, 12)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.fraction(0.85), .large])
         .presentationDragIndicator(.visible)
     }
 
