@@ -318,6 +318,166 @@ async def build_sector_context(
     return await summarize_owned_sectors(list(by_sector.values()))
 
 
+_GRADE_ORD = {
+    "A+": 13, "A": 12, "A-": 11, "B+": 10, "B": 9, "B-": 8,
+    "C+": 7, "C": 6, "C-": 5, "D+": 4, "D": 3, "D-": 2, "F": 1,
+    "AAA": 13, "AA": 12, "BBB": 8, "BB": 6, "CCC": 2, "CC": 1,
+}
+
+
+def _grade_ord(grade: object) -> int:
+    return _GRADE_ORD.get(str(grade or "").strip().upper(), 6)
+
+
+def _num(value: object) -> float | None:
+    try:
+        return None if value is None else float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+async def build_position_impacts(
+    supabase,
+    positions: list[dict],
+    macro_context: dict | None = None,
+    sector_by_ticker: dict[str, dict] | None = None,
+    sector_context: dict | None = None,
+) -> list[dict]:
+    """Per-ticker 'what's moving my stock' notes: macro + sector + company news.
+
+    One focused LLM call per holding (batched calls return empty on the reasoning
+    model). Falls back to a deterministic factor/sector line if a call fails.
+    """
+    from .macro_classifier import _impact_for_factor, analyze_position_note
+
+    sector_by_ticker = sector_by_ticker or build_sector_by_ticker(supabase, positions)
+    macro = (macro_context or {}).get("overnight_macro") or {}
+    macro_brief = macro.get("brief")
+    macro_headlines = macro.get("headlines") or []
+    snapshot = _latest_macro_snapshot(supabase) or {}
+    events = _recent_company_events(
+        supabase, [p.get("ticker") for p in positions], per_ticker=4
+    )
+    sector_briefs = {
+        str(s.get("sector") or "").strip().lower(): s.get("brief")
+        for s in ((sector_context or {}).get("sector_overview") or [])
+    }
+
+    impacts: list[dict] = []
+    for position in positions:
+        ticker = _normalize_ticker(position.get("ticker"))
+        if not ticker:
+            continue
+        sec = sector_by_ticker.get(ticker) or {}
+        sector_name = sec.get("sector")
+        company_news = [h for h in (_event_headline(e) for e in events.get(ticker, [])) if h]
+        sbrief = sector_briefs.get(str(sector_name or "").strip().lower())
+        note = await analyze_position_note(
+            ticker,
+            sector_name,
+            sec.get("etf_change_pct"),
+            sbrief,
+            macro_brief,
+            macro_headlines,
+            company_news,
+        )
+        if note and note.get("impact_summary"):
+            impacts.append(note)
+            continue
+        summary, relevance = _impact_for_factor(
+            ticker, sector_name or "", _num(sec.get("etf_change_pct")), snapshot
+        )
+        impacts.append(
+            {"ticker": ticker, "macro_relevance": relevance, "impact_summary": summary}
+        )
+    return impacts
+
+
+def build_what_to_watch(
+    supabase,
+    positions: list[dict],
+    earnings: list[dict] | None,
+    sector_by_ticker: dict[str, dict] | None = None,
+) -> list[dict]:
+    """Actionable watch items: dated earnings + concerning/positive developments.
+
+    Concerning (grade drop / worsening event) -> research-before-you-hold prompt.
+    Positive (grade up / improving event / new high) -> trim-into-gains prompt.
+    Deterministic so it is always reliable.
+    """
+    sector_by_ticker = sector_by_ticker or {}
+    items: list[dict] = []
+
+    # 1) Dated catalysts.
+    try:
+        from ..services.earnings_calendar import format_earnings_line
+    except Exception:
+        format_earnings_line = None
+    for row in (earnings or [])[:3]:
+        ticker = _normalize_ticker(row.get("ticker"))
+        line = format_earnings_line(row) if format_earnings_line else None
+        if ticker and line:
+            items.append(
+                {"catalyst": f"{line} — watch the print.", "impacted_positions": [ticker], "urgency": "medium"}
+            )
+
+    # 2) Concerning / positive developments per holding.
+    events = _recent_company_events(
+        supabase, [p.get("ticker") for p in positions], per_ticker=2
+    )
+    for position in positions:
+        ticker = _normalize_ticker(position.get("ticker"))
+        if not ticker:
+            continue
+        grade = position.get("grade")
+        prev = position.get("previous_grade")
+        delta = _num(position.get("score_delta"))
+        ev = events.get(ticker, [])
+        risk_dir = str((ev[0].get("risk_direction") if ev else "") or "").lower()
+        headline = _event_headline(ev[0]) if ev else ""
+        sector = (sector_by_ticker.get(ticker) or {}).get("sector") or "its sector"
+
+        graded = bool(str(prev or "").strip()) and bool(str(grade or "").strip())
+        worse = (
+            (graded and _grade_ord(prev) > _grade_ord(grade))
+            or (delta is not None and delta <= -3)
+            or risk_dir == "worsening"
+        )
+        better = (
+            (graded and _grade_ord(grade) > _grade_ord(prev))
+            or (delta is not None and delta >= 3)
+            or risk_dir == "improving"
+        )
+        if worse:
+            driver = headline or f"{sector} is under pressure"
+            items.append(
+                {
+                    "catalyst": f"{ticker}: {driver} — dig into this and decide whether it changes your thesis before you keep holding.",
+                    "impacted_positions": [ticker],
+                    "urgency": "medium",
+                }
+            )
+        elif better:
+            driver = headline or f"{sector} is strong today"
+            items.append(
+                {
+                    "catalyst": f"{ticker}: {driver} — check whether you want to trim into the gains.",
+                    "impacted_positions": [ticker],
+                    "urgency": "low",
+                }
+            )
+
+    if not items:
+        items = [
+            {
+                "catalyst": "No dated catalysts or notable score/news changes today; nothing urgent to watch.",
+                "impacted_positions": [],
+                "urgency": "low",
+            }
+        ]
+    return items[:6]
+
+
 def build_event_watchlist_alerts(
     supabase, tickers: list[str], *, days: int = 5, limit: int = 6
 ) -> list[str]:

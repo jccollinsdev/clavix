@@ -1,8 +1,11 @@
 from __future__ import annotations
+import logging
 import re
 from typing import Optional
 from ..services.minimax import chatcompletion_text
 from .analysis_utils import extract_json_object
+
+logger = logging.getLogger(__name__)
 
 
 def _strip_html(text: str) -> str:
@@ -839,8 +842,65 @@ def _fallback_owned_sector_brief(entry: dict) -> str:
     return f"{sector.title()} is roughly flat today; no real push on {who} from the sector."
 
 
+SECTOR_NOTE_PROMPT = """You write ONE sector's line for the "Your sectors" part of a retail investor's morning digest. The investor owns specific stocks in this sector and wants to know which way it is pushing their stocks today and the one concrete reason.
+
+You are given: the sector, its ETF day-change %, the user's tickers in it, and recent sector/holding news.
+
+Return strict JSON: {"brief": "..."}
+
+Write the brief as 1-2 plain sentences that:
+1. State the sector's direction today, anchored to the ETF % ("Energy is up about 0.8% today" / "Semis are getting hit, down ~5.6%").
+2. Name the user's ticker(s) and say tailwind or headwind for them.
+3. Give the single most concrete REASON from the news (a specific catalyst, not a vague theme) — e.g. "as investors rotate into defensives", "on a Guggenheim upgrade", "as a memory-chip shortage squeezes supply".
+
+Hard rules:
+- Never write portfolio meta-commentary like "N holdings tied to this sector".
+- Never paste a raw headline or analyst-rating title verbatim as the brief; synthesize.
+- Commit to a direction. If there is no real news, say the move is on no specific catalyst.
+- No finance filler ("risk-adjusted", "broadly constructive", "well-positioned"). Calm, direct, concrete.
+"""
+
+
+async def _sector_note(entry: dict) -> str:
+    sector = str(entry.get("sector"))
+    chg = _num(entry.get("etf_change_pct"))
+    chg_txt = f"{chg:+.1f}%" if chg is not None else "no read"
+    tickers = ", ".join(t for t in (entry.get("tickers") or []) if str(t or "").strip())
+    lines = [
+        f"Sector: {sector}",
+        f"sector_etf_change_pct: {chg_txt}",
+        f"holdings: {tickers or 'none'}",
+    ]
+    arts = [a for a in (entry.get("articles") or []) if str(a.get("title") or "").strip()][:4]
+    for a in arts:
+        title = str(a.get("title") or "").strip()[:150]
+        summary = _strip_html(str(a.get("summary") or ""))[:140]
+        lines.append(f"- {title}" + (f": {summary}" if summary else ""))
+    if not arts:
+        lines.append("- (no specific sector or holding news today)")
+    try:
+        raw = chatcompletion_text(
+            messages=[
+                {"role": "system", "content": SECTOR_NOTE_PROMPT},
+                {"role": "user", "content": "\n".join(lines)},
+            ],
+            temperature=0.2,
+            max_tokens=1200,
+        )
+        brief = str(extract_json_object(raw, {}).get("brief") or "").strip()
+        if brief:
+            return brief
+    except Exception:
+        logger.exception("sector note LLM failed for %s", sector)
+    return _fallback_owned_sector_brief(entry)
+
+
 async def summarize_owned_sectors(sector_inputs: list[dict]) -> dict:
-    """Directional per-owned-sector briefs.
+    """Directional per-owned-sector briefs, ONE LLM call per sector.
+
+    Batched calls returned empty on the reasoning model (it spends the whole
+    token budget in its hidden <think> block on multi-item prompts); per-sector
+    calls are small enough to reliably emit the JSON answer.
 
     sector_inputs: [{sector, etf_change_pct, tickers, articles:[{title,summary}]}]
     """
@@ -853,65 +913,81 @@ async def summarize_owned_sectors(sector_inputs: list[dict]) -> dict:
     if not valid:
         return {"sector_overview": []}
 
-    blocks = []
-    for s in valid:
-        sector = str(s.get("sector"))
-        chg = _num(s.get("etf_change_pct"))
-        chg_txt = f"{chg:+.2f}%" if chg is not None else "no read"
-        tickers = ", ".join(t for t in (s.get("tickers") or []) if str(t or "").strip())
-        lines = [
-            f"Sector: {sector}",
-            f"sector_etf_change_pct: {chg_txt}",
-            f"holdings: {tickers or 'none'}",
-        ]
-        for a in (s.get("articles") or [])[:5]:
-            title = str(a.get("title") or "").strip()
-            summary = _strip_html(str(a.get("summary") or ""))[:160]
-            if title:
-                lines.append(f"- {title}: {summary}")
-        blocks.append("\n".join(lines))
-
-    try:
-        result = chatcompletion_text(
-            messages=[
-                {"role": "system", "content": OWNED_SECTOR_PROMPT},
-                {"role": "user", "content": "\n\n".join(blocks)},
-            ],
-            temperature=0.1,
-            max_tokens=900,
-        )
-        parsed = extract_json_object(result, {})
-    except Exception:
-        parsed = {}
-
-    by_name = {str(s.get("sector")).strip().lower(): s for s in valid}
     out: list[dict] = []
-    seen: set[str] = set()
-    raw = parsed.get("sector_overview") if isinstance(parsed, dict) else []
-    if isinstance(raw, list):
-        for item in raw:
-            if not isinstance(item, dict):
-                continue
-            sector = str(item.get("sector") or "").strip().lower()
-            if sector in seen or sector not in by_name:
-                continue
-            brief = str(item.get("brief") or "").strip()
-            if not brief:
-                continue
-            seen.add(sector)
-            out.append({"sector": sector, "brief": brief, "headlines": []})
-
-    # Guarantee every owned sector gets a directional line.
-    for sector, entry in by_name.items():
-        if sector in seen:
-            continue
+    for entry in valid:
+        brief = await _sector_note(entry)
         out.append(
-            {"sector": sector, "brief": _fallback_owned_sector_brief(entry), "headlines": []}
+            {"sector": str(entry.get("sector")).strip().lower(), "brief": brief, "headlines": []}
         )
-
-    order = {str(s.get("sector")).strip().lower(): i for i, s in enumerate(valid)}
-    out.sort(key=lambda x: order.get(x["sector"], 99))
     return {"sector_overview": out}
+
+
+POSITION_NOTE_PROMPT = """You write ONE holding's note for the "Position changes" part of a retail investor's morning digest. The investor owns this stock. Connect the dots: macro -> sector -> THIS company, using the news provided and what you know about what the company does.
+
+You are given: the ticker, its sector and the sector's move today, today's macro backdrop and headlines, and the stock's most recent company news.
+
+Return strict JSON: {"impact_summary": "...", "macro_relevance": "supports|contradicts|neutral"}
+
+Write impact_summary as 2-3 plain sentences IN THIS ORDER:
+1. WHAT is moving this stock today: lead with the single most important driver — company news first, then its sector, then macro. Cite the specific item (e.g. "a Guggenheim upgrade", "the memory-chip shortage", "crude slipping overnight").
+2. WHAT IT MEANS for THIS specific company — reason about the business (e.g. a memory shortage raises input costs and supply risk for a memory-heavy AI-server maker like SMCI; a rotation into defensives lifts a healthcare name like JNJ).
+3. The DIRECTION — upward / downward / mixed pressure — and WHY, in one short clause.
+
+Hard rules:
+- Lead with the most concrete, company-specific signal available. If there is no company-specific news but the macro/sector news plausibly affects THIS company, connect it using what you know the company does.
+- macro_relevance is from the owner's seat (they are long): supports = today's backdrop helps the stock, contradicts = it hurts, neutral = no net read-through.
+- If genuinely nothing is moving it (no company, sector, or macro read-through), write exactly: "No macro, sector, or company-specific news is moving {TICKER} today." and set macro_relevance neutral.
+- Plain English, concrete, no hedging boilerplate, no "investors should monitor", no theme keywords.
+"""
+
+
+async def analyze_position_note(
+    ticker: str,
+    sector: str | None,
+    sector_change_pct: float | None,
+    sector_brief: str | None,
+    macro_brief: str | None,
+    macro_headlines: list[str] | None,
+    company_news: list[str] | None,
+) -> dict | None:
+    chg = _num(sector_change_pct)
+    chg_txt = f"{chg:+.1f}%" if chg is not None else "flat / no read"
+    lines = [
+        f"Holding: {ticker} (sector: {sector or 'unknown'})",
+        f"Sector move today: {sector or 'sector'} {chg_txt}."
+        + (f" {sector_brief}" if sector_brief else ""),
+        f"Macro backdrop: {macro_brief or 'broadly quiet'}",
+    ]
+    heads = [str(h).strip() for h in (macro_headlines or []) if str(h or "").strip()][:4]
+    if heads:
+        lines.append("Macro headlines: " + " | ".join(heads))
+    news = [str(n).strip() for n in (company_news or []) if str(n or "").strip()][:4]
+    if news:
+        lines.append(f"Recent {ticker} news:")
+        lines.extend(f"- {n}" for n in news)
+    else:
+        lines.append(f"Recent {ticker} news: none in the last few days.")
+    try:
+        raw = chatcompletion_text(
+            messages=[
+                {"role": "system", "content": POSITION_NOTE_PROMPT},
+                {"role": "user", "content": "\n".join(lines)},
+            ],
+            temperature=0.2,
+            max_tokens=1400,
+        )
+        parsed = extract_json_object(raw, {})
+        summary = str(parsed.get("impact_summary") or "").strip()
+        if summary:
+            relevance = str(parsed.get("macro_relevance") or "neutral").strip().lower() or "neutral"
+            return {
+                "ticker": _normalize_ticker(ticker),
+                "macro_relevance": relevance,
+                "impact_summary": summary,
+            }
+    except Exception:
+        logger.exception("position note LLM failed for %s", ticker)
+    return None
 
 
 def filter_macro_articles(articles: list[dict]) -> list[dict]:

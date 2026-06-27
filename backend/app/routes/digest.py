@@ -322,12 +322,16 @@ async def _build_force_refresh_digest(
         if position.get("ticker")
     ]
 
+    from ..pipeline.digest_inputs import build_sector_by_ticker
+
+    sbt = build_sector_by_ticker(supabase, positions)
+
     # Macro readout from FRED factors + CNBC macro headlines.
     macro_context = None
     try:
         from ..pipeline.digest_inputs import build_factor_macro_context
 
-        macro_context = await build_factor_macro_context(supabase, positions)
+        macro_context = await build_factor_macro_context(supabase, positions, sbt)
     except Exception:
         macro_context = None
 
@@ -336,9 +340,21 @@ async def _build_force_refresh_digest(
     try:
         from ..pipeline.digest_inputs import build_sector_context
 
-        sector_context = await build_sector_context(supabase, positions)
+        sector_context = await build_sector_context(supabase, positions, sbt)
     except Exception:
         sector_context = None
+
+    # Per-ticker position notes: macro + sector + this ticker's own news.
+    try:
+        from ..pipeline.digest_inputs import build_position_impacts
+
+        position_impacts = await build_position_impacts(
+            supabase, positions, macro_context, sbt, sector_context
+        )
+        if isinstance(macro_context, dict):
+            macro_context["position_impacts"] = position_impacts
+    except Exception:
+        pass
 
     # Event-driven watchlist alerts from shared_ticker_events (real events only).
     watchlist_alerts: list[str] = []
@@ -356,12 +372,17 @@ async def _build_force_refresh_digest(
     except Exception:
         watchlist_alerts = []
 
-    # Real, dated earnings catalysts for "What to Watch".
+    # Real, dated earnings catalysts + actionable watch items.
     earnings_calendar: list[dict] = []
+    what_to_watch_items: list[dict] = []
     try:
         from ..services.earnings_calendar import fetch_upcoming
+        from ..pipeline.digest_inputs import build_what_to_watch
 
         earnings_calendar = fetch_upcoming(supabase, digest_tickers)
+        what_to_watch_items = build_what_to_watch(
+            supabase, positions, earnings_calendar, sbt
+        )
     except Exception:
         earnings_calendar = []
 
@@ -378,6 +399,7 @@ async def _build_force_refresh_digest(
         user_id=user_id,
         event_ids=_top_personalisation_event_ids(supabase, positions),
         earnings_calendar=earnings_calendar,
+        what_to_watch_items=what_to_watch_items,
     )
     structured_sections = dict(digest["sections"])
     structured_sections["digest_version"] = DIGEST_VERSION

@@ -3521,21 +3521,35 @@ async def execute_analysis_run(
             # (shared_ticker_events), and real earnings dates (earnings_calendar).
             digest_watchlist_alerts: list[str] = []
             digest_earnings: list[dict] = []
+            digest_what_to_watch: list[dict] = []
             try:
                 from .digest_inputs import (
                     build_event_watchlist_alerts,
+                    build_position_impacts,
+                    build_sector_by_ticker,
                     build_sector_context,
+                    build_what_to_watch,
                 )
                 from ..services.earnings_calendar import fetch_upcoming
 
+                sbt = build_sector_by_ticker(supabase, position_payloads)
                 if not (sector_context or {}).get("sector_overview"):
                     sector_context = await build_sector_context(
-                        supabase, position_payloads
+                        supabase, position_payloads, sbt
                     )
+                # Per-ticker position notes (macro + sector + this ticker's news).
+                position_impacts = await build_position_impacts(
+                    supabase, position_payloads, macro_context, sbt, sector_context
+                )
+                if isinstance(macro_context, dict):
+                    macro_context["position_impacts"] = position_impacts
                 digest_watchlist_alerts = build_event_watchlist_alerts(
                     supabase, digest_tickers
                 )
                 digest_earnings = fetch_upcoming(supabase, digest_tickers)
+                digest_what_to_watch = build_what_to_watch(
+                    supabase, position_payloads, digest_earnings, sbt
+                )
             except Exception:
                 logger.exception("digest input enrichment failed")
 
@@ -3555,6 +3569,7 @@ async def execute_analysis_run(
                     limit=5,
                 ),
                 earnings_calendar=digest_earnings,
+                what_to_watch_items=digest_what_to_watch,
             )
             previous_digest = (
                 supabase.table("digests")

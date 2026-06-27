@@ -268,7 +268,9 @@ def _normalize_position_impacts(
 ) -> list[dict]:
     impact_map: dict[str, dict] = {}
 
-    for source in (impacts or [], (macro_context or {}).get("position_impacts") or []):
+    # macro_context.position_impacts (the per-ticker builder) wins over the
+    # batched main-LLM impacts, which are often empty/thin.
+    for source in ((macro_context or {}).get("position_impacts") or [], impacts or []):
         for item in source:
             if not isinstance(item, dict):
                 continue
@@ -766,6 +768,7 @@ async def compile_portfolio_digest(
     user_id: str | None = None,
     event_ids: list[str] | None = None,
     earnings_calendar: list[dict] | None = None,
+    what_to_watch_items: list[dict] | None = None,
 ) -> dict:
     ranked_positions = sorted(position_data, key=_position_urgency, reverse=True)
     date_context = _digest_date_context()
@@ -893,9 +896,12 @@ Positions:
     # is a separate scope); used by the what_matters_today merge below.
     fallback_what_matters = fallback["sections"].get("what_matters_today") or []
     sections = parsed.get("sections") or {}
+    # The reliable per-item builders (sector_context, macro_context.position_impacts,
+    # passed-in watchlist_alerts) are the source of truth for the structured
+    # sections; the batched main-LLM `sections` is only a fallback for them.
     normalized_sector_overview = _sanitize_sector_overview(
-        sections.get("sector_overview")
-        or (sector_context.get("sector_overview") if sector_context else None)
+        (sector_context.get("sector_overview") if sector_context else None)
+        or sections.get("sector_overview")
         or _fallback_sector_overview(ranked_positions, macro_context=macro_context)
         or fallback["sections"].get("sector_overview")
     )
@@ -908,7 +914,7 @@ Positions:
         sections.get("watch_list") or fallback["sections"]["watch_list"]
     )
     normalized_watchlist_alerts = _sanitize_watchlist_alerts(
-        sections.get("watchlist_alerts") or watchlist_alerts or []
+        watchlist_alerts or sections.get("watchlist_alerts") or []
     )
     monitoring_notes = (
         sections.get("monitoring_notes")
@@ -919,7 +925,8 @@ Positions:
         monitoring_notes = fallback["sections"]["portfolio_advice"]
     monitoring_notes = _sanitize_portfolio_advice(monitoring_notes)
     what_matters_today = (
-        sections.get("what_matters_today")
+        what_to_watch_items
+        or sections.get("what_matters_today")
         or fallback["sections"].get("what_matters_today")
         or []
     )
@@ -973,8 +980,8 @@ Positions:
                 "portfolio_grade": overall_grade,
                 "summary_line": f"Your portfolio is rated {overall_grade} today.",
             },
-            "overnight_macro": sections.get("overnight_macro")
-            or (macro_context.get("overnight_macro") if macro_context else None)
+            "overnight_macro": (macro_context.get("overnight_macro") if macro_context else None)
+            or sections.get("overnight_macro")
             or fallback["sections"].get("overnight_macro")
             or {
                 "headlines": [],
