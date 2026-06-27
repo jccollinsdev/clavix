@@ -6,6 +6,7 @@ struct DigestView: View {
     @StateObject var viewModel = DigestViewModel()
     @State private var hasLoaded = false
     @State private var showMorningReport = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         NavigationStack {
@@ -26,6 +27,12 @@ struct DigestView: View {
                 }
                 .onReceive(NotificationCenter.default.publisher(for: .holdingsDidChange)) { _ in
                     guard !viewModel.isLoading else { return }
+                    Task { await viewModel.loadDigest(showLoading: false) }
+                }
+                .onChange(of: scenePhase) { _, newPhase in
+                    // Always pull the latest digest when the app returns to the
+                    // foreground, so a relaunch/return never shows a stale brief.
+                    guard newPhase == .active, hasLoaded, !viewModel.isLoading else { return }
                     Task { await viewModel.loadDigest(showLoading: false) }
                 }
                 .refreshable {
