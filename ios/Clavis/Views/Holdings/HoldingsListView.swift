@@ -667,13 +667,13 @@ private struct SectorCompositionRow: View {
 
     private var barTone: Color {
         switch row.grade {
-        case "AAA", "AA":
+        case "A+", "A", "A-":
             return .clavixGood
-        case "A":
+        case "B+", "B":
             return .clavixAccent
-        case "BBB", "BB":
+        case "B-", "C+", "C", "C-":
             return .clavixWarn
-        case "—":
+        case "\u{2014}":
             return .clavixInk4
         default:
             return .clavixBad

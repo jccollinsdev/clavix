@@ -171,19 +171,8 @@ func auditBandLabel(_ score: Double?) -> String {
 }
 
 func auditGrade(for score: Double?) -> String {
-    guard let score else { return "—" }
-    switch score {
-    case 90...100: return "AAA"
-    case 80..<90:  return "AA"
-    case 70..<80:  return "A"
-    case 60..<70:  return "BBB"
-    case 50..<60:  return "BB"
-    case 40..<50:  return "B"
-    case 30..<40:  return "CCC"
-    case 20..<30:  return "CC"
-    case 10..<20:  return "C"
-    default:       return "F"
-    }
+    guard let score else { return "\u{2014}" }
+    return PortfolioMath.grade(forScore: score)
 }
 
 /// Horizontal 0 to 100 score track, filled to the dimension score in its band color.

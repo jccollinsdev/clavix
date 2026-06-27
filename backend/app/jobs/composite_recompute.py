@@ -373,8 +373,22 @@ def run(
             [f["ticker"] for f in failed[:10]],
         )
 
+    # WS-J: a handful of transient Polygon/Supabase resets out of ~546 is a healthy run,
+    # not a "partial"/failure. Treat >=95% success as completed (completed-with-errors)
+    # so monitoring stops crying wolf; only flag partial/failed below that bar.
+    _attempted = processed + len(failed)
+    _success_rate = processed / _attempted if _attempted else 1.0
+    if not failed:
+        _status = "completed"
+    elif processed > 0 and _success_rate >= 0.95:
+        _status = "completed_with_errors"
+    elif processed > 0:
+        _status = "partial"
+    else:
+        _status = "failed"
+
     result = {
-        "status": "completed" if not failed else "partial" if processed > 0 else "failed",
+        "status": _status,
         "items_processed": processed,
         "items_skipped": skipped,
         "items_failed": len(failed),

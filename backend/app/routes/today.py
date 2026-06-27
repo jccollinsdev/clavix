@@ -19,6 +19,7 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, Request
 
+from ..pipeline.analysis_utils import score_to_grade
 from ..services.digest_selection import current_trading_date
 from ..services.route_freshness import latest_job_freshness
 from ..services.supabase import get_supabase
@@ -53,18 +54,10 @@ SECTOR_ETF_MAP = {
 
 
 def _grade_for_score(score: float | None) -> str:
+    # Single source of truth — the academic ladder used everywhere else.
     if score is None:
         return "—"
-    if score >= 90: return "AAA"
-    if score >= 80: return "AA"
-    if score >= 70: return "A"
-    if score >= 60: return "BBB"
-    if score >= 50: return "BB"
-    if score >= 40: return "B"
-    if score >= 30: return "CCC"
-    if score >= 20: return "CC"
-    if score >= 10: return "C"
-    return "F"
+    return score_to_grade(score)
 
 
 @router.get("")

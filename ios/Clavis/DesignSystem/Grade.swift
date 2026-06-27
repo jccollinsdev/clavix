@@ -1,9 +1,25 @@
 import SwiftUI
 
-/// Bond-grade letter pill.
-/// Bands → tier: AAA/AA = good (solid green) · A = good-soft (light green) · BBB/BB = warn (amber) · B/CCC/CC/C = bad (oxblood).
+/// Academic-ladder letter pill.
+/// NOTE: As of the 2026-06 grade migration, `CXGrade` / `GradePill` are DEAD —
+/// no real view references them (only the DEBUG PreviewProvider below). They are
+/// kept (and migrated to academic letters) so the preview never renders invalid
+/// credit letters; the live grade pill in production is `ClavixGradeBadge`.
+/// Bands → tier: A+/A/A- = good (solid green) · B+/B = good-soft (light green) · B-/C+/C/C- = warn (amber) · D+/D/D-/F = bad (oxblood).
 enum CXGrade: String, CaseIterable {
-    case AAA, AA, A, BBB, BB, B, CCC, CC, C
+    case aPlus = "A+"
+    case a = "A"
+    case aMinus = "A-"
+    case bPlus = "B+"
+    case b = "B"
+    case bMinus = "B-"
+    case cPlus = "C+"
+    case c = "C"
+    case cMinus = "C-"
+    case dPlus = "D+"
+    case d = "D"
+    case dMinus = "D-"
+    case f = "F"
 }
 
 enum CXGradeSize {
@@ -61,10 +77,11 @@ struct GradePill: View {
 
     private func tier(for g: CXGrade) -> (bg: Color, fg: Color, ink: Color) {
         switch g {
-        case .AAA, .AA:    return (.cxGood,     .white,      .cxGoodInk)
-        case .A:           return (.cxGoodSoft, .cxGoodInk,  .cxGoodInk)
-        case .BBB, .BB:    return (.cxWarn,     .white,      .cxWarnInk)
-        default:           return (.cxBad,   .white,      .cxBadInk)
+        case .aPlus, .a, .aMinus:    return (.cxGood,     .white,      .cxGoodInk)
+        case .bPlus, .b:             return (.cxGoodSoft, .cxGoodInk,  .cxGoodInk)
+        case .bMinus, .cPlus,
+             .c, .cMinus:            return (.cxWarn,     .white,      .cxWarnInk)
+        default:                     return (.cxBad,      .white,      .cxBadInk)
         }
     }
 }
@@ -97,21 +114,21 @@ struct GradePill_Previews: PreviewProvider {
                     }
                 }
                 HStack(spacing: 12) {
-                    GradePill(grade: .AAA, size: .xs)
-                    GradePill(grade: .AAA, size: .sm)
-                    GradePill(grade: .AAA, size: .md)
-                    GradePill(grade: .AAA, size: .lg)
+                    GradePill(grade: .aPlus, size: .xs)
+                    GradePill(grade: .aPlus, size: .sm)
+                    GradePill(grade: .aPlus, size: .md)
+                    GradePill(grade: .aPlus, size: .lg)
                 }
-                GradePill(grade: .AAA, size: .hero)
+                GradePill(grade: .aPlus, size: .hero)
                 HStack(spacing: 12) {
-                    GradePill(grade: .BBB, size: .md, delta: 0)
-                    GradePill(grade: .BBB, size: .md, delta: 3)
-                    GradePill(grade: .BBB, size: .md, delta: -2)
+                    GradePill(grade: .bMinus, size: .md, delta: 0)
+                    GradePill(grade: .bMinus, size: .md, delta: 3)
+                    GradePill(grade: .bMinus, size: .md, delta: -2)
                 }
                 HStack(spacing: 12) {
-                    GradePill(grade: .AA, size: .md, fill: false)
-                    GradePill(grade: .A, size: .md, fill: false)
-                    GradePill(grade: .B, size: .md, fill: false)
+                    GradePill(grade: .a, size: .md, fill: false)
+                    GradePill(grade: .aMinus, size: .md, fill: false)
+                    GradePill(grade: .b, size: .md, fill: false)
                 }
             }
             .padding(20)

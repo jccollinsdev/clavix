@@ -31,7 +31,7 @@ struct PositionHeatmapView: View {
                 .foregroundColor(fg)
             Spacer()
             HStack(alignment: .bottom) {
-                Text(grade)
+                Text(ClavisGradeStyle.displayGrade(grade))
                     .font(ClavisTypography.clavixMono(20, weight: .bold))
                     .foregroundColor(fg)
                 Spacer()
@@ -85,6 +85,8 @@ struct RiskTreemap: View {
                     }
                 }
             }
+            // Round only the outer edge of the whole map; cells stay square inside.
+            .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
         }
     }
 
@@ -112,7 +114,7 @@ struct RiskTreemap: View {
                 .foregroundColor(.clavixInk)
             Spacer()
             HStack(alignment: .bottom) {
-                Text(grade)
+                Text(ClavisGradeStyle.displayGrade(grade))
                     .font(ClavisTypography.clavixMono(17, weight: .bold))
                     .foregroundColor(ClavisGradeStyle.riskColor(for: grade))
                 Spacer()

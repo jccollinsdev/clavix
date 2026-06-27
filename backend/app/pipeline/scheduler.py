@@ -3484,9 +3484,7 @@ async def execute_analysis_run(
                         payload["total_score"] = latest_snapshot.get(
                             "safety_score"
                         ) or payload.get("total_score")
-                        payload["confidence"] = latest_snapshot.get(
-                            "confidence"
-                        ) or payload.get("confidence")
+                        # WS-G: risk-score confidence removed; no longer propagated.
                         payload["structural_base_score"] = latest_snapshot.get(
                             "structural_base_score"
                         ) or payload.get("structural_base_score")

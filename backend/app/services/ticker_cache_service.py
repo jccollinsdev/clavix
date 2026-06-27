@@ -6,6 +6,7 @@ from datetime import date, datetime, timedelta, timezone
 from functools import lru_cache
 import logging
 import math
+import os
 from pathlib import Path
 import statistics
 import time
@@ -15,7 +16,7 @@ from uuid import uuid4
 from fastapi import HTTPException
 
 from ..pipeline.risk_scorer import score_position_structural
-from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength, sanitize_text_field, normalize_event_analysis_payload, calculate_weighted_score, apply_grade_hysteresis
+from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength, sanitize_text_field, normalize_event_analysis_payload, calculate_weighted_score, apply_grade_hysteresis, _GRADE_LOWER_BOUND
 from ..pipeline.structural_scorer import percentile_rank, smooth_score_with_history
 from ..pipeline.position_report_builder import _build_driver_cards
 from .alert_payloads import enrich_alert_rows
@@ -284,6 +285,60 @@ def _daily_returns_from_closes(closes: list[float]) -> list[float]:
     return returns
 
 
+def _daily_closes_by_date(bars: list[dict[str, Any]]) -> dict[date, float]:
+    """Collapse intraday/duplicate bars to ONE close per UTC calendar date.
+
+    The `prices` table holds many rows per trading day for actively viewed tickers
+    (~18/day for AAPL) but ~2/day for ETFs. Feeding those raw into return/beta math
+    mixes intraday noise with daily moves AND leaves the two series wildly different
+    lengths, so beta collapses toward 0. Keying by calendar date (last bar of the day
+    wins) restores true daily frequency and makes two series date-alignable.
+    """
+    by_date: dict[date, float] = {}
+    for bar in bars or []:
+        ts = bar.get("t")
+        close = _coerce_float(bar.get("c"))
+        if ts is None or close is None:
+            continue
+        try:
+            day = datetime.fromtimestamp(float(ts) / 1000, tz=timezone.utc).date()
+        except (TypeError, ValueError, OverflowError, OSError):
+            continue
+        by_date[day] = close  # later bar on the same date overwrites → last close wins
+    return by_date
+
+
+def _bars_to_daily_close_series(bars: list[dict[str, Any]]) -> list[float]:
+    """One close per calendar day, ordered oldest→newest (daily frequency)."""
+    by_date = _daily_closes_by_date(bars)
+    return [by_date[day] for day in sorted(by_date)]
+
+
+def _aligned_daily_returns(
+    asset_bars: list[dict[str, Any]],
+    benchmark_bars: list[dict[str, Any]],
+) -> tuple[list[float], list[float]]:
+    """Return (asset_returns, benchmark_returns) computed only over calendar dates
+    common to BOTH series, so beta is measured on the same days for both legs.
+
+    Prices are always > 0, so `_daily_returns_from_closes` never skips a day here and
+    the two return lists stay index-aligned (same dates, same length).
+    """
+    asset_by_date = _daily_closes_by_date(asset_bars)
+    bench_by_date = _daily_closes_by_date(benchmark_bars)
+    common = sorted(set(asset_by_date) & set(bench_by_date))
+    # Require ~1 trading month of common days. Betas from a handful of days are noise
+    # (they produced the -6.99 / +5.86 outliers); too few days → no beta (honest NULL).
+    if len(common) < 20:
+        return [], []
+    asset_closes = [asset_by_date[day] for day in common]
+    bench_closes = [bench_by_date[day] for day in common]
+    return (
+        _daily_returns_from_closes(asset_closes),
+        _daily_returns_from_closes(bench_closes),
+    )
+
+
 def _annualized_volatility(closes: list[float], window: int) -> float | None:
     if len(closes) < window + 1:
         return None
@@ -322,7 +377,10 @@ def _beta_from_returns(asset_returns: list[float], benchmark_returns: list[float
         (asset_slice[i] - asset_mean) * (benchmark_slice[i] - benchmark_mean)
         for i in range(count)
     ) / count
-    return covariance / benchmark_variance
+    beta = covariance / benchmark_variance
+    # Sanity clamp: a real equity beta to its benchmark sits in ~[-1, 3.5]. Anything
+    # past [-3, 4] is a noisy estimate from a thin/idiosyncratic window, not signal.
+    return max(-3.0, min(4.0, beta))
 
 
 def _percent_change(closes: list[float], window: int) -> float | None:
@@ -639,6 +697,8 @@ def _build_news_sentiment_inputs(news_rows: list[dict[str, Any]]) -> dict[str, A
     now = datetime.now(timezone.utc)
     article_count_7d = 0
     article_count_28d = 0
+    scored_count_7d = 0
+    scored_count_28d = 0
     weighted_total_7d = 0.0
     total_weight_7d = 0.0
     weighted_total_28d = 0.0
@@ -657,11 +717,13 @@ def _build_news_sentiment_inputs(news_rows: list[dict[str, Any]]) -> dict[str, A
         weight = recency_weight * source_weight
         article_count_28d += 1
         if sentiment_score is not None:
+            scored_count_28d += 1
             weighted_total_28d += sentiment_score * weight
             total_weight_28d += weight
         if age_days <= 7:
             article_count_7d += 1
             if sentiment_score is not None:
+                scored_count_7d += 1
                 weighted_total_7d += sentiment_score * weight
                 total_weight_7d += weight
 
@@ -674,22 +736,28 @@ def _build_news_sentiment_inputs(news_rows: list[dict[str, Any]]) -> dict[str, A
     # forced ~190 universe tickers that DO have real recent coverage to a NULL news
     # dimension. The fallback is still recency-weighted (older events already carry a
     # lower recency_weight), so it down-weights staleness rather than ignoring it.
-    if article_count_7d >= 3 and score_7d is not None:
+    #
+    # WS-D: gate on SCORABLE counts (articles with a real sentiment_score), not raw
+    # article counts. A ticker whose only articles were unscorable roundups (now NULL
+    # rather than a lazy 50) should be limited-data, not a manufactured neutral score.
+    if scored_count_7d >= 3 and score_7d is not None:
         weighted_score = score_7d
         scoring_window_days = 7
-        effective_count = article_count_7d
-    elif article_count_28d >= 3 and score_28d is not None:
+        effective_count = scored_count_7d
+    elif scored_count_28d >= 3 and score_28d is not None:
         weighted_score = score_28d
         scoring_window_days = 28
-        effective_count = article_count_28d
+        effective_count = scored_count_28d
     else:
         weighted_score = score_7d if score_7d is not None else score_28d
         scoring_window_days = 7
-        effective_count = article_count_7d
+        effective_count = scored_count_7d
 
     result = {
         "article_count_7d": article_count_7d,
         "article_count_28d": article_count_28d,
+        "scored_count_7d": scored_count_7d,
+        "scored_count_28d": scored_count_28d,
         "scoring_window_days": scoring_window_days,
         "volume_signal": bool(article_count_7d and baseline and article_count_7d > baseline * 1.25),
         "weighted_score": weighted_score,
@@ -697,8 +765,9 @@ def _build_news_sentiment_inputs(news_rows: list[dict[str, Any]]) -> dict[str, A
     if effective_count < 3:
         result["limited_data"] = True
         result["limited_reason"] = (
-            f"Only {article_count_7d} article(s) in the last 7 days and {article_count_28d} "
-            "in the last 28 days; at least 3 are required for a scored news sentiment dimension."
+            f"Only {scored_count_7d} scorable article(s) in the last 7 days and "
+            f"{scored_count_28d} in the last 28 days; at least 3 are required for a "
+            "scored news sentiment dimension."
         )
     elif weighted_score is None:
         result["limited_data"] = True
@@ -706,6 +775,27 @@ def _build_news_sentiment_inputs(news_rows: list[dict[str, Any]]) -> dict[str, A
             "Recent shared ticker events did not include usable sentiment scores for the news sentiment dimension."
         )
     return result
+
+
+# Thematic / index ETFs that carry no GICS sector but DO track a sector tape.
+_TICKER_SECTOR_ETF: dict[str, str] = {
+    "SMH": "XLK", "VGT": "XLK", "SOXX": "XLK", "XSD": "XLK",
+}
+# Non-sector ETFs (broad index, bond, commodity) get an asset-class-appropriate
+# sector-exposure score instead of a NULL: a diversified/duration/commodity fund has
+# no single-sector concentration risk, so it is NOT penalised on this dimension.
+# Higher score == lower (sector-concentration) risk. These are honest, not limited.
+_NON_SECTOR_ETF_SCORE: dict[str, int] = {
+    # broad equity index (well diversified across sectors)
+    "SPY": 82, "VOO": 82, "IVV": 82, "DIA": 80, "QQQ": 70, "IWM": 74,
+    "IJH": 76, "VEA": 80, "VWO": 74, "EFA": 80, "EEM": 74, "IEFA": 80, "IEMG": 74,
+    # bonds / rates (different risk axis, not equity-sector driven)
+    "AGG": 78, "BND": 78, "BIL": 84, "SHY": 82, "IEF": 78, "TLT": 70,
+    "LQD": 76, "HYG": 68, "JNK": 66,
+    # commodities / metals
+    "GLD": 74, "IAU": 74, "SLV": 66, "USO": 58, "DBC": 62,
+}
+_DEFAULT_BROAD_ETF_SCORE = 72  # any other ETF with no sector mapping
 
 
 def _build_sector_exposure_inputs(
@@ -716,8 +806,30 @@ def _build_sector_exposure_inputs(
     sector_bars_override: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     sector = str(metadata.get("sector") or "").strip()
-    sector_etf = SECTOR_ETF_MAP.get(sector.lower()) if sector else None
+    upper_ticker = str(ticker or "").strip().upper()
+    sector_etf = (
+        _TICKER_SECTOR_ETF.get(upper_ticker)
+        or (SECTOR_ETF_MAP.get(sector.lower()) if sector else None)
+    )
     if not sector_etf:
+        # No GICS sector tape. Rather than NULL the dimension, score by asset class:
+        # diversified/bond/commodity funds carry no single-sector concentration risk.
+        asset_class = str(metadata.get("asset_class") or "").lower()
+        is_fund = asset_class in {"etf", "fund", "etn"} or upper_ticker in _NON_SECTOR_ETF_SCORE
+        if is_fund:
+            fallback = _NON_SECTOR_ETF_SCORE.get(upper_ticker, _DEFAULT_BROAD_ETF_SCORE)
+            return {
+                "sector": sector or None,
+                "sector_etf": None,
+                "sector_beta": None,
+                "sector_momentum_30d": None,
+                "sector_breadth": None,
+                "fallback_score": fallback,
+                "narrative": "Diversified fund: no single-sector concentration risk.",
+                "limited_data": False,
+            }
+        # Equity with no resolvable sector: fall back to the cap/sector heuristic in
+        # the scorer (still honest, not limited).
         return {
             "sector": sector or None,
             "sector_etf": None,
@@ -725,7 +837,7 @@ def _build_sector_exposure_inputs(
             "sector_momentum_30d": None,
             "sector_breadth": None,
             "narrative": None,
-            "limited_data": True,
+            "limited_data": False,
         }
 
     sector_bars = (
@@ -733,13 +845,20 @@ def _build_sector_exposure_inputs(
         if sector_bars_override is not None
         else fetch_aggs(sector_etf, days=90)
     )
-    ticker_closes = _bars_to_close_series(ticker_bars)
-    sector_closes = _bars_to_close_series(sector_bars)
-    ticker_returns = _daily_returns_from_closes(ticker_closes)
-    sector_returns = _daily_returns_from_closes(sector_closes)
+    # Daily-frequency closes + date-aligned returns (WS-A) so sector_beta is real.
+    ticker_closes = _bars_to_daily_close_series(ticker_bars)
+    sector_closes = _bars_to_daily_close_series(sector_bars)
+    ticker_returns, sector_returns = _aligned_daily_returns(ticker_bars, sector_bars)
     sector_beta = _beta_from_returns(ticker_returns, sector_returns)
     sector_momentum = _percent_change(sector_closes, 30)
     sector_breadth = _positive_day_ratio(sector_closes, 30)
+    # Per-ticker terms (so names in the same sector no longer share an identical score).
+    ticker_momentum = _percent_change(ticker_closes, 30)
+    relative_strength = (
+        ticker_momentum - sector_momentum
+        if ticker_momentum is not None and sector_momentum is not None
+        else None
+    )
 
     narrative_parts: list[str] = []
     if sector_momentum is not None:
@@ -752,6 +871,11 @@ def _build_sector_exposure_inputs(
             narrative_parts.append(f"{ticker} is moving more aggressively than its sector ETF")
         elif sector_beta <= 0.85:
             narrative_parts.append(f"{ticker} is moving more defensively than its sector ETF")
+    if relative_strength is not None:
+        if relative_strength >= 0.03:
+            narrative_parts.append(f"{ticker} is outperforming its sector")
+        elif relative_strength <= -0.03:
+            narrative_parts.append(f"{ticker} is lagging its sector")
     if sector_breadth is not None:
         breadth_pct = sector_breadth * 100
         if breadth_pct >= 55:
@@ -765,6 +889,8 @@ def _build_sector_exposure_inputs(
         "sector_beta": round(sector_beta, 3) if sector_beta is not None else None,
         "sector_momentum_30d": round(sector_momentum, 4) if sector_momentum is not None else None,
         "sector_breadth": round(sector_breadth, 4) if sector_breadth is not None else None,
+        "ticker_momentum_30d": round(ticker_momentum, 4) if ticker_momentum is not None else None,
+        "relative_strength_30d": round(relative_strength, 4) if relative_strength is not None else None,
         "narrative": ". ".join(narrative_parts) + "." if narrative_parts else None,
         # Mark limited when sector_beta is absent (bars were unavailable)
         "limited_data": sector_beta is None,
@@ -779,10 +905,9 @@ def _build_volatility_inputs(
     *,
     as_of_date: str,
 ) -> dict[str, Any]:
-    ticker_closes = _bars_to_close_series(ticker_bars)
-    spy_closes = _bars_to_close_series(spy_bars)
-    ticker_returns = _daily_returns_from_closes(ticker_closes)
-    spy_returns = _daily_returns_from_closes(spy_closes)
+    # Daily-frequency closes (one per calendar day) so realized vol / drawdown are
+    # measured on daily moves, not intraday duplicate rows.
+    ticker_closes = _bars_to_daily_close_series(ticker_bars)
     realized_vol_30d = _annualized_volatility(ticker_closes, 30)
     realized_vol_90d = _annualized_volatility(ticker_closes, 90)
     vol_ratio = (
@@ -790,6 +915,8 @@ def _build_volatility_inputs(
         if realized_vol_30d is not None and realized_vol_90d not in {None, 0}
         else None
     )
+    # Date-aligned returns so beta_to_spy is measured on common trading days.
+    ticker_returns, spy_returns = _aligned_daily_returns(ticker_bars, spy_bars)
     beta_to_spy = _beta_from_returns(ticker_returns, spy_returns)
     max_drawdown_252d = _max_drawdown(ticker_closes, 252)
     return {
@@ -3379,7 +3506,7 @@ def build_risk_score_response(
             or snapshot.get("methodology_version")
             or snapshot.get("snapshot_date"),
             "safety_score": total_score_val,
-            "confidence": fallback.get("confidence") or snapshot.get("confidence"),
+            # WS-G: risk-score confidence removed from the API surface.
             "structural_base_score": fallback.get("structural_base_score")
             or snapshot.get("structural_base_score"),
             "macro_adjustment": fallback.get("macro_adjustment")
@@ -3519,6 +3646,12 @@ def _build_event_analyses_from_news_rows(
                 "what_happened": row.get("tldr") or "",
                 "tldr": row.get("tldr") or "",
                 "what_it_means": row.get("what_it_means") or "",
+                # Expose the real article sentiment under its own key so the news
+                # dimension scores from sentiment (WS-D). `confidence` historically
+                # carried this value as a proxy; keep it for back-compat consumers.
+                "sentiment_score": sentiment_score,
+                "recency_weight": row.get("recency_weight"),
+                "source_weight": row.get("source_weight"),
                 "confidence": row.get("sentiment_score"),
                 "impact_horizon": "near_term",
                 "risk_direction": risk_direction,
@@ -4662,8 +4795,14 @@ def refresh_ticker_snapshot(
                 composite_score=etf_total,
                 grade=score_to_grade(etf_total),
             )
+        # WS-E: on the one-time re-spread run, bypass EMA smoothing AND grade hysteresis
+        # so the freshly stretched composite is written immediately instead of being
+        # dragged back toward the old compressed history / held at the old grade boundary.
+        _bypass_smoothing = os.getenv(
+            "COMPOSITE_RESPREAD_BYPASS_SMOOTHING", ""
+        ).lower() in ("1", "true", "yes")
         # Apply 10-day EMA smoothing to prevent "personality shift" swings
-        if _history_scores and score.get("total_score") is not None:
+        if not _bypass_smoothing and _history_scores and score.get("total_score") is not None:
             asset_class = (scoring_metadata or {}).get("asset_class")
             market_cap = (scoring_metadata or {}).get("market_cap")
             smoothed = smooth_score_with_history(
@@ -4708,7 +4847,7 @@ def refresh_ticker_snapshot(
                         "volatility": score.get("volatility"),
                     }
                     _recomputed = round(calculate_weighted_score(_borrowed_dims), 1)
-                    if _history_scores:
+                    if _history_scores and not _bypass_smoothing:
                         _ac_b = (scoring_metadata or {}).get("asset_class")
                         _mc_b = (scoring_metadata or {}).get("market_cap")
                         _recomputed = round(
@@ -4746,7 +4885,7 @@ def refresh_ticker_snapshot(
             recomputed_composite = round(calculate_weighted_score(normalized_excl_news), 1)
             # Re-apply EMA smoothing to the recomputed composite: limited-data tickers
             # would otherwise bypass the day-over-day damping that full-data tickers get.
-            if _history_scores:
+            if _history_scores and not _bypass_smoothing:
                 _asset_class = (scoring_metadata or {}).get("asset_class")
                 _market_cap = (scoring_metadata or {}).get("market_cap")
                 recomputed_composite = round(
@@ -4770,11 +4909,14 @@ def refresh_ticker_snapshot(
 
         # Grade hysteresis: only flip grade if score is firmly in the new band.
         # Prevents A<->BBB boundary wobble from daily noise (±2 point buffer).
-        if previous_snapshot is not None:
+        # Bypassed on the one-time re-spread (and whenever the previous grade is an old
+        # credit-style letter, which has no academic counterpart to hold onto).
+        if previous_snapshot is not None and not _bypass_smoothing:
             prev_grade = previous_snapshot.get("grade")
-            stable_grade = apply_grade_hysteresis(float(score["total_score"]), prev_grade)
-            if stable_grade != score["grade"]:
-                score = {**score, "grade": stable_grade}
+            if prev_grade in _GRADE_LOWER_BOUND:
+                stable_grade = apply_grade_hysteresis(float(score["total_score"]), prev_grade)
+                if stable_grade != score["grade"]:
+                    score = {**score, "grade": stable_grade}
 
         analysis_as_of = _utcnow_iso()
         dimension_inputs = {
@@ -4813,7 +4955,8 @@ def refresh_ticker_snapshot(
             "structural_base_score": score["structural_base_score"],
             "macro_adjustment": score["macro_adjustment"],
             "event_adjustment": score["event_adjustment"],
-            "confidence": score["confidence"],
+            # WS-G: confidence removed from the risk score. The DB column stays (nullable),
+            # new snapshots simply leave it NULL.
             "factor_breakdown": score["factor_breakdown"],
             "dimension_inputs": dimension_inputs,
             "dimension_last_refreshed": dimension_last_refreshed,

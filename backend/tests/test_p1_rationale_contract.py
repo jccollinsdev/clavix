@@ -10,25 +10,27 @@ from app.pipeline.analysis_utils import (
 
 
 def test_score_to_grade():
-    assert score_to_grade(95) == "AAA"
-    assert score_to_grade(90) == "AAA"
-    assert score_to_grade(89.9) == "AA"
-    assert score_to_grade(80) == "AA"
-    assert score_to_grade(79.9) == "A"
-    assert score_to_grade(70) == "A"
-    assert score_to_grade(69.9) == "BBB"
-    assert score_to_grade(60) == "BBB"
-    assert score_to_grade(59.9) == "BB"
-    assert score_to_grade(50) == "BB"
-    assert score_to_grade(49.9) == "B"
-    assert score_to_grade(40) == "B"
-    assert score_to_grade(39.9) == "CCC"
-    assert score_to_grade(30) == "CCC"
-    assert score_to_grade(29.9) == "CC"
-    assert score_to_grade(20) == "CC"
-    assert score_to_grade(19.9) == "C"
-    assert score_to_grade(10) == "C"
-    assert score_to_grade(9.9) == "F"
+    # Academic A+/A/A- ladder.
+    assert score_to_grade(95) == "A+"
+    assert score_to_grade(90) == "A+"
+    assert score_to_grade(89.9) == "A"
+    assert score_to_grade(85) == "A"
+    assert score_to_grade(80) == "A-"
+    assert score_to_grade(79.9) == "B+"
+    assert score_to_grade(75) == "B+"
+    assert score_to_grade(70) == "B"
+    assert score_to_grade(69.9) == "B-"
+    assert score_to_grade(65) == "B-"
+    assert score_to_grade(60) == "C+"
+    assert score_to_grade(59.9) == "C"
+    assert score_to_grade(55) == "C"
+    assert score_to_grade(50) == "C-"
+    assert score_to_grade(49.9) == "D+"
+    assert score_to_grade(45) == "D+"
+    assert score_to_grade(40) == "D"
+    assert score_to_grade(39.9) == "D-"
+    assert score_to_grade(35) == "D-"
+    assert score_to_grade(34.9) == "F"
     assert score_to_grade(0) == "F"
     assert score_to_grade(-5) == "F"
 
@@ -82,26 +84,30 @@ def test_sanitize_rationale_empty():
 
 
 def test_stale_grade_regression():
-    assert score_to_grade(32.5) == "CCC", "score 32.5 must map to CCC"
-    assert score_to_grade(33.8) == "CCC", "score 33.8 must map to CCC"
-    assert score_to_grade(34.9) == "CCC", "score 34.9 must map to CCC"
-    assert score_to_grade(35) == "CCC", "score 35 is the CCC boundary"
-    assert score_to_grade(39.9) == "CCC", "score 39.9 must map to CCC"
-    assert score_to_grade(40) == "B", "score 40 is the B boundary"
-    assert score_to_grade(49.9) == "B", "score 49.9 must map to B"
+    # Academic scale: F < 35; D- 35-39; D 40-44; D+ 45-49.
+    assert score_to_grade(32.5) == "F", "score 32.5 must map to F"
+    assert score_to_grade(33.8) == "F", "score 33.8 must map to F"
+    assert score_to_grade(34.9) == "F", "score 34.9 must map to F"
+    assert score_to_grade(35) == "D-", "score 35 is the D- boundary"
+    assert score_to_grade(39.9) == "D-", "score 39.9 must map to D-"
+    assert score_to_grade(40) == "D", "score 40 is the D boundary"
+    assert score_to_grade(49.9) == "D+", "score 49.9 must map to D+"
 
 
 def test_grade_to_risk_level():
-    assert grade_to_risk_level("AAA") == "Treasury-Grade"
-    assert grade_to_risk_level("AA") == "Investment-Grade Safe"
-    assert grade_to_risk_level("A") == "Solid"
-    assert grade_to_risk_level("BBB") == "Stable, Watch Points"
-    assert grade_to_risk_level("BB") == "Mixed Signals"
-    assert grade_to_risk_level("B") == "Elevated Risk"
-    assert grade_to_risk_level("CCC") == "High Risk"
-    assert grade_to_risk_level("CC") == "Severe Risk"
-    assert grade_to_risk_level("C") == "Distressed"
-    assert grade_to_risk_level("F") == "Failure Mode"
+    assert grade_to_risk_level("A+") == "Exceptional"
+    assert grade_to_risk_level("A") == "Excellent"
+    assert grade_to_risk_level("A-") == "Very Strong"
+    assert grade_to_risk_level("B+") == "Strong"
+    assert grade_to_risk_level("B") == "Solid"
+    assert grade_to_risk_level("B-") == "Above Average"
+    assert grade_to_risk_level("C+") == "Average"
+    assert grade_to_risk_level("C") == "Below Average"
+    assert grade_to_risk_level("C-") == "Watch"
+    assert grade_to_risk_level("D+") == "Elevated Risk"
+    assert grade_to_risk_level("D") == "High Risk"
+    assert grade_to_risk_level("D-") == "Severe Risk"
+    assert grade_to_risk_level("F") == "Distressed"
     assert grade_to_risk_level("unknown") == "Elevated Risk"
 
 
@@ -116,13 +122,13 @@ def test_evidence_strength():
 
 
 def test_format_rationale_header_structure():
-    result = format_rationale("BB", "down", "Earnings miss on revenue weakness")
+    result = format_rationale("C-", "down", "Earnings miss on revenue weakness")
     lines = result.strip().split("\n")
     assert len(lines) >= 1
 
     header = lines[0]
-    assert header.startswith("BB —")
-    assert "Mixed Signals" in header
+    assert header.startswith("C- —")
+    assert "Watch" in header
     assert "↑ worsening" in header
 
 
@@ -169,18 +175,18 @@ def test_format_rationale_no_banned_words():
 
 
 def test_format_rationale_grade_matches_header():
-    for grade, expected in [("AAA", "Treasury-Grade"), ("AA", "Investment-Grade Safe"),
-                             ("A", "Solid"), ("BBB", "Stable, Watch Points"),
-                             ("BB", "Mixed Signals"), ("B", "Elevated Risk"),
-                             ("CCC", "High Risk"), ("CC", "Severe Risk"),
-                             ("C", "Distressed"), ("F", "Failure Mode")]:
+    for grade, expected in [("A+", "Exceptional"), ("A", "Excellent"), ("A-", "Very Strong"),
+                             ("B+", "Strong"), ("B", "Solid"), ("B-", "Above Average"),
+                             ("C+", "Average"), ("C", "Below Average"), ("C-", "Watch"),
+                             ("D+", "Elevated Risk"), ("D", "High Risk"), ("D-", "Severe Risk"),
+                             ("F", "Distressed")]:
         result = format_rationale(grade, "flat", "Some driver")
         assert f"{grade} — {expected}" in result, f"Expected '{grade} — {expected}' in: {result}"
 
 
 def test_format_rationale_fallback_when_no_drivers():
-    result = format_rationale("BB", "flat", None, source_count=1)
-    assert "BB — Mixed Signals" in result
+    result = format_rationale("C-", "flat", None, source_count=1)
+    assert "C- — Watch" in result
     assert "→ stable" in result
     lines = [l for l in result.strip().split("\n") if l.strip()]
     assert len(lines) >= 2
@@ -201,19 +207,19 @@ def test_format_rationale_extracts_drivers_from_newlines():
 
 def test_format_rationale_extracts_drivers_from_sentences():
     text = "Negative news is the primary risk. Macro pressure adds downside."
-    result = format_rationale("CCC", "down", text)
-    assert "CCC — High Risk" in result
+    result = format_rationale("D", "down", text)
+    assert "D — High Risk" in result
     assert "↑ worsening" in result
 
 
 def test_format_rationale_generic_drivers_by_grade():
     result_f = format_rationale("F", "down", None, scores={"financial_health": 60, "news_sentiment": 20, "macro_exposure": 30, "sector_exposure": 40, "volatility": 30})
-    assert "F — Failure Mode" in result_f
+    assert "F — Distressed" in result_f
     assert "↑ worsening" in result_f
 
-    result_aaa = format_rationale("AAA", "up", None, scores={"financial_health": 95, "news_sentiment": 90, "macro_exposure": 85, "sector_exposure": 85, "volatility": 85})
-    assert "AAA — Treasury-Grade" in result_aaa
-    assert "↓ improving" in result_aaa
+    result_top = format_rationale("A+", "up", None, scores={"financial_health": 95, "news_sentiment": 90, "macro_exposure": 85, "sector_exposure": 85, "volatility": 85})
+    assert "A+ — Exceptional" in result_top
+    assert "↓ improving" in result_top
 
 
 def test_format_rationale_direction_none_defaults_stable():

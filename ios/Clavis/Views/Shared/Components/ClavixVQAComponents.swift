@@ -227,25 +227,24 @@ struct ClavixGradeBadge: View {
 
     var body: some View {
         let metrics = gradeMetrics
-        Text(grade)
+        let shape = RoundedRectangle(cornerRadius: metrics.radius, style: .continuous)
+        Text(ClavisGradeStyle.displayGrade(grade))
             .font(ClavisTypography.clavixMono(metrics.font, weight: .bold))
             .tracking(0.4)
             .foregroundColor(color)
             .frame(width: metrics.width, height: metrics.height)
             .background(grade == "—" ? Color.clear : color.opacity(0.16))
-            .overlay(
-                Rectangle()
-                    .stroke(color, lineWidth: 1)
-            )
+            .clipShape(shape)
+            .overlay(shape.stroke(color, lineWidth: 1))
     }
 
-    private var gradeMetrics: (width: CGFloat, height: CGFloat, font: CGFloat) {
+    private var gradeMetrics: (width: CGFloat, height: CGFloat, font: CGFloat, radius: CGFloat) {
         switch size {
-        case 80...: return (124, 84, 42)
-        case 40...: return (76, 44, 22)
-        case 28...: return (50, 28, 13)
-        case 22...: return (38, 22, 11)
-        default: return (30, 18, 10)
+        case 80...: return (124, 84, 42, 8)
+        case 40...: return (76, 44, 22, 5)
+        case 28...: return (50, 28, 13, 4)
+        case 22...: return (38, 22, 11, 3)
+        default: return (30, 18, 10, 3)
         }
     }
 

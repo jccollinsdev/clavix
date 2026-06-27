@@ -89,17 +89,30 @@ Avoid phrases like:
 - "structurally"
 """
 
+# Academic ladder (higher = safer). The bottom four (D+, D, D-, F) are the
+# "urgent" band used by _position_urgency. Legacy bond letters are aliased to
+# their academic-equivalent ordinal so any stale snapshot still ranks sanely.
 GRADE_ORDINAL = {
-    "AAA": 10,
-    "AA": 9,
-    "A": 8,
-    "BBB": 7,
-    "BB": 6,
-    "B": 5,
-    "CCC": 4,
-    "CC": 3,
-    "C": 2,
+    "A+": 13,
+    "A": 12,
+    "A-": 11,
+    "B+": 10,
+    "B": 9,
+    "B-": 8,
+    "C+": 7,
+    "C": 6,
+    "C-": 5,
+    "D+": 4,
+    "D": 3,
+    "D-": 2,
     "F": 1,
+    # legacy bond aliases
+    "AAA": 13,
+    "AA": 12,
+    "BBB": 8,
+    "BB": 6,
+    "CCC": 2,
+    "CC": 1,
 }
 
 

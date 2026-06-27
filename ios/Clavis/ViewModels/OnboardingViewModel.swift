@@ -272,7 +272,19 @@ final class OnboardingViewModel: ObservableObject {
     func updateShares(_ id: UUID, _ value: String) {
         guard let idx = entries.firstIndex(where: { $0.id == id }) else { return }
         errorMessage = nil
-        entries[idx].shares = value
+        // Whole shares only — strip every non-digit so decimals can't form.
+        entries[idx].shares = String(value.filter(\.isNumber).prefix(9))
+    }
+
+    /// Live reads from the published source so TextField bindings reflect
+    /// sanitized/formatted values immediately while the field is first responder
+    /// (a value-type snapshot captured in the binding would lag a keystroke).
+    func sharesText(for id: UUID) -> String {
+        entries.first { $0.id == id }?.shares ?? ""
+    }
+
+    func amountText(for id: UUID) -> String {
+        entries.first { $0.id == id }?.amount ?? ""
     }
 
     func updateAmount(_ id: UUID, _ value: String) {
@@ -627,14 +639,14 @@ final class OnboardingViewModel: ObservableObject {
         let payload: [String: Any] = [
             "ticker": ticker,
             "company_name": ticker == "AAPL" ? "Apple Inc." : "\(ticker) Holdings",
-            "grade": "A",
+            "grade": "B+",
             "safety_score": 78,
             "is_supported": true,
             "shared_analysis": [
                 "ticker": ticker,
                 "company_name": ticker == "AAPL" ? "Apple Inc." : "\(ticker) Holdings",
                 "current_score": 78,
-                "current_grade": "A",
+                "current_grade": "B+",
                 "freshness": ["status": "current"],
                 "risk_dimensions": [
                     "financial_health": 84,

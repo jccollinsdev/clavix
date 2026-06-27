@@ -15,19 +15,24 @@ enum PortfolioMath {
         return weightedPairs.reduce(0) { $0 + ($1.0 * $1.1) } / totalWeight
     }
 
-    /// Grade derived from a 0-100 composite score using the CLAVIX_TRUTH §7 band table.
+    /// Grade derived from a 0-100 composite score using the academic ladder.
+    /// SINGLE source of truth for score -> letter across the app. Higher score =
+    /// lower risk. Letters best->worst: A+, A, A-, B+, B, B-, C+, C, C-, D+, D, D-, F.
     static func grade(forScore score: Double) -> String {
         switch score {
-        case 90...100: return "AAA"
-        case 80..<90:  return "AA"
-        case 70..<80:  return "A"
-        case 60..<70:  return "BBB"
-        case 50..<60:  return "BB"
-        case 40..<50:  return "B"
-        case 30..<40:  return "CCC"
-        case 20..<30:  return "CC"
-        case 10..<20:  return "C"
-        default:       return "F"
+        case 90...:   return "A+"
+        case 85..<90: return "A"
+        case 80..<85: return "A-"
+        case 75..<80: return "B+"
+        case 70..<75: return "B"
+        case 65..<70: return "B-"
+        case 60..<65: return "C+"
+        case 55..<60: return "C"
+        case 50..<55: return "C-"
+        case 45..<50: return "D+"
+        case 40..<45: return "D"
+        case 35..<40: return "D-"
+        default:      return "F"
         }
     }
 

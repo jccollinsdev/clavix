@@ -217,20 +217,47 @@ extension Color {
 // MARK: - Grade Style
 
 enum ClavisGradeStyle {
-    static func riskColor(for grade: String?) -> Color {
+    /// Translate any legacy bond letter (AAA/AA/BBB/BB/CCC/CC) to its academic
+    /// equivalent so stale snapshots never display "BBB" or fall through to grey.
+    /// Single letters (A/B/C/D/F) are already valid academic grades and pass through.
+    static func displayGrade(_ grade: String?) -> String {
+        guard let grade, !grade.isEmpty else { return "—" }
         switch grade {
-        case "AAA": return .gradeCAAA
-        case "AA":  return .gradeCAA
-        case "A":   return .gradeCA
-        case "BBB": return .gradeCBBB
-        case "BB":  return .gradeCBB
-        case "B":   return .gradeCB
-        case "CCC": return .gradeCCCC
-        case "CC":  return .gradeCCC
-        case "C":   return .gradeCC
-        case "F":   return .gradeCF
+        case "AAA": return "A+"
+        case "AA":  return "A"
+        case "BBB": return "B-"
+        case "BB":  return "C"
+        case "CCC": return "D-"
+        case "CC":  return "F"
+        default:    return grade
+        }
+    }
+
+    // Academic ladder: A+, A, A-, B+, B, B-, C+, C, C-, D+, D, D-, F.
+    // Continuous green -> yellow-green -> gold -> amber -> orange -> coral -> red ramp,
+    // one distinct stop per grade so the scale reads as a true gradient.
+    static func riskColor(for grade: String?) -> Color {
+        switch displayGrade(grade) {
+        case "A+":  return Color(hex: "#1FA86E")
+        case "A":   return Color(hex: "#2FB783")
+        case "A-":  return Color(hex: "#49BE83")
+        case "B+":  return Color(hex: "#6FC77C")
+        case "B":   return Color(hex: "#93CC6B")
+        case "B-":  return Color(hex: "#C2C24C")
+        case "C+":  return Color(hex: "#DFB23F")
+        case "C":   return Color(hex: "#E59A3C")
+        case "C-":  return Color(hex: "#E5803B")
+        case "D+":  return Color(hex: "#E36A48")
+        case "D":   return Color(hex: "#DD5544")
+        case "D-":  return Color(hex: "#CE4736")
+        case "F":   return Color(hex: "#BD3430")
         default:    return .textSecondary
         }
+    }
+
+    /// Color for a raw 0-100 score, mapped through the same grade ramp.
+    static func scoreColor(for score: Double) -> Color {
+        riskColor(for: PortfolioMath.grade(forScore: score))
     }
 
     /// Backward-compat alias
@@ -238,15 +265,18 @@ enum ClavisGradeStyle {
 
     static func gradeBandBg(for grade: String?) -> Color {
         switch grade {
-        case "AAA": return .gradeAAABg
-        case "AA":  return .gradeAABg
-        case "A":   return .gradeABg
-        case "BBB": return .gradeBBBBg
-        case "BB":  return .gradeBBBg
-        case "B":   return .gradeBBg
-        case "CCC": return .gradeCCCBg
-        case "CC":  return .gradeCCBg
-        case "C":   return .gradeCBg
+        case "A+":  return .gradeAAABg
+        case "A":   return .gradeAABg
+        case "A-":  return .gradeABg
+        case "B+":  return .gradeABg
+        case "B":   return .gradeABg
+        case "B-":  return .gradeBBBBg
+        case "C+":  return .gradeBBBBg
+        case "C":   return .gradeBBBg
+        case "C-":  return .gradeBBBg
+        case "D+":  return .gradeCCCBg
+        case "D":   return .gradeCCBg
+        case "D-":  return .gradeCBg
         case "F":   return .gradeFBg
         default:    return .surfaceElevated
         }
@@ -254,15 +284,18 @@ enum ClavisGradeStyle {
 
     static func gradeBandText(for grade: String?) -> Color {
         switch grade {
-        case "AAA": return .gradeAAAText
-        case "AA":  return .gradeAAText
-        case "A":   return .gradeAText
-        case "BBB": return .gradeBBBText
-        case "BB":  return .gradeBBText
-        case "B":   return .gradeBText
-        case "CCC": return .gradeCCCText
-        case "CC":  return .gradeCCText
-        case "C":   return .gradeCText
+        case "A+":  return .gradeAAAText
+        case "A":   return .gradeAAText
+        case "A-":  return .gradeAText
+        case "B+":  return .gradeAText
+        case "B":   return .gradeAText
+        case "B-":  return .gradeBBBText
+        case "C+":  return .gradeBBBText
+        case "C":   return .gradeBBText
+        case "C-":  return .gradeBBText
+        case "D+":  return .gradeCCCText
+        case "D":   return .gradeCCText
+        case "D-":  return .gradeCText
         case "F":   return .gradeFText
         default:    return .textSecondary
         }
@@ -270,16 +303,19 @@ enum ClavisGradeStyle {
 
     static func gradeBandLabel(for grade: String?) -> String {
         switch grade {
-        case "AAA": return "Investment Grade (90\u{2013}100)"
-        case "AA":  return "Strong (80\u{2013}89)"
-        case "A":   return "Sound (70\u{2013}79)"
-        case "BBB": return "Adequate (60\u{2013}69)"
-        case "BB":  return "Speculative (50\u{2013}59)"
-        case "B":   return "Vulnerable (40\u{2013}49)"
-        case "CCC": return "Weak (30\u{2013}39)"
-        case "CC":  return "Distressed (20\u{2013}29)"
-        case "C":   return "Near Default (10\u{2013}19)"
-        case "F":   return "Default (0\u{2013}9)"
+        case "A+":  return "Exceptional (90\u{2013}100)"
+        case "A":   return "Excellent (85\u{2013}89)"
+        case "A-":  return "Very Strong (80\u{2013}84)"
+        case "B+":  return "Strong (75\u{2013}79)"
+        case "B":   return "Solid (70\u{2013}74)"
+        case "B-":  return "Above Average (65\u{2013}69)"
+        case "C+":  return "Average (60\u{2013}64)"
+        case "C":   return "Below Average (55\u{2013}59)"
+        case "C-":  return "Watch (50\u{2013}54)"
+        case "D+":  return "Elevated Risk (45\u{2013}49)"
+        case "D":   return "High Risk (40\u{2013}44)"
+        case "D-":  return "Severe Risk (35\u{2013}39)"
+        case "F":   return "Distressed (0\u{2013}34)"
         default:    return "\u{2014}"
         }
     }

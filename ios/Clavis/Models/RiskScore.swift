@@ -18,7 +18,6 @@ struct RiskScore: Identifiable, Codable {
     let scoreDelta: Int?
 
     let safetyScore: Double?
-    let confidence: Double?
     let structuralBaseScore: Double?
     let macroAdjustment: Double?
     let eventAdjustment: Double?
@@ -53,7 +52,6 @@ struct RiskScore: Identifiable, Codable {
         case gradeDirection = "grade_direction"
         case scoreDelta = "score_delta"
         case safetyScore = "safety_score"
-        case confidence
         case structuralBaseScore = "structural_base_score"
         case macroAdjustment = "macro_adjustment"
         case eventAdjustment = "event_adjustment"
@@ -90,7 +88,6 @@ struct RiskScore: Identifiable, Codable {
         gradeDirection = try? container.decodeIfPresent(String.self, forKey: .gradeDirection)
         scoreDelta = try? container.decodeIfPresent(Int.self, forKey: .scoreDelta)
         safetyScore = try? container.decodeFlexibleDoubleIfPresent(forKey: .safetyScore)
-        confidence = try? container.decodeFlexibleDoubleIfPresent(forKey: .confidence)
         structuralBaseScore = try? container.decodeFlexibleDoubleIfPresent(forKey: .structuralBaseScore)
         macroAdjustment = try? container.decodeFlexibleDoubleIfPresent(forKey: .macroAdjustment)
         eventAdjustment = try? container.decodeFlexibleDoubleIfPresent(forKey: .eventAdjustment)
@@ -115,27 +112,6 @@ struct RiskScore: Identifiable, Codable {
 
     var displayGrade: String {
         grade ?? "\u{2014}"
-    }
-
-    var confidenceLevel: ConfidenceLevel {
-        guard let conf = confidence, isProvisional != true else { return .low }
-        if conf >= 0.90 { return .high }
-        if conf >= 0.70 { return .medium }
-        return .low
-    }
-}
-
-enum ConfidenceLevel: String {
-    case high = "High"
-    case medium = "Medium"
-    case low = "Low"
-
-    var color: String {
-        switch self {
-        case .high: return "green"
-        case .medium: return "yellow"
-        case .low: return "red"
-        }
     }
 }
 

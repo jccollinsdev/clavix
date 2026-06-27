@@ -77,13 +77,18 @@ Article headline: {headline}
 Article body excerpt: {body_excerpt}
 
 Return ONLY this JSON (no markdown, no explanation):
-{{"sentiment_score": <0-100>, "sentiment_reason": "<one sentence>", "impact_tag": "<category>"}}
+{{"scorable": <true|false>, "sentiment_score": <0-100 or null>, "sentiment_reason": "<one sentence>", "impact_tag": "<category>"}}
 
-- sentiment_score: 0 = extremely negative for the company/stock, 100 = extremely positive. 50 = neutral/balanced.
+- scorable: true ONLY if the article carries a real positive or negative implication for {ticker}'s business, stock, or outlook. Set false for generic market roundups, pure price-movement recaps, listicles, index-membership notes, or anything with no company-specific implication.
+- sentiment_score: 0 = extremely negative for the company/stock, 100 = extremely positive. COMMIT to a direction and use the FULL range:
+    lawsuit / guidance cut / downgrade / missed earnings ~ 15-30;
+    beat-and-raise / major contract / upgrade / strong product launch ~ 70-85;
+    mixed but net-negative ~ 40; mixed but net-positive ~ 60.
+  If scorable is false, set sentiment_score to null. Do NOT default to 50. Only score near 50 when the article is genuinely scorable AND its positive and negative implications are real and roughly balanced.
 - sentiment_reason: One sentence explaining WHY this score was assigned. No hedging. Be specific.
 - impact_tag: Choose ONE from: financial-impact, regulatory, leadership, product, macro, sector, other
 
-Use the article evidence. Do not guess. If the article is purely descriptive with no clear implication, score 50."""
+Use the article evidence. Do not guess."""
 
 TLDR_PROMPT = """Summarize the following news article about {ticker} and return a JSON object.
 
@@ -470,7 +475,17 @@ async def enrich_and_store_article(
         if need_sentiment:
             try:
                 sent = await _score_article_llm(ticker, headline, scoring_text)
-                sentiment_score = sent.get("sentiment_score")
+                # WS-D: an unscorable (purely descriptive) article is an honest NULL, not
+                # a lazy 50 that drags the whole news dimension toward neutral.
+                _scorable = sent.get("scorable")
+                _raw_score = sent.get("sentiment_score")
+                if _scorable is False or _raw_score is None:
+                    sentiment_score = None
+                else:
+                    try:
+                        sentiment_score = max(0, min(100, int(round(float(_raw_score)))))
+                    except (TypeError, ValueError):
+                        sentiment_score = None
                 sentiment_reason = sanitize_text_field(sent.get("sentiment_reason"), fallback="")
                 impact_tag_val = (sent.get("impact_tag") or "").strip().lower()
                 valid_tags = {"financial-impact", "regulatory", "leadership", "product", "macro", "sector", "other"}

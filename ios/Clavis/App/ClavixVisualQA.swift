@@ -180,7 +180,7 @@ private enum VQA {
     static let cardRadius: CGFloat = 10
     static let controlRadius: CGFloat = 7
     static let portfolioValue = "$1,284,715.42"
-    static let portfolioGrade = "AA"
+    static let portfolioGrade = "A-"
     static let portfolioScore = 81
     static let portfolioDelta = -1
 
@@ -246,21 +246,21 @@ private enum VQA {
     ]
 
     static let holdings: [Holding] = [
-        .init(id: "nvda", ticker: "NVDA", name: "NVIDIA", grade: "BBB", score: 64, delta: -3, value: "$200,852", today: "-2.1%", weight: "15.6%", note: "News signal fell on export-control evidence."),
-        .init(id: "msft", ticker: "MSFT", name: "Microsoft", grade: "AAA", score: 91, delta: 1, value: "$158,920", today: "+0.6%", weight: "12.4%", note: "Cash-flow evidence remains strong."),
-        .init(id: "brkb", ticker: "BRK.B", name: "Berkshire Hathaway", grade: "AA", score: 84, delta: 0, value: "$130,104", today: "+0.1%", weight: "10.1%", note: "Stable financial and volatility inputs."),
-        .init(id: "jpm", ticker: "JPM", name: "JPMorgan Chase", grade: "A", score: 78, delta: 0, value: "$99,441", today: "+0.3%", weight: "7.7%", note: "Higher rates offset credit normalization."),
-        .init(id: "xle", ticker: "XLE", name: "Energy Select Sector", grade: "BB", score: 57, delta: -2, value: "$85,902", today: "-1.3%", weight: "6.7%", note: "WTI weakness raised sector exposure."),
-        .init(id: "cost", ticker: "COST", name: "Costco", grade: "AA", score: 83, delta: 0, value: "$72,218", today: "-0.2%", weight: "5.6%", note: "Margin signal steady before earnings."),
-        .init(id: "vti", ticker: "VTI", name: "US Total Market", grade: "AA", score: 81, delta: 0, value: "$242,000", today: "+0.1%", weight: "18.8%", note: "Broad-market anchor."),
-        .init(id: "googl", ticker: "GOOGL", name: "Alphabet", grade: "A", score: 79, delta: 0, value: "$88,412", today: "+0.4%", weight: "6.9%", note: "Ad evidence remains stable."),
-        .init(id: "pltr", ticker: "PLTR", name: "Palantir", grade: "BBB", score: 62, delta: -2, value: "$44,708", today: "-1.7%", weight: "3.5%", note: "Guidance evidence lowered score." )
+        .init(id: "nvda", ticker: "NVDA", name: "NVIDIA", grade: "C+", score: 64, delta: -3, value: "$200,852", today: "-2.1%", weight: "15.6%", note: "News signal fell on export-control evidence."),
+        .init(id: "msft", ticker: "MSFT", name: "Microsoft", grade: "A+", score: 91, delta: 1, value: "$158,920", today: "+0.6%", weight: "12.4%", note: "Cash-flow evidence remains strong."),
+        .init(id: "brkb", ticker: "BRK.B", name: "Berkshire Hathaway", grade: "A-", score: 84, delta: 0, value: "$130,104", today: "+0.1%", weight: "10.1%", note: "Stable financial and volatility inputs."),
+        .init(id: "jpm", ticker: "JPM", name: "JPMorgan Chase", grade: "B+", score: 78, delta: 0, value: "$99,441", today: "+0.3%", weight: "7.7%", note: "Higher rates offset credit normalization."),
+        .init(id: "xle", ticker: "XLE", name: "Energy Select Sector", grade: "C", score: 57, delta: -2, value: "$85,902", today: "-1.3%", weight: "6.7%", note: "WTI weakness raised sector exposure."),
+        .init(id: "cost", ticker: "COST", name: "Costco", grade: "A-", score: 83, delta: 0, value: "$72,218", today: "-0.2%", weight: "5.6%", note: "Margin signal steady before earnings."),
+        .init(id: "vti", ticker: "VTI", name: "US Total Market", grade: "A-", score: 81, delta: 0, value: "$242,000", today: "+0.1%", weight: "18.8%", note: "Broad-market anchor."),
+        .init(id: "googl", ticker: "GOOGL", name: "Alphabet", grade: "B+", score: 79, delta: 0, value: "$88,412", today: "+0.4%", weight: "6.9%", note: "Ad evidence remains stable."),
+        .init(id: "pltr", ticker: "PLTR", name: "Palantir", grade: "C+", score: 62, delta: -2, value: "$44,708", today: "-1.7%", weight: "3.5%", note: "Guidance evidence lowered score." )
     ]
 
     static let tracked: [Holding] = [
-        .init(id: "meta", ticker: "META", name: "Meta Platforms", grade: "A", score: 77, delta: 0, value: "-", today: "+0.3%", weight: "tracked", note: "Ad-market evidence stable."),
-        .init(id: "tsla", ticker: "TSLA", name: "Tesla", grade: "B", score: 43, delta: -4, value: "-", today: "-2.9%", weight: "tracked", note: "Policy and margin signals remain weak."),
-        .init(id: "amd", ticker: "AMD", name: "Advanced Micro Devices", grade: "BBB", score: 66, delta: 1, value: "-", today: "+1.2%", weight: "tracked", note: "Data-center demand evidence improved." )
+        .init(id: "meta", ticker: "META", name: "Meta Platforms", grade: "B+", score: 77, delta: 0, value: "-", today: "+0.3%", weight: "tracked", note: "Ad-market evidence stable."),
+        .init(id: "tsla", ticker: "TSLA", name: "Tesla", grade: "D", score: 43, delta: -4, value: "-", today: "-2.9%", weight: "tracked", note: "Policy and margin signals remain weak."),
+        .init(id: "amd", ticker: "AMD", name: "Advanced Micro Devices", grade: "B-", score: 66, delta: 1, value: "-", today: "+1.2%", weight: "tracked", note: "Data-center demand evidence improved." )
     ]
 
     static let sectors: [Sector] = [
@@ -283,7 +283,7 @@ private enum VQA {
         .init(id: "a2", category: "MACRO", time: "06:48", title: "10Y yield +14 bps overnight", detail: "Affects four positions with elevated rate sensitivity: XLE, JPM, COST, BRK.B.", meta: "Macro", route: "alert-detail", tone: .vqaWarn, unread: true),
         .init(id: "a3", category: "NEWS", time: "14:22", title: "TSLA high-impact article", detail: "Reuters: EU lowers EV import duties on Chinese rivals. News signal 32.", meta: "B", route: "article", tone: .vqaBad, unread: false),
         .init(id: "a4", category: "TRACK", time: "11:04", title: "PLTR tracked ticker update", detail: "Score 65 -> 62 on guidance pull-through concerns.", meta: "BBB -2", route: "ticker", tone: .vqaAccent, unread: false),
-        .init(id: "a5", category: "PORT", time: "07:00", title: "Morning Report ready", detail: "Portfolio composite 81 (AA). Largest mover: NVDA -3; largest lift: MSFT +1.", meta: "AA", route: "digest", tone: .vqaInk, unread: false)
+        .init(id: "a5", category: "PORT", time: "07:00", title: "Morning Report ready", detail: "Portfolio composite 81 (A-). Largest mover: NVDA -3; largest lift: MSFT +1.", meta: "A-", route: "digest", tone: .vqaInk, unread: false)
     ]
 }
 
@@ -468,16 +468,17 @@ private struct VQAGrade: View {
     }
     private var color: Color {
         switch grade {
-        case "AAA", "AA": return .vqaGood
-        case "A":         return .vqaGoodSoft
-        case "BBB", "BB": return .vqaWarn
-        default:           return .vqaBad
+        case "A+", "A", "A-": return .vqaGood
+        case "B+", "B":       return .vqaGoodSoft
+        case "B-", "C+",
+             "C", "C-":       return .vqaWarn
+        default:              return .vqaBad
         }
     }
     private var foreground: Color {
         switch grade {
-        case "A": return .vqaGoodInk
-        default:  return .white
+        case "B+", "B": return .vqaGoodInk
+        default:        return .white
         }
     }
 }
@@ -769,7 +770,7 @@ private struct ClavixVisualQADigest: View {
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 5) {
                         VQAEyebrow("Portfolio rating")
-                        HStack(alignment: .lastTextBaseline, spacing: 10) { VQAGrade("AA"); Text("composite 81 · was 82").font(ClavisTypography.mono(14, weight: .regular)).foregroundColor(.vqaInk2) }
+                        HStack(alignment: .lastTextBaseline, spacing: 10) { VQAGrade("A-"); Text("composite 81 · was 82").font(ClavisTypography.mono(14, weight: .regular)).foregroundColor(.vqaInk2) }
                     }
                     Spacer()
                     VQALineChart().frame(width: 112, height: 40)
@@ -843,12 +844,12 @@ private struct ClavixVisualQAHoldings: View {
             }
             VQASection(eyebrow: "Composition", title: "By sector") {
                 VStack(spacing: 8) {
-                    VQASectorBar(name: "Technology", weight: 42, grade: "AA", tickers: "AAPL · MSFT · NVDA")
-                    VQASectorBar(name: "Diversified ETF", weight: 12, grade: "AAA", tickers: "VTI")
-                    VQASectorBar(name: "Financials", weight: 9, grade: "A", tickers: "JPM")
-                    VQASectorBar(name: "Energy", weight: 8, grade: "BB", tickers: "XLE")
-                    VQASectorBar(name: "Conglomerate", weight: 14, grade: "AAA", tickers: "BRK.B")
-                    VQASectorBar(name: "Consumer Disc.", weight: 5, grade: "AA", tickers: "COST")
+                    VQASectorBar(name: "Technology", weight: 42, grade: "A-", tickers: "AAPL · MSFT · NVDA")
+                    VQASectorBar(name: "Diversified ETF", weight: 12, grade: "A+", tickers: "VTI")
+                    VQASectorBar(name: "Financials", weight: 9, grade: "B+", tickers: "JPM")
+                    VQASectorBar(name: "Energy", weight: 8, grade: "C", tickers: "XLE")
+                    VQASectorBar(name: "Conglomerate", weight: 14, grade: "A-", tickers: "BRK.B")
+                    VQASectorBar(name: "Consumer Disc.", weight: 5, grade: "A-", tickers: "COST")
                 }
             }
         }
@@ -868,26 +869,26 @@ private struct ClavixVisualQASearch: View {
                             .padding(.bottom, -38)
                         VQACard(padding: 0) {
                             VStack(spacing: 0) {
-                                VQASearchResultLedgerRow(symbol: "NVDA", name: "NVIDIA", grade: "BBB", price: "-", change: nil, icon: "arrow.clockwise") { navigate("ticker") }
+                                VQASearchResultLedgerRow(symbol: "NVDA", name: "NVIDIA", grade: "C+", price: "-", change: nil, icon: "arrow.clockwise") { navigate("ticker") }
                                 Divider()
-                                VQASearchResultLedgerRow(symbol: "COIN", name: "Coinbase", grade: "CCC", price: "-", change: nil, icon: "arrow.clockwise") { navigate("ticker") }
+                                VQASearchResultLedgerRow(symbol: "COIN", name: "Coinbase", grade: "D-", price: "-", change: nil, icon: "arrow.clockwise") { navigate("ticker") }
                                 Divider()
-                                VQASearchResultLedgerRow(symbol: "BRK.B", name: "Berkshire H. B", grade: "AAA", price: "-", change: nil, icon: "arrow.clockwise") { navigate("ticker") }
+                                VQASearchResultLedgerRow(symbol: "BRK.B", name: "Berkshire H. B", grade: "A-", price: "-", change: nil, icon: "arrow.clockwise") { navigate("ticker") }
                                 Divider()
-                                VQASearchResultLedgerRow(symbol: "XLE", name: "Energy Select", grade: "BB", price: "-", change: nil, icon: "arrow.clockwise") { navigate("ticker") }
+                                VQASearchResultLedgerRow(symbol: "XLE", name: "Energy Select", grade: "C", price: "-", change: nil, icon: "arrow.clockwise") { navigate("ticker") }
                             }
                         }
                     }
                     VQASection(eyebrow: "What others are looking at", title: "Trending") {
                         VQACard(padding: 0) {
                             VStack(spacing: 0) {
-                                VQASearchResultLedgerRow(symbol: "TSLA", name: "Tesla", grade: "B", price: "$184.60", change: -3.4) { navigate("ticker") }
+                                VQASearchResultLedgerRow(symbol: "TSLA", name: "Tesla", grade: "D", price: "$184.60", change: -3.4) { navigate("ticker") }
                                 Divider()
-                                VQASearchResultLedgerRow(symbol: "PLTR", name: "Palantir", grade: "BBB", price: "$38.18", change: -1.4) { navigate("ticker") }
+                                VQASearchResultLedgerRow(symbol: "PLTR", name: "Palantir", grade: "C+", price: "$38.18", change: -1.4) { navigate("ticker") }
                                 Divider()
-                                VQASearchResultLedgerRow(symbol: "META", name: "Meta Platforms", grade: "A", price: "$612.40", change: 0.6) { navigate("ticker") }
+                                VQASearchResultLedgerRow(symbol: "META", name: "Meta Platforms", grade: "B+", price: "$612.40", change: 0.6) { navigate("ticker") }
                                 Divider()
-                                VQASearchResultLedgerRow(symbol: "JPM", name: "JPMorgan Chase", grade: "A", price: "$196.32", change: 0.3) { navigate("ticker") }
+                                VQASearchResultLedgerRow(symbol: "JPM", name: "JPMorgan Chase", grade: "B+", price: "$196.32", change: 0.3) { navigate("ticker") }
                             }
                         }
                     }
@@ -1239,13 +1240,13 @@ private struct ClavixVisualQAAlerts: View {
                 HStack(spacing: 4) { VQAPill("All · 14", active: true); VQAPill("Grade · 5"); VQAPill("News · 6"); VQAPill("Portfolio · 1"); VQAPill("Tracked · 1"); VQAPill("Macro · 1") }
             }
             VQADaySeparator("Today · Fri May 9")
-            Button { navigate("alert-detail") } label: { VQAAlertCenterRow(unread: true, tone: .vqaBad, category: "GRADE", time: "04:12", title: "NVDA downgraded A -> BBB", body: "News signal fell 7 pts on widened chip-export curbs. Composite 67 -> 64.", grade: "BBB", delta: -3) }.buttonStyle(.plain)
+            Button { navigate("alert-detail") } label: { VQAAlertCenterRow(unread: true, tone: .vqaBad, category: "GRADE", time: "04:12", title: "NVDA downgraded B- -> C+", body: "News signal fell 7 pts on widened chip-export curbs. Composite 67 -> 64.", grade: "C+", delta: -3) }.buttonStyle(.plain)
             Button { navigate("methodology-macro") } label: { VQAAlertCenterRow(unread: true, tone: .vqaWarn, category: "MACRO", time: "06:48", title: "10Y yield +14 bps overnight", body: "Affects 4 positions with elevated rate sensitivity: XLE, JPM, COST, BRK.B.") }.buttonStyle(.plain)
             VQADaySeparator("Yesterday · Thu May 8")
-            Button { navigate("article") } label: { VQAAlertCenterRow(tone: .vqaBad, category: "NEWS", time: "14:22", title: "TSLA high-impact article", body: "Reuters: EU lowers EV import duties on Chinese rivals · news score 32.", grade: "B") }.buttonStyle(.plain)
-            Button { navigate("ticker") } label: { VQAAlertCenterRow(tone: .vqaAccent, category: "TRACK", time: "11:04", title: "PLTR tracked ticker update", body: "Score 65 -> 62 on guidance pull-through concerns.", grade: "BBB", delta: -2) }.buttonStyle(.plain)
-            Button { navigate("ticker") } label: { VQAAlertCenterRow(tone: .vqaGood, category: "GRADE", time: "07:02", title: "MSFT upgraded AA -> AAA", body: "Hyperscaler capex confirmation lifts financial-health dimension.", grade: "AAA", delta: 1) }.buttonStyle(.plain)
-            VQAAlertCenterRow(tone: .vqaInk, category: "PORT", time: "07:00", title: "Portfolio composite unchanged", body: "Daily summary: 81 (AA). Largest mover: NVDA -3; largest lifter: MSFT +1.", grade: "AA")
+            Button { navigate("article") } label: { VQAAlertCenterRow(tone: .vqaBad, category: "NEWS", time: "14:22", title: "TSLA high-impact article", body: "Reuters: EU lowers EV import duties on Chinese rivals · news score 32.", grade: "D") }.buttonStyle(.plain)
+            Button { navigate("ticker") } label: { VQAAlertCenterRow(tone: .vqaAccent, category: "TRACK", time: "11:04", title: "PLTR tracked ticker update", body: "Score 65 -> 62 on guidance pull-through concerns.", grade: "C+", delta: -2) }.buttonStyle(.plain)
+            Button { navigate("ticker") } label: { VQAAlertCenterRow(tone: .vqaGood, category: "GRADE", time: "07:02", title: "MSFT upgraded A -> A+", body: "Hyperscaler capex confirmation lifts financial-health dimension.", grade: "A+", delta: 1) }.buttonStyle(.plain)
+            VQAAlertCenterRow(tone: .vqaInk, category: "PORT", time: "07:00", title: "Portfolio composite unchanged", body: "Daily summary: 81 (A-). Largest mover: NVDA -3; largest lifter: MSFT +1.", grade: "A-")
             VQADaySeparator("Wed May 7")
             VQAAlertCenterRow(tone: .vqaWarn, category: "NEWS", time: "16:14", title: "JPM regulatory headline", body: "Fed extends stress-test scenarios. No grade change.")
             VQAButton("Load earlier alerts", fill: .clear, foreground: .vqaInk) {}.overlay(RoundedRectangle(cornerRadius: 7).stroke(Color.vqaRule, lineWidth: 1))
@@ -1392,7 +1393,7 @@ private struct ClavixVisualQATickerDetail: View {
             VQACard(padding: 0) {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack(alignment: .top, spacing: 14) {
-                        VStack(alignment: .leading, spacing: 8) { VQAEyebrow("Composite"); HStack(alignment: .lastTextBaseline, spacing: 8) { VQAGrade("BBB"); Text("64").font(ClavisTypography.mono(32, weight: .semibold)).tracking(-0.6).foregroundColor(.vqaInk) }; HStack(spacing: 8) { Text("▼ 3").font(ClavisTypography.mono(12, weight: .semibold)).foregroundColor(.vqaBad); Text("was 67 · 5 days").font(ClavisTypography.mono(11, weight: .regular)).foregroundColor(.vqaInk3) }; Text("Downgraded A -> BBB overnight. News signal is the primary driver; balance sheet remains AAA-grade.").font(ClavisTypography.vqaCaption).foregroundColor(.vqaInk2).fixedSize(horizontal: false, vertical: true) }
+                        VStack(alignment: .leading, spacing: 8) { VQAEyebrow("Composite"); HStack(alignment: .lastTextBaseline, spacing: 8) { VQAGrade("C+"); Text("64").font(ClavisTypography.mono(32, weight: .semibold)).tracking(-0.6).foregroundColor(.vqaInk) }; HStack(spacing: 8) { Text("▼ 3").font(ClavisTypography.mono(12, weight: .semibold)).foregroundColor(.vqaBad); Text("was 67 · 5 days").font(ClavisTypography.mono(11, weight: .regular)).foregroundColor(.vqaInk3) }; Text("Downgraded B- -> C+ overnight. News signal is the primary driver; balance sheet remains A+-grade.").font(ClavisTypography.vqaCaption).foregroundColor(.vqaInk2).fixedSize(horizontal: false, vertical: true) }
                         Spacer()
                         VQARadar(values: VQA.dimensions.map(\.score)).frame(width: 150, height: 150)
                     }.padding(16)
@@ -1457,7 +1458,7 @@ private struct ClavixVisualQAMethodology: View {
         VQAScreen(eyebrow: "Methodology · how 64 was computed", title: "Composite · NVDA") {
             VStack(alignment: .leading, spacing: 6) {
                 HStack(alignment: .lastTextBaseline, spacing: 10) {
-                    VQAGrade("BBB")
+                    VQAGrade("C+")
                     Text("64").font(ClavisTypography.mono(38, weight: .semibold)).tracking(-0.6).foregroundColor(.vqaInk)
                     Spacer()
                     Text("▼ 3").font(ClavisTypography.mono(13, weight: .semibold)).foregroundColor(.vqaBad)
@@ -1492,7 +1493,7 @@ private struct ClavixVisualQAMethodology: View {
                 VQACard(padding: 0) {
                     VStack(spacing: 0) {
                         ForEach(Array(VQAGradeBand.bands.enumerated()), id: \.element.grade) { index, band in
-                            VQAGradeBandRow(band: band, current: band.grade == "BBB")
+                            VQAGradeBandRow(band: band, current: band.grade == "C+")
                             if index < VQAGradeBand.bands.count - 1 { Divider() }
                         }
                     }
@@ -1634,16 +1635,19 @@ private struct VQAGradeBand {
     let range: String
     let label: String
     static let bands: [VQAGradeBand] = [
-        .init(grade: "AAA", range: "90-100", label: "Treasury-grade"),
-        .init(grade: "AA", range: "80-89", label: "Investment-grade"),
-        .init(grade: "A", range: "70-79", label: "Solid"),
-        .init(grade: "BBB", range: "60-69", label: "Stable, review points"),
-        .init(grade: "BB", range: "50-59", label: "Mixed signals"),
-        .init(grade: "B", range: "40-49", label: "Elevated risk"),
-        .init(grade: "CCC", range: "30-39", label: "High risk"),
-        .init(grade: "CC", range: "20-29", label: "Severe risk"),
-        .init(grade: "C", range: "10-19", label: "Distressed"),
-        .init(grade: "F", range: "0-9", label: "Failure mode")
+        .init(grade: "A+", range: "90-100", label: "Exceptional"),
+        .init(grade: "A", range: "85-89", label: "Excellent"),
+        .init(grade: "A-", range: "80-84", label: "Very strong"),
+        .init(grade: "B+", range: "75-79", label: "Strong"),
+        .init(grade: "B", range: "70-74", label: "Solid"),
+        .init(grade: "B-", range: "65-69", label: "Above average"),
+        .init(grade: "C+", range: "60-64", label: "Average"),
+        .init(grade: "C", range: "55-59", label: "Below average"),
+        .init(grade: "C-", range: "50-54", label: "Watch"),
+        .init(grade: "D+", range: "45-49", label: "Elevated risk"),
+        .init(grade: "D", range: "40-44", label: "High risk"),
+        .init(grade: "D-", range: "35-39", label: "Severe risk"),
+        .init(grade: "F", range: "0-34", label: "Distressed")
     ]
 }
 
@@ -1762,9 +1766,9 @@ private struct ClavixVisualQAAlertDetail: View {
             VQACard(padding: 0) {
                 VStack(spacing: 0) {
                     HStack(spacing: 0) {
-                        VStack(spacing: 8) { VQAEyebrow("Before · May 7"); VQAGrade("A"); Text("composite 70").font(ClavisTypography.mono(12, weight: .regular)).foregroundColor(.vqaInk3) }.frame(maxWidth: .infinity).padding(14)
+                        VStack(spacing: 8) { VQAEyebrow("Before · May 7"); VQAGrade("B"); Text("composite 70").font(ClavisTypography.mono(12, weight: .regular)).foregroundColor(.vqaInk3) }.frame(maxWidth: .infinity).padding(14)
                         Rectangle().fill(Color.vqaRule2).frame(width: 1)
-                        VStack(spacing: 8) { VQAEyebrow("Now · May 9"); VQAGrade("BBB"); Text("composite 64 · ▼ 6").font(ClavisTypography.mono(12, weight: .regular)).foregroundColor(.vqaBad) }.frame(maxWidth: .infinity).padding(14).background(Color.vqaBadSoft)
+                        VStack(spacing: 8) { VQAEyebrow("Now · May 9"); VQAGrade("C+"); Text("composite 64 · ▼ 6").font(ClavisTypography.mono(12, weight: .regular)).foregroundColor(.vqaBad) }.frame(maxWidth: .infinity).padding(14).background(Color.vqaBadSoft)
                     }
                     Divider()
                     VStack(alignment: .leading, spacing: 8) { VQAEyebrow("Driving dimension"); HStack(spacing: 10) { Text("NEWS").font(ClavisTypography.mono(10, weight: .semibold)).foregroundColor(.vqaInk3); VQAScoreBar(score: 38); Text("38").font(ClavisTypography.mono(14, weight: .bold)).foregroundColor(.vqaBad); Text("▼ 7").font(ClavisTypography.mono(11, weight: .semibold)).foregroundColor(.vqaBad) } }.padding(14)
@@ -1815,7 +1819,7 @@ private struct ClavixVisualQATrackedTickers: View {
 }
 
 private struct ClavixVisualQATrackedTickerAdd: View {
-    var body: some View { VQAScreen(eyebrow: "Tracked tickers", title: "Add ticker") { VQACard { HStack { Image(systemName: "magnifyingglass").foregroundColor(.vqaInk3); Text("Ticker or company name").foregroundColor(.vqaInk3); Spacer() } }; VQASettingsSection("COMMON NAMES") { VQASettingRow("AMD", value: "BBB"); Divider(); VQASettingRow("META", value: "A"); Divider(); VQASettingRow("TSLA", value: "B") } } }
+    var body: some View { VQAScreen(eyebrow: "Tracked tickers", title: "Add ticker") { VQACard { HStack { Image(systemName: "magnifyingglass").foregroundColor(.vqaInk3); Text("Ticker or company name").foregroundColor(.vqaInk3); Spacer() } }; VQASettingsSection("COMMON NAMES") { VQASettingRow("AMD", value: "B-"); Divider(); VQASettingRow("META", value: "B+"); Divider(); VQASettingRow("TSLA", value: "D") } } }
 }
 
 private struct ClavixVisualQATrackedTickerConvert: View {
@@ -1854,7 +1858,7 @@ private struct ClavixVisualQAStateScreen: View {
 }
 
 private struct ClavixVisualQATickerHeldState: View {
-    var body: some View { VQAScreen(eyebrow: "Ticker", title: "Already in portfolio") { VQACard { HStack { VQAGrade("BBB"); VStack(alignment: .leading, spacing: 4) { Text("NVDA is already in your book.").font(ClavisTypography.bodyEmphasis).foregroundColor(.vqaInk); Text("420 sh · 15.6% of portfolio value").font(ClavisTypography.vqaCaption).foregroundColor(.vqaInk3) }; Spacer() } }; VQAButton("View risk profile", fill: .vqaInk, foreground: .vqaPaper) {}; VQAButton("Edit position", fill: .clear, foreground: .vqaInk) {}.overlay(RoundedRectangle(cornerRadius: 7).stroke(Color.vqaRule, lineWidth: 1)) } }
+    var body: some View { VQAScreen(eyebrow: "Ticker", title: "Already in portfolio") { VQACard { HStack { VQAGrade("C+"); VStack(alignment: .leading, spacing: 4) { Text("NVDA is already in your book.").font(ClavisTypography.bodyEmphasis).foregroundColor(.vqaInk); Text("420 sh · 15.6% of portfolio value").font(ClavisTypography.vqaCaption).foregroundColor(.vqaInk3) }; Spacer() } }; VQAButton("View risk profile", fill: .vqaInk, foreground: .vqaPaper) {}; VQAButton("Edit position", fill: .clear, foreground: .vqaInk) {}.overlay(RoundedRectangle(cornerRadius: 7).stroke(Color.vqaRule, lineWidth: 1)) } }
 }
 
 private struct ClavixVisualQAOnboardingIntro: View {

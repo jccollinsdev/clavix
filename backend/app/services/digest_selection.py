@@ -44,16 +44,21 @@ def select_latest_trading_day_digest(
     digests: list[dict] | None,
     now: datetime | None = None,
 ) -> dict | None:
-    """Pick the newest digest for the active trading date.
+    """Pick the newest digest available up to and including today.
 
-    Keep this helper isolated so the old 24-hour freshness shortcut can be
-    restored in one place if we ever need to revert this behavior.
+    Weekends included: a brief generated on Saturday/Sunday stays available
+    instead of falling back to Friday. We still never surface a future-dated
+    digest. (current_trading_date is kept for callers that need the trading
+    day specifically; this selection intentionally uses the calendar date.)
     """
 
     if not digests:
         return None
 
-    target_date = current_trading_date(now)
+    current = now or datetime.now(_DIGEST_TIMEZONE)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=_DIGEST_TIMEZONE)
+    target_date = current.astimezone(_DIGEST_TIMEZONE).date()
     parsed: list[tuple[datetime, dict]] = []
 
     for digest in digests:

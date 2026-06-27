@@ -104,31 +104,38 @@ enum ActionPressure: String, Codable, CaseIterable {
 }
 
 enum Grade: String, Codable, CaseIterable {
-    case aaa = "AAA"
-    case aa  = "AA"
-    case a   = "A"
-    case bbb = "BBB"
-    case bb  = "BB"
-    case b   = "B"
-    case ccc = "CCC"
-    case cc  = "CC"
-    case c   = "C"
-    case f   = "F"
+    case aPlus  = "A+"
+    case a      = "A"
+    case aMinus = "A-"
+    case bPlus  = "B+"
+    case b      = "B"
+    case bMinus = "B-"
+    case cPlus  = "C+"
+    case c      = "C"
+    case cMinus = "C-"
+    case dPlus  = "D+"
+    case d      = "D"
+    case dMinus = "D-"
+    case f      = "F"
 
     var displayName: String { rawValue }
 
+    /// Higher = better (lower risk). Used for sort/compare and improvement detection.
     var ordinalValue: Int {
         switch self {
-        case .aaa: return 10
-        case .aa:  return 9
-        case .a:   return 8
-        case .bbb: return 7
-        case .bb:  return 6
-        case .b:   return 5
-        case .ccc: return 4
-        case .cc:  return 3
-        case .c:   return 2
-        case .f:   return 1
+        case .aPlus:  return 13
+        case .a:      return 12
+        case .aMinus: return 11
+        case .bPlus:  return 10
+        case .b:      return 9
+        case .bMinus: return 8
+        case .cPlus:  return 7
+        case .c:      return 6
+        case .cMinus: return 5
+        case .dPlus:  return 4
+        case .d:      return 3
+        case .dMinus: return 2
+        case .f:      return 1
         }
     }
 
@@ -142,16 +149,19 @@ enum Grade: String, Codable, CaseIterable {
 
     var midpointScore: Double {
         switch self {
-        case .aaa: return 95
-        case .aa:  return 85
-        case .a:   return 75
-        case .bbb: return 65
-        case .bb:  return 55
-        case .b:   return 45
-        case .ccc: return 35
-        case .cc:  return 25
-        case .c:   return 15
-        case .f:   return 5
+        case .aPlus:  return 95
+        case .a:      return 87
+        case .aMinus: return 82
+        case .bPlus:  return 77
+        case .b:      return 72
+        case .bMinus: return 67
+        case .cPlus:  return 62
+        case .c:      return 57
+        case .cMinus: return 52
+        case .dPlus:  return 47
+        case .d:      return 42
+        case .dMinus: return 37
+        case .f:      return 25
         }
     }
 }
@@ -224,13 +234,13 @@ enum HoldingFilter: String, CaseIterable {
             return true
         case .critical:
             let g = position.resolvedRiskGrade ?? ""
-            return g == "F" || g == "C" || g == "CC"
+            return g == "F" || g == "D-" || g == "D"
         case .risky:
             let g = position.resolvedRiskGrade ?? ""
-            return g == "CCC" || g == "B"
+            return g == "D+" || g == "C-" || g == "C"
         case .elevated:
             let g = position.resolvedRiskGrade ?? ""
-            return g == "BB" || g == "BBB"
+            return g == "C+" || g == "B-" || g == "B"
         case .improving:
             return gradeImproved(position)
         case .majorEvent:

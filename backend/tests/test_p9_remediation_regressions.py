@@ -247,8 +247,12 @@ def test_fred_macro_regression_recovers_betas(monkeypatch):
 
 
 # ── 7. Quality-weighted averaging ────────────────────────────────────────────
-def test_calculate_weighted_score_weights_and_backcompat():
+def test_calculate_weighted_score_weights_and_backcompat(monkeypatch):
     from app.pipeline.analysis_utils import calculate_weighted_score
+
+    # Disable the WS-E affine spread so we test the underlying weighting math directly
+    # (the spread is a separate monotonic transform, asserted below + in its own test).
+    monkeypatch.setenv("COMPOSITE_SPREAD_ENABLED", "false")
 
     scores = {
         "financial_health": 80,
@@ -274,3 +278,23 @@ def test_calculate_weighted_score_weights_and_backcompat():
     assert calculate_weighted_score(partial, weights={"financial_health": 1.0}) == (
         (80 + 60 + 60 + 60) / 4
     )
+
+
+def test_composite_spread_stretches_around_center(monkeypatch):
+    """WS-E: the affine spread widens dispersion around the center, monotonically."""
+    from app.pipeline.analysis_utils import apply_composite_spread, calculate_weighted_score
+
+    monkeypatch.setenv("COMPOSITE_SPREAD_ENABLED", "true")
+    monkeypatch.setenv("COMPOSITE_SPREAD_K", "2.0")
+    monkeypatch.setenv("COMPOSITE_SPREAD_CENTER_IN", "60")
+    monkeypatch.setenv("COMPOSITE_SPREAD_CENTER_OUT", "69")
+    # A value at the input center maps to the output center.
+    assert apply_composite_spread(60) == 69
+    # Above/below center are pushed further out (k>1) and stay ordered + clamped.
+    assert apply_composite_spread(70) == 89        # 69 + (70-60)*2
+    assert apply_composite_spread(50) == 49        # 69 + (50-60)*2
+    assert apply_composite_spread(95) == 100       # clamped
+    assert 0 <= apply_composite_spread(10) <= 100
+    # When disabled it is the identity.
+    monkeypatch.setenv("COMPOSITE_SPREAD_ENABLED", "false")
+    assert apply_composite_spread(60) == 60

@@ -14,7 +14,8 @@ class RiskScoreBase(BaseModel):
     grade_direction: Optional[str] = None
     score_delta: Optional[int] = None
 
-    confidence: Optional[float] = None
+    # WS-G: risk-score `confidence` removed (was a meaningless constant). Per-article
+    # and portfolio confidence live on different models and are unaffected.
     safety_score: Optional[float] = None
 
     reasoning: Optional[str] = None

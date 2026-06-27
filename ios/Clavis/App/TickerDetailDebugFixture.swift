@@ -16,10 +16,10 @@ struct TickerDetailDebugFixture {
             "sector": "Technology",
             "industry": "Semiconductors",
             "current_score": 64,
-            "current_grade": "BBB",
+            "current_grade": "C+",
             "grade_direction": "down",
             "score_delta": -3,
-            "grade_rationale": "Downgraded A to BBB overnight. News signal is the primary driver while balance sheet strength remains intact.",
+            "grade_rationale": "Downgraded B+ to C+ overnight. News signal is the primary driver while balance sheet strength remains intact.",
             "source_count": 14,
             "major_event_count": 2,
             "minor_event_count": 5,
@@ -74,9 +74,9 @@ struct TickerDetailDebugFixture {
                 "created_at": "2026-01-15T12:00:00Z",
                 "updated_at": "2026-05-26T09:10:00Z",
                 "current_price": 478.22,
-                "risk_grade": "BBB",
+                "risk_grade": "C+",
                 "total_score": 64,
-                "previous_grade": "A",
+                "previous_grade": "B+",
                 "grade_direction": "down",
                 "score_delta": -3,
                 "summary": "News signal is the primary driver of the downgrade.",
@@ -109,7 +109,7 @@ struct TickerDetailDebugFixture {
                 "sector_exposure": 58,
                 "volatility": 76,
                 "total_score": 64,
-                "grade": "BBB",
+                "grade": "C+",
                 "grade_direction": "down",
                 "score_delta": -3,
                 "safety_score": 64,
@@ -371,7 +371,7 @@ struct TickerDetailDebugFixture {
             ],
             "composite": [
                 "score": 64,
-                "grade": "BBB",
+                "grade": "C+",
                 "methodology_version": "v2"
             ]
         ]
@@ -447,7 +447,7 @@ struct TickerDetailDebugFixture {
             return [
                 "date": formatter.string(from: date),
                 "composite": (composite * 10).rounded() / 10,
-                "grade": index > 95 ? "BBB" : "A",
+                "grade": index > 95 ? "B-" : "B",
                 "financial_health": 82,
                 "news_sentiment": (news * 10).rounded() / 10,
                 "macro_exposure": (macro * 10).rounded() / 10,

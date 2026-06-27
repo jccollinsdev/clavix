@@ -1082,16 +1082,19 @@ struct ScoreExplanationView: View {
                 }
 
                 VStack(alignment: .leading, spacing: ClavisTheme.mediumSpacing) {
-                    ScoreBandRow(grade: "AAA", range: "90–100", description: "Investment Grade, minimum risk", color: .gradeCAAA)
-                    ScoreBandRow(grade: "AA", range: "80–89", description: "Strong, low risk", color: .gradeCAA)
-                    ScoreBandRow(grade: "A", range: "70–79", description: "Sound, moderate-low risk", color: .gradeCA)
-                    ScoreBandRow(grade: "BBB", range: "60–69", description: "Adequate, moderate risk", color: .gradeCBBB)
-                    ScoreBandRow(grade: "BB", range: "50–59", description: "Speculative, elevated risk", color: .gradeCBB)
-                    ScoreBandRow(grade: "B", range: "40–49", description: "Vulnerable, high risk", color: .gradeCB)
-                    ScoreBandRow(grade: "CCC", range: "30–39", description: "Weak, very high risk", color: .gradeCCCC)
-                    ScoreBandRow(grade: "CC", range: "20–29", description: "Distressed, extreme risk", color: .gradeCCC)
-                    ScoreBandRow(grade: "C", range: "10–19", description: "Near Default, severe risk", color: .gradeCC)
-                    ScoreBandRow(grade: "F", range: "0–9", description: "Default, critical risk", color: .gradeCF)
+                    ScoreBandRow(grade: "A+", range: "90–100", description: "Exceptional, minimum risk", color: .gradeCAAA)
+                    ScoreBandRow(grade: "A", range: "85–89", description: "Excellent, very low risk", color: .gradeCAA)
+                    ScoreBandRow(grade: "A-", range: "80–84", description: "Very strong, low risk", color: .gradeCA)
+                    ScoreBandRow(grade: "B+", range: "75–79", description: "Strong, low risk", color: .gradeCA)
+                    ScoreBandRow(grade: "B", range: "70–74", description: "Solid, moderate-low risk", color: .gradeCA)
+                    ScoreBandRow(grade: "B-", range: "65–69", description: "Above average, moderate risk", color: .gradeCBBB)
+                    ScoreBandRow(grade: "C+", range: "60–64", description: "Average, moderate risk", color: .gradeCBBB)
+                    ScoreBandRow(grade: "C", range: "55–59", description: "Below average, elevated risk", color: .gradeCBB)
+                    ScoreBandRow(grade: "C-", range: "50–54", description: "Watch, elevated risk", color: .gradeCBB)
+                    ScoreBandRow(grade: "D+", range: "45–49", description: "Elevated risk, high risk", color: .gradeCCCC)
+                    ScoreBandRow(grade: "D", range: "40–44", description: "High risk, very high risk", color: .gradeCCC)
+                    ScoreBandRow(grade: "D-", range: "35–39", description: "Severe risk, extreme risk", color: .gradeCC)
+                    ScoreBandRow(grade: "F", range: "0–34", description: "Distressed, critical risk", color: .gradeCF)
                 }
             }
             .padding(.horizontal, ClavisTheme.screenPadding)

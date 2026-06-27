@@ -187,8 +187,8 @@ struct DigestView: View {
                     .frame(height: SectorHeatmapView.height(for: sectorRows.count))
                 }
                 .background(Color.clavixPaper)
-                .overlay(RoundedRectangle(cornerRadius: 2, style: .continuous).stroke(Color.clavixRule, lineWidth: 1))
-                .clipShape(RoundedRectangle(cornerRadius: 2, style: .continuous))
+                .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius, style: .continuous).stroke(Color.clavixRule, lineWidth: 1))
             }
         }
     }
@@ -915,7 +915,11 @@ private struct AxisSnapshotCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(10)
         .background(score == nil ? Color.clavixPaper : tone.opacity(0.13))
-        .overlay(Rectangle().stroke(score == nil ? Color.clavixRule : tone.opacity(0.42), lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 5, style: .continuous)
+                .stroke(score == nil ? Color.clavixRule : tone.opacity(0.42), lineWidth: 1)
+        )
     }
 }
 
@@ -942,7 +946,11 @@ private struct AxisSnapshotCard: View {
         }
         .padding(2)
         .background(Color.clavixPaper)
-        .overlay(Rectangle().stroke(score == nil ? Color.clavixRule : tone.opacity(0.40), lineWidth: 1))
+        .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
+        .overlay(
+            RoundedRectangle(cornerRadius: 3, style: .continuous)
+                .stroke(score == nil ? Color.clavixRule : tone.opacity(0.40), lineWidth: 1)
+        )
     }
 
     private func segmentView(index: Int) -> some View {

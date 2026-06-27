@@ -267,7 +267,7 @@ async def _build_force_refresh_digest(
         position["safety_score"] = position.get("total_score") or position.get(
             "safety_score"
         )
-        position["confidence"] = position.get("confidence") or 0.65
+        # WS-G: risk-score confidence removed (was a meaningless 0.65 default).
         position["structural_base_score"] = position.get(
             "structural_base_score"
         ) or position.get("total_score")

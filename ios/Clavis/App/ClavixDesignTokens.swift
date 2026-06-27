@@ -76,6 +76,6 @@ extension ClavisTypography {
 enum ClavixLayout {
     static let pad: CGFloat = 20
     static let bottomPad: CGFloat = 28
-    static let cardRadius: CGFloat = 10
-    static let controlRadius: CGFloat = 7
+    static let cardRadius: CGFloat = 11
+    static let controlRadius: CGFloat = 8
 }

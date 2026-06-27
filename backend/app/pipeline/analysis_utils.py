@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import ast
 import json
+import os
 import re
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
@@ -115,17 +116,23 @@ _BANNED_PHRASES_PATTERNS: list[tuple[str, str]] = [
     (r"\bnothing urgent\b", "low urgency"),
 ]
 
+# Academic A+/A/A- ladder (high score = lower risk). Replaces the old credit-style
+# AAA..F scale to (a) align with the website's academic letters and (b) read as a
+# familiar grade. Risk-level descriptors are short, plain-English coverage labels.
 _RISK_LEVELS: dict[str, str] = {
-    "AAA": "Treasury-Grade",
-    "AA": "Investment-Grade Safe",
-    "A": "Solid",
-    "BBB": "Stable, Watch Points",
-    "BB": "Mixed Signals",
-    "B": "Elevated Risk",
-    "CCC": "High Risk",
-    "CC": "Severe Risk",
-    "C": "Distressed",
-    "F": "Failure Mode",
+    "A+": "Exceptional",
+    "A": "Excellent",
+    "A-": "Very Strong",
+    "B+": "Strong",
+    "B": "Solid",
+    "B-": "Above Average",
+    "C+": "Average",
+    "C": "Below Average",
+    "C-": "Watch",
+    "D+": "Elevated Risk",
+    "D": "High Risk",
+    "D-": "Severe Risk",
+    "F": "Distressed",
 }
 
 V2_DIMENSION_KEYS = [
@@ -484,9 +491,11 @@ def sanitize_public_analysis_text(value: Any) -> Any:
 
 
 # Minimum score to be in each grade band (lower bound, inclusive).
+# Academic A+/A/A- ladder. Cutoffs calibrated against the re-spread composite
+# distribution (WS-E) so 8+ buckets populate and no single grade exceeds ~35%.
 _GRADE_LOWER_BOUND: dict[str, float] = {
-    "AAA": 90, "AA": 80, "A": 70, "BBB": 60, "BB": 50,
-    "B": 40, "CCC": 30, "CC": 20, "C": 10, "F": 0,
+    "A+": 90, "A": 85, "A-": 80, "B+": 75, "B": 70, "B-": 65,
+    "C+": 60, "C": 55, "C-": 50, "D+": 45, "D": 40, "D-": 35, "F": 0,
 }
 # Score must be this many points into the new band before we flip the grade.
 # Prevents daily oscillation at boundaries (e.g. 69.8 / 70.2 → A/BBB every day).
@@ -525,24 +534,31 @@ def apply_grade_hysteresis(new_score: float, previous_grade: str | None) -> str:
 
 
 def score_to_grade(score: float) -> str:
+    """Map a 0-100 composite to an academic letter (high score = lower risk)."""
     if score >= 90:
-        return "AAA"
-    if score >= 80:
-        return "AA"
-    if score >= 70:
+        return "A+"
+    if score >= 85:
         return "A"
-    if score >= 60:
-        return "BBB"
-    if score >= 50:
-        return "BB"
-    if score >= 40:
+    if score >= 80:
+        return "A-"
+    if score >= 75:
+        return "B+"
+    if score >= 70:
         return "B"
-    if score >= 30:
-        return "CCC"
-    if score >= 20:
-        return "CC"
-    if score >= 10:
+    if score >= 65:
+        return "B-"
+    if score >= 60:
+        return "C+"
+    if score >= 55:
         return "C"
+    if score >= 50:
+        return "C-"
+    if score >= 45:
+        return "D+"
+    if score >= 40:
+        return "D"
+    if score >= 35:
+        return "D-"
     return "F"
 
 
@@ -550,13 +566,41 @@ def grade_to_risk_level(grade: str) -> str:
     return _RISK_LEVELS.get(grade.upper(), "Elevated Risk")
 
 
+def apply_composite_spread(mean_score: float) -> float:
+    """WS-E: affine re-spread of the composite around a fixed center.
+
+    The (quality-)weighted mean of ~4-5 dimensions collapses variance — averaging N
+    dimensions divides their spread by ~sqrt(N), so a dimension stddev of ~13 became a
+    composite stddev of ~6 and 91% of the S&P landed in two grades. This stretches the
+    composite around a center WITHOUT changing rank order, restoring discrimination.
+
+    Reversible + calibratable via env (set on the one-time re-spread run and after):
+      COMPOSITE_SPREAD_ENABLED   on/off (default on)
+      COMPOSITE_SPREAD_K         stretch factor (default 2.2)
+      COMPOSITE_SPREAD_CENTER_IN  population mean of the pre-stretch composite
+      COMPOSITE_SPREAD_CENTER_OUT where that center should land post-stretch
+    """
+    if os.getenv("COMPOSITE_SPREAD_ENABLED", "true").lower() not in ("1", "true", "yes"):
+        return mean_score
+    try:
+        k = float(os.getenv("COMPOSITE_SPREAD_K", "2.2"))
+        center_in = float(os.getenv("COMPOSITE_SPREAD_CENTER_IN", "65.0"))
+        center_out = float(os.getenv("COMPOSITE_SPREAD_CENTER_OUT", "68.0"))
+    except (TypeError, ValueError):
+        return mean_score
+    spread = center_out + (mean_score - center_in) * k
+    return max(0.0, min(100.0, spread))
+
+
 def calculate_weighted_score(scores: dict, weights: dict | None = None) -> float:
-    """Average the available dimension scores.
+    """Average the available dimension scores, then re-spread (WS-E).
 
     When `weights` is provided (a per-dimension confidence map), dimensions are combined
     as a confidence-weighted mean so a high-confidence input (e.g. news with 10 articles,
     a real-R^2 macro fit) counts more than a thin proxy. Limited/NULL dimensions are
-    always excluded. With `weights=None` this is the original equal-weight mean.
+    always excluded. With `weights=None` this is the original equal-weight mean. The
+    resulting mean is passed through `apply_composite_spread` so the composite actually
+    discriminates instead of piling up around the population center.
     """
     limited_dimensions = [
         key for key in V2_DIMENSION_KEYS
@@ -574,9 +618,9 @@ def calculate_weighted_score(scores: dict, weights: dict | None = None) -> float
             numerator += value * weight
             denominator += weight
         if denominator > 0:
-            return numerator / denominator
+            return apply_composite_spread(numerator / denominator)
     valid_values = [clamp_score(scores.get(k), 0) for k in valid_keys]
-    return sum(valid_values) / len(valid_values)
+    return apply_composite_spread(sum(valid_values) / len(valid_values))
 
 
 def grade_direction(current_score: Optional[float], previous_score: Optional[float]) -> str:
@@ -678,9 +722,11 @@ def _sanitize_driver_text(text: str) -> str:
 
 
 def _pick_generic_drivers(grade: str, scores: Optional[Dict] = None) -> List[str]:
-    if grade in ("CCC", "CC", "C", "F"):
+    # Academic ladder buckets (legacy bond letters included for stale data):
+    # bottom band -> news+volatility, middle band -> macro+sector, top -> fundamentals.
+    if grade in ("D+", "D", "D-", "F", "CCC", "CC", "C"):
         drivers = _GENERIC_DRIVERS["news"][:1] + _GENERIC_DRIVERS["volatility"][:1]
-    elif grade in ("B", "BB"):
+    elif grade in ("C-", "C+", "B-", "BB", "BBB"):
         drivers = _GENERIC_DRIVERS["macro"][:1] + _GENERIC_DRIVERS["sector"][:1]
     else:
         drivers = _GENERIC_DRIVERS["fundamentals"][:1]

@@ -1346,18 +1346,7 @@ private struct TickerDimensionItem {
 
     var grade: String {
         guard let score else { return "F" }
-        switch score {
-        case 90...100: return "AAA"
-        case 80..<90: return "AA"
-        case 70..<80: return "A"
-        case 60..<70: return "BBB"
-        case 50..<60: return "BB"
-        case 40..<50: return "B"
-        case 30..<40: return "CCC"
-        case 20..<30: return "CC"
-        case 10..<20: return "C"
-        default: return "F"
-        }
+        return PortfolioMath.grade(forScore: score)
     }
 }
 
