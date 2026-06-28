@@ -169,12 +169,21 @@ struct DigestWatchlistUpdates: Codable, Hashable {
 }
 
 struct DigestWhatToWatch: Codable, Hashable {
+    let brief: String?
     let catalysts: [DigestWhatMattersItem]
     let monitoring: [String]
 
     enum CodingKeys: String, CodingKey {
+        case brief
         case catalysts
         case monitoring
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        brief = try c.decodeIfPresent(String.self, forKey: .brief)
+        catalysts = (try? c.decode([DigestWhatMattersItem].self, forKey: .catalysts)) ?? []
+        monitoring = (try? c.decode([String].self, forKey: .monitoring)) ?? []
     }
 }
 

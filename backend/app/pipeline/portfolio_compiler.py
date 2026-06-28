@@ -1,9 +1,12 @@
 from __future__ import annotations
 
+import logging
 from datetime import datetime, timezone
 
 from ..services.minimax import chatcompletion_text
 from .analysis_utils import extract_json_object
+
+logger = logging.getLogger(__name__)
 
 
 SYSTEM_PROMPT = """You write the Clavis morning portfolio rating for a self-directed investor.
@@ -756,6 +759,157 @@ def _fallback_portfolio_digest(
     }
 
 
+_WHAT_TO_WATCH_PROMPT = (
+    "You write the single 'What to Watch' takeaway for a retail investor's morning "
+    "portfolio digest. You are given this morning's macro backdrop, the investor's "
+    "sector briefs, and per-holding developments. Synthesize ACROSS all of it and "
+    "write ONE short paragraph (2 to 4 sentences) that names the developments which "
+    "actually mattered for THIS portfolio today and what the investor should do about "
+    "them: the call to action. Lead with the single most important development. Be "
+    "specific: name the ticker, sector, or macro driver. Plain, direct English. No "
+    "hedging, no filler, no generic lines like 'monitor for developments'. Never use "
+    "em dashes. If genuinely nothing material happened, say that plainly in one "
+    'sentence. Return strict JSON: {"brief": "..."}'
+)
+
+
+def _what_to_watch_context(
+    overall_grade: str,
+    macro_context: dict | None,
+    sector_overview: list[dict] | None,
+    position_impacts: list[dict] | None,
+    catalysts: list[dict] | None,
+) -> str:
+    """Compact, deterministic context block for the what-to-watch synthesis."""
+    lines: list[str] = [f"Portfolio grade today: {overall_grade}."]
+
+    macro = (macro_context or {}).get("overnight_macro") or {}
+    macro_brief = str(macro.get("brief") or "").strip()
+    if macro_brief:
+        lines.append(f"Macro backdrop: {macro_brief}")
+    heads = [str(h).strip() for h in (macro.get("headlines") or []) if str(h or "").strip()][:4]
+    if heads:
+        lines.append("Macro headlines: " + " | ".join(heads))
+
+    if sector_overview:
+        lines.append("Sector briefs:")
+        for s in sector_overview[:6]:
+            if not isinstance(s, dict):
+                continue
+            sector = str(s.get("sector") or "").strip()
+            brief = str(s.get("brief") or "").strip()
+            if sector and brief:
+                lines.append(f"- {sector}: {brief}")
+
+    if position_impacts:
+        lines.append("Holding developments:")
+        for p in position_impacts[:12]:
+            if not isinstance(p, dict):
+                continue
+            ticker = str(p.get("ticker") or "").strip()
+            summary = str(p.get("impact_summary") or "").strip()
+            rel = str(p.get("macro_relevance") or "").strip().lower()
+            if not ticker or not summary:
+                continue
+            tag = f" [{rel}]" if rel in ("supports", "contradicts") else ""
+            lines.append(f"- {ticker}{tag}: {summary}")
+
+    cat_lines = [
+        str(c.get("catalyst") or "").strip()
+        for c in (catalysts or [])
+        if isinstance(c, dict) and str(c.get("catalyst") or "").strip()
+    ][:6]
+    if cat_lines:
+        lines.append("Scheduled catalysts: " + " | ".join(cat_lines))
+
+    return "\n".join(lines)
+
+
+def _fallback_what_to_watch(
+    macro_context: dict | None,
+    position_impacts: list[dict] | None,
+    catalysts: list[dict] | None,
+) -> str:
+    """Deterministic what-to-watch line when the LLM yields nothing.
+
+    Repeatable: same inputs always produce the same sentence. Leads with the
+    most concrete signal available (a holding the macro is working against, then
+    a scheduled catalyst, then the macro backdrop)."""
+    impacts = [p for p in (position_impacts or []) if isinstance(p, dict)]
+    against = [p for p in impacts if str(p.get("macro_relevance") or "").lower() == "contradicts"]
+    forr = [p for p in impacts if str(p.get("macro_relevance") or "").lower() == "supports"]
+
+    parts: list[str] = []
+    if against:
+        names = ", ".join(str(p.get("ticker")) for p in against[:3] if p.get("ticker"))
+        if names:
+            parts.append(
+                f"The morning's macro and sector flow is working against {names}; "
+                "that is where to focus first."
+            )
+    elif forr:
+        names = ", ".join(str(p.get("ticker")) for p in forr[:3] if p.get("ticker"))
+        if names:
+            parts.append(
+                f"The setup is constructive for {names} today; let those positions work."
+            )
+
+    cat = [
+        str(c.get("catalyst") or "").strip()
+        for c in (catalysts or [])
+        if isinstance(c, dict) and str(c.get("catalyst") or "").strip()
+    ]
+    if cat:
+        parts.append(f"On the calendar: {cat[0]}")
+
+    if not parts:
+        macro_brief = str(((macro_context or {}).get("overnight_macro") or {}).get("brief") or "").strip()
+        if macro_brief:
+            return (
+                f"{macro_brief} Nothing portfolio-specific rose to a call to action this "
+                "morning; let your holdings trade on their own news."
+            )
+        return (
+            "Nothing in today's macro, sector, or company flow rose to the level of a "
+            "portfolio call to action."
+        )
+    return " ".join(parts)
+
+
+def synthesize_what_to_watch(
+    overall_grade: str,
+    macro_context: dict | None,
+    sector_overview: list[dict] | None,
+    position_impacts: list[dict] | None,
+    catalysts: list[dict] | None,
+) -> str:
+    """ONE synthesized 'what to watch' paragraph for the whole portfolio.
+
+    A single focused LLM call (not batched, so the reasoning model reliably
+    emits an answer), retried once, with a deterministic fallback so every
+    digest gets a brief."""
+    context = _what_to_watch_context(
+        overall_grade, macro_context, sector_overview, position_impacts, catalysts
+    )
+    for _ in range(2):
+        try:
+            raw = chatcompletion_text(
+                messages=[
+                    {"role": "system", "content": _WHAT_TO_WATCH_PROMPT},
+                    {"role": "user", "content": context},
+                ],
+                temperature=0.2,
+                max_tokens=1200,
+            )
+            brief = str(extract_json_object(raw, {}).get("brief") or "").strip()
+            if brief:
+                return brief
+        except Exception:
+            logger.exception("what-to-watch synthesis LLM failed")
+            break
+    return _fallback_what_to_watch(macro_context, position_impacts, catalysts)
+
+
 async def compile_portfolio_digest(
     position_data: list[dict],
     overall_grade: str,
@@ -961,6 +1115,19 @@ Positions:
                 }
             )
         what_matters_today = normalized_what_matters or fallback_what_matters
+    # ONE synthesized "what to watch" paragraph for the whole portfolio: the AI
+    # reads the macro backdrop, sector briefs, and per-holding developments and
+    # writes what actually mattered today plus the call to action. Runs in both
+    # the daily scheduled digest and the manual force-refresh (this is the shared
+    # chokepoint), with a deterministic fallback so it is always populated.
+    what_to_watch_brief = synthesize_what_to_watch(
+        overall_grade,
+        macro_context,
+        normalized_sector_overview,
+        normalized_position_impacts,
+        what_matters_today,
+    )
+
     personalised_articles: dict[str, dict[str, str | None]] = {}
     if supabase is not None and user_id and event_ids:
         try:
@@ -1002,6 +1169,7 @@ Positions:
                 "watch_list": normalized_watch_list,
             },
             "what_to_watch_today": {
+                "brief": what_to_watch_brief,
                 "catalysts": what_matters_today,
                 "monitoring": monitoring_notes,
             },

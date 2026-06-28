@@ -28,7 +28,6 @@ struct MorningReportView: View {
                         )
                     }
                     masthead(digest)
-                    riskDimensionsSection(digest)
                     macroSection(digest)
                     sectorSection(digest)
                     positionsSection(digest)
@@ -171,111 +170,6 @@ struct MorningReportView: View {
         formatter.timeZone = cal.timeZone
         formatter.dateFormat = "EEE"
         return formatter.string(from: day)
-    }
-
-    // MARK: - Risk dimensions (radar + per-metric bars)
-
-    // A short, readable label for each five-axis dimension code.
-    private func dimensionLabel(_ code: String) -> String {
-        switch code.uppercased() {
-        case "FIN": return "Financial"
-        case "NEWS": return "News"
-        case "MAC": return "Macro"
-        case "SEC": return "Sector"
-        case "VOL": return "Volatility"
-        default: return code
-        }
-    }
-
-    private func radarAxes() -> [(label: String, value: Double)] {
-        let order = ["FIN", "NEWS", "MAC", "SEC", "VOL"]
-        var byCode: [String: Double] = [:]
-        for dim in viewModel.today?.dimensions ?? [] {
-            byCode[dim.code.uppercased()] = dim.score ?? 0
-        }
-        return order.map { ($0, byCode[$0] ?? 0) }
-    }
-
-    // Dimensions that have a score, strongest first so the top of the bar list
-    // reads as the strongest metric and the bottom as the weakest.
-    private func scoredDimensions() -> [TodayResponse.Dimension] {
-        (viewModel.today?.dimensions ?? [])
-            .filter { ($0.score ?? 0) > 0 }
-            .sorted { ($0.score ?? 0) > ($1.score ?? 0) }
-    }
-
-    @ViewBuilder
-    private func riskDimensionsSection(_ digest: Digest) -> some View {
-        let axes = radarAxes()
-        let dims = scoredDimensions()
-        if axes.contains(where: { $0.value > 0 }) || !dims.isEmpty {
-            ClavixCard {
-                VStack(alignment: .leading, spacing: 12) {
-                    ClavixEyebrow("Risk dimensions")
-                    HStack(alignment: .top, spacing: 14) {
-                        if axes.contains(where: { $0.value > 0 }) {
-                            MiniRiskRadar(axes: axes)
-                                .frame(width: 132, height: 132)
-                        }
-                        VStack(alignment: .leading, spacing: 9) {
-                            ForEach(dims) { dim in
-                                metricBar(dim)
-                            }
-                        }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                }
-            }
-        }
-    }
-
-    @ViewBuilder
-    private func metricBar(_ dim: TodayResponse.Dimension) -> some View {
-        let score = dim.score ?? 0
-        let fraction = max(0, min(1, score / 100))
-        VStack(alignment: .leading, spacing: 3) {
-            HStack(spacing: 6) {
-                Text(dimensionLabel(dim.code))
-                    .font(ClavisTypography.clavixMono(9, weight: .medium))
-                    .foregroundColor(.clavixInk2)
-                Spacer(minLength: 4)
-                Text("\(Int(score.rounded()))")
-                    .font(ClavisTypography.clavixMono(11, weight: .bold))
-                    .foregroundColor(.clavixInk)
-                metricDeltaChip(dim.delta)
-            }
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Capsule().fill(Color.clavixRule)
-                    Capsule()
-                        .fill(ClavisGradeStyle.scoreColor(for: score))
-                        .frame(width: max(3, geo.size.width * CGFloat(fraction)))
-                }
-            }
-            .frame(height: 5)
-        }
-    }
-
-    // Per-metric day-over-day change. Suppressed on weekends (grade is frozen
-    // when markets are closed) and when the move is negligible or unavailable.
-    @ViewBuilder
-    private func metricDeltaChip(_ delta: Double?) -> some View {
-        if !isWeekendEastern(), let d = delta, abs(d) >= 0.5 {
-            let up = d >= 0
-            HStack(spacing: 1) {
-                Image(systemName: up ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
-                    .font(.system(size: 6, weight: .bold))
-                Text("\(abs(Int(d.rounded())))")
-                    .font(ClavisTypography.clavixMono(9, weight: .bold))
-            }
-            .foregroundColor(up ? .clavixGood : .clavixBad)
-            .frame(width: 22, alignment: .trailing)
-        } else {
-            Text("—")
-                .font(ClavisTypography.clavixMono(9, weight: .regular))
-                .foregroundColor(.clavixInk3)
-                .frame(width: 22, alignment: .trailing)
-        }
     }
 
     // MARK: - Macro overnight
@@ -458,52 +352,21 @@ struct MorningReportView: View {
     // MARK: - What to Watch
 
     private func whatToWatchSection(_ digest: Digest) -> some View {
-        let items = digest.structuredSections?.whatToWatchToday?.catalysts ?? []
+        let brief = digest.structuredSections?.whatToWatchToday?.brief?.sanitizedDisplayText
+            .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         // Keep the section numbers contiguous when the watchlist is hidden.
         let roman = watchlistAlertItems(digest).isEmpty ? "IV" : "V"
         return ReportRomanSection(roman, "What to Watch") {
-            if items.isEmpty {
-                ClavixCard {
-                    Text("No scheduled events surfaced for your portfolio today.")
-                        .font(ClavisTypography.clavixCaption)
-                        .foregroundColor(.clavixInk3)
-                }
-            } else {
-                ClavixCard {
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(Array(items.enumerated()), id: \.element.id) { index, item in
-                            whatToWatchRow(item)
-                            if index < items.count - 1 {
-                                Rectangle()
-                                    .fill(Color.clavixInk4)
-                                    .frame(height: 2)
-                                    .padding(.vertical, 12)
-                            }
-                        }
-                    }
-                }
+            ClavixCard {
+                Text(brief.isEmpty
+                    ? "Nothing in today's macro, sector, or company flow rose to the level of a portfolio call to action."
+                    : brief)
+                    .font(ClavisTypography.clavixSerif(16))
+                    .foregroundColor(brief.isEmpty ? .clavixInk3 : .clavixInk)
+                    .lineSpacing(4)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
-        }
-    }
-
-    private func whatToWatchRow(_ item: DigestWhatMattersItem) -> some View {
-        let ticker = whatToWatchTicker(item)
-        return VStack(alignment: .leading, spacing: 8) {
-            if let ticker {
-                HStack(spacing: 8) {
-                    Text(ticker)
-                        .font(ClavisTypography.clavixMono(14, weight: .bold))
-                        .foregroundColor(.clavixInk)
-                    ClavixGradeBadge(viewModel.grade(for: ticker), size: 22)
-                    Spacer()
-                }
-                Rectangle().fill(Color.clavixRule).frame(height: 1)
-            }
-            Text(whatToWatchBody(item, ticker: ticker))
-                .font(ClavisTypography.clavixSerif(15))
-                .foregroundColor(.clavixInk)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
@@ -584,25 +447,6 @@ struct MorningReportView: View {
         (digest.structuredSections?.watchlistUpdates?.alerts ?? [])
             .map { $0.sanitizedDisplayText }
             .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-    }
-
-    private func whatToWatchTicker(_ item: DigestWhatMattersItem) -> String? {
-        guard let raw = item.impactedPositions.first?
-            .trimmingCharacters(in: .whitespaces), !raw.isEmpty else { return nil }
-        let upper = raw.uppercased()
-        if upper == "FED" || upper == "MACRO" { return nil }
-        return upper
-    }
-
-    private func whatToWatchBody(_ item: DigestWhatMattersItem, ticker: String?) -> String {
-        var text = cleanWatchText(item)
-        if let ticker {
-            for prefix in ["\(ticker): ", "\(ticker) — ", "\(ticker) - "] where text.hasPrefix(prefix) {
-                text = String(text.dropFirst(prefix.count))
-                break
-            }
-        }
-        return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     /// Cut a blurb to a preview length on a word boundary. Returns the preview
@@ -691,36 +535,6 @@ struct MorningReportView: View {
         .presentationDragIndicator(.visible)
     }
 
-    private func cleanWatchText(_ item: DigestWhatMattersItem) -> String {
-        let raw = item.catalyst.sanitizedDisplayText
-        let (_, _, title) = parseCalendarLine(raw, tickers: item.impactedPositions)
-        let t = title.trimmingCharacters(in: .whitespacesAndNewlines)
-        return t.isEmpty ? raw : t
-    }
-
-    private func parseCalendarLine(_ raw: String, tickers: [String]) -> (String, String, String) {
-        let parts = raw.split(separator: " ", maxSplits: 2, omittingEmptySubsequences: true).map(String.init)
-        let timeRegex = try? NSRegularExpression(pattern: "^\\d{1,2}:\\d{2}$")
-        if let first = parts.first,
-           let regex = timeRegex,
-           regex.firstMatch(in: first, range: NSRange(first.startIndex..., in: first)) != nil,
-           parts.count >= 2 {
-            let time = first
-            let typeOrWord = parts[1]
-            let isType = typeOrWord.uppercased() == typeOrWord && typeOrWord.count <= 6
-            if isType, parts.count >= 3 {
-                return (time, typeOrWord, parts[2].sanitizedDisplayText)
-            }
-            return (time, calendarType(tickers), parts.dropFirst().joined(separator: " ").sanitizedDisplayText)
-        }
-        return ("—", calendarType(tickers), raw.sanitizedDisplayText)
-    }
-
-    private func calendarType(_ tickers: [String]) -> String {
-        if tickers.contains(where: { $0.uppercased() == "FED" || $0.uppercased() == "MACRO" }) { return "FED" }
-        if !tickers.isEmpty { return "EARN" }
-        return "DATA"
-    }
 }
 
 private struct ReportRomanSection<Content: View>: View {
@@ -748,71 +562,5 @@ private struct ReportRomanSection<Content: View>: View {
             content
         }
         .padding(.top, 8)
-    }
-}
-
-// MARK: - Mini risk radar (static 5-dimension shape)
-
-private struct RadarPolygon: Shape {
-    let points: [CGPoint]
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        guard let first = points.first else { return path }
-        path.move(to: first)
-        for point in points.dropFirst() { path.addLine(to: point) }
-        path.closeSubpath()
-        return path
-    }
-}
-
-private func radarVertex(center: CGPoint, radius: CGFloat, index: Int, count: Int) -> CGPoint {
-    let angle = (-90.0 + 360.0 / Double(count) * Double(index)) * .pi / 180.0
-    return CGPoint(
-        x: center.x + radius * CGFloat(cos(angle)),
-        y: center.y + radius * CGFloat(sin(angle))
-    )
-}
-
-private struct MiniRiskRadar: View {
-    let axes: [(label: String, value: Double)]
-
-    var body: some View {
-        GeometryReader { geo in
-            let n = max(axes.count, 3)
-            let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
-            let radius = min(geo.size.width, geo.size.height) / 2 * 0.55
-            let dataPts = axes.enumerated().map { index, axis -> CGPoint in
-                let clamped = max(0, min(100, axis.value))
-                return radarVertex(center: center, radius: radius * CGFloat(clamped / 100), index: index, count: n)
-            }
-            ZStack {
-                ForEach([0.25, 0.5, 0.75, 1.0], id: \.self) { fraction in
-                    RadarPolygon(points: (0..<n).map {
-                        radarVertex(center: center, radius: radius * CGFloat(fraction), index: $0, count: n)
-                    })
-                    .stroke(Color.clavixRule, lineWidth: fraction == 1.0 ? 1 : 0.5)
-                }
-                ForEach(0..<n, id: \.self) { i in
-                    Path { p in
-                        p.move(to: center)
-                        p.addLine(to: radarVertex(center: center, radius: radius, index: i, count: n))
-                    }
-                    .stroke(Color.clavixRule, lineWidth: 0.5)
-                }
-                RadarPolygon(points: dataPts).fill(Color.clavixAccent.opacity(0.22))
-                RadarPolygon(points: dataPts).stroke(Color.clavixAccent, lineWidth: 2)
-                ForEach(dataPts.indices, id: \.self) { i in
-                    Circle().fill(Color.clavixAccent).frame(width: 4, height: 4).position(dataPts[i])
-                }
-                ForEach(axes.indices, id: \.self) { i in
-                    let label = radarVertex(center: center, radius: radius + 13, index: i, count: n)
-                    Text("\(axes[i].label) \(Int(axes[i].value.rounded()))")
-                        .font(ClavisTypography.clavixMono(8, weight: .medium))
-                        .foregroundColor(.clavixInk2)
-                        .fixedSize()
-                        .position(x: label.x, y: label.y)
-                }
-            }
-        }
     }
 }
