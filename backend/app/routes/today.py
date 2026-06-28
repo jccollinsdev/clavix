@@ -268,12 +268,13 @@ async def get_today(user_id: str = Depends(get_user_id)) -> dict[str, Any]:
         .select("portfolio_value,composite_score,grade,score_delta,previous_score,dimensions,sector_breakdown,as_of_date")
         .eq("user_id", user_id)
         .order("as_of_date", desc=True)
-        .limit(1)
+        .limit(2)
         .execute()
         .data
         or []
     )
     portfolio_snapshot = portfolio_snapshot_rows[0] if portfolio_snapshot_rows else None
+    previous_snapshot = portfolio_snapshot_rows[1] if len(portfolio_snapshot_rows) > 1 else None
 
     # Use live-computed portfolio_score/grade/five_axis as the primary source.
     # The snapshot can have stale or zero-inflated dimensions (e.g. after a
@@ -320,6 +321,38 @@ async def get_today(user_id: str = Depends(get_user_id)) -> dict[str, Any]:
             pass
     if portfolio_score is not None and previous_score is not None:
         score_delta = round(portfolio_score - previous_score, 1)
+
+    # Per-dimension day-over-day change: compare each current dimension score
+    # against the same dimension in the previous day's snapshot. A stored 0
+    # means the dimension was excluded (limited data), so treat it as missing
+    # rather than a real prior value.
+    prev_dim_by_code: dict[str, float] = {}
+    if previous_snapshot:
+        for d in previous_snapshot.get("dimensions") or []:
+            if not isinstance(d, dict):
+                continue
+            code = str(d.get("code") or "").upper()
+            score = d.get("score")
+            if not code or score is None:
+                continue
+            try:
+                val = float(score)
+            except (TypeError, ValueError):
+                continue
+            if val > 0:
+                prev_dim_by_code[code] = round(val, 1)
+    for dim in five_axis:
+        code = str(dim.get("code") or "").upper()
+        prev = prev_dim_by_code.get(code)
+        cur = dim.get("score")
+        dim["previous_score"] = prev
+        if prev is not None and cur is not None:
+            try:
+                dim["delta"] = round(float(cur) - prev, 1)
+            except (TypeError, ValueError):
+                dim["delta"] = None
+        else:
+            dim["delta"] = None
 
     return {
         "portfolio": {

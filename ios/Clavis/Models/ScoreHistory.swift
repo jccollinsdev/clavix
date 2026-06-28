@@ -99,8 +99,15 @@ struct TodayResponse: Codable {
         let name: String
         let score: Double?
         let coverage: Int
+        let previousScore: Double?
+        let delta: Double?
 
         var id: String { code }
+
+        enum CodingKeys: String, CodingKey {
+            case code, name, score, coverage, delta
+            case previousScore = "previous_score"
+        }
     }
 
     struct SectorCard: Codable, Identifiable {

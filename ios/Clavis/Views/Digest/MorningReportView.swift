@@ -28,6 +28,7 @@ struct MorningReportView: View {
                         )
                     }
                     masthead(digest)
+                    riskDimensionsSection(digest)
                     macroSection(digest)
                     sectorSection(digest)
                     positionsSection(digest)
@@ -95,7 +96,7 @@ struct MorningReportView: View {
                         .foregroundColor(.clavixInk3)
                 }
                 Spacer(minLength: 8)
-                mastheadRadar()
+                mastheadDelta()
             }
             Text(mastheadDateLabel(digest))
                 .font(ClavisTypography.clavixMono(10, weight: .regular))
@@ -106,14 +107,83 @@ struct MorningReportView: View {
         .overlay(alignment: .bottom) { Rectangle().fill(Color.clavixRule).frame(height: 1) }
     }
 
-    // The 5-dimension risk radar, sized to sit inline on the right of the
-    // rating row. Hidden when no dimension scores are available yet.
+    // How much the portfolio score moved since the last trading day. Hidden on
+    // weekends (markets closed, so nothing changed) and when there is no move.
     @ViewBuilder
-    private func mastheadRadar() -> some View {
-        let axes = radarAxes()
-        if axes.contains(where: { $0.value > 0 }) {
-            MiniRiskRadar(axes: axes)
-                .frame(width: 225, height: 162)
+    private func mastheadDelta() -> some View {
+        if let delta = portfolioScoreDelta() {
+            let up = delta >= 0
+            HStack(spacing: 4) {
+                Image(systemName: up ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
+                    .font(.system(size: 9, weight: .bold))
+                Text("\(abs(Int(delta.rounded())))")
+                    .font(ClavisTypography.clavixMono(15, weight: .bold))
+            }
+            .foregroundColor(up ? .clavixGood : .clavixBad)
+            .overlay(alignment: .topTrailing) {
+                if let day = lastTradingDayLabel() {
+                    Text("vs \(day)")
+                        .font(ClavisTypography.clavixMono(9, weight: .regular))
+                        .foregroundColor(.clavixInk3)
+                        .fixedSize()
+                        .offset(y: -11)
+                }
+            }
+        }
+    }
+
+    private func portfolioScoreDelta() -> Double? {
+        guard !isWeekendEastern() else { return nil }
+        guard let portfolio = viewModel.today?.portfolio else { return nil }
+        let delta: Double?
+        if let d = portfolio.scoreDelta {
+            delta = d
+        } else if let current = portfolio.compositeScore, let prev = portfolio.previousScore {
+            delta = current - prev
+        } else {
+            delta = nil
+        }
+        guard let d = delta, abs(d) >= 0.5 else { return nil }
+        return d
+    }
+
+    private func isWeekendEastern() -> Bool {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(identifier: "America/New_York") ?? .current
+        let weekday = cal.component(.weekday, from: Date())
+        return weekday == 1 || weekday == 7  // Sunday or Saturday
+    }
+
+    private func lastTradingDayLabel() -> String? {
+        var cal = Calendar(identifier: .gregorian)
+        cal.timeZone = TimeZone(identifier: "America/New_York") ?? .current
+        guard var day = cal.date(byAdding: .day, value: -1, to: Date()) else { return nil }
+        var hops = 0
+        while hops < 7 {
+            let weekday = cal.component(.weekday, from: day)
+            if weekday != 1 && weekday != 7 { break }
+            guard let prev = cal.date(byAdding: .day, value: -1, to: day) else { break }
+            day = prev
+            hops += 1
+        }
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = cal.timeZone
+        formatter.dateFormat = "EEE"
+        return formatter.string(from: day)
+    }
+
+    // MARK: - Risk dimensions (radar + per-metric bars)
+
+    // A short, readable label for each five-axis dimension code.
+    private func dimensionLabel(_ code: String) -> String {
+        switch code.uppercased() {
+        case "FIN": return "Financial"
+        case "NEWS": return "News"
+        case "MAC": return "Macro"
+        case "SEC": return "Sector"
+        case "VOL": return "Volatility"
+        default: return code
         }
     }
 
@@ -124,6 +194,88 @@ struct MorningReportView: View {
             byCode[dim.code.uppercased()] = dim.score ?? 0
         }
         return order.map { ($0, byCode[$0] ?? 0) }
+    }
+
+    // Dimensions that have a score, strongest first so the top of the bar list
+    // reads as the strongest metric and the bottom as the weakest.
+    private func scoredDimensions() -> [TodayResponse.Dimension] {
+        (viewModel.today?.dimensions ?? [])
+            .filter { ($0.score ?? 0) > 0 }
+            .sorted { ($0.score ?? 0) > ($1.score ?? 0) }
+    }
+
+    @ViewBuilder
+    private func riskDimensionsSection(_ digest: Digest) -> some View {
+        let axes = radarAxes()
+        let dims = scoredDimensions()
+        if axes.contains(where: { $0.value > 0 }) || !dims.isEmpty {
+            ClavixCard {
+                VStack(alignment: .leading, spacing: 12) {
+                    ClavixEyebrow("Risk dimensions")
+                    HStack(alignment: .center, spacing: 14) {
+                        if axes.contains(where: { $0.value > 0 }) {
+                            MiniRiskRadar(axes: axes)
+                                .frame(width: 132, height: 124)
+                        }
+                        VStack(alignment: .leading, spacing: 9) {
+                            ForEach(dims) { dim in
+                                metricBar(dim)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func metricBar(_ dim: TodayResponse.Dimension) -> some View {
+        let score = dim.score ?? 0
+        let fraction = max(0, min(1, score / 100))
+        VStack(alignment: .leading, spacing: 3) {
+            HStack(spacing: 6) {
+                Text(dimensionLabel(dim.code))
+                    .font(ClavisTypography.clavixMono(9, weight: .medium))
+                    .foregroundColor(.clavixInk2)
+                Spacer(minLength: 4)
+                Text("\(Int(score.rounded()))")
+                    .font(ClavisTypography.clavixMono(11, weight: .bold))
+                    .foregroundColor(.clavixInk)
+                metricDeltaChip(dim.delta)
+            }
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    Capsule().fill(Color.clavixRule)
+                    Capsule()
+                        .fill(ClavisGradeStyle.scoreColor(for: score))
+                        .frame(width: max(3, geo.size.width * CGFloat(fraction)))
+                }
+            }
+            .frame(height: 5)
+        }
+    }
+
+    // Per-metric day-over-day change. Suppressed on weekends (grade is frozen
+    // when markets are closed) and when the move is negligible or unavailable.
+    @ViewBuilder
+    private func metricDeltaChip(_ delta: Double?) -> some View {
+        if !isWeekendEastern(), let d = delta, abs(d) >= 0.5 {
+            let up = d >= 0
+            HStack(spacing: 1) {
+                Image(systemName: up ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
+                    .font(.system(size: 6, weight: .bold))
+                Text("\(abs(Int(d.rounded())))")
+                    .font(ClavisTypography.clavixMono(9, weight: .bold))
+            }
+            .foregroundColor(up ? .clavixGood : .clavixBad)
+            .frame(width: 22, alignment: .trailing)
+        } else {
+            Text("—")
+                .font(ClavisTypography.clavixMono(9, weight: .regular))
+                .foregroundColor(.clavixInk3)
+                .frame(width: 22, alignment: .trailing)
+        }
     }
 
     // MARK: - Macro overnight
@@ -158,7 +310,7 @@ struct MorningReportView: View {
                             .buttonStyle(.plain)
                             if index < briefs.count - 1 {
                                 Rectangle().fill(Color.clavixRule).frame(height: 1)
-                                    .padding(.vertical, 10)
+                                    .padding(.vertical, 8)
                             }
                         }
                     }
@@ -467,20 +619,18 @@ struct MorningReportView: View {
     }
 
     private func sectorBriefRow(_ item: DigestSectorOverviewItem) -> some View {
-        let (preview, isTruncated) = truncatedText(item.brief.sanitizedDisplayText, limit: 100)
-        return VStack(alignment: .leading, spacing: 4) {
-            Text(preview)
+        HStack(spacing: 8) {
+            Text(item.sector.humanizedTitleCasedDisplayText)
                 .font(ClavisTypography.clavixSerif(16))
                 .foregroundColor(.clavixInk)
-                .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            if isTruncated {
-                Text("Read more →")
-                    .font(ClavisTypography.clavixMono(11, weight: .semibold))
-                    .foregroundColor(.clavixAccent)
-            }
+                .lineLimit(1)
+            Spacer(minLength: 8)
+            Image(systemName: "chevron.right")
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundColor(.clavixInk3)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
     }
 
     // MARK: - Detail sheets (tap to read the full write-up)
