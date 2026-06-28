@@ -1131,98 +1131,296 @@ struct ScoreBandRow: View {
 }
 
 struct MethodologyView: View {
+    /// When opened from the Morning Report we pass the live composite so the page
+    /// opens on the reader's own grade. From Settings these stay nil and the page
+    /// reads as a universal reference.
+    var currentScore: Double? = nil
+    var currentGrade: String? = nil
+
+    // The grade ladder, in order best to worst. Band names and score ranges are
+    // pulled from ClavisGradeStyle.gradeBandLabel so the scale shown here IS the
+    // exact scale the app grades by (no second copy to drift out of sync).
+    private let ladder = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]
+
+    private let dimensions: [(code: String, name: String, detail: String, source: String)] = [
+        ("FIN", "Financial Health",
+         "Balance-sheet and cash-flow strength: debt-to-equity, free-cash-flow margin, current ratio, and the direction of revenue and profitability.",
+         "Company fundamentals"),
+        ("NEWS", "News Signal",
+         "The balance and freshness of coverage. Recent, higher-quality sources count for more: the last 24 hours is weighted three times as heavily as week-old news.",
+         "Live news feed"),
+        ("MAC", "Macro Exposure",
+         "Sensitivity to broad forces: 10-year Treasury yields, the U.S. dollar, crude oil, the VIX, and the S&P 500.",
+         "FRED + market data"),
+        ("SEC", "Sector Exposure",
+         "Vulnerability to the sector's own state: sector beta, momentum versus the S&P 500, breadth, and sector-specific news.",
+         "Sector data"),
+        ("VOL", "Volatility",
+         "Price instability and its direction: 30 and 90-day realized volatility, drawdown from the trailing-year high, and beta to the market.",
+         "Price history")
+    ]
+
+    private var currentBand: String? {
+        guard let currentScore else { return nil }
+        return PortfolioMath.grade(forScore: currentScore)
+    }
+
     var body: some View {
         ClavixScreen(
             eyebrow: "Reference · v2.0",
-            title: "Methodology",
+            title: "How grading works",
             trailing: AnyView(SettingsDismissButton())
         ) {
-            Text("How Clavix rates risk.")
-                .font(ClavisTypography.clavixSerif(28, weight: .medium))
+            leadCard
+            if let currentScore { yourGradeCard(score: currentScore) }
+            gradeScaleSection
+            dimensionsSection
+            compositeSection
+            freshnessCard
+        }
+    }
+
+    // MARK: - Lead
+
+    private var leadCard: some View {
+        ClavixCard(fill: .clavixPaper2) {
+            Text("Every holding earns a score from 0 to 100. Higher means stronger and lower risk. That score becomes a letter grade, and your holdings roll up into one portfolio grade, weighted by how much you own of each.")
+                .font(ClavisTypography.clavixSerif(17, weight: .regular))
                 .foregroundColor(.clavixInk)
+                .lineSpacing(4)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
 
-            SettingsSectionCard("CONTENTS") {
-                SettingsValueRow("1 · What is a Clavix score", value: "")
-                Divider().overlay(Color.clavixRule)
-                SettingsValueRow("2 · The five dimensions", value: "FIN NEWS MAC SEC VOL")
-                Divider().overlay(Color.clavixRule)
-                SettingsValueRow("3 · Composite formula", value: "")
-                Divider().overlay(Color.clavixRule)
-                SettingsValueRow("4 · Grade scale", value: "AAA -> F")
-            }
-
-            SettingsSectionCard("AUDIT PAGES") {
-                NavigationLink(destination: FinancialHealthAuditView(ticker: "Reference", methodology: nil)) {
-                    SettingsValueRow("Financial Health", value: "FIN")
-                }
-                .buttonStyle(.plain)
-                Divider().overlay(Color.clavixRule)
-                NavigationLink(destination: NewsSentimentAuditView(ticker: "Reference", methodology: nil)) {
-                    SettingsValueRow("News Signal", value: "NEWS")
-                }
-                .buttonStyle(.plain)
-                Divider().overlay(Color.clavixRule)
-                NavigationLink(destination: MacroExposureAuditView(ticker: "Reference", methodology: nil)) {
-                    SettingsValueRow("Macro Exposure", value: "MAC")
-                }
-                .buttonStyle(.plain)
-                Divider().overlay(Color.clavixRule)
-                NavigationLink(destination: SectorExposureAuditView(ticker: "Reference", methodology: nil)) {
-                    SettingsValueRow("Sector Exposure", value: "SEC")
-                }
-                .buttonStyle(.plain)
-                Divider().overlay(Color.clavixRule)
-                NavigationLink(destination: VolatilityAuditView(ticker: "Reference", methodology: nil, scoreHistory: [])) {
-                    SettingsValueRow("Volatility", value: "VOL")
-                }
-                .buttonStyle(.plain)
-            }
-
-            ClavixCard(fill: .clavixPaper2) {
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack(alignment: .lastTextBaseline, spacing: 10) {
-                        Text("1")
-                            .font(ClavisTypography.clavixMono(12, weight: .semibold))
-                            .foregroundColor(.clavixInk3)
-                        VStack(alignment: .leading, spacing: 2) {
-                            ClavixEyebrow("Excerpt")
-                            Text("What is a Clavix score")
-                                .font(ClavisTypography.clavixSerif(18, weight: .medium))
-                                .foregroundColor(.clavixInk)
-                        }
+    private func yourGradeCard(score: Double) -> some View {
+        let grade = currentGrade ?? PortfolioMath.grade(forScore: score)
+        let color = ClavisGradeStyle.riskColor(for: grade)
+        return ClavixCard {
+            HStack(alignment: .center, spacing: 16) {
+                ClavixGradeBadge(grade, size: 80)
+                VStack(alignment: .leading, spacing: 5) {
+                    ClavixEyebrow("Your portfolio today")
+                    Text(bandName(grade))
+                        .font(ClavisTypography.clavixSerif(19, weight: .medium))
+                        .foregroundColor(color)
+                    HStack(alignment: .lastTextBaseline, spacing: 4) {
+                        Text("\(Int(score.rounded()))")
+                            .font(ClavisTypography.clavixMono(20, weight: .semibold))
+                            .foregroundColor(.clavixInk)
+                        Text("/ 100")
+                            .font(ClavisTypography.clavixMono(12, weight: .regular))
+                            .foregroundColor(.clavixInk4)
                     }
+                }
+                Spacer(minLength: 0)
+            }
+        }
+    }
 
-                    Text("A Clavix score is a 0-100 measure of structural risk attached to a single ticker, computed nightly from five equally weighted dimensions.")
-                        .font(ClavisTypography.clavixSerif(15, weight: .regular))
-                        .foregroundColor(.clavixInk)
-                        .fixedSize(horizontal: false, vertical: true)
+    // MARK: - I. Grade scale
+
+    private var gradeScaleSection: some View {
+        MethodologySection(numeral: "I", title: "The grade scale",
+                           caption: "Thirteen steps from A+ to F. A higher score is a stronger, lower-risk position.") {
+            VStack(spacing: 0) {
+                ForEach(Array(ladder.enumerated()), id: \.element) { index, grade in
+                    gradeScaleRow(grade)
+                    if index < ladder.count - 1 {
+                        Rectangle().fill(Color.clavixRule).frame(height: 1)
+                    }
+                }
+            }
+            .background(Color.clavixPaper)
+            .overlay(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius).stroke(Color.clavixRule, lineWidth: 1))
+            .clipShape(RoundedRectangle(cornerRadius: ClavixLayout.cardRadius))
+        }
+    }
+
+    private func gradeScaleRow(_ grade: String) -> some View {
+        let color = ClavisGradeStyle.riskColor(for: grade)
+        let isCurrent = grade == currentBand
+        return HStack(spacing: 12) {
+            RoundedRectangle(cornerRadius: 2).fill(color).frame(width: 4, height: 24)
+            Text(grade)
+                .font(ClavisTypography.clavixMono(15, weight: .bold))
+                .foregroundColor(color)
+                .frame(width: 32, alignment: .leading)
+            Text(bandName(grade))
+                .font(ClavisTypography.inter(14, weight: isCurrent ? .bold : .medium))
+                .foregroundColor(.clavixInk)
+            Spacer(minLength: 8)
+            if isCurrent {
+                Text("YOU")
+                    .font(ClavisTypography.clavixMono(8, weight: .bold))
+                    .tracking(0.5)
+                    .foregroundColor(.clavixPaper)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(color)
+                    .clipShape(RoundedRectangle(cornerRadius: 3))
+            }
+            Text(bandRange(grade))
+                .font(ClavisTypography.clavixMono(12, weight: .regular))
+                .foregroundColor(.clavixInk3)
+                .frame(width: 56, alignment: .trailing)
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 9)
+        .background(isCurrent ? color.opacity(0.10) : Color.clear)
+    }
+
+    // MARK: - II. Dimensions
+
+    private var dimensionsSection: some View {
+        MethodologySection(numeral: "II", title: "The five dimensions",
+                           caption: "A holding's score is the average of five inputs, each weighted equally at 20%.") {
+            VStack(spacing: 10) {
+                ForEach(dimensions, id: \.code) { dim in
+                    dimensionRow(dim)
                 }
             }
         }
     }
-}
 
-struct MethodologyStepRow: View {
-    let number: String
-    let title: String
-    let description: String
-
-    var body: some View {
-        HStack(alignment: .top, spacing: ClavisTheme.mediumSpacing) {
-            Text(number)
-                .font(ClavisTypography.label)
-                .foregroundColor(.clavixInk4)
-                .frame(width: 24, alignment: .leading)
-            VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                    .font(ClavisTypography.bodyEmphasis)
-                    .foregroundColor(.clavixInk)
-                Text(description)
-                    .font(ClavisTypography.footnote)
-                    .foregroundColor(.clavixInk3)
+    private func dimensionRow(_ dim: (code: String, name: String, detail: String, source: String)) -> some View {
+        ClavixCard(padding: 14) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 8) {
+                    Text(dim.code)
+                        .font(ClavisTypography.clavixMono(10, weight: .bold))
+                        .tracking(0.6)
+                        .foregroundColor(.clavixAccentInk)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(Color.clavixAccentSoft)
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                    Text(dim.name)
+                        .font(ClavisTypography.clavixSerif(17, weight: .medium))
+                        .foregroundColor(.clavixInk)
+                    Spacer(minLength: 8)
+                    Text("20%")
+                        .font(ClavisTypography.clavixMono(11, weight: .semibold))
+                        .foregroundColor(.clavixInk3)
+                }
+                Text(dim.detail)
+                    .font(ClavisTypography.inter(13, weight: .regular))
+                    .foregroundColor(.clavixInk2)
+                    .lineSpacing(3)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(dim.source.uppercased())
+                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .tracking(0.5)
+                    .foregroundColor(.clavixInk4)
             }
         }
-        .padding(ClavisTheme.cardPadding)
-        .clavisSecondaryCardStyle(fill: .clavixPaper2)
+    }
+
+    // MARK: - III. Composite
+
+    private var compositeSection: some View {
+        MethodologySection(numeral: "III", title: "From holdings to your grade") {
+            ClavixCard {
+                VStack(alignment: .leading, spacing: 14) {
+                    compositeStep("1", "Score each holding",
+                                  "The five dimensions are averaged into one 0 to 100 score, then mapped to a letter using the scale above.")
+                    Rectangle().fill(Color.clavixRule).frame(height: 1)
+                    compositeStep("2", "Weight by position size",
+                                  "Each holding counts in proportion to its market value, so your largest positions move the needle most.")
+                    Rectangle().fill(Color.clavixRule).frame(height: 1)
+                    compositeStep("3", "Roll up to one grade",
+                                  "The value-weighted average of every holding becomes your portfolio score and grade.")
+                    Text("portfolio = Σ(value × score) ÷ Σ(value)")
+                        .font(ClavisTypography.clavixMono(11, weight: .medium))
+                        .foregroundColor(.clavixInk3)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 9)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(Color.clavixPaper2)
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                }
+            }
+        }
+    }
+
+    private func compositeStep(_ number: String, _ title: String, _ body: String) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Text(number)
+                .font(ClavisTypography.clavixMono(13, weight: .bold))
+                .foregroundColor(.clavixAccentInk)
+                .frame(width: 16, alignment: .leading)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title)
+                    .font(ClavisTypography.inter(14, weight: .semibold))
+                    .foregroundColor(.clavixInk)
+                Text(body)
+                    .font(ClavisTypography.inter(13, weight: .regular))
+                    .foregroundColor(.clavixInk2)
+                    .lineSpacing(3)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+
+    // MARK: - Freshness
+
+    private var freshnessCard: some View {
+        ClavixCard(padding: 14, fill: .clavixPaper2) {
+            VStack(alignment: .leading, spacing: 6) {
+                ClavixEyebrow("Freshness")
+                Text("Scores recompute every night on fresh data, usually within a few hours of the market close. Grades hold steady over weekends and holidays while markets are shut.")
+                    .font(ClavisTypography.inter(12, weight: .regular))
+                    .foregroundColor(.clavixInk3)
+                    .lineSpacing(3)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+
+    // MARK: - Helpers (single source: ClavisGradeStyle.gradeBandLabel)
+
+    /// "Average (60-64)" -> "Average"
+    private func bandName(_ grade: String) -> String {
+        let label = ClavisGradeStyle.gradeBandLabel(for: grade)
+        guard let open = label.firstIndex(of: "(") else { return label }
+        return String(label[..<open]).trimmingCharacters(in: .whitespaces)
+    }
+
+    /// "Average (60-64)" -> "60-64"
+    private func bandRange(_ grade: String) -> String {
+        let label = ClavisGradeStyle.gradeBandLabel(for: grade)
+        guard let open = label.firstIndex(of: "("), let close = label.firstIndex(of: ")") else { return "" }
+        return String(label[label.index(after: open)..<close])
+    }
+}
+
+/// Numeral + serif title + optional caption, the editorial section header used
+/// down the methodology page.
+private struct MethodologySection<Content: View>: View {
+    let numeral: String
+    let title: String
+    var caption: String? = nil
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Text(numeral)
+                    .font(ClavisTypography.clavixMono(12, weight: .bold))
+                    .foregroundColor(.clavixInk4)
+                Text(title)
+                    .font(ClavisTypography.clavixSerif(22, weight: .medium))
+                    .tracking(-0.3)
+                    .foregroundColor(.clavixInk)
+            }
+            if let caption {
+                Text(caption)
+                    .font(ClavisTypography.clavixCaption)
+                    .foregroundColor(.clavixInk3)
+                    .lineSpacing(2)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            content
+        }
+        .padding(.top, 6)
     }
 }
