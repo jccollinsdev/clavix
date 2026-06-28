@@ -268,13 +268,27 @@ async def get_today(user_id: str = Depends(get_user_id)) -> dict[str, Any]:
         .select("portfolio_value,composite_score,grade,score_delta,previous_score,dimensions,sector_breakdown,as_of_date")
         .eq("user_id", user_id)
         .order("as_of_date", desc=True)
-        .limit(2)
+        .limit(8)
         .execute()
         .data
         or []
     )
     portfolio_snapshot = portfolio_snapshot_rows[0] if portfolio_snapshot_rows else None
-    previous_snapshot = portfolio_snapshot_rows[1] if len(portfolio_snapshot_rows) > 1 else None
+
+    # "Yesterday" for per-dimension change is the most recent EARLIER snapshot
+    # that actually carries dimension data. Weekend/holiday rollups can write
+    # empty rows (no holdings priced), so naively taking row[1] would compare
+    # against a blank day and hide every metric delta on the next trading day.
+    def _has_real_dims(row: dict[str, Any]) -> bool:
+        for d in row.get("dimensions") or []:
+            if isinstance(d, dict) and (d.get("score") or 0) > 0:
+                return True
+        return False
+
+    previous_snapshot = next(
+        (row for row in portfolio_snapshot_rows[1:] if _has_real_dims(row)),
+        None,
+    )
 
     # Use live-computed portfolio_score/grade/five_axis as the primary source.
     # The snapshot can have stale or zero-inflated dimensions (e.g. after a
