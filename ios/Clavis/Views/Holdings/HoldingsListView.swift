@@ -446,8 +446,7 @@ struct HoldingsListView: View {
         VStack(spacing: 10) {
             ClavixDonutChart(
                 slices: slices,
-                centerPrimary: centerPrimary,
-                centerSecondary: "TAP A SLICE"
+                centerPrimary: centerPrimary
             )
             .frame(height: 130)
 
@@ -805,7 +804,6 @@ private struct DonutArc: Shape {
 private struct ClavixDonutChart: View {
     let slices: [DonutSlice]
     let centerPrimary: String
-    let centerSecondary: String
 
     @State private var selectedID: String?
 
@@ -854,13 +852,15 @@ private struct ClavixDonutChart: View {
                         .foregroundColor(.clavixInk)
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
-                    Text(selected?.caption ?? centerSecondary)
-                        .font(ClavisTypography.clavixMono(9, weight: .regular))
-                        .tracking(0.3)
-                        .foregroundColor(.clavixInk3)
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.6)
-                        .multilineTextAlignment(.center)
+                    if let selected {
+                        Text(selected.caption)
+                            .font(ClavisTypography.clavixMono(9, weight: .regular))
+                            .tracking(0.3)
+                            .foregroundColor(.clavixInk3)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.6)
+                            .multilineTextAlignment(.center)
+                    }
                 }
                 .frame(width: max(0, (outer - ring) * 1.8))
             }
@@ -881,7 +881,11 @@ private struct ClavixDonutChart: View {
         let dx = point.x - center.x
         let dy = point.y - center.y
         let dist = (dx * dx + dy * dy).squareRoot()
-        guard dist >= outer - ring - 10, dist <= outer + 12 else { return }
+        guard dist >= outer - ring - 10, dist <= outer + 12 else {
+            // Tapped off the ring (the hole or outside it) -> reset to default.
+            if selectedID != nil { selectedID = nil }
+            return
+        }
         var angle = atan2(dy, dx) * 180 / .pi + 90
         angle = angle.truncatingRemainder(dividingBy: 360)
         if angle < 0 { angle += 360 }
