@@ -118,7 +118,8 @@ struct Position: Identifiable, Codable, Hashable {
     }
 
     var unrealizedPL: Double? {
-        guard let current = resolvedCurrentPrice else { return nil }
+        // No cost basis recorded (e.g. manual add without one) -> no P&L to show.
+        guard let current = resolvedCurrentPrice, purchasePrice > 0 else { return nil }
         return (current - purchasePrice) * shares
     }
 

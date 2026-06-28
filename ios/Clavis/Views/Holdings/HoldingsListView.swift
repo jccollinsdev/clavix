@@ -26,6 +26,7 @@ struct HoldingsListView: View {
     @State private var showAddHoldingSheet = false
     @State private var showQuickSetupSheet = false
     @State private var sortKey: HoldingsSortKey = .risk
+    @State private var donutSelection: String?
 
     // First-run getting-started checklist (interactive launcher)
     @AppStorage("clavix.checklist.openedBreakdown") private var clOpenedBreakdown = false
@@ -414,22 +415,33 @@ struct HoldingsListView: View {
                     .padding(.top, 6)
                     .padding(.bottom, 10)
                 ClavixCard {
-                    HStack(alignment: .top, spacing: 12) {
-                        donutColumn(
-                            title: "ALLOCATION",
-                            subtitle: "share of book",
-                            slices: allocationSlices,
-                            centerPrimary: currencyNoCents(totalMarketValue),
-                            legendLimit: 5
-                        )
-                        Rectangle().fill(Color.clavixRule).frame(width: 1)
-                        donutColumn(
-                            title: "GRADES",
-                            subtitle: "positions per grade",
-                            slices: gradeSlices,
-                            centerPrimary: "\(gradedCount)",
-                            legendLimit: 13
-                        )
+                    ZStack {
+                        // Tap-to-dismiss layer: any tap on empty card space clears
+                        // the active wedge. Wedge taps hit the donuts in front.
+                        Color.clavixPaper.opacity(0.001)
+                            .contentShape(Rectangle())
+                            .onTapGesture { donutSelection = nil }
+                        HStack(alignment: .top, spacing: 12) {
+                            donutColumn(
+                                title: "ALLOCATION",
+                                subtitle: "share of book",
+                                slices: allocationSlices,
+                                centerPrimary: currencyNoCents(totalMarketValue),
+                                centerDetail: "book value",
+                                namespace: "alloc",
+                                legendLimit: 5
+                            )
+                            Rectangle().fill(Color.clavixRule).frame(width: 1)
+                            donutColumn(
+                                title: "GRADES",
+                                subtitle: "positions per grade",
+                                slices: gradeSlices,
+                                centerPrimary: "\(gradedCount)",
+                                centerDetail: gradedCount == 1 ? "ticker" : "tickers",
+                                namespace: "grade",
+                                legendLimit: 13
+                            )
+                        }
                     }
                 }
             }
@@ -441,12 +453,17 @@ struct HoldingsListView: View {
         subtitle: String,
         slices: [DonutSlice],
         centerPrimary: String,
+        centerDetail: String,
+        namespace: String,
         legendLimit: Int
     ) -> some View {
         VStack(spacing: 10) {
             ClavixDonutChart(
                 slices: slices,
-                centerPrimary: centerPrimary
+                centerPrimary: centerPrimary,
+                centerDetail: centerDetail,
+                namespace: namespace,
+                selection: $donutSelection
             )
             .frame(height: 130)
 
@@ -500,7 +517,7 @@ struct HoldingsListView: View {
 
     private var positionsSection: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text("Your Positions")
+            Text("Your Holdings")
                 .font(ClavisTypography.clavixSerif(20, weight: .medium))
                 .tracking(-0.3)
                 .foregroundColor(.clavixInk)
@@ -655,6 +672,13 @@ private struct HoldingsRow: View {
     private var grade: String { position.resolvedRiskGrade ?? "—" }
     private var dayPct: Double? { position.sharedAnalysis?.dayChangePct }
 
+    /// Newly added ticker whose first analysis run hasn't produced a grade yet.
+    private var isResearching: Bool {
+        guard position.resolvedRiskGrade == nil else { return false }
+        let state = position.resolvedAnalysisState
+        return state == "queued" || state == "running" || position.analysisStartedAt != nil
+    }
+
     var body: some View {
         HStack(spacing: 8) {
             // Sym
@@ -689,14 +713,29 @@ private struct HoldingsRow: View {
             }
             .frame(width: 82, alignment: .trailing)
 
-            // Grade · Δ
-            VStack(alignment: .trailing, spacing: 2) {
-                ClavixGradeBadge(grade, size: 18)
-                Text(deltaText)
-                    .font(ClavisTypography.clavixMono(10, weight: .semibold))
-                    .foregroundColor(deltaColor)
+            // Grade · Δ (or a researching indicator for freshly added tickers)
+            if isResearching {
+                VStack(alignment: .trailing, spacing: 3) {
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.clavixAccent)
+                    Text("Researching")
+                        .font(ClavisTypography.clavixMono(7, weight: .bold))
+                        .tracking(0.2)
+                        .foregroundColor(.clavixAccent)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                }
+                .frame(width: 60, alignment: .trailing)
+            } else {
+                VStack(alignment: .trailing, spacing: 2) {
+                    ClavixGradeBadge(grade, size: 18)
+                    Text(deltaText)
+                        .font(ClavisTypography.clavixMono(10, weight: .semibold))
+                        .foregroundColor(deltaColor)
+                }
+                .frame(width: 60, alignment: .trailing)
             }
-            .frame(width: 60, alignment: .trailing)
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)
@@ -804,8 +843,11 @@ private struct DonutArc: Shape {
 private struct ClavixDonutChart: View {
     let slices: [DonutSlice]
     let centerPrimary: String
+    let centerDetail: String          // static sub-line shown when nothing is selected
+    let namespace: String             // distinguishes this donut in the shared selection
+    @Binding var selection: String?   // shared "namespace:id" key, nil when nothing selected
 
-    @State private var selectedID: String?
+    private func key(_ id: String) -> String { "\(namespace):\(id)" }
 
     private var total: Double { slices.reduce(0) { $0 + $1.value } }
 
@@ -819,7 +861,10 @@ private struct ClavixDonutChart: View {
         }
     }
 
-    private var selected: DonutSlice? { slices.first { $0.id == selectedID } }
+    private var selected: DonutSlice? {
+        guard let selection else { return nil }
+        return slices.first { key($0.id) == selection }
+    }
 
     var body: some View {
         GeometryReader { geo in
@@ -832,8 +877,8 @@ private struct ClavixDonutChart: View {
 
             ZStack {
                 ForEach(segments) { seg in
-                    let isSelected = selectedID == seg.id
-                    let dimmed = selectedID != nil && !isSelected
+                    let isSelected = selection == key(seg.id)
+                    let dimmed = selected != nil && !isSelected
                     DonutArc(
                         startDeg: -90 + seg.start * 360 + gap,
                         endDeg: -90 + seg.end * 360 - gap,
@@ -852,21 +897,19 @@ private struct ClavixDonutChart: View {
                         .foregroundColor(.clavixInk)
                         .lineLimit(1)
                         .minimumScaleFactor(0.6)
-                    if let selected {
-                        Text(selected.caption)
-                            .font(ClavisTypography.clavixMono(9, weight: .regular))
-                            .tracking(0.3)
-                            .foregroundColor(.clavixInk3)
-                            .lineLimit(1)
-                            .minimumScaleFactor(0.6)
-                            .multilineTextAlignment(.center)
-                    }
+                    Text(selected?.caption ?? centerDetail)
+                        .font(ClavisTypography.clavixMono(9, weight: .regular))
+                        .tracking(0.3)
+                        .foregroundColor(.clavixInk3)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                        .multilineTextAlignment(.center)
                 }
                 .frame(width: max(0, (outer - ring) * 1.8))
             }
             .frame(width: geo.size.width, height: geo.size.height)
             .contentShape(Rectangle())
-            .animation(.easeOut(duration: 0.12), value: selectedID)
+            .animation(.easeOut(duration: 0.12), value: selection)
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
@@ -883,7 +926,7 @@ private struct ClavixDonutChart: View {
         let dist = (dx * dx + dy * dy).squareRoot()
         guard dist >= outer - ring - 10, dist <= outer + 12 else {
             // Tapped off the ring (the hole or outside it) -> reset to default.
-            if selectedID != nil { selectedID = nil }
+            if selection != nil { selection = nil }
             return
         }
         var angle = atan2(dy, dx) * 180 / .pi + 90
@@ -891,7 +934,8 @@ private struct ClavixDonutChart: View {
         if angle < 0 { angle += 360 }
         let frac = angle / 360
         if let seg = segments.first(where: { frac >= $0.start && frac < $0.end }) {
-            if selectedID != seg.id { selectedID = seg.id }
+            let newKey = key(seg.id)
+            if selection != newKey { selection = newKey }
         }
     }
 }
@@ -1139,7 +1183,6 @@ private struct HoldingsAddMethodSheet: View {
     @Binding var selectedTab: Int
     @Environment(\.dismiss) private var dismiss
     @State private var showManualSheet = false
-    @State private var showCSVSheet = false
     @State private var manualSaveCompleted = false
 
     var body: some View {
@@ -1175,19 +1218,10 @@ private struct HoldingsAddMethodSheet: View {
 
             HoldingsMethodCard(
                 title: "Enter manually",
-                description: "Ticker, shares, and cost basis.",
+                description: "Type a ticker and how many shares you hold.",
                 icon: "plus"
             ) {
                 showManualSheet = true
-            }
-
-            HoldingsMethodCard(
-                title: "Upload CSV",
-                description: "Map exported rows from major brokerages.",
-                icon: "doc",
-                badge: "PRO"
-            ) {
-                showCSVSheet = true
             }
         }
         .sheet(isPresented: $showManualSheet, onDismiss: {
@@ -1199,9 +1233,6 @@ private struct HoldingsAddMethodSheet: View {
             HoldingsAddSheet(viewModel: viewModel, onComplete: {
                 manualSaveCompleted = true
             })
-        }
-        .sheet(isPresented: $showCSVSheet) {
-            HoldingsCSVComingSoonSheet()
         }
     }
 }
@@ -1267,29 +1298,39 @@ private struct HoldingsAddSheet: View {
     @State private var tickerError: String?
     @State private var selectedTickerResult: TickerSearchResult?
     @State private var shares = ""
-    @State private var costBasis = ""
-    @State private var purchaseDate = Date()
     @State private var resolveTickerTask: Task<Void, Never>?
 
-    private var isValid: Bool {
-        selectedTickerResult != nil
-            && !isDuplicateHeld
-            && (Double(shares) ?? 0) > 0
-            && (Double(costBasis) ?? 0) >= 0
+    private var trimmedTicker: String {
+        ticker.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
     }
 
-    private var isOutsideUniverseSelection: Bool {
-        selectedTickerResult?.isSupported == false
+    /// A tracked-universe ticker the user picked from suggestions (or exact match).
+    private var hasSupportedSelection: Bool { selectedTickerResult != nil }
+
+    /// The user typed a ticker that isn't in our tracked list and there are no
+    /// pending suggestions. We can still add it and start researching it.
+    private var isResearchCandidate: Bool {
+        !hasSupportedSelection
+            && !trimmedTicker.isEmpty
+            && !isSearchingSuggestions
+            && tickerSuggestions.isEmpty
+            && tickerError == nil
+    }
+
+    private var isValid: Bool {
+        (hasSupportedSelection || isResearchCandidate)
+            && !isDuplicateHeld
+            && (Double(shares) ?? 0) > 0
     }
 
     private var isDuplicateHeld: Bool {
-        viewModel.holdings.contains { $0.ticker.caseInsensitiveCompare(ticker) == .orderedSame }
+        viewModel.holdings.contains { $0.ticker.caseInsensitiveCompare(trimmedTicker) == .orderedSame }
     }
 
     var body: some View {
         ClavixScreen(
-            eyebrow: isOutsideUniverseSelection ? "Outside universe" : "Manual entry",
-            title: isOutsideUniverseSelection ? "Limited data" : "Add position",
+            eyebrow: "Manual entry",
+            title: "Add a holding",
             trailing: AnyView(
                 Button("Close") { dismiss() }
                     .font(ClavisTypography.clavixMono(10, weight: .semibold))
@@ -1297,47 +1338,62 @@ private struct HoldingsAddSheet: View {
                     .buttonStyle(.plain)
             )
         ) {
-            ClavixCard {
-                VStack(spacing: 12) {
-                    entryField(title: "Ticker", text: $ticker, keyboard: .default, autocapitalized: true)
-                        .onChange(of: ticker) { _, newValue in
-                            resolveTickerTask?.cancel()
-                            selectedTickerResult = nil
-                            resolveTickerTask = Task { await resolveTicker(newValue) }
-                        }
+            // Ticker + live autocomplete (suggestions form directly beneath the field)
+            VStack(alignment: .leading, spacing: 8) {
+                ClavixEyebrow("Ticker")
+                entryField(title: "Search ticker or company", text: $ticker, keyboard: .default, autocapitalized: true)
+                    .onChange(of: ticker) { _, newValue in
+                        resolveTickerTask?.cancel()
+                        selectedTickerResult = nil
+                        resolveTickerTask = Task { await resolveTicker(newValue) }
+                    }
 
-                    entryField(title: "Shares", text: $shares, keyboard: .decimalPad)
-                    entryField(title: "Cost basis", text: $costBasis, keyboard: .decimalPad)
+                if isSearchingSuggestions {
+                    HStack(spacing: 8) {
+                        ProgressView().tint(.clavixInk3).controlSize(.small)
+                        Text("Searching…")
+                            .font(ClavisTypography.clavixCaption)
+                            .foregroundColor(.clavixInk3)
+                        Spacer()
+                    }
+                    .padding(.top, 2)
                 }
-            }
 
-            if isSearchingSuggestions {
-                ProgressView()
-                    .tint(.clavixInk)
-                    .frame(maxWidth: .infinity, alignment: .center)
-            }
+                if !tickerSuggestions.isEmpty {
+                    ClavixCard(padding: 0, fill: .clavixPaper) {
+                        VStack(spacing: 0) {
+                            ForEach(Array(tickerSuggestions.enumerated()), id: \.element.id) { index, suggestion in
+                                Button(action: { applySuggestion(suggestion) }) {
+                                    SearchResultRow(result: suggestion, isWatchlisted: false)
+                                }
+                                .buttonStyle(.plain)
 
-            if !tickerSuggestions.isEmpty {
-                ClavixCard(padding: 0, fill: .clavixPaper) {
-                    VStack(spacing: 0) {
-                        ForEach(Array(tickerSuggestions.enumerated()), id: \.element.id) { index, suggestion in
-                            Button(action: { applySuggestion(suggestion) }) {
-                                SearchResultRow(result: suggestion, isWatchlisted: false)
-                            }
-                            .buttonStyle(.plain)
-
-                            if index < tickerSuggestions.count - 1 {
-                                Divider().overlay(Color.clavixRule)
+                                if index < tickerSuggestions.count - 1 {
+                                    Divider().overlay(Color.clavixRule)
+                                }
                             }
                         }
                     }
                 }
+
+                if hasSupportedSelection, !companyName.isEmpty {
+                    HStack(spacing: 6) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundColor(.clavixGood)
+                        Text("\(trimmedTicker) · \(companyName)")
+                            .font(ClavisTypography.clavixCaption)
+                            .foregroundColor(.clavixInk2)
+                            .lineLimit(1)
+                    }
+                    .padding(.top, 2)
+                }
             }
 
-            if !companyName.isEmpty {
-                Text(companyName)
-                    .font(ClavisTypography.clavixCaption)
-                    .foregroundColor(.clavixInk3)
+            // Shares
+            VStack(alignment: .leading, spacing: 8) {
+                ClavixEyebrow("Shares")
+                entryField(title: "Number of shares", text: $shares, keyboard: .decimalPad)
             }
 
             if let tickerError {
@@ -1350,36 +1406,28 @@ private struct HoldingsAddSheet: View {
 
             if isDuplicateHeld {
                 ClavixCard(fill: .clavixAccentSoft) {
-                    Text("\(ticker.uppercased()) is already in your portfolio.")
+                    Text("\(trimmedTicker) is already in your holdings.")
                         .font(ClavisTypography.inter(14, weight: .regular))
                         .foregroundColor(.clavixAccentInk)
                 }
             }
 
-            if isOutsideUniverseSelection {
+            if isResearchCandidate, !isDuplicateHeld {
                 ClavixCard(fill: .clavixWarnSoft) {
-                    Text("This ticker can be saved as portfolio metadata, but full risk data requires tracked-universe support.")
-                        .font(ClavisTypography.inter(14, weight: .regular))
-                        .foregroundColor(.clavixInk2)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
-            }
-
-            ClavixCard(fill: .clavixPaper2) {
-                VStack(alignment: .leading, spacing: 8) {
-                    ClavixEyebrow("Purchase date")
-                    DatePicker("Purchase date", selection: $purchaseDate, displayedComponents: .date)
-                        .datePickerStyle(.compact)
-                        .labelsHidden()
-                        .tint(.clavixAccent)
-                    Text("Purchase date will be sent once the backend route supports it.")
-                        .font(ClavisTypography.clavixCaption)
-                        .foregroundColor(.clavixInk3)
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("\(trimmedTicker) isn't tracked yet")
+                            .font(ClavisTypography.inter(15, weight: .semibold))
+                            .foregroundColor(.clavixInk)
+                        Text("Add it and Clavix starts researching it: scoring all five risk dimensions and pulling its news. Data may be limited while research is underway, and it becomes fully tracked from here on.")
+                            .font(ClavisTypography.inter(13, weight: .regular))
+                            .foregroundColor(.clavixInk2)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
             }
 
             HoldingsSheetButton(
-                title: isOutsideUniverseSelection ? "Save anyway as outside-universe" : "Save position",
+                title: isResearchCandidate ? "Add & research \(trimmedTicker)" : "Add holding",
                 isEnabled: isValid,
                 action: {
                     Task { await submit() }
@@ -1427,15 +1475,17 @@ private struct HoldingsAddSheet: View {
             let results = try await viewModel.searchTickers(query: trimmed, limit: 8)
             guard !Task.isCancelled else { return }
 
+            tickerError = nil
             let exactMatch = results.first { $0.ticker.caseInsensitiveCompare(trimmed) == .orderedSame }
             if let exactMatch {
                 applySuggestion(exactMatch)
                 tickerSuggestions = []
             } else {
+                // No exact match. Show near matches if any; otherwise the
+                // research-candidate path lets the user add it as untracked.
                 tickerSuggestions = results
                 companyName = ""
                 selectedTickerResult = nil
-                tickerError = results.isEmpty ? "Ticker not found" : nil
             }
         } catch is CancellationError {
             return
@@ -1456,13 +1506,13 @@ private struct HoldingsAddSheet: View {
     }
 
     private func submit() async {
-        guard let sharesValue = Double(shares) else { return }
-        let costBasisValue = Double(costBasis.trimmingCharacters(in: .whitespacesAndNewlines)) ?? 0
+        guard let sharesValue = Double(shares), sharesValue > 0 else { return }
+        let target = hasSupportedSelection ? (selectedTickerResult?.ticker ?? trimmedTicker) : trimmedTicker
         await viewModel.addHolding(
-            ticker: ticker.uppercased(),
+            ticker: target.uppercased(),
             shares: sharesValue,
-            purchasePrice: costBasisValue,
-            allowOutsideUniverse: isOutsideUniverseSelection
+            purchasePrice: 0,
+            allowOutsideUniverse: !hasSupportedSelection
         )
         if viewModel.errorMessage == nil {
             // Signal success so the parent method-picker sheet can also dismiss.
@@ -1499,42 +1549,6 @@ private struct HoldingsSheetButton: View {
         }
         .buttonStyle(.plain)
         .disabled(!isEnabled)
-    }
-}
-
-private struct HoldingsCSVComingSoonSheet: View {
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: ClavisTheme.sectionSpacing) {
-                    ClavixCard(fill: .clavixAccentSoft) {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text("CSV import is coming soon.")
-                                .font(ClavisTypography.clavixSerif(20, weight: .medium))
-                                .foregroundColor(.clavixInk)
-                            Text("When the importer is ready, Clavix will let you map exported columns before saving positions.")
-                                .font(ClavisTypography.clavixCaption)
-                                .foregroundColor(.clavixAccentInk)
-                                .fixedSize(horizontal: false, vertical: true)
-                            HoldingsSheetButton(title: "Close", action: { dismiss() })
-                        }
-                    }
-                }
-                .padding(.horizontal, ClavixLayout.pad)
-                .padding(.vertical, 20)
-            }
-            .background(Color.clavixPage.ignoresSafeArea())
-            .navigationTitle("Upload CSV")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") { dismiss() }
-                        .foregroundColor(.clavixInk3)
-                }
-            }
-        }
     }
 }
 
