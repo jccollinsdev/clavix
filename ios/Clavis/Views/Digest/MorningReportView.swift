@@ -212,10 +212,10 @@ struct MorningReportView: View {
             ClavixCard {
                 VStack(alignment: .leading, spacing: 12) {
                     ClavixEyebrow("Risk dimensions")
-                    HStack(alignment: .center, spacing: 14) {
+                    HStack(alignment: .top, spacing: 14) {
                         if axes.contains(where: { $0.value > 0 }) {
                             MiniRiskRadar(axes: axes)
-                                .frame(width: 132, height: 124)
+                                .frame(width: 132, height: 132)
                         }
                         VStack(alignment: .leading, spacing: 9) {
                             ForEach(dims) { dim in
