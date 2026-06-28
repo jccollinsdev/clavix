@@ -1204,7 +1204,7 @@ def _universe_sort_key(row: dict[str, Any], term: str) -> tuple:
     )
 
 
-def ensure_ticker_in_universe(supabase, ticker: str) -> dict | None:
+def ensure_ticker_in_universe(supabase, ticker: str, *, force: bool = False) -> dict | None:
     normalized = (ticker or "").strip().upper()
     if not normalized:
         return None
@@ -1213,16 +1213,25 @@ def ensure_ticker_in_universe(supabase, ticker: str) -> dict | None:
     if existing:
         return existing
 
-    metadata = upsert_ticker_metadata(supabase, normalized)
-    if not metadata:
+    try:
+        metadata = upsert_ticker_metadata(supabase, normalized)
+    except Exception:
+        metadata = None
+
+    # Without metadata we normally decline. When force=True (the user explicitly
+    # opted to add an untracked ticker), we still register it so the full
+    # enrichment pipeline can run and keep refreshing it from here on, even if
+    # the first pass has thin data.
+    if not metadata and not force:
         return None
 
+    meta = metadata or {}
     payload = {
         "ticker": normalized,
-        "company_name": metadata.get("company_name") or normalized,
-        "exchange": metadata.get("exchange"),
-        "sector": metadata.get("sector"),
-        "industry": metadata.get("industry"),
+        "company_name": meta.get("company_name") or normalized,
+        "exchange": meta.get("exchange"),
+        "sector": meta.get("sector"),
+        "industry": meta.get("industry"),
         "index_membership": "USER_SHARED",
         "is_active": True,
         "priority_rank": None,

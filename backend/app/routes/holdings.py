@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from datetime import datetime, timezone
 from typing import Any
 
@@ -23,10 +24,34 @@ from ..services.route_freshness import latest_job_freshness
 from ..services.entitlements import get_effective_tier
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 def get_user_id(request: Request) -> str:
     return request.state.user_id
+
+
+async def ingest_news_for_new_ticker(ticker: str) -> None:
+    """Pull news for a freshly added ticker so its first analysis has signal.
+
+    Runs as a background task; failures are logged and swallowed so they never
+    break the add-holding response.
+    """
+    try:
+        from ..pipeline.tickertick_ingest import ingest_tickertick_for_tickers
+
+        supabase = get_supabase()
+        await ingest_tickertick_for_tickers(
+            supabase, [ticker.strip().upper()], n_per_ticker=50
+        )
+    except Exception:
+        logger.warning("News ingest for new ticker %s failed", ticker, exc_info=True)
+
+
+def _clear_outside_universe_sync(supabase, position_id: str) -> None:
+    supabase.table("positions").update({"outside_universe": False}).eq(
+        "id", position_id
+    ).execute()
 
 
 def refresh_position_price(position_id: str, ticker: str):
@@ -133,8 +158,11 @@ def _create_holding_sync(
                 f"{position.ticker.upper()} isn't in the Clavix tracked universe yet. "
                 "Re-submit with allow_outside_universe=true to add it in degraded mode.",
             )
+        # User opted in: force the ticker into the tracked universe so it runs
+        # the full enrichment pipeline now and keeps refreshing from here on.
+        supported = ensure_ticker_in_universe(supabase, position.ticker, force=True)
         is_outside_universe = True
-        normalized_ticker = position.ticker.strip().upper()
+        normalized_ticker = supported["ticker"] if supported else position.ticker.strip().upper()
     else:
         normalized_ticker = supported["ticker"]
 
@@ -247,26 +275,14 @@ async def create_holding(
     is_outside_universe = creation_result["is_outside_universe"]
     background_tasks.add_task(refresh_position_price, created["id"], created["ticker"])
     background_tasks.add_task(run_onboarding_seed_user, user_id)
+    # Pull news for the ticker so the first analysis run has signal. This is a
+    # cheap no-op for tickers that already have fresh news, and the path that
+    # gives a freshly added (including just-pulled-in) ticker its news.
+    background_tasks.add_task(ingest_news_for_new_ticker, created["ticker"])
 
-    # Outside-universe positions skip the structural refresh (we have neither
-    # metadata nor a snapshot row to enrich from). Return immediately with
-    # honest limited-data state.
-    if is_outside_universe:
-        enriched_position = await asyncio.to_thread(
-            _enrich_single_position_sync,
-            supabase,
-            created,
-        )
-        return await asyncio.to_thread(
-            build_holding_workflow_response,
-            supabase,
-            user_id=user_id,
-            ticker=created["ticker"],
-            position_id=created["id"],
-            position=enriched_position,
-            latest_refresh_job=None,
-        )
-
+    # Every ticker (including ones the user just pulled in from outside the
+    # universe) runs the full structural refresh + analysis pipeline. The
+    # refresh is wrapped so genuinely dataless tickers still degrade gracefully.
     try:
         refresh_job = await asyncio.to_thread(
             refresh_ticker_snapshot,
@@ -296,6 +312,13 @@ async def create_holding(
                 "error_message": str(exc),
             },
         )
+
+    # The refresh produced a real snapshot. If this ticker came in from outside
+    # the universe, it is now tracked with data, so clear the degraded flag and
+    # let it be treated like any other holding from here on.
+    if is_outside_universe:
+        await asyncio.to_thread(_clear_outside_universe_sync, supabase, created["id"])
+        created["outside_universe"] = False
 
     analysis_run = None
     try:
