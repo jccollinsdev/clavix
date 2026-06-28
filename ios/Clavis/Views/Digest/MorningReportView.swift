@@ -113,7 +113,7 @@ struct MorningReportView: View {
         let axes = radarAxes()
         if axes.contains(where: { $0.value > 0 }) {
             MiniRiskRadar(axes: axes)
-                .frame(width: 150, height: 108)
+                .frame(width: 225, height: 162)
         }
     }
 
