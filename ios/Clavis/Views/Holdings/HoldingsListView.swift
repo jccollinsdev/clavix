@@ -458,6 +458,9 @@ struct HoldingsListView: View {
         legendLimit: Int
     ) -> some View {
         VStack(spacing: 10) {
+            // Only the donut wedges capture touches. Everything else here is
+            // non-interactive so taps fall through to the card's clear layer
+            // and deselect the active wedge.
             ClavixDonutChart(
                 slices: slices,
                 centerPrimary: centerPrimary,
@@ -477,8 +480,10 @@ struct HoldingsListView: View {
                     .tracking(0.3)
                     .foregroundColor(.clavixInk3)
             }
+            .allowsHitTesting(false)
 
             donutLegend(slices: slices, limit: legendLimit)
+                .allowsHitTesting(false)
         }
         .frame(maxWidth: .infinity)
     }
