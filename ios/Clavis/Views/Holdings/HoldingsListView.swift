@@ -86,6 +86,7 @@ struct HoldingsListView: View {
 
                     bookHero
                     if showGettingStarted { gettingStartedCard }
+                    compositionSection
                     positionsSection
                     watchlistSection
                 }
@@ -96,18 +97,11 @@ struct HoldingsListView: View {
             .background(Color.clavixPage.ignoresSafeArea())
             .safeAreaInset(edge: .top, spacing: 0) {
                 ClavixStickyBar(trailing: AnyView(
-                    HStack(spacing: 18) {
-                        Button(action: { sortKey = sortKey == .weight ? .grade : .weight }) {
-                            Image(systemName: "slider.horizontal.3")
-                                .foregroundColor(.clavixInk)
-                        }
-                        .buttonStyle(.plain)
-                        Button(action: openAddHolding) {
-                            Image(systemName: "plus")
-                                .foregroundColor(.clavixInk)
-                        }
-                        .buttonStyle(.plain)
+                    Button(action: openAddHolding) {
+                        Image(systemName: "plus")
+                            .foregroundColor(.clavixInk)
                     }
+                    .buttonStyle(.plain)
                 ))
             }
             .toolbar(.hidden, for: .navigationBar)
@@ -186,7 +180,7 @@ struct HoldingsListView: View {
 
     private var bookHero: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("Your Book")
+            Text("Your Holdings")
                 .font(ClavisTypography.clavixSerif(34, weight: .medium))
                 .tracking(-0.6)
                 .foregroundColor(.clavixInk)
@@ -247,7 +241,7 @@ struct HoldingsListView: View {
         }
 
         let holdingsCount = viewModel.holdings.count
-        return "\(holdingsCount) position\(holdingsCount == 1 ? "" : "s") · \(viewModel.watchlistItems.count) tracked"
+        return "\(holdingsCount) position\(holdingsCount == 1 ? "" : "s") · \(viewModel.watchlistItems.count) monitored"
     }
 
     // MARK: - Sort toolbar
@@ -272,9 +266,9 @@ struct HoldingsListView: View {
             ClavixCard(padding: 0) {
                 VStack(spacing: 0) {
                     HStack(spacing: 8) {
-                        ClavixColumnHeader("Sym · w%")
+                        ClavixColumnHeader("Sym")
                             .frame(width: 70, alignment: .leading)
-                        ClavixColumnHeader("Price · day")
+                        ClavixColumnHeader("Price")
                             .frame(maxWidth: .infinity, alignment: .leading)
                         ClavixColumnHeader("P&L", align: .trailing)
                             .frame(width: 70, alignment: .trailing)
@@ -287,7 +281,7 @@ struct HoldingsListView: View {
                     Rectangle().fill(Color.clavixRule).frame(height: 1)
                     ForEach(Array(sortedHoldings.enumerated()), id: \.element.id) { index, position in
                         NavigationLink(value: position.ticker) {
-                            HoldingsRow(position: position, totalPortfolioValue: totalMarketValue)
+                            HoldingsRow(position: position)
                         }
                         .buttonStyle(.plain)
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -351,6 +345,153 @@ struct HoldingsListView: View {
                     PositionHeatmapView(positions: sortedHoldings)
                         .frame(height: PositionHeatmapView.height(for: sortedHoldings.count))
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+            }
+        }
+    }
+
+    // MARK: - Composition (allocation + grade mix donuts)
+
+    /// One slice per holding, sized by market value, tinted by its risk grade.
+    private var allocationSlices: [DonutSlice] {
+        guard totalMarketValue > 0 else { return [] }
+        return viewModel.holdings
+            .compactMap { position -> (Position, Double)? in
+                guard let value = position.currentValue, value > 0 else { return nil }
+                return (position, value)
+            }
+            .sorted { $0.1 > $1.1 }
+            .map { position, value in
+                let pct = value / totalMarketValue * 100
+                return DonutSlice(
+                    id: position.ticker,
+                    label: position.ticker,
+                    value: value,
+                    color: ClavisGradeStyle.riskColor(for: position.resolvedRiskGrade),
+                    caption: "\(Int(pct.rounded()))% · \(currencyNoCents(value))",
+                    legend: "\(Int(pct.rounded()))%"
+                )
+            }
+    }
+
+    /// One slice per grade band present, sized by how many positions sit in it.
+    private var gradeSlices: [DonutSlice] {
+        let order = ["A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F"]
+        var counts: [String: Int] = [:]
+        for position in viewModel.holdings {
+            let grade = ClavisGradeStyle.displayGrade(position.resolvedRiskGrade)
+            guard grade != "\u{2014}" else { continue }
+            counts[grade, default: 0] += 1
+        }
+        let graded = counts.values.reduce(0, +)
+        guard graded > 0 else { return [] }
+        return order.compactMap { grade in
+            guard let count = counts[grade], count > 0 else { return nil }
+            let pct = Int((Double(count) / Double(graded) * 100).rounded())
+            return DonutSlice(
+                id: grade,
+                label: grade,
+                value: Double(count),
+                color: ClavisGradeStyle.riskColor(for: grade),
+                caption: "\(count) position\(count == 1 ? "" : "s") · \(pct)%",
+                legend: "×\(count)"
+            )
+        }
+    }
+
+    private var gradedCount: Int {
+        viewModel.holdings.filter { ClavisGradeStyle.displayGrade($0.resolvedRiskGrade) != "\u{2014}" }.count
+    }
+
+    @ViewBuilder
+    private var compositionSection: some View {
+        if !viewModel.holdings.isEmpty, totalMarketValue > 0 {
+            VStack(alignment: .leading, spacing: 0) {
+                Text("Composition")
+                    .font(ClavisTypography.clavixSerif(20, weight: .medium))
+                    .tracking(-0.3)
+                    .foregroundColor(.clavixInk)
+                    .padding(.top, 6)
+                    .padding(.bottom, 10)
+                ClavixCard {
+                    HStack(alignment: .top, spacing: 12) {
+                        donutColumn(
+                            title: "ALLOCATION",
+                            subtitle: "share of book",
+                            slices: allocationSlices,
+                            centerPrimary: currencyNoCents(totalMarketValue),
+                            legendLimit: 5
+                        )
+                        Rectangle().fill(Color.clavixRule).frame(width: 1)
+                        donutColumn(
+                            title: "GRADES",
+                            subtitle: "positions per grade",
+                            slices: gradeSlices,
+                            centerPrimary: "\(gradedCount)",
+                            legendLimit: 13
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private func donutColumn(
+        title: String,
+        subtitle: String,
+        slices: [DonutSlice],
+        centerPrimary: String,
+        legendLimit: Int
+    ) -> some View {
+        VStack(spacing: 10) {
+            ClavixDonutChart(
+                slices: slices,
+                centerPrimary: centerPrimary,
+                centerSecondary: "TAP A SLICE"
+            )
+            .frame(height: 130)
+
+            VStack(spacing: 1) {
+                Text(title)
+                    .font(ClavisTypography.clavixMono(10, weight: .bold))
+                    .tracking(0.8)
+                    .foregroundColor(.clavixInk)
+                Text(subtitle)
+                    .font(ClavisTypography.clavixMono(8, weight: .regular))
+                    .tracking(0.3)
+                    .foregroundColor(.clavixInk3)
+            }
+
+            donutLegend(slices: slices, limit: legendLimit)
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    private func donutLegend(slices: [DonutSlice], limit: Int) -> some View {
+        let shown = Array(slices.prefix(limit))
+        let extra = slices.count - shown.count
+        return VStack(spacing: 5) {
+            ForEach(shown) { slice in
+                HStack(spacing: 6) {
+                    Circle()
+                        .fill(slice.color)
+                        .frame(width: 7, height: 7)
+                    Text(slice.label)
+                        .font(ClavisTypography.clavixMono(10, weight: .bold))
+                        .foregroundColor(.clavixInk)
+                        .lineLimit(1)
+                    Spacer(minLength: 4)
+                    Text(slice.legend)
+                        .font(ClavisTypography.clavixMono(10, weight: .regular))
+                        .foregroundColor(.clavixInk3)
+                }
+            }
+            if extra > 0 {
+                HStack {
+                    Text("+\(extra) more")
+                        .font(ClavisTypography.clavixMono(9, weight: .regular))
+                        .foregroundColor(.clavixInk4)
+                    Spacer()
                 }
             }
         }
@@ -511,28 +652,18 @@ struct HoldingsListView: View {
 /// Grade·Δ. Highlights when the position is in a worsening trend.
 private struct HoldingsRow: View {
     let position: Position
-    let totalPortfolioValue: Double
 
     private var grade: String { position.resolvedRiskGrade ?? "—" }
-    private var weightPct: Int? {
-        guard totalPortfolioValue > 0, let value = position.currentValue else { return nil }
-        return Int(((value / totalPortfolioValue) * 100).rounded())
-    }
     private var dayPct: Double? { position.sharedAnalysis?.dayChangePct }
 
     var body: some View {
         HStack(spacing: 8) {
-            // Sym · w%
-            VStack(alignment: .leading, spacing: 3) {
-                Text(position.ticker)
-                    .font(ClavisTypography.clavixMono(13, weight: .bold))
-                    .tracking(0.3)
-                    .foregroundColor(.clavixInk)
-                Text(weightPct.map { "w \($0)%" } ?? "w —")
-                    .font(ClavisTypography.clavixMono(10, weight: .regular))
-                    .foregroundColor(.clavixInk3)
-            }
-            .frame(width: 70, alignment: .leading)
+            // Sym
+            Text(position.ticker)
+                .font(ClavisTypography.clavixMono(13, weight: .bold))
+                .tracking(0.3)
+                .foregroundColor(.clavixInk)
+                .frame(width: 70, alignment: .leading)
 
             // Price · day
             VStack(alignment: .leading, spacing: 3) {
@@ -628,6 +759,137 @@ private struct SectorHoldingsRow {
     let weightPct: Int
     let grade: String
     let tickers: String
+}
+
+// MARK: - Donut chart
+
+/// One wedge of a ClavixDonutChart.
+private struct DonutSlice: Identifiable {
+    let id: String
+    let label: String      // shown big in the center when selected (e.g. "HOOD", "A+")
+    let value: Double      // wedge size
+    let color: Color
+    let caption: String    // center readout sub-line (e.g. "35% · $12,400")
+    let legend: String     // legend trailing value (e.g. "35%", "×2")
+}
+
+private struct DonutSegment: Identifiable {
+    let slice: DonutSlice
+    let start: Double      // 0...1 cumulative start
+    let end: Double        // 0...1 cumulative end
+    var id: String { slice.id }
+}
+
+/// A single stroked arc of the ring. `centerlineRadius` is the radius of the
+/// stroke centerline so the ring stays inside the bounds for any line width.
+private struct DonutArc: Shape {
+    let startDeg: Double
+    let endDeg: Double
+    let centerlineRadius: CGFloat
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.addArc(
+            center: CGPoint(x: rect.midX, y: rect.midY),
+            radius: centerlineRadius,
+            startAngle: .degrees(startDeg),
+            endAngle: .degrees(endDeg),
+            clockwise: false
+        )
+        return path
+    }
+}
+
+/// Interactive donut. Touch (or drag-scrub) a wedge to read its label and
+/// detail in the hole — the "hover" affordance for "this is HOOD, 35%".
+private struct ClavixDonutChart: View {
+    let slices: [DonutSlice]
+    let centerPrimary: String
+    let centerSecondary: String
+
+    @State private var selectedID: String?
+
+    private var total: Double { slices.reduce(0) { $0 + $1.value } }
+
+    private var segments: [DonutSegment] {
+        guard total > 0 else { return [] }
+        var acc = 0.0
+        return slices.map { slice in
+            let start = acc / total
+            acc += slice.value
+            return DonutSegment(slice: slice, start: start, end: acc / total)
+        }
+    }
+
+    private var selected: DonutSlice? { slices.first { $0.id == selectedID } }
+
+    var body: some View {
+        GeometryReader { geo in
+            let side = min(geo.size.width, geo.size.height)
+            let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
+            let outer = side / 2
+            let ring = max(13, outer * 0.34)
+            let centerline = outer - ring / 2
+            let gap: Double = segments.count > 1 ? 1.4 : 0
+
+            ZStack {
+                ForEach(segments) { seg in
+                    let isSelected = selectedID == seg.id
+                    let dimmed = selectedID != nil && !isSelected
+                    DonutArc(
+                        startDeg: -90 + seg.start * 360 + gap,
+                        endDeg: -90 + seg.end * 360 - gap,
+                        centerlineRadius: centerline
+                    )
+                    .stroke(
+                        seg.slice.color.opacity(dimmed ? 0.32 : 1),
+                        style: StrokeStyle(lineWidth: isSelected ? ring + 6 : ring, lineCap: .butt)
+                    )
+                }
+
+                VStack(spacing: 2) {
+                    Text(selected?.label ?? centerPrimary)
+                        .font(ClavisTypography.clavixMono(15, weight: .bold))
+                        .tracking(-0.2)
+                        .foregroundColor(.clavixInk)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                    Text(selected?.caption ?? centerSecondary)
+                        .font(ClavisTypography.clavixMono(9, weight: .regular))
+                        .tracking(0.3)
+                        .foregroundColor(.clavixInk3)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(width: max(0, (outer - ring) * 1.8))
+            }
+            .frame(width: geo.size.width, height: geo.size.height)
+            .contentShape(Rectangle())
+            .animation(.easeOut(duration: 0.12), value: selectedID)
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { value in
+                        select(at: value.location, center: center, outer: outer, ring: ring)
+                    }
+            )
+        }
+        .aspectRatio(1, contentMode: .fit)
+    }
+
+    private func select(at point: CGPoint, center: CGPoint, outer: CGFloat, ring: CGFloat) {
+        let dx = point.x - center.x
+        let dy = point.y - center.y
+        let dist = (dx * dx + dy * dy).squareRoot()
+        guard dist >= outer - ring - 10, dist <= outer + 12 else { return }
+        var angle = atan2(dy, dx) * 180 / .pi + 90
+        angle = angle.truncatingRemainder(dividingBy: 360)
+        if angle < 0 { angle += 360 }
+        let frac = angle / 360
+        if let seg = segments.first(where: { frac >= $0.start && frac < $0.end }) {
+            if selectedID != seg.id { selectedID = seg.id }
+        }
+    }
 }
 
 private struct SectorCompositionRow: View {
