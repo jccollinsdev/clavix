@@ -179,24 +179,29 @@ struct MorningReportView: View {
     private func snapshotSection(_ digest: Digest) -> some View {
         let dist = gradeDistribution()
         let axes = radarAxes()
-        VStack(alignment: .leading, spacing: 12) {
-            if !dist.isEmpty {
-                ClavixCard {
-                    VStack(alignment: .leading, spacing: 12) {
-                        ClavixEyebrow("Your book · \(dist.reduce(0) { $0 + $1.count }) holdings")
-                        gradeMixBar(dist)
-                        gradeMixLegend(dist)
+        let hasRadar = axes.contains(where: { $0.value > 0 })
+        let hasPie = !dist.isEmpty
+        if hasRadar || hasPie {
+            ClavixCard {
+                VStack(alignment: .leading, spacing: 10) {
+                    ClavixEyebrow("Your risk profile")
+                    HStack(alignment: .center, spacing: 12) {
+                        if hasRadar {
+                            MiniRiskRadar(axes: axes)
+                                .frame(width: 148, height: 132)
+                        }
+                        if hasRadar && hasPie {
+                            Spacer(minLength: 0)
+                        }
+                        if hasPie {
+                            HStack(spacing: 10) {
+                                GradePieChart(dist: dist)
+                                    .frame(width: 64, height: 64)
+                                gradeMixLegend(dist)
+                            }
+                        }
                     }
-                }
-            }
-            if axes.contains(where: { $0.value > 0 }) {
-                ClavixCard {
-                    VStack(alignment: .leading, spacing: 10) {
-                        ClavixEyebrow("Risk shape")
-                        MiniRiskRadar(axes: axes)
-                            .frame(height: 200)
-                            .frame(maxWidth: .infinity)
-                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
         }
@@ -216,29 +221,10 @@ struct MorningReportView: View {
         }
     }
 
-    private func gradeMixBar(_ dist: [(band: String, count: Int, color: Color)]) -> some View {
-        let total = max(dist.reduce(0) { $0 + $1.count }, 1)
-        return GeometryReader { geo in
-            HStack(spacing: 0) {
-                ForEach(dist, id: \.band) { seg in
-                    Rectangle()
-                        .fill(seg.color)
-                        .frame(width: geo.size.width * CGFloat(seg.count) / CGFloat(total))
-                }
-            }
-        }
-        .frame(height: 30)
-        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-        .overlay(
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
-                .stroke(Color.clavixRule, lineWidth: 1)
-        )
-    }
-
     private func gradeMixLegend(_ dist: [(band: String, count: Int, color: Color)]) -> some View {
-        HStack(spacing: 16) {
+        VStack(alignment: .leading, spacing: 6) {
             ForEach(dist, id: \.band) { seg in
-                HStack(spacing: 5) {
+                HStack(spacing: 6) {
                     RoundedRectangle(cornerRadius: 2).fill(seg.color).frame(width: 9, height: 9)
                     Text(seg.band)
                         .font(ClavisTypography.clavixCaption)
@@ -248,7 +234,6 @@ struct MorningReportView: View {
                         .foregroundColor(.clavixInk)
                 }
             }
-            Spacer(minLength: 0)
         }
     }
 
@@ -738,6 +723,40 @@ private struct ReportRomanSection<Content: View>: View {
 
 // MARK: - Mini risk radar (static 5-dimension shape)
 
+private struct GradePieChart: View {
+    let dist: [(band: String, count: Int, color: Color)]
+
+    var body: some View {
+        GeometryReader { geo in
+            let total = max(dist.reduce(0) { $0 + $1.count }, 1)
+            let radius = min(geo.size.width, geo.size.height) / 2
+            let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
+            ZStack {
+                ForEach(Array(slices(total: total).enumerated()), id: \.offset) { _, slice in
+                    Path { p in
+                        p.move(to: center)
+                        p.addArc(center: center, radius: radius - 0.5, startAngle: slice.start, endAngle: slice.end, clockwise: false)
+                        p.closeSubpath()
+                    }
+                    .fill(slice.color)
+                }
+                Circle().stroke(Color.clavixRule, lineWidth: 1)
+            }
+        }
+    }
+
+    private func slices(total: Int) -> [(start: Angle, end: Angle, color: Color)] {
+        var result: [(Angle, Angle, Color)] = []
+        var current = -90.0
+        for seg in dist {
+            let sweep = 360.0 * Double(seg.count) / Double(total)
+            result.append((.degrees(current), .degrees(current + sweep), seg.color))
+            current += sweep
+        }
+        return result
+    }
+}
+
 private struct RadarPolygon: Shape {
     let points: [CGPoint]
     func path(in rect: CGRect) -> Path {
@@ -765,7 +784,7 @@ private struct MiniRiskRadar: View {
         GeometryReader { geo in
             let n = max(axes.count, 3)
             let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
-            let radius = min(geo.size.width, geo.size.height) / 2 * 0.62
+            let radius = min(geo.size.width, geo.size.height) / 2 * 0.55
             let dataPts = axes.enumerated().map { index, axis -> CGPoint in
                 let clamped = max(0, min(100, axis.value))
                 return radarVertex(center: center, radius: radius * CGFloat(clamped / 100), index: index, count: n)
@@ -790,9 +809,9 @@ private struct MiniRiskRadar: View {
                     Circle().fill(Color.clavixAccent).frame(width: 4, height: 4).position(dataPts[i])
                 }
                 ForEach(axes.indices, id: \.self) { i in
-                    let label = radarVertex(center: center, radius: radius + 16, index: i, count: n)
+                    let label = radarVertex(center: center, radius: radius + 13, index: i, count: n)
                     Text("\(axes[i].label) \(Int(axes[i].value.rounded()))")
-                        .font(ClavisTypography.clavixMono(9, weight: .medium))
+                        .font(ClavisTypography.clavixMono(8, weight: .medium))
                         .foregroundColor(.clavixInk2)
                         .fixedSize()
                         .position(x: label.x, y: label.y)
