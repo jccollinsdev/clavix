@@ -74,6 +74,36 @@ struct ClavixStickyBar: View {
     }
 }
 
+/// Standard detail-screen top bar: a single back chevron in the top-left and the
+/// CLAVIX wordmark centered, with a hairline underneath. This is the canonical
+/// back button for the app (Morning Report, Methodology, etc.) so every pushed
+/// screen dismisses the same way.
+struct ClavixReportBar: View {
+    var onBack: () -> Void
+
+    var body: some View {
+        ZStack {
+            HStack(spacing: 12) {
+                Button(action: onBack) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 17, weight: .semibold))
+                        .foregroundColor(.clavixInk)
+                }
+                .buttonStyle(.plain)
+                Spacer()
+            }
+            Text("CLAVIX")
+                .font(ClavisTypography.clavixMono(21, weight: .bold))
+                .tracking(1.5)
+                .foregroundColor(.clavixInk)
+        }
+        .padding(.horizontal, ClavixLayout.pad)
+        .padding(.vertical, 10)
+        .background(Color.clavixPage.ignoresSafeArea(edges: .top))
+        .overlay(alignment: .bottom) { Rectangle().fill(Color.clavixRule).frame(height: 1) }
+    }
+}
+
 struct ClavixEyebrow: View {
     let text: String
     init(_ text: String) { self.text = text }

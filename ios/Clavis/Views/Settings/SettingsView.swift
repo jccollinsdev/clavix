@@ -1131,11 +1131,12 @@ struct ScoreBandRow: View {
 }
 
 struct MethodologyView: View {
-    /// When opened from the Morning Report we pass the live composite so the page
-    /// opens on the reader's own grade. From Settings these stay nil and the page
-    /// reads as a universal reference.
+    @Environment(\.dismiss) private var dismiss
+
+    /// When opened from the Morning Report we pass the live composite so the
+    /// grade scale highlights the reader's current band. From Settings it stays
+    /// nil and the page reads as a universal reference.
     var currentScore: Double? = nil
-    var currentGrade: String? = nil
 
     // The grade ladder, in order best to worst. Band names and score ranges are
     // pulled from ClavisGradeStyle.gradeBandLabel so the scale shown here IS the
@@ -1166,18 +1167,28 @@ struct MethodologyView: View {
     }
 
     var body: some View {
-        ClavixScreen(
-            eyebrow: "Reference · v2.0",
-            title: "How grading works",
-            trailing: AnyView(SettingsDismissButton())
-        ) {
-            leadCard
-            if let currentScore { yourGradeCard(score: currentScore) }
-            gradeScaleSection
-            dimensionsSection
-            compositeSection
-            freshnessCard
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                Text("How grading works")
+                    .font(ClavisTypography.clavixSerif(28, weight: .medium))
+                    .tracking(-0.5)
+                    .foregroundColor(.clavixInk)
+                    .padding(.top, 4)
+                leadCard
+                gradeScaleSection
+                dimensionsSection
+                compositeSection
+                freshnessCard
+            }
+            .padding(.horizontal, ClavixLayout.pad)
+            .padding(.top, 8)
+            .padding(.bottom, ClavixLayout.bottomPad)
         }
+        .background(Color.clavixPage.ignoresSafeArea())
+        .safeAreaInset(edge: .top, spacing: 0) {
+            ClavixReportBar(onBack: { dismiss() })
+        }
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     // MARK: - Lead
@@ -1189,31 +1200,6 @@ struct MethodologyView: View {
                 .foregroundColor(.clavixInk)
                 .lineSpacing(4)
                 .fixedSize(horizontal: false, vertical: true)
-        }
-    }
-
-    private func yourGradeCard(score: Double) -> some View {
-        let grade = currentGrade ?? PortfolioMath.grade(forScore: score)
-        let color = ClavisGradeStyle.riskColor(for: grade)
-        return ClavixCard {
-            HStack(alignment: .center, spacing: 16) {
-                ClavixGradeBadge(grade, size: 80)
-                VStack(alignment: .leading, spacing: 5) {
-                    ClavixEyebrow("Your portfolio today")
-                    Text(bandName(grade))
-                        .font(ClavisTypography.clavixSerif(19, weight: .medium))
-                        .foregroundColor(color)
-                    HStack(alignment: .lastTextBaseline, spacing: 4) {
-                        Text("\(Int(score.rounded()))")
-                            .font(ClavisTypography.clavixMono(20, weight: .semibold))
-                            .foregroundColor(.clavixInk)
-                        Text("/ 100")
-                            .font(ClavisTypography.clavixMono(12, weight: .regular))
-                            .foregroundColor(.clavixInk4)
-                    }
-                }
-                Spacer(minLength: 0)
-            }
         }
     }
 

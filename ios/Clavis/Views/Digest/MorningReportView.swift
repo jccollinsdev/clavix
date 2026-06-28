@@ -58,25 +58,7 @@ struct MorningReportView: View {
     }
 
     private var morningReportBar: some View {
-        ZStack {
-            HStack(spacing: 12) {
-                Button(action: { dismiss() }) {
-                    Image(systemName: "chevron.left")
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(.clavixInk)
-                }
-                .buttonStyle(.plain)
-                Spacer()
-            }
-            Text("CLAVIX")
-                .font(ClavisTypography.clavixMono(21, weight: .bold))
-                .tracking(1.5)
-                .foregroundColor(.clavixInk)
-        }
-        .padding(.horizontal, ClavixLayout.pad)
-        .padding(.vertical, 10)
-        .background(Color.clavixPage.ignoresSafeArea(edges: .top))
-        .overlay(alignment: .bottom) { Rectangle().fill(Color.clavixRule).frame(height: 1) }
+        ClavixReportBar(onBack: { dismiss() })
     }
 
     // MARK: - Portfolio rating hero
@@ -379,8 +361,7 @@ struct MorningReportView: View {
                     .font(ClavisTypography.clavixCaption)
                     .foregroundColor(.clavixInk3)
                 NavigationLink(destination: MethodologyView(
-                    currentScore: portfolioScoreValue(digest),
-                    currentGrade: portfolioGrade(digest)
+                    currentScore: portfolioScoreValue(digest)
                 )) {
                     Text("View methodology →")
                         .font(ClavisTypography.clavixMono(11, weight: .semibold))
