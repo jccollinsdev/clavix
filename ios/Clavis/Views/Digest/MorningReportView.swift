@@ -28,7 +28,6 @@ struct MorningReportView: View {
                         )
                     }
                     masthead(digest)
-                    snapshotSection(digest)
                     macroSection(digest)
                     sectorSection(digest)
                     positionsSection(digest)
@@ -96,7 +95,7 @@ struct MorningReportView: View {
                         .foregroundColor(.clavixInk3)
                 }
                 Spacer(minLength: 8)
-                mastheadDelta()
+                mastheadRadar()
             }
             Text(mastheadDateLabel(digest))
                 .font(ClavisTypography.clavixMono(10, weight: .regular))
@@ -107,133 +106,14 @@ struct MorningReportView: View {
         .overlay(alignment: .bottom) { Rectangle().fill(Color.clavixRule).frame(height: 1) }
     }
 
-    // How much the portfolio score moved since the last trading day. Hidden on
-    // weekends (markets closed, so nothing changed) and when there is no move.
+    // The 5-dimension risk radar, sized to sit inline on the right of the
+    // rating row. Hidden when no dimension scores are available yet.
     @ViewBuilder
-    private func mastheadDelta() -> some View {
-        if let delta = portfolioScoreDelta() {
-            let up = delta >= 0
-            HStack(spacing: 4) {
-                Image(systemName: up ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
-                    .font(.system(size: 9, weight: .bold))
-                Text("\(abs(Int(delta.rounded())))")
-                    .font(ClavisTypography.clavixMono(15, weight: .bold))
-            }
-            .foregroundColor(up ? .clavixGood : .clavixBad)
-            .overlay(alignment: .topTrailing) {
-                if let day = lastTradingDayLabel() {
-                    Text("vs \(day)")
-                        .font(ClavisTypography.clavixMono(9, weight: .regular))
-                        .foregroundColor(.clavixInk3)
-                        .fixedSize()
-                        .offset(y: -11)
-                }
-            }
-        }
-    }
-
-    private func portfolioScoreDelta() -> Double? {
-        guard !isWeekendEastern() else { return nil }
-        guard let portfolio = viewModel.today?.portfolio else { return nil }
-        let delta: Double?
-        if let d = portfolio.scoreDelta {
-            delta = d
-        } else if let current = portfolio.compositeScore, let prev = portfolio.previousScore {
-            delta = current - prev
-        } else {
-            delta = nil
-        }
-        guard let d = delta, abs(d) >= 0.5 else { return nil }
-        return d
-    }
-
-    private func isWeekendEastern() -> Bool {
-        var cal = Calendar(identifier: .gregorian)
-        cal.timeZone = TimeZone(identifier: "America/New_York") ?? .current
-        let weekday = cal.component(.weekday, from: Date())
-        return weekday == 1 || weekday == 7  // Sunday or Saturday
-    }
-
-    private func lastTradingDayLabel() -> String? {
-        var cal = Calendar(identifier: .gregorian)
-        cal.timeZone = TimeZone(identifier: "America/New_York") ?? .current
-        guard var day = cal.date(byAdding: .day, value: -1, to: Date()) else { return nil }
-        var hops = 0
-        while hops < 7 {
-            let weekday = cal.component(.weekday, from: day)
-            if weekday != 1 && weekday != 7 { break }
-            guard let prev = cal.date(byAdding: .day, value: -1, to: day) else { break }
-            day = prev
-            hops += 1
-        }
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = cal.timeZone
-        formatter.dateFormat = "EEE"
-        return formatter.string(from: day)
-    }
-
-    // MARK: - Snapshot (grade mix + risk radar)
-
-    @ViewBuilder
-    private func snapshotSection(_ digest: Digest) -> some View {
-        let dist = gradeDistribution()
+    private func mastheadRadar() -> some View {
         let axes = radarAxes()
-        let hasRadar = axes.contains(where: { $0.value > 0 })
-        let hasPie = !dist.isEmpty
-        if hasRadar || hasPie {
-            ClavixCard {
-                VStack(alignment: .leading, spacing: 10) {
-                    ClavixEyebrow("Your risk profile")
-                    HStack(alignment: .center, spacing: 12) {
-                        if hasRadar {
-                            MiniRiskRadar(axes: axes)
-                                .frame(width: 148, height: 132)
-                        }
-                        if hasRadar && hasPie {
-                            Spacer(minLength: 0)
-                        }
-                        if hasPie {
-                            HStack(spacing: 10) {
-                                GradePieChart(dist: dist)
-                                    .frame(width: 64, height: 64)
-                                gradeMixLegend(dist)
-                            }
-                        }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                }
-            }
-        }
-    }
-
-    private func gradeDistribution() -> [(band: String, count: Int, color: Color)] {
-        let order = ["A", "B", "C", "D", "F"]
-        var counts: [String: Int] = [:]
-        for holding in viewModel.holdings {
-            let grade = viewModel.grade(for: holding.ticker).uppercased()
-            guard let first = grade.first.map(String.init), order.contains(first) else { continue }
-            counts[first, default: 0] += 1
-        }
-        return order.compactMap { band in
-            let count = counts[band] ?? 0
-            return count > 0 ? (band, count, ClavisGradeStyle.riskColor(for: band)) : nil
-        }
-    }
-
-    private func gradeMixLegend(_ dist: [(band: String, count: Int, color: Color)]) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            ForEach(dist, id: \.band) { seg in
-                HStack(spacing: 6) {
-                    RoundedRectangle(cornerRadius: 2).fill(seg.color).frame(width: 9, height: 9)
-                    Text(seg.band)
-                        .font(ClavisTypography.clavixCaption)
-                        .foregroundColor(.clavixInk2)
-                    Text("\(seg.count)")
-                        .font(ClavisTypography.clavixMono(12, weight: .bold))
-                        .foregroundColor(.clavixInk)
-                }
-            }
+        if axes.contains(where: { $0.value > 0 }) {
+            MiniRiskRadar(axes: axes)
+                .frame(width: 150, height: 108)
         }
     }
 
@@ -722,40 +602,6 @@ private struct ReportRomanSection<Content: View>: View {
 }
 
 // MARK: - Mini risk radar (static 5-dimension shape)
-
-private struct GradePieChart: View {
-    let dist: [(band: String, count: Int, color: Color)]
-
-    var body: some View {
-        GeometryReader { geo in
-            let total = max(dist.reduce(0) { $0 + $1.count }, 1)
-            let radius = min(geo.size.width, geo.size.height) / 2
-            let center = CGPoint(x: geo.size.width / 2, y: geo.size.height / 2)
-            ZStack {
-                ForEach(Array(slices(total: total).enumerated()), id: \.offset) { _, slice in
-                    Path { p in
-                        p.move(to: center)
-                        p.addArc(center: center, radius: radius - 0.5, startAngle: slice.start, endAngle: slice.end, clockwise: false)
-                        p.closeSubpath()
-                    }
-                    .fill(slice.color)
-                }
-                Circle().stroke(Color.clavixRule, lineWidth: 1)
-            }
-        }
-    }
-
-    private func slices(total: Int) -> [(start: Angle, end: Angle, color: Color)] {
-        var result: [(Angle, Angle, Color)] = []
-        var current = -90.0
-        for seg in dist {
-            let sweep = 360.0 * Double(seg.count) / Double(total)
-            result.append((.degrees(current), .degrees(current + sweep), seg.color))
-            current += sweep
-        }
-        return result
-    }
-}
 
 private struct RadarPolygon: Shape {
     let points: [CGPoint]
