@@ -113,15 +113,9 @@ struct RiskTreemap: View {
                 .font(ClavisTypography.clavixMono(13, weight: .bold))
                 .foregroundColor(.clavixInk)
             Spacer()
-            HStack(alignment: .bottom) {
-                Text(ClavisGradeStyle.displayGrade(grade))
-                    .font(ClavisTypography.clavixMono(17, weight: .bold))
-                    .foregroundColor(ClavisGradeStyle.riskColor(for: grade))
-                Spacer()
-                Text(position.currentValue.map(shortCurrency) ?? "—")
-                    .font(ClavisTypography.clavixMono(9, weight: .regular))
-                    .foregroundColor(.clavixInk3)
-            }
+            Text(ClavisGradeStyle.displayGrade(grade))
+                .font(ClavisTypography.clavixMono(17, weight: .bold))
+                .foregroundColor(ClavisGradeStyle.riskColor(for: grade))
         }
         .padding(10)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
@@ -143,11 +137,5 @@ struct RiskTreemap: View {
     private func riskContribution(_ position: Position) -> Double {
         let risk = max(0, 100 - (position.totalScore ?? 50))
         return positionValue(position) * risk
-    }
-
-    private func shortCurrency(_ value: Double) -> String {
-        if value >= 1_000_000 { return String(format: "$%.1fM", value / 1_000_000) }
-        if value >= 1_000 { return String(format: "$%.0fK", value / 1_000) }
-        return String(format: "$%.0f", value)
     }
 }
