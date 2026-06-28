@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct MacroExposureAuditView: View {
+    @Environment(\.dismiss) private var dismiss
     let ticker: String
     let methodology: MethodologyResponse?
 
@@ -55,8 +56,10 @@ struct MacroExposureAuditView: View {
             .padding(.vertical, ClavisTheme.sectionSpacing)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .navigationTitle("Macro Exposure")
-        .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .top, spacing: 0) {
+            ClavixReportBar(onBack: { dismiss() })
+        }
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     private func format(_ value: Double?, places: Int) -> String {

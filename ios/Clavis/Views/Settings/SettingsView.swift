@@ -374,25 +374,12 @@ private struct SettingsToggleButtonRow: View {
     }
 }
 
-private struct SettingsDismissButton: View {
-    @Environment(\.dismiss) private var dismiss
-
-    var body: some View {
-        Button(action: { dismiss() }) {
-            Image(systemName: "chevron.left")
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(.clavixInk)
-        }
-        .buttonStyle(.plain)
-    }
-}
-
 private struct ProfileSettingsDetailView: View {
     @ObservedObject var viewModel: SettingsViewModel
     @State private var editorField: ProfileEditorField?
 
     var body: some View {
-        ClavixScreen(eyebrow: "Profile", title: "Account", trailing: AnyView(SettingsDismissButton())) {
+        ClavixDetailScreen(eyebrow: "Profile", title: "Account") {
             if let message = viewModel.accountMessage {
                 SettingsMessageCard(message: message, fill: .clavixAccentSoft, foreground: .clavixAccentInk)
             }
@@ -490,7 +477,7 @@ private struct MorningReportSettingsDetailView: View {
     @State private var showUpgradeSheet = false
 
     var body: some View {
-        ClavixScreen(eyebrow: "Morning Report", title: "Delivery", trailing: AnyView(SettingsDismissButton())) {
+        ClavixDetailScreen(eyebrow: "Morning Report", title: "Delivery") {
             if let message = viewModel.preferencesMessage {
                 SettingsMessageCard(message: message, fill: .clavixWarnSoft, foreground: .clavixWarnInk)
             }
@@ -583,7 +570,7 @@ private struct NotificationPrefsDetailView: View {
     @State private var showQuietHoursEditor = false
 
     var body: some View {
-        ClavixScreen(eyebrow: "Alerts", title: "Notifications", trailing: AnyView(SettingsDismissButton())) {
+        ClavixDetailScreen(eyebrow: "Alerts", title: "Notifications") {
             if let message = viewModel.preferencesMessage {
                 SettingsMessageCard(message: message, fill: .clavixWarnSoft, foreground: .clavixWarnInk)
             }
@@ -832,7 +819,7 @@ private struct BrokerageSettingsDetailView: View {
     @ObservedObject var viewModel: BrokerageViewModel
 
     var body: some View {
-        ClavixScreen(eyebrow: "Brokerage", title: "Connection", trailing: AnyView(SettingsDismissButton())) {
+        ClavixDetailScreen(eyebrow: "Brokerage", title: "Connection") {
             if let message = viewModel.errorMessage {
                 SettingsMessageCard(message: message, fill: .clavixBadSoft, foreground: .clavixBadInk)
             }
@@ -902,7 +889,7 @@ private struct BrokerageSettingsDetailView: View {
 
 private struct ReferenceSettingsDetailView: View {
     var body: some View {
-        ClavixScreen(eyebrow: "Reference", title: "Methodology", trailing: AnyView(SettingsDismissButton())) {
+        ClavixDetailScreen(eyebrow: "Reference", title: "Methodology") {
             SettingsSectionCard("REFERENCE") {
                 VStack(spacing: 0) {
                     NavigationLink(destination: MethodologyView()) {
@@ -925,7 +912,7 @@ private struct ExportDataDetailView: View {
     @ObservedObject var viewModel: SettingsViewModel
 
     var body: some View {
-        ClavixScreen(eyebrow: "Privacy", title: "Export data", trailing: AnyView(SettingsDismissButton())) {
+        ClavixDetailScreen(eyebrow: "Privacy", title: "Export data") {
             Text("Download a copy of your positions, preferences, alerts, and report history.")
                 .font(ClavisTypography.clavixSerif(18, weight: .regular))
                 .foregroundColor(.clavixInk2)
@@ -954,7 +941,7 @@ private struct ExportDataDetailView: View {
 
 private struct SupportLegalDetailView: View {
     var body: some View {
-        ClavixScreen(eyebrow: "Reference", title: "Support & legal", trailing: AnyView(SettingsDismissButton())) {
+        ClavixDetailScreen(eyebrow: "Reference", title: "Support & legal") {
             SettingsSectionCard("SUPPORT") {
                 VStack(spacing: 0) {
                     Link(destination: URL(string: "mailto:support@getclavix.com")!) {
@@ -999,7 +986,7 @@ private struct DeleteAccountDetailView: View {
     @State private var showDeleteConfirmation = false
 
     var body: some View {
-        ClavixScreen(eyebrow: "Danger zone", title: "Delete account", trailing: AnyView(SettingsDismissButton())) {
+        ClavixDetailScreen(eyebrow: "Danger zone", title: "Delete account") {
             ClavixCard(fill: .clavixBadSoft) {
                 Text("This permanently removes your account, positions, preferences, device tokens, and report history.")
                     .font(ClavisTypography.clavixCaption)
@@ -1131,8 +1118,6 @@ struct ScoreBandRow: View {
 }
 
 struct MethodologyView: View {
-    @Environment(\.dismiss) private var dismiss
-
     /// When opened from the Morning Report we pass the live composite so the
     /// grade scale highlights the reader's current band. From Settings it stays
     /// nil and the page reads as a universal reference.
@@ -1167,28 +1152,13 @@ struct MethodologyView: View {
     }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                Text("How grading works")
-                    .font(ClavisTypography.clavixSerif(28, weight: .medium))
-                    .tracking(-0.5)
-                    .foregroundColor(.clavixInk)
-                    .padding(.top, 4)
-                leadCard
-                gradeScaleSection
-                dimensionsSection
-                compositeSection
-                freshnessCard
-            }
-            .padding(.horizontal, ClavixLayout.pad)
-            .padding(.top, 8)
-            .padding(.bottom, ClavixLayout.bottomPad)
+        ClavixDetailScreen(title: "How grading works") {
+            leadCard
+            gradeScaleSection
+            dimensionsSection
+            compositeSection
+            freshnessCard
         }
-        .background(Color.clavixPage.ignoresSafeArea())
-        .safeAreaInset(edge: .top, spacing: 0) {
-            ClavixReportBar(onBack: { dismiss() })
-        }
-        .toolbar(.hidden, for: .navigationBar)
     }
 
     // MARK: - Lead

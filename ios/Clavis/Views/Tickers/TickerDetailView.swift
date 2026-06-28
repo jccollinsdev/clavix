@@ -140,6 +140,7 @@ struct TickerDetailView: View {
         HStack(spacing: 10) {
             Button(action: { dismiss() }) {
                 Image(systemName: "chevron.left")
+                    .font(.system(size: 17, weight: .semibold))
                     .foregroundColor(.clavixInk)
             }
             .buttonStyle(.plain)

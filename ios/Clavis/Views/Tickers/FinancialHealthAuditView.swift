@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct FinancialHealthAuditView: View {
+    @Environment(\.dismiss) private var dismiss
     let ticker: String
     let methodology: MethodologyResponse?
     var isETF: Bool = false
@@ -127,8 +128,10 @@ struct FinancialHealthAuditView: View {
             .padding(.vertical, ClavisTheme.sectionSpacing)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .navigationTitle(isETF ? "Holdings Quality" : "Financial Health")
-        .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .top, spacing: 0) {
+            ClavixReportBar(onBack: { dismiss() })
+        }
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     private func decimal(_ value: Double?) -> String {

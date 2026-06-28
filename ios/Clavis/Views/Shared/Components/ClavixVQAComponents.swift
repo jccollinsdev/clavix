@@ -104,6 +104,41 @@ struct ClavixReportBar: View {
     }
 }
 
+/// Canonical pushed-detail screen: the shared ClavixReportBar (single back
+/// chevron + CLAVIX wordmark) on top, then an optional eyebrow and a serif title
+/// as the first scrolling content, mirroring the Morning Report. Use this for any
+/// screen pushed onto a navigation stack so every back button is identical.
+struct ClavixDetailScreen<Content: View>: View {
+    @Environment(\.dismiss) private var dismiss
+    var eyebrow: String? = nil
+    let title: String
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: 5) {
+                    if let eyebrow { ClavixEyebrow(eyebrow) }
+                    Text(title)
+                        .font(ClavisTypography.clavixSerif(28, weight: .medium))
+                        .tracking(-0.5)
+                        .foregroundColor(.clavixInk)
+                }
+                .padding(.top, 4)
+                content
+            }
+            .padding(.horizontal, ClavixLayout.pad)
+            .padding(.top, 8)
+            .padding(.bottom, ClavixLayout.bottomPad)
+        }
+        .background(Color.clavixPage.ignoresSafeArea())
+        .safeAreaInset(edge: .top, spacing: 0) {
+            ClavixReportBar(onBack: { dismiss() })
+        }
+        .toolbar(.hidden, for: .navigationBar)
+    }
+}
+
 struct ClavixEyebrow: View {
     let text: String
     init(_ text: String) { self.text = text }

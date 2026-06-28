@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct SectorExposureAuditView: View {
+    @Environment(\.dismiss) private var dismiss
     let ticker: String
     let methodology: MethodologyResponse?
     var isETF: Bool = false
@@ -67,8 +68,10 @@ struct SectorExposureAuditView: View {
             .padding(.vertical, ClavisTheme.sectionSpacing)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .navigationTitle(isETF ? "Concentration" : "Sector Exposure")
-        .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .top, spacing: 0) {
+            ClavixReportBar(onBack: { dismiss() })
+        }
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     private func format(_ value: Double?) -> String {

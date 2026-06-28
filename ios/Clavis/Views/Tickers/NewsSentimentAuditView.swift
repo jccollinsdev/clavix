@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct NewsSentimentAuditView: View {
+    @Environment(\.dismiss) private var dismiss
     let ticker: String
     let methodology: MethodologyResponse?
     @State private var selectedArticle: MethodologyArticle?
@@ -89,8 +90,10 @@ struct NewsSentimentAuditView: View {
             .padding(.vertical, ClavisTheme.sectionSpacing)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .navigationTitle("News Sentiment")
-        .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .top, spacing: 0) {
+            ClavixReportBar(onBack: { dismiss() })
+        }
+        .toolbar(.hidden, for: .navigationBar)
         .sheet(item: $selectedArticle) { article in
             ArticleDetailSheet(article: article, ticker: ticker)
         }

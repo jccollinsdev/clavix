@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct VolatilityAuditView: View {
+    @Environment(\.dismiss) private var dismiss
     let ticker: String
     let methodology: MethodologyResponse?
     let scoreHistory: [ScoreSnapshot]
@@ -55,8 +56,10 @@ struct VolatilityAuditView: View {
             .padding(.vertical, ClavisTheme.sectionSpacing)
         }
         .background(Color.clavixPage.ignoresSafeArea())
-        .navigationTitle("Volatility")
-        .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .top, spacing: 0) {
+            ClavixReportBar(onBack: { dismiss() })
+        }
+        .toolbar(.hidden, for: .navigationBar)
     }
 
     private func format(_ value: Double?) -> String {
