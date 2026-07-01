@@ -480,8 +480,13 @@ def _candidate_sort_key(candidate: dict[str, Any]) -> tuple:
 
 
 def _select_summary_text(candidate: dict[str, Any]) -> str:
+    # Prefer the LLM-written, article-grounded sentences (what_it_means / tldr)
+    # over the raw source summary so driver cards are specific about what actually
+    # happened, rather than falling back to a generic theme template. (2026-06-30)
     return _first_non_empty(
         candidate.get("scenario_summary"),
+        candidate.get("what_it_means"),
+        candidate.get("tldr"),
         candidate.get("summary"),
         (candidate.get("key_implications") or [None])[0] if isinstance(candidate.get("key_implications"), list) and candidate.get("key_implications") else None,
         candidate.get("long_analysis"),
@@ -534,7 +539,13 @@ def _candidate_from_event(event: dict[str, Any]) -> dict[str, Any] | None:
 
 def _candidate_from_news(article: dict[str, Any]) -> dict[str, Any] | None:
     title = _first_non_empty(article.get("headline"), article.get("title"))
-    summary = _first_non_empty(article.get("summary"))
+    # Prefer the enriched what_it_means / tldr over the raw source summary so the
+    # driver card can quote a specific, grounded implication. (2026-06-30)
+    summary = _first_non_empty(
+        article.get("what_it_means"),
+        article.get("tldr"),
+        article.get("summary"),
+    )
     text = f"{title} {summary or title}"
     theme = _theme_for_text(text)
     if not theme:
@@ -749,10 +760,23 @@ def _build_driver_cards(
         )
     )
 
+    # Resolve opposing/duplicate drivers: the same theme can surface with both a
+    # positive and a negative direction (e.g. "regulatory overhang clearing" AND
+    # "regulatory exposure rising"), which reads as the app contradicting itself.
+    # cards_with_meta is already ranked strongest-first, so keep only the single
+    # strongest card per theme. (2026-06-30)
     cards: list[dict[str, Any]] = []
-    for index, (card, _meta) in enumerate(cards_with_meta[:3], start=1):
-        card["rank"] = index
+    seen_themes: set[str] = set()
+    for card, _meta in cards_with_meta:
+        theme = card.get("theme")
+        if theme and theme in seen_themes:
+            continue
+        if theme:
+            seen_themes.add(theme)
+        card["rank"] = len(cards) + 1
         cards.append(card)
+        if len(cards) >= 3:
+            break
 
     raw_evidence_count = len(deduped)
     status = _clean_text(position.get("analysis_state") or position.get("status")).lower()

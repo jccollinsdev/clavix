@@ -143,6 +143,44 @@ V2_DIMENSION_KEYS = [
     "volatility",
 ]
 
+
+def _coerce_key_implications(value: Any) -> list[Any]:
+    """Normalize a key_implications payload to a list (tolerates JSON strings)."""
+    if isinstance(value, list):
+        return value
+    if isinstance(value, str) and value.strip():
+        try:
+            parsed = json.loads(value)
+            return parsed if isinstance(parsed, list) else [parsed]
+        except (ValueError, TypeError):
+            return [value]
+    return []
+
+
+def article_has_full_enrichment(row: dict[str, Any]) -> bool:
+    """True only when an article carries all three fields the ticker UI renders:
+    a brief (``tldr``/``what_it_means``), a risk-signal score (``sentiment_score``),
+    and at least one key implication.
+
+    Checked on the fields directly rather than trusting ``analysis_status`` so the
+    result is robust to status drift. Articles missing any of the three render as
+    an empty/broken card in the app, so the serving layer hides them entirely
+    (product decision, 2026-06-30). ``analysis_status='complete'`` is equivalent by
+    construction, so this hides ``incomplete``/``partial``/``headline_only`` rows.
+    """
+    if not isinstance(row, dict):
+        return False
+    brief = row.get("tldr") or row.get("what_it_means")
+    if not (isinstance(brief, str) and brief.strip()):
+        return False
+    if row.get("sentiment_score") is None:
+        return False
+    implications = _coerce_key_implications(row.get("key_implications"))
+    if not any(str(item).strip() for item in implications):
+        return False
+    return True
+
+
 _DRIVER_MAX_LENGTH = 60
 _RATIONALE_MAX_LENGTH = 140
 _RATIONALE_HARD_MAX = 200

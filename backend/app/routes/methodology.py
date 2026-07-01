@@ -6,6 +6,7 @@ from typing import Any
 
 from fastapi import APIRouter, Depends, Request
 
+from ..pipeline.analysis_utils import article_has_full_enrichment
 from ..services.personalisation import attach_latest_personalisation
 from ..services.supabase import get_supabase
 from ..services.ticker_cache_service import (
@@ -194,15 +195,14 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
         if (pub := _parse_iso_datetime(a.get("published_at"))) and now - pub <= timedelta(days=14)
     ]
 
-    enriched_articles = [
-        a for a in seven_day_articles
-        if a.get("sentiment_score") is not None
-        or a.get("source_tier") is not None
-        or a.get("recency_weight") is not None
-        or a.get("tldr")
-        or a.get("what_it_means")
-    ]
-    display_articles = enriched_articles or seven_day_articles
+    # Only surface fully-enriched articles (brief + risk-signal score + key
+    # implications). Incomplete/paywalled/headline-only rows render as empty cards
+    # in-app, so they are hidden entirely (2026-06-30). Prefer the last 7 days, then
+    # widen the window so a thin recent week still shows real, complete articles.
+    complete_7d = [a for a in seven_day_articles if article_has_full_enrichment(a)]
+    complete_14d = [a for a in fourteen_day_articles if article_has_full_enrichment(a)]
+    complete_all = [a for a in articles if article_has_full_enrichment(a)]
+    display_articles = complete_7d or complete_14d or complete_all
 
     news_inputs = dimension_inputs.get("news_sentiment") or {}
     macro_inputs = dimension_inputs.get("macro_exposure") or {}

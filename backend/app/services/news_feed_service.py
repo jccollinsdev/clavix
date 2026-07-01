@@ -10,7 +10,7 @@ from .ticker_cache_service import (
     get_metadata_map,
     get_or_create_default_watchlist,
 )
-from ..pipeline.analysis_utils import sanitize_text_field
+from ..pipeline.analysis_utils import article_has_full_enrichment, sanitize_text_field
 
 
 SEVERE_ALERT_TYPES = {
@@ -376,31 +376,41 @@ def _build_feed_state(supabase, user_id: str) -> dict[str, Any]:
         if ticker:
             alerts_by_ticker[ticker].append(alert)
 
+    # Only surface fully-enriched articles (brief + risk-signal score + key
+    # implications); incomplete/paywalled/headline-only rows show as empty cards.
     shared_events: list[dict[str, Any]] = []
     if tracked_tickers:
-        shared_events = (
-            supabase.table("shared_ticker_events")
-            .select("*")
-            .in_("ticker", tracked_tickers)
-            .order("published_at", desc=True)
-            .limit(75)
-            .execute()
-            .data
-            or []
-        )
+        shared_events = [
+            row
+            for row in (
+                supabase.table("shared_ticker_events")
+                .select("*")
+                .in_("ticker", tracked_tickers)
+                .order("published_at", desc=True)
+                .limit(150)
+                .execute()
+                .data
+                or []
+            )
+            if article_has_full_enrichment(row)
+        ][:75]
 
     ticker_news: list[dict[str, Any]] = []
     if tracked_tickers:
-        ticker_news = (
-            supabase.table("shared_ticker_events")
-            .select("*")
-            .in_("ticker", tracked_tickers)
-            .order("published_at", desc=True)
-            .limit(100)
-            .execute()
-            .data
-            or []
-        )
+        ticker_news = [
+            row
+            for row in (
+                supabase.table("shared_ticker_events")
+                .select("*")
+                .in_("ticker", tracked_tickers)
+                .order("published_at", desc=True)
+                .limit(200)
+                .execute()
+                .data
+                or []
+            )
+            if article_has_full_enrichment(row)
+        ][:100]
 
     snapshot_map = get_latest_risk_snapshot_map(supabase, tracked_tickers)
     history_map = get_latest_risk_snapshot_history_map(

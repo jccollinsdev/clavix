@@ -378,9 +378,15 @@ def run(
     # so monitoring stops crying wolf; only flag partial/failed below that bar.
     _attempted = processed + len(failed)
     _success_rate = processed / _attempted if _attempted else 1.0
+    # Rate failures against everything examined, including skipped-fresh tickers, so a
+    # day where most of the universe was already fresh and a couple of tickers hit a
+    # transient Polygon/Supabase reset (processed==0, failed==1 of 547) reads as a
+    # healthy completed-with-errors run, not a paging "failed". (2026-06-30)
+    _examined = processed + skipped + len(failed)
+    _universe_fail_rate = len(failed) / _examined if _examined else 0.0
     if not failed:
         _status = "completed"
-    elif processed > 0 and _success_rate >= 0.95:
+    elif _success_rate >= 0.95 or _universe_fail_rate < 0.05:
         _status = "completed_with_errors"
     elif processed > 0:
         _status = "partial"

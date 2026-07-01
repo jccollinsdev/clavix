@@ -16,7 +16,7 @@ from uuid import uuid4
 from fastapi import HTTPException
 
 from ..pipeline.risk_scorer import score_position_structural
-from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength, sanitize_text_field, normalize_event_analysis_payload, calculate_weighted_score, apply_grade_hysteresis, _GRADE_LOWER_BOUND
+from ..pipeline.analysis_utils import score_to_grade, grade_direction, sanitize_rationale, sanitize_public_analysis_text, format_rationale, evidence_strength, sanitize_text_field, normalize_event_analysis_payload, calculate_weighted_score, apply_grade_hysteresis, article_has_full_enrichment, _GRADE_LOWER_BOUND
 from ..pipeline.structural_scorer import percentile_rank, smooth_score_with_history
 from ..pipeline.position_report_builder import _build_driver_cards
 from .alert_payloads import enrich_alert_rows
@@ -1630,6 +1630,10 @@ def _news_rows_to_response(
 
     responses = []
     for row in news_rows:
+        # Hide incomplete articles (missing brief / risk-signal score / key
+        # implications) — they render as empty cards in the ticker detail.
+        if not article_has_full_enrichment(row):
+            continue
         responses.append(
             {
                 "id": row.get("id"),
@@ -2247,7 +2251,13 @@ def _get_shared_ticker_events(
     ticker: str,
     limit: int = 10,
 ) -> list[dict[str, Any]]:
-    """Read canonical shared ticker events, preferring highest confidence."""
+    """Read canonical shared ticker events, preferring highest confidence.
+
+    Fetches a wide window and prefers fully-enriched articles (brief + risk-signal
+    score + key implications) so the recency-ordered top ``limit`` handed to the
+    UI are complete whenever the ticker has complete coverage. Falls back to the
+    raw recency order only when no complete article exists.
+    """
     try:
         result = (
             supabase.table("shared_ticker_events")
@@ -2255,12 +2265,14 @@ def _get_shared_ticker_events(
             .eq("ticker", ticker)
             .order("published_at", desc=True)
             .order("confidence", desc=True, nullsfirst=False)
-            .limit(limit * 3)
+            .limit(max(limit * 6, 40))
             .execute()
         )
         rows = result.data or []
         deduped = _dedup_event_analyses(rows)
-        return deduped[:limit]
+        complete = [row for row in deduped if article_has_full_enrichment(row)]
+        chosen = complete if complete else deduped
+        return chosen[:limit]
     except Exception:
         return []
 
@@ -4711,12 +4723,12 @@ def refresh_ticker_snapshot(
             .select("*")
             .eq("ticker", ticker)
             .order("published_at", desc=True)
-            .limit(50)
+            .limit(80)
             .execute()
             .data
             or []
         )
-        news_rows = _filter_news_rows_through_date(news_rows, target_date=target_date)[:50]
+        news_rows = _filter_news_rows_through_date(news_rows, target_date=target_date)[:80]
         # CLAVIX TRUTH §10: "drop articles with low ticker relevance — not a passing mention"
         # Filter off-ticker articles BEFORE scoring. This handles both:
         # (a) existing stored off-ticker articles (scoring-time guard)
@@ -4725,11 +4737,18 @@ def refresh_ticker_snapshot(
             news_rows,
             ticker=ticker,
             company_name=str(metadata.get("company_name") or ""),
-        )[:10]
-        recent_events = _build_event_analyses_from_news_rows(
-            news_rows, ticker=ticker, position_id=f"virtual:{ticker}"
         )
-        news_inputs = _build_news_sentiment_inputs(news_rows)
+        # Score the news dimension from the full recency-weighted relevant set
+        # (28-day window applied inside the builder), NOT just the newest 10. The
+        # newest handful are often freshly ingested and not yet enriched; capping
+        # scoring at 10 drove tickers with plenty of enriched articles just below
+        # the cutoff to a NULL news dimension (2026-06-30 fix). The event/driver
+        # surface still uses only the 10 most-recent relevant articles.
+        scoring_rows = news_rows[:60]
+        recent_events = _build_event_analyses_from_news_rows(
+            news_rows[:10], ticker=ticker, position_id=f"virtual:{ticker}"
+        )
+        news_inputs = _build_news_sentiment_inputs(scoring_rows)
         scoring_metadata = {
             **metadata,
             "factor_breakdown": {
