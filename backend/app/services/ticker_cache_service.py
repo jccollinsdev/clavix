@@ -4725,7 +4725,11 @@ def refresh_ticker_snapshot(
                 supabase,
                 sector_etf,
                 target_date=target_date,
-                days=120,
+                # 200 calendar days (~134 trading) so the sector analytics have the
+                # same depth as the ticker/SPY legs: enough for a true 90-trading-day
+                # relative strength and the 120-day return correlation. 120 calendar
+                # days was only ~81 trading days, which truncated both.
+                days=200,
             )
             if sector_etf
             else None
