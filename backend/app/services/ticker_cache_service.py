@@ -28,7 +28,17 @@ from .ticker_metadata import upsert_ticker_metadata
 logger = logging.getLogger(__name__)
 _RATIONALE_BLOCK_COUNTS: Counter[str] = Counter()
 _RATIONALE_SOURCE_COUNTS: Counter[str] = Counter()
-_VALID_GRADES = {"AAA", "AA", "A", "BBB", "BB", "B", "CCC", "CC", "C", "F"}
+# Grades that count as a "schema-complete" snapshot for the read-path preference in
+# _canonical_snapshot_sort_key. This MUST include the academic ladder the scorer emits
+# post-2026-06-27 (A+/A-/B+/…); otherwise every academic-graded snapshot is treated as
+# incomplete and the read path silently serves an older bond-graded row — i.e. stale
+# grades and dimensions for any ticker whose grade carries a +/- modifier. Legacy bond
+# grades are kept so pre-migration rows still validate. (Fixed 2026-06-30.)
+_ACADEMIC_GRADES = {
+    "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "F",
+}
+_LEGACY_BOND_GRADES = {"AAA", "AA", "BBB", "BB", "CCC", "CC"}
+_VALID_GRADES = _ACADEMIC_GRADES | _LEGACY_BOND_GRADES
 
 # Same-index ETF peer groups: when one member lacks news coverage, borrow from a peer
 # tracking the identical index rather than dropping the dimension from the composite.

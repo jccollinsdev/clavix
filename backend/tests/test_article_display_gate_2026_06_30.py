@@ -8,6 +8,41 @@ from __future__ import annotations
 
 from app.pipeline.analysis_utils import article_has_full_enrichment
 from app.pipeline.position_report_builder import _build_driver_cards
+from app.services.ticker_cache_service import snapshot_is_schema_complete
+
+
+def _complete_snapshot(grade: str) -> dict:
+    return {
+        "composite_score": 79.9,
+        "grade": grade,
+        "analysis_as_of": "2026-07-01T03:42:46+00:00",
+        "news_sentiment_dim": 58,
+        "financial_health": 72,
+        "macro_exposure_dim": 65,
+        "sector_exposure": 67,
+        "volatility": 65,
+    }
+
+
+class TestAcademicGradesAreSchemaComplete:
+    """Regression: a fresh academic-graded snapshot must count as schema-complete,
+    otherwise the read path serves an older bond-graded snapshot (stale data for the
+    ~60% of tickers whose grade carries a +/- modifier)."""
+
+    def test_modifier_grades_are_complete(self):
+        for grade in ("A+", "A-", "B+", "B-", "C+", "C-", "D+", "D", "D-"):
+            assert snapshot_is_schema_complete(_complete_snapshot(grade)) is True, grade
+
+    def test_plain_academic_grades_are_complete(self):
+        for grade in ("A", "B", "C", "F"):
+            assert snapshot_is_schema_complete(_complete_snapshot(grade)) is True, grade
+
+    def test_legacy_bond_grades_still_complete(self):
+        for grade in ("AAA", "BBB", "CCC"):
+            assert snapshot_is_schema_complete(_complete_snapshot(grade)) is True, grade
+
+    def test_garbage_grade_is_incomplete(self):
+        assert snapshot_is_schema_complete(_complete_snapshot("ZZ")) is False
 
 
 def _complete_article(**overrides):
