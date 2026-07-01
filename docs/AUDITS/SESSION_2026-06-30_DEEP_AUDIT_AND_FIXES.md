@@ -168,6 +168,15 @@ existing `TickerDriverCardsSection` renders the corrected, de-conflicted, specif
 - **Tests**: backend 520 passed / 28 pre-existing stale-vocab failures (zero new
   regressions; flagged as a follow-up task). iOS build clean.
 
+## FINAL VERIFIED STATE (production, release 68aeb40773)
+Live-API + DB verification after deploy + full force recompute (547/547, 0 failures):
+- **547/547 tickers served today, 0 stale** (was 329/547 stale before the read-path fix).
+- **News dimension populated 545/547** (the 2 remaining are genuinely thin → honest
+  limited-data; was ~28 NULL).
+- **Composite 547/547**, 13 distinct academic grades, 330 modifier grades now served correctly.
+- Live methodology API for COST/CSCO/HOOD/V/MA/AAPL: fresh grades (B+/B-/C-/A+/A-/B+),
+  populated news dims, and every returned article fully enriched (`all_complete: True`).
+
 ## KNOWN / DEFERRED (not launch blockers)
 - 28 stale bond-grade-vocab tests (spawned as a follow-up task). Runtime is correct.
 - News enrichment completeness ~63% of last-7d articles (ops-monitor target 85%). The
