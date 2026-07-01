@@ -6028,15 +6028,17 @@ def _schedule_bulk_sentiment_enrichment() -> None:
         scheduler.remove_job(BULK_SENTIMENT_ENRICHMENT_JOB_ID)
     scheduler.add_job(
         _run_bulk_sentiment_enrichment,
-        # Every 30 min (was hourly): ingestion arrives in bursts of 1-3k articles, so
-        # a 400/hr drain fell permanently behind. ~500 body + ~125 headline per run
-        # ≈ 1,250 articles/hr stays well under the ~1/sec MiniMax throttle ceiling and
-        # comfortably outpaces steady-state ingestion, so the backlog actually drains.
-        trigger=IntervalTrigger(minutes=30),
+        # Every 15 min. The MiniMax ~1/sec throttle caps a single process at
+        # ~2,100 articles/hr, so the goal is to keep the enricher BUSY, not idle.
+        # At 30 min each ~625-row run finished in ~12-14 min then idled ~16 min,
+        # wasting half the throttle budget during the 3h+ gaps between 4h news
+        # bursts. A 15-min cadence (max_instances=1 prevents overlap) runs it
+        # back-to-back through the idle windows, ~7x-ing the net drain per 4h cycle.
+        trigger=IntervalTrigger(minutes=15),
         id=BULK_SENTIMENT_ENRICHMENT_JOB_ID,
         replace_existing=True,
-        misfire_grace_time=1800,
-        next_run_time=datetime.now(timezone.utc) + timedelta(minutes=3),
+        misfire_grace_time=900,
+        next_run_time=datetime.now(timezone.utc) + timedelta(minutes=2),
     )
 
 
