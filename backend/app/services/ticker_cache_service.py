@@ -1906,6 +1906,41 @@ def _backfill_legacy_driver_cards(
     return sanitized
 
 
+SHARED_DRIVER_CARDS_CACHE_KIND = "shared_driver_cards"
+
+
+def _load_shared_driver_cards_cache(
+    supabase, ticker: str, *, max_age_hours: int = 96
+) -> dict[str, Any] | None:
+    """Return pre-polished driver cards for a ticker, if the driver_cards_refresh
+    job has cached them recently. These are the same cards the live builder would
+    produce, but rewritten by the LLM polish into specific, plain-English prose.
+    Tickers with a stored per-position analysis never reach this path; it only
+    serves the universe of names the user does not hold."""
+    try:
+        threshold = (
+            datetime.now(timezone.utc) - timedelta(hours=max_age_hours)
+        ).isoformat()
+        result = (
+            supabase.table("analysis_cache")
+            .select("payload")
+            .eq("kind", SHARED_DRIVER_CARDS_CACHE_KIND)
+            .eq("cache_key", ticker.upper())
+            .gte("updated_at", threshold)
+            .limit(1)
+            .execute()
+        )
+        payload = result.data[0]["payload"] if result.data else None
+    except Exception:
+        return None
+    if not isinstance(payload, dict):
+        return None
+    cards = payload.get("driver_cards")
+    if isinstance(cards, list) and cards:
+        return payload
+    return None
+
+
 _LEGACY_DIMENSION_MATH_MARKERS = (
     "adds risk at ",
     "supports a safer read at ",
@@ -4443,6 +4478,24 @@ def get_ticker_detail_bundle(
         "updated_at": _utcnow_iso(),
         "current_price": metadata.get("price"),
     }
+    # For names the user does not hold there is no stored per-position analysis, so
+    # driver cards would otherwise be built live with raw (often jargon-y) event
+    # text. Prefer the pre-polished cards the driver_cards_refresh job caches, which
+    # are the same cards rewritten into specific, plain-English prose.
+    if (
+        (shared_current_analysis or {}).get("status") == "ready"
+        and not (shared_current_analysis or {}).get("driver_cards")
+    ):
+        cached_drivers = _load_shared_driver_cards_cache(supabase, ticker)
+        if cached_drivers:
+            shared_current_analysis = {
+                **(shared_current_analysis or {}),
+                "driver_cards": cached_drivers.get("driver_cards"),
+                "driver_cards_state": cached_drivers.get("driver_cards_state")
+                or "ready",
+                "driver_cards_source": "generated",
+            }
+
     shared_current_analysis = _backfill_legacy_driver_cards(
         shared_current_analysis,
         base_position,

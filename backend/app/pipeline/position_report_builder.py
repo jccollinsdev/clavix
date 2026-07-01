@@ -1,4 +1,5 @@
 from __future__ import annotations
+import json
 import re
 from datetime import datetime
 from typing import Any
@@ -793,6 +794,211 @@ def _build_driver_cards(
     return sanitize_public_analysis_text(cards), driver_cards_state, "generated"
 
 
+# Themes the iOS DriverTheme enum understands. The polish step is only allowed to
+# reassign a card to one of these so the app never falls back to a wrong label.
+_ALLOWED_DRIVER_THEMES = {
+    "regulatory_risk",
+    "earnings_risk",
+    "guidance_risk",
+    "margin_risk",
+    "competition_risk",
+    "demand_risk",
+    "macro_risk",
+    "leverage_risk",
+    "liquidity_risk",
+    "volatility_risk",
+    "technical_risk",
+    "execution_risk",
+    "concentration_risk",
+    "product_risk",
+    "valuation_risk",
+}
+
+_DRIVER_POLISH_SYSTEM_PROMPT = """You rewrite "risk driver" cards for a stock app so a normal investor can read them at a glance. Each card summarizes one force acting on a stock, grounded in the evidence provided.
+
+You are given a JSON array of cards. For EACH card return an object with the same "i" index and these fields:
+- "title": <= 68 characters. Name the concrete, specific thing from the evidence: the actual event, number, product, ruling, or metric. Sentence case. NEVER a vague template like "Regulatory overhang is clearing", "Earnings trajectory is improving", "Margin recovery is under way", "Competitive pressure is intensifying" — those say nothing. If a filing, deposit figure, lawsuit, product, or guidance number appears in the evidence, put THAT in the title. When in doubt, paraphrase the actual evidence headline.
+- "summary": one or two plain, COMPLETE sentences, <= 225 characters (never cut off mid-word). Say what happened and why it matters for the stock, in everyday language. Ground every claim ONLY in the evidence. Do not open with a vague referent like "This milestone" — name the subject. No corporate word-salad.
+- "theme": pick the single best fit from: regulatory_risk, earnings_risk, guidance_risk, margin_risk, competition_risk, demand_risk, macro_risk, leverage_risk, liquidity_risk, volatility_risk, technical_risk, execution_risk, concentration_risk, product_risk, valuation_risk. Choose by what the EVIDENCE is actually about, not by any hint (a banking-deposits story is product_risk or demand_risk, NOT regulatory_risk or margin_risk; a new-competitor story is competition_risk; a layoffs/restructuring story is execution_risk).
+- "direction": "positive" if the development is good for the stock, "negative" if bad, "neutral" if mixed/unclear. "direction_hint" in the input is only a weak hint; decide from the evidence.
+
+Hard rules:
+- Rewrite jargon into plain English. Banned phrases: "risk assessment", "monetization", "read-through", "de-risk", "multiple compression", "structural tailwind/headwind", "secular", "provisional", "thesis", "optionality". If the evidence uses them, translate to what it means.
+- Do not invent facts. If the evidence is thin and names nothing specific, write an honest plain title (e.g. "Mostly positive recent coverage, no single catalyst") and a short factual summary. Do not fabricate numbers or events.
+- Keep it neutral and factual. No hype, no advice, no price targets.
+
+Return ONLY a strict JSON array: [{"i":0,"title":"...","summary":"...","theme":"...","direction":"..."}, ...]. No prose around it."""
+
+
+# Vague phrasing the deterministic template layer produces. If the polish model
+# echoes any of these instead of naming the concrete development, we override the
+# title with the specific evidence headline.
+_GENERIC_TITLE_MARKERS = (
+    "is intensifying",
+    "is improving",
+    "is clearing",
+    "is under way",
+    "is rising",
+    "is elevated",
+    "is slowing",
+    "is accelerating",
+    "is tightening",
+    "is strengthening",
+    "is weakening",
+    "is decelerating",
+    "is stretched",
+    "is breaking down",
+    "is increasing",
+    "is stabilizing",
+    "remains uncertain",
+    "remains stable",
+    "remains mixed",
+    "remains adequate",
+    "remains in flux",
+    "remains balanced",
+    "remains contained",
+    "has been cut",
+    "recovery is",
+    "trajectory is",
+    "situation remains",
+    "outlook remains",
+    "structure is",
+    "position is stable",
+    "position is strengthening",
+    "picture is neutral",
+)
+
+
+def _title_looks_generic(title: str) -> bool:
+    lowered = _clean_text(title).lower()
+    if not lowered:
+        return True
+    return any(marker in lowered for marker in _GENERIC_TITLE_MARKERS)
+
+
+def _headline_title_from_evidence(card: dict[str, Any]) -> str:
+    """Fallback title taken straight from the strongest evidence headline, with any
+    trailing " - Source Name" wire suffix stripped."""
+    for item in card.get("supporting_evidence") or []:
+        headline = _clean_text(item.get("title"))
+        if not headline:
+            continue
+        headline = _RSS_HEADLINE_SUFFIX_RE.sub("", headline).strip()
+        if headline:
+            return _truncate(headline, 90)
+    return ""
+
+
+def _driver_polish_payload(cards: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Compact per-card evidence the polish model reasons over. Deliberately does
+    NOT include the deterministic template title/summary: handing the model that
+    generic text makes it echo the template instead of writing from the facts."""
+    payload: list[dict[str, Any]] = []
+    for i, card in enumerate(cards):
+        evidence = []
+        for item in (card.get("supporting_evidence") or [])[:3]:
+            e_title = _clean_text(item.get("title"))
+            e_summary = _clean_text(item.get("summary"))
+            if not e_title and not e_summary:
+                continue
+            evidence.append(
+                {
+                    "headline": _truncate(e_title, 160),
+                    "detail": _truncate(e_summary, 320),
+                }
+            )
+        payload.append(
+            {
+                "i": i,
+                "direction_hint": card.get("direction"),
+                "evidence": evidence,
+            }
+        )
+    return payload
+
+
+def polish_driver_cards(
+    cards: list[dict[str, Any]],
+    *,
+    ticker: str = "",
+    company_name: str = "",
+) -> list[dict[str, Any]]:
+    """Rewrite each driver card's title/summary into specific, jargon-free prose
+    grounded in its evidence, and correct the theme/direction label. One LLM call
+    per position. Any failure leaves the original card untouched, so this can only
+    improve cards, never break them."""
+    if not cards:
+        return cards
+
+    payload = _driver_polish_payload(cards)
+    user_prompt = (
+        f"Stock: {company_name or ticker or 'this company'}"
+        f"{f' ({ticker})' if ticker else ''}.\n"
+        f"Cards to rewrite (JSON):\n{json.dumps(payload, ensure_ascii=False)}"
+    )
+
+    by_index = _run_driver_polish_llm(user_prompt)
+
+    polished: list[dict[str, Any]] = []
+    for i, card in enumerate(cards):
+        entry = by_index.get(i)
+        new_card = dict(card)
+        if entry:
+            new_title = _clean_text(entry.get("title"))
+            new_summary = _clean_text(entry.get("summary"))
+            new_theme = _clean_text(entry.get("theme")).lower()
+            new_direction = _clean_text(entry.get("direction")).lower()
+            if new_title and not _looks_like_rss_headline(new_title):
+                new_card["title"] = _truncate(new_title, 90)
+            if new_summary and len(new_summary) >= 20:
+                new_card["summary"] = _truncate(new_summary, 300)
+            if new_theme in _ALLOWED_DRIVER_THEMES:
+                new_card["theme"] = new_theme
+            if new_direction in {"positive", "negative", "neutral"}:
+                new_card["direction"] = new_direction
+        # Deterministic guarantee, independent of the model: a card must never ship
+        # a vague template title when we have a concrete evidence headline to use.
+        # This holds even if the LLM call failed entirely for this position.
+        if _title_looks_generic(new_card.get("title")):
+            headline = _headline_title_from_evidence(card)
+            if headline:
+                new_card["title"] = headline
+        polished.append(new_card)
+
+    return sanitize_public_analysis_text(polished)
+
+
+def _run_driver_polish_llm(user_prompt: str) -> dict[int, dict[str, Any]]:
+    """One LLM call (with a single retry) returning {card_index: rewrite}. Empty on
+    failure — callers must degrade gracefully rather than depend on this."""
+    for attempt in range(2):
+        try:
+            raw = chatcompletion_text(
+                messages=[
+                    {"role": "system", "content": _DRIVER_POLISH_SYSTEM_PROMPT},
+                    {"role": "user", "content": user_prompt},
+                ],
+                temperature=0.2 if attempt == 0 else 0.0,
+                max_tokens=1500,
+            )
+        except Exception:
+            continue
+        parsed = extract_json_list(raw, None)
+        if isinstance(parsed, list) and parsed:
+            by_index: dict[int, dict[str, Any]] = {}
+            for entry in parsed:
+                if not isinstance(entry, dict):
+                    continue
+                try:
+                    idx = int(entry.get("i"))
+                except (TypeError, ValueError):
+                    continue
+                by_index[idx] = entry
+            if by_index:
+                return by_index
+    return {}
+
+
 def _empty_driver_cards_state(position: dict[str, Any]) -> str:
     status = _clean_text(position.get("analysis_state") or position.get("status")).lower()
     coverage_state = _clean_text(position.get("coverage_state")).lower()
@@ -888,6 +1094,14 @@ async def build_position_report(
         related_articles=related_articles,
         alerts=alerts,
     )
+    if driver_cards:
+        driver_cards = polish_driver_cards(
+            driver_cards,
+            ticker=str(position.get("ticker") or ""),
+            company_name=str(
+                position.get("company_name") or position.get("name") or ""
+            ),
+        )
 
     if not event_analyses and not related_articles and not alerts:
         ticker = position.get("ticker", "This holding")
