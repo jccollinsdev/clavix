@@ -29,7 +29,7 @@ struct SectorExposureAuditView: View {
                         ticker: ticker,
                         score: dimension?.score,
                         subtitle: isETF
-                            ? "\(dimension?.holdingsCount ?? 0) reported holdings"
+                            ? "\(dimension?.totalHoldings ?? dimension?.holdingsCount ?? 0) holdings"
                             : "\(dimension?.sector ?? "Sector unavailable") \u{00B7} \(dimension?.sectorEtf ?? "ETF unavailable")"
                     )
 

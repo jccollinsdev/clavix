@@ -407,7 +407,8 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
                 # only for funds; equities leave these null. Holdings/count read live
                 # from etf_profiles so the chart is fresh regardless of recompute.
                 "dimension_label": "Holdings Quality" if etf_bundle else financial_inputs.get("dimension_label"),
-                "holdings_count": financial_inputs.get("holdings_count"),
+                "holdings_count": (etf_bundle or {}).get("holdings_shown")
+                if etf_bundle else financial_inputs.get("holdings_count"),
                 "holdings_scored_count": (etf_bundle or {}).get("holdings_scored_count")
                 if etf_bundle else financial_inputs.get("holdings_scored_count"),
                 "holdings_weight_covered_pct": financial_inputs.get("holdings_weight_covered_pct"),
