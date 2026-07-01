@@ -650,15 +650,9 @@ struct TickerDetailView: View {
         VStack(alignment: .leading, spacing: 10) {
             hifiSectionHeader(eyebrow: "", title: "Key drivers")
 
-            let summary = driverSummary(detail)
-            if !summary.isEmpty {
-                Text(summary)
-                    .font(ClavisTypography.inter(13))
-                    .foregroundColor(.clavixInk2)
-                    .lineSpacing(2)
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-
+            // The specific, plain-English driver cards below are the key drivers.
+            // We intentionally no longer show a synthesized prose paragraph here:
+            // it duplicated the cards and was the source of dense, jargon-heavy copy.
             TickerDriverCardsSection(analysis: detail.currentAnalysis)
         }
     }
@@ -1148,16 +1142,6 @@ struct TickerDetailView: View {
             return "\(ticker) is \(weightText)% of your book, so this signal has visible portfolio-level impact even while the ticker rating remains \(grade)."
         }
         return "\(ticker) is \(weightText)% of your book, so this signal has visible portfolio-level impact."
-    }
-
-    private func driverSummary(_ detail: TickerDetailResponse) -> String {
-        let summary = detail.sharedAnalysis?.executiveSummary
-            ?? detail.currentAnalysis?.summary
-            ?? detail.currentScore?.reasoning
-            ?? detail.sharedAnalysis?.detailedReport
-            ?? "This rating is waiting on a fuller driver summary from the backend."
-
-        return summary.sanitizedDisplayText
     }
 
     private func priceLineText(_ detail: TickerDetailResponse) -> String {
