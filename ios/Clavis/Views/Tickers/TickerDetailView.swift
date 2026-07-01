@@ -387,7 +387,8 @@ struct TickerDetailView: View {
                         prices: filteredPriceHistory,
                         tone: priceLineColor(detail)
                     )
-                    .padding(.horizontal, 16)
+                    .padding(.leading, 16)
+                    .padding(.trailing, 6)
                     .padding(.vertical, 14)
                 }
             }
@@ -497,8 +498,7 @@ struct TickerDetailView: View {
 
         return VStack(alignment: .leading, spacing: 8) {
             VStack(alignment: .leading, spacing: 4) {
-                ClavixEyebrow("Tap any row for the full audit")
-                Text("Five dimensions")
+                Text("\(detail.ticker)'s Five Risk Dimensions")
                     .font(ClavisTypography.clavixSerif(18, weight: .medium))
                     .foregroundColor(.clavixInk)
             }
@@ -569,11 +569,6 @@ struct TickerDetailView: View {
                     .font(ClavisTypography.clavixMono(16, weight: .semibold))
                     .foregroundColor(scoreToneColor(dimension.score))
                     .frame(width: 38, alignment: .trailing)
-
-                Text("—")
-                    .font(ClavisTypography.clavixMono(10, weight: .semibold))
-                    .foregroundColor(.clavixInk3)
-                    .frame(width: 18, alignment: .trailing)
             }
 
             Image(systemName: "chevron.right")
@@ -884,8 +879,7 @@ struct TickerDetailView: View {
         case .volatility:
             VolatilityAuditView(
                 ticker: ticker,
-                methodology: methodology,
-                scoreHistory: ScoreHistoryConversion.snapshots(from: scoreHistory)
+                methodology: methodology
             )
         }
     }
@@ -923,7 +917,7 @@ struct TickerDetailView: View {
             }
 
             Task {
-                let loadedPrice = try? await APIService.shared.fetchPriceHistory(ticker: ticker, days: 1825)
+                let loadedPrice = try? await APIService.shared.fetchPriceHistory(ticker: ticker, days: 365)
                 let sortedPrices = (loadedPrice?.prices ?? []).sorted { $0.recordedAt < $1.recordedAt }
                 await MainActor.run {
                     priceHistory = sortedPrices
@@ -931,7 +925,7 @@ struct TickerDetailView: View {
             }
 
             Task {
-                let loadedScore = try? await APIService.shared.fetchScoreHistory(ticker: ticker, days: 1825)
+                let loadedScore = try? await APIService.shared.fetchScoreHistory(ticker: ticker, days: 365)
                 await MainActor.run {
                     scoreHistory = loadedScore?.points ?? []
                 }
@@ -1011,7 +1005,7 @@ struct TickerDetailView: View {
         let categoryTitle = isETF ? "Category Signal" : "News Sentiment"
         let categoryAbbrev = isETF ? "CAT" : "NEWS"
         let categorySubtitle = isETF ? "Fund flows and category news" : newsSubtitle
-        let sectorTitle = isETF ? "Concentration" : "Sector Exposure"
+        let sectorTitle = isETF ? "Concentration" : "Sector Resilience"
         let sectorAbbrev = isETF ? "CONC" : "SEC"
         let sectorSubtitle = isETF
             ? "Sector and holding breadth"
@@ -1039,7 +1033,7 @@ struct TickerDetailView: View {
             ),
             TickerDimensionItem(
                 key: "macro_exposure",
-                title: "Macro Exposure",
+                title: "Macro Resilience",
                 abbrev: "MAC",
                 score: shared?.macroExposure ?? ai?.macroExposure ?? current?.macroExposure,
                 subtitle: methodology?.dimensions.macroExposure.asOfDate ?? "Macro regression",
@@ -1055,7 +1049,7 @@ struct TickerDetailView: View {
             ),
             TickerDimensionItem(
                 key: "volatility",
-                title: "Volatility",
+                title: "Price Stability",
                 abbrev: "VOL",
                 score: shared?.volatility ?? ai?.volatility ?? current?.volatility,
                 subtitle: volatilitySubtitle,
@@ -1294,8 +1288,8 @@ private struct TickerDimensionItem {
 private enum TickerHistoryPeriod: String, CaseIterable {
     case oneMonth = "1M"
     case threeMonths = "3M"
+    case sixMonths = "6M"
     case oneYear = "1Y"
-    case fiveYears = "5Y"
 
     var label: String { rawValue }
 
@@ -1303,8 +1297,8 @@ private enum TickerHistoryPeriod: String, CaseIterable {
         switch self {
         case .oneMonth: return 30
         case .threeMonths: return 90
+        case .sixMonths: return 182
         case .oneYear: return 365
-        case .fiveYears: return 1825
         }
     }
 }

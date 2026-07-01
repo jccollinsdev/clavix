@@ -41,84 +41,19 @@ struct FinancialHealthAuditView: View {
                     }
 
                     if isETF {
-                        AuditSectionCard(title: "Holdings Coverage") {
-                            AuditValueRow(
-                                label: "Holdings scored",
-                                value: "\(dimension?.holdingsScoredCount ?? 0) of \(dimension?.holdingsCount ?? 0)",
-                                status: "Coverage"
-                            )
-                            AuditValueRow(
-                                label: "Weight covered",
-                                value: dimension?.holdingsWeightCoveredPct.map { String(format: "%.1f%%", $0) } ?? "Unavailable",
-                                status: "Coverage"
-                            )
-                            AuditValueRow(
-                                label: "Top holding",
-                                value: dimension?.topHoldingWeightPct.map { String(format: "%.1f%%", $0) } ?? "Unavailable",
-                                status: "Weight"
-                            )
-                            AuditValueRow(
-                                label: "Top 10 holdings",
-                                value: dimension?.top10WeightPct.map { String(format: "%.1f%%", $0) } ?? "Unavailable",
-                                status: "Weight"
-                            )
-                        }
-
-                        let holdings = dimension?.holdings ?? []
-                        if !holdings.isEmpty {
-                            AuditSectionCard(title: "Top Holdings") {
-                                ForEach(holdings) { holding in
-                                    AuditValueRow(
-                                        label: holding.ticker,
-                                        value: holding.score.map { String(format: "%.0f", $0) } ?? "Unscored",
-                                        status: holding.weightPct.map { String(format: "%.1f%%", $0) } ?? "—"
-                                    )
-                                }
-                            }
+                        concentrationCard
+                        if !(dimension?.holdings ?? []).isEmpty {
+                            topHoldingsCard
                         }
                     } else {
-                    AuditSectionCard(title: "Ratio Table") {
-                        AuditValueRow(label: "D/E", value: decimal(dimension?.debtToEquity), status: status(for: dimension?.debtToEquity, lowIsGood: true))
-                        AuditValueRow(label: "FCF Margin", value: percent(dimension?.fcfMargin), status: status(for: dimension?.fcfMargin, lowIsGood: false))
-                        AuditValueRow(label: "Current Ratio", value: decimal(dimension?.currentRatio), status: status(for: dimension?.currentRatio, lowIsGood: false))
-                        AuditValueRow(label: "Revenue Growth Trend", value: dimension?.revenueGrowthTrend?.humanizedTitleCasedDisplayText ?? "Unavailable", status: "Trend")
-                        AuditValueRow(label: "Profitability Trend", value: dimension?.profitabilityTrend?.humanizedTitleCasedDisplayText ?? "Unavailable", status: "Trend")
-                    }
-
-                    AuditSectionCard(title: "Industry Comparison") {
-                        Text("Your ticker is shown against its sector median when comparative data is available.")
-                            .font(ClavisTypography.footnote)
-                            .foregroundColor(.clavixInk3)
-                        let medians = dimension?.sectorMedianComparison ?? [:]
-                        if medians.isEmpty {
-                            Text("Sector median comparison unavailable.")
-                                .font(ClavisTypography.footnoteEmphasis)
-                                .foregroundColor(.clavixInk)
-                        } else {
-                            ForEach(medians.keys.sorted(), id: \.self) { metric in
-                                if let row = medians[metric] {
-                                    AuditValueRow(
-                                        label: metric.humanizedTitleCasedDisplayText,
-                                        value: decimal(row.median),
-                                        status: row.nTickers.map { "\($0) tickers" } ?? "Median"
-                                    )
-                                }
-                            }
-                        }
-                        let peers = dimension?.peerComparisons ?? []
-                        if !peers.isEmpty {
-                            Text("Peers: " + peers.prefix(5).compactMap(\.ticker).joined(separator: ", "))
-                                .font(ClavisTypography.footnoteEmphasis)
-                                .foregroundColor(.clavixInk)
-                        }
-                    }
+                        ratiosCard
                     }
                 }
 
                 AuditSectionCard(title: "Methodology") {
                     Text(isETF
                          ? "Holdings Quality is the constituent-weighted Clavix score of the fund's latest available top holdings. It does not use company balance-sheet ratios for the ETF shell."
-                         : "Financial Health measures the structural strength of the company. It uses balance-sheet and cash-flow inputs such as debt-to-equity ratio, free cash flow margin, current ratio, revenue growth trend, and profitability trend.")
+                         : "Financial Health measures the structural strength of the company. It uses balance-sheet and cash-flow inputs such as debt-to-equity ratio, free cash flow margin, current ratio, interest coverage, revenue growth trend, and profitability trend.")
                         .font(ClavisTypography.body)
                         .foregroundColor(.clavixInk3)
                         .fixedSize(horizontal: false, vertical: true)
@@ -134,22 +69,398 @@ struct FinancialHealthAuditView: View {
         .toolbar(.hidden, for: .navigationBar)
     }
 
-    private func decimal(_ value: Double?) -> String {
-        guard let value else { return "Unavailable" }
-        return String(format: "%.2f", value)
-    }
+    // MARK: - ETF concentration donut
 
-    private func percent(_ value: Double?) -> String {
-        guard let value else { return "Unavailable" }
-        return String(format: "%.1f%%", value * 100)
-    }
+    @ViewBuilder
+    private var concentrationCard: some View {
+        if let top = dimension?.topHoldingWeightPct, let top10 = dimension?.top10WeightPct, top10 >= top {
+            let next9 = max(0, top10 - top)
+            let rest = max(0, 100 - top10)
+            let slices = [
+                AuditDonutSlice(id: "top", label: "Top holding", value: top, color: .clavixWarn),
+                AuditDonutSlice(id: "next9", label: "Next 9", value: next9, color: .clavixAccent),
+                AuditDonutSlice(id: "rest", label: "Rest of fund", value: rest, color: .clavixGood),
+            ]
+            AuditSectionCard(title: "Concentration") {
+                HStack(alignment: .center, spacing: 18) {
+                    AuditDonutChart(
+                        slices: slices,
+                        centerPrimary: "\(dimension?.holdingsCount ?? 0)",
+                        centerDetail: "holdings"
+                    )
+                    .frame(width: 108, height: 108)
 
-    private func status(for value: Double?, lowIsGood: Bool) -> String {
-        guard let value else { return "Unavailable" }
-        if lowIsGood {
-            return value < 1 ? "Healthy" : value < 2 ? "Watch" : "Stressed"
+                    VStack(alignment: .leading, spacing: 10) {
+                        ForEach(slices) { slice in
+                            HStack(spacing: 8) {
+                                Circle().fill(slice.color).frame(width: 8, height: 8)
+                                Text(slice.label)
+                                    .font(ClavisTypography.inter(13, weight: .medium))
+                                    .foregroundColor(.clavixInk)
+                                Spacer(minLength: 8)
+                                Text("\(Int(slice.value.rounded()))%")
+                                    .font(ClavisTypography.clavixMono(13, weight: .semibold))
+                                    .foregroundColor(.clavixInk)
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                Text("\(dimension?.holdingsScoredCount ?? 0) of \(dimension?.holdingsCount ?? 0) holdings scored · \(weightCoveredText) of weight covered")
+                    .font(ClavisTypography.footnote)
+                    .foregroundColor(.clavixInk3)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.top, 2)
+            }
+        } else {
+            AuditSectionCard(title: "Concentration") {
+                Text("Concentration data unavailable for this fund's latest holdings file.")
+                    .font(ClavisTypography.footnote)
+                    .foregroundColor(.clavixInk3)
+            }
         }
-        return value > 1 ? "Healthy" : value > 0.5 ? "Watch" : "Stressed"
+    }
+
+    private var weightCoveredText: String {
+        dimension?.holdingsWeightCoveredPct.map { String(format: "%.0f%%", $0) } ?? "an unknown share"
+    }
+
+    // MARK: - ETF top holdings, sized by weight
+
+    private var topHoldingsCard: some View {
+        let holdings = dimension?.holdings ?? []
+        let maxWeight = max(holdings.compactMap(\.weightPct).max() ?? 1, 1)
+        return AuditSectionCard(title: "Top Holdings") {
+            VStack(spacing: 12) {
+                ForEach(holdings) { holding in
+                    HoldingWeightRow(holding: holding, maxWeight: maxWeight)
+                }
+            }
+        }
+    }
+
+    // MARK: - Ratio position bands (non-ETF)
+
+    private var ratiosCard: some View {
+        let specs = ratioSpecs
+        return AuditSectionCard(title: "Balance Sheet Ratios") {
+            Text("Each ratio is placed against its sector peers. The blue band is where the typical peer sits (middle 50%); the line inside it is the sector median.")
+                .font(ClavisTypography.footnote)
+                .foregroundColor(.clavixInk3)
+                .fixedSize(horizontal: false, vertical: true)
+
+            ratioBandLegend
+
+            ForEach(Array(specs.enumerated()), id: \.element.id) { index, spec in
+                RatioBandRow(spec: spec)
+                if index < specs.count - 1 {
+                    Rectangle().fill(Color.clavixRule2).frame(height: 1)
+                }
+            }
+
+            trendRow
+
+            if let peers = dimension?.peerComparisons, !peers.isEmpty {
+                Text("Peers: " + peers.prefix(5).compactMap(\.ticker).joined(separator: ", "))
+                    .font(ClavisTypography.footnoteEmphasis)
+                    .foregroundColor(.clavixInk)
+                    .padding(.top, 4)
+            }
+        }
+    }
+
+    private var ratioBandLegend: some View {
+        HStack(spacing: 14) {
+            HStack(spacing: 5) {
+                Circle().fill(Color.clavixAccent).frame(width: 8, height: 8)
+                    .overlay(Circle().stroke(Color.clavixPaper, lineWidth: 1))
+                Text("\(ticker)")
+                    .font(ClavisTypography.clavixMono(9, weight: .bold))
+                    .foregroundColor(.clavixInk3)
+            }
+            HStack(spacing: 5) {
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(Color.clavixAccent.opacity(0.22))
+                    .frame(width: 16, height: 9)
+                Text("Typical peer")
+                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .foregroundColor(.clavixInk3)
+            }
+            HStack(spacing: 5) {
+                Rectangle().fill(Color.clavixInk2).frame(width: 2, height: 10)
+                Text("Median")
+                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .foregroundColor(.clavixInk3)
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(.top, 2)
+    }
+
+    private var trendRow: some View {
+        HStack(alignment: .top, spacing: 20) {
+            trendChip(label: "Revenue Growth", value: dimension?.revenueGrowthTrend)
+            trendChip(label: "Profitability", value: dimension?.profitabilityTrend)
+        }
+        .padding(.top, 6)
+    }
+
+    private func trendChip(label: String, value: String?) -> some View {
+        let text = value?.humanizedTitleCasedDisplayText ?? "Unavailable"
+        let lower = value?.lowercased() ?? ""
+        let glyph: String
+        let color: Color
+        if lower.contains("positive") || lower.contains("improving") || lower.contains("up") {
+            glyph = "arrow.up.right"
+            color = .clavixGoodInk
+        } else if lower.contains("negative") || lower.contains("declining") || lower.contains("down") {
+            glyph = "arrow.down.right"
+            color = .clavixBadInk
+        } else {
+            glyph = "minus"
+            color = .clavixInk3
+        }
+        return VStack(alignment: .leading, spacing: 4) {
+            Text(label.uppercased())
+                .font(ClavisTypography.clavixMono(8, weight: .bold))
+                .tracking(0.4)
+                .foregroundColor(.clavixInk4)
+            HStack(spacing: 4) {
+                Image(systemName: glyph)
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundColor(color)
+                Text(text)
+                    .font(ClavisTypography.inter(12, weight: .semibold))
+                    .foregroundColor(.clavixInk)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var ratioSpecs: [RatioSpec] {
+        let medians = dimension?.sectorMedianComparison ?? [:]
+        return [
+            makeSpec(id: "debt_to_equity", label: "Debt to Equity", caption: "Leverage vs shareholder equity", ownValue: dimension?.debtToEquity, medians: medians),
+            makeSpec(id: "fcf_margin", label: "FCF Margin", caption: "Free cash flow as % of revenue", ownValue: dimension?.fcfMargin, medians: medians),
+            makeSpec(id: "current_ratio", label: "Current Ratio", caption: "Short-term assets vs liabilities", ownValue: dimension?.currentRatio, medians: medians),
+            makeSpec(id: "interest_coverage", label: "Interest Coverage", caption: "Operating income vs interest expense", ownValue: dimension?.interestCoverage, medians: medians),
+        ]
+    }
+
+    private func makeSpec(id: String, label: String, caption: String, ownValue: Double?, medians: [String: MethodologySectorMedian]) -> RatioSpec {
+        let m = medians[id]
+        let verdict: AuditVerdict = ownValue.map { ratioVerdict(id, $0) } ?? .neutral
+        return RatioSpec(
+            id: id,
+            label: label,
+            caption: caption,
+            ownValue: ownValue,
+            formattedOwn: ownValue.map { formattedRatioValue(id, $0) },
+            verdict: verdict,
+            median: m?.median,
+            p25: m?.p25,
+            p75: m?.p75,
+            nTickers: m?.nTickers,
+            formattedMedian: m?.median.map { formattedRatioValue(id, $0) }
+        )
+    }
+
+    private func formattedRatioValue(_ metric: String, _ value: Double) -> String {
+        switch metric {
+        case "fcf_margin": return String(format: "%.1f%%", value * 100)
+        case "interest_coverage": return String(format: "%.1f\u{00D7}", value)
+        default: return String(format: "%.2f", value)
+        }
+    }
+
+    private func ratioVerdict(_ metric: String, _ value: Double) -> AuditVerdict {
+        switch metric {
+        case "debt_to_equity": return value < 1 ? .good : value < 2 ? .warn : .bad
+        case "current_ratio": return value >= 1.5 ? .good : value >= 1 ? .warn : .bad
+        case "fcf_margin": return value >= 0.15 ? .good : value >= 0 ? .warn : .bad
+        case "interest_coverage": return value >= 5 ? .good : value >= 2 ? .warn : .bad
+        default: return .neutral
+        }
+    }
+}
+
+// MARK: - Ratio band row
+
+private struct RatioSpec: Identifiable {
+    let id: String
+    let label: String
+    let caption: String
+    let ownValue: Double?
+    let formattedOwn: String?
+    let verdict: AuditVerdict
+    let median: Double?
+    let p25: Double?
+    let p75: Double?
+    let nTickers: Int?
+    let formattedMedian: String?
+}
+
+private func ratioVerdictLabel(_ v: AuditVerdict) -> String {
+    switch v {
+    case .good: return "HEALTHY"
+    case .warn: return "WATCH"
+    case .bad: return "STRESSED"
+    case .neutral: return "\u{2014}"
+    }
+}
+
+private struct RatioBandRow: View {
+    let spec: RatioSpec
+
+    private var hasBand: Bool {
+        guard spec.ownValue != nil, spec.median != nil, let p25 = spec.p25, let p75 = spec.p75, p75 > p25 else { return false }
+        return true
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(spec.label)
+                        .font(ClavisTypography.inter(14, weight: .semibold))
+                        .foregroundColor(.clavixInk)
+                    Text(spec.caption)
+                        .font(ClavisTypography.clavixMono(9, weight: .regular))
+                        .foregroundColor(.clavixInk3)
+                }
+                Spacer(minLength: 8)
+                if let formattedOwn = spec.formattedOwn {
+                    Text(formattedOwn)
+                        .font(ClavisTypography.clavixMono(16, weight: .semibold))
+                        .foregroundColor(auditVerdictInk(spec.verdict))
+                    Text(ratioVerdictLabel(spec.verdict))
+                        .font(ClavisTypography.clavixMono(8, weight: .bold))
+                        .tracking(0.4)
+                        .foregroundColor(auditVerdictInk(spec.verdict))
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .background(auditVerdictFill(spec.verdict))
+                        .clipShape(RoundedRectangle(cornerRadius: 3))
+                } else {
+                    Text("Unavailable")
+                        .font(ClavisTypography.clavixMono(13, weight: .semibold))
+                        .foregroundColor(.clavixInk4)
+                }
+            }
+
+            if hasBand, let ownValue = spec.ownValue, let median = spec.median, let p25 = spec.p25, let p75 = spec.p75 {
+                RatioRangeBand(ownValue: ownValue, median: median, p25: p25, p75: p75, color: .clavixAccent)
+                    .frame(height: 20)
+                if let n = spec.nTickers, let formattedMedian = spec.formattedMedian {
+                    Text("Median \(formattedMedian) \u{00B7} n=\(n) tickers")
+                        .font(ClavisTypography.clavixMono(9, weight: .regular))
+                        .foregroundColor(.clavixInk4)
+                }
+            }
+        }
+        .padding(.vertical, 4)
+    }
+}
+
+/// Horizontal positioning band: shaded track spans the sector's 25th-75th
+/// percentile, a tick marks the median, and a colored dot marks this ticker's
+/// own value — so a ratio reads as "where do I sit vs peers" instead of a
+/// bare number next to a health-word pill.
+private struct RatioRangeBand: View {
+    let ownValue: Double
+    let median: Double
+    let p25: Double
+    let p75: Double
+    let color: Color
+
+    private var domain: (lo: Double, hi: Double) {
+        let lo = min(p25, ownValue, median)
+        let hi = max(p75, ownValue, median)
+        let span = hi - lo
+        let pad = span > 0 ? span * 0.18 : max(abs(hi) * 0.1, 0.1)
+        return (lo - pad, hi + pad)
+    }
+
+    private func x(_ value: Double, _ width: CGFloat) -> CGFloat {
+        let (lo, hi) = domain
+        guard hi > lo else { return width / 2 }
+        return CGFloat((value - lo) / (hi - lo)) * width
+    }
+
+    var body: some View {
+        GeometryReader { geo in
+            let w = geo.size.width
+            let midY = geo.size.height / 2
+            let xp25 = x(p25, w)
+            let xp75 = x(p75, w)
+            let bandStart = min(xp25, xp75)
+            let bandWidth = max(4, abs(xp75 - xp25))
+
+            ZStack {
+                // Full-domain lane — a clearly defined rail so the "outside the
+                // peer range" space reads as space, not emptiness.
+                Capsule()
+                    .fill(Color.clavixPaper2)
+                    .overlay(Capsule().stroke(Color.clavixRule, lineWidth: 1))
+                    .frame(width: w, height: 12)
+                    .position(x: w / 2, y: midY)
+                // Typical-peer band — a visible blue tint, not faint grey.
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.clavixAccent.opacity(0.22))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 4).stroke(Color.clavixAccent.opacity(0.45), lineWidth: 1)
+                    )
+                    .frame(width: bandWidth, height: 12)
+                    .position(x: bandStart + bandWidth / 2, y: midY)
+                // Sector median tick.
+                Rectangle()
+                    .fill(Color.clavixInk2)
+                    .frame(width: 2, height: 16)
+                    .position(x: x(median, w), y: midY)
+                // This ticker's value.
+                Circle()
+                    .fill(color)
+                    .frame(width: 12, height: 12)
+                    .overlay(Circle().stroke(Color.clavixPaper, lineWidth: 2))
+                    .position(x: x(ownValue, w), y: midY)
+            }
+        }
+    }
+}
+
+// MARK: - ETF holdings, sized by weight
+
+private struct HoldingWeightRow: View {
+    let holding: MethodologyETFHolding
+    let maxWeight: Double
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Text(holding.ticker)
+                .font(ClavisTypography.clavixMono(12, weight: .bold))
+                .foregroundColor(.clavixInk)
+                .frame(width: 52, alignment: .leading)
+
+            GeometryReader { geo in
+                let pct = max(0, min(1, (holding.weightPct ?? 0) / maxWeight))
+                ZStack(alignment: .leading) {
+                    Capsule().fill(Color.clavixRule2).frame(height: 8)
+                    Capsule().fill(Color.clavixAccent).frame(width: max(3, geo.size.width * CGFloat(pct)), height: 8)
+                }
+                .frame(maxHeight: .infinity, alignment: .center)
+            }
+            .frame(height: 8)
+
+            Text(holding.weightPct.map { String(format: "%.1f%%", $0) } ?? "\u{2014}")
+                .font(ClavisTypography.clavixMono(11, weight: .semibold))
+                .foregroundColor(.clavixInk3)
+                .frame(width: 44, alignment: .trailing)
+
+            Text(holding.score.map { String(format: "%.0f", $0) } ?? "\u{2014}")
+                .font(ClavisTypography.clavixMono(13, weight: .semibold))
+                .foregroundColor(.clavixInk)
+                .frame(width: 26, alignment: .trailing)
+        }
     }
 }
 
@@ -173,30 +484,54 @@ func auditBandLabel(_ score: Double?) -> String {
     }
 }
 
+/// Readable ink color for a score band (for text/pills on paper).
+func auditBandInk(_ score: Double?) -> Color {
+    guard let score else { return .clavixInk3 }
+    switch score {
+    case 67...:   return .clavixGoodInk
+    case 34..<67: return .clavixWarnInk
+    default:      return .clavixBadInk
+    }
+}
+
+/// Soft tinted fill for a score band (pill backgrounds).
+func auditBandSoft(_ score: Double?) -> Color {
+    guard let score else { return .clavixPaper2 }
+    switch score {
+    case 67...:   return .clavixGoodSoft
+    case 34..<67: return .clavixWarnSoft
+    default:      return .clavixBadSoft
+    }
+}
+
 func auditGrade(for score: Double?) -> String {
     guard let score else { return "\u{2014}" }
     return PortfolioMath.grade(forScore: score)
 }
 
-/// Horizontal 0 to 100 score track, filled to the dimension score in its band color.
-struct AuditScoreBar: View {
-    let score: Double?
-    var body: some View {
-        GeometryReader { geo in
-            ZStack(alignment: .leading) {
-                Rectangle().fill(Color.clavixPaper2)
-                Rectangle()
-                    .fill(auditBandColor(score))
-                    .frame(width: max(0, min(1, (score ?? 0) / 100)) * geo.size.width)
-            }
-        }
-        .frame(height: 6)
-        .clipShape(RoundedRectangle(cornerRadius: 3))
-        .overlay(RoundedRectangle(cornerRadius: 3).stroke(Color.clavixRule, lineWidth: 1))
+enum AuditVerdict { case good, warn, bad, neutral }
+
+func auditVerdictFill(_ v: AuditVerdict) -> Color {
+    switch v {
+    case .good:    return .clavixGoodSoft
+    case .warn:    return .clavixWarnSoft
+    case .bad:     return .clavixBadSoft
+    case .neutral: return .clavixPaper2
     }
 }
 
-/// Dimension masthead: ticker eyebrow, serif name, big score, band verdict, score bar.
+func auditVerdictInk(_ v: AuditVerdict) -> Color {
+    switch v {
+    case .good:    return .clavixGoodInk
+    case .warn:    return .clavixWarnInk
+    case .bad:     return .clavixBadInk
+    case .neutral: return .clavixInk3
+    }
+}
+
+/// Dimension masthead, styled like the ticker-view "Risk rating" card: ticker
+/// eyebrow, serif name, grade badge, big score, and a colored verdict pill — no
+/// horizontal fill bar.
 struct AuditHeaderCard: View {
     let title: String
     let ticker: String
@@ -228,14 +563,16 @@ struct AuditHeaderCard: View {
                 Text("/ 100")
                     .font(ClavisTypography.clavixMono(13, weight: .regular))
                     .foregroundColor(.clavixInk4)
-                Spacer()
+                Spacer(minLength: 8)
                 Text(auditBandLabel(score))
                     .font(ClavisTypography.clavixMono(10, weight: .bold))
                     .tracking(0.6)
-                    .foregroundColor(auditBandColor(score))
+                    .foregroundColor(auditBandInk(score))
+                    .padding(.horizontal, 7)
+                    .padding(.vertical, 4)
+                    .background(auditBandSoft(score))
+                    .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
             }
-
-            AuditScoreBar(score: score)
 
             Text(subtitle)
                 .font(ClavisTypography.clavixMono(10, weight: .regular))
@@ -273,8 +610,6 @@ struct AuditSectionCard<Content: View>: View {
         .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
     }
 }
-
-enum AuditVerdict { case good, warn, bad, neutral }
 
 /// Metric row: label (+ optional unit caption), prominent mono value, and a
 /// color-coded verdict pill. Health words (Healthy/Watch/Stressed) read as
@@ -318,22 +653,8 @@ struct AuditValueRow: View {
             .clipShape(RoundedRectangle(cornerRadius: 3))
     }
 
-    private func fill(_ v: AuditVerdict) -> Color {
-        switch v {
-        case .good:    return .clavixGoodSoft
-        case .warn:    return .clavixWarnSoft
-        case .bad:     return .clavixBadSoft
-        case .neutral: return .clavixPaper2
-        }
-    }
-    private func ink(_ v: AuditVerdict) -> Color {
-        switch v {
-        case .good:    return .clavixGoodInk
-        case .warn:    return .clavixWarnInk
-        case .bad:     return .clavixBadInk
-        case .neutral: return .clavixInk3
-        }
-    }
+    private func fill(_ v: AuditVerdict) -> Color { auditVerdictFill(v) }
+    private func ink(_ v: AuditVerdict) -> Color { auditVerdictInk(v) }
 
     static func classify(_ status: String) -> AuditVerdict {
         switch status.lowercased() {
@@ -372,6 +693,206 @@ struct AuditReferenceContextView: View {
             fill: .clavixPaper2,
             secondary: .clavixInk3
         )
+    }
+}
+
+// MARK: - Shared static donut (no interactivity — used where a dimension
+// needs a composition breakdown, e.g. concentration, without the tap-to-select
+// behavior of the Holdings screen's donut).
+
+struct AuditDonutSlice: Identifiable {
+    let id: String
+    let label: String
+    let value: Double
+    let color: Color
+}
+
+struct AuditDonutChart: View {
+    let slices: [AuditDonutSlice]
+    let centerPrimary: String
+    let centerDetail: String
+
+    private var total: Double { max(slices.reduce(0) { $0 + $1.value }, 0.0001) }
+
+    var body: some View {
+        GeometryReader { geo in
+            let side = min(geo.size.width, geo.size.height)
+            let outer = side / 2
+            let ring = max(12, outer * 0.34)
+            let centerline = outer - ring / 2
+            let visibleCount = slices.filter { $0.value > 0 }.count
+            let gap: Double = visibleCount > 1 ? 1.6 : 0
+
+            ZStack {
+                Circle()
+                    .stroke(Color.clavixRule2, lineWidth: ring)
+                    .padding(ring / 2)
+
+                ForEach(cumulative(), id: \.id) { seg in
+                    AuditDonutArc(
+                        startDeg: -90 + seg.start * 360 + gap,
+                        endDeg: -90 + seg.end * 360 - gap,
+                        centerlineRadius: centerline
+                    )
+                    .stroke(seg.color, style: StrokeStyle(lineWidth: ring, lineCap: .butt))
+                }
+
+                VStack(spacing: 1) {
+                    Text(centerPrimary)
+                        .font(ClavisTypography.clavixMono(18, weight: .bold))
+                        .foregroundColor(.clavixInk)
+                    Text(centerDetail)
+                        .font(ClavisTypography.clavixMono(8, weight: .regular))
+                        .tracking(0.4)
+                        .foregroundColor(.clavixInk3)
+                }
+            }
+            .frame(width: geo.size.width, height: geo.size.height)
+        }
+        .aspectRatio(1, contentMode: .fit)
+    }
+
+    private struct Seg: Identifiable { let id: String; let start: Double; let end: Double; let color: Color }
+
+    private func cumulative() -> [Seg] {
+        var acc = 0.0
+        return slices.compactMap { slice in
+            guard slice.value > 0 else { return nil }
+            let start = acc / total
+            acc += slice.value
+            return Seg(id: slice.id, start: start, end: acc / total, color: slice.color)
+        }
+    }
+}
+
+private struct AuditDonutArc: Shape {
+    let startDeg: Double
+    let endDeg: Double
+    let centerlineRadius: CGFloat
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.addArc(
+            center: CGPoint(x: rect.midX, y: rect.midY),
+            radius: centerlineRadius,
+            startAngle: .degrees(startDeg),
+            endAngle: .degrees(endDeg),
+            clockwise: false
+        )
+        return path
+    }
+}
+
+/// A clean, bar-free stat row: label (+ caption), a prominent value, an optional
+/// colored verdict pill, and a plain-language explainer sentence. Replaces the
+/// shaded-region-and-dot gauges for metrics judged against a plain-English idea
+/// (beta, momentum) rather than a peer distribution.
+struct AuditStatRow: View {
+    let label: String
+    var caption: String? = nil
+    let value: String
+    var valueColor: Color = .clavixInk
+    var pill: String? = nil
+    var pillInk: Color = .clavixInk3
+    var pillFill: Color = .clavixPaper2
+    var explainer: String? = nil
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(label)
+                        .font(ClavisTypography.inter(14, weight: .semibold))
+                        .foregroundColor(.clavixInk)
+                    if let caption {
+                        Text(caption)
+                            .font(ClavisTypography.clavixMono(9, weight: .regular))
+                            .foregroundColor(.clavixInk3)
+                    }
+                }
+                Spacer(minLength: 8)
+                Text(value)
+                    .font(ClavisTypography.clavixMono(18, weight: .semibold))
+                    .foregroundColor(valueColor)
+                if let pill {
+                    Text(pill.uppercased())
+                        .font(ClavisTypography.clavixMono(8, weight: .bold))
+                        .tracking(0.4)
+                        .foregroundColor(pillInk)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 3)
+                        .background(pillFill)
+                        .clipShape(RoundedRectangle(cornerRadius: 3))
+                }
+            }
+            if let explainer {
+                Text(explainer)
+                    .font(ClavisTypography.footnote)
+                    .foregroundColor(.clavixInk3)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(.vertical, 4)
+    }
+}
+
+/// Literal peak-to-trough illustration: a dashed "prior high" reference line and
+/// a curve that falls away from it to the trough, so a drawdown reads as a price
+/// dropping off a cliff — not an abstract severity bar. Text lives outside the
+/// drawing area to avoid overlapping the curve.
+struct AuditDrawdownDrop: View {
+    let drawdown: Double        // negative fraction, e.g. -0.28
+    let color: Color
+
+    var body: some View {
+        GeometryReader { geo in
+            let w = geo.size.width
+            let h = geo.size.height
+            let frac = CGFloat(min(1, abs(drawdown) / 0.6))   // full drop caps at -60%
+            let peakY = h * 0.16
+            let troughY = peakY + (h * 0.66) * frac
+            let peakX = w * 0.14
+            let troughX = w * 0.72
+            let peak = CGPoint(x: peakX, y: peakY)
+            let trough = CGPoint(x: troughX, y: troughY)
+
+            ZStack {
+                // Prior-high reference line.
+                Path { p in
+                    p.move(to: CGPoint(x: 0, y: peakY))
+                    p.addLine(to: CGPoint(x: w, y: peakY))
+                }
+                .stroke(Color.clavixRule2, style: StrokeStyle(lineWidth: 1, dash: [3, 3]))
+
+                // The fall.
+                Path { p in
+                    p.move(to: peak)
+                    p.addCurve(
+                        to: trough,
+                        control1: CGPoint(x: (peakX + troughX) / 2, y: peakY),
+                        control2: CGPoint(x: (peakX + troughX) / 2, y: troughY)
+                    )
+                }
+                .stroke(color, style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
+
+                // Partial recovery hint off the trough, faint.
+                Path { p in
+                    p.move(to: trough)
+                    p.addLine(to: CGPoint(x: w * 0.92, y: troughY - (troughY - peakY) * 0.28))
+                }
+                .stroke(color.opacity(0.28), style: StrokeStyle(lineWidth: 2, lineCap: .round))
+
+                Circle()
+                    .fill(Color.clavixInk3)
+                    .frame(width: 7, height: 7)
+                    .position(peak)
+                Circle()
+                    .fill(color)
+                    .frame(width: 9, height: 9)
+                    .overlay(Circle().stroke(Color.clavixPaper, lineWidth: 1.5))
+                    .position(trough)
+            }
+        }
     }
 }
 
@@ -418,5 +939,216 @@ enum AuditSupport {
             return displayFormatter.string(from: parsedDate)
         }
         return rawValue
+    }
+}
+
+// MARK: - Price-series analytics (view-time, from data the app already fetches)
+
+/// Pure, view-time analytics derived from a daily close series the app fetches
+/// (`/prices/{ticker}`). Enriches audit views with real, always-fresh data points
+/// (drawdown window, daily-move distribution, 52-week range, up/down capture,
+/// sector correlation) without waiting on a backend recompute. The dimension
+/// SCORE still comes from the backend; this is display enrichment only.
+enum PriceSeriesAnalytics {
+
+    struct Point {
+        let date: Date
+        let close: Double
+    }
+
+    struct DrawdownWindow {
+        let peakIndex: Int
+        let troughIndex: Int
+        let peakDate: Date
+        let peakClose: Double
+        let troughDate: Date
+        let troughClose: Double
+        let drawdownPct: Double        // negative fraction, e.g. -0.278
+        let recovered: Bool
+        let slice: [Point]
+        let peakSliceIndex: Int
+        let troughSliceIndex: Int
+    }
+
+    struct ReturnBucket: Identifiable {
+        let id: Int
+        let label: String
+        let count: Int
+        let isNegative: Bool
+        let isCenter: Bool
+    }
+
+    struct RangePosition {
+        let low: Double
+        let high: Double
+        let last: Double
+        let fraction: Double
+    }
+
+    struct CaptureStats {
+        let upCapture: Double
+        let downCapture: Double
+        let upDays: Int
+        let downDays: Int
+    }
+
+    // MARK: Series prep
+
+    static func points(from prices: [PricePoint]) -> [Point] {
+        var byDay: [Date: (Date, Double)] = [:]
+        let cal = Calendar(identifier: .gregorian)
+        for p in prices {
+            let day = cal.startOfDay(for: p.recordedAt)
+            byDay[day] = (p.recordedAt, p.price)
+        }
+        return byDay.keys.sorted().compactMap { day in
+            byDay[day].map { Point(date: $0.0, close: $0.1) }
+        }
+    }
+
+    static func dailyReturns(_ pts: [Point]) -> [(date: Date, ret: Double)] {
+        guard pts.count > 1 else { return [] }
+        var out: [(Date, Double)] = []
+        for i in 1..<pts.count {
+            let prev = pts[i - 1].close
+            guard prev > 0 else { continue }
+            out.append((pts[i].date, (pts[i].close - prev) / prev))
+        }
+        return out
+    }
+
+    // MARK: Drawdown window
+
+    static func drawdownWindow(_ pts: [Point], trailing: Int = 252, contextBefore: Int = 15, contextAfter: Int = 30) -> DrawdownWindow? {
+        guard pts.count >= 3 else { return nil }
+        let series = Array(pts.suffix(trailing))
+        var runningPeakIdx = 0
+        var runningPeak = series[0].close
+        var worst = 0.0
+        var bestTrough = 0
+        var bestPeakForTrough = 0
+        for i in 0..<series.count {
+            if series[i].close > runningPeak {
+                runningPeak = series[i].close
+                runningPeakIdx = i
+            }
+            if runningPeak > 0 {
+                let dd = (series[i].close - runningPeak) / runningPeak
+                if dd < worst {
+                    worst = dd
+                    bestTrough = i
+                    bestPeakForTrough = runningPeakIdx
+                }
+            }
+        }
+        guard worst < 0 else { return nil }
+        let peakIdx = bestPeakForTrough
+        let troughIdx = bestTrough
+        let sliceStart = max(0, peakIdx - contextBefore)
+        let sliceEnd = min(series.count - 1, troughIdx + contextAfter)
+        let slice = Array(series[sliceStart...sliceEnd])
+        let recovered = series[troughIdx...].contains { $0.close >= series[peakIdx].close }
+        return DrawdownWindow(
+            peakIndex: peakIdx,
+            troughIndex: troughIdx,
+            peakDate: series[peakIdx].date,
+            peakClose: series[peakIdx].close,
+            troughDate: series[troughIdx].date,
+            troughClose: series[troughIdx].close,
+            drawdownPct: worst,
+            recovered: recovered,
+            slice: slice,
+            peakSliceIndex: peakIdx - sliceStart,
+            troughSliceIndex: troughIdx - sliceStart
+        )
+    }
+
+    // MARK: Return distribution
+
+    static func returnDistribution(_ pts: [Point], trailing: Int = 252) -> [ReturnBucket] {
+        let rets = dailyReturns(Array(pts.suffix(trailing + 1))).map { $0.ret }
+        let specs: [(String, Bool, Bool, (Double) -> Bool)] = [
+            ("<-5%", true, false, { $0 <= -0.05 }),
+            ("-5:-3", true, false, { $0 > -0.05 && $0 <= -0.03 }),
+            ("-3:-1", true, false, { $0 > -0.03 && $0 <= -0.01 }),
+            ("-1:+1", false, true, { $0 > -0.01 && $0 < 0.01 }),
+            ("+1:+3", false, false, { $0 >= 0.01 && $0 < 0.03 }),
+            ("+3:+5", false, false, { $0 >= 0.03 && $0 < 0.05 }),
+            (">+5%", false, false, { $0 >= 0.05 }),
+        ]
+        return specs.enumerated().map { idx, spec in
+            ReturnBucket(id: idx, label: spec.0, count: rets.filter { spec.3($0) }.count, isNegative: spec.1, isCenter: spec.2)
+        }
+    }
+
+    static func worstBestDay(_ pts: [Point], trailing: Int = 252) -> (worst: Double, best: Double)? {
+        let rets = dailyReturns(Array(pts.suffix(trailing + 1))).map { $0.ret }
+        guard let worst = rets.min(), let best = rets.max() else { return nil }
+        return (worst, best)
+    }
+
+    // MARK: 52-week range
+
+    static func rangePosition(_ pts: [Point], trailing: Int = 252) -> RangePosition? {
+        let series = Array(pts.suffix(trailing))
+        guard let low = series.map(\.close).min(),
+              let high = series.map(\.close).max(),
+              let last = series.last?.close,
+              high > low else { return nil }
+        return RangePosition(low: low, high: high, last: last, fraction: (last - low) / (high - low))
+    }
+
+    // MARK: Up / down capture vs a benchmark
+
+    static func capture(_ pts: [Point], benchmark: [Point], trailing: Int = 252) -> CaptureStats? {
+        let cal = Calendar(identifier: .gregorian)
+        func retsByDay(_ series: [Point]) -> [Date: Double] {
+            var m: [Date: Double] = [:]
+            for r in dailyReturns(series) { m[cal.startOfDay(for: r.date)] = r.ret }
+            return m
+        }
+        let a = retsByDay(Array(pts.suffix(trailing + 1)))
+        let b = retsByDay(Array(benchmark.suffix(trailing + 1)))
+        let common = Set(a.keys).intersection(b.keys)
+        guard common.count >= 20 else { return nil }
+        var upA = 0.0, upB = 0.0, downA = 0.0, downB = 0.0, upN = 0, downN = 0
+        for day in common {
+            guard let ar = a[day], let br = b[day] else { continue }
+            if br > 0 { upA += ar; upB += br; upN += 1 }
+            else if br < 0 { downA += ar; downB += br; downN += 1 }
+        }
+        guard upB != 0, downB != 0, upN > 0, downN > 0 else { return nil }
+        return CaptureStats(upCapture: upA / upB, downCapture: downA / downB, upDays: upN, downDays: downN)
+    }
+
+    /// Pearson correlation of daily returns between two aligned series (0..1 tightness).
+    static func correlation(_ pts: [Point], other: [Point], trailing: Int = 120) -> Double? {
+        let cal = Calendar(identifier: .gregorian)
+        func retsByDay(_ series: [Point]) -> [Date: Double] {
+            var m: [Date: Double] = [:]
+            for r in dailyReturns(series) { m[cal.startOfDay(for: r.date)] = r.ret }
+            return m
+        }
+        let a = retsByDay(Array(pts.suffix(trailing + 1)))
+        let b = retsByDay(Array(other.suffix(trailing + 1)))
+        let common = Array(Set(a.keys).intersection(b.keys))
+        guard common.count >= 20 else { return nil }
+        let xs = common.map { a[$0]! }
+        let ys = common.map { b[$0]! }
+        let mx = xs.reduce(0, +) / Double(xs.count)
+        let my = ys.reduce(0, +) / Double(ys.count)
+        var num = 0.0, dx = 0.0, dy = 0.0
+        for i in 0..<xs.count {
+            let a0 = xs[i] - mx, b0 = ys[i] - my
+            num += a0 * b0; dx += a0 * a0; dy += b0 * b0
+        }
+        guard dx > 0, dy > 0 else { return nil }
+        return num / (dx.squareRoot() * dy.squareRoot())
+    }
+
+    static func percentChange(_ pts: [Point], days: Int) -> Double? {
+        let series = pts.suffix(days + 1)
+        guard let first = series.first?.close, let last = series.last?.close, first > 0 else { return nil }
+        return (last - first) / first
     }
 }

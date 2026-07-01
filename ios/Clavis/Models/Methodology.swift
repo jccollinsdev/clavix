@@ -115,6 +115,9 @@ struct MethodologyMacroExposure: Codable, MethodologyDimensionProtocol {
     let limitedData: Bool?
     let asOfDate: String?
     let coefficients: [String: Double?]?
+    let contributions: [String: Double?]?
+    let macroDailyVol: Double?
+    let topFactor: String?
     let currentFactorLevels: [String: Double?]?
     let factorLevels: [String: Double?]?
     let narrative: String?
@@ -128,6 +131,9 @@ struct MethodologyMacroExposure: Codable, MethodologyDimensionProtocol {
         case limitedData = "limited_data"
         case asOfDate = "as_of_date"
         case coefficients
+        case contributions
+        case macroDailyVol = "macro_daily_vol"
+        case topFactor = "top_factor"
         case currentFactorLevels = "current_factor_levels"
         case factorLevels = "factor_levels"
         case narrative

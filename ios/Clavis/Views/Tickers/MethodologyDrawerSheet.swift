@@ -143,7 +143,7 @@ struct MethodologyDrawerSheet: View {
         case .sectorExposure:
             SectorExposureAuditView(ticker: ticker, methodology: methodology)
         case .volatility:
-            VolatilityAuditView(ticker: ticker, methodology: methodology, scoreHistory: [])
+            VolatilityAuditView(ticker: ticker, methodology: methodology)
         }
     }
 

@@ -9,9 +9,9 @@ struct ScoreHistoryChart: View {
     private let dimensionKeys: [(String, String, Color)] = [
         ("financial_health", "Financial Health", .gradeCAA),
         ("news_sentiment", "News Sentiment", .gradeCBBB),
-        ("macro_exposure", "Macro Exposure", .gradeCCC),
-        ("sector_exposure", "Sector Exposure", .gradeCCCC),
-        ("volatility", "Volatility", .gradeCF),
+        ("macro_exposure", "Macro Resilience", .gradeCCC),
+        ("sector_exposure", "Sector Resilience", .gradeCCCC),
+        ("volatility", "Price Stability", .gradeCF),
     ]
 
     var body: some View {
@@ -290,7 +290,7 @@ struct TickerPriceChart: View {
         // 2-day (e.g. 1D-tab daily-close) window shows 2 labels instead of 4 with repeats.
         let distinctDays = Set(prices.map { Calendar.current.startOfDay(for: $0.recordedAt) }).count
         let tickCount = min(4, max(2, distinctDays))
-        let inset = 0.12
+        let inset = 0.16
         let usableSpan = 1.0 - inset * 2
         return (0..<tickCount).map { index in
             let fraction = inset + usableSpan * Double(index) / Double(tickCount - 1)
@@ -391,6 +391,12 @@ struct TickerPriceChart: View {
             }
         }
         .chartXSelection(value: $selectedDate)
+        .chartPlotStyle { plotArea in
+            // Extra breathing room between the plotted line and the trailing
+            // price labels — without this the line's rightmost point renders
+            // almost flush against e.g. "$600".
+            plotArea.padding(.trailing, 8)
+        }
         .frame(maxWidth: .infinity)
         .frame(height: 190)
     }

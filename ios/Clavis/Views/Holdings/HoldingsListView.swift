@@ -369,8 +369,7 @@ struct HoldingsListView: View {
                     label: position.ticker,
                     value: value,
                     color: ClavisGradeStyle.riskColor(for: position.resolvedRiskGrade),
-                    caption: "\(Int(pct.rounded()))% · \(currencyNoCents(value))",
-                    legend: "\(Int(pct.rounded()))%"
+                    caption: "\(Int(pct.rounded()))% · \(currencyNoCents(value))"
                 )
             }
     }
@@ -394,8 +393,7 @@ struct HoldingsListView: View {
                 label: grade,
                 value: Double(count),
                 color: ClavisGradeStyle.riskColor(for: grade),
-                caption: "\(count) position\(count == 1 ? "" : "s") · \(pct)%",
-                legend: "×\(count)"
+                caption: "\(count) position\(count == 1 ? "" : "s") · \(pct)%"
             )
         }
     }
@@ -428,8 +426,7 @@ struct HoldingsListView: View {
                                 slices: allocationSlices,
                                 centerPrimary: currencyNoCents(totalMarketValue),
                                 centerDetail: "book value",
-                                namespace: "alloc",
-                                legendLimit: 5
+                                namespace: "alloc"
                             )
                             Rectangle().fill(Color.clavixRule).frame(width: 1)
                             donutColumn(
@@ -438,8 +435,7 @@ struct HoldingsListView: View {
                                 slices: gradeSlices,
                                 centerPrimary: "\(gradedCount)",
                                 centerDetail: gradedCount == 1 ? "ticker" : "tickers",
-                                namespace: "grade",
-                                legendLimit: 13
+                                namespace: "grade"
                             )
                         }
                     }
@@ -454,8 +450,7 @@ struct HoldingsListView: View {
         slices: [DonutSlice],
         centerPrimary: String,
         centerDetail: String,
-        namespace: String,
-        legendLimit: Int
+        namespace: String
     ) -> some View {
         VStack(spacing: 10) {
             // Only the donut wedges capture touches. Everything else here is
@@ -481,41 +476,8 @@ struct HoldingsListView: View {
                     .foregroundColor(.clavixInk3)
             }
             .allowsHitTesting(false)
-
-            donutLegend(slices: slices, limit: legendLimit)
-                .allowsHitTesting(false)
         }
         .frame(maxWidth: .infinity)
-    }
-
-    private func donutLegend(slices: [DonutSlice], limit: Int) -> some View {
-        let shown = Array(slices.prefix(limit))
-        let extra = slices.count - shown.count
-        return VStack(spacing: 5) {
-            ForEach(shown) { slice in
-                HStack(spacing: 6) {
-                    Circle()
-                        .fill(slice.color)
-                        .frame(width: 7, height: 7)
-                    Text(slice.label)
-                        .font(ClavisTypography.clavixMono(10, weight: .bold))
-                        .foregroundColor(.clavixInk)
-                        .lineLimit(1)
-                    Spacer(minLength: 4)
-                    Text(slice.legend)
-                        .font(ClavisTypography.clavixMono(10, weight: .regular))
-                        .foregroundColor(.clavixInk3)
-                }
-            }
-            if extra > 0 {
-                HStack {
-                    Text("+\(extra) more")
-                        .font(ClavisTypography.clavixMono(9, weight: .regular))
-                        .foregroundColor(.clavixInk4)
-                    Spacer()
-                }
-            }
-        }
     }
 
     // MARK: - Positions section
@@ -813,7 +775,6 @@ private struct DonutSlice: Identifiable {
     let value: Double      // wedge size
     let color: Color
     let caption: String    // center readout sub-line (e.g. "35% · $12,400")
-    let legend: String     // legend trailing value (e.g. "35%", "×2")
 }
 
 private struct DonutSegment: Identifiable {
