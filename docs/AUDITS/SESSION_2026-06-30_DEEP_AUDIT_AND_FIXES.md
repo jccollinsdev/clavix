@@ -53,6 +53,25 @@ Live DB: Supabase `uwvwulhkxtzabykelvam` (clavis). Backend: VPS
    547-ticker run is marked `failed` and pages. **Fix: don't fail a run that did no
    real work beyond a transient error.**
 
+## ⚠️ BIGGEST FIND — universe-wide stale-data read bug (BE0)
+`_VALID_GRADES` in `ticker_cache_service.py` was still the pre-migration bond
+vocabulary `{AAA,AA,A,BBB,BB,B,CCC,CC,C,F}` — no `A+/A-/B+/B-/C+/C-/D+/D-`. Since the
+2026-06-27 academic-grade migration the scorer emits those modifier grades, so
+`snapshot_is_schema_complete()` returned **False** for every modifier-graded snapshot.
+The read path (`_canonical_snapshot_sort_key`) ranks schema-complete snapshots first,
+so for any ticker whose current grade has a +/- modifier it **silently served an older
+bond-graded snapshot** — stale grade AND stale 5 dimensions AND stale news.
+- **Blast radius: 329/547 tickers (60.1%)** were being served a stale snapshot.
+- Example: COST's API returned the 06-30 row (grade B, news NULL, composite 85.9)
+  instead of the fresh 07-01 row (B+, news 58, composite 79.9); CSCO returned a
+  bond-vocab "BBB" from weeks earlier.
+- Fix: expand `_VALID_GRADES` to the academic ladder (legacy bond kept for old rows).
+  No data change needed — the fresh rows already exist and are now preferred. Verified
+  the digest/alert grade→rank maps (notifier/portfolio_compiler/digest_inputs) are
+  already academic-aware, so this was the only serving-path vocabulary gap.
+
+This was found only because the live-API smoke test disagreed with the DB.
+
 ## FIXES APPLIED — BACKEND
 
 **BE1. Hide incomplete articles everywhere they're served.**
@@ -133,6 +152,29 @@ day-over-day stability.
 existing `TickerDriverCardsSection` renders the corrected, de-conflicted, specific cards.
 
 **Build**: `xcodebuild` for the Clavis scheme (iPhone 17 Pro sim) compiles clean.
+
+## REGRESSION SWEEP — final state
+
+- **5 dimensions**: 547/547 fresh; after the force recompute, null news dimension
+  dropped from ~28 real stocks to only genuinely-thin names (correct limited-data).
+  composite / grade / macro / volatility never null.
+- **Morning digests**: both users have today's + yesterday's digest, all 7 structured
+  sections populated, 2.5–3.8k chars. Serving-layer changes don't touch digest
+  generation (`digest_inputs` reads `shared_ticker_events` directly) — no regression.
+- **News/ticker info**: only fully-enriched articles (brief + risk-signal score + key
+  implications) are served across the methodology audit, Today feed, and ticker detail.
+- **Jobs**: all completing (`status='completed'`); ops monitor working; recompute
+  severity labelling corrected.
+- **Tests**: backend 520 passed / 28 pre-existing stale-vocab failures (zero new
+  regressions; flagged as a follow-up task). iOS build clean.
+
+## KNOWN / DEFERRED (not launch blockers)
+- 28 stale bond-grade-vocab tests (spawned as a follow-up task). Runtime is correct.
+- News enrichment completeness ~63% of last-7d articles (ops-monitor target 85%). The
+  gap is largely structural (paywalled / navigation-only extraction can't be enriched);
+  hidden from users now, and the hourly bulk-enrichment job keeps improving the fixable
+  ones. Not a data-integrity issue — just coverage depth.
+
 
 </content>
 </invoke>
