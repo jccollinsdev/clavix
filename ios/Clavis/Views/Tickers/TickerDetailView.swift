@@ -867,7 +867,11 @@ struct TickerDetailView: View {
                 isETF: detail?.profile.isETF ?? false
             )
         case .newsSentiment:
-            NewsSentimentAuditView(ticker: ticker, methodology: methodology)
+            NewsSentimentAuditView(
+                ticker: ticker,
+                methodology: methodology,
+                isETF: detail?.profile.isETF ?? false
+            )
         case .macroExposure:
             MacroExposureAuditView(ticker: ticker, methodology: methodology)
         case .sectorExposure:
@@ -1002,9 +1006,9 @@ struct TickerDetailView: View {
         let financialSubtitle = isETF
             ? "Weighted top-holding risk"
             : methodology?.dimensions.financialHealth.dataSource ?? "Quarterly fundamentals"
-        let categoryTitle = isETF ? "Category Signal" : "News Sentiment"
-        let categoryAbbrev = isETF ? "CAT" : "NEWS"
-        let categorySubtitle = isETF ? "Fund flows and category news" : newsSubtitle
+        let categoryTitle = isETF ? "Sector Strength" : "News Sentiment"
+        let categoryAbbrev = isETF ? "STR" : "NEWS"
+        let categorySubtitle = isETF ? "Coverage of the fund's space" : newsSubtitle
         let sectorTitle = isETF ? "Concentration" : "Sector Resilience"
         let sectorAbbrev = isETF ? "CONC" : "SEC"
         let sectorSubtitle = isETF

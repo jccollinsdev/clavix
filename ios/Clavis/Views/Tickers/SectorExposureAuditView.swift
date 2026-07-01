@@ -34,6 +34,7 @@ struct SectorExposureAuditView: View {
                     )
 
                     if isETF {
+                        concentrationHeroCard
                         concentrationCard
                     } else {
                         // Narrative first: set the scene before the numbers.
@@ -181,7 +182,60 @@ struct SectorExposureAuditView: View {
         String(format: "%+.1f%%", value * 100)
     }
 
-    // MARK: - ETF concentration donut
+    // MARK: - ETF concentration hero (top-10 weight + verdict)
+
+    @ViewBuilder
+    private var concentrationHeroCard: some View {
+        if let top10 = dimension?.top10WeightPct {
+            AuditSectionCard(title: "Concentration") {
+                HStack(alignment: .firstTextBaseline, spacing: 6) {
+                    Text(String(format: "%.0f%%", top10))
+                        .font(ClavisTypography.clavixMono(38, weight: .semibold))
+                        .tracking(-1)
+                        .foregroundColor(concentrationInk(top10))
+                    Text("in the top 10")
+                        .font(ClavisTypography.clavixMono(12, weight: .regular))
+                        .foregroundColor(.clavixInk4)
+                    Spacer(minLength: 8)
+                    AuditSquareTag(text: concentrationWord(top10), ink: concentrationInk(top10), fill: concentrationSoft(top10))
+                }
+                Text(concentrationRead(top10: top10, top: dimension?.topHoldingWeightPct))
+                    .font(ClavisTypography.footnote)
+                    .foregroundColor(.clavixInk3)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+
+    private func concentrationWord(_ top10: Double) -> String {
+        if top10 >= 55 { return "Concentrated" }
+        if top10 >= 35 { return "Balanced" }
+        return "Diversified"
+    }
+    private func concentrationInk(_ top10: Double) -> Color {
+        if top10 >= 55 { return .clavixBadInk }
+        if top10 >= 35 { return .clavixWarnInk }
+        return .clavixGoodInk
+    }
+    private func concentrationSoft(_ top10: Double) -> Color {
+        if top10 >= 55 { return .clavixBadSoft }
+        if top10 >= 35 { return .clavixWarnSoft }
+        return .clavixGoodSoft
+    }
+    private func concentrationRead(top10: Double, top: Double?) -> String {
+        let topClause = top.map { String(format: " Its single biggest position is %.0f%% of the fund.", $0) } ?? ""
+        let base: String
+        if top10 >= 55 {
+            base = "The ten largest holdings make up over half the fund, so its returns hinge on a handful of names."
+        } else if top10 >= 35 {
+            base = "The top ten carry a meaningful but not dominant share, a fairly typical spread for a focused fund."
+        } else {
+            base = "No small group of holdings dominates, so the fund is well spread across its constituents."
+        }
+        return base + topClause
+    }
+
+    // MARK: - ETF weight-breakdown donut
 
     @ViewBuilder
     private var concentrationCard: some View {
@@ -193,23 +247,20 @@ struct SectorExposureAuditView: View {
                 AuditDonutSlice(id: "next9", label: "Next 9", value: next9, color: .clavixAccent),
                 AuditDonutSlice(id: "rest", label: "Rest of fund", value: rest, color: .clavixGood),
             ]
-            AuditSectionCard(title: "Concentration") {
-                Text("How much of the fund rides on its largest positions. The more the top names dominate, the more the fund's fate is tied to a handful of stocks.")
-                    .font(ClavisTypography.footnote)
-                    .foregroundColor(.clavixInk3)
-                    .fixedSize(horizontal: false, vertical: true)
+            AuditSectionCard(title: "Weight Breakdown") {
                 HStack(alignment: .center, spacing: 18) {
                     AuditDonutChart(
                         slices: slices,
                         centerPrimary: "\(dimension?.holdingsCount ?? 0)",
                         centerDetail: "holdings"
                     )
-                    .frame(width: 108, height: 108)
+                    .frame(width: 112, height: 112)
 
                     VStack(alignment: .leading, spacing: 10) {
                         ForEach(slices) { slice in
                             HStack(spacing: 8) {
-                                Circle().fill(slice.color).frame(width: 8, height: 8)
+                                RoundedRectangle(cornerRadius: 2, style: .continuous)
+                                    .fill(slice.color).frame(width: 9, height: 9)
                                 Text(slice.label)
                                     .font(ClavisTypography.inter(13, weight: .medium))
                                     .foregroundColor(.clavixInk)
@@ -222,12 +273,10 @@ struct SectorExposureAuditView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
-            }
-        } else {
-            AuditSectionCard(title: "Concentration") {
-                Text("Concentration data unavailable for this fund's latest holdings file.")
-                    .font(ClavisTypography.footnote)
-                    .foregroundColor(.clavixInk3)
+                Text("Slices show what share of the fund sits in its single largest holding, the next nine, and everything else.")
+                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .foregroundColor(.clavixInk4)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
     }

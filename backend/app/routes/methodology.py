@@ -246,6 +246,13 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
             "sector_momentum_30d": None,
             "sector_breadth": None,
             "narrative": None,
+            # Preserve ETF concentration fields through this sector-fallback (sector
+            # ETFs like XLK have both a metadata sector AND concentration data).
+            "dimension_label": sector_inputs.get("dimension_label"),
+            "holdings_count": sector_inputs.get("holdings_count"),
+            "top_holding_weight_pct": sector_inputs.get("top_holding_weight_pct"),
+            "top_10_weight_pct": sector_inputs.get("top_10_weight_pct"),
+            "concentration_score": sector_inputs.get("concentration_score"),
         }
 
     article_payloads = [
@@ -304,6 +311,16 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
                     )
                     if sector_medians.get(metric)
                 },
+                # ETF Holdings Quality: constituent-weighted holdings, scored. Present
+                # only for funds; equities leave these null.
+                "dimension_label": financial_inputs.get("dimension_label"),
+                "holdings_count": financial_inputs.get("holdings_count"),
+                "holdings_scored_count": financial_inputs.get("holdings_scored_count"),
+                "holdings_weight_covered_pct": financial_inputs.get("holdings_weight_covered_pct"),
+                "holdings_quality_score": financial_inputs.get("holdings_quality_score"),
+                "top_holding_weight_pct": financial_inputs.get("top_holding_weight_pct"),
+                "top_10_weight_pct": financial_inputs.get("top_10_weight_pct"),
+                "holdings": financial_inputs.get("holdings"),
             },
             "news_sentiment": {
                 "score": risk_dims.get("news_sentiment"),
@@ -361,6 +378,12 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
                 "relative_strength_90d": sector_inputs.get("relative_strength_90d"),
                 "correlation_to_sector": sector_inputs.get("correlation_to_sector"),
                 "sector_change_90d": sector_inputs.get("sector_change_90d"),
+                # ETF Concentration: top-holding weight breakdown. Present only for funds.
+                "dimension_label": sector_inputs.get("dimension_label"),
+                "holdings_count": sector_inputs.get("holdings_count"),
+                "top_holding_weight_pct": sector_inputs.get("top_holding_weight_pct"),
+                "top_10_weight_pct": sector_inputs.get("top_10_weight_pct"),
+                "concentration_score": sector_inputs.get("concentration_score"),
                 "narrative": sector_inputs.get("narrative"),
                 "peer_comparisons": peers,
                 "sector_median_comparison": {

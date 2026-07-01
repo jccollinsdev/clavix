@@ -4,10 +4,12 @@ struct NewsSentimentAuditView: View {
     @Environment(\.dismiss) private var dismiss
     let ticker: String
     let methodology: MethodologyResponse?
+    var isETF: Bool = false
     @State private var selectedArticle: MethodologyArticle?
 
     private var dimension: MethodologyNewsSentiment? { methodology?.dimensions.newsSentiment }
     private var isReferenceMode: Bool { methodology == nil }
+    private var screenTitle: String { isETF ? "Sector Strength" : "News Sentiment" }
 
     private var articles: [MethodologyArticle] {
         (dimension?.articles ?? []).filter { $0.sentimentScore != nil }
@@ -18,22 +20,26 @@ struct NewsSentimentAuditView: View {
             VStack(alignment: .leading, spacing: ClavisTheme.sectionSpacing) {
                 if isReferenceMode {
                     AuditReferenceContextView(
-                        dimensionName: "News Sentiment",
-                        message: "Open a ticker from Search, Holdings, Alerts, or the Morning Report to see how recent coverage nets out for that stock."
+                        dimensionName: screenTitle,
+                        message: isETF
+                            ? "Open a fund to see how recent coverage of its space and holdings nets out."
+                            : "Open a ticker from Search, Holdings, Alerts, or the Morning Report to see how recent coverage nets out for that stock."
                     )
                 } else if articles.count < 3 {
                     AuditHeaderCard(
-                        title: "News Sentiment",
+                        title: screenTitle,
                         ticker: ticker,
                         score: dimension?.score,
                         subtitle: subtitle
                     )
                     AuditLimitedDataView(
-                        message: "Not enough clearly scorable coverage in the recent window to net out a signal. We only count articles with a real, company-specific implication, so thin weeks read as limited rather than a manufactured neutral."
+                        message: isETF
+                            ? "Not enough clearly scorable coverage of this fund's space in the recent window to net out a signal. We only count articles with a real, specific implication, so thin weeks read as limited rather than a manufactured neutral."
+                            : "Not enough clearly scorable coverage in the recent window to net out a signal. We only count articles with a real, company-specific implication, so thin weeks read as limited rather than a manufactured neutral."
                     )
                 } else {
                     AuditHeaderCard(
-                        title: "News Sentiment",
+                        title: screenTitle,
                         ticker: ticker,
                         score: dimension?.score,
                         subtitle: subtitle
@@ -44,7 +50,9 @@ struct NewsSentimentAuditView: View {
                     articlesCard
 
                     AuditSectionCard(title: "How to read this") {
-                        Text("News Sentiment nets recent, company-specific coverage into a single 0–100 read. Higher means the balance of coverage is supportive; lower means it leans negative. More recent and more credible sources carry more weight. Articles without a clear company implication are left out rather than counted as neutral.")
+                        Text(isETF
+                             ? "Sector Strength nets recent, relevant coverage of the fund and its space into a single 0–100 read. Higher means the balance of coverage is supportive; lower means it leans negative. More recent and more credible sources carry more weight. Articles without a clear implication are left out rather than counted as neutral."
+                             : "News Sentiment nets recent, company-specific coverage into a single 0–100 read. Higher means the balance of coverage is supportive; lower means it leans negative. More recent and more credible sources carry more weight. Articles without a clear company implication are left out rather than counted as neutral.")
                             .font(ClavisTypography.body)
                             .foregroundColor(.clavixInk3)
                             .fixedSize(horizontal: false, vertical: true)

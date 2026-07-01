@@ -41,7 +41,7 @@ struct FinancialHealthAuditView: View {
                     }
 
                     if isETF {
-                        concentrationCard
+                        holdingsQualityCard
                         if !(dimension?.holdings ?? []).isEmpty {
                             topHoldingsCard
                         }
@@ -69,56 +69,84 @@ struct FinancialHealthAuditView: View {
         .toolbar(.hidden, for: .navigationBar)
     }
 
-    // MARK: - ETF concentration donut
+    // MARK: - ETF holdings-quality grade mix
 
     @ViewBuilder
-    private var concentrationCard: some View {
-        if let top = dimension?.topHoldingWeightPct, let top10 = dimension?.top10WeightPct, top10 >= top {
-            let next9 = max(0, top10 - top)
-            let rest = max(0, 100 - top10)
+    private var holdingsQualityCard: some View {
+        let scored = (dimension?.holdings ?? []).filter { $0.score != nil }
+        if scored.count >= 3 {
+            let strong = scored.filter { ($0.score ?? 0) >= 67 }.count
+            let moderate = scored.filter { let s = $0.score ?? 0; return s >= 34 && s < 67 }.count
+            let weak = scored.filter { ($0.score ?? 0) < 34 }.count
             let slices = [
-                AuditDonutSlice(id: "top", label: "Top holding", value: top, color: .clavixWarn),
-                AuditDonutSlice(id: "next9", label: "Next 9", value: next9, color: .clavixAccent),
-                AuditDonutSlice(id: "rest", label: "Rest of fund", value: rest, color: .clavixGood),
-            ]
-            AuditSectionCard(title: "Concentration") {
+                AuditDonutSlice(id: "strong", label: "Strong", value: Double(strong), color: .clavixGood),
+                AuditDonutSlice(id: "moderate", label: "Moderate", value: Double(moderate), color: .clavixWarn),
+                AuditDonutSlice(id: "weak", label: "Weak", value: Double(weak), color: .clavixBad),
+            ].filter { $0.value > 0 }
+            AuditSectionCard(title: "Quality of Holdings") {
                 HStack(alignment: .center, spacing: 18) {
                     AuditDonutChart(
                         slices: slices,
-                        centerPrimary: "\(dimension?.holdingsCount ?? 0)",
-                        centerDetail: "holdings"
+                        centerPrimary: "\(scored.count)",
+                        centerDetail: "scored"
                     )
-                    .frame(width: 108, height: 108)
+                    .frame(width: 112, height: 112)
 
                     VStack(alignment: .leading, spacing: 10) {
-                        ForEach(slices) { slice in
-                            HStack(spacing: 8) {
-                                Circle().fill(slice.color).frame(width: 8, height: 8)
-                                Text(slice.label)
-                                    .font(ClavisTypography.inter(13, weight: .medium))
-                                    .foregroundColor(.clavixInk)
-                                Spacer(minLength: 8)
-                                Text("\(Int(slice.value.rounded()))%")
-                                    .font(ClavisTypography.clavixMono(13, weight: .semibold))
-                                    .foregroundColor(.clavixInk)
-                            }
-                        }
+                        qualityLegendRow("Strong", "67+", strong, .clavixGood)
+                        qualityLegendRow("Moderate", "34–66", moderate, .clavixWarn)
+                        qualityLegendRow("Weak", "below 34", weak, .clavixBad)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
-                Text("\(dimension?.holdingsScoredCount ?? 0) of \(dimension?.holdingsCount ?? 0) holdings scored · \(weightCoveredText) of weight covered")
+                Text(qualityRead(strong: strong, moderate: moderate, weak: weak, total: scored.count))
                     .font(ClavisTypography.footnote)
                     .foregroundColor(.clavixInk3)
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(.top, 2)
+                Text("\(dimension?.holdingsScoredCount ?? scored.count) of \(dimension?.holdingsCount ?? scored.count) holdings scored · \(weightCoveredText) of weight covered")
+                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .foregroundColor(.clavixInk4)
             }
         } else {
-            AuditSectionCard(title: "Concentration") {
-                Text("Concentration data unavailable for this fund's latest holdings file.")
+            AuditSectionCard(title: "Quality of Holdings") {
+                Text("Not enough of this fund's holdings are individually scored yet to break down their quality. Coverage so far: \(dimension?.holdingsScoredCount ?? 0) of \(dimension?.holdingsCount ?? 0) holdings, \(weightCoveredText) of fund weight.")
                     .font(ClavisTypography.footnote)
                     .foregroundColor(.clavixInk3)
+                    .fixedSize(horizontal: false, vertical: true)
             }
         }
+    }
+
+    private func qualityLegendRow(_ label: String, _ range: String, _ count: Int, _ color: Color) -> some View {
+        HStack(spacing: 8) {
+            RoundedRectangle(cornerRadius: 2, style: .continuous)
+                .fill(color).frame(width: 9, height: 9)
+            VStack(alignment: .leading, spacing: 0) {
+                Text(label)
+                    .font(ClavisTypography.inter(13, weight: .medium))
+                    .foregroundColor(.clavixInk)
+                Text(range)
+                    .font(ClavisTypography.clavixMono(8, weight: .regular))
+                    .foregroundColor(.clavixInk4)
+            }
+            Spacer(minLength: 8)
+            Text("\(count)")
+                .font(ClavisTypography.clavixMono(15, weight: .semibold))
+                .foregroundColor(.clavixInk)
+        }
+    }
+
+    private func qualityRead(strong: Int, moderate: Int, weak: Int, total: Int) -> String {
+        guard total > 0 else { return "" }
+        let strongPct = Int((Double(strong) / Double(total) * 100).rounded())
+        if strong >= moderate + weak {
+            return "Most of the scored holdings (\(strongPct)%) are strong-rated names, so the fund is built on a healthy base."
+        }
+        if weak > strong {
+            return "More of the scored holdings lean weak than strong, which drags on the fund's overall quality."
+        }
+        return "The fund's scored holdings are a mix of strong and softer names, so quality is middling rather than uniform."
     }
 
     private var weightCoveredText: String {
@@ -131,11 +159,16 @@ struct FinancialHealthAuditView: View {
         let holdings = dimension?.holdings ?? []
         let maxWeight = max(holdings.compactMap(\.weightPct).max() ?? 1, 1)
         return AuditSectionCard(title: "Top Holdings") {
+            Text("The bar is each holding's weight in the fund; the number on the right is its own Clavix score (0–100), colored by strength.")
+                .font(ClavisTypography.footnote)
+                .foregroundColor(.clavixInk3)
+                .fixedSize(horizontal: false, vertical: true)
             VStack(spacing: 12) {
                 ForEach(holdings) { holding in
                     HoldingWeightRow(holding: holding, maxWeight: maxWeight)
                 }
             }
+            .padding(.top, 2)
         }
     }
 
@@ -458,7 +491,7 @@ private struct HoldingWeightRow: View {
 
             Text(holding.score.map { String(format: "%.0f", $0) } ?? "\u{2014}")
                 .font(ClavisTypography.clavixMono(13, weight: .semibold))
-                .foregroundColor(.clavixInk)
+                .foregroundColor(auditBandInk(holding.score))
                 .frame(width: 26, alignment: .trailing)
         }
     }
@@ -526,6 +559,24 @@ func auditVerdictInk(_ v: AuditVerdict) -> Color {
     case .warn:    return .clavixWarnInk
     case .bad:     return .clavixBadInk
     case .neutral: return .clavixInk3
+    }
+}
+
+/// Squared verdict tag matching the design language (not a rounded pill).
+struct AuditSquareTag: View {
+    let text: String
+    let ink: Color
+    let fill: Color
+
+    var body: some View {
+        Text(text.uppercased())
+            .font(ClavisTypography.clavixMono(9, weight: .bold))
+            .tracking(0.5)
+            .foregroundColor(ink)
+            .padding(.horizontal, 7)
+            .padding(.vertical, 4)
+            .background(fill)
+            .clipShape(RoundedRectangle(cornerRadius: 3, style: .continuous))
     }
 }
 
