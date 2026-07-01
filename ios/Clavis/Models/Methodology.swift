@@ -5,11 +5,101 @@ struct MethodologyResponse: Codable {
     let assetClass: String?
     let dimensions: MethodologyDimensions
     let composite: MethodologyComposite
+    let profile: MethodologyProfile?
 
     enum CodingKeys: String, CodingKey {
         case ticker
         case assetClass = "asset_class"
-        case dimensions, composite
+        case dimensions, composite, profile
+    }
+}
+
+/// About-section source: business summary (stocks) / fund overview (ETFs) plus
+/// the fund's structured profile for the ETF screens.
+struct MethodologyProfile: Codable {
+    let isEtf: Bool?
+    let name: String?
+    let description: String?
+    let sector: String?
+    let industry: String?
+    let theme: String?
+    let category: String?
+    let benchmark: String?
+    let totalHoldings: Int?
+    let aum: Double?
+    let peRatio: Double?
+    let sectors: [MethodologyWeightSlice]?
+    let countries: [MethodologyWeightSlice]?
+    let performance: MethodologyETFPerformance?
+
+    enum CodingKeys: String, CodingKey {
+        case isEtf = "is_etf"
+        case name, description, sector, industry, theme, category, benchmark
+        case totalHoldings = "total_holdings"
+        case aum
+        case peRatio = "pe_ratio"
+        case sectors, countries, performance
+    }
+}
+
+/// A named weight slice — sector or country breakdown ({name, weight}).
+struct MethodologyWeightSlice: Codable, Identifiable {
+    let name: String
+    let weight: Double?
+    var id: String { name }
+}
+
+/// One point of the cumulative-vs-market relative series: [date, relPct].
+struct MethodologyRelPoint: Codable, Identifiable {
+    let date: String
+    let value: Double
+    var id: String { date }
+
+    init(from decoder: Decoder) throws {
+        var c = try decoder.unkeyedContainer()
+        date = (try? c.decode(String.self)) ?? ""
+        value = (try? c.decode(Double.self)) ?? 0
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var c = encoder.unkeyedContainer()
+        try c.encode(date)
+        try c.encode(value)
+    }
+}
+
+/// ETF trailing returns vs the S&P 500 + monthly relative series + sector rank.
+struct MethodologyETFPerformance: Codable {
+    let ret1y: Double?
+    let ret3y: Double?
+    let ret5y: Double?
+    let spy1y: Double?
+    let spy3y: Double?
+    let spy5y: Double?
+    let rel1y: Double?
+    let rel3y: Double?
+    let rel5y: Double?
+    let relSeries: [MethodologyRelPoint]?
+    let sectorRank: Int?
+    let sectorPeerCount: Int?
+    let monthsAvailable: Int?
+    let asOf: String?
+
+    enum CodingKeys: String, CodingKey {
+        case ret1y = "ret_1y"
+        case ret3y = "ret_3y"
+        case ret5y = "ret_5y"
+        case spy1y = "spy_1y"
+        case spy3y = "spy_3y"
+        case spy5y = "spy_5y"
+        case rel1y = "rel_1y"
+        case rel3y = "rel_3y"
+        case rel5y = "rel_5y"
+        case relSeries = "rel_series"
+        case sectorRank = "sector_rank"
+        case sectorPeerCount = "sector_peer_count"
+        case monthsAvailable = "months_available"
+        case asOf = "as_of"
     }
 }
 
@@ -55,6 +145,7 @@ struct MethodologyFinancialHealth: Codable, MethodologyDimensionProtocol {
     let holdingsQualityScore: Double?
     let topHoldingWeightPct: Double?
     let top10WeightPct: Double?
+    let totalHoldings: Int?
     let holdings: [MethodologyETFHolding]?
 
     var label: String { "Financial Health" }
@@ -80,6 +171,7 @@ struct MethodologyFinancialHealth: Codable, MethodologyDimensionProtocol {
         case holdingsQualityScore = "holdings_quality_score"
         case topHoldingWeightPct = "top_holding_weight_pct"
         case top10WeightPct = "top_10_weight_pct"
+        case totalHoldings = "total_holdings"
         case holdings
     }
 }
@@ -93,6 +185,14 @@ struct MethodologyNewsSentiment: Codable, MethodologyDimensionProtocol {
     let articles: [MethodologyArticle]
     let articleHistogram14d: [MethodologyArticleHistogramPoint]?
     let sentimentDistribution: [MethodologySentimentBucket]?
+    // ETF Sector Strength (replaces news for funds)
+    let dimensionLabel: String?
+    let theme: String?
+    let category: String?
+    let benchmark: String?
+    let sectors: [MethodologyWeightSlice]?
+    let performance: MethodologyETFPerformance?
+    let sectorStrengthScore: Double?
 
     var label: String { "News Sentiment" }
 
@@ -105,6 +205,9 @@ struct MethodologyNewsSentiment: Codable, MethodologyDimensionProtocol {
         case articles
         case articleHistogram14d = "article_histogram_14d"
         case sentimentDistribution = "sentiment_distribution"
+        case dimensionLabel = "dimension_label"
+        case theme, category, benchmark, sectors, performance
+        case sectorStrengthScore = "sector_strength_score"
     }
 }
 
@@ -155,6 +258,10 @@ struct MethodologySectorExposure: Codable, MethodologyDimensionProtocol {
     let topHoldingWeightPct: Double?
     let top10WeightPct: Double?
     let concentrationScore: Double?
+    let totalHoldings: Int?
+    let sectors: [MethodologyWeightSlice]?
+    let countries: [MethodologyWeightSlice]?
+    let holdings: [MethodologyETFHolding]?
 
     var label: String { "Sector Exposure" }
 
@@ -173,6 +280,8 @@ struct MethodologySectorExposure: Codable, MethodologyDimensionProtocol {
         case topHoldingWeightPct = "top_holding_weight_pct"
         case top10WeightPct = "top_10_weight_pct"
         case concentrationScore = "concentration_score"
+        case totalHoldings = "total_holdings"
+        case sectors, countries, holdings
     }
 }
 

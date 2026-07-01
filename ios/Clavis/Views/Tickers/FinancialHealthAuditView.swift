@@ -157,18 +157,43 @@ struct FinancialHealthAuditView: View {
 
     private var topHoldingsCard: some View {
         let holdings = dimension?.holdings ?? []
-        let maxWeight = max(holdings.compactMap(\.weightPct).max() ?? 1, 1)
+        let shownCount = holdings.count
+        let total = dimension?.totalHoldings
+        let subtitle: String = {
+            if let total, total > shownCount {
+                return "Top \(shownCount) of \(total) holdings"
+            }
+            return "\(shownCount) holdings"
+        }()
         return AuditSectionCard(title: "Top Holdings") {
-            Text("The bar is each holding's weight in the fund; the number on the right is its own Clavix score (0–100), colored by strength.")
-                .font(ClavisTypography.footnote)
-                .foregroundColor(.clavixInk3)
-                .fixedSize(horizontal: false, vertical: true)
-            VStack(spacing: 12) {
-                ForEach(holdings) { holding in
-                    HoldingWeightRow(holding: holding, maxWeight: maxWeight)
+            // Column header
+            HStack(spacing: 8) {
+                Text("TICKER")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text("WEIGHT")
+                    .frame(width: 74, alignment: .trailing)
+                Text("CLAVIX")
+                    .frame(width: 58, alignment: .trailing)
+            }
+            .font(ClavisTypography.clavixMono(9, weight: .bold))
+            .tracking(0.6)
+            .foregroundColor(.clavixInk4)
+
+            Rectangle().fill(Color.clavixRule2).frame(height: 1)
+
+            VStack(spacing: 0) {
+                ForEach(Array(holdings.enumerated()), id: \.element.id) { index, holding in
+                    HoldingTableRow(holding: holding)
+                    if index < holdings.count - 1 {
+                        Rectangle().fill(Color.clavixRule2).frame(height: 1)
+                    }
                 }
             }
-            .padding(.top, 2)
+
+            Text("\(subtitle) · number is each holding's own Clavix score (0–100).")
+                .font(ClavisTypography.clavixMono(9, weight: .regular))
+                .foregroundColor(.clavixInk4)
+                .padding(.top, 2)
         }
     }
 
@@ -461,39 +486,37 @@ private struct RatioRangeBand: View {
     }
 }
 
-// MARK: - ETF holdings, sized by weight
+// MARK: - ETF holdings table row (ticker · weight · Clavix score)
 
-private struct HoldingWeightRow: View {
+private struct HoldingTableRow: View {
     let holding: MethodologyETFHolding
-    let maxWeight: Double
 
     var body: some View {
-        HStack(spacing: 10) {
+        HStack(spacing: 8) {
             Text(holding.ticker)
-                .font(ClavisTypography.clavixMono(12, weight: .bold))
+                .font(ClavisTypography.clavixMono(13, weight: .bold))
                 .foregroundColor(.clavixInk)
-                .frame(width: 52, alignment: .leading)
+                .lineLimit(1)
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-            GeometryReader { geo in
-                let pct = max(0, min(1, (holding.weightPct ?? 0) / maxWeight))
-                ZStack(alignment: .leading) {
-                    Capsule().fill(Color.clavixRule2).frame(height: 8)
-                    Capsule().fill(Color.clavixAccent).frame(width: max(3, geo.size.width * CGFloat(pct)), height: 8)
-                }
-                .frame(maxHeight: .infinity, alignment: .center)
+            Text(holding.weightPct.map { String(format: "%.2f%%", $0) } ?? "\u{2014}")
+                .font(ClavisTypography.clavixMono(12, weight: .semibold))
+                .foregroundColor(.clavixInk2)
+                .frame(width: 74, alignment: .trailing)
+
+            if let score = holding.score {
+                Text(String(format: "%.0f", score))
+                    .font(ClavisTypography.clavixMono(13, weight: .bold))
+                    .foregroundColor(auditBandInk(score))
+                    .frame(width: 58, alignment: .trailing)
+            } else {
+                Text("\u{2014}")
+                    .font(ClavisTypography.clavixMono(12, weight: .regular))
+                    .foregroundColor(.clavixInk4)
+                    .frame(width: 58, alignment: .trailing)
             }
-            .frame(height: 8)
-
-            Text(holding.weightPct.map { String(format: "%.1f%%", $0) } ?? "\u{2014}")
-                .font(ClavisTypography.clavixMono(11, weight: .semibold))
-                .foregroundColor(.clavixInk3)
-                .frame(width: 44, alignment: .trailing)
-
-            Text(holding.score.map { String(format: "%.0f", $0) } ?? "\u{2014}")
-                .font(ClavisTypography.clavixMono(13, weight: .semibold))
-                .foregroundColor(auditBandInk(holding.score))
-                .frame(width: 26, alignment: .trailing)
         }
+        .padding(.vertical, 9)
     }
 }
 
@@ -611,9 +634,13 @@ struct AuditHeaderCard: View {
                     .font(ClavisTypography.clavixMono(40, weight: .semibold))
                     .tracking(-1)
                     .foregroundColor(.clavixInk)
+                    .lineLimit(1)
+                    .fixedSize(horizontal: true, vertical: false)
+                    .layoutPriority(1)
                 Text("/ 100")
                     .font(ClavisTypography.clavixMono(13, weight: .regular))
                     .foregroundColor(.clavixInk4)
+                    .fixedSize(horizontal: true, vertical: false)
                 Spacer(minLength: 8)
                 Text(auditBandLabel(score))
                     .font(ClavisTypography.clavixMono(10, weight: .bold))

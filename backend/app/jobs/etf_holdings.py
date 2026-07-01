@@ -60,25 +60,92 @@ ETF_STATIC_SEEDS: dict[str, list[tuple[str, float]]] = {
     # Mid-cap
     "IJH":  [],
 }
-TOP_HOLDINGS_LIMIT = 25
+
+# Store the full constituent list where the issuer publishes it (SSGA/Invesco give
+# every holding). The universal fallback (stockanalysis) returns the top 25.
+TOP_HOLDINGS_LIMIT = 600
 REQUEST_HEADERS = {"User-Agent": "Mozilla/5.0"}
+BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/120.0 Safari/537.36"
+    ),
+    "Accept": "application/json",
+}
+
+# State Street SPDR family — one XLSX URL pattern covers the whole family and
+# returns every constituent (full holdings, not a top-N slice).
+SSGA_TICKERS = {
+    "SPY", "SPLG", "SPYG", "SPYV", "MDY", "DIA",
+    "XLK", "XLF", "XLE", "XLV", "XLI", "XLC", "XLY", "XLP", "XLU", "XLRE", "XLB",
+}
+SSGA_HOLDINGS_URL = (
+    "https://www.ssga.com/library-content/products/fund-data/etfs/us/"
+    "holdings-daily-us-en-{ticker}.xlsx"
+)
 VANGUARD_PORT_IDS = {"VTI": "0970"}
 INVESCO_HOLDINGS_URL = (
     "https://dng-api.invesco.com/cache/v1/accounts/en_US/shareclasses/{ticker}/holdings/fund"
     "?idType=ticker&interval=monthly&productType=ETF&loadType=initial"
 )
-SSGA_SPY_XLSX_URL = (
-    "https://www.ssga.com/library-content/products/fund-data/etfs/us/holdings-daily-us-en-spy.xlsx"
-)
 VANGUARD_HOLDINGS_URL = (
     "https://advisors.vanguard.com/investments/products/holdings/latest/{port_id}"
 )
+# Universal fund-profile + holdings source. Returns top-25 holdings plus the true
+# constituent count, full sector map, category, and an issuer-style description.
+STOCKANALYSIS_URL = "https://stockanalysis.com/api/symbol/e/{ticker}/holdings"
+
+# Curated "what it is" labels. stockanalysis.category is a Morningstar-style box
+# (e.g. "Large Value"); these give the plain-English theme the UI leads with.
+ETF_THEMES: dict[str, dict[str, str]] = {
+    "SPY":  {"theme": "Broad US large-cap", "benchmark": "S&P 500", "kind": "equity"},
+    "VOO":  {"theme": "Broad US large-cap", "benchmark": "S&P 500", "kind": "equity"},
+    "IVV":  {"theme": "Broad US large-cap", "benchmark": "S&P 500", "kind": "equity"},
+    "SPLG": {"theme": "Broad US large-cap", "benchmark": "S&P 500", "kind": "equity"},
+    "VTI":  {"theme": "Total US market", "benchmark": "CRSP US Total Market", "kind": "equity"},
+    "QQQ":  {"theme": "Large-cap growth & tech", "benchmark": "Nasdaq-100", "kind": "equity"},
+    "QQQM": {"theme": "Large-cap growth & tech", "benchmark": "Nasdaq-100", "kind": "equity"},
+    "IWM":  {"theme": "US small-cap", "benchmark": "Russell 2000", "kind": "equity"},
+    "IJH":  {"theme": "US mid-cap", "benchmark": "S&P MidCap 400", "kind": "equity"},
+    "MDY":  {"theme": "US mid-cap", "benchmark": "S&P MidCap 400", "kind": "equity"},
+    "DIA":  {"theme": "US blue-chip", "benchmark": "Dow Jones Industrial Average", "kind": "equity"},
+    "SOXX": {"theme": "Semiconductors", "benchmark": "ICE Semiconductor Index", "kind": "equity"},
+    "SCHD": {"theme": "US dividend equity", "benchmark": "Dow Jones US Dividend 100", "kind": "equity"},
+    "ARKK": {"theme": "Disruptive innovation (active)", "benchmark": "Actively managed", "kind": "equity"},
+    "VNQ":  {"theme": "US real estate (REITs)", "benchmark": "MSCI US IMI Real Estate 25/50", "kind": "equity"},
+    "XLK":  {"theme": "Technology sector", "benchmark": "Technology Select Sector", "kind": "sector"},
+    "XLF":  {"theme": "Financials sector", "benchmark": "Financial Select Sector", "kind": "sector"},
+    "XLE":  {"theme": "Energy sector", "benchmark": "Energy Select Sector", "kind": "sector"},
+    "XLV":  {"theme": "Health Care sector", "benchmark": "Health Care Select Sector", "kind": "sector"},
+    "XLI":  {"theme": "Industrials sector", "benchmark": "Industrial Select Sector", "kind": "sector"},
+    "XLC":  {"theme": "Communication Services sector", "benchmark": "Communication Services Select Sector", "kind": "sector"},
+    "XLY":  {"theme": "Consumer Discretionary sector", "benchmark": "Consumer Discretionary Select Sector", "kind": "sector"},
+    "XLP":  {"theme": "Consumer Staples sector", "benchmark": "Consumer Staples Select Sector", "kind": "sector"},
+    "XLU":  {"theme": "Utilities sector", "benchmark": "Utilities Select Sector", "kind": "sector"},
+    "XLRE": {"theme": "Real Estate sector", "benchmark": "Real Estate Select Sector", "kind": "sector"},
+    "XLB":  {"theme": "Materials sector", "benchmark": "Materials Select Sector", "kind": "sector"},
+    "TLT":  {"theme": "Long-term US Treasuries", "benchmark": "ICE 20+ Year Treasury", "kind": "bond"},
+    "IEF":  {"theme": "Intermediate US Treasuries", "benchmark": "ICE 7-10 Year Treasury", "kind": "bond"},
+    "AGG":  {"theme": "US aggregate bonds", "benchmark": "Bloomberg US Aggregate Bond", "kind": "bond"},
+    "BND":  {"theme": "US aggregate bonds", "benchmark": "Bloomberg US Aggregate Bond", "kind": "bond"},
+    "HYG":  {"theme": "High-yield corporate bonds", "benchmark": "iBoxx High Yield Corporate", "kind": "bond"},
+    "LQD":  {"theme": "Investment-grade corporate bonds", "benchmark": "iBoxx Investment Grade Corporate", "kind": "bond"},
+    "BIL":  {"theme": "US Treasury bills", "benchmark": "Bloomberg 1-3 Month T-Bill", "kind": "bond"},
+    "SHY":  {"theme": "Short-term US Treasuries", "benchmark": "ICE 1-3 Year Treasury", "kind": "bond"},
+    "GLD":  {"theme": "Gold bullion", "benchmark": "LBMA Gold Price", "kind": "commodity"},
+    "IAU":  {"theme": "Gold bullion", "benchmark": "LBMA Gold Price", "kind": "commodity"},
+    "SLV":  {"theme": "Silver bullion", "benchmark": "LBMA Silver Price", "kind": "commodity"},
+    "USO":  {"theme": "Crude oil futures", "benchmark": "WTI crude oil", "kind": "commodity"},
+    "EFA":  {"theme": "Developed international equity", "benchmark": "MSCI EAFE", "kind": "international"},
+    "IEFA": {"theme": "Developed international equity", "benchmark": "MSCI EAFE IMI", "kind": "international"},
+    "EEM":  {"theme": "Emerging-markets equity", "benchmark": "MSCI Emerging Markets", "kind": "international"},
+}
 
 
 def _active_etfs(supabase) -> list[str]:
     # Run for all known ETFs in the universe, not just user-held ones,
     # so the SP500 scoring path always has fresh holdings data.
-    known = set(ETF_STATIC_SEEDS.keys())
+    known = set(ETF_STATIC_SEEDS.keys()) | set(ETF_THEMES.keys())
     try:
         rows = (
             supabase.table("ticker_metadata")
@@ -126,6 +193,32 @@ def _fallback_rows(ticker: str, as_of: str | None = None) -> list[dict[str, Any]
     )
 
 
+def _parse_pct(raw: Any) -> float | None:
+    if raw is None:
+        return None
+    try:
+        return float(str(raw).replace("%", "").replace(",", "").strip())
+    except (TypeError, ValueError):
+        return None
+
+
+_TICKER_RE = re.compile(r"^[A-Z]{1,6}(\.[A-Z]{1,2})?$")
+
+
+def _clean_symbol(raw: Any) -> str | None:
+    """Normalize a holding symbol, rejecting cash/derivative/mutual-fund rows.
+
+    Vendors interleave non-equity lines (e.g. "!MUTF/VRTPX", "CASH_USD", "-")
+    with the constituent list; those must never surface as holdings.
+    """
+    sym = str(raw or "").lstrip("$").strip().upper()
+    if not sym or not _TICKER_RE.match(sym):
+        return None
+    if sym in {"CASH", "USD", "N/A"}:
+        return None
+    return sym
+
+
 def _parse_xlsx_rows(content: bytes) -> list[list[str]]:
     workbook = zipfile.ZipFile(io.BytesIO(content))
     ns = {"a": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
@@ -151,9 +244,15 @@ def _parse_xlsx_rows(content: bytes) -> list[list[str]]:
 
 
 def _fetch_ssga_holdings(ticker: str) -> list[dict[str, Any]]:
-    if ticker.upper() != "SPY":
+    """Full constituent list for any State Street SPDR fund."""
+    upper = ticker.upper()
+    if upper not in SSGA_TICKERS:
         return []
-    response = requests.get(SSGA_SPY_XLSX_URL, timeout=20, headers=REQUEST_HEADERS)
+    response = requests.get(
+        SSGA_HOLDINGS_URL.format(ticker=upper.lower()),
+        timeout=20,
+        headers=REQUEST_HEADERS,
+    )
     if response.status_code != 200:
         return []
 
@@ -171,10 +270,11 @@ def _fetch_ssga_holdings(ticker: str) -> list[dict[str, Any]]:
         elif holdings_started:
             if len(row) < 5 or not row[1]:
                 break
-            try:
-                holdings.append((str(row[1]).upper(), float(row[4])))
-            except (TypeError, ValueError):
+            weight = _parse_pct(row[4])
+            sym = _clean_symbol(row[1])
+            if weight is None or sym is None:
                 continue
+            holdings.append((sym, weight))
             if len(holdings) >= TOP_HOLDINGS_LIMIT:
                 break
 
@@ -195,12 +295,9 @@ def _fetch_invesco_holdings(ticker: str) -> list[dict[str, Any]]:
     as_of = payload.get("effectiveDate") or payload.get("effectiveBusinessDate") or date.today().isoformat()
     holdings = []
     for item in payload.get("holdings") or []:
-        holding_ticker = str(item.get("ticker") or "").upper()
-        try:
-            weight = float(item.get("percentageOfTotalNetAssets"))
-        except (TypeError, ValueError):
-            continue
-        if holding_ticker:
+        holding_ticker = _clean_symbol(item.get("ticker"))
+        weight = _parse_pct(item.get("percentageOfTotalNetAssets"))
+        if holding_ticker and weight is not None:
             holdings.append((holding_ticker, weight))
         if len(holdings) >= TOP_HOLDINGS_LIMIT:
             break
@@ -229,63 +326,212 @@ def _fetch_vanguard_holdings(ticker: str) -> list[dict[str, Any]]:
     daily_payload = payload.get(as_of) or {}
     holdings = []
     for item in daily_payload.get("equity") or []:
-        holding_ticker = str(item.get("ticker") or "").upper()
-        try:
-            weight = float(item.get("percentOfFunds"))
-        except (TypeError, ValueError):
-            continue
-        if holding_ticker:
+        holding_ticker = _clean_symbol(item.get("ticker"))
+        weight = _parse_pct(item.get("percentOfFunds"))
+        if holding_ticker and weight is not None:
             holdings.append((holding_ticker, weight))
         if len(holdings) >= TOP_HOLDINGS_LIMIT:
             break
     return _rows_for_holdings(ticker, holdings, as_of=as_of, source="vanguard")
 
 
-def _fetch_live_rows(ticker: str) -> list[dict[str, Any]]:
+def _parse_stockanalysis_date(raw: Any) -> str:
+    for fmt in ("%b %d, %Y", "%B %d, %Y", "%Y-%m-%d"):
+        try:
+            return datetime.strptime(str(raw).strip(), fmt).date().isoformat()
+        except (TypeError, ValueError):
+            continue
+    return date.today().isoformat()
+
+
+def _fetch_stockanalysis(ticker: str) -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
+    """Universal source: top-25 holdings + full fund profile (sectors, category,
+    true constituent count, description). Works for any listed ETF."""
+    try:
+        response = requests.get(
+            STOCKANALYSIS_URL.format(ticker=ticker.upper()),
+            timeout=20,
+            headers=BROWSER_HEADERS,
+        )
+    except Exception as exc:
+        logger.warning("stockanalysis fetch failed for %s: %s", ticker, exc)
+        return [], None
+    if response.status_code != 200:
+        return [], None
+    try:
+        data = (response.json() or {}).get("data") or {}
+    except ValueError:
+        return [], None
+
+    holdings: list[tuple[str, float]] = []
+    for item in data.get("holdings") or []:
+        sym = _clean_symbol(item.get("s"))
+        weight = _parse_pct(item.get("as"))
+        if sym and weight is not None:
+            holdings.append((sym, weight))
+
+    as_of = _parse_stockanalysis_date(data.get("date"))
+    info = data.get("infoTable") or {}
+    sectors = [
+        {"name": s.get("n"), "weight": _parse_pct(s.get("w"))}
+        for s in (data.get("sectors") or [])
+        if s.get("n") and _parse_pct(s.get("w")) is not None
+    ]
+    countries = [
+        {"name": c.get("country"), "weight": _parse_pct(c.get("weight"))}
+        for c in (data.get("countries") or [])
+        if c.get("country") and _parse_pct(c.get("weight")) is not None
+    ]
+    profile = {
+        "category": info.get("category"),
+        "total_holdings": _coerce_int(data.get("count") or info.get("count")),
+        "top10_weight_pct": _parse_pct(info.get("top10")),
+        "aum": _coerce_float(info.get("aum")),
+        "pe_ratio": _coerce_float(info.get("peRatio")),
+        "sectors": sectors,
+        "countries": countries,
+        "description": (str(data.get("infoBox") or "").strip() or None),
+        "holdings_as_of": as_of,
+    }
+    return _rows_for_holdings(ticker, holdings, as_of=as_of, source="stockanalysis"), profile
+
+
+def _coerce_float(value: Any) -> float | None:
+    try:
+        if value is None:
+            return None
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _coerce_int(value: Any) -> int | None:
+    f = _coerce_float(value)
+    return int(f) if f is not None else None
+
+
+def _fetch_issuer_rows(ticker: str) -> list[dict[str, Any]]:
+    """Official issuer holdings (full constituent list) where we have a parser."""
     upper = ticker.upper()
-    if upper == "SPY":
+    if upper in SSGA_TICKERS:
         return _fetch_ssga_holdings(upper)
     if upper == "QQQ":
         return _fetch_invesco_holdings(upper)
-    if upper == "VTI":
+    if upper in VANGUARD_PORT_IDS:
         return _fetch_vanguard_holdings(upper)
     return []
+
+
+def _profile_row(ticker: str, profile: dict[str, Any] | None) -> dict[str, Any]:
+    upper = ticker.upper()
+    theme = ETF_THEMES.get(upper, {})
+    profile = profile or {}
+    return {
+        "ticker": upper,
+        "category": profile.get("category"),
+        "theme": theme.get("theme"),
+        "benchmark": theme.get("benchmark"),
+        "total_holdings": profile.get("total_holdings"),
+        "top10_weight_pct": profile.get("top10_weight_pct"),
+        "aum": profile.get("aum"),
+        "pe_ratio": profile.get("pe_ratio"),
+        "sectors": profile.get("sectors"),
+        "countries": profile.get("countries"),
+        "holdings_as_of": profile.get("holdings_as_of"),
+    }
 
 
 def run() -> dict[str, Any]:
     supabase = get_supabase()
     all_rows: list[dict[str, Any]] = []
+    profile_rows: list[dict[str, Any]] = []
+    description_updates: list[dict[str, Any]] = []
+    real_tickers: set[str] = set()
     failed: list[str] = []
     for ticker in _active_etfs(supabase):
+        upper = ticker.upper()
+        # 1) Universal profile + fallback holdings (sectors, category, count, description).
         try:
-            rows = _fetch_live_rows(ticker)
+            sa_rows, profile = _fetch_stockanalysis(upper)
         except Exception as exc:
-            # One vendor endpoint hiccup (non-JSON, timeout, schema drift) must never
-            # fail the whole monthly job. Fall back to the static seed and move on.
-            logger.warning("ETF holdings live fetch failed for %s: %s", ticker, exc)
-            rows = []
-            failed.append(ticker)
+            logger.warning("stockanalysis fetch failed for %s: %s", upper, exc)
+            sa_rows, profile = [], None
+
+        # 2) Prefer the official issuer full-constituent list when available.
+        try:
+            issuer_rows = _fetch_issuer_rows(upper)
+        except Exception as exc:
+            logger.warning("ETF issuer holdings fetch failed for %s: %s", upper, exc)
+            issuer_rows = []
+            failed.append(upper)
+
+        rows = issuer_rows or sa_rows
+        is_real = bool(rows)  # issuer or stockanalysis returned live constituents
         if not rows:
-            static = ETF_STATIC_SEEDS.get(ticker.upper(), [])
+            static = ETF_STATIC_SEEDS.get(upper, [])
             if static:
-                logger.warning("ETF holdings fetch returned empty for %s; using static seed fallback", ticker)
-                rows = _fallback_rows(ticker)
+                logger.warning("ETF holdings empty for %s; using static seed fallback", upper)
+                rows = _fallback_rows(upper)
             else:
-                # Bond/commodity/international ETFs have no meaningful equity holdings
-                logger.debug("ETF %s has no holdings to store (bond/commodity/intl fund)", ticker)
+                logger.debug("ETF %s has no equity holdings (bond/commodity/intl fund)", upper)
+        if is_real:
+            real_tickers.add(upper)
         all_rows.extend(rows)
 
+        # 3) Persist the fund profile (theme/benchmark always; live fields when fetched).
+        profile_rows.append(_profile_row(upper, profile))
+        desc = (profile or {}).get("description")
+        if desc:
+            description_updates.append({"ticker": upper, "description": desc})
+
+    # When we have live constituents for a fund, purge its prior rows first so a
+    # stale static seed (which we stamp with today's date) can never shadow the
+    # real, correctly-dated snapshot when the audit picks the latest as_of.
+    for ticker in real_tickers:
+        try:
+            supabase.table("etf_holdings").delete().eq("etf_ticker", ticker).execute()
+        except Exception as exc:
+            logger.warning("Failed to purge prior holdings for %s: %s", ticker, exc)
     if all_rows:
         supabase.table("etf_holdings").upsert(
             all_rows,
             on_conflict="etf_ticker,holding_ticker,as_of",
         ).execute()
+    # Relative-performance (1/3/5yr vs S&P 500 + sector rank) powers Sector Strength.
+    try:
+        from app.jobs import etf_performance
+
+        perf_map = etf_performance.build_all([row["ticker"] for row in profile_rows])
+        for row in profile_rows:
+            perf = perf_map.get(row["ticker"])
+            if perf:
+                row["performance"] = perf
+    except Exception as exc:
+        logger.warning("ETF performance computation failed: %s", exc)
+
+    if profile_rows:
+        supabase.table("etf_profiles").upsert(profile_rows, on_conflict="ticker").execute()
+    # Store the fund "About" text on ticker_metadata alongside stock descriptions.
+    for update in description_updates:
+        try:
+            supabase.table("ticker_metadata").update(
+                {
+                    "description": update["description"],
+                    "description_source": "stockanalysis",
+                    "description_updated_at": datetime.utcnow().isoformat(),
+                }
+            ).eq("ticker", update["ticker"]).execute()
+        except Exception as exc:
+            logger.warning("ETF description update failed for %s: %s", update["ticker"], exc)
+
     return {
         "status": "completed",
         "items_processed": len(all_rows),
         "items_failed": len(failed),
         "metadata": {
             "etfs": sorted({row["etf_ticker"] for row in all_rows}),
+            "profiles_written": len(profile_rows),
+            "descriptions_written": len(description_updates),
             "live_fetch_failed": failed,
         },
     }

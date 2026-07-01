@@ -22,6 +22,7 @@ struct TickerDetailView: View {
     @State private var selectedArticle: MethodologyArticle?
     @State private var showAddHoldingSheet = false
     @State private var showAllArticles = false
+    @State private var aboutExpanded = false
     @State private var scoreHistoryDimensions: Set<String> = []
     @State private var selectedHistoryPeriod: TickerHistoryPeriod = .threeMonths
     @State private var showWatchlistLimitPaywall = false
@@ -205,14 +206,21 @@ struct TickerDetailView: View {
             .id("hero")
         priceSection(detail)
             .id("price")
+        aboutSection(detail)
+            .id("about")
         riskDimensionsSection(detail)
             .id("dimensions")
-        driversSection(detail)
-            .id("drivers")
+        if !detail.profile.isETF {
+            driversSection(detail)
+                .id("drivers")
+        }
         executiveSummarySection(detail)
             .id("executive-summary")
-        recentNewsSection(detail)
-            .id("recent-news")
+        // ETFs do not ingest news — no recent-news section for funds.
+        if !detail.profile.isETF {
+            recentNewsSection(detail)
+                .id("recent-news")
+        }
     }
 
     private func isOutsideUniverse(_ detail: TickerDetailResponse) -> Bool {
@@ -320,9 +328,13 @@ struct TickerDetailView: View {
                                     .font(ClavisTypography.clavixMono(28, weight: .semibold))
                                     .tracking(-0.5)
                                     .foregroundColor(.clavixInk)
+                                    .lineLimit(1)
+                                    .fixedSize(horizontal: true, vertical: false)
+                                    .layoutPriority(1)
                                 Text("/100")
                                     .font(ClavisTypography.clavixMono(12, weight: .regular))
                                     .foregroundColor(.clavixInk3)
+                                    .fixedSize(horizontal: true, vertical: false)
                             }
                         }
 
@@ -584,6 +596,54 @@ struct TickerDetailView: View {
         if score >= 50 { return .clavixInk }
         if score >= 30 { return .clavixWarn }
         return .clavixBad
+    }
+
+    @ViewBuilder
+    private func aboutSection(_ detail: TickerDetailResponse) -> some View {
+        let isETF = detail.profile.isETF
+        let profile = methodology?.profile
+        let desc = profile?.description?.sanitizedDisplayText
+        let name = detail.profile.companyName ?? ticker
+        let hasContent = (desc?.isEmpty == false) || (isETF && profile?.theme != nil)
+        if hasContent {
+            VStack(alignment: .leading, spacing: 10) {
+                hifiSectionHeader(
+                    eyebrow: isETF ? "Fund" : "Company",
+                    title: isETF ? "About this fund" : "About \(name)"
+                )
+                ClavixCard {
+                    VStack(alignment: .leading, spacing: 10) {
+                        if isETF, let theme = profile?.theme {
+                            Text(theme)
+                                .font(ClavisTypography.clavixSerif(18, weight: .medium))
+                                .foregroundColor(.clavixInk)
+                                .fixedSize(horizontal: false, vertical: true)
+                            if let benchmark = profile?.benchmark {
+                                Text("Tracks the \(benchmark)" + (profile?.totalHoldings.map { " · \($0) holdings" } ?? ""))
+                                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                                    .foregroundColor(.clavixInk4)
+                            }
+                        }
+                        if let desc, !desc.isEmpty {
+                            Text(desc)
+                                .font(ClavisTypography.inter(13))
+                                .foregroundColor(.clavixInk2)
+                                .lineSpacing(2)
+                                .lineLimit(aboutExpanded ? nil : 4)
+                                .fixedSize(horizontal: false, vertical: true)
+                            if desc.count > 200 {
+                                Text(aboutExpanded ? "Show less" : "Read more")
+                                    .font(ClavisTypography.clavixMono(11, weight: .semibold))
+                                    .foregroundColor(.clavixAccent)
+                            }
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                    .onTapGesture { withAnimation(.easeInOut(duration: 0.2)) { aboutExpanded.toggle() } }
+                }
+            }
+        }
     }
 
     private func driversSection(_ detail: TickerDetailResponse) -> some View {

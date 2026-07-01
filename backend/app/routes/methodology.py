@@ -10,8 +10,11 @@ from ..pipeline.analysis_utils import article_has_full_enrichment
 from ..services.personalisation import attach_latest_personalisation
 from ..services.supabase import get_supabase
 from ..services.ticker_cache_service import (
+    _coerce_float,
+    _etf_sector_strength_score,
     _shared_risk_dimensions,
     get_latest_risk_snapshot_history_map,
+    get_latest_risk_snapshot_map,
 )
 
 router = APIRouter()
@@ -136,6 +139,92 @@ def _factor_exposures(
     return {key: value for key, value in mapped.items() if value is not None}
 
 
+def _etf_scored_holdings(supabase, upper: str, limit: int = 25) -> list[dict[str, Any]]:
+    """Top constituents with weight + Clavix score, for the Holdings Quality chart."""
+    date_rows = (
+        supabase.table("etf_holdings")
+        .select("as_of")
+        .eq("etf_ticker", upper)
+        .order("as_of", desc=True)
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    if not date_rows:
+        return []
+    as_of = date_rows[0].get("as_of")
+    rows = (
+        supabase.table("etf_holdings")
+        .select("holding_ticker,weight_pct,rank")
+        .eq("etf_ticker", upper)
+        .eq("as_of", as_of)
+        .order("rank")
+        .limit(limit)
+        .execute()
+        .data
+        or []
+    )
+    tickers = [str(r.get("holding_ticker") or "").upper() for r in rows if r.get("holding_ticker")]
+    score_map: dict[str, float] = {}
+    if tickers:
+        snaps = get_latest_risk_snapshot_map(supabase, tickers)
+        for t, snap in snaps.items():
+            s = _coerce_float(snap.get("safety_score"))
+            if s is None:
+                s = _coerce_float(snap.get("composite_score"))
+            if s is not None:
+                score_map[t] = round(s, 1)
+    out = []
+    for r in rows:
+        t = str(r.get("holding_ticker") or "").upper()
+        out.append(
+            {
+                "ticker": t,
+                "weight_pct": round(_coerce_float(r.get("weight_pct")) or 0.0, 3),
+                "score": score_map.get(t),
+            }
+        )
+    return out
+
+
+def _etf_profile_bundle(supabase, upper: str) -> dict[str, Any] | None:
+    """Fetch the fund profile + scored holdings for an ETF. Read live from
+    etf_profiles/etf_holdings so the ETF screens do not depend on a recompute."""
+    rows = (
+        supabase.table("etf_profiles")
+        .select("*")
+        .eq("ticker", upper)
+        .limit(1)
+        .execute()
+        .data
+        or []
+    )
+    if not rows:
+        return None
+    profile = rows[0]
+    perf = profile.get("performance") if isinstance(profile.get("performance"), dict) else None
+    holdings = _etf_scored_holdings(supabase, upper)
+    scored = [h for h in holdings if h.get("score") is not None]
+    return {
+        "theme": profile.get("theme"),
+        "category": profile.get("category"),
+        "benchmark": profile.get("benchmark"),
+        "total_holdings": profile.get("total_holdings"),
+        "top10_weight_pct": _coerce_float(profile.get("top10_weight_pct")),
+        "aum": _coerce_float(profile.get("aum")),
+        "pe_ratio": _coerce_float(profile.get("pe_ratio")),
+        "sectors": profile.get("sectors"),
+        "countries": profile.get("countries"),
+        "performance": perf,
+        "sector_strength_score": _etf_sector_strength_score(perf) if perf else None,
+        "holdings": holdings,
+        "holdings_shown": len(holdings),
+        "holdings_scored_count": len(scored),
+        "holdings_as_of": _isoformat_or_none(profile.get("holdings_as_of")),
+    }
+
+
 def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str, Any]:
     """All synchronous DB work for the methodology endpoint.
 
@@ -210,6 +299,9 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
     volatility_inputs = dimension_inputs.get("volatility") or {}
     financial_inputs = dimension_inputs.get("financial_health") or {}
     macro_regression = factor_breakdown.get("macro_regression") or {}
+
+    is_etf = str(metadata.get("asset_class") or "").lower() == "etf"
+    etf_bundle = _etf_profile_bundle(supabase, upper) if is_etf else None
 
     def _limited_data_flag(payload: dict[str, Any]) -> bool:
         return bool(payload.get("limited_data") or payload.get("limited"))
@@ -312,19 +404,23 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
                     if sector_medians.get(metric)
                 },
                 # ETF Holdings Quality: constituent-weighted holdings, scored. Present
-                # only for funds; equities leave these null.
-                "dimension_label": financial_inputs.get("dimension_label"),
+                # only for funds; equities leave these null. Holdings/count read live
+                # from etf_profiles so the chart is fresh regardless of recompute.
+                "dimension_label": "Holdings Quality" if etf_bundle else financial_inputs.get("dimension_label"),
                 "holdings_count": financial_inputs.get("holdings_count"),
-                "holdings_scored_count": financial_inputs.get("holdings_scored_count"),
+                "holdings_scored_count": (etf_bundle or {}).get("holdings_scored_count")
+                if etf_bundle else financial_inputs.get("holdings_scored_count"),
                 "holdings_weight_covered_pct": financial_inputs.get("holdings_weight_covered_pct"),
                 "holdings_quality_score": financial_inputs.get("holdings_quality_score"),
                 "top_holding_weight_pct": financial_inputs.get("top_holding_weight_pct"),
-                "top_10_weight_pct": financial_inputs.get("top_10_weight_pct"),
-                "holdings": financial_inputs.get("holdings"),
+                "top_10_weight_pct": (etf_bundle or {}).get("top10_weight_pct")
+                if etf_bundle else financial_inputs.get("top_10_weight_pct"),
+                "total_holdings": (etf_bundle or {}).get("total_holdings"),
+                "holdings": (etf_bundle or {}).get("holdings") if etf_bundle else financial_inputs.get("holdings"),
             },
             "news_sentiment": {
                 "score": risk_dims.get("news_sentiment"),
-                "limited_data": _limited_data_flag(news_inputs),
+                "limited_data": (etf_bundle.get("sector_strength_score") is None) if etf_bundle else _limited_data_flag(news_inputs),
                 "limited_reason": _limited_data_reason(news_inputs),
                 "article_count_7d": (
                     news_inputs.get("article_count_7d")
@@ -333,9 +429,18 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
                 ),
                 "volume_signal": bool(news_inputs.get("volume_signal")),
                 "weighted_score": news_inputs.get("weighted_score"),
-                "articles": article_payloads,
-                "article_histogram_14d": _article_histogram(fourteen_day_articles),
-                "sentiment_distribution": _sentiment_distribution(fourteen_day_articles),
+                # ETFs do not ingest news — Sector Strength is performance-based.
+                "articles": [] if etf_bundle else article_payloads,
+                "article_histogram_14d": [] if etf_bundle else _article_histogram(fourteen_day_articles),
+                "sentiment_distribution": [] if etf_bundle else _sentiment_distribution(fourteen_day_articles),
+                # ETF Sector Strength: what the fund tracks + performance vs market/sectors.
+                "dimension_label": "Sector Strength" if etf_bundle else None,
+                "theme": (etf_bundle or {}).get("theme"),
+                "category": (etf_bundle or {}).get("category"),
+                "benchmark": (etf_bundle or {}).get("benchmark"),
+                "sectors": (etf_bundle or {}).get("sectors"),
+                "performance": (etf_bundle or {}).get("performance"),
+                "sector_strength_score": (etf_bundle or {}).get("sector_strength_score"),
             },
             "macro_exposure": {
                 "score": risk_dims.get("macro_exposure"),
@@ -378,12 +483,18 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
                 "relative_strength_90d": sector_inputs.get("relative_strength_90d"),
                 "correlation_to_sector": sector_inputs.get("correlation_to_sector"),
                 "sector_change_90d": sector_inputs.get("sector_change_90d"),
-                # ETF Concentration: top-holding weight breakdown. Present only for funds.
-                "dimension_label": sector_inputs.get("dimension_label"),
+                # ETF Concentration: top-holding weight breakdown + sector/geography
+                # mix + full holdings table. Present only for funds.
+                "dimension_label": "Concentration" if etf_bundle else sector_inputs.get("dimension_label"),
                 "holdings_count": sector_inputs.get("holdings_count"),
                 "top_holding_weight_pct": sector_inputs.get("top_holding_weight_pct"),
-                "top_10_weight_pct": sector_inputs.get("top_10_weight_pct"),
+                "top_10_weight_pct": (etf_bundle or {}).get("top10_weight_pct")
+                if etf_bundle else sector_inputs.get("top_10_weight_pct"),
                 "concentration_score": sector_inputs.get("concentration_score"),
+                "total_holdings": (etf_bundle or {}).get("total_holdings"),
+                "sectors": (etf_bundle or {}).get("sectors"),
+                "countries": (etf_bundle or {}).get("countries"),
+                "holdings": (etf_bundle or {}).get("holdings"),
                 "narrative": sector_inputs.get("narrative"),
                 "peer_comparisons": peers,
                 "sector_median_comparison": {
@@ -417,6 +528,24 @@ def _build_methodology_response(supabase, upper: str, user_id: str) -> dict[str,
             "score": snapshot.get("composite_score") or snapshot.get("safety_score"),
             "grade": snapshot.get("grade"),
             "methodology_version": snapshot.get("methodology_version"),
+        },
+        # About section: business summary (stocks) / fund overview (ETFs), plus the
+        # fund's structured profile for the ETF About + Sector Strength screens.
+        "profile": {
+            "is_etf": is_etf,
+            "name": metadata.get("company_name"),
+            "description": metadata.get("description"),
+            "sector": metadata.get("sector"),
+            "industry": metadata.get("industry"),
+            "theme": (etf_bundle or {}).get("theme"),
+            "category": (etf_bundle or {}).get("category"),
+            "benchmark": (etf_bundle or {}).get("benchmark"),
+            "total_holdings": (etf_bundle or {}).get("total_holdings"),
+            "aum": (etf_bundle or {}).get("aum"),
+            "pe_ratio": (etf_bundle or {}).get("pe_ratio"),
+            "sectors": (etf_bundle or {}).get("sectors"),
+            "countries": (etf_bundle or {}).get("countries"),
+            "performance": (etf_bundle or {}).get("performance"),
         },
     }
 

@@ -18,7 +18,9 @@ struct NewsSentimentAuditView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: ClavisTheme.sectionSpacing) {
-                if isReferenceMode {
+                if isETF {
+                    etfSectorStrengthBody
+                } else if isReferenceMode {
                     AuditReferenceContextView(
                         dimensionName: screenTitle,
                         message: isETF
@@ -76,6 +78,231 @@ struct NewsSentimentAuditView: View {
         let n = articles.count
         let unit = n == 1 ? "article" : "articles"
         return "\(n) scored \(unit) · last 7 days"
+    }
+
+    // MARK: - ETF Sector Strength (performance vs market, not news)
+
+    private var perf: MethodologyETFPerformance? { dimension?.performance ?? methodology?.profile?.performance }
+    private var etfTheme: String? { dimension?.theme ?? methodology?.profile?.theme }
+    private var etfCategory: String? { dimension?.category ?? methodology?.profile?.category }
+    private var etfBenchmark: String? { dimension?.benchmark ?? methodology?.profile?.benchmark }
+    private var etfSectors: [MethodologyWeightSlice] { dimension?.sectors ?? methodology?.profile?.sectors ?? [] }
+    private var strengthScore: Double? { dimension?.sectorStrengthScore ?? dimension?.score }
+
+    @ViewBuilder
+    private var etfSectorStrengthBody: some View {
+        if isReferenceMode {
+            AuditReferenceContextView(
+                dimensionName: "Sector Strength",
+                message: "Open a fund to see how its sector has performed against the broad market and peer sectors."
+            )
+        } else {
+            AuditHeaderCard(
+                title: "Sector Strength",
+                ticker: ticker,
+                score: strengthScore,
+                subtitle: etfTheme.map { "Tracks: \($0)" } ?? "Fund performance vs the market"
+            )
+            whatItTracksCard
+            if perf != nil { performanceCard }
+            if !etfSectors.isEmpty { sectorMixCard }
+            if let rank = perf?.sectorRank, let n = perf?.sectorPeerCount { sectorRankCard(rank: rank, count: n) }
+            howToReadStrengthCard
+        }
+    }
+
+    private var whatItTracksCard: some View {
+        AuditSectionCard(title: "What it tracks") {
+            if let theme = etfTheme {
+                Text(theme)
+                    .font(ClavisTypography.clavixSerif(20, weight: .medium))
+                    .foregroundColor(.clavixInk)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            VStack(spacing: 0) {
+                if let benchmark = etfBenchmark {
+                    trackRow("Benchmark", benchmark)
+                    Rectangle().fill(Color.clavixRule2).frame(height: 1)
+                }
+                if let category = etfCategory {
+                    trackRow("Style", category)
+                    Rectangle().fill(Color.clavixRule2).frame(height: 1)
+                }
+                if let total = methodology?.profile?.totalHoldings {
+                    trackRow("Holdings", "\(total) constituents")
+                }
+            }
+            .padding(.top, 4)
+        }
+    }
+
+    private func trackRow(_ label: String, _ value: String) -> some View {
+        HStack {
+            Text(label.uppercased())
+                .font(ClavisTypography.clavixMono(9, weight: .bold))
+                .tracking(0.6)
+                .foregroundColor(.clavixInk4)
+            Spacer(minLength: 12)
+            Text(value)
+                .font(ClavisTypography.inter(13, weight: .medium))
+                .foregroundColor(.clavixInk)
+                .multilineTextAlignment(.trailing)
+        }
+        .padding(.vertical, 9)
+    }
+
+    private var performanceCard: some View {
+        let series = perf?.relSeries ?? []
+        return AuditSectionCard(title: "Performance vs the market") {
+            if series.count >= 3 {
+                RelativeStrengthChart(series: series)
+                    .frame(height: 120)
+                Text("Cumulative return vs the S&P 500 (SPY), indexed to the window start. Above the line means the fund is beating the market; below means it is lagging.")
+                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .foregroundColor(.clavixInk4)
+                    .fixedSize(horizontal: false, vertical: true)
+                Rectangle().fill(Color.clavixRule2).frame(height: 1).padding(.vertical, 2)
+            }
+            // Trailing return table
+            HStack(spacing: 8) {
+                Text("")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text("FUND").frame(width: 64, alignment: .trailing)
+                Text("S&P 500").frame(width: 64, alignment: .trailing)
+                Text("VS").frame(width: 58, alignment: .trailing)
+            }
+            .font(ClavisTypography.clavixMono(9, weight: .bold))
+            .tracking(0.5)
+            .foregroundColor(.clavixInk4)
+            Rectangle().fill(Color.clavixRule2).frame(height: 1)
+            returnRow("1 year", perf?.ret1y, perf?.spy1y, perf?.rel1y)
+            Rectangle().fill(Color.clavixRule2).frame(height: 1)
+            returnRow("3 year", perf?.ret3y, perf?.spy3y, perf?.rel3y)
+            Rectangle().fill(Color.clavixRule2).frame(height: 1)
+            returnRow("5 year", perf?.ret5y, perf?.spy5y, perf?.rel5y)
+            Text(strengthRead)
+                .font(ClavisTypography.footnote)
+                .foregroundColor(.clavixInk3)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.top, 4)
+        }
+    }
+
+    private func returnRow(_ label: String, _ fund: Double?, _ spy: Double?, _ rel: Double?) -> some View {
+        HStack(spacing: 8) {
+            Text(label)
+                .font(ClavisTypography.inter(13, weight: .medium))
+                .foregroundColor(.clavixInk)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text(pctStr(fund))
+                .font(ClavisTypography.clavixMono(12, weight: .semibold))
+                .foregroundColor(.clavixInk2)
+                .frame(width: 64, alignment: .trailing)
+            Text(pctStr(spy))
+                .font(ClavisTypography.clavixMono(12, weight: .regular))
+                .foregroundColor(.clavixInk3)
+                .frame(width: 64, alignment: .trailing)
+            Text(relStr(rel))
+                .font(ClavisTypography.clavixMono(12, weight: .bold))
+                .foregroundColor(relColor(rel))
+                .frame(width: 58, alignment: .trailing)
+        }
+        .padding(.vertical, 9)
+    }
+
+    private var sectorMixCard: some View {
+        let sectors = Array(etfSectors.sorted { ($0.weight ?? 0) > ($1.weight ?? 0) }.prefix(8))
+        let maxW = max(sectors.compactMap(\.weight).max() ?? 1, 1)
+        return AuditSectionCard(title: "Sectors it holds") {
+            VStack(spacing: 11) {
+                ForEach(sectors) { s in
+                    HStack(spacing: 10) {
+                        Text(s.name)
+                            .font(ClavisTypography.inter(12, weight: .medium))
+                            .foregroundColor(.clavixInk)
+                            .lineLimit(1)
+                            .frame(width: 118, alignment: .leading)
+                        GeometryReader { geo in
+                            let frac = max(0, min(1, (s.weight ?? 0) / maxW))
+                            ZStack(alignment: .leading) {
+                                RoundedRectangle(cornerRadius: 2).fill(Color.clavixRule2).frame(height: 7)
+                                RoundedRectangle(cornerRadius: 2).fill(Color.clavixAccent).frame(width: max(3, geo.size.width * CGFloat(frac)), height: 7)
+                            }
+                            .frame(maxHeight: .infinity, alignment: .center)
+                        }
+                        .frame(height: 7)
+                        Text(String(format: "%.1f%%", s.weight ?? 0))
+                            .font(ClavisTypography.clavixMono(11, weight: .semibold))
+                            .foregroundColor(.clavixInk3)
+                            .frame(width: 48, alignment: .trailing)
+                    }
+                }
+            }
+            Text("Where the fund's assets sit by sector — how broad or concentrated its exposure is.")
+                .font(ClavisTypography.clavixMono(9, weight: .regular))
+                .foregroundColor(.clavixInk4)
+                .padding(.top, 2)
+        }
+    }
+
+    private func sectorRankCard(rank: Int, count: Int) -> some View {
+        let ink: Color = rank <= count / 3 ? .clavixGoodInk : (rank <= 2 * count / 3 ? .clavixWarnInk : .clavixBadInk)
+        let soft: Color = rank <= count / 3 ? .clavixGoodSoft : (rank <= 2 * count / 3 ? .clavixWarnSoft : .clavixBadSoft)
+        let word = rank <= count / 3 ? "Leading" : (rank <= 2 * count / 3 ? "Middle of the pack" : "Lagging")
+        return AuditSectionCard(title: "Rank vs other sectors") {
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Text("#\(rank)")
+                    .font(ClavisTypography.clavixMono(34, weight: .bold))
+                    .foregroundColor(.clavixInk)
+                Text("of \(count) sector funds")
+                    .font(ClavisTypography.inter(13))
+                    .foregroundColor(.clavixInk3)
+                Spacer()
+                AuditSquareTag(text: word, ink: ink, fill: soft)
+            }
+            Text("Ranked by 1-year total return against the eleven S&P sector funds. \(word == "Leading" ? "This sector is among the market's strongest right now." : word == "Lagging" ? "This sector is among the market's weakest right now." : "This sector is running roughly with the pack.")")
+                .font(ClavisTypography.footnote)
+                .foregroundColor(.clavixInk3)
+                .fixedSize(horizontal: false, vertical: true)
+                .padding(.top, 2)
+        }
+    }
+
+    private var howToReadStrengthCard: some View {
+        AuditSectionCard(title: "How to read this") {
+            Text("Sector Strength replaces news for funds. It measures how the fund has performed against the broad market (and, for sector funds, against peer sectors) over the last one to five years. A higher score means durable outperformance and a stronger space; a lower score means the fund has lagged. ETFs do not carry company headlines, so this is a price-and-relative-strength read, not a sentiment read.")
+                .font(ClavisTypography.body)
+                .foregroundColor(.clavixInk3)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+    }
+
+    private var strengthRead: String {
+        guard let r1 = perf?.rel1y else { return "" }
+        if r1 >= 3 {
+            return "The fund has outpaced the S&P 500 over the past year, a sign of a strong, in-favor space."
+        }
+        if r1 <= -3 {
+            return "The fund has trailed the S&P 500 over the past year, so its space has been relatively out of favor."
+        }
+        return "The fund has tracked close to the S&P 500 over the past year — roughly market-like strength."
+    }
+
+    private func pctStr(_ v: Double?) -> String {
+        guard let v else { return "—" }
+        return String(format: "%@%.0f%%", v >= 0 ? "+" : "", v)
+    }
+
+    private func relStr(_ v: Double?) -> String {
+        guard let v else { return "—" }
+        return String(format: "%@%.0f", v >= 0 ? "+" : "", v)
+    }
+
+    private func relColor(_ v: Double?) -> Color {
+        guard let v else { return .clavixInk4 }
+        if v >= 1 { return .clavixGoodInk }
+        if v <= -1 { return .clavixBadInk }
+        return .clavixInk3
     }
 
     // MARK: - Sentiment mix (donut, "like the holdings screen")
@@ -364,6 +591,71 @@ private struct ScoreBucket: Identifiable {
     let count: Int
     let color: Color
     var id: String { label }
+}
+
+// MARK: - Relative strength line (fund cumulative return vs the market)
+
+private struct RelativeStrengthChart: View {
+    let series: [MethodologyRelPoint]
+
+    var body: some View {
+        GeometryReader { geo in
+            let w = geo.size.width
+            let h = geo.size.height
+            let values = series.map(\.value)
+            let rawMin = min(values.min() ?? 0, 0)
+            let rawMax = max(values.max() ?? 0, 0)
+            let pad = max((rawMax - rawMin) * 0.12, 1)
+            let minY = rawMin - pad
+            let maxY = rawMax + pad
+            let span = max(maxY - minY, 0.0001)
+            let n = max(series.count - 1, 1)
+            let endsPositive = (values.last ?? 0) >= 0
+            let lineColor: Color = endsPositive ? .clavixGoodInk : .clavixBadInk
+
+            func point(_ i: Int, _ v: Double) -> CGPoint {
+                let x = w * CGFloat(i) / CGFloat(n)
+                let y = h * CGFloat(1 - (v - minY) / span)
+                return CGPoint(x: x, y: y)
+            }
+            let zeroY = h * CGFloat(1 - (0 - minY) / span)
+
+            ZStack {
+                // Zero baseline (market line)
+                Path { p in
+                    p.move(to: CGPoint(x: 0, y: zeroY))
+                    p.addLine(to: CGPoint(x: w, y: zeroY))
+                }
+                .stroke(Color.clavixInk4.opacity(0.5), style: StrokeStyle(lineWidth: 1, dash: [3, 3]))
+
+                // Area fill between line and baseline
+                Path { p in
+                    guard series.count > 1 else { return }
+                    p.move(to: CGPoint(x: 0, y: zeroY))
+                    for (i, pt) in series.enumerated() {
+                        p.addLine(to: point(i, pt.value))
+                    }
+                    p.addLine(to: CGPoint(x: w, y: zeroY))
+                    p.closeSubpath()
+                }
+                .fill(lineColor.opacity(0.10))
+
+                // Relative-strength line
+                Path { p in
+                    for (i, pt) in series.enumerated() {
+                        let cp = point(i, pt.value)
+                        if i == 0 { p.move(to: cp) } else { p.addLine(to: cp) }
+                    }
+                }
+                .stroke(lineColor, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+            }
+            .overlay(alignment: .topLeading) {
+                Text("vs S&P 500")
+                    .font(ClavisTypography.clavixMono(8, weight: .bold))
+                    .foregroundColor(.clavixInk4)
+            }
+        }
+    }
 }
 
 // MARK: - Formatting helpers

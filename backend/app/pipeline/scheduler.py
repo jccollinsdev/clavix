@@ -5669,6 +5669,24 @@ def _cleanup_old_articles() -> None:
     supabase.table("shared_ticker_events").delete().lt("published_at", cutoff).execute()
 
 
+def _load_etf_tickers_sync(supabase) -> set[str]:
+    """Set of ETF tickers. ETFs are funds, not companies: their risk comes from
+    holdings/structure, not headline sentiment, so they are excluded from the
+    news pipeline entirely (no ingestion, no scoring)."""
+    try:
+        rows = (
+            supabase.table("ticker_metadata")
+            .select("ticker")
+            .eq("asset_class", "etf")
+            .execute()
+            .data
+            or []
+        )
+    except Exception:
+        return set()
+    return {str(row.get("ticker") or "").strip().upper() for row in rows if row.get("ticker")}
+
+
 def _load_active_tickers_sync(supabase) -> list[str]:
     positions = supabase.table("positions").select("ticker").execute().data or []
     watchlist_items = supabase.table("watchlist_items").select("ticker").execute().data or []
@@ -5680,11 +5698,13 @@ def _load_active_tickers_sync(supabase) -> list[str]:
         .data
         or []
     )
+    etfs = _load_etf_tickers_sync(supabase)
     return sorted(
         {
             str(row.get("ticker") or "").strip().upper()
             for row in positions + watchlist_items + universe
             if row.get("ticker")
+            and str(row.get("ticker") or "").strip().upper() not in etfs
         }
     )
 

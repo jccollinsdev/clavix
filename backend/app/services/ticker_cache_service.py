@@ -672,6 +672,70 @@ def build_etf_holdings_inputs(supabase, ticker: str) -> dict[str, Any]:
     }
 
 
+def _etf_sector_strength_score(perf: dict[str, Any]) -> float | None:
+    """Deterministic Sector Strength score (0-100) from relative performance.
+
+    ETFs replace the news-sentiment dimension with how the fund/sector has
+    performed against the S&P 500 (and, for sector funds, against peer sectors).
+    Strong, durable outperformance → high; persistent lagging → low.
+    """
+    rel1 = _coerce_float(perf.get("rel_1y"))
+    rel3 = _coerce_float(perf.get("rel_3y"))
+    comps: list[float] = []
+    if rel1 is not None:
+        comps.append(rel1)
+    if rel3 is not None:
+        comps.append(rel3 / 3.0)  # annualize the 3y relative return
+    if not comps:
+        return None
+    avg_rel = sum(comps) / len(comps)
+    score = 50.0 + max(-45.0, min(45.0, avg_rel)) * 0.9
+    rank = _coerce_float(perf.get("sector_rank"))
+    peers = _coerce_float(perf.get("sector_peer_count"))
+    if rank and peers and peers > 1:
+        pct = 1.0 - (rank - 1.0) / (peers - 1.0)  # 1.0 best … 0.0 worst
+        score = 0.7 * score + 0.3 * (30.0 + pct * 60.0)
+    return round(max(3.0, min(97.0, score)), 1)
+
+
+def build_etf_sector_strength_inputs(supabase, ticker: str) -> dict[str, Any] | None:
+    """Read the fund profile and build the Sector Strength (ex-news) dimension.
+
+    Returns None when no profile/performance exists yet so the caller leaves the
+    dimension untouched.
+    """
+    try:
+        rows = (
+            supabase.table("etf_profiles")
+            .select("theme,category,benchmark,sectors,performance,total_holdings")
+            .eq("ticker", ticker.upper())
+            .limit(1)
+            .execute()
+            .data
+            or []
+        )
+    except Exception:
+        return None
+    if not rows:
+        return None
+    profile = rows[0]
+    perf = profile.get("performance") if isinstance(profile.get("performance"), dict) else None
+    score = _etf_sector_strength_score(perf) if perf else None
+    inputs: dict[str, Any] = {
+        "dimension_label": "Sector Strength",
+        "data_source": "etf_performance",
+        "theme": profile.get("theme"),
+        "category": profile.get("category"),
+        "benchmark": profile.get("benchmark"),
+        "sectors": profile.get("sectors"),
+        "performance": perf,
+        "sector_strength_score": score,
+        "limited_data": score is None,
+        "limited_reason": None if score is not None else "Fund performance history is not available yet.",
+    }
+    return inputs
+
+
 def _dimension_input_is_complete(dimension: str, payload: dict[str, Any]) -> bool:
     if not isinstance(payload, dict) or payload.get("limited_data") or payload.get("limited"):
         return False
@@ -4885,9 +4949,22 @@ def refresh_ticker_snapshot(
                 "sector_momentum_30d": None,
                 "sector_breadth": None,
             }
-        if is_etf_asset and etf_inputs and (
-            etf_inputs.get("holdings_quality_score") is not None
-            or etf_inputs.get("concentration_score") is not None
+        # Sector Strength replaces news sentiment for ETFs: a deterministic score
+        # from relative performance vs the market (and peer sectors), not headlines.
+        etf_sector_strength = (
+            build_etf_sector_strength_inputs(supabase, ticker) if is_etf_asset else None
+        )
+        _etf_ss_applied = False
+        if etf_sector_strength and etf_sector_strength.get("sector_strength_score") is not None:
+            score["news_sentiment"] = etf_sector_strength["sector_strength_score"]
+            news_inputs = etf_sector_strength
+            _etf_ss_applied = True
+        if is_etf_asset and (
+            (etf_inputs and (
+                etf_inputs.get("holdings_quality_score") is not None
+                or etf_inputs.get("concentration_score") is not None
+            ))
+            or _etf_ss_applied
         ):
             etf_dimensions = {
                 "financial_health": score.get("financial_health"),

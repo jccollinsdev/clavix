@@ -36,6 +36,8 @@ struct SectorExposureAuditView: View {
                     if isETF {
                         concentrationHeroCard
                         concentrationCard
+                        concentrationTiersCard
+                        topWeightTableCard
                     } else {
                         // Narrative first: set the scene before the numbers.
                         if let narrative = dimension?.narrative, !narrative.isEmpty {
@@ -251,7 +253,7 @@ struct SectorExposureAuditView: View {
                 HStack(alignment: .center, spacing: 18) {
                     AuditDonutChart(
                         slices: slices,
-                        centerPrimary: "\(dimension?.holdingsCount ?? 0)",
+                        centerPrimary: "\(dimension?.totalHoldings ?? dimension?.holdingsCount ?? 0)",
                         centerDetail: "holdings"
                     )
                     .frame(width: 112, height: 112)
@@ -279,6 +281,115 @@ struct SectorExposureAuditView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
         }
+    }
+
+    // MARK: - ETF concentration tiers (how weight stacks up)
+
+    @ViewBuilder
+    private var concentrationTiersCard: some View {
+        let holdings = dimension?.holdings ?? []
+        if !holdings.isEmpty {
+            let weights = holdings.compactMap(\.weightPct)
+            let top1 = weights.first ?? 0
+            let top5 = weights.prefix(5).reduce(0, +)
+            let top10 = dimension?.top10WeightPct ?? weights.prefix(10).reduce(0, +)
+            let total = dimension?.totalHoldings
+            AuditSectionCard(title: "How the weight stacks up") {
+                VStack(spacing: 12) {
+                    tierRow("Largest holding", top1)
+                    tierRow("Top 5 holdings", top5)
+                    tierRow("Top 10 holdings", top10)
+                }
+                if let total {
+                    Text("Spread across \(total) total holdings. The shorter the top bars, the more evenly the fund is diversified.")
+                        .font(ClavisTypography.clavixMono(9, weight: .regular))
+                        .foregroundColor(.clavixInk4)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.top, 2)
+                }
+            }
+        }
+    }
+
+    private func tierRow(_ label: String, _ pct: Double) -> some View {
+        HStack(spacing: 10) {
+            Text(label)
+                .font(ClavisTypography.inter(12, weight: .medium))
+                .foregroundColor(.clavixInk)
+                .frame(width: 118, alignment: .leading)
+            GeometryReader { geo in
+                let frac = max(0, min(1, pct / 100))
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 2).fill(Color.clavixRule2).frame(height: 8)
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(concentrationInk(pct >= 55 ? 60 : (pct >= 35 ? 45 : 20)))
+                        .frame(width: max(3, geo.size.width * CGFloat(frac)), height: 8)
+                }
+                .frame(maxHeight: .infinity, alignment: .center)
+            }
+            .frame(height: 8)
+            Text(String(format: "%.0f%%", pct))
+                .font(ClavisTypography.clavixMono(12, weight: .semibold))
+                .foregroundColor(.clavixInk2)
+                .frame(width: 44, alignment: .trailing)
+        }
+    }
+
+    // MARK: - ETF top holdings by weight (cumulative)
+
+    @ViewBuilder
+    private var topWeightTableCard: some View {
+        let holdings = Array((dimension?.holdings ?? []).prefix(10))
+        if !holdings.isEmpty {
+            AuditSectionCard(title: "Largest positions") {
+                HStack(spacing: 8) {
+                    Text("#").frame(width: 20, alignment: .leading)
+                    Text("TICKER").frame(maxWidth: .infinity, alignment: .leading)
+                    Text("WEIGHT").frame(width: 64, alignment: .trailing)
+                    Text("CUM.").frame(width: 56, alignment: .trailing)
+                }
+                .font(ClavisTypography.clavixMono(9, weight: .bold))
+                .tracking(0.5)
+                .foregroundColor(.clavixInk4)
+                Rectangle().fill(Color.clavixRule2).frame(height: 1)
+                let cumulative = runningTotals(holdings.map { $0.weightPct ?? 0 })
+                VStack(spacing: 0) {
+                    ForEach(Array(holdings.enumerated()), id: \.element.id) { index, h in
+                        HStack(spacing: 8) {
+                            Text("\(index + 1)")
+                                .font(ClavisTypography.clavixMono(11, weight: .regular))
+                                .foregroundColor(.clavixInk4)
+                                .frame(width: 20, alignment: .leading)
+                            Text(h.ticker)
+                                .font(ClavisTypography.clavixMono(13, weight: .bold))
+                                .foregroundColor(.clavixInk)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Text(String(format: "%.2f%%", h.weightPct ?? 0))
+                                .font(ClavisTypography.clavixMono(12, weight: .semibold))
+                                .foregroundColor(.clavixInk2)
+                                .frame(width: 64, alignment: .trailing)
+                            Text(String(format: "%.0f%%", cumulative[index]))
+                                .font(ClavisTypography.clavixMono(11, weight: .regular))
+                                .foregroundColor(.clavixInk4)
+                                .frame(width: 56, alignment: .trailing)
+                        }
+                        .padding(.vertical, 8)
+                        if index < holdings.count - 1 {
+                            Rectangle().fill(Color.clavixRule2).frame(height: 1)
+                        }
+                    }
+                }
+                Text("Cumulative share of the fund held in the top positions.")
+                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .foregroundColor(.clavixInk4)
+                    .padding(.top, 2)
+            }
+        }
+    }
+
+    private func runningTotals(_ values: [Double]) -> [Double] {
+        var acc = 0.0
+        return values.map { acc += $0; return acc }
     }
 
     // MARK: - Stock sector health
