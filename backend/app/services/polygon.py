@@ -217,7 +217,11 @@ def fetch_aggs(ticker: str, days: int = 30) -> list[dict]:
             "apiKey": api_key,
             "adjusted": "true",
             "sort": "asc",
-            "limit": 500,
+            # High enough to cover a multi-year daily-bar window (~1260 trading
+            # days over 5 calendar years) in one call; Polygon's aggs limit caps
+            # at 50000. Without this, `limit=500` silently truncated to the
+            # OLDEST 500 bars in the range (sort=asc), dropping recent history.
+            "limit": 5000,
         }
         resp = polygon_get(url, params=params, timeout=15)
         if resp is None:

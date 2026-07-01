@@ -250,7 +250,7 @@ async def get_refresh_status(ticker: str, user_id: str = Depends(get_user_id)):
 @router.get("/{ticker}/score-history")
 async def get_score_history(
     ticker: str,
-    days: int = Query(default=90, ge=2, le=365),
+    days: int = Query(default=90, ge=2, le=1825),
     user_id: str = Depends(get_user_id),
 ):
     """Ordered composite + per-dimension score history from ticker_risk_snapshots.

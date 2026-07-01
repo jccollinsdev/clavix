@@ -23,7 +23,7 @@ struct TickerDetailView: View {
     @State private var showAddHoldingSheet = false
     @State private var showAllArticles = false
     @State private var scoreHistoryDimensions: Set<String> = []
-    @State private var selectedHistoryPeriod: TickerHistoryPeriod = .oneMonth
+    @State private var selectedHistoryPeriod: TickerHistoryPeriod = .threeMonths
     @State private var showWatchlistLimitPaywall = false
 
     #if DEBUG
@@ -307,44 +307,54 @@ struct TickerDetailView: View {
     private func heroSection(_ detail: TickerDetailResponse) -> some View {
         ClavixCard(padding: 0) {
             VStack(alignment: .leading, spacing: 0) {
-                HStack(alignment: .top, spacing: 12) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack(alignment: .lastTextBaseline, spacing: 10) {
-                            ClavixGradeBadge(displayGrade, size: 40)
-                            Text(displayScoreText)
-                                .font(ClavisTypography.clavixMono(30, weight: .semibold))
-                                .tracking(-0.6)
-                                .foregroundColor(.clavixInk)
-                        }
-                        scoreDeltaLine(detail)
+                HStack(alignment: .top, spacing: 14) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        ClavixEyebrow("Risk rating")
 
-                        if isHeld {
-                            heroShareContent(detail)
+                        Spacer(minLength: 8)
+
+                        HStack(alignment: .firstTextBaseline, spacing: 10) {
+                            ClavixGradeBadge(displayGrade, size: 40)
+                            HStack(alignment: .firstTextBaseline, spacing: 3) {
+                                Text(displayScoreText)
+                                    .font(ClavisTypography.clavixMono(28, weight: .semibold))
+                                    .tracking(-0.5)
+                                    .foregroundColor(.clavixInk)
+                                Text("/100")
+                                    .font(ClavisTypography.clavixMono(12, weight: .regular))
+                                    .foregroundColor(.clavixInk3)
+                            }
+                        }
+
+                        Spacer(minLength: 8)
+
+                        VStack(alignment: .leading, spacing: 6) {
+                            sessionDeltaLine(detail)
+                            if isHeld {
+                                todayChangeLine(detail)
+                            }
                         }
                     }
+                    .frame(maxHeight: .infinity, alignment: .top)
+
                     Spacer(minLength: 8)
+
                     if hasAnyDimensionScore {
-                        TickerRadarChart(dimensions: radarDimensions, size: 168)
+                        TickerRadarChart(dimensions: radarDimensions, size: 136)
                     } else {
                         VStack(spacing: 4) {
                             Image(systemName: "chart.pie")
-                                .font(.system(size: 26))
+                                .font(.system(size: 22))
                                 .foregroundColor(.clavixInk4)
                             Text("Radar pending")
                                 .font(ClavisTypography.clavixMono(9, weight: .regular))
                                 .foregroundColor(.clavixInk4)
                         }
-                        .frame(width: 108, height: 108)
+                        .frame(width: 136, height: 136)
                     }
                 }
-                .padding(14)
-
-                if isHeld {
-                    Rectangle().fill(Color.clavixRule2).frame(height: 1)
-                    heroLastContent(detail)
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 10)
-                }
+                .padding(16)
+                .frame(height: 168)
 
                 if displayScoreValue == nil && filteredPriceHistory.count < 2 {
                     Rectangle().fill(Color.clavixRule2).frame(height: 1)
@@ -384,24 +394,45 @@ struct TickerDetailView: View {
         }
     }
 
-    private func scoreDeltaLine(_ detail: TickerDetailResponse) -> some View {
-        let delta = honestScoreDelta(detail)
-        return Group {
-            if let delta {
-                HStack(spacing: 6) {
-                    Text(delta > 0 ? "▲ \(delta)" : delta < 0 ? "▼ \(abs(delta))" : "—")
-                        .font(ClavisTypography.clavixMono(11, weight: .semibold))
-                        .foregroundColor(delta > 0 ? .clavixGood : delta < 0 ? .clavixBad : .clavixInk3)
-                    Text("vs prior session")
-                        .font(ClavisTypography.clavixMono(11, weight: .regular))
-                        .foregroundColor(.clavixInk3)
-                }
-            } else {
-                Text("No prior session score.")
-                    .font(ClavisTypography.clavixMono(11, weight: .regular))
-                    .foregroundColor(.clavixInk3)
-            }
+    /// "▲6 vs prior session" — same arrow-plus-caption pattern as the Morning Report's
+    /// portfolio-rating masthead delta, so the two rating cards read consistently.
+    @ViewBuilder
+    private func sessionDeltaLine(_ detail: TickerDetailResponse) -> some View {
+        if let delta = honestScoreDelta(detail), delta != 0 {
+            heroDeltaLine(isUp: delta > 0, magnitude: "\(abs(delta))", suffix: "vs prior session", color: delta > 0 ? .clavixGood : .clavixBad)
+        } else {
+            Text("No change vs prior session")
+                .font(ClavisTypography.clavixMono(11, weight: .regular))
+                .foregroundColor(.clavixInk3)
         }
+    }
+
+    /// "▲7.68% today" — percent-only day change using the same delta-line style. The
+    /// dollar figure lives in the Price card below, so this stays percent-only to avoid
+    /// restating the same number twice on one screen.
+    @ViewBuilder
+    private func todayChangeLine(_ detail: TickerDetailResponse) -> some View {
+        if let price = latestPrice, let previousClose = detail.latestPrice.previousClose, previousClose != 0, price != previousClose {
+            let pct = abs(((price - previousClose) / previousClose) * 100)
+            heroDeltaLine(isUp: price > previousClose, magnitude: String(format: "%.2f%%", pct), suffix: "today", color: price > previousClose ? .clavixGood : .clavixBad)
+        } else {
+            Text("Flat today")
+                .font(ClavisTypography.clavixMono(11, weight: .regular))
+                .foregroundColor(.clavixInk3)
+        }
+    }
+
+    private func heroDeltaLine(isUp: Bool, magnitude: String, suffix: String, color: Color) -> some View {
+        HStack(spacing: 4) {
+            Image(systemName: isUp ? "arrowtriangle.up.fill" : "arrowtriangle.down.fill")
+                .font(.system(size: 9, weight: .bold))
+            Text(magnitude)
+                .font(ClavisTypography.clavixMono(14, weight: .bold))
+            Text(suffix)
+                .font(ClavisTypography.clavixMono(11, weight: .regular))
+                .foregroundColor(.clavixInk3)
+        }
+        .foregroundColor(color)
     }
 
     private func honestScoreDelta(_ detail: TickerDetailResponse) -> Int? {
@@ -429,66 +460,6 @@ struct TickerDetailView: View {
             .foregroundColor(isStale ? .clavixWarnInk : .clavixInk4)
     }
 
-    /// YOU HOLD + share count + cost P&L — shown in the top-left column, below delta, next to radar.
-    private func heroShareContent(_ detail: TickerDetailResponse) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(holdSummaryLine(detail))
-                .font(ClavisTypography.clavixMono(13, weight: .semibold))
-                .foregroundColor(.clavixInk)
-            if let costLine = costSummaryLine(detail) {
-                Text(costLine)
-                    .font(ClavisTypography.clavixMono(11, weight: .semibold))
-                    .foregroundColor(costSummaryColor(detail))
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-        }
-    }
-
-    /// LAST price + day change — shown left-aligned in the bottom strip of the hero card.
-    private func heroLastContent(_ detail: TickerDetailResponse) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            ClavixEyebrow("Last")
-            Text(currency(latestPrice))
-                .font(ClavisTypography.clavixMono(20, weight: .semibold))
-                .foregroundColor(.clavixInk)
-            Text(dayChangeText(detail))
-                .font(ClavisTypography.clavixMono(11, weight: .semibold))
-                .foregroundColor(dayChangeColor(detail))
-        }
-    }
-
-    private func holdSummaryLine(_ detail: TickerDetailResponse) -> String {
-        let shares = detail.portfolioOverlay?.shares ?? detail.position.shares
-        let parts: [String] = [
-            shares > 0 ? "\(shares.formatted()) shares" : nil,
-            holdWeightText(detail)
-        ].compactMap { $0 }
-        return parts.isEmpty ? "Holding" : parts.joined(separator: " · ")
-    }
-
-    private func holdWeightText(_ detail: TickerDetailResponse) -> String? {
-        guard let weight = detail.portfolioOverlay?.portfolioWeight else { return nil }
-        // portfolioWeight is a fraction 0..1
-        return String(format: "%.1f%% of book", weight * 100)
-    }
-
-    private func costSummaryLine(_ detail: TickerDetailResponse) -> String? {
-        guard let pnl = detail.position.unrealizedPL else { return nil }
-        let sign = pnl >= 0 ? "+" : "−"
-        let amountText = currency(abs(pnl))
-        if let pct = detail.position.unrealizedPLPercent {
-            return "\(sign)\(amountText) · \(pct >= 0 ? "+" : "−")\(String(format: "%.1f", abs(pct)))% from cost"
-        }
-        return "\(sign)\(amountText) from cost"
-    }
-
-    private func costSummaryColor(_ detail: TickerDetailResponse) -> Color {
-        guard let pnl = detail.position.unrealizedPL else { return .clavixInk3 }
-        if pnl > 0 { return .clavixGood }
-        if pnl < 0 { return .clavixBad }
-        return .clavixInk3
-    }
-
     private var ratingPendingCard: some View {
         HStack(spacing: ClavisTheme.smallSpacing) {
             Text("Rating pending. Check back after market open.")
@@ -499,6 +470,26 @@ struct TickerDetailView: View {
         .padding(ClavisTheme.cardPadding)
         .background(Color.clavixPaper2)
         .clipShape(RoundedRectangle(cornerRadius: ClavisTheme.innerCornerRadius, style: .continuous))
+    }
+
+    private var hasAnyDimensionScore: Bool {
+        radarDimensions.contains { $0.score != nil }
+    }
+
+    private var radarDimensions: [TickerRadarDimension] {
+        guard let detail else {
+            return [
+                TickerRadarDimension(key: "financial_health", label: "FIN", score: nil),
+                TickerRadarDimension(key: "news_sentiment", label: "NEWS", score: nil),
+                TickerRadarDimension(key: "macro_exposure", label: "MAC", score: nil),
+                TickerRadarDimension(key: "sector_exposure", label: "SEC", score: nil),
+                TickerRadarDimension(key: "volatility", label: "VOL", score: nil),
+            ]
+        }
+        let dimensions = dimensionItems(detail)
+        return dimensions.map { item in
+            TickerRadarDimension(key: item.key, label: item.abbrev, score: item.score)
+        }
     }
 
     private func riskDimensionsSection(_ detail: TickerDetailResponse) -> some View {
@@ -932,7 +923,7 @@ struct TickerDetailView: View {
             }
 
             Task {
-                let loadedPrice = try? await APIService.shared.fetchPriceHistory(ticker: ticker, days: 365)
+                let loadedPrice = try? await APIService.shared.fetchPriceHistory(ticker: ticker, days: 1825)
                 let sortedPrices = (loadedPrice?.prices ?? []).sorted { $0.recordedAt < $1.recordedAt }
                 await MainActor.run {
                     priceHistory = sortedPrices
@@ -940,7 +931,7 @@ struct TickerDetailView: View {
             }
 
             Task {
-                let loadedScore = try? await APIService.shared.fetchScoreHistory(ticker: ticker, days: 365)
+                let loadedScore = try? await APIService.shared.fetchScoreHistory(ticker: ticker, days: 1825)
                 await MainActor.run {
                     scoreHistory = loadedScore?.points ?? []
                 }
@@ -1136,24 +1127,6 @@ struct TickerDetailView: View {
         return .clavixInk3
     }
 
-    private func dayChangeText(_ detail: TickerDetailResponse) -> String {
-        guard let price = latestPrice, let previousClose = detail.latestPrice.previousClose, previousClose != 0 else {
-            return "Day change unavailable"
-        }
-
-        let delta = price - previousClose
-        let pct = (delta / previousClose) * 100
-        return String(format: "%@%@ (%.2f%%)", delta >= 0 ? "+" : "", currency(delta), pct)
-    }
-
-    private func dayChangeColor(_ detail: TickerDetailResponse) -> Color {
-        guard let price = latestPrice, let previousClose = detail.latestPrice.previousClose else {
-            return .clavixInk3
-        }
-        if price > previousClose { return .clavixGood }
-        if price < previousClose { return .clavixBad }
-        return .clavixInk3
-    }
 
     private func sentimentPill(score: Double?) -> some View {
         dimensionBadge(
@@ -1221,9 +1194,6 @@ struct TickerDetailView: View {
         guard !priceHistory.isEmpty else { return [] }
         // priceHistory is kept sorted at load time.
         let sorted = priceHistory
-        if selectedHistoryPeriod == .oneDay {
-            return Array(sorted.suffix(min(sorted.count, 2)))
-        }
         guard let cutoff = Calendar.current.date(byAdding: .day, value: -selectedHistoryPeriod.dayWindow, to: Date()) else {
             return Self.downsample(sorted)
         }
@@ -1254,9 +1224,6 @@ struct TickerDetailView: View {
 
     private var filteredScoreSnapshots: [ScoreSnapshot] {
         let snapshots = ScoreHistoryConversion.snapshots(from: scoreHistory)
-        if selectedHistoryPeriod == .oneDay {
-            return Array(snapshots.suffix(min(snapshots.count, 2)))
-        }
         guard let cutoff = Calendar.current.date(byAdding: .day, value: -selectedHistoryPeriod.dayWindow, to: Date()) else {
             return snapshots
         }
@@ -1264,25 +1231,6 @@ struct TickerDetailView: View {
         return filtered.isEmpty ? snapshots : filtered
     }
 
-    private var hasAnyDimensionScore: Bool {
-        radarDimensions.contains { $0.score != nil }
-    }
-
-    private var radarDimensions: [TickerRadarDimension] {
-        guard let detail else {
-            return [
-                TickerRadarDimension(key: "financial_health", label: "FIN", score: nil),
-                TickerRadarDimension(key: "news_sentiment", label: "NEWS", score: nil),
-                TickerRadarDimension(key: "macro_exposure", label: "MAC", score: nil),
-                TickerRadarDimension(key: "sector_exposure", label: "SEC", score: nil),
-                TickerRadarDimension(key: "volatility", label: "VOL", score: nil),
-            ]
-        }
-        let dimensions = dimensionItems(detail)
-        return dimensions.map { item in
-            TickerRadarDimension(key: item.key, label: item.abbrev, score: item.score)
-        }
-    }
 
     private var displayScoreValue: Double? {
         detail?.sharedAnalysis?.summary.currentScore
@@ -1344,21 +1292,19 @@ private struct TickerDimensionItem {
 }
 
 private enum TickerHistoryPeriod: String, CaseIterable {
-    case oneDay = "1D"
-    case oneWeek = "1W"
     case oneMonth = "1M"
     case threeMonths = "3M"
     case oneYear = "1Y"
+    case fiveYears = "5Y"
 
     var label: String { rawValue }
 
     var dayWindow: Int {
         switch self {
-        case .oneDay: return 1
-        case .oneWeek: return 7
         case .oneMonth: return 30
         case .threeMonths: return 90
         case .oneYear: return 365
+        case .fiveYears: return 1825
         }
     }
 }

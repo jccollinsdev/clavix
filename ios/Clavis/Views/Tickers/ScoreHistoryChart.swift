@@ -236,6 +236,8 @@ struct TickerPriceChart: View {
     let prices: [PricePoint]
     let tone: Color
 
+    @State private var selectedDate: Date?
+
     private var yDomain: ClosedRange<Double> {
         let values = prices.map(\.price)
         let minValue = values.min() ?? 0
@@ -246,6 +248,56 @@ struct TickerPriceChart: View {
         return lower...upper
     }
 
+    /// True when multiple points land on the same calendar day (real intraday data).
+    /// Daily-close history — one point per day — gets date labels instead; a time-based
+    /// axis on same-time-of-day closes would just repeat "4:00 PM" across every tick.
+    private var isIntraday: Bool {
+        guard prices.count > 1 else { return false }
+        let days = Set(prices.map { Calendar.current.startOfDay(for: $0.recordedAt) })
+        return days.count < prices.count
+    }
+
+    private var spanDays: Double {
+        guard let first = prices.first?.recordedAt, let last = prices.last?.recordedAt else { return 0 }
+        return last.timeIntervalSince(first) / 86400
+    }
+
+    private var axisDateFormat: Date.FormatStyle {
+        if isIntraday {
+            return .dateTime.hour().minute()
+        } else if spanDays > 400 {
+            return .dateTime.month(.abbreviated).year(.twoDigits)
+        } else {
+            return .dateTime.month(.abbreviated).day()
+        }
+    }
+
+    private var selectedPoint: PricePoint? {
+        guard let selectedDate else { return nil }
+        return prices.min { abs($0.recordedAt.timeIntervalSince(selectedDate)) < abs($1.recordedAt.timeIntervalSince(selectedDate)) }
+    }
+
+    /// Tick positions inset a few percent from both edges of the timeline so the
+    /// leading/trailing axis labels have room to render — `.automatic` ticks land at
+    /// the true data extremes and get clipped there. The plotted line/area still
+    /// spans the full width; only the label positions are inset.
+    private var axisTickDates: [Date] {
+        guard let first = prices.first?.recordedAt, let last = prices.last?.recordedAt, last > first else {
+            return prices.map(\.recordedAt)
+        }
+        let span = last.timeIntervalSince(first)
+        // Cap ticks at the number of distinct calendar days actually in range, so a
+        // 2-day (e.g. 1D-tab daily-close) window shows 2 labels instead of 4 with repeats.
+        let distinctDays = Set(prices.map { Calendar.current.startOfDay(for: $0.recordedAt) }).count
+        let tickCount = min(4, max(2, distinctDays))
+        let inset = 0.12
+        let usableSpan = 1.0 - inset * 2
+        return (0..<tickCount).map { index in
+            let fraction = inset + usableSpan * Double(index) / Double(tickCount - 1)
+            return first.addingTimeInterval(span * fraction)
+        }
+    }
+
     var body: some View {
         if prices.count < 2 {
             Text("Price history unavailable for the selected window.")
@@ -253,20 +305,117 @@ struct TickerPriceChart: View {
                 .foregroundColor(.clavixInk3)
                 .frame(maxWidth: .infinity, minHeight: 120)
         } else {
-            Chart(prices) { point in
+            VStack(alignment: .leading, spacing: 4) {
+                scrubReadout
+                chart
+            }
+        }
+    }
+
+    /// Reserves a fixed-height row so the chart doesn't jump when a scrub starts/ends;
+    /// only populated while the user is dragging.
+    private var scrubReadout: some View {
+        HStack(spacing: 6) {
+            if let selectedPoint {
+                Text(scrubDateText(selectedPoint.recordedAt))
+                    .font(ClavisTypography.clavixMono(10, weight: .semibold))
+                    .foregroundColor(.clavixInk3)
+                Text(currencyPrecise(selectedPoint.price))
+                    .font(ClavisTypography.clavixMono(12, weight: .bold))
+                    .foregroundColor(.clavixInk)
+            }
+        }
+        .frame(height: 14, alignment: .leading)
+    }
+
+    private var chart: some View {
+        Chart {
+            ForEach(prices) { point in
+                AreaMark(
+                    x: .value("Date", point.recordedAt),
+                    yStart: .value("Floor", yDomain.lowerBound),
+                    yEnd: .value("Price", point.price)
+                )
+                .interpolationMethod(.monotone)
+                .foregroundStyle(
+                    LinearGradient(
+                        colors: [tone.opacity(0.22), tone.opacity(0)],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+
                 LineMark(
                     x: .value("Date", point.recordedAt),
                     y: .value("Price", point.price)
                 )
-                .interpolationMethod(.linear)
+                .interpolationMethod(.monotone)
                 .foregroundStyle(tone)
-                .lineStyle(StrokeStyle(lineWidth: 2.25, lineCap: .round, lineJoin: .round))
+                .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
             }
-            .chartYScale(domain: yDomain)
-            .chartXAxis(.hidden)
-            .chartYAxis(.hidden)
-            .frame(height: 150)
+
+            if let selectedPoint {
+                RuleMark(x: .value("Date", selectedPoint.recordedAt))
+                    .foregroundStyle(Color.clavixInk3.opacity(0.45))
+                    .lineStyle(StrokeStyle(lineWidth: 1, dash: [3, 3]))
+
+                PointMark(
+                    x: .value("Date", selectedPoint.recordedAt),
+                    y: .value("Price", selectedPoint.price)
+                )
+                .foregroundStyle(tone)
+                .symbolSize(50)
+            }
         }
+        .chartYScale(domain: yDomain)
+        .chartXAxis {
+            AxisMarks(values: axisTickDates) { _ in
+                AxisGridLine().foregroundStyle(.clear)
+                AxisTick().foregroundStyle(Color.clavixRule2)
+                AxisValueLabel(format: axisDateFormat)
+                    .font(ClavisTypography.clavixMono(9, weight: .regular))
+                    .foregroundStyle(Color.clavixInk3)
+            }
+        }
+        .chartYAxis {
+            AxisMarks(position: .trailing, values: .automatic(desiredCount: 4)) { value in
+                AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5, dash: [1, 3]))
+                    .foregroundStyle(Color.clavixRule2.opacity(0.7))
+                AxisValueLabel {
+                    if let priceValue = value.as(Double.self) {
+                        Text(axisPriceLabel(priceValue))
+                            .font(ClavisTypography.clavixMono(9, weight: .regular))
+                            .foregroundStyle(Color.clavixInk3)
+                    }
+                }
+            }
+        }
+        .chartXSelection(value: $selectedDate)
+        .frame(maxWidth: .infinity)
+        .frame(height: 190)
+    }
+
+    private func axisPriceLabel(_ value: Double) -> String {
+        if value >= 100 {
+            return String(format: "$%.0f", value)
+        } else if value >= 1 {
+            return String(format: "$%.1f", value)
+        }
+        return String(format: "$%.2f", value)
+    }
+
+    private func scrubDateText(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = isIntraday ? "h:mm a" : "MMM d, yyyy"
+        return formatter.string(from: date)
+    }
+
+    private func currencyPrecise(_ value: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 2
+        return formatter.string(from: NSNumber(value: value)) ?? "—"
     }
 }
 
@@ -278,9 +427,12 @@ struct TickerRadarDimension: Identifiable, Hashable {
     var id: String { key }
 }
 
+/// Compact 5-axis radar used in the ticker hero card. Sized to sit next to the
+/// grade/score/session column inside a fixed-height card, so radius/labelRadius are
+/// tuned to use most of the frame rather than leaving a wide empty margin.
 struct TickerRadarChart: View {
     let dimensions: [TickerRadarDimension]
-    var size: CGFloat = 168
+    var size: CGFloat = 136
 
     private var availableDimensions: [TickerRadarDimension] {
         dimensions.filter { $0.score != nil }
@@ -290,8 +442,8 @@ struct TickerRadarChart: View {
         GeometryReader { geometry in
             let frame = min(geometry.size.width, geometry.size.height)
             let center = CGPoint(x: frame / 2, y: frame / 2)
-            let radius = frame * 0.34
-            let labelRadius = frame * 0.45
+            let radius = frame * 0.40
+            let labelRadius = frame * 0.53
             let axisCount = max(dimensions.count, 3)
 
             ZStack {
@@ -326,7 +478,7 @@ struct TickerRadarChart: View {
 
                     if dimension.score != nil {
                         Text(dimension.label)
-                            .font(ClavisTypography.clavixMono(10, weight: .bold))
+                            .font(ClavisTypography.clavixMono(9, weight: .bold))
                             .foregroundColor(.clavixInk3)
                             .position(
                                 polygonPoint(

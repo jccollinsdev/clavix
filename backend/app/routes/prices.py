@@ -47,7 +47,7 @@ async def _backfill_in_background(ticker: str, days: int) -> None:
 @router.get("/{ticker}")
 async def get_price_history(
     ticker: str,
-    days: int = Query(default=30, ge=1, le=365),
+    days: int = Query(default=30, ge=1, le=1825),
     user_id: str = Depends(get_user_id),
 ):
     ticker = ticker.upper()
