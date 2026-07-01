@@ -1196,6 +1196,18 @@ def score_position_structural(
         # Not enough genuinely-scorable articles → honest limited-data NULL, never 50.
         news = None
 
+    # Prefer the wide, recency-weighted news score computed upstream (28-day, up to
+    # ~60 relevant articles) over this narrow recent_events window: the 10 newest
+    # events are often freshly ingested and not yet enriched, which otherwise drove
+    # the news dimension to NULL for names that DO have plenty of scored coverage.
+    # Gated on not-limited so a genuinely thin ticker still resolves to an honest
+    # NULL rather than a manufactured score. (2026-06-30)
+    _news_inputs = ticker_metadata.get("news_inputs") or {}
+    if isinstance(_news_inputs, dict) and not _news_inputs.get("limited_data"):
+        _wide_news = _news_inputs.get("weighted_score")
+        if _wide_news is not None:
+            news = clamp_score(round(float(_wide_news)), 0)
+
     normalized = {
         "financial_health": fin,
         "news_sentiment": news,

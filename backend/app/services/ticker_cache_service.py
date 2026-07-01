@@ -4757,6 +4757,11 @@ def refresh_ticker_snapshot(
             # Pass real computed inputs so the scorer can use them instead of heuristics
             "sector_inputs": sector_inputs,
             "volatility_inputs": volatility_inputs,
+            # news_inputs carries the wide, recency-weighted news score (60 rows,
+            # 28d window). The structural scorer prefers it over the narrow
+            # recent_events window so the news dimension column matches the
+            # displayed weighted_score. (2026-06-30)
+            "news_inputs": news_inputs,
         }
         prev_score_for_smoothing = (
             previous_snapshot.get("composite_score")
