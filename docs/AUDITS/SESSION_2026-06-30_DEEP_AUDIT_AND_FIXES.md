@@ -93,5 +93,46 @@ suite: 512 passed / 28 failed, and the 28 are **pre-existing stale bond-grade-vo
 assertions** (identical with my changes stashed) from the 2026-06-27 academic-grade
 migration — not runtime bugs (live DB has zero null grades). Flagged for separate cleanup.
 
+**Deploy + data fix**: two commits deployed to VPS (releases `984698328`, `e42088c79`,
+both health-gated green). Validated the news-dim fix on V/MA/COST/CSCO/AIG/BX/HD/DIS
+(all NULL→scored, column == weighted_score). Kicked off a full-universe force recompute
+so every ticker picks up the improved logic; smoothing + grade hysteresis keep
+day-over-day stability.
+
+## FIXES APPLIED — FRONTEND (iOS ticker detail)
+
+**FE1. News Sentiment screen — full redesign** (`NewsSentimentAuditView.swift`).
+- Removed the confusing "Weighting" card ("last 24h = 3x…"), the per-article "3.0x
+  weight" multiplier, and the "Score Calculation / weighted average" card.
+- Added a **sentiment-mix donut** (bullish/neutral/bearish) with a legend, matching
+  the holdings composition ring, plus a plain one-line read ("Coverage leans positive").
+- Added a **score-distribution histogram** (0–20…80–100 buckets, colored by band).
+- Clean article cards: title, `source · 2h ago` (never a raw ISO timestamp), brief,
+  and a colored sentiment chip (score + BULLISH/NEUTRAL/BEARISH). Only articles with a
+  real sentiment score are shown (belt-and-suspenders with the backend filter), so the
+  risk-signal score always renders.
+- Replaced jargon "How scoring works" with a plain "How to read this".
+
+**FE2. Five-dimension audit views de-jargoned.**
+- Macro (`MacroExposureAuditView.swift`): replaced the raw regression table
+  (`TNX 2.6451`, `R² 0.220 · days 252`) with a "What moves this stock" section —
+  human factor names (10-Year Treasury, US Dollar, Crude oil, VIX, S&P 500), a
+  plain direction phrase, a HIGH/MODERATE/LOW strength chip, and a signed magnitude bar.
+- Volatility: humanized labels ("Swings, last month", "Worst drop, past year",
+  "Market sensitivity") with explanatory captions + a plain summary line.
+- Sector: humanized ("Sector sensitivity/momentum/breadth" with captions + a
+  tailwind/headwind read), and removed a user-facing dev placeholder
+  ("Sparklines will appear once historical sector metric series are returned").
+
+**FE3. Holdings / Watchlist actions moved to the top nav.**
+- Removed the two full-width bottom CTAs; added compact icon buttons (＋ / ✓ for
+  holdings, ☆ / ★ for watchlist) in the top-right of the ticker header, the
+  "in the corner with symbols" pattern the user asked for.
+
+**FE4. Conflicting / generic key drivers** are fixed at the backend (BE3/BE4); the
+existing `TickerDriverCardsSection` renders the corrected, de-conflicted, specific cards.
+
+**Build**: `xcodebuild` for the Clavis scheme (iPhone 17 Pro sim) compiles clean.
+
 </content>
 </invoke>

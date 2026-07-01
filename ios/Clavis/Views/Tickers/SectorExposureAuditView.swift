@@ -29,19 +29,22 @@ struct SectorExposureAuditView: View {
                             : "\(dimension?.sector ?? "Sector unavailable") · \(dimension?.sectorEtf ?? "ETF unavailable")"
                     )
 
-                    AuditSectionCard(title: "Metrics") {
+                    AuditSectionCard(title: isETF ? "Concentration" : "Sector health") {
                         if isETF {
-                            AuditValueRow(label: "Top holding", value: plainPercent(dimension?.topHoldingWeightPct), status: "Weight")
-                            AuditValueRow(label: "Top 10 holdings", value: plainPercent(dimension?.top10WeightPct), status: "Weight")
-                            AuditValueRow(label: "Concentration score", value: format(dimension?.concentrationScore), status: "Score")
+                            Text("How much of the fund rides on its largest positions. The more the top names dominate, the more the fund's fate is tied to a handful of stocks.")
+                                .font(ClavisTypography.footnote)
+                                .foregroundColor(.clavixInk3)
+                                .fixedSize(horizontal: false, vertical: true)
+                            AuditValueRow(label: "Largest holding", value: plainPercent(dimension?.topHoldingWeightPct), status: "Weight", caption: "Share in the single biggest name")
+                            AuditValueRow(label: "Top 10 holdings", value: plainPercent(dimension?.top10WeightPct), status: "Weight", caption: "Share in the 10 biggest names")
                         } else {
-                        AuditValueRow(label: "Sector Beta", value: format(dimension?.sectorBeta), status: "Metric")
-                        AuditValueRow(label: "Sector Momentum (30d)", value: percent(dimension?.sectorMomentum30d), status: "Metric")
-                        AuditValueRow(label: "Sector Breadth", value: percent(dimension?.sectorBreadth), status: "Metric")
-                        // TODO: backend expose sector metric sparklines for the full audit screen.
-                        Text("Sparklines will appear once historical sector metric series are returned.")
-                            .font(ClavisTypography.footnote)
-                            .foregroundColor(.clavixInk3)
+                            Text(sectorSummary)
+                                .font(ClavisTypography.footnote)
+                                .foregroundColor(.clavixInk3)
+                                .fixedSize(horizontal: false, vertical: true)
+                            AuditValueRow(label: "Sector sensitivity", value: format(dimension?.sectorBeta), status: "Beta", caption: "How much it tracks its sector")
+                            AuditValueRow(label: "Sector momentum", value: percent(dimension?.sectorMomentum30d), status: momentumStatus(dimension?.sectorMomentum30d), caption: "Sector's 30-day trend vs the market")
+                            AuditValueRow(label: "Sector breadth", value: percent(dimension?.sectorBreadth), status: "Participation", caption: "How broadly the sector is advancing")
                         }
                     }
 
@@ -72,6 +75,29 @@ struct SectorExposureAuditView: View {
             ClavixReportBar(onBack: { dismiss() })
         }
         .toolbar(.hidden, for: .navigationBar)
+    }
+
+    private var sectorSummary: String {
+        let sector = dimension?.sector ?? "its sector"
+        guard let score = dimension?.score else {
+            return "How \(sector) is doing right now, and how tightly this stock is tied to it."
+        }
+        if score >= 67 {
+            return "\(sector) is in good shape and broadly supportive right now, a tailwind for names in the group."
+        }
+        if score >= 34 {
+            return "\(sector) is sending mixed signals — neither a clear tailwind nor a strong headwind."
+        }
+        return "\(sector) is under pressure right now, a headwind this stock has to fight against."
+    }
+
+    /// Neutral, unambiguous labels (the shared verdict colors are risk-framed, where
+    /// "rising" reads as caution — wrong for sector momentum, so we stay neutral).
+    private func momentumStatus(_ value: Double?) -> String {
+        guard let value else { return "—" }
+        if value > 0.005 { return "Tailwind" }
+        if value < -0.005 { return "Headwind" }
+        return "Flat"
     }
 
     private func format(_ value: Double?) -> String {

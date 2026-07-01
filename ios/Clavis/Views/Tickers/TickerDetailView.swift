@@ -155,23 +155,27 @@ struct TickerDetailView: View {
                     .foregroundColor(.clavixAccent)
             }
 
-            Spacer()
+            Spacer(minLength: 6)
 
-            if hasExecutiveSummary {
-                Button(action: onSummaryTap) {
-                    Text("Summary")
-                        .font(ClavisTypography.clavixMono(10, weight: .semibold))
-                        .foregroundColor(.clavixAccent)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 5)
-                        .background(Color.clavixPaper2)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 7, style: .continuous)
-                                .stroke(Color.clavixRule, lineWidth: 1)
-                        )
-                        .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+            HStack(spacing: 7) {
+                if hasExecutiveSummary {
+                    Button(action: onSummaryTap) {
+                        Text("Summary")
+                            .font(ClavisTypography.clavixMono(10, weight: .semibold))
+                            .foregroundColor(.clavixAccent)
+                            .padding(.horizontal, 8)
+                            .frame(height: 30)
+                            .background(Color.clavixPaper2)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 7, style: .continuous)
+                                    .stroke(Color.clavixRule, lineWidth: 1)
+                            )
+                            .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
+                watchlistNavButton
+                holdingsNavButton
             }
         }
         .padding(.horizontal, ClavixLayout.pad)
@@ -209,8 +213,6 @@ struct TickerDetailView: View {
             .id("executive-summary")
         recentNewsSection(detail)
             .id("recent-news")
-        bottomCtas(detail)
-            .id("cta")
     }
 
     private func isOutsideUniverse(_ detail: TickerDetailResponse) -> Bool {
@@ -814,58 +816,48 @@ struct TickerDetailView: View {
         return TickerDetailView.articleShortDateFormatter.string(from: date)
     }
 
-    @ViewBuilder
-    private func bottomCtas(_ detail: TickerDetailResponse) -> some View {
-        HStack(spacing: 10) {
-            holdingsActionButton
-            watchlistActionButton
-        }
-    }
-
-    /// Add to / In Holdings. Solid when actionable, muted check when already held.
-    private var holdingsActionButton: some View {
+    /// Compact top-nav action: add to / in holdings. Solid ink when actionable,
+    /// muted check when already held. Mirrors the "in the corner with symbols"
+    /// pattern from broker apps so the primary actions live in the header, not
+    /// buried at the bottom of the scroll.
+    private var holdingsNavButton: some View {
         Button(action: { if !isHeld { showAddHoldingSheet = true } }) {
-            HStack(spacing: 7) {
-                Image(systemName: isHeld ? "checkmark" : "plus")
-                    .font(.system(size: 13, weight: .semibold))
-                Text(isHeld ? "In Holdings" : "Add to Holdings")
-                    .font(ClavisTypography.inter(14, weight: .semibold))
-            }
-            .foregroundColor(isHeld ? .clavixInk3 : .clavixPaper)
-            .frame(maxWidth: .infinity)
-            .frame(height: 48)
-            .background(isHeld ? Color.clavixPaper2 : Color.clavixInk)
-            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous)
-                .stroke(isHeld ? Color.clavixRule : Color.clear, lineWidth: 1))
-            .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+            Image(systemName: isHeld ? "checkmark" : "plus")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundColor(isHeld ? .clavixInk3 : .clavixPaper)
+                .frame(width: 34, height: 30)
+                .background(isHeld ? Color.clavixPaper2 : Color.clavixInk)
+                .overlay(RoundedRectangle(cornerRadius: 7, style: .continuous)
+                    .stroke(isHeld ? Color.clavixRule : Color.clear, lineWidth: 1))
+                .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
         }
         .buttonStyle(.plain)
         .disabled(isHeld)
+        .accessibilityLabel(isHeld ? "In holdings" : "Add to holdings")
     }
 
-    /// Watchlist toggle. Bordered when off, accent-filled star when watching.
-    private var watchlistActionButton: some View {
+    /// Compact top-nav watchlist toggle. Bordered star when off, accent-filled
+    /// when watching.
+    private var watchlistNavButton: some View {
         Button(action: { Task { await toggleWatchlist() } }) {
-            HStack(spacing: 7) {
+            Group {
                 if isMutatingWatchlist {
-                    ProgressView().tint(.clavixAccent).scaleEffect(0.8)
+                    ProgressView().tint(.clavixAccent).scaleEffect(0.7)
                 } else {
                     Image(systemName: isInWatchlist ? "star.fill" : "star")
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(isInWatchlist ? .clavixAccentInk : .clavixInk2)
                 }
-                Text(isInWatchlist ? "Watching" : "Watchlist")
-                    .font(ClavisTypography.inter(14, weight: .semibold))
             }
-            .foregroundColor(isInWatchlist ? .clavixAccentInk : .clavixInk)
-            .frame(maxWidth: .infinity)
-            .frame(height: 48)
+            .frame(width: 34, height: 30)
             .background(isInWatchlist ? Color.clavixAccentSoft : Color.clavixPaper)
-            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous)
+            .overlay(RoundedRectangle(cornerRadius: 7, style: .continuous)
                 .stroke(isInWatchlist ? Color.clavixAccent.opacity(0.45) : Color.clavixRule, lineWidth: 1))
-            .clipShape(RoundedRectangle(cornerRadius: 4, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
         }
         .buttonStyle(.plain)
         .disabled(isMutatingWatchlist)
+        .accessibilityLabel(isInWatchlist ? "Remove from watchlist" : "Add to watchlist")
     }
 
     private func auditDestination(for key: String) -> AuditDestination? {
