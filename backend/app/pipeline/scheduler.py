@@ -5737,10 +5737,14 @@ def _load_unenriched_articles_sync(
     (extraction_status in success/summary) but whose analysis_status is still
     partial/incomplete/null (e.g. sentiment set but TLDR/implications missing, or
     sentiment never scored). Previously this only selected sentiment_score IS NULL,
-    which permanently stranded 'partial' rows. Paywalled/blocked/failed/headline-only
-    rows have no usable body and are intentionally excluded (cannot reach complete).
+    which permanently stranded 'partial' rows. Paywalled rows have no scorable body
+    AND a licensing constraint, so they stay excluded. Failed/blocked/navigation-only
+    rows DO have a scorable headline: they get a headline-derived sentiment (which
+    makes them 'usable' for the news dimension and lets them reach terminal
+    'complete'), drawn oldest-first as a reserved side-budget so the stranded tail is
+    never starved by fresh body work.
     """
-    return (
+    body_rows = (
         supabase.table("shared_ticker_events")
         .select("*")
         .gte("published_at", cutoff)
@@ -5752,6 +5756,32 @@ def _load_unenriched_articles_sync(
         .data
         or []
     )
+    headline_budget = max(50, limit // 4)
+    try:
+        headline_rows = (
+            supabase.table("shared_ticker_events")
+            .select("*")
+            .gte("published_at", cutoff)
+            .is_("sentiment_score", "null")
+            .in_("extraction_status", ["failed", "blocked", "navigation_only", "empty"])
+            .order("published_at", desc=False)
+            .limit(headline_budget)
+            .execute()
+            .data
+            or []
+        )
+    except Exception:
+        headline_rows = []
+
+    seen: set = set()
+    merged: list[dict[str, Any]] = []
+    for row in [*body_rows, *headline_rows]:
+        rid = row.get("id")
+        if rid in seen:
+            continue
+        seen.add(rid)
+        merged.append(row)
+    return merged
 
 
 NEWS_ROTATION_CURSOR_KEY = "active_ticker_news_refresh:last_attempted"
@@ -5931,7 +5961,7 @@ async def _run_bulk_sentiment_enrichment() -> None:
             _load_unenriched_articles_sync,
             supabase,
             cutoff=cutoff,
-            limit=int(os.getenv("BULK_ENRICH_LIMIT", "400")),
+            limit=int(os.getenv("BULK_ENRICH_LIMIT", "500")),
         )
         if not rows:
             logger.info("[BULK_ENRICH] No enrichable backlog found.")
@@ -5947,6 +5977,37 @@ async def _run_bulk_sentiment_enrichment() -> None:
         logger.info("[BULK_ENRICH] Enrichment complete: %d articles updated.", len(stored))
     except Exception as exc:
         logger.error("[BULK_ENRICH] Bulk sentiment enrichment failed: %s", exc, exc_info=True)
+
+
+async def bulk_enrichment_drain(max_rounds: int = 20) -> dict:
+    """Manual entrypoint (JOB_REGISTRY['bulk_sentiment_enrichment']): repeatedly
+    enrich the backlog until it is empty or max_rounds is hit, so one triggered run
+    clears the whole queue instead of a single 500-row pass. Returns a job-run dict.
+
+    Awaited by app.jobs.run.run_job (never wraps its own asyncio.run, so it is safe
+    to call from the CLI's existing event loop).
+    """
+    from ..services.supabase import get_supabase
+    from ..services.news_enrichment import enrich_and_store_articles_batch
+
+    supabase = get_supabase()
+    total = 0
+    rounds = 0
+    limit = int(os.getenv("BULK_ENRICH_LIMIT", "500"))
+    for _ in range(max_rounds):
+        cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+        rows = await asyncio.to_thread(
+            _load_unenriched_articles_sync, supabase, cutoff=cutoff, limit=limit
+        )
+        if not rows:
+            break
+        stored = await enrich_and_store_articles_batch(
+            supabase, rows, max_concurrency=4, skip_existing=False
+        )
+        total += len(stored)
+        rounds += 1
+        logger.info("[ENRICH_DRAIN] round %d: enriched %d (cumulative %d)", rounds, len(stored), total)
+    return {"status": "completed", "items_processed": total, "metadata": {"rounds": rounds}}
 
 
 def _schedule_active_ticker_news_refresh() -> None:
@@ -5967,10 +6028,14 @@ def _schedule_bulk_sentiment_enrichment() -> None:
         scheduler.remove_job(BULK_SENTIMENT_ENRICHMENT_JOB_ID)
     scheduler.add_job(
         _run_bulk_sentiment_enrichment,
-        trigger=IntervalTrigger(hours=1),
+        # Every 30 min (was hourly): ingestion arrives in bursts of 1-3k articles, so
+        # a 400/hr drain fell permanently behind. ~500 body + ~125 headline per run
+        # ≈ 1,250 articles/hr stays well under the ~1/sec MiniMax throttle ceiling and
+        # comfortably outpaces steady-state ingestion, so the backlog actually drains.
+        trigger=IntervalTrigger(minutes=30),
         id=BULK_SENTIMENT_ENRICHMENT_JOB_ID,
         replace_existing=True,
-        misfire_grace_time=3600,
+        misfire_grace_time=1800,
         next_run_time=datetime.now(timezone.utc) + timedelta(minutes=3),
     )
 

@@ -324,6 +324,16 @@ def _bars_to_daily_close_series(bars: list[dict[str, Any]]) -> list[float]:
     return [by_date[day] for day in sorted(by_date)]
 
 
+def _bars_to_daily_pairs(bars: list[dict[str, Any]]) -> list[tuple[date, float]]:
+    """One (calendar-date, close) pair per day, oldest→newest.
+
+    Feeds price_analytics (drawdown window, distribution, 52w range, capture,
+    correlation) so the backend stores the exact numbers the iOS screens draw.
+    """
+    by_date = _daily_closes_by_date(bars)
+    return [(day, by_date[day]) for day in sorted(by_date)]
+
+
 def _aligned_daily_returns(
     asset_bars: list[dict[str, Any]],
     benchmark_bars: list[dict[str, Any]],
@@ -870,6 +880,27 @@ def _build_sector_exposure_inputs(
         else None
     )
 
+    # Client-parity sector analytics (the "{ticker} vs its sector" + sector-tape cards):
+    # 90-day relative strength, return correlation, and the sector ETF's own 90d change.
+    # Best-effort and close-based, so they populate for every equity with a sector ETF.
+    relative_strength_90d: float | None = None
+    correlation_to_sector: float | None = None
+    sector_change_90d: float | None = None
+    try:
+        from .price_analytics import correlation as _pa_corr, percent_change as _pa_pct
+
+        ticker_pairs = _bars_to_daily_pairs(ticker_bars)
+        sector_pairs = _bars_to_daily_pairs(sector_bars)
+        t90 = _pa_pct(ticker_pairs, days=90)
+        s90 = _pa_pct(sector_pairs, days=90)
+        sector_change_90d = round(s90, 4) if s90 is not None else None
+        if t90 is not None and s90 is not None:
+            relative_strength_90d = round(t90 - s90, 4)
+        corr = _pa_corr(ticker_pairs, sector_pairs)
+        correlation_to_sector = round(corr, 4) if corr is not None else None
+    except Exception:  # pragma: no cover - display-only analytics
+        pass
+
     narrative_parts: list[str] = []
     if sector_momentum is not None:
         if sector_momentum >= 0.05:
@@ -901,6 +932,9 @@ def _build_sector_exposure_inputs(
         "sector_breadth": round(sector_breadth, 4) if sector_breadth is not None else None,
         "ticker_momentum_30d": round(ticker_momentum, 4) if ticker_momentum is not None else None,
         "relative_strength_30d": round(relative_strength, 4) if relative_strength is not None else None,
+        "relative_strength_90d": relative_strength_90d,
+        "correlation_to_sector": correlation_to_sector,
+        "sector_change_90d": sector_change_90d,
         "narrative": ". ".join(narrative_parts) + "." if narrative_parts else None,
         # Mark limited when sector_beta is absent (bars were unavailable)
         "limited_data": sector_beta is None,
@@ -929,12 +963,39 @@ def _build_volatility_inputs(
     ticker_returns, spy_returns = _aligned_daily_returns(ticker_bars, spy_bars)
     beta_to_spy = _beta_from_returns(ticker_returns, spy_returns)
     max_drawdown_252d = _max_drawdown(ticker_closes, 252)
+
+    # Client-parity display analytics (server-authoritative copies of the exact
+    # numbers the iOS Price Stability screen draws from /prices). Close-based, so
+    # they populate for every ticker the moment recompute runs. Best-effort: a
+    # thin history just yields nulls, never a failure.
+    price_analytics: dict[str, Any] = {}
+    try:
+        from .price_analytics import (
+            capture as _pa_capture,
+            drawdown_window as _pa_drawdown,
+            range_52w as _pa_range,
+            return_distribution as _pa_distribution,
+        )
+
+        pairs = _bars_to_daily_pairs(ticker_bars)
+        spy_pairs = _bars_to_daily_pairs(spy_bars)
+        price_analytics = {
+            "drawdown_window": _pa_drawdown(pairs),
+            "return_distribution": _pa_distribution(pairs),
+            "range_52w": _pa_range(pairs),
+            "capture": _pa_capture(pairs, spy_pairs),
+        }
+    except Exception:  # pragma: no cover - analytics are display-only, never fatal
+        logger.warning("volatility price_analytics failed for %s", ticker, exc_info=True)
+        price_analytics = {}
+
     return {
         "realized_vol_30d": round(realized_vol_30d, 4) if realized_vol_30d is not None else None,
         "realized_vol_90d": round(realized_vol_90d, 4) if realized_vol_90d is not None else None,
         "vol_ratio": round(vol_ratio, 4) if vol_ratio is not None else None,
         "max_drawdown_252d": round(max_drawdown_252d, 4) if max_drawdown_252d is not None else None,
         "beta_to_spy": round(beta_to_spy, 4) if beta_to_spy is not None else None,
+        "price_analytics": price_analytics,
         "as_of_date": as_of_date,
         "limited_data": realized_vol_30d is None and beta_to_spy is None,
     }

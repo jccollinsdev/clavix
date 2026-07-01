@@ -218,7 +218,13 @@ def _fetch_vanguard_holdings(ticker: str) -> list[dict[str, Any]]:
     )
     if response.status_code != 200:
         return []
-    payload = response.json() or {}
+    try:
+        payload = response.json() or {}
+    except ValueError:
+        # Vanguard intermittently returns an HTML block/error page instead of JSON.
+        # Treat as an empty fetch so run() falls back to the static seed.
+        logger.warning("Vanguard holdings returned non-JSON for %s; falling back", ticker)
+        return []
     as_of = payload.get("latestEffectiveDate") or date.today().isoformat()
     daily_payload = payload.get(as_of) or {}
     holdings = []
@@ -249,8 +255,16 @@ def _fetch_live_rows(ticker: str) -> list[dict[str, Any]]:
 def run() -> dict[str, Any]:
     supabase = get_supabase()
     all_rows: list[dict[str, Any]] = []
+    failed: list[str] = []
     for ticker in _active_etfs(supabase):
-        rows = _fetch_live_rows(ticker)
+        try:
+            rows = _fetch_live_rows(ticker)
+        except Exception as exc:
+            # One vendor endpoint hiccup (non-JSON, timeout, schema drift) must never
+            # fail the whole monthly job. Fall back to the static seed and move on.
+            logger.warning("ETF holdings live fetch failed for %s: %s", ticker, exc)
+            rows = []
+            failed.append(ticker)
         if not rows:
             static = ETF_STATIC_SEEDS.get(ticker.upper(), [])
             if static:
@@ -269,7 +283,11 @@ def run() -> dict[str, Any]:
     return {
         "status": "completed",
         "items_processed": len(all_rows),
-        "metadata": {"etfs": sorted({row["etf_ticker"] for row in all_rows})},
+        "items_failed": len(failed),
+        "metadata": {
+            "etfs": sorted({row["etf_ticker"] for row in all_rows}),
+            "live_fetch_failed": failed,
+        },
     }
 
 

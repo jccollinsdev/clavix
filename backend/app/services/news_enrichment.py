@@ -529,7 +529,14 @@ async def enrich_and_store_article(
     if extraction_status in {"paywalled", "blocked", "failed", "navigation_only", "empty"} and not (
         body_has_content
     ):
-        analysis_status = "headline_only"
+        # No usable body will ever exist for this row, so a headline-derived
+        # sentiment is the most complete enrichment it can reach. Once scored,
+        # mark it 'complete' (terminal) so it leaves the enrichment backlog and
+        # counts toward the completeness metric; unscored stays 'headline_only'
+        # so the backfill still picks it up. Display still requires full
+        # enrichment (article_has_full_enrichment), so these never render as
+        # broken cards — they only feed the news dimension score + usable count.
+        analysis_status = "complete" if sentiment_score is not None else "headline_only"
     elif sentiment_score is None:
         analysis_status = "incomplete"
     elif tldr and what_it_means and _ki_done:

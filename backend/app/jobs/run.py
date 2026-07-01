@@ -145,6 +145,13 @@ def _edgar_events_sweep() -> dict:
     return run_from_env()
 
 
+def _bulk_sentiment_enrichment():
+    # Returns a coroutine; run_job awaits it in the CLI's existing event loop.
+    from app.pipeline.scheduler import bulk_enrichment_drain
+
+    return bulk_enrichment_drain()
+
+
 JOB_REGISTRY: dict[str, JobSpec] = {
     "daily_macro_snapshot": JobSpec("daily_macro_snapshot", "daily", _macro_snapshot),
     "daily_sector_snapshot": JobSpec("daily_sector_snapshot", "daily", _sector_snapshot),
@@ -198,6 +205,9 @@ JOB_REGISTRY: dict[str, JobSpec] = {
     "tickertick_news_sweep": JobSpec("tickertick_news_sweep", "manual", _tickertick_news_sweep),
     "edgar_fundamentals_sweep": JobSpec("edgar_fundamentals_sweep", "weekly", _edgar_fundamentals_sweep),
     "edgar_events_sweep": JobSpec("edgar_events_sweep", "daily", _edgar_events_sweep),
+    "bulk_sentiment_enrichment": JobSpec(
+        "bulk_sentiment_enrichment", "manual", _bulk_sentiment_enrichment
+    ),
 }
 
 
@@ -252,7 +262,14 @@ async def run_job(job_id: str, *, dry_run: bool = False) -> dict[str, Any]:
         result = raw_result or {}
         status = str(result.get("status") or "completed")
         if status not in {"completed", "failed", "skipped"}:
-            status = "completed" if status in {"ok", "success"} else "failed"
+            # 'completed_with_errors' is a healthy run with a few transient blips
+            # (e.g. 6/547 Polygon resets); the job already decided it is not pageable,
+            # so don't relabel it 'failed' and cry wolf in job_runs / cron.log.
+            status = (
+                "completed"
+                if status in {"ok", "success", "completed_with_errors"}
+                else "failed"
+            )
 
         return finish_job_run(
             supabase,
