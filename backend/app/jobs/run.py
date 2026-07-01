@@ -152,6 +152,18 @@ def _bulk_sentiment_enrichment():
     return bulk_enrichment_drain()
 
 
+def _driver_cards_refresh() -> dict:
+    from app.jobs.driver_cards_refresh import run_from_env
+
+    return run_from_env()
+
+
+def _descriptions_backfill() -> dict:
+    from app.jobs.descriptions_backfill import run_from_env
+
+    return run_from_env()
+
+
 JOB_REGISTRY: dict[str, JobSpec] = {
     "daily_macro_snapshot": JobSpec("daily_macro_snapshot", "daily", _macro_snapshot),
     "daily_sector_snapshot": JobSpec("daily_sector_snapshot", "daily", _sector_snapshot),
@@ -207,6 +219,15 @@ JOB_REGISTRY: dict[str, JobSpec] = {
     "edgar_events_sweep": JobSpec("edgar_events_sweep", "daily", _edgar_events_sweep),
     "bulk_sentiment_enrichment": JobSpec(
         "bulk_sentiment_enrichment", "manual", _bulk_sentiment_enrichment
+    ),
+    # Rebuilds + LLM-polishes the shared "Key drivers" cards for the universe and
+    # caches them (analysis_cache/shared_driver_cards) so non-held tickers serve
+    # specific, plain-English cards instead of a raw live build.
+    "daily_driver_cards_refresh": JobSpec(
+        "daily_driver_cards_refresh", "daily", _driver_cards_refresh
+    ),
+    "weekly_descriptions_backfill": JobSpec(
+        "weekly_descriptions_backfill", "weekly", _descriptions_backfill
     ),
 }
 

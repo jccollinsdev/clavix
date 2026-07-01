@@ -50,6 +50,7 @@ ACTIVE_TICKER_NEWS_REFRESH_JOB_ID = "system_active_ticker_news_refresh"
 BULK_SENTIMENT_ENRICHMENT_JOB_ID = "system_bulk_sentiment_enrichment"
 DAILY_MACRO_SNAPSHOT_JOB_ID = "daily_macro_snapshot"
 DAILY_SECTOR_SNAPSHOT_JOB_ID = "daily_sector_snapshot"
+DAILY_DRIVER_CARDS_REFRESH_JOB_ID = "daily_driver_cards_refresh"
 SYSTEM_SP500_USER_ID = "00000000-0000-0000-0000-000000000001"
 SP500_BACKFILL_TRIGGER = "sp500_backfill"
 MAJOR_PRIORITY_KEYWORDS = (
@@ -6099,6 +6100,21 @@ def _schedule_daily_sector_snapshot() -> None:
     )
 
 
+def _schedule_daily_driver_cards_refresh() -> None:
+    if scheduler.get_job(DAILY_DRIVER_CARDS_REFRESH_JOB_ID):
+        scheduler.remove_job(DAILY_DRIVER_CARDS_REFRESH_JOB_ID)
+    # After the daily recompute/news have settled. Rebuilds the shared driver-card
+    # cache so non-held tickers keep serving polished cards (96h read-through TTL).
+    scheduler.add_job(
+        _run_registered_job,
+        trigger=CronTrigger(hour=6, minute=45, timezone=ET),
+        id=DAILY_DRIVER_CARDS_REFRESH_JOB_ID,
+        args=[DAILY_DRIVER_CARDS_REFRESH_JOB_ID],
+        replace_existing=True,
+        misfire_grace_time=3600,
+    )
+
+
 def start_scheduler():
     from ..services.supabase import get_supabase
 
@@ -6133,6 +6149,7 @@ def start_scheduler():
         NEWS_CLEANUP_JOB_ID,
         DAILY_MACRO_SNAPSHOT_JOB_ID,
         DAILY_SECTOR_SNAPSHOT_JOB_ID,
+        DAILY_DRIVER_CARDS_REFRESH_JOB_ID,
     )
 
     if tier == "cron":
@@ -6142,6 +6159,7 @@ def start_scheduler():
         _schedule_news_cleanup()
         _schedule_daily_macro_snapshot()
         _schedule_daily_sector_snapshot()
+        _schedule_daily_driver_cards_refresh()
     else:
         logger.info("SCHEDULER_TIER=intraday; registering only Tier-0 jobs.")
         for job_id in daily_job_ids:
