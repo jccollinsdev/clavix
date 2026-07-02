@@ -10,7 +10,7 @@ import sys
 from dataclasses import dataclass
 from typing import Any, Callable
 
-from app.services.job_lock import PostgresAdvisoryLock
+from app.services.job_lock import JobLock
 from app.services.job_runs import finish_job_run, start_job_run
 from app.services.supabase import get_supabase
 
@@ -23,6 +23,9 @@ class JobSpec:
     job_id: str
     tier: str
     handler: Callable[[], Any]
+    # Jobs that share a handler + mutate the same resource must share a lock so
+    # they can never run concurrently. Defaults to job_id (each job locks itself).
+    lock_key: str | None = None
 
 
 def _macro_snapshot() -> dict:
@@ -211,8 +214,14 @@ JOB_REGISTRY: dict[str, JobSpec] = {
     "daily_ops_monitor": JobSpec("daily_ops_monitor", "daily", _ops_monitor),
     # Volatility is computed per-ticker as part of composite_recompute.
     # weekly_volatility_recompute aliases it so the Saturday cron entry works.
+    # It shares daily_composite_recompute_universe's lock so the two can never
+    # double-run the whole universe if a recompute overruns into the other's
+    # window (both invoke _composite_recompute over the same snapshot table).
     "weekly_volatility_recompute": JobSpec(
-        "weekly_volatility_recompute", "weekly", _composite_recompute
+        "weekly_volatility_recompute",
+        "weekly",
+        _composite_recompute,
+        lock_key="daily_composite_recompute_universe",
     ),
     "tickertick_news_sweep": JobSpec("tickertick_news_sweep", "manual", _tickertick_news_sweep),
     "edgar_fundamentals_sweep": JobSpec("edgar_fundamentals_sweep", "weekly", _edgar_fundamentals_sweep),
@@ -241,6 +250,69 @@ def _system_scheduler_paused() -> bool:
     }
 
 
+def _consecutive_skipped_lock(supabase, job_id: str) -> int:
+    """How many of the most-recent *finished* runs for job_id were skipped_lock,
+    counting back to the first non-skip. The current run's own row is still
+    'running' at call time and is filtered out, so a return of >=1 means a prior
+    scheduled cycle already skipped on the lock.
+    """
+    rows = (
+        supabase.table("job_runs")
+        .select("status, started_at")
+        .eq("job_id", job_id)
+        .neq("status", "running")
+        .order("started_at", desc=True)
+        .limit(8)
+        .execute()
+        .data
+    ) or []
+    count = 0
+    for row in rows:
+        if row.get("status") == "skipped_lock":
+            count += 1
+        else:
+            break
+    return count
+
+
+def _alert_if_lock_wedged(supabase, spec: JobSpec) -> None:
+    """Page when a scheduled job has hit skipped_lock across more than one cycle.
+
+    With the TTL lease this should be rare (a leaked lock now self-clears), so a
+    repeat skip signals either a genuinely long-running prior run or a lock held
+    beyond its TTL — worth a look. Best-effort; never raises into the job path.
+    """
+    if spec.tier == "manual":
+        return
+    try:
+        prior_skips = _consecutive_skipped_lock(supabase, spec.job_id)
+    except Exception:
+        logger.exception(
+            "skip-guard: could not read job_runs history for %s", spec.job_id
+        )
+        return
+    if prior_skips < 1:
+        return
+    try:
+        from app.services.alerting import send_alert
+
+        send_alert(
+            f"Job lock wedged: {spec.job_id} skipped_lock for "
+            f"{prior_skips + 1} consecutive cycles",
+            level="error",
+            context={
+                "job_id": spec.job_id,
+                "consecutive_skipped_lock": prior_skips + 1,
+                "hint": (
+                    "A public.job_locks lease is stuck or a prior run is still "
+                    "holding it; inspect public.job_locks and recent job_runs."
+                ),
+            },
+        )
+    except Exception:
+        logger.exception("skip-guard: failed to send alert for %s", spec.job_id)
+
+
 async def run_job(job_id: str, *, dry_run: bool = False) -> dict[str, Any]:
     spec = JOB_REGISTRY.get(job_id)
     if not spec:
@@ -265,16 +337,17 @@ async def run_job(job_id: str, *, dry_run: bool = False) -> dict[str, Any]:
             metadata={"reason": "system_scheduler_paused"},
         )
 
-    lock = PostgresAdvisoryLock(supabase, f"clavix_job:{spec.job_id}")
+    lock = JobLock(supabase, f"clavix_job:{spec.lock_key or spec.job_id}")
 
     try:
         if not lock.acquire():
+            _alert_if_lock_wedged(supabase, spec)
             return finish_job_run(
                 supabase,
                 run_id,
                 status="skipped_lock",
                 items_skipped=1,
-                metadata={"reason": "advisory_lock_held"},
+                metadata={"reason": "lock_held"},
             )
 
         raw_result = spec.handler()
@@ -314,7 +387,7 @@ async def run_job(job_id: str, *, dry_run: bool = False) -> dict[str, Any]:
         try:
             lock.release()
         except Exception:
-            logger.exception("Failed to release advisory lock for %s", spec.job_id)
+            logger.exception("Failed to release job lock for %s", spec.job_id)
 
 
 def run_job_sync(job_id: str) -> dict[str, Any]:
