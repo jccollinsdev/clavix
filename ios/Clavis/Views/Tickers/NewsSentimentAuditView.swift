@@ -607,16 +607,13 @@ private struct RelativeStrengthChart: View {
             let rawMax = max(values.max() ?? 0, 0)
             let pad = max((rawMax - rawMin) * 0.12, 1)
             let minY = rawMin - pad
-            let maxY = rawMax + pad
-            let span = max(maxY - minY, 0.0001)
+            let span = max((rawMax + pad) - minY, 0.0001)
             let n = max(series.count - 1, 1)
             let endsPositive = (values.last ?? 0) >= 0
             let lineColor: Color = endsPositive ? .clavixGoodInk : .clavixBadInk
-
-            func point(_ i: Int, _ v: Double) -> CGPoint {
-                let x = w * CGFloat(i) / CGFloat(n)
-                let y = h * CGFloat(1 - (v - minY) / span)
-                return CGPoint(x: x, y: y)
+            let pts: [CGPoint] = values.enumerated().map { i, v in
+                CGPoint(x: w * CGFloat(i) / CGFloat(n),
+                        y: h * CGFloat(1 - (v - minY) / span))
             }
             let zeroY = h * CGFloat(1 - (0 - minY) / span)
 
@@ -630,20 +627,17 @@ private struct RelativeStrengthChart: View {
 
                 // Area fill between line and baseline
                 Path { p in
-                    guard series.count > 1 else { return }
-                    p.move(to: CGPoint(x: 0, y: zeroY))
-                    for (i, pt) in series.enumerated() {
-                        p.addLine(to: point(i, pt.value))
-                    }
-                    p.addLine(to: CGPoint(x: w, y: zeroY))
+                    guard let first = pts.first else { return }
+                    p.move(to: CGPoint(x: first.x, y: zeroY))
+                    for cp in pts { p.addLine(to: cp) }
+                    p.addLine(to: CGPoint(x: pts.last?.x ?? w, y: zeroY))
                     p.closeSubpath()
                 }
                 .fill(lineColor.opacity(0.10))
 
                 // Relative-strength line
                 Path { p in
-                    for (i, pt) in series.enumerated() {
-                        let cp = point(i, pt.value)
+                    for (i, cp) in pts.enumerated() {
                         if i == 0 { p.move(to: cp) } else { p.addLine(to: cp) }
                     }
                 }
