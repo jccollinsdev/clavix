@@ -66,6 +66,14 @@ async def _run_async() -> dict[str, Any]:
                         skipped += 1
                         continue
 
+                    # fcf_margin is validated in _extract_fundamentals; when the current
+                    # filing yields no plausible value (e.g. a bank whose op-cash-flow
+                    # proxy exceeds revenue) explicitly write NULL so a previously-stored
+                    # nonsense figure cannot linger. Other fields keep skip-on-None so a
+                    # transient miss never blanks good data.
+                    if "fcf_margin" not in update_payload:
+                        update_payload["fcf_margin"] = None
+
                     update_payload["fundamentals_updated_at"] = (
                         __import__("datetime").datetime.now(
                             __import__("datetime").timezone.utc

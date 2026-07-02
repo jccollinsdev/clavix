@@ -8,6 +8,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Optional
 from ..config import get_settings
 from .polygon import polygon_get
+from .edgar_client import validate_fcf_margin
 
 POLYGON_BASE_URL = "https://api.polygon.io/v1"
 FINNHUB_BASE_URL = "https://finnhub.io/api/v1"
@@ -78,6 +79,17 @@ _FINANCIAL_HEALTH_FIELDS = (
     "revenue_growth_trend",
     "profitability_profile",
     "leverage_profile",
+)
+
+# Fields the weekly EDGAR sweep is the authoritative primary source for. The daily
+# recompute refreshes price/market-cap via Finnhub, whose fcf/leverage ratios are
+# unreliable (op-cash-flow proxies that can exceed revenue -> the old HOOD 131%), so the
+# Finnhub refresh must NOT overwrite these when a fresh EDGAR value already exists.
+_EDGAR_AUTHORITATIVE_FIELDS = (
+    "debt_to_equity",
+    "fcf_margin",
+    "current_ratio",
+    "revenue_growth_trend",
 )
 
 KNOWN_ETF_TICKERS = frozenset(
@@ -359,6 +371,9 @@ def fetch_ticker_details_from_finnhub(ticker: str) -> dict | None:
             if price_for_fcf and pfcf and pfcf != 0 and rev_ps and rev_ps > 0:
                 fcf_per_share = price_for_fcf / pfcf
                 fcf_margin = round(fcf_per_share / rev_ps, 4)
+        # Reject an FCF margin that exceeds revenue (see validate_fcf_margin): the
+        # per-share proxy above misfires for financials the same way EDGAR's does.
+        fcf_margin = validate_fcf_margin(fcf_margin)
 
         # Finnhub free tier exposes interest coverage as netInterestCoverage{Annual,TTM};
         # the older interestCoverageAnnual key does not exist (it was 100% NULL). Try the
@@ -685,6 +700,21 @@ def upsert_ticker_metadata(
     metadata = build_ticker_metadata(ticker, finnhub_data=finnhub_data)
     if not metadata:
         return None
+
+    # Keep primary-source EDGAR fundamentals authoritative. This is called by the daily
+    # recompute to refresh price/market-cap through Finnhub, but Finnhub's fcf/leverage
+    # ratios are unreliable and would otherwise clobber the accurate EDGAR values written
+    # by the weekly sweep (the root cause of HOOD's 131% surviving daily recomputes).
+    if (
+        prefer_cached_fundamentals
+        and existing_row
+        and str(existing_row.get("fundamentals_source") or "").lower() == "edgar"
+        and _fundamentals_are_fresh(existing_row)
+    ):
+        for field in _EDGAR_AUTHORITATIVE_FIELDS:
+            metadata[field] = existing_row.get(field)
+        metadata["fundamentals_updated_at"] = existing_row.get("fundamentals_updated_at")
+
     persisted_metadata = {
         key: value
         for key, value in metadata.items()

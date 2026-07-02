@@ -124,7 +124,7 @@ Respond in this exact JSON format (no markdown, no explanation):
 # Display labels for ETF dimensions (overrides generic stock labels in iOS)
 ETF_DIMENSION_LABELS = {
     "financial_health": "Holdings Quality",
-    "news_sentiment": "Category Signal",
+    "news_sentiment": "Sector Strength",
     "macro_exposure": "Macro Exposure",
     "sector_exposure": "Concentration",
     "volatility": "Volatility",
@@ -641,7 +641,11 @@ def _score_financial_health(metadata: dict) -> int:
         else:
             score -= 12
 
-    if fcf_margin > 0:
+    # Ignore an FCF margin that exceeds revenue: it is not achievable by a real
+    # operating business and only appears when op-cash-flow is used as an FCF proxy
+    # for financials (see edgar_client.validate_fcf_margin). Source data is already
+    # clamped, but this keeps a legacy/other-source outlier from maxing the bonus.
+    if 0 < fcf_margin <= 1.0:
         if fcf_margin >= 0.20:
             score += 10
         elif fcf_margin >= 0.10:
@@ -697,7 +701,7 @@ def _fin_rationale(metadata: dict, score: int) -> str:
     fcf_margin = _safe_float(metadata.get("fcf_margin"))
     if d_e > 0:
         parts.append(f"D/E {d_e:.2f}")
-    if fcf_margin > 0:
+    if 0 < fcf_margin <= 1.0:
         parts.append(f"FCF margin {fcf_margin:.0%}")
     if parts:
         return f"Financials reflect {', '.join(parts)}."
